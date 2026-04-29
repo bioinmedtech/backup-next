@@ -45,7 +45,6 @@ class Header extends Component {
         $phone_2 = defined('CLINIC_PHONE_2') ? $this->e(CLINIC_PHONE_2) : '';
         $phone_2_link = defined('CLINIC_PHONE_2') ? $this->phoneLink(CLINIC_PHONE_2) : '';
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
-        $cabinet_url = '/admin';
         $map_url = 'https://yandex.com/maps/-/CPGGyEzo';
         $vk_url = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram_url = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
@@ -323,9 +322,6 @@ class Header extends Component {
                         <a href="/#contact" class="{$desktop_contacts_class}">Контакты</a>
                     </nav>
                     <div class="flex shrink-0 items-center gap-2">
-                        <a href="{$cabinet_url}" aria-label="Личный кабинет" class="group flex h-8 w-8 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2a5a94] shadow-[0_4px_12px_rgba(20,72,120,0.08)] transition hover:-translate-y-0.5 hover:bg-[#f2f8fd] hover:text-[#1fb3d8]">
-                            <i class="fa-regular fa-user text-[0.78rem]" aria-hidden="true"></i>
-                        </a>
                         <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="group flex h-8 w-8 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef] shadow-[0_4px_12px_rgba(47,189,239,0.08)] transition hover:-translate-y-0.5 hover:bg-[#f2f8fd] hover:text-[#1fb3d8]">
                             <i class="fa-brands fa-telegram text-[0.8rem]" aria-hidden="true"></i>
                         </a>
@@ -369,9 +365,6 @@ class Header extends Component {
                     Онлайн запись
                 </a>
                 <div style="display:flex;gap:8px;">
-                    <a href="{$cabinet_url}" aria-label="Личный кабинет" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #c9dcee;background:#fff;color:#2a5a94;text-decoration:none;">
-                        <i class="fa-regular fa-user" style="font-size:0.78rem;" aria-hidden="true"></i>
-                    </a>
                     <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #c9dcee;background:#fff;color:#2fbdef;text-decoration:none;">
                         <i class="fa-brands fa-telegram" style="font-size:0.8rem;" aria-hidden="true"></i>
                     </a>
@@ -1448,7 +1441,6 @@ class Footer extends Component {
     public function render() {
         $vk = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
-        $cabinet_url = '/admin';
         $phone = $this->phoneLink(CLINIC_PHONE);
         $phone1_display = $this->e(CLINIC_PHONE);
         $phone2 = defined('CLINIC_PHONE_2') ? CLINIC_PHONE_2 : '';
@@ -1563,9 +1555,6 @@ class Footer extends Component {
                         </a>
                         <a href="/#contact" class="text-xs font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
                             Контакты
-                        </a>
-                        <a href="{$cabinet_url}" aria-label="Личный кабинет" title="Личный кабинет" class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#d3e3f1] bg-white text-[#9ab3ca] transition hover:border-[#b7d4ea] hover:text-[#2a5a94]">
-                            <i class="fa-regular fa-user text-[0.7rem]" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

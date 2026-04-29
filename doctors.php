@@ -1,7 +1,6 @@
 <?php
 require_once 'config.php';
 require_once 'includes/components/Components.php';
-require_once 'includes/auth-toolbar.php';
 
 $siteUrl  = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;

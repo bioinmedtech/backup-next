@@ -16,8 +16,6 @@ define('CLINIC_VK', 'https://vk.com/bioinmed');
 define('CLINIC_TELEGRAM', 'https://t.me/bioinmed');
 define('HERO_TITLE', 'Восстановление здоровья через интегративную медицину');
 define('HERO_IMAGE', '/public/images/team/kostromina_i_v.png');
-define('ADMIN_CABINET_PASSWORD', getenv('BIOINMED_ADMIN_PASSWORD') ?: 'рih87u7t85445');
-define('ADMIN_CABINET_DEFAULT_USER', getenv('BIOINMED_ADMIN_USER') ?: 'admin');
 define('RECAPTCHA_SITE_KEY', getenv('BIOINMED_RECAPTCHA_SITE_KEY') ?: '6LfmOs0sAAAAAKHWO2jG24uuWIL7UBy3x7gG8awh');
 define('RECAPTCHA_SECRET_KEY', getenv('BIOINMED_RECAPTCHA_SECRET_KEY') ?: '6LfmOs0sAAAAAJQP0aJ3ho1kB7VHy4VeyW_s4GQe');
 

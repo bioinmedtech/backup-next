@@ -1,8 +1,0 @@
-[
-    {
-        "username": "admin",
-        "password_hash": "$2y$10$IqmWoqnGtCPtt6elNGtCpe6lRE6gpD1vXtbkh9KbSne11d2TTc3Sq",
-        "role": "admin",
-        "active": true
-    }
-]
