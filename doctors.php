@@ -193,7 +193,7 @@ echo $header->render();
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Клиника БИОИНМЕД · <?php echo e(CLINIC_METRO); ?></p>
             <h2 class="mt-3 text-xl font-bold text-[#0f3463] md:text-2xl">Запишитесь к нужному специалисту</h2>
             <p class="mx-auto mt-3 max-w-xl text-sm text-[#355b89]">
-                Если не знаете, к кому обратиться — позвоните нам. Администратор поможет выбрать врача под ваш запрос.
+                Если не знаете, к кому обратиться — позвоните нам. Мы поможем выбрать врача под ваш запрос.
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
                 <a href="tel:<?php echo $phone1link; ?>" class="rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8]">

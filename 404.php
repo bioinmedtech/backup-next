@@ -9,7 +9,7 @@ $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
 $canonicalUrl = $siteUrl . '/404';
 $pageTitle = 'Страница не найдена (404) | ' . CLINIC_NAME;
-$pageDescription = 'Запрошенная страница не найдена. Перейдите на главную или оставьте номер, и администратор БИОИНМЕД поможет найти нужную услугу.';
+$pageDescription = 'Запрошенная страница не найдена. Перейдите на главную или оставьте номер, и команда клиники поможет найти нужную услугу.';
 
 function e($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
@@ -89,7 +89,7 @@ echo $header->render();
                 </div>
                 <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#355b89]">
                     <p class="font-semibold text-[#0f3463]">Нужна помощь с навигацией?</p>
-                    <p class="mt-1">Администратор подскажет нужную услугу и запишет к подходящему врачу.</p>
+                    <p class="mt-1">Мы подскажем нужную услугу и поможем выбрать подходящего врача.</p>
                     <a href="tel:<?php echo e($phone1link); ?>" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#2fbdef] hover:text-[#1fb3d8]">Позвонить сейчас <i class="fa-solid fa-phone text-[0.65rem]"></i></a>
                 </div>
             </div>
@@ -98,7 +98,7 @@ echo $header->render();
         <aside class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.1)]" style="transition-delay:.08s">
             <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#2a5a94]">Помочь с записью</p>
             <h2 class="mt-2 text-xl font-bold text-[#0f3463]">Перезвоним и найдем нужную страницу</h2>
-            <p class="mt-2 text-sm leading-relaxed text-[#355b89]">Оставьте номер телефона, и администратор свяжется с вами в течение 15 минут.</p>
+            <p class="mt-2 text-sm leading-relaxed text-[#355b89]">Оставьте номер телефона, и мы свяжемся с вами в течение 15 минут.</p>
 
             <form id="lost-page-form" class="mt-4 space-y-3">
                 <input type="tel" id="lost-phone" name="phone" required placeholder="+7 999 000 11 22"

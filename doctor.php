@@ -275,7 +275,7 @@ echo $header->render();
                     <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#2a5a94]">Запись на приём</p>
                     <h3 class="mt-2 text-xl font-bold leading-tight text-[#0f3463]">Записаться на прием к специалисту</h3>
                     <p class="mt-2 text-sm leading-relaxed text-[#355b89]">
-                        Оставьте номер телефона — администратор перезвонит в течение 15 минут, уточнит запрос и подберёт удобное время.
+                        Оставьте номер телефона — мы перезвоним в течение 15 минут, уточним запрос и подберём удобное время.
                     </p>
 
                     <form id="doctor-book-form" class="mt-5 space-y-3">

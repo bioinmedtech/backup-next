@@ -656,7 +656,7 @@ class HeroSection extends Component {
                             Начните с точной диагностики и получите персональный план лечения. Мы бережно сопровождаем вас от первого визита до устойчивого результата.
                         </p>
                         <p class="mt-2 max-w-2xl text-[0.82rem] leading-relaxed text-[#4a6f96] md:text-[0.88rem]">
-                            Администратор свяжется с вами в течение 15 минут, уточнит жалобы и подберёт удобное время записи без лишних звонков и ожидания.
+                            Мы свяжемся с вами в течение 15 минут, уточним жалобы и подберём удобное время записи без лишних звонков и ожидания.
                         </p>
 
                         <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -1265,7 +1265,7 @@ class AppointmentCTA extends Component {
                 <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9">
                     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#2fbdef]">Запишитесь на консультацию</p>
                     <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Оставьте заявку — перезвоним в течение 15 минут</h2>
-                    <p class="mt-2.5 max-w-2xl text-[0.86rem] leading-relaxed text-[#355b89]">Администратор уточнит запрос, подберёт специалиста и согласует удобное время. Ежедневно с 9:00 до 21:00.</p>
+                    <p class="mt-2.5 max-w-2xl text-[0.86rem] leading-relaxed text-[#355b89]">Мы уточним запрос, подберём специалиста и согласуем удобное время. Ежедневно с 9:00 до 21:00.</p>
                     <form class="mt-5 flex flex-col gap-2.5 sm:max-w-lg sm:flex-row">
                         <input type="tel" placeholder="+7 (___) ___-__-__" class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-5 py-2.5 text-[0.88rem] text-[#173f73] outline-none focus:border-[#2fbdef]">
                         <button type="submit" class="shrink-0 rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.88rem] font-semibold text-white hover:bg-[#269bc4] transition-colors">Записаться</button>

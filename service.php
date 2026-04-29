@@ -353,7 +353,7 @@ echo $header->render();
                             <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Врачи с 20-30-летним опытом и клиника с лицензией МЗ РФ
                         </li>
                         <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#214a7f]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Прозрачные цены и быстрый контакт с администратором без ожидания
+                            <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Прозрачные цены и быстрый контакт с клиникой без ожидания
                         </li>
                     </ul>
                 </div>
