@@ -1,0 +1,156 @@
+<?php
+require_once 'config.php';
+require_once 'includes/components/Components.php';
+require_once 'includes/auth-toolbar.php';
+
+http_response_code(404);
+
+$siteUrl = rtrim(CLINIC_SITE_URL, '/');
+$iconPath = CLINIC_ICON_PATH;
+$iconUrl = $siteUrl . $iconPath;
+$canonicalUrl = $siteUrl . '/404';
+$pageTitle = 'Страница не найдена (404) | ' . CLINIC_NAME;
+$pageDescription = 'Запрошенная страница не найдена. Перейдите на главную или оставьте номер, и администратор БИОИНМЕД поможет найти нужную услугу.';
+
+function e($value) {
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
+
+$phone1 = CLINIC_PHONE;
+$phone1link = preg_replace('/\D/', '', $phone1);
+$phone2 = defined('CLINIC_PHONE_2') ? CLINIC_PHONE_2 : '';
+$phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
+?>
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo e($pageTitle); ?></title>
+    <meta name="description" content="<?php echo e($pageDescription); ?>">
+    <meta name="robots" content="noindex,follow,noarchive">
+    <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
+    <meta name="theme-color" content="#2fbdef">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="<?php echo e(CLINIC_NAME); ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<?php echo e($pageTitle); ?>">
+    <meta property="og:description" content="<?php echo e($pageDescription); ?>">
+    <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
+    <meta property="og:image" content="<?php echo e($iconUrl); ?>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo e($pageTitle); ?>">
+    <meta name="twitter:description" content="<?php echo e($pageDescription); ?>">
+    <meta name="twitter:image" content="<?php echo e($iconUrl); ?>">
+    <link rel="icon" type="image/png" href="<?php echo e($iconPath); ?>">
+    <link rel="apple-touch-icon" href="<?php echo e($iconPath); ?>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="flex min-h-screen flex-col bg-[radial-gradient(circle_at_15%_20%,rgba(47,189,239,0.13),transparent_38%),radial-gradient(circle_at_85%_0%,rgba(31,179,216,0.10),transparent_35%),linear-gradient(to_bottom,#f9fcff_0%,#eff6fd_55%,#e9f2fb_100%)] text-[#0f2749] antialiased">
+<?php
+$header = new Header($brand_colors);
+echo $header->render();
+?>
+
+<main class="mx-auto flex w-full max-w-6xl grow items-center px-6 py-12 md:px-10 md:py-16">
+    <div class="grid w-full items-start gap-6 lg:grid-cols-[1fr_390px]">
+        <section class="fade-up rounded-3xl border border-[#d8e6f3] bg-white p-7 shadow-[0_16px_40px_rgba(8,36,70,0.08)] md:p-9">
+            <div class="inline-flex items-center gap-2 rounded-full border border-[#d5e5f3] bg-[#f2f9ff] px-3 py-1.5 text-xs font-semibold text-[#2a5a94]">
+                <i class="fa-solid fa-triangle-exclamation text-[#2fbdef]"></i>
+                Ошибка 404
+            </div>
+            <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0f3463] md:text-4xl">Мы не нашли эту страницу</h1>
+            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-[#355b89] md:text-base">
+                Возможно, ссылка устарела или адрес введён с ошибкой. Вы можете вернуться на главную,
+                открыть каталог услуг или оставить номер, и мы быстро подскажем нужного специалиста.
+            </p>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+                <a href="/" class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
+                    <i class="fa-solid fa-house"></i> На главную
+                </a>
+                <a href="/services" class="inline-flex items-center gap-2 rounded-full border border-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-[#2fbdef] hover:bg-[#f2f9ff]">
+                    <i class="fa-solid fa-stethoscope"></i> Услуги
+                </a>
+                <a href="/prices" class="inline-flex items-center gap-2 rounded-full border border-[#c8ddee] bg-white px-5 py-2.5 text-sm font-semibold text-[#2a5a94] hover:bg-[#f2f9ff]">
+                    <i class="fa-solid fa-list"></i> Прайс-лист
+                </a>
+            </div>
+
+            <div class="mt-8 grid gap-3 sm:grid-cols-2">
+                <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#355b89]">
+                    <p class="font-semibold text-[#0f3463]">Ищете врача?</p>
+                    <p class="mt-1">Посмотрите команду специалистов и выберите удобный формат приёма.</p>
+                    <a href="/doctors" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#2fbdef] hover:text-[#1fb3d8]">Открыть специалистов <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></a>
+                </div>
+                <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#355b89]">
+                    <p class="font-semibold text-[#0f3463]">Нужна помощь с навигацией?</p>
+                    <p class="mt-1">Администратор подскажет нужную услугу и запишет к подходящему врачу.</p>
+                    <a href="tel:<?php echo e($phone1link); ?>" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#2fbdef] hover:text-[#1fb3d8]">Позвонить сейчас <i class="fa-solid fa-phone text-[0.65rem]"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <aside class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.1)]" style="transition-delay:.08s">
+            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#2a5a94]">Помочь с записью</p>
+            <h2 class="mt-2 text-xl font-bold text-[#0f3463]">Перезвоним и найдем нужную страницу</h2>
+            <p class="mt-2 text-sm leading-relaxed text-[#355b89]">Оставьте номер телефона, и администратор свяжется с вами в течение 15 минут.</p>
+
+            <form id="lost-page-form" class="mt-4 space-y-3">
+                <input type="tel" id="lost-phone" name="phone" required placeholder="+7 999 000 11 22"
+                       class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-4 py-3 text-sm text-[#173f73] outline-none focus:border-[#2fbdef] focus:ring-2 focus:ring-[#2fbdef]/15">
+                <button type="submit"
+                        class="w-full rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8] active:scale-[.98]">
+                    <i class="fa-regular fa-calendar-check mr-1.5"></i> Перезвоните мне
+                </button>
+            </form>
+
+            <div class="my-5 flex items-center gap-3">
+                <div class="h-px grow bg-[#e2ecf5]"></div>
+                <span class="text-xs text-[#9ab8d4]">или позвоните</span>
+                <div class="h-px grow bg-[#e2ecf5]"></div>
+            </div>
+
+            <a href="tel:<?php echo e($phone1link); ?>" class="flex items-center justify-center gap-2 rounded-full border border-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-[#2fbdef] hover:bg-[#f0f8ff]">
+                <i class="fa-solid fa-phone"></i> <?php echo e($phone1); ?>
+            </a>
+            <?php if ($phone2): ?>
+            <a href="tel:<?php echo e($phone2link); ?>" class="mt-2 flex items-center justify-center gap-2 rounded-full border border-[#d6e4f2] px-5 py-2.5 text-sm font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">
+                <i class="fa-solid fa-phone text-xs"></i> <?php echo e($phone2); ?>
+            </a>
+            <?php endif; ?>
+        </aside>
+    </div>
+</main>
+
+<?php
+$footer = new Footer($brand_colors);
+echo $footer->render();
+?>
+
+<script>
+    document.querySelectorAll('.fade-up').forEach(function(el) {
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) { el.classList.add('visible'); observer.unobserve(el); }
+            });
+        }, { threshold: 0.08 });
+        observer.observe(el);
+    });
+
+    document.getElementById('lost-page-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('button[type=submit]');
+        btn.textContent = '✓ Приняли! Скоро перезвоним';
+        btn.classList.remove('bg-[#2fbdef]', 'hover:bg-[#1fb3d8]');
+        btn.classList.add('bg-green-600');
+        btn.disabled = true;
+    });
+</script>
+</body>
+</html>

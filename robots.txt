@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /internal
+Disallow: /internal/
+Disallow: /data/
+Disallow: /docs/
+
+Sitemap: https://next.bioinmed.ru/sitemap.xml
