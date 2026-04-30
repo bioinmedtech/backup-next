@@ -43,6 +43,15 @@ $experienceYears = null; // numeric years only
 if (preg_match('/(\d+)\s*(?:лет|год)/ui', $experienceText, $experienceMatch)) {
     $experienceYears = $experienceMatch[1];
 }
+$socialImageUrl = $doctor && !empty($doctor['image'])
+    ? bioinmed_absolute_url('/public/images/team/' . $doctor['image'])
+    : bioinmed_default_social_image_url();
+$organizationStructuredData = bioinmed_medical_organization_schema();
+$breadcrumbStructuredData = bioinmed_breadcrumb_schema([
+    ['name' => 'Главная', 'url' => '/'],
+    ['name' => 'Специалисты', 'url' => '/doctors'],
+    ['name' => $doctor['name'] ?? 'Профиль врача', 'url' => $canonicalUrl],
+]);
 ?>
 <!doctype html>
 <html lang="ru">
@@ -60,11 +69,11 @@ if (preg_match('/(\d+)\s*(?:лет|год)/ui', $experienceText, $experienceMatc
     <meta property="og:title" content="<?php echo $pageTitle; ?>">
     <meta property="og:description" content="<?php echo $pageDesc; ?>">
     <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
-    <meta property="og:image" content="<?php echo $iconUrl; ?>">
+    <meta property="og:image" content="<?php echo e($socialImageUrl); ?>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo $pageTitle; ?>">
     <meta name="twitter:description" content="<?php echo $pageDesc; ?>">
-    <meta name="twitter:image" content="<?php echo $iconUrl; ?>">
+    <meta name="twitter:image" content="<?php echo e($socialImageUrl); ?>">
     <link rel="icon" type="image/png" href="<?php echo $iconPath; ?>">
     <link rel="apple-touch-icon" href="<?php echo $iconPath; ?>">
     <?php if ($doctor): ?>
@@ -80,6 +89,8 @@ if (preg_match('/(\d+)\s*(?:лет|год)/ui', $experienceText, $experienceMatc
         'mainEntityOfPage' => $canonicalUrl,
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <?php endif; ?>
+    <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
+    <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>

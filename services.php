@@ -5,6 +5,7 @@ require_once 'includes/components/Components.php';
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
+$socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/services';
 $pageTitle = 'Все услуги клиники | ' . CLINIC_NAME;
 $pageDescription = 'Полный каталог услуг клиники БИОИНМЕД с переходом на детальные страницы: диагностика, остеопатия, рефлексотерапия, физиотерапия и другие направления.';
@@ -105,6 +106,12 @@ $structuredData = [
         'itemListElement' => $servicesListElements,
     ],
 ];
+
+$organizationStructuredData = bioinmed_medical_organization_schema();
+$breadcrumbStructuredData = bioinmed_breadcrumb_schema([
+    ['name' => 'Главная', 'url' => '/'],
+    ['name' => 'Услуги', 'url' => '/services'],
+]);
 ?>
 <!doctype html>
 <html lang="ru">
@@ -122,14 +129,16 @@ $structuredData = [
     <meta property="og:title" content="<?php echo e($pageTitle); ?>">
     <meta property="og:description" content="<?php echo e($pageDescription); ?>">
     <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
-    <meta property="og:image" content="<?php echo $iconUrl; ?>">
+    <meta property="og:image" content="<?php echo $socialImageUrl; ?>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo e($pageTitle); ?>">
     <meta name="twitter:description" content="<?php echo e($pageDescription); ?>">
-    <meta name="twitter:image" content="<?php echo $iconUrl; ?>">
+    <meta name="twitter:image" content="<?php echo $socialImageUrl; ?>">
     <link rel="icon" type="image/png" href="<?php echo $iconPath; ?>">
     <link rel="apple-touch-icon" href="<?php echo $iconPath; ?>">
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
+    <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
+    <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
@@ -170,7 +179,7 @@ echo $header->render();
             </p>
             <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.76rem] font-semibold text-[#2a5a94]">
                 <i class="fa-solid fa-list-check text-[#2fbdef]" aria-hidden="true"></i>
-                Найдено услуг: <?php echo intval($totalServices); ?>
+                Всего услуг: <?php echo intval($totalServices); ?>
             </div>
         </div>
     </section>

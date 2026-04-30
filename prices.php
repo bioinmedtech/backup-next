@@ -5,6 +5,7 @@ require_once 'includes/components/Components.php';
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
+$socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/prices';
 $pageTitle = 'Прайс-лист услуг и цены | ' . CLINIC_NAME;
 $pageDescription = 'Полный прайс-лист с ценами на все услуги клиники БИОИНМЕД. Диагностика, остеопатия, рефлексотерапия, физиотерапия и другие методики.';
@@ -47,6 +48,12 @@ $structuredData = [
         'itemListElement' => $priceListElements,
     ],
 ];
+
+$organizationStructuredData = bioinmed_medical_organization_schema();
+$breadcrumbStructuredData = bioinmed_breadcrumb_schema([
+    ['name' => 'Главная', 'url' => '/'],
+    ['name' => 'Прайс-лист', 'url' => '/prices'],
+]);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -64,14 +71,16 @@ $structuredData = [
     <meta property="og:title" content="<?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?>">
     <meta property="og:description" content="<?php echo htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8'); ?>">
     <meta property="og:url" content="<?php echo htmlspecialchars($canonicalUrl, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta property="og:image" content="<?php echo $iconUrl; ?>">
+    <meta property="og:image" content="<?php echo $socialImageUrl; ?>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?>">
     <meta name="twitter:description" content="<?php echo htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta name="twitter:image" content="<?php echo $iconUrl; ?>">
+    <meta name="twitter:image" content="<?php echo $socialImageUrl; ?>">
     <link rel="icon" type="image/png" href="<?php echo $iconPath; ?>">
     <link rel="apple-touch-icon" href="<?php echo $iconPath; ?>">
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
+    <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
+    <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>

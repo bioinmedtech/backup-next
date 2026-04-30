@@ -5,6 +5,7 @@ require_once 'includes/components/Components.php';
 $siteUrl  = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl  = $siteUrl . $iconPath;
+$socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/doctors';
 $pageTitle = 'Наши специалисты — клиника БИОИНМЕД';
 $pageDescription = 'Познакомьтесь с командой врачей клиники БИОИНМЕД. Опытные специалисты в области остеопатии, рефлексотерапии, гомеопатии, психотерапии и восстановительной медицины в Москве.';
@@ -14,6 +15,41 @@ $phone2      = defined('CLINIC_PHONE_2') ? CLINIC_PHONE_2 : '';
 $phone2link  = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
 
 function e($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
+
+$doctorListElements = [];
+$doctorPosition = 1;
+foreach ($doctors as $doctorItem) {
+    $doctorSlug = trim((string)($doctorItem['slug'] ?? ''));
+    $doctorName = trim((string)($doctorItem['name'] ?? ''));
+    if ($doctorSlug === '' || $doctorName === '') {
+        continue;
+    }
+    $doctorListElements[] = [
+        '@type' => 'ListItem',
+        'position' => $doctorPosition++,
+        'name' => $doctorName,
+        'url' => $siteUrl . '/doctors/' . rawurlencode($doctorSlug),
+    ];
+}
+
+$pageStructuredData = [
+    '@context' => 'https://schema.org',
+    '@type' => 'CollectionPage',
+    'name' => $pageTitle,
+    'description' => $pageDescription,
+    'url' => $canonicalUrl,
+    'inLanguage' => 'ru-RU',
+    'mainEntity' => [
+        '@type' => 'ItemList',
+        'itemListElement' => $doctorListElements,
+    ],
+];
+
+$organizationStructuredData = bioinmed_medical_organization_schema();
+$breadcrumbStructuredData = bioinmed_breadcrumb_schema([
+    ['name' => 'Главная', 'url' => '/'],
+    ['name' => 'Специалисты', 'url' => '/doctors'],
+]);
 ?>
 <!doctype html>
 <html lang="ru">
@@ -31,13 +67,14 @@ function e($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
     <meta property="og:title" content="<?php echo e($pageTitle); ?>">
     <meta property="og:description" content="<?php echo e($pageDescription); ?>">
     <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
-    <meta property="og:image" content="<?php echo $iconUrl; ?>">
+    <meta property="og:image" content="<?php echo $socialImageUrl; ?>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo e($pageTitle); ?>">
     <meta name="twitter:description" content="<?php echo e($pageDescription); ?>">
-    <meta name="twitter:image" content="<?php echo $iconUrl; ?>">
+    <meta name="twitter:image" content="<?php echo $socialImageUrl; ?>">
     <link rel="icon" type="image/png" href="<?php echo $iconPath; ?>">
     <link rel="apple-touch-icon" href="<?php echo $iconPath; ?>">
+    <script type="application/ld+json"><?php echo json_encode($pageStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode([
         '@context' => 'https://schema.org',
         '@type'    => 'MedicalOrganization',
@@ -50,6 +87,8 @@ function e($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
             'url'      => CLINIC_SITE_URL . '/doctors/' . ($d['slug'] ?? ''),
         ], $doctors),
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
+    <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
+    <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>

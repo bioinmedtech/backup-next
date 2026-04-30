@@ -66,7 +66,7 @@ class Header extends Component {
 
         $desktop_link_class = function ($is_active) {
             if ($is_active) {
-                return 'is-active text-[#2fbdef] border-b-2 border-[#2fbdef]';
+                return 'is-active text-[#2fbdef] border-b-2 border-transparent';
             }
             return 'text-[#173b64] border-b-2 border-transparent hover:text-[#2fbdef]';
         };
@@ -414,28 +414,17 @@ class Header extends Component {
             function closeMobMenu(){document.getElementById('mob-menu').classList.remove('open');document.getElementById('mob-backdrop').classList.remove('open');document.getElementById('mob-icon').className='fa-solid fa-bars';document.getElementById('mob-toggle').setAttribute('aria-expanded','false');document.body.style.overflow='';}
             document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMobMenu();});
             window.addEventListener('resize',function(){if(window.innerWidth>=1024)closeMobMenu();});
-            (function syncHeaderMetrics(){
+            function updateHeaderMetrics(){
                 var h=document.getElementById('site-header');
-                if(h){document.documentElement.style.setProperty('--header-height',h.offsetHeight+'px');}
                 var menuBar=document.querySelector('.desktop-menu-bar');
-                if(menuBar){document.documentElement.style.setProperty('--desktop-menu-bar-bottom',Math.max(menuBar.getBoundingClientRect().bottom,0)+'px');}
-            }());
-            window.addEventListener('load',function(){
-                var h=document.getElementById('site-header');
-                if(h){document.documentElement.style.setProperty('--header-height',h.offsetHeight+'px');}
-                var menuBar=document.querySelector('.desktop-menu-bar');
-                if(menuBar){document.documentElement.style.setProperty('--desktop-menu-bar-bottom',Math.max(menuBar.getBoundingClientRect().bottom,0)+'px');}
-            });
-            window.addEventListener('resize',function(){
-                var h=document.getElementById('site-header');
-                if(h){document.documentElement.style.setProperty('--header-height',h.offsetHeight+'px');}
-                var menuBar=document.querySelector('.desktop-menu-bar');
-                if(menuBar){document.documentElement.style.setProperty('--desktop-menu-bar-bottom',Math.max(menuBar.getBoundingClientRect().bottom,0)+'px');}
-            });
-            window.addEventListener('scroll',function(){
-                var menuBar=document.querySelector('.desktop-menu-bar');
-                if(menuBar){document.documentElement.style.setProperty('--desktop-menu-bar-bottom',Math.max(menuBar.getBoundingClientRect().bottom,0)+'px');}
-            },{passive:true});
+                var headerHeight=0;
+                if(h){headerHeight=h.offsetHeight;}
+                if(menuBar){headerHeight=Math.max(headerHeight,Math.round(menuBar.getBoundingClientRect().bottom));}
+                document.documentElement.style.setProperty('--header-height',headerHeight+'px');
+            }
+            (function syncHeaderMetrics(){updateHeaderMetrics();}());
+            window.addEventListener('load',updateHeaderMetrics);
+            window.addEventListener('resize',updateHeaderMetrics);
             (function initPhoneMask(){
                 if(window.__phoneMaskReady){return;}
                 window.__phoneMaskReady=true;
@@ -636,92 +625,106 @@ class Header extends Component {
 class HeroSection extends Component {
     public function render() {
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
-        $hero_title = defined('HERO_TITLE') ? $this->e(HERO_TITLE) : 'Интегративная медицина для устойчивого восстановления здоровья';
+        $hero_image = defined('HERO_IMAGE') ? $this->e(HERO_IMAGE) : '/public/images/team/kostromina_i_v.png';
+        $chief_name = 'Инна Викторовна Костромина';
+        $chief_title = 'Главный врач клиники';
+
+        if (!empty($GLOBALS['doctors'][0]) && is_array($GLOBALS['doctors'][0])) {
+            $chief_name = $this->e($GLOBALS['doctors'][0]['name'] ?? $chief_name);
+            $chief_title = $this->e($GLOBALS['doctors'][0]['title'] ?? $chief_title);
+        }
 
         return <<<HTML
-        <section class="hero-section relative overflow-hidden border-b border-[#e6eef7] bg-[linear-gradient(110deg,#e9f3fb_0%,#dcebf7_46%,#d8e9f7_100%)]">
-            <div class="pointer-events-none absolute -left-20 top-8 h-48 w-48 rounded-full bg-[#2fbdef1a] blur-3xl md:-left-32 md:h-64 md:w-64"></div>
-            <div class="pointer-events-none absolute -right-20 bottom-0 h-56 w-56 rounded-full bg-[#2fbdef0f] blur-3xl md:-right-32 md:h-80 md:w-80"></div>
+        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_36%,#deedf8_100%)] lg:h-[calc(100svh-var(--header-height,0px))]" style="height:calc(100svh - var(--header-height, 0px));min-height:calc(100svh - var(--header-height, 0px));">
+            <div class="pointer-events-none absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(47,189,239,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(47,189,239,0.06)_1px,transparent_1px)] [background-size:32px_32px]"></div>
+            <div class="pointer-events-none absolute -left-20 top-10 h-52 w-52 rounded-full bg-[#2fbdef24] blur-3xl md:-left-32 md:h-72 md:w-72"></div>
+            <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
+            <div class="pointer-events-none absolute bottom-0 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#2fbdef14] blur-3xl md:h-72 md:w-72"></div>
 
-            <div class="relative mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
-                <div class="grid items-start gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
-                    <div>
-                        <p class="inline-flex rounded-full border border-[#c8dff0] bg-white/75 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-[#2fbdef]">
-                            Клиника интегративной медицины
-                        </p>
-                        <h1 class="mt-4 max-w-2xl text-[1.35rem] font-bold leading-[1.24] text-[#0f2749] sm:text-[1.75rem] md:text-[2.1rem] md:leading-[1.18]">
-                            {$hero_title}
-                        </h1>
-                        <p class="mt-3 max-w-2xl text-[0.92rem] leading-relaxed text-[#1f4f82] md:text-[1rem]">
-                            Начните с точной диагностики и получите персональный план лечения. Мы бережно сопровождаем вас от первого визита до устойчивого результата.
-                        </p>
-                        <p class="mt-2 max-w-2xl text-[0.82rem] leading-relaxed text-[#4a6f96] md:text-[0.88rem]">
-                            Мы свяжемся с вами в течение 15 минут, уточним жалобы и подберём удобное время записи без лишних звонков и ожидания.
-                        </p>
+            <div class="relative mx-auto flex max-w-6xl items-center px-6 py-4 md:px-10 md:py-5 lg:h-full lg:py-2">
+                <div class="w-full lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-4">
+                    <div class="max-w-3xl lg:flex lg:h-full lg:min-h-0 lg:flex-col lg:justify-center">
+                            <p class="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Клиника интегративной медицины</p>
+                            <h1 class="mt-2 max-w-3xl text-[1.4rem] font-bold leading-[1.02] text-[#0f2749] sm:text-[1.76rem] md:text-[1.92rem] lg:text-[2rem]">
+                                Медицина - это искусство выздоровления
+                            </h1>
+                            <p class="mt-1.5 max-w-xl text-[0.82rem] font-semibold leading-snug text-[#173b64] md:text-[0.88rem]">
+                                С нами выздоравливать легко.
+                            </p>
+                            <p class="mt-1.5 max-w-xl text-[0.76rem] leading-relaxed text-[#4a6f96] md:text-[0.82rem]">
+                                Подберём специалиста, проведём диагностику и выстроим понятный маршрут восстановления.
+                            </p>
 
-                        <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                            <div class="flex items-start gap-2.5 rounded-xl border border-[#d7e4ef] bg-white/70 px-3 py-2.5">
-                                <span class="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
-                                    <i class="fa-solid fa-stethoscope text-[0.75rem]" aria-hidden="true"></i>
-                                </span>
-                                <p class="text-[0.9rem] font-medium leading-snug text-[#214a7f]">Комплексная диагностика первопричин</p>
+                            <div class="mt-2.5 flex max-w-xl items-center gap-3 rounded-[1.15rem] border border-[#d6e4f0] bg-white p-2.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)]">
+                                <div class="h-14 w-14 shrink-0 overflow-hidden rounded-2xl border border-[#c9d9ed] bg-[linear-gradient(180deg,#edf6fd_0%,#dcebf7_100%)] md:h-16 md:w-16">
+                                    <img src="{$hero_image}" alt="{$chief_name}" class="h-full w-full object-cover object-top" loading="eager">
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#2a5a94]">{$chief_title}</p>
+                                    <p class="mt-0.5 text-[0.9rem] font-bold leading-tight text-[#0f2749] md:text-[0.98rem]">{$chief_name}</p>
+                                    <p class="mt-1 text-[0.68rem] leading-relaxed text-[#4a6f96] md:text-[0.72rem]">Путь к восстановлению должен быть понятным и системным.</p>
+                                </div>
                             </div>
-                            <div class="flex items-start gap-2.5 rounded-xl border border-[#d7e4ef] bg-white/70 px-3 py-2.5">
-                                <span class="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
-                                    <i class="fa-solid fa-user-doctor text-[0.75rem]" aria-hidden="true"></i>
-                                </span>
-                                <p class="text-[0.9rem] font-medium leading-snug text-[#214a7f]">Команда врачей с клиническим опытом 20-30+ лет</p>
+
+                            <div class="mt-2.5 flex w-full flex-col gap-2 sm:max-w-xl sm:flex-row sm:flex-wrap">
+                                <div class="flex w-full items-center gap-2 rounded-full border border-[#d6e4f0] bg-white px-3 py-1.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)] sm:inline-flex sm:w-auto">
+                                    <i class="fa-solid fa-wave-square text-[0.72rem] text-[#2fbdef]" aria-hidden="true"></i>
+                                    <p class="text-[0.72rem] font-semibold text-[#214a7f]">Диагностика первопричин</p>
+                                </div>
+                                <div class="flex w-full items-center gap-2 rounded-full border border-[#d6e4f0] bg-white px-3 py-1.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)] sm:inline-flex sm:w-auto">
+                                    <i class="fa-solid fa-user-doctor text-[0.72rem] text-[#2fbdef]" aria-hidden="true"></i>
+                                    <p class="text-[0.72rem] font-semibold text-[#214a7f]">Врачи с опытом 20-30+ лет</p>
+                                </div>
                             </div>
-                            <div class="flex items-start gap-2.5 rounded-xl border border-[#d7e4ef] bg-white/70 px-3 py-2.5 sm:col-span-2">
-                                <span class="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
-                                    <i class="fa-solid fa-wand-magic-sparkles text-[0.75rem]" aria-hidden="true"></i>
-                                </span>
-                                <p class="text-[0.9rem] font-medium leading-snug text-[#214a7f]">Мягкие и современные методики с понятным маршрутом восстановления</p>
-                            </div>
-                        </div>
+
                     </div>
 
-                    <aside class="rounded-2xl border border-[#c9d9ed] bg-white p-5 shadow-[0_12px_34px_rgba(6,29,60,0.1)] md:p-6 lg:sticky lg:top-24">
-                        <h2 class="text-[1.05rem] font-bold text-[#0f2749] md:text-[1.2rem]">Записаться на приём</h2>
-                        <p id="hero-form-note" class="mt-2 text-[0.82rem] leading-relaxed text-[#355b89] md:text-[0.87rem]">
-                            Перезвоним в течение 15 минут.
-                        </p>
+                    <div class="mt-3 w-full max-w-3xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:p-3.5 lg:mt-0 lg:max-w-none lg:self-center">
+                        <div class="flex items-center justify-between gap-3">
+                                    <div>
+                                        <h2 class="text-[0.92rem] font-bold text-[#0f2749] md:text-[1rem]">Записаться на приём</h2>
+                                        <p id="hero-form-note" class="mt-1 text-[0.72rem] leading-relaxed text-[#4a6f96]">Оставьте номер, и мы свяжемся с вами.</p>
+                                    </div>
+                                </div>
 
-                        <form class="mt-4 space-y-3" action="{$booking_url}" method="post" aria-describedby="hero-form-note">
-                            <div>
-                                <label for="phone-input" class="mb-1.5 block text-[0.75rem] font-semibold uppercase tracking-[0.06em] text-[#4a6f96]">Номер телефона</label>
-                                <input
-                                    type="tel"
-                                    id="phone-input"
-                                    name="phone"
-                                    autocomplete="tel"
-                                    inputmode="tel"
-                                    required
-                                    placeholder="+7 (___) ___-__-__"
-                                    class="w-full rounded-xl border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.92rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
-                                    aria-label="Введите номер телефона"
-                                />
+                        <form class="mt-2.5" action="{$booking_url}" method="post" aria-describedby="hero-form-note">
+                            <input type="hidden" name="source" value="homepage-hero">
+                            <div class="space-y-2">
+                                <div>
+                                    <label for="hero-phone-input" class="mb-1 block text-[0.64rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
+                                    <input
+                                        type="tel"
+                                        id="hero-phone-input"
+                                        name="phone"
+                                        autocomplete="tel"
+                                        inputmode="tel"
+                                        required
+                                        placeholder="Ваш телефон"
+                                        class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.82rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
+                                        aria-label="Введите номер телефона"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.82rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
+                                >
+                                    Перезвоните мне
+                                </button>
                             </div>
 
-                            <label class="flex items-start gap-2 text-[0.75rem] leading-snug text-[#355b89]">
+                            <label class="mt-2 flex items-start gap-2 text-[0.63rem] leading-snug text-[#355b89]">
                                 <input
                                     type="checkbox"
                                     required
-                                    class="mt-1.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
+                                    class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
                                 />
-                                <span>
-                                    Согласен с <a href="/privacy.html" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a>
+                                <span class="block pt-0.5">
+                                    Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a>
                                 </span>
                             </label>
-
-                            <button
-                                type="submit"
-                                class="w-full rounded-xl bg-[#2fbdef] py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1a9ec0]"
-                            >
-                                Перезвоните мне
-                            </button>
                         </form>
-                    </aside>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -753,8 +756,6 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$experience}</div>
-                            <p class="mt-0.5 text-[0.64rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$experience_desc}</p>
-                        </div>
                     </li>
                     <!-- Stat 2: Rating -->
                     <li class="flex items-center gap-3 py-4 pl-4 md:px-7 md:py-0">
@@ -848,6 +849,7 @@ class ProblemsGrid extends Component {
         }
 
         $solution_keyword_map = [
+            'habilect' => 'hobilect-diagnostics',
             'hobilect' => 'hobilect-diagnostics',
             'хабилект' => 'hobilect-diagnostics',
             'остеопат' => 'osteopathy',
@@ -1164,9 +1166,12 @@ class FAQBlock extends Component {
 }
 
 class ServicesGrid extends Component {
-    public function __construct($services, $colors = []) {
+    protected $showImages = true;
+
+    public function __construct($services, $colors = [], $options = []) {
         parent::__construct($colors);
         $this->data = $services;
+        $this->showImages = (bool)($options['show_images'] ?? true);
     }
 
     public function render() {
@@ -1191,6 +1196,18 @@ class ServicesGrid extends Component {
             $icon = isset($icons[$count]) ? $icons[$count] : $icons[$count % count($icons)];
             $service_id = isset($service['id']) ? $this->e($service['id']) : '';
             $service_link = '/services/' . $service_id;
+            $service_image = $this->showImages ? bioinmed_service_primary_image_url($service) : null;
+            $service_image_html = '';
+
+            if ($service_image !== null) {
+                $service_image_html = '<div class="relative mb-4 overflow-hidden rounded-2xl border border-[#dfeaf3] bg-[#eef7fd] aspect-[4/3]">'
+                    . '<img src="' . $this->e($service_image) . '" alt="' . $this->e($service['name']) . '" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" loading="lazy">'
+                    . '<div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[rgba(8,35,67,0.60)] via-[rgba(8,35,67,0.18)] to-transparent"></div>'
+                    . '<div class="absolute left-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/88 text-[#2fbdef] shadow-[0_8px_18px_rgba(8,36,70,0.12)]">'
+                    . '<i class="fa-solid ' . $icon . ' text-[1rem]" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '</div>';
+            }
             
             $price_display = '';
             if (isset($service['price'])) {
@@ -1202,7 +1219,8 @@ class ServicesGrid extends Component {
             }
 
             $items_html .= <<<HTML
-            <article class="rounded-xl border border-[#d7e4ef] bg-white/70 p-5 transition hover:border-[#2fbdef] hover:shadow-[0_4px_16px_rgba(47,189,239,0.12)]">
+            <article class="group rounded-[1.35rem] border border-[#d7e4ef] bg-white/80 p-5 transition hover:-translate-y-0.5 hover:border-[#2fbdef] hover:shadow-[0_12px_28px_rgba(47,189,239,0.16)]">
+                {$service_image_html}
                 <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#2fbdef] mb-3">
                     <i class="fa-solid {$icon} text-[1rem]" aria-hidden="true"></i>
                 </div>
@@ -1238,9 +1256,8 @@ class ServicesGrid extends Component {
 }
 
 class CasesSlider extends Component {
-    public function __construct($cases, $colors = []) {
+    public function __construct($colors = []) {
         parent::__construct($colors);
-        $this->data = $cases;
     }
 
     public function render() {
@@ -1300,8 +1317,8 @@ class ContactSection extends Component {
                 <div class="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
                     <!-- Левая часть: Фото клиники -->
                     <div class="flex items-start">
-                        <div class="mx-auto w-full max-w-[440px] rounded-3xl border border-[#d5e5f2] bg-[linear-gradient(145deg,#f6fbff_0%,#ecf6ff_100%)] p-3 shadow-[0_14px_34px_rgba(6,29,60,0.14)] lg:mx-0">
-                            <div class="relative aspect-square overflow-hidden rounded-2xl border border-[#cfe1ef] bg-[#eaf4fd]">
+                        <div class="mx-auto w-full max-w-[440px] lg:mx-0">
+                            <div class="relative aspect-square overflow-hidden rounded-2xl bg-[#eaf4fd]">
                                 <img
                                     src="/public/images/bioinmed-contacts-pic.jpg"
                                     alt="Клиника БИОИНМЕД - кабинеты и атмосфера"
@@ -1495,6 +1512,8 @@ class Footer extends Component {
                             <li><a href="/" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">О клинике</a></li>
                             <li><a href="/doctors" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Специалисты</a></li>
                             <li><a href="/prices" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Прайс-лист</a></li>
+                            <li><a href="/privacy.php" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Политика конфиденциальности</a></li>
+                            <li><a href="/user-agreement.php" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Пользовательское соглашение</a></li>
                             <li><a href="/#contact" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Контакты</a></li>
                         </ul>
                     </div>
@@ -1550,6 +1569,12 @@ class Footer extends Component {
                         © 2026 <strong>КЛИНИКА БИОИНМЕД</strong> — интегративная и восстановительная медицина. Все права защищены.
                     </p>
                     <div class="flex items-center gap-4">
+                        <a href="/privacy.php" class="text-xs font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
+                            Политика
+                        </a>
+                        <a href="/user-agreement.php" class="text-xs font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
+                            Соглашение
+                        </a>
                         <a href="/prices" class="text-xs font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
                             Прайс-лист
                         </a>

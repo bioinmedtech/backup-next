@@ -5,66 +5,28 @@ require_once 'includes/components/Components.php';
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
+$socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/';
-$pageTitle = 'БИОИНМЕД | Клиника гомеопатии и биорегуляции';
-$pageDescription = 'БИОИНМЕД: клиника гомеопатии и биорегуляции в Москве. Комплексная диагностика, интегративные методы лечения, опытные специалисты.';
+$pageTitle = 'Клиника интегративной медицины в Москве | БИОИНМЕД';
+$pageDescription = 'БИОИНМЕД: клиника интегративной и восстановительной медицины в Москве. Диагностика HABILECT, остеопатия, рефлексотерапия, физиотерапия, опытные врачи и персональный план лечения.';
 
-$structuredData = [
-    '@context' => 'https://schema.org',
-    '@type' => 'MedicalClinic',
-    'name' => CLINIC_NAME,
-    'image' => $iconUrl,
-    'logo' => $iconUrl,
-    'url' => $siteUrl,
-    'telephone' => CLINIC_PHONE,
-    'email' => CLINIC_EMAIL,
-    'address' => [
-        '@type' => 'PostalAddress',
-        'streetAddress' => CLINIC_ADDRESS,
-        'addressLocality' => 'Москва',
-        'addressCountry' => 'RU',
-    ],
-    'openingHoursSpecification' => [
-        [
-            '@type' => 'OpeningHoursSpecification',
-            'dayOfWeek' => [
-                'https://schema.org/Monday',
-                'https://schema.org/Tuesday',
-                'https://schema.org/Wednesday',
-                'https://schema.org/Thursday',
-                'https://schema.org/Friday',
-                'https://schema.org/Saturday',
-                'https://schema.org/Sunday',
-            ],
-            'opens' => '09:00',
-            'closes' => '21:00',
-        ],
-    ],
-    'contactPoint' => [
-        [
-            '@type' => 'ContactPoint',
-            'telephone' => CLINIC_PHONE,
-            'contactType' => 'служба поддержки',
-            'areaServed' => 'RU',
-            'availableLanguage' => ['ru'],
-        ],
-        [
-            '@type' => 'ContactPoint',
-            'telephone' => CLINIC_PHONE_2,
-            'contactType' => 'служба поддержки',
-            'areaServed' => 'RU',
-            'availableLanguage' => ['ru'],
-        ],
-    ],
-];
+$structuredData = bioinmed_medical_organization_schema();
 
 $websiteStructuredData = [
     '@context' => 'https://schema.org',
     '@type' => 'WebSite',
+    '@id' => $siteUrl . '/#website',
     'name' => CLINIC_NAME,
     'url' => $siteUrl,
     'inLanguage' => 'ru-RU',
 ];
+
+$faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
+    return [
+        'q' => $item['question'] ?? '',
+        'a' => $item['answer'] ?? '',
+    ];
+}, is_array($faq_items) ? $faq_items : []));
 ?>
 <!doctype html>
 <html lang="ru">
@@ -81,11 +43,12 @@ $websiteStructuredData = [
     <meta property="og:title" content="<?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?>">
     <meta property="og:description" content="<?php echo htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8'); ?>">
     <meta property="og:url" content="<?php echo $canonicalUrl; ?>">
-    <meta property="og:image" content="<?php echo $iconUrl; ?>">
+    <meta property="og:image" content="<?php echo $socialImageUrl; ?>">
+    <meta property="og:image:alt" content="<?php echo htmlspecialchars(CLINIC_NAME . ' — клиника интегративной медицины', ENT_QUOTES, 'UTF-8'); ?>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?>">
     <meta name="twitter:description" content="<?php echo htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta name="twitter:image" content="<?php echo $iconUrl; ?>">
+    <meta name="twitter:image" content="<?php echo $socialImageUrl; ?>">
     <link rel="icon" type="image/png" href="<?php echo $iconPath; ?>">
     <link rel="apple-touch-icon" href="<?php echo $iconPath; ?>">
     
@@ -99,6 +62,9 @@ $websiteStructuredData = [
         </script>
         <script type="application/ld+json">
             <?php echo json_encode($websiteStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
+        </script>
+        <script type="application/ld+json">
+            <?php echo json_encode($faqStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
         </script>
     
     <!-- Фирменные шрифты и стили -->
@@ -158,13 +124,7 @@ $websiteStructuredData = [
             }
         }
 
-        /* ── Hero: natural height on mobile, exact viewport on desktop ── */
-        @media (min-width: 1024px) {
-            .hero-section {
-                height: calc(100lvh - var(--header-height, 0px));
-                overflow: hidden;
-            }
-        }
+        /* ── Hero keeps natural height so it doesn't fight the header layout ── */
 
         @media (prefers-reduced-motion: reduce) {
             .fade-in {
@@ -235,13 +195,13 @@ $websiteStructuredData = [
 
     <!-- Reviews -->
     <?php
-    $cases_section = new CasesSlider($cases, $brand_colors);
+    $cases_section = new CasesSlider($brand_colors);
     echo $cases_section->render();
     ?>
     
     <!-- Popular Services -->
     <?php
-    $services_section = new ServicesGrid($services, $brand_colors);
+    $services_section = new ServicesGrid($services, $brand_colors, ['show_images' => false]);
     echo $services_section->render();
     ?>
 
