@@ -272,7 +272,7 @@ class Header extends Component {
                 <!-- Row 1: logo + phone + burger -->
                 <div class="flex items-center justify-between px-4 py-2.5">
                     <a href="/" class="inline-flex items-center">
-                        <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-12 w-auto" loading="eager">
+                        <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-14 w-auto" loading="eager">
                     </a>
                     <div class="flex items-center gap-2">
                         <a href="tel:{$phone_1_link}" aria-label="Позвонить" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#2fbdef]">
@@ -728,94 +728,375 @@ class HeroSection extends Component {
         $actual_season_color = $this->e((string)($seasons[$actual_slug]['color'] ?? '#2fbdef'));
         $actual_season_href = $this->e('/seasons/' . $actual_slug);
 
+        $slides_html = '';
+        $dots_html = '';
+        $thumbs_html = '';
+        $mobile_strip_html = '';
+        $modal_thumbs_html = '';
+        $slide_count = 20;
+
+        for ($i = $slide_count; $i >= 1; $i--) {
+            $is_first = ($i === $slide_count);
+            $slide_src = '/public/images/slider/slider-' . $i . '.webp';
+            $slide_alt = 'Интерьер клиники БИОИНМЕД ' . $i;
+            $loading = $is_first ? 'eager' : 'lazy';
+            $active_class = $is_first ? ' is-active' : '';
+            $slide_index = $slide_count - $i;
+
+            $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full" data-hero-image-src="' . $slide_src . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="Открыть фото ' . $i . '">'
+                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
+                . '</button>';
+
+            $dots_html .= '<button type="button" class="hero-clinic-dot' . $active_class . '" data-slide-index="' . $slide_index . '" aria-label="Слайд ' . ($slide_index + 1) . '"></button>';
+
+            $thumbs_html .= '<button type="button" class="hero-clinic-thumb' . $active_class . '" data-slide-index="' . $slide_index . '" aria-label="Миниатюра ' . ($slide_index + 1) . '">'
+                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="lazy" decoding="async">'
+                . '</button>';
+
+            $mobile_strip_html .= '<button type="button" class="hero-clinic-open h-[160px] w-[160px] min-w-[160px] snap-start overflow-hidden rounded-xl border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_10px_20px_rgba(10,43,80,0.12)] sm:h-[180px] sm:w-[180px] sm:min-w-[180px]" data-hero-image-src="' . $slide_src . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="Открыть фото ' . ($slide_index + 1) . '">'
+                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
+                . '</button>';
+
+            $modal_thumbs_html .= '<button type="button" class="hero-modal-thumb' . $active_class . '" data-modal-index="' . $slide_index . '" aria-label="Фото ' . ($slide_index + 1) . '">'
+                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="lazy" decoding="async">'
+                . '</button>';
+        }
+
         return <<<HTML
-        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_36%,#deedf8_100%)] lg:h-[calc(100svh-var(--header-height,0px))]" style="height:calc(100svh - var(--header-height, 0px));min-height:calc(100svh - var(--header-height, 0px));">
+        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_36%,#deedf8_100%)] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))]">
             <div class="pointer-events-none absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(47,189,239,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(47,189,239,0.06)_1px,transparent_1px)] [background-size:32px_32px]"></div>
             <div class="pointer-events-none absolute -left-20 top-10 h-52 w-52 rounded-full bg-[#2fbdef24] blur-3xl md:-left-32 md:h-72 md:w-72"></div>
             <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
-            <div class="pointer-events-none absolute bottom-0 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#2fbdef14] blur-3xl md:h-72 md:w-72"></div>
 
-            <div class="relative mx-auto flex max-w-6xl items-center px-6 py-5 md:px-10 md:py-7 lg:h-full lg:py-14">
-                <div class="w-full lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center lg:gap-10">
-                    <div class="max-w-3xl lg:flex lg:h-full lg:min-h-0 lg:flex-col lg:justify-center">
-                            <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
-                                <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
-                                Сезон: {$actual_season_name}
-                                <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
-                            </a>
-                            <p class="text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Клиника интегративной медицины</p>
-                            <h1 class="mt-3 max-w-3xl text-[1.52rem] font-bold leading-[1.02] text-[#0f2749] sm:text-[1.9rem] md:text-[2.08rem] lg:text-[2.18rem]">
-                                Медицина - это искусство выздоровления
-                            </h1>
-                            <p class="mt-2.5 max-w-xl text-[0.88rem] font-semibold leading-snug text-[#173b64] md:text-[0.94rem]">
-                                С нами выздоравливать легко.
-                            </p>
-                            <p class="mt-2 max-w-xl text-[0.82rem] leading-relaxed text-[#4a6f96] md:text-[0.88rem]">
-                                Подберём специалиста, проведём диагностику и выстроим понятный маршрут восстановления.
-                            </p>
+            <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
+                <div class="flex w-full flex-col lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
+                    <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
+                        <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
+                            <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
+                            Сезон: {$actual_season_name}
+                            <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
+                        </a>
+                        <h1 class="mt-2 max-w-3xl text-[1.52rem] font-bold leading-[1.02] text-[#0f2749] sm:text-[1.9rem] md:text-[2.08rem] lg:text-[2.18rem]">
+                            Медицина - это искусство выздоровления
+                        </h1>
+                        <p class="mt-2.5 max-w-xl text-[0.9rem] leading-relaxed text-[#355b89] md:text-[0.96rem]">
+                            Подберём специалиста и маршрут восстановления под ваш запрос.
+                        </p>
 
-                            <div class="mt-4 flex w-full flex-col gap-2.5 sm:max-w-xl sm:flex-row sm:flex-wrap">
-                                <div class="flex w-full items-center gap-2 rounded-full border border-[#d6e4f0] bg-white px-3 py-1.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)] sm:inline-flex sm:w-auto">
-                                    <i class="fa-solid fa-wave-square text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
-                                    <p class="text-[0.78rem] font-semibold text-[#214a7f]">Диагностика первопричин</p>
-                                </div>
-                                <div class="flex w-full items-center gap-2 rounded-full border border-[#d6e4f0] bg-white px-3 py-1.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)] sm:inline-flex sm:w-auto">
-                                    <i class="fa-solid fa-user-doctor text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
-                                    <p class="text-[0.78rem] font-semibold text-[#214a7f]">Врачи с опытом 20-30+ лет</p>
-                                </div>
+                        <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
+                            <div>
+                                <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]">Записаться на приём</h2>
+                                <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#4a6f96]">Оставьте номер, и мы свяжемся с вами.</p>
                             </div>
 
-                    </div>
-
-                    <div class="mt-5 w-full max-w-3xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4 lg:mt-0 lg:max-w-none lg:self-center">
-                        <div class="flex items-center justify-between gap-3">
+                            <form class="mt-3" action="{$booking_url}" method="post" aria-describedby="hero-form-note">
+                                <input type="hidden" name="source" value="homepage-hero">
+                                <div class="space-y-2.5">
                                     <div>
-                                        <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]">Записаться на приём</h2>
-                                        <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#4a6f96]">Оставьте номер, и мы свяжемся с вами.</p>
+                                        <label for="hero-phone-input" class="mb-1 block text-[0.74rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
+                                        <input
+                                            type="tel"
+                                            id="hero-phone-input"
+                                            name="phone"
+                                            autocomplete="tel"
+                                            inputmode="tel"
+                                            required
+                                            placeholder="Ваш телефон"
+                                            class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.92rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
+                                            aria-label="Введите номер телефона"
+                                        />
                                     </div>
+                                    <button
+                                        type="submit"
+                                        class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
+                                    >
+                                        Перезвоните мне
+                                    </button>
                                 </div>
 
-                        <form class="mt-3" action="{$booking_url}" method="post" aria-describedby="hero-form-note">
-                            <input type="hidden" name="source" value="homepage-hero">
-                            <div class="space-y-2.5">
-                                <div>
-                                    <label for="hero-phone-input" class="mb-1 block text-[0.74rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
+                                <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
                                     <input
-                                        type="tel"
-                                        id="hero-phone-input"
-                                        name="phone"
-                                        autocomplete="tel"
-                                        inputmode="tel"
+                                        type="checkbox"
                                         required
-                                        placeholder="Ваш телефон"
-                                        class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.92rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
-                                        aria-label="Введите номер телефона"
+                                        class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
                                     />
-                                </div>
-                                <button
-                                    type="submit"
-                                    class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
-                                >
-                                    Перезвоните мне
-                                </button>
-                            </div>
-
-                            <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
-                                <input
-                                    type="checkbox"
-                                    required
-                                    class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
-                                />
-                                <span class="block pt-0.5">
-                                    Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a>
-                                </span>
-                            </label>
-                        </form>
+                                    <span class="block pt-0.5">
+                                        Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a>
+                                    </span>
+                                </label>
+                            </form>
+                        </div>
                     </div>
 
+                    <div class="order-1 mb-4 min-w-0 overflow-hidden lg:order-2 lg:mb-0">
+                        <div class="lg:hidden">
+                            <div class="hero-clinic-mobile-strip flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1">
+                                {$mobile_strip_html}
+                            </div>
+                            <p class="mt-2 flex items-center gap-1.5 text-[0.78rem] font-medium text-[#2a5a94]">
+                                <i class="fa-solid fa-hand-pointer text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
+                                Листайте фото вправо
+                            </p>
+                        </div>
+
+                        <div class="hero-clinic-slider relative hidden overflow-hidden rounded-[1.25rem] border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_18px_38px_rgba(10,43,80,0.1)] sm:h-[340px] md:h-[420px] lg:block lg:h-[400px]" data-slide-count="{$slide_count}">
+                            <div class="hero-clinic-slider-track flex h-full transition-transform duration-500 ease-out">
+                                {$slides_html}
+                            </div>
+                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#0f27490f] via-transparent to-[#2fbdef14]"></div>
+                            <button type="button" class="hero-clinic-prev absolute left-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#2a5a94] shadow-[0_8px_20px_rgba(7,35,68,0.18)] transition hover:bg-white" aria-label="Предыдущее фото">
+                                <i class="fa-solid fa-chevron-left text-[0.92rem]" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="hero-clinic-next absolute right-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#2a5a94] shadow-[0_8px_20px_rgba(7,35,68,0.18)] transition hover:bg-white" aria-label="Следующее фото">
+                                <i class="fa-solid fa-chevron-right text-[0.92rem]" aria-hidden="true"></i>
+                            </button>
+                            <div class="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-[#0f2749]/25 px-2.5 py-1.5 backdrop-blur-sm">
+                                {$dots_html}
+                            </div>
+                        </div>
+                        <div class="mt-3 hidden gap-2 overflow-x-auto pb-1 lg:flex">
+                            {$thumbs_html}
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <div id="hero-image-modal" class="fixed inset-0 z-[110] hidden bg-[rgba(7,21,40,0.84)] px-4 py-6">
+            <button type="button" id="hero-image-modal-close" class="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Закрыть">
+                <i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i>
+            </button>
+            <button type="button" id="hero-image-modal-prev" class="absolute left-4 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Предыдущее фото">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <button type="button" id="hero-image-modal-next" class="absolute right-4 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Следующее фото">
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
+            <div class="mx-auto flex h-full max-w-6xl flex-col items-center justify-center gap-4">
+                <img id="hero-image-modal-image" src="" alt="Фото клиники" class="max-h-[72vh] max-w-full rounded-3xl border border-white/15 bg-white/5 object-contain shadow-[0_18px_48px_rgba(0,0,0,0.35)]">
+                <div id="hero-image-modal-thumbs" class="flex w-full max-w-3xl gap-2 overflow-x-auto pb-1">
+                    {$modal_thumbs_html}
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function initHeroClinicSlider() {
+                var sliders = document.querySelectorAll('.hero-clinic-slider');
+                var desktopThumbs = document.querySelectorAll('.hero-clinic-thumb');
+
+                sliders.forEach(function(slider) {
+                    var track = slider.querySelector('.hero-clinic-slider-track');
+                    var slides = slider.querySelectorAll('.hero-clinic-slide');
+                    var prev = slider.querySelector('.hero-clinic-prev');
+                    var next = slider.querySelector('.hero-clinic-next');
+                    var dots = slider.querySelectorAll('.hero-clinic-dot');
+                    if (!track || !slides.length || !prev || !next) return;
+
+                    var current = 0;
+                    var lastIndex = slides.length - 1;
+
+                    function render() {
+                        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+                        dots.forEach(function(dot, index) {
+                            dot.classList.toggle('is-active', index === current);
+                        });
+                        desktopThumbs.forEach(function(thumb, index) {
+                            thumb.classList.toggle('is-active', index === current);
+                        });
+                    }
+
+                    prev.addEventListener('click', function() {
+                        current = current <= 0 ? lastIndex : current - 1;
+                        render();
+                    });
+
+                    next.addEventListener('click', function() {
+                        current = current >= lastIndex ? 0 : current + 1;
+                        render();
+                    });
+
+                    dots.forEach(function(dot) {
+                        dot.addEventListener('click', function() {
+                            var index = parseInt(dot.getAttribute('data-slide-index') || '0', 10);
+                            if (!isNaN(index)) {
+                                current = Math.max(0, Math.min(lastIndex, index));
+                                render();
+                            }
+                        });
+                    });
+
+                    desktopThumbs.forEach(function(thumb) {
+                        thumb.addEventListener('click', function() {
+                            var index = parseInt(thumb.getAttribute('data-slide-index') || '0', 10);
+                            if (!isNaN(index)) {
+                                current = Math.max(0, Math.min(lastIndex, index));
+                                render();
+                            }
+                        });
+                    });
+
+                    render();
+                });
+
+                var modal = document.getElementById('hero-image-modal');
+                var modalImage = document.getElementById('hero-image-modal-image');
+                var modalClose = document.getElementById('hero-image-modal-close');
+                var modalPrev = document.getElementById('hero-image-modal-prev');
+                var modalNext = document.getElementById('hero-image-modal-next');
+                var modalThumbs = Array.from(document.querySelectorAll('.hero-modal-thumb'));
+                var openers = Array.from(document.querySelectorAll('.hero-clinic-open'));
+                if (!modal || !modalImage || !openers.length) return;
+
+                var seen = {};
+                var gallery = [];
+                openers.forEach(function(opener) {
+                    var src = opener.getAttribute('data-hero-image-src') || '';
+                    var alt = opener.getAttribute('data-hero-image-alt') || 'Фото клиники';
+                    if (!src || seen[src]) return;
+                    seen[src] = true;
+                    gallery.push({ src: src, alt: alt });
+                });
+                if (!gallery.length) return;
+
+                var currentIndex = 0;
+
+                function renderModalImage() {
+                    var item = gallery[currentIndex];
+                    if (!item) return;
+                    modalImage.src = item.src;
+                    modalImage.alt = item.alt;
+                    modalThumbs.forEach(function(thumb, index) {
+                        thumb.classList.toggle('is-active', index === currentIndex);
+                    });
+                }
+
+                function openModal(index) {
+                    currentIndex = Math.max(0, Math.min(gallery.length - 1, index));
+                    renderModalImage();
+                    modal.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                }
+
+                function closeModal() {
+                    modal.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+
+                function prevModal() {
+                    currentIndex = currentIndex <= 0 ? gallery.length - 1 : currentIndex - 1;
+                    renderModalImage();
+                }
+
+                function nextModal() {
+                    currentIndex = currentIndex >= gallery.length - 1 ? 0 : currentIndex + 1;
+                    renderModalImage();
+                }
+
+                openers.forEach(function(opener) {
+                    opener.addEventListener('click', function() {
+                        var src = opener.getAttribute('data-hero-image-src') || '';
+                        var matchIndex = gallery.findIndex(function(item) { return item.src === src; });
+                        openModal(matchIndex >= 0 ? matchIndex : 0);
+                    });
+                });
+
+                modalThumbs.forEach(function(thumb) {
+                    thumb.addEventListener('click', function() {
+                        var index = parseInt(thumb.getAttribute('data-modal-index') || '0', 10);
+                        if (!isNaN(index)) {
+                            currentIndex = Math.max(0, Math.min(gallery.length - 1, index));
+                            renderModalImage();
+                        }
+                    });
+                });
+
+                modalClose && modalClose.addEventListener('click', closeModal);
+                modalPrev && modalPrev.addEventListener('click', prevModal);
+                modalNext && modalNext.addEventListener('click', nextModal);
+
+                modal.addEventListener('click', function(event) {
+                    if (event.target === modal) closeModal();
+                });
+
+                document.addEventListener('keydown', function(event) {
+                    if (modal.classList.contains('hidden')) return;
+                    if (event.key === 'Escape') closeModal();
+                    if (event.key === 'ArrowLeft') prevModal();
+                    if (event.key === 'ArrowRight') nextModal();
+                });
+            })();
+        </script>
+
+        <style>
+            .hero-clinic-open {
+                border: 0;
+                padding: 0;
+                background: transparent;
+                cursor: zoom-in;
+            }
+
+            .hero-clinic-thumb,
+            .hero-modal-thumb {
+                border: 2px solid transparent;
+                border-radius: 0.7rem;
+                width: 62px;
+                height: 62px;
+                padding: 0;
+                overflow: hidden;
+                flex: 0 0 auto;
+                opacity: 0.82;
+                transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+            }
+
+            .hero-clinic-thumb:hover,
+            .hero-modal-thumb:hover {
+                opacity: 1;
+                transform: translateY(-1px);
+            }
+
+            .hero-clinic-thumb.is-active,
+            .hero-modal-thumb.is-active {
+                opacity: 1;
+                border-color: #2fbdef;
+            }
+
+            .hero-clinic-mobile-strip,
+            #hero-image-modal-thumbs {
+                scrollbar-width: thin;
+                scrollbar-color: rgba(42, 90, 148, 0.45) transparent;
+            }
+
+            .hero-clinic-mobile-strip::-webkit-scrollbar,
+            #hero-image-modal-thumbs::-webkit-scrollbar {
+                height: 6px;
+            }
+
+            .hero-clinic-mobile-strip::-webkit-scrollbar-thumb {
+                background: rgba(42, 90, 148, 0.35);
+                border-radius: 9999px;
+            }
+
+            #hero-image-modal-thumbs::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.45);
+                border-radius: 9999px;
+            }
+
+            .hero-clinic-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 9999px;
+                background: rgba(255, 255, 255, 0.55);
+                border: 0;
+                padding: 0;
+                transition: all 0.2s ease;
+            }
+
+            .hero-clinic-dot.is-active {
+                width: 16px;
+                background: #ffffff;
+            }
+        </style>
         HTML;
     }
 }
@@ -834,7 +1115,7 @@ class StatsBlock extends Component {
         return <<<HTML
         <section class="border-b border-[#e6eef7] bg-white py-5 md:py-6">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                <ul class="grid grid-cols-2 divide-y divide-[#e6eef7] md:grid-cols-4 md:divide-x md:divide-y-0">
+                <ul class="grid grid-cols-2 md:grid-cols-4 md:divide-x md:divide-[#e6eef7]">
                     <!-- Stat 1: Experience -->
                     <li class="flex items-center gap-3 py-4 pr-4 md:px-7 md:py-0 md:first:pl-0">
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
@@ -1325,7 +1606,11 @@ class ServicesGrid extends Component {
                     <i class="fa-solid {$icon} text-[1rem]" aria-hidden="true"></i>
                 </div>
                 <p class="text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#2a5a94] mb-1">{$this->e($service['subtitle'] ?? 'Услуга')}</p>
-                <h3 class="text-[1.2rem] font-bold leading-[1.2] text-[#0f2749] mb-2">{$this->e($service['name'])}</h3>
+                <h3 class="mb-2 text-[1.2rem] font-bold leading-[1.2]">
+                    <a href="{$service_link}" class="text-[#0f2749] transition hover:text-[#2fbdef] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2fbdef] focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+                        {$this->e($service['name'])}
+                    </a>
+                </h3>
                 <p class="text-[0.96rem] leading-relaxed text-[#355b89] line-clamp-2">{$this->e($service['description'])}</p>
                 {$price_display}
                 <a href="{$service_link}" class="mt-4 inline-flex rounded-lg border border-[#2fbdef] bg-[#f0fafe] px-3.5 py-2 text-[0.88rem] font-semibold text-[#2fbdef] transition hover:bg-[#2fbdef] hover:text-white">
