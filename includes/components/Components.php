@@ -756,6 +756,8 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$experience}</div>
+                            <p class="mt-0.5 text-[0.64rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$experience_desc}</p>
+                        </div>
                     </li>
                     <!-- Stat 2: Rating -->
                     <li class="flex items-center gap-3 py-4 pl-4 md:px-7 md:py-0">
