@@ -64,6 +64,7 @@ class Header extends Component {
         $is_services = ($current_path === '/services' || strpos($current_path, '/services/') === 0 || $current_path === '/service.php');
         $is_doctors = ($current_path === '/doctors' || strpos($current_path, '/doctors/') === 0 || $current_path === '/doctor.php');
         $is_prices = ($current_path === '/prices' || $current_path === '/prices.php');
+        $is_seasons = (strpos($current_path, '/seasons/') === 0 || $current_path === '/season.php');
 
         $desktop_link_class = function ($is_active) {
             if ($is_active) {
@@ -75,23 +76,27 @@ class Header extends Component {
             return $is_active ? ' class="is-active" aria-current="page"' : '';
         };
 
-        $desktop_about_class = $desktop_link_class($is_about || $is_home);
+        $desktop_about_class = $desktop_link_class($is_about);
         $desktop_services_class = $desktop_link_class($is_services);
         $desktop_doctors_class = $desktop_link_class($is_doctors);
         $desktop_reviews_class = $desktop_link_class(false);
         $desktop_faq_class = $desktop_link_class(false);
         $desktop_prices_class = $desktop_link_class($is_prices);
         $desktop_contacts_class = $desktop_link_class(false);
+        $desktop_seasons_class = $desktop_link_class($is_seasons);
 
-        $desktop_about_aria = ($is_about || $is_home) ? ' aria-current="page"' : '';
+        $desktop_about_aria = $is_about ? ' aria-current="page"' : '';
         $desktop_services_aria = $is_services ? ' aria-current="page"' : '';
         $desktop_doctors_aria = $is_doctors ? ' aria-current="page"' : '';
         $desktop_prices_aria = $is_prices ? ' aria-current="page"' : '';
+        $desktop_seasons_aria = $is_seasons ? ' aria-current="page"' : '';
 
-        $mobile_about_attr = $mobile_link_attr($is_about || $is_home);
+        $mobile_about_attr = $mobile_link_attr($is_about);
         $mobile_services_attr = $mobile_link_attr($is_services);
         $mobile_doctors_attr = $mobile_link_attr($is_doctors);
         $mobile_prices_attr = $mobile_link_attr($is_prices);
+        $mobile_seasons_summary_attr = $is_seasons ? ' class="is-active"' : '';
+        $mobile_seasons_details_open = $is_seasons ? ' open' : '';
         $mobile_services_summary_attr = $is_services ? ' class="is-active"' : '';
         $mobile_services_details_open = $is_services ? ' open' : '';
 
@@ -232,6 +237,34 @@ class Header extends Component {
             $mobile_services_dropdown = '<a href="/services" onclick="closeMobMenu()"' . $mobile_services_attr . '>Услуги</a>';
         }
 
+        // Seasons link (current season by date)
+        $seasons_data = [
+            'spring' => ['name' => 'Весна', 'icon' => 'fa-seedling'],
+            'summer' => ['name' => 'Лето',  'icon' => 'fa-sun'],
+            'autumn' => ['name' => 'Осень', 'icon' => 'fa-leaf'],
+            'winter' => ['name' => 'Зима',  'icon' => 'fa-snowflake'],
+        ];
+        $actual_season_slug = bioinmed_current_season_slug();
+        if (!isset($seasons_data[$actual_season_slug])) {
+            $actual_season_slug = 'spring';
+        }
+        $desktop_seasons_main_href = '/seasons/' . $actual_season_slug;
+        $current_season_slug = '';
+        if (strpos($current_path, '/seasons/') === 0) {
+            $current_season_slug = (string)substr($current_path, strlen('/seasons/'));
+            $current_season_slug = trim($current_season_slug, '/');
+        } elseif ($current_path === '/season.php' && isset($_GET['slug'])) {
+            $current_season_slug = trim((string)$_GET['slug']);
+        }
+
+        $current_season_name = $seasons_data[$actual_season_slug]['name'];
+        $seasons_btn_class = $is_seasons
+            ? 'is-active text-[#2fbdef] border-b-2 border-transparent'
+            : 'text-[#173b64] border-b-2 border-transparent hover:text-[#2fbdef]';
+        $desktop_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" class="' . $seasons_btn_class . ' flex items-center gap-1 text-[0.86rem] font-medium"' . $desktop_seasons_aria . '>'
+            . 'Сезоны</a>';
+        $mobile_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" onclick="closeMobMenu()"' . $mobile_seasons_summary_attr . '>Сезоны: ' . $current_season_name . '</a>';
+
         return <<<HTML
         <header id="site-header" class="z-50 border-b border-[#d7e5f1] bg-[#f7fbff] lg:bg-[#f7fbff]/98 lg:backdrop-blur-md">
             <!-- ─── MOBILE HEADER ─── (hidden on lg+ via CSS) -->
@@ -320,6 +353,7 @@ class Header extends Component {
                         <a href="/#reviews" class="{$desktop_reviews_class}">Отзывы</a>
                         <a href="/#faq" class="{$desktop_faq_class}">Вопросы</a>
                         <a href="/prices" class="{$desktop_prices_class}"{$desktop_prices_aria}>Цены</a>
+                        {$desktop_seasons_dropdown}
                         <a href="/#contact" class="{$desktop_contacts_class}">Контакты</a>
                     </nav>
                     <div class="flex shrink-0 items-center gap-2">
@@ -355,6 +389,7 @@ class Header extends Component {
                 <a href="/#reviews" onclick="closeMobMenu()">Отзывы</a>
                 <a href="/#faq" onclick="closeMobMenu()">Вопросы</a>
                 <a href="/prices" onclick="closeMobMenu()"{$mobile_prices_attr}>Цены</a>
+                {$mobile_seasons_dropdown}
                 <a href="/#contact" onclick="closeMobMenu()">Контакты</a>
             </nav>
             <div style="margin-top:auto;border-top:1px solid #dce8f3;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
@@ -684,14 +719,14 @@ class Header extends Component {
 class HeroSection extends Component {
     public function render() {
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
-        $hero_image = defined('HERO_IMAGE') ? $this->e(HERO_IMAGE) : '/public/images/team/kostromina_i_v.png';
-        $chief_name = 'Инна Викторовна Костромина';
-        $chief_title = 'Главный врач клиники';
-
-        if (!empty($GLOBALS['doctors'][0]) && is_array($GLOBALS['doctors'][0])) {
-            $chief_name = $this->e($GLOBALS['doctors'][0]['name'] ?? $chief_name);
-            $chief_title = $this->e($GLOBALS['doctors'][0]['title'] ?? $chief_title);
+        $seasons = require __DIR__ . '/../../config/seasons.php';
+        $actual_slug = bioinmed_current_season_slug();
+        if (!isset($seasons[$actual_slug])) {
+            $actual_slug = 'spring';
         }
+        $actual_season_name = $this->e((string)($seasons[$actual_slug]['name'] ?? 'Весна'));
+        $actual_season_color = $this->e((string)($seasons[$actual_slug]['color'] ?? '#2fbdef'));
+        $actual_season_href = $this->e('/seasons/' . $actual_slug);
 
         return <<<HTML
         <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_36%,#deedf8_100%)] lg:h-[calc(100svh-var(--header-height,0px))]" style="height:calc(100svh - var(--header-height, 0px));min-height:calc(100svh - var(--header-height, 0px));">
@@ -700,57 +735,51 @@ class HeroSection extends Component {
             <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
             <div class="pointer-events-none absolute bottom-0 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#2fbdef14] blur-3xl md:h-72 md:w-72"></div>
 
-            <div class="relative mx-auto flex max-w-6xl items-center px-6 py-4 md:px-10 md:py-5 lg:h-full lg:py-2">
-                <div class="w-full lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-4">
+            <div class="relative mx-auto flex max-w-6xl items-center px-6 py-5 md:px-10 md:py-7 lg:h-full lg:py-14">
+                <div class="w-full lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center lg:gap-10">
                     <div class="max-w-3xl lg:flex lg:h-full lg:min-h-0 lg:flex-col lg:justify-center">
-                            <p class="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Клиника интегративной медицины</p>
-                            <h1 class="mt-2 max-w-3xl text-[1.4rem] font-bold leading-[1.02] text-[#0f2749] sm:text-[1.76rem] md:text-[1.92rem] lg:text-[2rem]">
+                            <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
+                                <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
+                                Сезон: {$actual_season_name}
+                                <i class="fa-solid fa-arrow-right text-[0.56rem]" aria-hidden="true"></i>
+                            </a>
+                            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Клиника интегративной медицины</p>
+                            <h1 class="mt-3 max-w-3xl text-[1.52rem] font-bold leading-[1.02] text-[#0f2749] sm:text-[1.9rem] md:text-[2.08rem] lg:text-[2.18rem]">
                                 Медицина - это искусство выздоровления
                             </h1>
-                            <p class="mt-1.5 max-w-xl text-[0.82rem] font-semibold leading-snug text-[#173b64] md:text-[0.88rem]">
+                            <p class="mt-2.5 max-w-xl text-[0.88rem] font-semibold leading-snug text-[#173b64] md:text-[0.94rem]">
                                 С нами выздоравливать легко.
                             </p>
-                            <p class="mt-1.5 max-w-xl text-[0.76rem] leading-relaxed text-[#4a6f96] md:text-[0.82rem]">
+                            <p class="mt-2 max-w-xl text-[0.82rem] leading-relaxed text-[#4a6f96] md:text-[0.88rem]">
                                 Подберём специалиста, проведём диагностику и выстроим понятный маршрут восстановления.
                             </p>
 
-                            <div class="mt-2.5 flex max-w-xl items-center gap-3 rounded-[1.15rem] border border-[#d6e4f0] bg-white p-2.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)]">
-                                <div class="h-14 w-14 shrink-0 overflow-hidden rounded-2xl border border-[#c9d9ed] bg-[linear-gradient(180deg,#edf6fd_0%,#dcebf7_100%)] md:h-16 md:w-16">
-                                    <img src="{$hero_image}" alt="{$chief_name}" class="h-full w-full object-cover object-top" loading="eager">
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#2a5a94]">{$chief_title}</p>
-                                    <p class="mt-0.5 text-[0.9rem] font-bold leading-tight text-[#0f2749] md:text-[0.98rem]">{$chief_name}</p>
-                                    <p class="mt-1 text-[0.68rem] leading-relaxed text-[#4a6f96] md:text-[0.72rem]">Путь к восстановлению должен быть понятным и системным.</p>
-                                </div>
-                            </div>
-
-                            <div class="mt-2.5 flex w-full flex-col gap-2 sm:max-w-xl sm:flex-row sm:flex-wrap">
+                            <div class="mt-4 flex w-full flex-col gap-2.5 sm:max-w-xl sm:flex-row sm:flex-wrap">
                                 <div class="flex w-full items-center gap-2 rounded-full border border-[#d6e4f0] bg-white px-3 py-1.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)] sm:inline-flex sm:w-auto">
                                     <i class="fa-solid fa-wave-square text-[0.72rem] text-[#2fbdef]" aria-hidden="true"></i>
-                                    <p class="text-[0.72rem] font-semibold text-[#214a7f]">Диагностика первопричин</p>
+                                    <p class="text-[0.78rem] font-semibold text-[#214a7f]">Диагностика первопричин</p>
                                 </div>
                                 <div class="flex w-full items-center gap-2 rounded-full border border-[#d6e4f0] bg-white px-3 py-1.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)] sm:inline-flex sm:w-auto">
                                     <i class="fa-solid fa-user-doctor text-[0.72rem] text-[#2fbdef]" aria-hidden="true"></i>
-                                    <p class="text-[0.72rem] font-semibold text-[#214a7f]">Врачи с опытом 20-30+ лет</p>
+                                    <p class="text-[0.78rem] font-semibold text-[#214a7f]">Врачи с опытом 20-30+ лет</p>
                                 </div>
                             </div>
 
                     </div>
 
-                    <div class="mt-3 w-full max-w-3xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:p-3.5 lg:mt-0 lg:max-w-none lg:self-center">
+                    <div class="mt-5 w-full max-w-3xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4 lg:mt-0 lg:max-w-none lg:self-center">
                         <div class="flex items-center justify-between gap-3">
                                     <div>
-                                        <h2 class="text-[0.92rem] font-bold text-[#0f2749] md:text-[1rem]">Записаться на приём</h2>
-                                        <p id="hero-form-note" class="mt-1 text-[0.72rem] leading-relaxed text-[#4a6f96]">Оставьте номер, и мы свяжемся с вами.</p>
+                                        <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]">Записаться на приём</h2>
+                                        <p id="hero-form-note" class="mt-1 text-[0.76rem] leading-relaxed text-[#4a6f96]">Оставьте номер, и мы свяжемся с вами.</p>
                                     </div>
                                 </div>
 
-                        <form class="mt-2.5" action="{$booking_url}" method="post" aria-describedby="hero-form-note">
+                        <form class="mt-3" action="{$booking_url}" method="post" aria-describedby="hero-form-note">
                             <input type="hidden" name="source" value="homepage-hero">
-                            <div class="space-y-2">
+                            <div class="space-y-2.5">
                                 <div>
-                                    <label for="hero-phone-input" class="mb-1 block text-[0.64rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
+                                    <label for="hero-phone-input" class="mb-1 block text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
                                     <input
                                         type="tel"
                                         id="hero-phone-input"
@@ -759,19 +788,19 @@ class HeroSection extends Component {
                                         inputmode="tel"
                                         required
                                         placeholder="Ваш телефон"
-                                        class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.82rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
+                                        class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.86rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
                                         aria-label="Введите номер телефона"
                                     />
                                 </div>
                                 <button
                                     type="submit"
-                                    class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.82rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
+                                    class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.86rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
                                 >
                                     Перезвоните мне
                                 </button>
                             </div>
 
-                            <label class="mt-2 flex items-start gap-2 text-[0.63rem] leading-snug text-[#355b89]">
+                            <label class="mt-2.5 flex items-start gap-2 text-[0.66rem] leading-snug text-[#355b89]">
                                 <input
                                     type="checkbox"
                                     required
@@ -1521,6 +1550,53 @@ class ContactSection extends Component {
     }
 }
 
+class SeasonsBlock extends Component {
+    public function render() {
+        $seasons = require __DIR__ . '/../../config/seasons.php';
+
+        $actual_slug = bioinmed_current_season_slug();
+        if (!isset($seasons[$actual_slug])) {
+            $actual_slug = 'spring';
+        }
+        $actual = $seasons[$actual_slug];
+        $name = $this->e($actual['name']);
+        $color = $this->e($actual['color']);
+        $color_light = $this->e($actual['color_light'] ?? '#edf4fb');
+        $image_desktop = $this->e($actual['image_desktop'] ?? $actual['image']);
+        $image_mobile = $this->e($actual['image_mobile'] ?? $actual['image']);
+        $image_alt = $this->e($actual['image_alt'] ?? $actual['name']);
+        $image_mobile_alt = $this->e($actual['image_mobile_alt'] ?? ($actual['image_alt'] ?? $actual['name']));
+        $slogan = $this->e($actual['slogan']);
+        $quote = $this->e($actual['quote'] ?? '');
+        $href = $this->e('/seasons/' . $actual_slug);
+
+        return <<<HTML
+        <section class="py-0" style="background:linear-gradient(180deg,#ffffff 0%, {$color_light} 100%);" aria-labelledby="seasons-heading">
+            <div class="relative min-h-[500px] w-screen overflow-hidden shadow-[0_24px_56px_rgba(6,22,38,0.16)] md:min-h-[640px]">
+                <div class="absolute inset-0 hidden bg-cover bg-center bg-no-repeat md:block" style="background-image:url('{$image_desktop}');" role="img" aria-label="{$image_alt}"></div>
+                <div class="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden" style="background-image:url('{$image_mobile}');" role="img" aria-label="{$image_mobile_alt}"></div>
+                <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.10) 100%)"></div>
+
+                <div class="relative z-[1] flex min-h-[500px] flex-col justify-end pb-10 pt-14 md:min-h-[640px] md:pb-12 md:pt-16">
+                    <div class="mx-auto max-w-6xl px-6 md:px-10">
+                        <div class="max-w-2xl">
+                            <p class="mb-2.5 text-[0.68rem] font-semibold uppercase tracking-[0.2em]" style="color:{$color}">Времена года</p>
+                            <h2 id="seasons-heading" class="mb-4 text-4xl font-black leading-none text-white md:text-6xl">{$name}</h2>
+                            <p class="mb-4 max-w-xl text-[0.9rem] font-light text-white/92 md:text-[1.04rem]">{$slogan}</p>
+                            <blockquote class="max-w-2xl border-l-4 pl-3.5 text-[0.78rem] italic leading-relaxed text-white/86 md:text-[0.86rem]" style="border-color:{$color}">{$quote}</blockquote>
+                            <a href="{$href}" class="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.74rem] font-semibold text-[#123a63] shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:bg-[#f2fbff]">
+                                Подробнее
+                                <i class="fa-solid fa-arrow-right text-[0.68rem]" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        HTML;
+    }
+}
+
 class Footer extends Component {
     public function render() {
         $vk = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
@@ -1534,7 +1610,7 @@ class Footer extends Component {
             : '';
 
         return <<<HTML
-        <footer class="bg-gradient-to-b from-[#f4f9ff] to-[#e8f1fa] border-t-4 border-[#2fbdef]">
+        <footer class="bg-gradient-to-b from-[#f4f9ff] to-[#e8f1fa] border-t-2 border-[#2fbdef]">
             <div class="mx-auto max-w-6xl px-6 md:px-10 py-12 md:py-16">
                 <!-- Верхняя часть подвала -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">

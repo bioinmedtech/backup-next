@@ -30,19 +30,10 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
     <meta name="robots" content="noindex,follow,noarchive">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
     <meta name="theme-color" content="#2fbdef">
-    <meta property="og:locale" content="ru_RU">
-    <meta property="og:site_name" content="<?php echo e(CLINIC_NAME); ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<?php echo e($pageTitle); ?>">
-    <meta property="og:description" content="<?php echo e($pageDescription); ?>">
-    <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
-    <meta property="og:image" content="<?php echo e($iconUrl); ?>">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php echo e($pageTitle); ?>">
-    <meta name="twitter:description" content="<?php echo e($pageDescription); ?>">
-    <meta name="twitter:image" content="<?php echo e($iconUrl); ?>">
-    <link rel="icon" type="image/png" href="<?php echo e($iconPath); ?>">
-    <link rel="apple-touch-icon" href="<?php echo e($iconPath); ?>">
+    <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
+        'image' => bioinmed_default_social_image_url(),
+    ]); ?>
+    <?php echo bioinmed_render_favicon_links($iconPath); ?>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>

@@ -140,19 +140,12 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
     <meta name="robots" content="<?php echo $robotsContent; ?>">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
     <meta name="theme-color" content="#2fbdef">
-    <meta property="og:locale" content="ru_RU">
-    <meta property="og:site_name" content="<?php echo e(CLINIC_NAME); ?>">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="<?php echo $pageTitle; ?>">
-    <meta property="og:description" content="<?php echo $pageDesc; ?>">
-    <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
-    <meta property="og:image" content="<?php echo e($socialImageUrl); ?>">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php echo $pageTitle; ?>">
-    <meta name="twitter:description" content="<?php echo $pageDesc; ?>">
-    <meta name="twitter:image" content="<?php echo e($socialImageUrl); ?>">
-    <link rel="icon" type="image/png" href="<?php echo $iconPath; ?>">
-    <link rel="apple-touch-icon" href="<?php echo $iconPath; ?>">
+    <?php echo bioinmed_render_social_meta($pageTitle, $pageDesc, $canonicalUrl, [
+        'type' => 'article',
+        'image' => $socialImageUrl,
+        'image_alt' => $service['name'] ?? (CLINIC_NAME . ' — услуга клиники'),
+    ]); ?>
+    <?php echo bioinmed_render_favicon_links($iconPath); ?>
     <?php if ($service): ?>
     <script type="application/ld+json"><?php echo json_encode([
         '@context'       => 'https://schema.org',

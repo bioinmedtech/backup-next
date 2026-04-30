@@ -29,19 +29,10 @@ function e($value) {
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
     <meta name="theme-color" content="#2fbdef">
-    <meta property="og:locale" content="ru_RU">
-    <meta property="og:site_name" content="<?php echo e(CLINIC_NAME); ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<?php echo e($pageTitle); ?>">
-    <meta property="og:description" content="<?php echo e($pageDescription); ?>">
-    <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
-    <meta property="og:image" content="<?php echo e($socialImageUrl); ?>">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php echo e($pageTitle); ?>">
-    <meta name="twitter:description" content="<?php echo e($pageDescription); ?>">
-    <meta name="twitter:image" content="<?php echo e($socialImageUrl); ?>">
-    <link rel="icon" type="image/png" href="<?php echo e($iconPath); ?>">
-    <link rel="apple-touch-icon" href="<?php echo e($iconPath); ?>">
+    <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
+        'image' => $socialImageUrl,
+    ]); ?>
+    <?php echo bioinmed_render_favicon_links($iconPath); ?>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>

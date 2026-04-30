@@ -37,20 +37,10 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <link rel="canonical" href="<?php echo $canonicalUrl; ?>">
     <meta name="theme-color" content="#2fbdef">
-    <meta property="og:locale" content="ru_RU">
-    <meta property="og:site_name" content="<?php echo htmlspecialchars(CLINIC_NAME, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta property="og:description" content="<?php echo htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta property="og:url" content="<?php echo $canonicalUrl; ?>">
-    <meta property="og:image" content="<?php echo $socialImageUrl; ?>">
-    <meta property="og:image:alt" content="<?php echo htmlspecialchars(CLINIC_NAME . ' — клиника интегративной медицины', ENT_QUOTES, 'UTF-8'); ?>">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta name="twitter:description" content="<?php echo htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta name="twitter:image" content="<?php echo $socialImageUrl; ?>">
-    <link rel="icon" type="image/png" href="<?php echo $iconPath; ?>">
-    <link rel="apple-touch-icon" href="<?php echo $iconPath; ?>">
+    <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
+        'image' => $socialImageUrl,
+    ]); ?>
+    <?php echo bioinmed_render_favicon_links($iconPath); ?>
     
     <title><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></title>
     
@@ -198,7 +188,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     $cases_section = new CasesSlider($brand_colors);
     echo $cases_section->render();
     ?>
-    
+
     <!-- Popular Services -->
     <?php
     $services_section = new ServicesGrid($services, $brand_colors, ['show_images' => false]);

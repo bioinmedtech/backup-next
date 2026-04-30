@@ -55,11 +55,144 @@ function bioinmed_absolute_url($path = '') {
 }
 
 function bioinmed_default_social_image_path() {
-    return '/public/images/brand/logo-white-scaled.webp';
+    return '/public/images/brand/og-preview-bioinmed.jpg';
 }
 
 function bioinmed_default_social_image_url() {
     return bioinmed_absolute_url(bioinmed_default_social_image_path());
+}
+
+function bioinmed_current_season_slug($timestamp = null) {
+    if ($timestamp instanceof DateTimeInterface) {
+        $dt = (new DateTimeImmutable($timestamp->format('c')))->setTimezone(new DateTimeZone('Europe/Moscow'));
+    } elseif (is_int($timestamp) || (is_string($timestamp) && ctype_digit($timestamp))) {
+        $dt = (new DateTimeImmutable('@' . (int)$timestamp))->setTimezone(new DateTimeZone('Europe/Moscow'));
+    } else {
+        $dt = new DateTimeImmutable('now', new DateTimeZone('Europe/Moscow'));
+    }
+
+    $month = (int)$dt->format('n');
+    if ($month >= 3 && $month <= 5) {
+        return 'spring';
+    }
+    if ($month >= 6 && $month <= 8) {
+        return 'summer';
+    }
+    if ($month >= 9 && $month <= 11) {
+        return 'autumn';
+    }
+
+    return 'winter';
+}
+
+function bioinmed_social_image_meta($image_url = '', $alt = '') {
+    $url = trim((string)$image_url);
+    if ($url === '') {
+        $url = bioinmed_default_social_image_url();
+    }
+
+    if (!preg_match('~^https?://~i', $url)) {
+        $url = bioinmed_absolute_url($url);
+    }
+
+    $meta = [
+        'url' => $url,
+        'alt' => trim((string)$alt) !== '' ? trim((string)$alt) : (CLINIC_NAME . ' — клиника интегративной медицины'),
+        'width' => null,
+        'height' => null,
+        'type' => null,
+    ];
+
+    $site_host = (string)parse_url(CLINIC_SITE_URL, PHP_URL_HOST);
+    $image_host = (string)parse_url($url, PHP_URL_HOST);
+    $image_path = (string)parse_url($url, PHP_URL_PATH);
+
+    if ($image_host === '' || strcasecmp($image_host, $site_host) === 0) {
+        $local_path = __DIR__ . '/' . ltrim($image_path, '/');
+        if (is_file($local_path)) {
+            $image_size = @getimagesize($local_path);
+            if (is_array($image_size)) {
+                $meta['width'] = isset($image_size[0]) ? (int)$image_size[0] : null;
+                $meta['height'] = isset($image_size[1]) ? (int)$image_size[1] : null;
+                $meta['type'] = isset($image_size['mime']) ? (string)$image_size['mime'] : null;
+            }
+        }
+    }
+
+    return $meta;
+}
+
+function bioinmed_render_social_meta($title, $description, $canonical_url, array $options = []) {
+    $escape = static function ($value) {
+        return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    };
+
+    $og_type = trim((string)($options['type'] ?? 'website'));
+    if ($og_type === '') {
+        $og_type = 'website';
+    }
+
+    $image_meta = bioinmed_social_image_meta(
+        $options['image'] ?? '',
+        $options['image_alt'] ?? ($options['twitter_image_alt'] ?? '')
+    );
+
+    $lines = [
+        '<meta property="og:locale" content="ru_RU">',
+        '<meta property="og:site_name" content="' . $escape(CLINIC_NAME) . '">',
+        '<meta property="og:type" content="' . $escape($og_type) . '">',
+        '<meta property="og:title" content="' . $escape($title) . '">',
+        '<meta property="og:description" content="' . $escape($description) . '">',
+        '<meta property="og:url" content="' . $escape($canonical_url) . '">',
+        '<meta property="og:image" content="' . $escape($image_meta['url']) . '">',
+        '<meta property="og:image:url" content="' . $escape($image_meta['url']) . '">',
+    ];
+
+    if (stripos($image_meta['url'], 'https://') === 0) {
+        $lines[] = '<meta property="og:image:secure_url" content="' . $escape($image_meta['url']) . '">';
+    }
+    if (!empty($image_meta['type'])) {
+        $lines[] = '<meta property="og:image:type" content="' . $escape($image_meta['type']) . '">';
+    }
+    if (!empty($image_meta['width'])) {
+        $lines[] = '<meta property="og:image:width" content="' . $escape((string)$image_meta['width']) . '">';
+    }
+    if (!empty($image_meta['height'])) {
+        $lines[] = '<meta property="og:image:height" content="' . $escape((string)$image_meta['height']) . '">';
+    }
+    if (!empty($image_meta['alt'])) {
+        $lines[] = '<meta property="og:image:alt" content="' . $escape($image_meta['alt']) . '">';
+    }
+
+    $lines[] = '<meta name="twitter:card" content="summary_large_image">';
+    $lines[] = '<meta name="twitter:title" content="' . $escape($title) . '">';
+    $lines[] = '<meta name="twitter:description" content="' . $escape($description) . '">';
+    $lines[] = '<meta name="twitter:image" content="' . $escape($image_meta['url']) . '">';
+    $domain = (string)parse_url(CLINIC_SITE_URL, PHP_URL_HOST);
+    if ($domain !== '') {
+        $lines[] = '<meta name="twitter:domain" content="' . $escape($domain) . '">';
+    }
+    if (!empty($image_meta['alt'])) {
+        $lines[] = '<meta name="twitter:image:alt" content="' . $escape($image_meta['alt']) . '">';
+    }
+
+    return implode("\n    ", $lines);
+}
+
+function bioinmed_render_favicon_links($icon_path = null) {
+    $path = trim((string)($icon_path ?? CLINIC_ICON_PATH));
+    if ($path === '') {
+        return '';
+    }
+
+    $escape = static function ($value) {
+        return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    };
+
+    $icon = $escape($path);
+    return '<link rel="icon" type="image/png" href="' . $icon . '">'
+        . "\n    "
+        . '<link rel="apple-touch-icon" href="' . $icon . '">';
 }
 
 function bioinmed_medical_organization_schema() {

@@ -123,19 +123,10 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
     <meta name="theme-color" content="#2fbdef">
-    <meta property="og:locale" content="ru_RU">
-    <meta property="og:site_name" content="<?php echo e(CLINIC_NAME); ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<?php echo e($pageTitle); ?>">
-    <meta property="og:description" content="<?php echo e($pageDescription); ?>">
-    <meta property="og:url" content="<?php echo e($canonicalUrl); ?>">
-    <meta property="og:image" content="<?php echo $socialImageUrl; ?>">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php echo e($pageTitle); ?>">
-    <meta name="twitter:description" content="<?php echo e($pageDescription); ?>">
-    <meta name="twitter:image" content="<?php echo $socialImageUrl; ?>">
-    <link rel="icon" type="image/png" href="<?php echo $iconPath; ?>">
-    <link rel="apple-touch-icon" href="<?php echo $iconPath; ?>">
+    <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
+        'image' => $socialImageUrl,
+    ]); ?>
+    <?php echo bioinmed_render_favicon_links($iconPath); ?>
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>

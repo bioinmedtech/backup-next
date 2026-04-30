@@ -5,7 +5,7 @@ return array (
   array (
     'id' => 'hobilect-diagnostics',
     'name' => 'Комплексная диагностика организма HABILECT',
-    'subtitle' => 'Ключевая услуга клиники',
+    'subtitle' => 'Флагманская диагностика клиники',
     'category' => 'diagnostics',
     'price' => 'от 9 900 ₽',
     'price_note' => '',
