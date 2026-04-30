@@ -432,8 +432,6 @@ echo $header->render();
 
                         <form id="service-book-form" class="mt-4 space-y-3">
                             <input type="hidden" name="service" value="<?php echo e($service['name']); ?>">
-                            <input type="text" name="patient_name" placeholder="Ваше имя"
-                                   class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-4 py-3 text-sm text-[#173f73] outline-none focus:border-[#2fbdef] focus:ring-2 focus:ring-[#2fbdef]/15">
                             <input type="tel" name="phone" id="svc-phone-input" required
                                    placeholder="+7 999 000 11 22"
                                    class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-4 py-3 text-sm text-[#173f73] outline-none focus:border-[#2fbdef] focus:ring-2 focus:ring-[#2fbdef]/15">

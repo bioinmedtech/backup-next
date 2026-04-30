@@ -60,6 +60,7 @@ class Header extends Component {
         }
 
         $is_home = ($current_path === '/' || $current_path === '/index.php');
+        $is_about = ($current_path === '/about' || $current_path === '/about.php');
         $is_services = ($current_path === '/services' || strpos($current_path, '/services/') === 0 || $current_path === '/service.php');
         $is_doctors = ($current_path === '/doctors' || strpos($current_path, '/doctors/') === 0 || $current_path === '/doctor.php');
         $is_prices = ($current_path === '/prices' || $current_path === '/prices.php');
@@ -74,7 +75,7 @@ class Header extends Component {
             return $is_active ? ' class="is-active" aria-current="page"' : '';
         };
 
-        $desktop_about_class = $desktop_link_class($is_home);
+        $desktop_about_class = $desktop_link_class($is_about || $is_home);
         $desktop_services_class = $desktop_link_class($is_services);
         $desktop_doctors_class = $desktop_link_class($is_doctors);
         $desktop_reviews_class = $desktop_link_class(false);
@@ -82,12 +83,12 @@ class Header extends Component {
         $desktop_prices_class = $desktop_link_class($is_prices);
         $desktop_contacts_class = $desktop_link_class(false);
 
-        $desktop_about_aria = $is_home ? ' aria-current="page"' : '';
+        $desktop_about_aria = ($is_about || $is_home) ? ' aria-current="page"' : '';
         $desktop_services_aria = $is_services ? ' aria-current="page"' : '';
         $desktop_doctors_aria = $is_doctors ? ' aria-current="page"' : '';
         $desktop_prices_aria = $is_prices ? ' aria-current="page"' : '';
 
-        $mobile_about_attr = $mobile_link_attr($is_home);
+        $mobile_about_attr = $mobile_link_attr($is_about || $is_home);
         $mobile_services_attr = $mobile_link_attr($is_services);
         $mobile_doctors_attr = $mobile_link_attr($is_doctors);
         $mobile_prices_attr = $mobile_link_attr($is_prices);
@@ -300,7 +301,7 @@ class Header extends Component {
                         </div>
 
                         <div class="pt-1 text-right">
-                            <a href="{$booking_url}" class="inline-flex h-10 w-auto min-w-[156px] items-center justify-center rounded-full bg-[#2fbdef] px-4 text-[0.88rem] font-medium text-white shadow-[0_10px_24px_rgba(47,189,239,0.2)] transition hover:bg-[#1fb3d8]">
+                            <a href="{$booking_url}" onclick="openBookingPopup();return false;" class="inline-flex h-10 w-auto min-w-[156px] items-center justify-center rounded-full bg-[#2fbdef] px-4 text-[0.88rem] font-medium text-white shadow-[0_10px_24px_rgba(47,189,239,0.2)] transition hover:bg-[#1fb3d8]">
                                 Онлайн запись
                             </a>
                         </div>
@@ -313,7 +314,7 @@ class Header extends Component {
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div id="desktop-menu-row" class="desktop-menu-row flex items-center justify-between py-2.5">
                     <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.86rem] font-medium text-[#173b64] lg:overflow-visible">
-                        <a href="/#advantages" class="{$desktop_about_class}"{$desktop_about_aria}>О клинике</a>
+                        <a href="/about" class="{$desktop_about_class}"{$desktop_about_aria}>О клинике</a>
                         {$desktop_services_dropdown}
                         <a href="/doctors" class="{$desktop_doctors_class}"{$desktop_doctors_aria}>Специалисты</a>
                         <a href="/#reviews" class="{$desktop_reviews_class}">Отзывы</a>
@@ -348,7 +349,7 @@ class Header extends Component {
                 <p style="font-size:0.73rem;color:#2d86ca;margin:2px 0 0;">{$this->e(CLINIC_HOURS)}</p>
             </div>
             <nav id="mob-nav">
-                <a href="/#advantages" onclick="closeMobMenu()"{$mobile_about_attr}>О клинике</a>
+                <a href="/about" onclick="closeMobMenu()"{$mobile_about_attr}>О клинике</a>
                 {$mobile_services_dropdown}
                 <a href="/doctors" onclick="closeMobMenu()"{$mobile_doctors_attr}>Специалисты</a>
                 <a href="/#reviews" onclick="closeMobMenu()">Отзывы</a>
@@ -361,7 +362,7 @@ class Header extends Component {
                     <i class="fa-solid fa-phone-volume" style="color:#2fbdef;" aria-hidden="true"></i>
                     {$phone_1}
                 </a>
-                <a href="{$booking_url}" style="display:flex;height:44px;align-items:center;justify-content:center;border-radius:9999px;background:#2fbdef;font-size:0.88rem;font-weight:500;color:#fff;text-decoration:none;">
+                <a href="{$booking_url}" onclick="openBookingPopup(true);return false;" style="display:flex;height:44px;align-items:center;justify-content:center;border-radius:9999px;background:#2fbdef;font-size:0.88rem;font-weight:500;color:#fff;text-decoration:none;">
                     Онлайн запись
                 </a>
                 <div style="display:flex;gap:8px;">
@@ -372,6 +373,32 @@ class Header extends Component {
                         <i class="fa-brands fa-vk" style="font-size:0.76rem;" aria-hidden="true"></i>
                     </a>
                 </div>
+            </div>
+        </div>
+        <div id="booking-popup-backdrop" onclick="closeBookingPopup()"></div>
+        <div id="booking-popup" role="dialog" aria-modal="true" aria-labelledby="booking-popup-title">
+            <div class="booking-popup-card">
+                <button type="button" class="booking-popup-close" onclick="closeBookingPopup()" aria-label="Закрыть окно записи">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+                <p class="booking-popup-eyebrow">Онлайн запись</p>
+                <h2 id="booking-popup-title" class="booking-popup-title">Оставьте номер телефона</h2>
+                <p class="booking-popup-text">Мы перезвоним и подберем удобное время приема.</p>
+                <form action="{$booking_url}" method="post" class="booking-popup-form">
+                    <input type="hidden" name="source" value="header-popup">
+                    <label for="booking-popup-phone" class="booking-popup-label">Номер телефона</label>
+                    <input
+                        type="tel"
+                        id="booking-popup-phone"
+                        name="phone"
+                        autocomplete="tel"
+                        inputmode="tel"
+                        required
+                        placeholder="Ваш телефон"
+                        class="booking-popup-input"
+                    >
+                    <button type="submit" class="booking-popup-submit">Перезвоните мне</button>
+                </form>
             </div>
         </div>
         <style>
@@ -403,16 +430,48 @@ class Header extends Component {
             .menu-strip{scrollbar-width:none}
             .menu-strip::-webkit-scrollbar{display:none}
             .menu-strip a{display:inline-flex;align-items:center;padding-bottom:2px;transition:color .2s ease,border-color .2s ease}
-            .menu-strip a.is-active{font-weight:700}
-            #mob-nav a.is-active{color:#2fbdef;font-weight:700}
-            #mob-nav details>summary.is-active{color:#2fbdef;font-weight:700}
+            .menu-strip a.is-active{}
+            #mob-nav a.is-active{color:#2fbdef}
+            #mob-nav details>summary.is-active{color:#2fbdef}
             #mob-nav details>summary.is-active i{color:#2fbdef}
-            .mob-subnav a.is-active{color:#2fbdef!important;font-weight:700!important}
+            .mob-subnav a.is-active{color:#2fbdef!important}
+            #booking-popup-backdrop{display:none;position:fixed;inset:0;z-index:120;background:rgba(12,31,52,.55)}
+            #booking-popup-backdrop.open{display:block}
+            #booking-popup{display:none;position:fixed;inset:0;z-index:121;align-items:center;justify-content:center;padding:20px}
+            #booking-popup.open{display:flex}
+            .booking-popup-card{position:relative;width:min(100%,420px);border:1px solid #d8e6f3;border-radius:24px;background:#fff;padding:22px;box-shadow:0 20px 44px rgba(8,36,70,.2)}
+            .booking-popup-close{position:absolute;top:12px;right:12px;display:flex;height:32px;width:32px;align-items:center;justify-content:center;border:1px solid #dce8f3;border-radius:9999px;background:#fff;color:#355b89;cursor:pointer}
+            .booking-popup-eyebrow{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#2a5a94}
+            .booking-popup-title{margin-top:6px;font-size:1.16rem;font-weight:700;line-height:1.2;color:#0f2749}
+            .booking-popup-text{margin-top:8px;font-size:.82rem;line-height:1.45;color:#4a6f96}
+            .booking-popup-form{margin-top:14px}
+            .booking-popup-label{display:block;margin-bottom:6px;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4a6f96}
+            .booking-popup-input{width:100%;border:1px solid #d6e2ee;border-radius:9999px;background:#f9fcff;padding:11px 16px;font-size:.86rem;color:#173f73;outline:none}
+            .booking-popup-input:focus{border-color:#2fbdef;box-shadow:0 0 0 3px rgba(47,189,239,.16)}
+            .booking-popup-submit{margin-top:10px;width:100%;border:0;border-radius:9999px;background:#2fbdef;padding:11px 16px;font-size:.86rem;font-weight:700;color:#fff;cursor:pointer}
+            .booking-popup-submit:hover{background:#1fb3d8}
         </style>
         <script>
             function toggleMobMenu(){var m=document.getElementById('mob-menu');if(m.classList.contains('open')){closeMobMenu();}else{m.classList.add('open');document.getElementById('mob-backdrop').classList.add('open');document.getElementById('mob-icon').className='fa-solid fa-xmark';document.getElementById('mob-toggle').setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}}
             function closeMobMenu(){document.getElementById('mob-menu').classList.remove('open');document.getElementById('mob-backdrop').classList.remove('open');document.getElementById('mob-icon').className='fa-solid fa-bars';document.getElementById('mob-toggle').setAttribute('aria-expanded','false');document.body.style.overflow='';}
-            document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMobMenu();});
+            function openBookingPopup(closeMobileMenu){
+                if(closeMobileMenu){closeMobMenu();}
+                var popup=document.getElementById('booking-popup');
+                var backdrop=document.getElementById('booking-popup-backdrop');
+                if(!popup||!backdrop){return;}
+                popup.classList.add('open');
+                backdrop.classList.add('open');
+                document.body.style.overflow='hidden';
+                setTimeout(function(){var input=document.getElementById('booking-popup-phone');if(input){input.focus();}},20);
+            }
+            function closeBookingPopup(){
+                var popup=document.getElementById('booking-popup');
+                var backdrop=document.getElementById('booking-popup-backdrop');
+                if(popup){popup.classList.remove('open');}
+                if(backdrop){backdrop.classList.remove('open');}
+                document.body.style.overflow='';
+            }
+            document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeMobMenu();closeBookingPopup();}});
             window.addEventListener('resize',function(){if(window.innerWidth>=1024)closeMobMenu();});
             function updateHeaderMetrics(){
                 var h=document.getElementById('site-header');
@@ -866,6 +925,12 @@ class ProblemsGrid extends Component {
             'афк' => 'physiotherapy-comprehensive',
             'биорезонанс' => 'chief-doctor-consultation',
             'гомеопат' => 'chief-doctor-consultation',
+            'озон' => 'ozone-therapy',
+            'озонова' => 'ozone-therapy',
+            'капельниц' => 'infusion-therapy',
+            'инфузион' => 'infusion-therapy',
+            'микропунктур' => 'mikropunktura-aurikulyarnaya',
+            'консультация главного' => 'chief-doctor-consultation',
         ];
 
         $items_html = '';
@@ -1511,7 +1576,7 @@ class Footer extends Component {
                     <div>
                         <h4 class="text-sm font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Компания</h4>
                         <ul class="space-y-2">
-                            <li><a href="/" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">О клинике</a></li>
+                            <li><a href="/about" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">О клинике</a></li>
                             <li><a href="/doctors" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Специалисты</a></li>
                             <li><a href="/prices" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Прайс-лист</a></li>
                             <li><a href="/privacy.php" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Политика конфиденциальности</a></li>
