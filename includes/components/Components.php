@@ -23,12 +23,12 @@ class Component {
 
     protected function sectionTitle($eyebrow, $title, $subtitle = '') {
         $subtitle_html = $subtitle !== ''
-            ? '<p class="mt-2.5 max-w-2xl text-[0.88rem] leading-relaxed text-[#355b89]">' . $this->e($subtitle) . '</p>'
+            ? '<p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">' . $this->e($subtitle) . '</p>'
             : '';
 
         return <<<HTML
         <div class="mb-7">
-            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-[#2fbdef]">{$this->e($eyebrow)}</p>
+            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">{$this->e($eyebrow)}</p>
             <h2 class="mt-1.5 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($title)}</h2>
             {$subtitle_html}
         </div>
@@ -272,14 +272,14 @@ class Header extends Component {
                 <!-- Row 1: logo + phone + burger -->
                 <div class="flex items-center justify-between px-4 py-2.5">
                     <a href="/" class="inline-flex items-center">
-                        <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-10 w-auto" loading="eager">
+                        <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-12 w-auto" loading="eager">
                     </a>
                     <div class="flex items-center gap-2">
-                        <a href="tel:{$phone_1_link}" aria-label="Позвонить" class="flex h-9 w-9 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#2fbdef]">
-                            <i class="fa-solid fa-phone text-[0.78rem]" aria-hidden="true"></i>
+                        <a href="tel:{$phone_1_link}" aria-label="Позвонить" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#2fbdef]">
+                            <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
                         </a>
-                        <button id="mob-toggle" onclick="toggleMobMenu()" aria-label="Меню" aria-expanded="false" class="flex h-9 w-9 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef]">
-                            <i id="mob-icon" class="fa-solid fa-bars text-[0.82rem]" aria-hidden="true"></i>
+                        <button id="mob-toggle" onclick="toggleMobMenu()" aria-label="Меню" aria-expanded="false" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef]">
+                            <i id="mob-icon" class="fa-solid fa-bars text-[0.9rem]" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -287,11 +287,11 @@ class Header extends Component {
                 <div class="border-t border-[#e4eef7] bg-[#f0f7fd] px-4 py-2 text-[#173b64]">
                     <div class="flex items-start justify-between gap-3">
                         <div class="leading-tight">
-                            <p class="text-[0.82rem] font-semibold">{$this->e(CLINIC_ADDRESS)}</p>
-                            <p class="mt-0.5 text-[0.76rem] font-medium text-[#2a5894]">{$this->e(CLINIC_METRO)}</p>
+                            <p class="text-[0.88rem] font-semibold">{$this->e(CLINIC_ADDRESS)}</p>
+                            <p class="mt-0.5 text-[0.8rem] font-medium text-[#2a5894]">{$this->e(CLINIC_METRO)}</p>
                         </div>
-                        <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.68rem] font-medium text-[#2fbdef] hover:text-[#1fb3d8]">
-                            <i class="fa-solid fa-location-dot text-[0.58rem] text-[#2fbdef]" aria-hidden="true"></i>
+                        <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.74rem] font-medium text-[#2fbdef] hover:text-[#1fb3d8]">
+                            <i class="fa-solid fa-location-dot text-[0.66rem] text-[#2fbdef]" aria-hidden="true"></i>
                             На карте
                         </a>
                     </div>
@@ -303,38 +303,38 @@ class Header extends Component {
                 <div class="mx-auto max-w-6xl px-6 pt-2 md:px-10">
                     <div class="grid gap-2 pb-2.5 lg:grid-cols-[168px_1.05fr_0.9fr_0.74fr_168px] lg:items-start">
                         <a href="/" class="inline-flex items-center">
-                            <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-12 w-auto" loading="eager">
+                            <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-14 w-auto" loading="eager">
                         </a>
 
                         <div class="pt-1 leading-tight text-[#173b64]">
-                            <p class="text-[0.85rem] font-medium md:text-[0.88rem]">{$this->e(CLINIC_ADDRESS)}</p>
-                            <p class="mt-0.5 text-[0.83rem] font-medium text-[#24588d] md:text-[0.86rem]">{$this->e(CLINIC_METRO)}</p>
+                            <p class="text-[0.92rem] font-medium md:text-[0.96rem]">{$this->e(CLINIC_ADDRESS)}</p>
+                            <p class="mt-0.5 text-[0.88rem] font-medium text-[#24588d] md:text-[0.9rem]">{$this->e(CLINIC_METRO)}</p>
                             <div class="mt-1.5">
-                                <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2 py-1 text-[0.7rem] font-medium text-[#2fbdef] hover:border-[#a8cbe6] hover:text-[#1fb3d8]">
-                                    <i class="fa-solid fa-location-dot text-[0.58rem] text-[#2fbdef]" aria-hidden="true"></i>
+                                <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.76rem] font-medium text-[#2fbdef] hover:border-[#a8cbe6] hover:text-[#1fb3d8]">
+                                    <i class="fa-solid fa-location-dot text-[0.66rem] text-[#2fbdef]" aria-hidden="true"></i>
                                     На карте
                                 </a>
                             </div>
                         </div>
 
                         <div class="pt-1 leading-tight text-[#173b64]">
-                            <p class="text-[0.86rem] font-medium">{$this->e(CLINIC_HOURS)}</p>
-                            <p class="mt-0.5 text-[0.72rem] font-medium text-[#2fbdef]">Приём по предварительной записи</p>
+                            <p class="text-[0.92rem] font-medium">{$this->e(CLINIC_HOURS)}</p>
+                            <p class="mt-0.5 text-[0.78rem] font-medium text-[#2fbdef]">Приём по предварительной записи</p>
                         </div>
 
                         <div class="flex items-start gap-2.5 pt-1 text-[#173b64]">
-                            <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#b9d7ef] text-[#2fbdef]">
-                                <i class="fa-solid fa-phone-volume text-[0.68rem]" aria-hidden="true"></i>
+                            <div class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#b9d7ef] text-[#2fbdef]">
+                                <i class="fa-solid fa-phone-volume text-[0.76rem]" aria-hidden="true"></i>
                             </div>
                             <div class="pt-[1px]">
-                                <a href="tel:{$phone_1_link}" class="block whitespace-nowrap text-[0.81rem] font-medium leading-tight text-[#133b63] hover:text-[#2fbdef] md:text-[0.84rem]">{$phone_1}</a>
+                                <a href="tel:{$phone_1_link}" class="block whitespace-nowrap text-[0.88rem] font-medium leading-tight text-[#133b63] hover:text-[#2fbdef] md:text-[0.92rem]">{$phone_1}</a>
                                 {$second_phone}
-                                <p class="mt-0.5 text-[0.68rem] font-medium text-[#2fbdef]">Запись по телефону ежедневно</p>
+                                <p class="mt-0.5 text-[0.76rem] font-medium text-[#2fbdef]">Запись по телефону ежедневно</p>
                             </div>
                         </div>
 
                         <div class="pt-1 text-right">
-                            <a href="{$booking_url}" onclick="openBookingPopup();return false;" class="inline-flex h-10 w-auto min-w-[156px] items-center justify-center rounded-full bg-[#2fbdef] px-4 text-[0.88rem] font-medium text-white shadow-[0_10px_24px_rgba(47,189,239,0.2)] transition hover:bg-[#1fb3d8]">
+                            <a href="{$booking_url}" onclick="openBookingPopup();return false;" class="inline-flex h-11 w-auto min-w-[164px] items-center justify-center rounded-full bg-[#2fbdef] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(47,189,239,0.2)] transition hover:bg-[#1fb3d8]">
                                 Онлайн запись
                             </a>
                         </div>
@@ -346,7 +346,7 @@ class Header extends Component {
         <div class="desktop-menu-bar hidden lg:block">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div id="desktop-menu-row" class="desktop-menu-row flex items-center justify-between py-2.5">
-                    <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.86rem] font-medium text-[#173b64] lg:overflow-visible">
+                    <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.92rem] font-medium text-[#173b64] lg:overflow-visible">
                         <a href="/about" class="{$desktop_about_class}"{$desktop_about_aria}>О клинике</a>
                         {$desktop_services_dropdown}
                         <a href="/doctors" class="{$desktop_doctors_class}"{$desktop_doctors_aria}>Специалисты</a>
@@ -357,11 +357,11 @@ class Header extends Component {
                         <a href="/#contact" class="{$desktop_contacts_class}">Контакты</a>
                     </nav>
                     <div class="flex shrink-0 items-center gap-2">
-                        <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="group flex h-8 w-8 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef] shadow-[0_4px_12px_rgba(47,189,239,0.08)] transition hover:-translate-y-0.5 hover:bg-[#f2f8fd] hover:text-[#1fb3d8]">
-                            <i class="fa-brands fa-telegram text-[0.8rem]" aria-hidden="true"></i>
+                        <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="group flex h-9 w-9 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef] shadow-[0_4px_12px_rgba(47,189,239,0.08)] transition hover:-translate-y-0.5 hover:bg-[#f2f8fd] hover:text-[#1fb3d8]">
+                            <i class="fa-brands fa-telegram text-[0.9rem]" aria-hidden="true"></i>
                         </a>
-                        <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" class="group flex h-8 w-8 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef] shadow-[0_4px_12px_rgba(47,189,239,0.08)] transition hover:-translate-y-0.5 hover:bg-[#f2f8fd] hover:text-[#1fb3d8]">
-                            <i class="fa-brands fa-vk text-[0.76rem]" aria-hidden="true"></i>
+                        <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" class="group flex h-9 w-9 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef] shadow-[0_4px_12px_rgba(47,189,239,0.08)] transition hover:-translate-y-0.5 hover:bg-[#f2f8fd] hover:text-[#1fb3d8]">
+                            <i class="fa-brands fa-vk text-[0.86rem]" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -372,15 +372,15 @@ class Header extends Component {
         <div id="mob-backdrop" onclick="closeMobMenu()"></div>
         <div id="mob-menu">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #dce8f3;">
-                <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" style="height:36px;width:auto;">
+                <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" style="height:42px;width:auto;">
                 <button onclick="closeMobMenu()" aria-label="Закрыть меню" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #dce8f3;background:transparent;cursor:pointer;color:#355b89;">
                     <i class="fa-solid fa-xmark" style="font-size:0.9rem;" aria-hidden="true"></i>
                 </button>
             </div>
             <div style="padding:12px 20px;background:#eef5fc;border-bottom:1px solid #dce8f3;">
-                <p style="font-size:0.81rem;font-weight:600;color:#173b64;margin:0;">{$this->e(CLINIC_ADDRESS)}</p>
-                <p style="font-size:0.75rem;color:#2a5894;margin:4px 0 0;">{$this->e(CLINIC_METRO)}</p>
-                <p style="font-size:0.73rem;color:#2d86ca;margin:2px 0 0;">{$this->e(CLINIC_HOURS)}</p>
+                <p style="font-size:0.88rem;font-weight:600;color:#173b64;margin:0;">{$this->e(CLINIC_ADDRESS)}</p>
+                <p style="font-size:0.8rem;color:#2a5894;margin:4px 0 0;">{$this->e(CLINIC_METRO)}</p>
+                <p style="font-size:0.78rem;color:#2d86ca;margin:2px 0 0;">{$this->e(CLINIC_HOURS)}</p>
             </div>
             <nav id="mob-nav">
                 <a href="/about" onclick="closeMobMenu()"{$mobile_about_attr}>О клинике</a>
@@ -393,19 +393,19 @@ class Header extends Component {
                 <a href="/#contact" onclick="closeMobMenu()">Контакты</a>
             </nav>
             <div style="margin-top:auto;border-top:1px solid #dce8f3;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
-                <a href="tel:{$phone_1_link}" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;font-weight:600;color:#133b63;text-decoration:none;">
+                <a href="tel:{$phone_1_link}" style="display:flex;align-items:center;gap:10px;font-size:0.94rem;font-weight:600;color:#133b63;text-decoration:none;">
                     <i class="fa-solid fa-phone-volume" style="color:#2fbdef;" aria-hidden="true"></i>
                     {$phone_1}
                 </a>
-                <a href="{$booking_url}" onclick="openBookingPopup(true);return false;" style="display:flex;height:44px;align-items:center;justify-content:center;border-radius:9999px;background:#2fbdef;font-size:0.88rem;font-weight:500;color:#fff;text-decoration:none;">
+                <a href="{$booking_url}" onclick="openBookingPopup(true);return false;" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#2fbdef;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
                     Онлайн запись
                 </a>
                 <div style="display:flex;gap:8px;">
-                    <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #c9dcee;background:#fff;color:#2fbdef;text-decoration:none;">
-                        <i class="fa-brands fa-telegram" style="font-size:0.8rem;" aria-hidden="true"></i>
+                    <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" style="display:flex;width:36px;height:36px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #c9dcee;background:#fff;color:#2fbdef;text-decoration:none;">
+                        <i class="fa-brands fa-telegram" style="font-size:0.9rem;" aria-hidden="true"></i>
                     </a>
-                    <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #c9dcee;background:#fff;color:#2fbdef;text-decoration:none;">
-                        <i class="fa-brands fa-vk" style="font-size:0.76rem;" aria-hidden="true"></i>
+                    <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" style="display:flex;width:36px;height:36px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #c9dcee;background:#fff;color:#2fbdef;text-decoration:none;">
+                        <i class="fa-brands fa-vk" style="font-size:0.86rem;" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
@@ -445,18 +445,18 @@ class Header extends Component {
             @media(min-width:1024px){#mob-menu{display:none!important}}
             #mob-menu.open{transform:translateX(0)}
             #mob-nav{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:4px 20px}
-            #mob-nav a{display:block;padding:12px 0;font-size:.9rem;font-weight:500;color:#1b3f6e;text-decoration:none;border-bottom:1px solid #e8f0f8}
+            #mob-nav a{display:block;padding:12px 0;font-size:.98rem;font-weight:500;color:#1b3f6e;text-decoration:none;border-bottom:1px solid #e8f0f8}
             #mob-nav a:last-child{border-bottom:none}
             #mob-nav a:hover{color:#2fbdef}
             #mob-nav details{border-bottom:1px solid #e8f0f8}
-            #mob-nav details>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 0;font-size:.9rem;font-weight:500;color:#1b3f6e}
+            #mob-nav details>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 0;font-size:.98rem;font-weight:500;color:#1b3f6e}
             #mob-nav details>summary::-webkit-details-marker{display:none}
-            #mob-nav details>summary i{font-size:.66rem;color:#6f95ba;transition:transform .2s ease}
+            #mob-nav details>summary i{font-size:.76rem;color:#6f95ba;transition:transform .2s ease}
             #mob-nav details[open]>summary i{transform:rotate(180deg)}
             .mob-subnav{margin:0 0 8px;border-left:2px solid #dce8f3;padding-left:10px}
             .mob-nav-subgroup{border-bottom:none!important}
-            .mob-nav-subgroup>summary{padding:10px 0;font-size:.82rem!important;font-weight:600!important;color:#2a5a94!important}
-            .mob-subsubnav a{display:flex!important;align-items:baseline;justify-content:space-between;gap:8px;border-bottom:1px dashed #e3edf8!important;padding:9px 0!important;font-size:.78rem!important;font-weight:500!important;color:#1b3f6e!important;text-decoration:none}
+            .mob-nav-subgroup>summary{padding:10px 0;font-size:.9rem!important;font-weight:600!important;color:#2a5a94!important}
+            .mob-subsubnav a{display:flex!important;align-items:baseline;justify-content:space-between;gap:8px;border-bottom:1px dashed #e3edf8!important;padding:9px 0!important;font-size:.86rem!important;font-weight:500!important;color:#1b3f6e!important;text-decoration:none}
             .mob-subsubnav a:last-child{border-bottom:none!important}
             .services-nav-item{position:static}
             .services-nav-item button{line-height:1}
@@ -476,14 +476,14 @@ class Header extends Component {
             #booking-popup.open{display:flex}
             .booking-popup-card{position:relative;width:min(100%,420px);border:1px solid #d8e6f3;border-radius:24px;background:#fff;padding:22px;box-shadow:0 20px 44px rgba(8,36,70,.2)}
             .booking-popup-close{position:absolute;top:12px;right:12px;display:flex;height:32px;width:32px;align-items:center;justify-content:center;border:1px solid #dce8f3;border-radius:9999px;background:#fff;color:#355b89;cursor:pointer}
-            .booking-popup-eyebrow{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#2a5a94}
-            .booking-popup-title{margin-top:6px;font-size:1.16rem;font-weight:700;line-height:1.2;color:#0f2749}
-            .booking-popup-text{margin-top:8px;font-size:.82rem;line-height:1.45;color:#4a6f96}
+            .booking-popup-eyebrow{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#2a5a94}
+            .booking-popup-title{margin-top:6px;font-size:1.24rem;font-weight:700;line-height:1.2;color:#0f2749}
+            .booking-popup-text{margin-top:8px;font-size:.9rem;line-height:1.45;color:#4a6f96}
             .booking-popup-form{margin-top:14px}
-            .booking-popup-label{display:block;margin-bottom:6px;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4a6f96}
-            .booking-popup-input{width:100%;border:1px solid #d6e2ee;border-radius:9999px;background:#f9fcff;padding:11px 16px;font-size:.86rem;color:#173f73;outline:none}
+            .booking-popup-label{display:block;margin-bottom:6px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4a6f96}
+            .booking-popup-input{width:100%;border:1px solid #d6e2ee;border-radius:9999px;background:#f9fcff;padding:11px 16px;font-size:.92rem;color:#173f73;outline:none}
             .booking-popup-input:focus{border-color:#2fbdef;box-shadow:0 0 0 3px rgba(47,189,239,.16)}
-            .booking-popup-submit{margin-top:10px;width:100%;border:0;border-radius:9999px;background:#2fbdef;padding:11px 16px;font-size:.86rem;font-weight:700;color:#fff;cursor:pointer}
+            .booking-popup-submit{margin-top:10px;width:100%;border:0;border-radius:9999px;background:#2fbdef;padding:11px 16px;font-size:.92rem;font-weight:700;color:#fff;cursor:pointer}
             .booking-popup-submit:hover{background:#1fb3d8}
         </style>
         <script>
@@ -738,12 +738,12 @@ class HeroSection extends Component {
             <div class="relative mx-auto flex max-w-6xl items-center px-6 py-5 md:px-10 md:py-7 lg:h-full lg:py-14">
                 <div class="w-full lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center lg:gap-10">
                     <div class="max-w-3xl lg:flex lg:h-full lg:min-h-0 lg:flex-col lg:justify-center">
-                            <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
+                            <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
                                 <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
                                 Сезон: {$actual_season_name}
-                                <i class="fa-solid fa-arrow-right text-[0.56rem]" aria-hidden="true"></i>
+                                <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
                             </a>
-                            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Клиника интегративной медицины</p>
+                            <p class="text-[0.8rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Клиника интегративной медицины</p>
                             <h1 class="mt-3 max-w-3xl text-[1.52rem] font-bold leading-[1.02] text-[#0f2749] sm:text-[1.9rem] md:text-[2.08rem] lg:text-[2.18rem]">
                                 Медицина - это искусство выздоровления
                             </h1>
@@ -756,11 +756,11 @@ class HeroSection extends Component {
 
                             <div class="mt-4 flex w-full flex-col gap-2.5 sm:max-w-xl sm:flex-row sm:flex-wrap">
                                 <div class="flex w-full items-center gap-2 rounded-full border border-[#d6e4f0] bg-white px-3 py-1.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)] sm:inline-flex sm:w-auto">
-                                    <i class="fa-solid fa-wave-square text-[0.72rem] text-[#2fbdef]" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-wave-square text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
                                     <p class="text-[0.78rem] font-semibold text-[#214a7f]">Диагностика первопричин</p>
                                 </div>
                                 <div class="flex w-full items-center gap-2 rounded-full border border-[#d6e4f0] bg-white px-3 py-1.5 shadow-[0_10px_22px_rgba(10,43,80,0.05)] sm:inline-flex sm:w-auto">
-                                    <i class="fa-solid fa-user-doctor text-[0.72rem] text-[#2fbdef]" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-user-doctor text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
                                     <p class="text-[0.78rem] font-semibold text-[#214a7f]">Врачи с опытом 20-30+ лет</p>
                                 </div>
                             </div>
@@ -771,7 +771,7 @@ class HeroSection extends Component {
                         <div class="flex items-center justify-between gap-3">
                                     <div>
                                         <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]">Записаться на приём</h2>
-                                        <p id="hero-form-note" class="mt-1 text-[0.76rem] leading-relaxed text-[#4a6f96]">Оставьте номер, и мы свяжемся с вами.</p>
+                                        <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#4a6f96]">Оставьте номер, и мы свяжемся с вами.</p>
                                     </div>
                                 </div>
 
@@ -779,7 +779,7 @@ class HeroSection extends Component {
                             <input type="hidden" name="source" value="homepage-hero">
                             <div class="space-y-2.5">
                                 <div>
-                                    <label for="hero-phone-input" class="mb-1 block text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
+                                    <label for="hero-phone-input" class="mb-1 block text-[0.74rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
                                     <input
                                         type="tel"
                                         id="hero-phone-input"
@@ -788,19 +788,19 @@ class HeroSection extends Component {
                                         inputmode="tel"
                                         required
                                         placeholder="Ваш телефон"
-                                        class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.86rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
+                                        class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.92rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
                                         aria-label="Введите номер телефона"
                                     />
                                 </div>
                                 <button
                                     type="submit"
-                                    class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.86rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
+                                    class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
                                 >
                                     Перезвоните мне
                                 </button>
                             </div>
 
-                            <label class="mt-2.5 flex items-start gap-2 text-[0.66rem] leading-snug text-[#355b89]">
+                            <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
                                 <input
                                     type="checkbox"
                                     required
@@ -844,7 +844,7 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$experience}</div>
-                            <p class="mt-0.5 text-[0.64rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$experience_desc}</p>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$experience_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 2: Rating -->
@@ -856,7 +856,7 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$rating}</div>
-                            <p class="mt-0.5 text-[0.64rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$rating_desc}</p>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$rating_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 3: Medical directions -->
@@ -868,7 +868,7 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$patients}</div>
-                            <p class="mt-0.5 text-[0.64rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$patients_desc}</p>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$patients_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 4: License -->
@@ -880,7 +880,7 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[1.15rem] font-bold leading-none text-[#0f2749]">{$license_text}</div>
-                            <p class="mt-0.5 text-[0.64rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$license_desc}</p>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$license_desc}</p>
                         </div>
                     </li>
                 </ul>
@@ -964,7 +964,7 @@ class ProblemsGrid extends Component {
 
         $items_html = '';
         foreach ($this->data as $problem) {
-            $solutions_html = '';
+            $solution_chips = [];
             $solutions_raw = (string)($problem['solutions'] ?? '');
             $solution_parts = preg_split('/\s*,\s*/u', $solutions_raw, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -988,11 +988,19 @@ class ProblemsGrid extends Component {
                 }
 
                 if ($resolved_id !== '' && isset($services_map[$resolved_id])) {
-                    $solutions_html .= '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.72rem] font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">' . $this->e($solution_text) . '</a>';
-                } else {
-                    $solutions_html .= '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.72rem] font-semibold text-[#355b89]">' . $this->e($solution_text) . '</span>';
+                    $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">' . $this->e($solution_text) . '</a>';
+                    continue;
                 }
+
+                $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#355b89]">' . $this->e($solution_text) . '</span>';
             }
+
+            $visible_solution_chips = array_slice($solution_chips, 0, 3);
+            $hidden_solution_count = count($solution_chips) - count($visible_solution_chips);
+            if ($hidden_solution_count > 0) {
+                $visible_solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-transparent bg-[#eaf4fc] px-2.5 py-1 text-[0.78rem] font-semibold text-[#2a5a94]">+' . $hidden_solution_count . ' ещё</span>';
+            }
+            $solutions_html = implode('', $visible_solution_chips);
 
             $items_html .= <<<HTML
             <details class="group border-b border-[#e8f0f8] last:border-0">
@@ -1001,27 +1009,17 @@ class ProblemsGrid extends Component {
                         <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#fde8e8] text-[#d94f4f]" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
                         </span>
-                        <h3 class="text-[0.92rem] font-semibold leading-tight text-[#0f2749]">{$this->e($problem['title'])}</h3>
+                        <h3 class="text-[1rem] font-semibold leading-tight text-[#0f2749]">{$this->e($problem['title'])}</h3>
                     </div>
                     <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#d4e5f2] bg-[#f3f9ff] text-[#2a5a94] transition-transform group-open:rotate-180" aria-hidden="true">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </span>
                 </summary>
                 <div class="px-4 pb-3.5 pt-0 md:px-6">
-                    <div class="grid gap-2 rounded-xl bg-[#f5faff] p-3 sm:grid-cols-2">
-                        <div>
-                            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#6b8fb5]">Описание</p>
-                            <p class="mt-1 text-[0.82rem] leading-relaxed text-[#355b89]">{$this->e($problem['description'])}</p>
-                        </div>
-                        <div>
-                            <p class="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-[#2fbdef]">Методы лечения в клинике</p>
-                            <div class="mt-1 flex flex-wrap gap-1.5">{$solutions_html}</div>
-                        </div>
+                    <div class="rounded-xl bg-[#f5faff] p-3.5">
+                        <p class="text-[0.9rem] leading-relaxed text-[#355b89]">{$this->e($problem['description'])}</p>
+                        <div class="mt-3 flex flex-wrap gap-1.5">{$solutions_html}</div>
                     </div>
-                    <a href="/#contact" class="mt-2.5 inline-flex items-center gap-1.5 rounded-full border border-[#c6ddf2] bg-white px-3.5 py-1.5 text-[0.74rem] font-semibold text-[#2a5a94] hover:bg-[#ebf4ff]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
-                        Записаться на консультацию
-                    </a>
                 </div>
             </details>
             HTML;
@@ -1033,6 +1031,12 @@ class ProblemsGrid extends Component {
                 {$this->sectionTitle('С какой проблемой обращаются', 'Найдите вашу ситуацию', 'Нажмите на свою проблему — покажем метод лечения, который применяем в клинике.')}
                 <div class="overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(10,43,80,0.07)]">
                     {$items_html}
+                </div>
+                <div class="mt-5 flex justify-start">
+                    <a href="/#contact" class="inline-flex items-center gap-1.5 rounded-full border border-[#c6ddf2] bg-white px-4 py-2 text-[0.86rem] font-semibold text-[#2a5a94] hover:bg-[#ebf4ff]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+                        Не нашли свою ситуацию? Записаться на консультацию
+                    </a>
                 </div>
             </div>
         </section>
@@ -1065,11 +1069,11 @@ class AdvantagesBlock extends Component {
             $items_html .= <<<HTML
             <li class="flex items-start gap-3.5 rounded-xl border border-[#dce8f5] bg-white p-4">
                 <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
-                    <i class="fa-solid {$icon} text-[0.9rem]"></i>
+                    <i class="fa-solid {$icon} text-[1rem]"></i>
                 </span>
                 <div>
-                    <h3 class="text-[0.92rem] font-bold leading-tight text-[#0f2749]">{$this->e($advantage['title'])}</h3>
-                    <p class="mt-1 text-[0.82rem] leading-relaxed text-[#4a6f96]">{$this->e($advantage['description'])}</p>
+                    <h3 class="text-[1rem] font-bold leading-tight text-[#0f2749]">{$this->e($advantage['title'])}</h3>
+                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#4a6f96]">{$this->e($advantage['description'])}</p>
                 </div>
             </li>
             HTML;
@@ -1108,32 +1112,32 @@ class ChiefDoctorBlock extends Component {
                 <div class="grid gap-8 rounded-3xl border border-[#d6e5f2] bg-white p-6 shadow-[0_18px_40px_rgba(6,29,60,0.08)] md:grid-cols-[0.85fr_1.15fr] md:p-8">
                     <img src="/public/images/team/{$this->e($this->data['image'])}" alt="{$this->e($this->data['name'])}" class="h-full max-h-[460px] w-full rounded-2xl object-cover" loading="lazy" />
                     <div>
-                        <p class="text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-[#2fbdef]">Экспертный подход</p>
+                        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Экспертный подход</p>
                         <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($this->data['name'])}</h2>
-                        <p class="mt-1 text-[0.78rem] font-semibold uppercase tracking-[0.15em] text-[#4a6f96]">{$this->e($this->data['title'])}</p>
+                        <p class="mt-1 text-[0.84rem] font-semibold uppercase tracking-[0.15em] text-[#4a6f96]">{$this->e($this->data['title'])}</p>
                         <p class="mt-5 text-base leading-relaxed text-[#355b89]">
                             В БИОИНМЕД каждый пациент получает не набор разрозненных процедур, а цельный лечебный маршрут:
                             диагностика причин, подбор метода, оценка динамики и коррекция тактики.
                         </p>
                         <div class="mt-5 rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4">
-                            <p class="text-xs font-semibold uppercase tracking-[0.13em] text-[#2a5a94]">Образовательная и управленческая роль</p>
-                            <p class="mt-2 text-sm leading-relaxed text-[#214a7f]">{$leadership}</p>
+                            <p class="text-[0.82rem] font-semibold uppercase tracking-[0.13em] text-[#2a5a94]">Образовательная и управленческая роль</p>
+                            <p class="mt-2 text-[0.96rem] leading-relaxed text-[#214a7f]">{$leadership}</p>
                         </div>
                         <ul class="mt-6 space-y-3 text-sm text-[#214a7f]">
                             <li class="flex items-start gap-3">
-                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-xs" aria-hidden="true"></i></span>
+                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-[0.82rem]" aria-hidden="true"></i></span>
                                 <span>Комплексное ведение сложных хронических случаев</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-xs" aria-hidden="true"></i></span>
+                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-[0.82rem]" aria-hidden="true"></i></span>
                                 <span>Интегративная схема лечения без избыточной медикаментозной нагрузки</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-xs" aria-hidden="true"></i></span>
+                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-[0.82rem]" aria-hidden="true"></i></span>
                                 <span>Ежегодное обновление клинических протоколов и методик</span>
                             </li>
                         </ul>
-                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.84rem] font-semibold text-white hover:bg-[#1fb3d8]">Подробнее о специалисте</a>
+                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.92rem] font-semibold text-white hover:bg-[#1fb3d8]">Подробнее о специалисте</a>
                     </div>
                 </div>
             </div>
@@ -1150,14 +1154,14 @@ class SpecialOffer extends Component {
         <section class="border-b border-[#e6eef7] bg-white py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-[linear-gradient(110deg,#ecf6ff_0%,#f7fcff_60%,#eaf7f5_100%)] px-6 py-6 md:px-8 md:py-7">
-                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-[#2fbdef]">Специальное предложение для новых пациентов</p>
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Специальное предложение для новых пациентов</p>
                     <h2 class="mt-2 text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Диагностика HABILECT + первичный приём врача</h2>
-                    <p class="mt-2.5 max-w-2xl text-[0.86rem] leading-relaxed text-[#355b89]">
+                    <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">
                         Начните знакомство с комплексной диагностики HABILECT и первичного приёма. Получите персональный план восстановления и рекомендации по лечению.
                     </p>
                     <div class="mt-4">
-                        <a href="tel:{$phone_link}" class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.88rem] font-semibold text-white hover:bg-[#1fb3d8]">
-                            <i class="fa-solid fa-phone text-[0.78rem]" aria-hidden="true"></i>
+                        <a href="tel:{$phone_link}" class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#1fb3d8]">
+                            <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
                             Записаться на консультацию
                         </a>
                     </div>
@@ -1189,11 +1193,11 @@ class DoctorsGrid extends Component {
                 <div class="flex flex-col flex-1 p-6">
                     <div class="flex-1">
                         <h3 class="text-lg font-bold leading-tight text-[#0f3463]" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{$this->e($doctor['name'])}</h3>
-                        <p class="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#2a5a94]">{$this->e($doctor['title'])}</p>
-                        <p class="mt-3 text-sm text-[#355b89]" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">{$this->e($doctor['specialty'])}</p>
-                        <p class="mt-2 text-sm font-semibold text-[#214a7f]">{$this->e($doctor['experience'])}</p>
+                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94]">{$this->e($doctor['title'])}</p>
+                        <p class="mt-3 text-[0.96rem] text-[#355b89]" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">{$this->e($doctor['specialty'])}</p>
+                        <p class="mt-2 text-[0.96rem] font-semibold text-[#214a7f]">{$this->e($doctor['experience'])}</p>
                     </div>
-                    <a href="{$doctor_link}" class="mt-auto w-full rounded-full bg-[#2fbdef] py-2.5 text-center text-xs font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#1fb3d8]">Подробнее</a>
+                    <a href="{$doctor_link}" class="mt-auto w-full rounded-full bg-[#2fbdef] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#1fb3d8]">Подробнее</a>
                 </div>
             </article>
             HTML;
@@ -1206,10 +1210,10 @@ class DoctorsGrid extends Component {
                 <div class="rounded-3xl border border-[#dce8f5] bg-[#f7fbff] p-4 sm:p-5">
                     <div class="mb-4 flex items-center justify-end gap-2">
                         <button type="button" class="doctor-slider-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#2a5a94] hover:bg-[#ecf5ff]" aria-label="Прокрутить влево">
-                            <i class="fa-solid fa-chevron-left text-sm" aria-hidden="true"></i>
+                            <i class="fa-solid fa-chevron-left text-[1rem]" aria-hidden="true"></i>
                         </button>
                         <button type="button" class="doctor-slider-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#2a5a94] hover:bg-[#ecf5ff]" aria-label="Прокрутить вправо">
-                            <i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
+                            <i class="fa-solid fa-chevron-right text-[1rem]" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div class="doctor-slider-track flex items-stretch gap-4 overflow-x-auto scroll-smooth pb-2">
@@ -1240,10 +1244,10 @@ class FAQBlock extends Component {
                 <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-semibold text-[#0f3463]">
                     <span>{$this->e($item['question'])}</span>
                     <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#2a5a94]">
-                        <i class="fa-solid fa-chevron-down text-xs transition group-open:rotate-180" aria-hidden="true"></i>
+                        <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                     </span>
                 </summary>
-                <p class="mt-4 text-sm leading-relaxed text-[#355b89]">{$this->e($item['answer'])}</p>
+                <p class="mt-4 text-[0.96rem] leading-relaxed text-[#355b89]">{$this->e($item['answer'])}</p>
             </details>
             HTML;
         }
@@ -1309,7 +1313,7 @@ class ServicesGrid extends Component {
             if (isset($service['price'])) {
                 $price_display = '<div class="mt-4 text-[1rem] font-semibold text-[#2fbdef]">' . $this->e($service['price']);
                 if (isset($service['price_note']) && !empty($service['price_note'])) {
-                    $price_display .= ' <span class="text-[0.8rem] font-normal text-[#355b89]">' . $this->e($service['price_note']) . '</span>';
+                    $price_display .= ' <span class="text-[0.86rem] font-normal text-[#355b89]">' . $this->e($service['price_note']) . '</span>';
                 }
                 $price_display .= '</div>';
             }
@@ -1320,11 +1324,11 @@ class ServicesGrid extends Component {
                 <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#2fbdef] mb-3">
                     <i class="fa-solid {$icon} text-[1rem]" aria-hidden="true"></i>
                 </div>
-                <p class="text-[0.75rem] font-semibold uppercase tracking-[0.1em] text-[#2a5a94] mb-1">{$this->e($service['subtitle'] ?? 'Услуга')}</p>
-                <h3 class="text-[1.05rem] font-bold leading-[1.2] text-[#0f2749] mb-2">{$this->e($service['name'])}</h3>
-                <p class="text-[0.9rem] leading-relaxed text-[#355b89] line-clamp-2">{$this->e($service['description'])}</p>
+                <p class="text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#2a5a94] mb-1">{$this->e($service['subtitle'] ?? 'Услуга')}</p>
+                <h3 class="text-[1.2rem] font-bold leading-[1.2] text-[#0f2749] mb-2">{$this->e($service['name'])}</h3>
+                <p class="text-[0.96rem] leading-relaxed text-[#355b89] line-clamp-2">{$this->e($service['description'])}</p>
                 {$price_display}
-                <a href="{$service_link}" class="mt-4 inline-flex rounded-lg border border-[#2fbdef] bg-[#f0fafe] px-3.5 py-2 text-[0.8rem] font-semibold text-[#2fbdef] transition hover:bg-[#2fbdef] hover:text-white">
+                <a href="{$service_link}" class="mt-4 inline-flex rounded-lg border border-[#2fbdef] bg-[#f0fafe] px-3.5 py-2 text-[0.88rem] font-semibold text-[#2fbdef] transition hover:bg-[#2fbdef] hover:text-white">
                     Подробнее →
                 </a>
             </article>
@@ -1340,8 +1344,8 @@ class ServicesGrid extends Component {
                     {$items_html}
                 </div>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <p class="text-[0.9rem] text-[#355b89]">Хотите начать с комплексной диагностики?</p>
-                    <a href="/services/hobilect-diagnostics" class="inline-flex rounded-lg bg-[#2fbdef] px-5 py-2.5 text-[0.9rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1a9ec0]">
+                    <p class="text-[0.96rem] text-[#355b89]">Хотите начать с комплексной диагностики?</p>
+                    <a href="/services/hobilect-diagnostics" class="inline-flex rounded-lg bg-[#2fbdef] px-5 py-2.5 text-[0.96rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1a9ec0]">
                         HABILECT диагностика →
                     </a>
                 </div>
@@ -1376,12 +1380,12 @@ class AppointmentCTA extends Component {
         <section id="book-now" class="border-b border-[#e6eef7] bg-[linear-gradient(120deg,#ecf6ff_0%,#f7fbff_45%,#edf7ff_100%)] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9">
-                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#2fbdef]">Запишитесь на консультацию</p>
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#2fbdef]">Запишитесь на консультацию</p>
                     <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Оставьте заявку — перезвоним в течение 15 минут</h2>
-                    <p class="mt-2.5 max-w-2xl text-[0.86rem] leading-relaxed text-[#355b89]">Мы уточним запрос, подберём специалиста и согласуем удобное время. Ежедневно с 9:00 до 21:00.</p>
+                    <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">Мы уточним запрос, подберём специалиста и согласуем удобное время. Ежедневно с 9:00 до 21:00.</p>
                     <form class="mt-5 flex flex-col gap-2.5 sm:max-w-lg sm:flex-row">
-                        <input type="tel" placeholder="+7 (___) ___-__-__" class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-5 py-2.5 text-[0.88rem] text-[#173f73] outline-none focus:border-[#2fbdef]">
-                        <button type="submit" class="shrink-0 rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.88rem] font-semibold text-white hover:bg-[#269bc4] transition-colors">Записаться</button>
+                        <input type="tel" placeholder="+7 (___) ___-__-__" class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-5 py-2.5 text-[0.94rem] text-[#173f73] outline-none focus:border-[#2fbdef]">
+                        <button type="submit" class="shrink-0 rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#269bc4] transition-colors">Записаться</button>
                     </form>
                 </div>
             </div>
@@ -1437,7 +1441,7 @@ class ContactSection extends Component {
                                 </span>
                                 <h3 class="text-[1.25rem] font-bold text-[#0f2749]">Клиника «БИОИНМЕД»</h3>
                             </div>
-                            <p class="text-[0.9rem] text-[#355b89] leading-relaxed ml-11">
+                            <p class="text-[0.96rem] text-[#355b89] leading-relaxed ml-11">
                                 Свяжитесь с нами удобным способом или посетите клинику по указанному адресу
                             </p>
                         </div>
@@ -1450,7 +1454,7 @@ class ContactSection extends Component {
                                     <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
                                         <i class="fa-solid fa-phone text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Телефон</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Телефон</p>
                                 </div>
                                 <a href="tel:{$phone_link_1}" class="block text-[1rem] font-bold text-[#2fbdef] hover:text-[#0f2749] transition leading-snug">
                                     {$phone_1}
@@ -1464,12 +1468,12 @@ class ContactSection extends Component {
                                     <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
                                         <i class="fa-solid fa-map-pin text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Адрес</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Адрес</p>
                                 </div>
-                                <p class="text-[0.95rem] font-semibold text-[#0f2749] leading-snug">
+                                <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug">
                                     {$address}
                                 </p>
-                                <p class="text-[0.85rem] text-[#214a7f] mt-1">
+                                <p class="text-[0.92rem] text-[#214a7f] mt-1">
                                     {$metro}
                                 </p>
                             </div>
@@ -1480,9 +1484,9 @@ class ContactSection extends Component {
                                     <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
                                         <i class="fa-solid fa-clock text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Режим</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Режим</p>
                                 </div>
-                                <p class="text-[0.95rem] font-semibold text-[#0f2749] leading-snug">
+                                <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug">
                                     {$hours}
                                 </p>
                             </div>
@@ -1493,9 +1497,9 @@ class ContactSection extends Component {
                                     <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
                                         <i class="fa-solid fa-envelope text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Email</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Email</p>
                                 </div>
-                                <a href="mailto:{$email}" class="text-[0.95rem] font-semibold text-[#2fbdef] hover:text-[#0f2749] transition break-all">
+                                <a href="mailto:{$email}" class="text-[1rem] font-semibold text-[#2fbdef] hover:text-[#0f2749] transition break-all">
                                     {$email}
                                 </a>
                             </div>
@@ -1509,11 +1513,11 @@ class ContactSection extends Component {
                                 </span>
                                 <div>
                                     <h4 class="font-bold text-[#0f2749] mb-2">Как добраться</h4>
-                                    <p class="text-[0.85rem] text-[#355b89] leading-relaxed mb-3">
+                                    <p class="text-[0.92rem] text-[#355b89] leading-relaxed mb-3">
                                         Станция метро <strong>Фрунзенская</strong>. Выход из стеклянных дверей налево, затем прямо по переулку Хользунова до первого перекрёстка со светофором. Перейдите дорогу (ориентир — кафе «Брусника») и пройдите ещё около 50 метров до вывески «БИОИНМЕД».
                                     </p>
-                                    <a href="https://yandex.com/maps/-/CPGGyEzo" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#2fbdef] px-4 py-2 text-[0.85rem] font-semibold text-white transition hover:bg-[#1fb3d8]">
-                                        <i class="fa-solid fa-map text-[0.75rem]" aria-hidden="true"></i>
+                                    <a href="https://yandex.com/maps/-/CPGGyEzo" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#2fbdef] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8]">
+                                        <i class="fa-solid fa-map text-[0.82rem]" aria-hidden="true"></i>
                                         Открыть в Яндекс.Картах
                                     </a>
                                 </div>
@@ -1524,20 +1528,20 @@ class ContactSection extends Component {
                         <div class="rounded-xl border border-[#dce8f5] bg-[#f8fcff] p-5">
                             <h4 class="font-bold text-[#0f2749] mb-3">Оставить отзыв о центре</h4>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <a href="https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.8rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
-                                    <i class="fa-solid fa-star text-[0.8rem] mr-1 text-[#2fbdef]"></i>
+                                <a href="https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
+                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#2fbdef]"></i>
                                     Яндекс
                                 </a>
-                                <a href="https://2gis.ru/moscow/firm/70000001085756150/tab/reviews" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.8rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
-                                    <i class="fa-solid fa-star text-[0.8rem] mr-1 text-[#2fbdef]"></i>
+                                <a href="https://2gis.ru/moscow/firm/70000001085756150/tab/reviews" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
+                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#2fbdef]"></i>
                                     2ГИС
                                 </a>
-                                <a href="https://doctu.ru/msk/clinic/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.8rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
-                                    <i class="fa-solid fa-star text-[0.8rem] mr-1 text-[#2fbdef]"></i>
+                                <a href="https://doctu.ru/msk/clinic/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
+                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#2fbdef]"></i>
                                     Doctu
                                 </a>
-                                <a href="https://vk.com/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.8rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
-                                    <i class="fa-brands fa-vk text-[0.8rem] mr-1"></i>
+                                <a href="https://vk.com/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
+                                    <i class="fa-brands fa-vk text-[0.88rem] mr-1"></i>
                                     ВКонтакте
                                 </a>
                             </div>
@@ -1580,13 +1584,13 @@ class SeasonsBlock extends Component {
                 <div class="relative z-[1] flex min-h-[500px] flex-col justify-end pb-10 pt-14 md:min-h-[640px] md:pb-12 md:pt-16">
                     <div class="mx-auto max-w-6xl px-6 md:px-10">
                         <div class="max-w-2xl">
-                            <p class="mb-2.5 text-[0.68rem] font-semibold uppercase tracking-[0.2em]" style="color:{$color}">Времена года</p>
+                            <p class="mb-2.5 text-[0.74rem] font-semibold uppercase tracking-[0.2em]" style="color:{$color}">Времена года</p>
                             <h2 id="seasons-heading" class="mb-4 text-4xl font-black leading-none text-white md:text-6xl">{$name}</h2>
-                            <p class="mb-4 max-w-xl text-[0.9rem] font-light text-white/92 md:text-[1.04rem]">{$slogan}</p>
-                            <blockquote class="max-w-2xl border-l-4 pl-3.5 text-[0.78rem] italic leading-relaxed text-white/86 md:text-[0.86rem]" style="border-color:{$color}">{$quote}</blockquote>
-                            <a href="{$href}" class="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.74rem] font-semibold text-[#123a63] shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:bg-[#f2fbff]">
+                            <p class="mb-4 max-w-xl text-[0.96rem] font-light text-white/92 md:text-[1.1rem]">{$slogan}</p>
+                            <blockquote class="max-w-2xl border-l-4 pl-3.5 text-[0.86rem] italic leading-relaxed text-white/86 md:text-[0.94rem]" style="border-color:{$color}">{$quote}</blockquote>
+                            <a href="{$href}" class="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.82rem] font-semibold text-[#123a63] shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:bg-[#f2fbff]">
                                 Подробнее
-                                <i class="fa-solid fa-arrow-right text-[0.68rem]" aria-hidden="true"></i>
+                                <i class="fa-solid fa-arrow-right text-[0.76rem]" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -1617,9 +1621,9 @@ class Footer extends Component {
                     <!-- Логотип и описание -->
                     <div class="md:col-span-1">
                         <div class="mb-4">
-                            <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-12 mb-3" loading="lazy" decoding="async">
+                            <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-14 mb-3" loading="lazy" decoding="async">
                         </div>
-                        <p class="text-sm text-[#214a7f] leading-relaxed">
+                        <p class="text-[0.96rem] text-[#214a7f] leading-relaxed">
                             Интегративная и восстановительная медицина с персональным маршрутом лечения для каждого пациента.
                         </p>
                         <div class="mt-4 flex gap-3">
@@ -1638,32 +1642,32 @@ class Footer extends Component {
 
                     <!-- Услуги -->
                     <div>
-                        <h4 class="text-sm font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Услуги</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Услуги</h4>
                         <ul class="space-y-2">
-                            <li><a href="/services/hobilect-diagnostics" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Диагностика HABILECT</a></li>
-                            <li><a href="/services/musculoskeletal-program" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Восстановление опорно-двигательного аппарата</a></li>
-                            <li><a href="/services/osteopathy" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Остеопатия</a></li>
-                            <li><a href="/services/reflexotherapy" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Рефлексотерапия</a></li>
-                            <li><a href="/prices" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors font-semibold">Все услуги и цены →</a></li>
+                            <li><a href="/services/hobilect-diagnostics" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Диагностика HABILECT</a></li>
+                            <li><a href="/services/musculoskeletal-program" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Восстановление опорно-двигательного аппарата</a></li>
+                            <li><a href="/services/osteopathy" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Остеопатия</a></li>
+                            <li><a href="/services/reflexotherapy" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Рефлексотерапия</a></li>
+                            <li><a href="/prices" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors font-semibold">Все услуги и цены →</a></li>
                         </ul>
                     </div>
 
                     <!-- Компания -->
                     <div>
-                        <h4 class="text-sm font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Компания</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Компания</h4>
                         <ul class="space-y-2">
-                            <li><a href="/about" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">О клинике</a></li>
-                            <li><a href="/doctors" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Специалисты</a></li>
-                            <li><a href="/prices" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Прайс-лист</a></li>
-                            <li><a href="/privacy.php" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Политика конфиденциальности</a></li>
-                            <li><a href="/user-agreement.php" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Пользовательское соглашение</a></li>
-                            <li><a href="/#contact" class="text-sm text-[#214a7f] hover:text-[#2fbdef] transition-colors">Контакты</a></li>
+                            <li><a href="/about" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">О клинике</a></li>
+                            <li><a href="/doctors" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Специалисты</a></li>
+                            <li><a href="/prices" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Прайс-лист</a></li>
+                            <li><a href="/privacy.php" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Политика конфиденциальности</a></li>
+                            <li><a href="/user-agreement.php" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Пользовательское соглашение</a></li>
+                            <li><a href="/#contact" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Контакты</a></li>
                         </ul>
                     </div>
 
                     <!-- Контакты -->
                     <div>
-                        <h4 class="text-sm font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Контакты</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Контакты</h4>
                         <div class="space-y-3">
                             <div class="flex items-start gap-2">
                                 <svg class="w-5 h-5 text-[#2fbdef] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1671,15 +1675,15 @@ class Footer extends Component {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 </svg>
                                 <div>
-                                    <p class="text-sm font-semibold text-[#214a7f]">{$this->e(CLINIC_ADDRESS)}</p>
-                                    <p class="text-xs text-[#5a7fa3]">{$this->e(CLINIC_METRO)}</p>
+                                    <p class="text-[0.96rem] font-semibold text-[#214a7f]">{$this->e(CLINIC_ADDRESS)}</p>
+                                    <p class="text-[0.84rem] text-[#5a7fa3]">{$this->e(CLINIC_METRO)}</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-5 h-5 text-[#2fbdef] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                 </svg>
-                                <a href="mailto:{$this->e(CLINIC_EMAIL)}" class="text-sm font-semibold text-[#214a7f] hover:text-[#2fbdef] transition-colors">
+                                <a href="mailto:{$this->e(CLINIC_EMAIL)}" class="text-[0.96rem] font-semibold text-[#214a7f] hover:text-[#2fbdef] transition-colors">
                                     {$this->e(CLINIC_EMAIL)}
                                 </a>
                             </div>
@@ -1688,7 +1692,7 @@ class Footer extends Component {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                 </svg>
                                 <div class="space-y-1">
-                                    <a href="tel:{$phone}" class="block text-sm font-semibold text-[#214a7f] hover:text-[#2fbdef] transition-colors">
+                                    <a href="tel:{$phone}" class="block text-[0.96rem] font-semibold text-[#214a7f] hover:text-[#2fbdef] transition-colors">
                                         {$phone1_display}
                                     </a>
                                     {$second_phone_footer}
@@ -1698,7 +1702,7 @@ class Footer extends Component {
                                 <svg class="w-5 h-5 text-[#2fbdef] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
-                                <p class="text-sm text-[#214a7f]">
+                                <p class="text-[0.96rem] text-[#214a7f]">
                                     <strong>{$this->e(CLINIC_HOURS)}</strong>
                                 </p>
                             </div>
@@ -1708,20 +1712,20 @@ class Footer extends Component {
 
                 <!-- Нижняя часть подвала -->
                 <div class="flex flex-col gap-3 border-t border-[#dce8f5] pt-5 md:flex-row md:items-center md:justify-between">
-                    <p class="text-xs leading-relaxed text-[#5a7fa3]">
+                    <p class="text-[0.84rem] leading-relaxed text-[#5a7fa3]">
                         © 2026 <strong>КЛИНИКА БИОИНМЕД</strong> — интегративная и восстановительная медицина. Все права защищены.
                     </p>
                     <div class="flex items-center gap-4">
-                        <a href="/privacy.php" class="text-xs font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
+                        <a href="/privacy.php" class="text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
                             Политика
                         </a>
-                        <a href="/user-agreement.php" class="text-xs font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
+                        <a href="/user-agreement.php" class="text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
                             Соглашение
                         </a>
-                        <a href="/prices" class="text-xs font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
+                        <a href="/prices" class="text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
                             Прайс-лист
                         </a>
-                        <a href="/#contact" class="text-xs font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
+                        <a href="/#contact" class="text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
                             Контакты
                         </a>
                     </div>
