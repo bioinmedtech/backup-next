@@ -63,47 +63,18 @@ $hero_image_desktop = $s['image_desktop'] ?? $s['image'];
 $hero_image_mobile = $s['image_mobile'] ?? $s['image'];
 $hero_image_desktop_alt = $s['image_alt'] ?? '';
 $hero_image_mobile_alt = $s['image_mobile_alt'] ?? $hero_image_desktop_alt;
-$format_art_attribution = static function (array $art): string {
-    $parts = [];
-
-    foreach (['artist', 'artwork', 'year', 'museum'] as $key) {
-        $value = trim((string)($art[$key] ?? ''));
-        if ($value === '') {
-            continue;
-        }
-
-        $parts[] = $key === 'artwork' ? '«' . $value . '»' : $value;
-    }
-
-    return implode(' · ', $parts);
-};
-
-$hero_attribution = $format_art_attribution($s);
-$hero_mobile_attribution = trim((string)($s['hero_mobile_attribution'] ?? ''));
-if ($hero_mobile_attribution === '') {
-    $hero_mobile_attribution = $hero_attribution;
-}
-
 $season_art_popup_items = [];
 foreach ($gallery_items as $item) {
-    $popup_meta = array_values(array_filter([
-        trim((string)($item['artist'] ?? '')),
-        trim((string)($item['year'] ?? '')),
-    ]));
-
     $season_art_popup_items[] = [
         'image' => (string)($item['image'] ?? ''),
-        'alt' => (string)($item['alt'] ?? ''),
-        'title' => (string)($item['artwork'] ?? ''),
-        'meta' => implode(', ', $popup_meta),
-        'museum' => (string)($item['museum'] ?? ''),
+        'alt'   => (string)($item['alt'] ?? ''),
     ];
 }
 
 $season_titles = [
     'spring' => [
         'health' => 'Весеннее обновление здоровья',
-        'gallery' => 'Художники о пробуждении весны',
+        'gallery' => 'Весенние пейзажи',
         'tips' => 'Весенние ориентиры для самочувствия',
         'services' => 'Процедуры для весеннего восстановления',
         'cta' => 'Запишитесь на весеннюю консультацию',
@@ -111,7 +82,7 @@ $season_titles = [
     ],
     'summer' => [
         'health' => 'Летний ресурс и выносливость',
-        'gallery' => 'Художники о силе лета',
+        'gallery' => 'Летние пейзажи',
         'tips' => 'Летние ориентиры для самочувствия',
         'services' => 'Процедуры для летнего тонуса',
         'cta' => 'Запишитесь на летнюю консультацию',
@@ -119,7 +90,7 @@ $season_titles = [
     ],
     'autumn' => [
         'health' => 'Осенний баланс и устойчивость',
-        'gallery' => 'Художники о глубине осени',
+        'gallery' => 'Осенние пейзажи',
         'tips' => 'Осенние ориентиры для самочувствия',
         'services' => 'Процедуры для осенней адаптации',
         'cta' => 'Запишитесь на осеннюю консультацию',
@@ -127,7 +98,7 @@ $season_titles = [
     ],
     'winter' => [
         'health' => 'Зимнее восстановление и тепло',
-        'gallery' => 'Художники о тишине зимы',
+        'gallery' => 'Зимние пейзажи',
         'tips' => 'Зимние ориентиры для самочувствия',
         'services' => 'Процедуры для зимней поддержки',
         'cta' => 'Запишитесь на зимнюю консультацию',
@@ -136,7 +107,7 @@ $season_titles = [
 ];
 $titles = $season_titles[$slug] ?? [
     'health' => 'Здоровье ' . $s['name_gen'],
-    'gallery' => 'Художники о ' . $s['name_gen'],
+    'gallery' => 'Пейзажи ' . $s['name_gen'],
     'tips' => 'Советы для вашего здоровья',
     'services' => 'Услуги для ' . $s['name_gen'],
     'cta' => 'Запишитесь на консультацию',
@@ -171,10 +142,11 @@ $footer = new Footer();
     <style>
         .season-hero {
             position: relative;
-            min-height: calc(100svh - var(--header-height, 0px));
+            height: calc(100svh - var(--header-height, 0px));
+            min-height: 480px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: center;
         }
         .season-hero__bg {
             position: absolute;
@@ -196,6 +168,8 @@ $footer = new Footer();
         .season-hero__content {
             position: relative;
             z-index: 1;
+            width: 100%;
+            padding: 2rem 0;
         }
         .season-nav-dot.active {
             background: white;
@@ -233,10 +207,7 @@ $footer = new Footer();
             object-fit: cover;
         }
         .season-gallery-slide::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(5,16,30,0.9) 0%, rgba(5,16,30,0.35) 45%, rgba(5,16,30,0.05) 100%);
+            display: none;
         }
         .season-gallery-slide__caption {
             position: absolute;
@@ -244,24 +215,28 @@ $footer = new Footer();
             bottom: 0;
             z-index: 1;
             padding: 1rem 1.25rem 1.1rem;
+            background: linear-gradient(to top, rgba(5,16,30,0.88) 0%, rgba(5,16,30,0.55) 60%, transparent 100%);
             color: #fff;
         }
         .season-gallery-slide__title {
-            font-size: 0.9rem;
+            font-size: 1.02rem;
             font-weight: 700;
             line-height: 1.2;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
         }
         .season-gallery-slide__meta {
             margin-top: 0.35rem;
-            font-size: 0.68rem;
-            color: rgba(255,255,255,0.8);
+            font-size: 0.84rem;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
         .season-gallery-slide__museum {
             margin-top: 0.5rem;
-            font-size: 0.58rem;
-            letter-spacing: 0.16em;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.62);
+            color: rgba(255,255,255,0.75);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
         .season-gallery-lead {
             display: flex;
@@ -271,7 +246,7 @@ $footer = new Footer();
             margin-bottom: 1rem;
         }
         .season-gallery-lead__hint {
-            font-size: 0.74rem;
+            font-size: 0.88rem;
             line-height: 1.45;
             color: #5b7898;
         }
@@ -310,32 +285,32 @@ $footer = new Footer();
             gap: 0.35rem;
             border-radius: 9999px;
             background: rgba(47, 189, 239, 0.12);
-            padding: 0.26rem 0.62rem;
+            padding: 0.28rem 0.68rem;
             color: #2a5a94;
-            font-size: 0.65rem;
+            font-size: 0.76rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.07em;
             text-transform: uppercase;
         }
         .season-practice-card__title {
             margin-top: 0.7rem;
-            font-size: 0.94rem;
+            font-size: 1.08rem;
             font-weight: 700;
             color: #173b64;
             line-height: 1.25;
         }
         .season-practice-card__subtitle {
             margin-top: 0.45rem;
-            font-size: 0.68rem;
-            letter-spacing: 0.13em;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: #7a91aa;
             font-weight: 600;
         }
         .season-practice-card__desc {
             margin-top: 0.7rem;
-            font-size: 0.78rem;
-            line-height: 1.55;
+            font-size: 0.92rem;
+            line-height: 1.6;
             color: #4f6f91;
         }
         .season-practice-card__cta {
@@ -344,7 +319,7 @@ $footer = new Footer();
             align-items: center;
             gap: 0.42rem;
             color: #214f80;
-            font-size: 0.76rem;
+            font-size: 0.88rem;
             font-weight: 700;
         }
         .season-practice-card__cta i {
@@ -547,46 +522,40 @@ $footer = new Footer();
     <div class="season-hero__bg md:hidden" style="background-image:url('<?= $e($hero_image_mobile) ?>');" role="img" aria-label="<?= $e($hero_image_mobile_alt) ?>"></div>
     <div class="season-hero__overlay"></div>
 
-    <!-- Season navigation dots -->
-    <div class="season-hero__content pb-10 pt-[calc(var(--header-height,0px)+1.45rem)] md:pb-12 md:pt-[calc(var(--header-height,0px)+1.9rem)]">
+    <!-- Season switcher -->
+    <div class="absolute top-1/2 -translate-y-1/2 right-6 md:right-10 flex flex-col gap-3 z-10">
+        <?php foreach ($seasons as $key => $sv): ?>
+        <a href="/seasons/<?= $e($key) ?>"
+           class="flex items-center gap-2.5 group <?= $key === $slug ? 'opacity-100' : 'opacity-50 hover:opacity-80' ?> transition-opacity"
+           title="<?= $e($sv['name']) ?>">
+            <?php if ($key === $slug): ?>
+            <span class="block w-2 h-2 rounded-full flex-shrink-0" style="background:<?= $e($sv['color']) ?>"></span>
+            <?php else: ?>
+            <span class="block w-1.5 h-1.5 rounded-full flex-shrink-0 bg-white/40"></span>
+            <?php endif ?>
+            <span class="text-white text-base md:text-lg font-semibold leading-none"><?= $e($sv['name']) ?></span>
+        </a>
+        <?php endforeach ?>
+    </div>
+
+    <div class="season-hero__content">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
 
-            <!-- Season switcher top-right -->
-            <div class="absolute top-24 right-6 md:right-10 flex flex-col gap-2 z-10">
-                <?php foreach ($seasons as $key => $sv): ?>
-                <a href="/seasons/<?= $e($key) ?>"
-                   class="flex items-center gap-2 group <?= $key === $slug ? 'opacity-100' : 'opacity-50 hover:opacity-80' ?> transition-opacity"
-                   title="<?= $e($sv['name']) ?>">
-                    <span class="text-white text-xs font-medium"><?= $e($sv['name']) ?></span>
-                </a>
-                <?php endforeach ?>
-            </div>
-
             <!-- Main hero text -->
-            <p class="text-[0.68rem] font-semibold tracking-[0.2em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>">
+            <p class="text-[0.8rem] font-semibold tracking-[0.18em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>">
                 Времена года
             </p>
             <h1 class="text-4xl md:text-6xl font-black text-white leading-none mb-4">
                 <?= $e($s['name']) ?>
             </h1>
-            <p class="text-[0.9rem] md:text-[1.04rem] font-light mb-4 max-w-xl" style="color:rgba(255,255,255,0.92)">
+            <p class="text-[1.02rem] md:text-[1.16rem] font-light mb-4 max-w-xl" style="color:rgba(255,255,255,0.92)">
                 <?= $e($s['slogan']) ?>
             </p>
-            <blockquote class="text-[0.78rem] md:text-[0.86rem] italic max-w-2xl border-l-4 pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.86);border-color:<?= $e($s['color']) ?>">
+            <blockquote class="text-[0.92rem] md:text-[1rem] italic max-w-2xl border-l-4 pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.86);border-color:<?= $e($s['color']) ?>">
                 <?= $e($s['quote']) ?>
             </blockquote>
 
-            <!-- Artwork attribution -->
-            <?php if ($hero_attribution !== ''): ?>
-            <p class="mt-5 hidden text-white/40 text-[0.64rem] md:block">
-                <?= $e($hero_attribution) ?>
-            </p>
-            <?php endif ?>
-            <?php if ($hero_mobile_attribution !== ''): ?>
-            <p class="mt-5 text-white/40 text-[0.64rem] md:hidden">
-                <?= $e($hero_mobile_attribution) ?>
-            </p>
-            <?php endif ?>
+
         </div>
     </div>
 </section>
@@ -596,61 +565,20 @@ $footer = new Footer();
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="mx-auto max-w-4xl text-center">
             <span class="text-4xl mb-5 block"><?= $s['icon'] ?></span>
-            <h2 class="text-[1.16rem] md:text-[1.34rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>">
+            <h2 class="text-[1.3rem] md:text-[1.52rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>">
                 <?= $e($titles['health']) ?>
             </h2>
-            <p class="text-[0.84rem] text-gray-700 leading-relaxed max-w-3xl mx-auto">
+            <p class="text-[0.96rem] text-gray-700 leading-relaxed max-w-3xl mx-auto">
                 <?= $e($s['intro']) ?>
             </p>
         </div>
     </div>
 </section>
 
-<!-- ═══════════════ GALLERY ═══════════════ -->
-<section class="py-14 md:py-20 bg-white">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <div class="max-w-3xl">
-            <p class="text-[0.68rem] font-semibold tracking-[0.2em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>">Искусство сезона</p>
-            <h2 class="text-[1.16rem] md:text-[1.34rem] font-bold text-[#173b64] mb-2.5"><?= $e($titles['gallery']) ?></h2>
-            <p class="text-[0.82rem] text-gray-600 leading-relaxed">
-                <?= $e($s['art_medicine_quote'] ?? $s['intro']) ?>
-            </p>
-        </div>
-
-        <?php if ($gallery_items !== []): ?>
-        <div class="season-gallery-shell" aria-label="Галерея сезона">
-            <div class="season-gallery-lead">
-                <p class="season-gallery-lead__hint">Откройте работу, чтобы рассмотреть изображение крупнее.</p>
-            </div>
-            <div class="season-gallery-masonry">
-                <?php foreach ($gallery_items as $index => $item): ?>
-                <?php $gallery_meta = array_values(array_filter([
-                    trim((string)($item['artist'] ?? '')),
-                    trim((string)($item['year'] ?? '')),
-                ])); ?>
-                <figure class="season-gallery-slide" data-season-gallery-index="<?= $e((string)$index) ?>" onclick="openSeasonArtPopup(<?= $e((string)$index) ?>)">
-                    <img src="<?= $e($item['image']) ?>" alt="<?= $e($item['alt']) ?>" loading="lazy">
-                    <figcaption class="season-gallery-slide__caption">
-                        <p class="season-gallery-slide__title">«<?= $e($item['artwork']) ?>»</p>
-                        <?php if ($gallery_meta !== []): ?>
-                        <p class="season-gallery-slide__meta"><?= $e(implode(', ', $gallery_meta)) ?></p>
-                        <?php endif ?>
-                        <?php if (!empty($item['museum'])): ?>
-                        <p class="season-gallery-slide__museum"><?= $e($item['museum']) ?></p>
-                        <?php endif ?>
-                    </figcaption>
-                </figure>
-                <?php endforeach ?>
-                </div>
-        </div>
-        <?php endif ?>
-    </div>
-</section>
-
 <!-- ═══════════════ SEASONAL TIPS ═══════════════ -->
 <section class="py-14 md:py-20 bg-white">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-[1.16rem] md:text-[1.34rem] font-bold text-[#173b64] mb-7 text-center">
+        <h2 class="text-[1.3rem] md:text-[1.52rem] font-bold text-[#173b64] mb-7 text-center">
             <?= $e($titles['tips']) ?>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -661,8 +589,8 @@ $footer = new Footer();
                     <i class="fa-solid <?= $e($tip['icon']) ?>" aria-hidden="true"></i>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-[0.84rem] text-[#173b64] mb-1.5"><?= $e($tip['title']) ?></h3>
-                    <p class="text-gray-600 text-[0.76rem] leading-relaxed"><?= $e($tip['text']) ?></p>
+                    <h3 class="font-semibold text-[1rem] text-[#173b64] mb-1.5"><?= $e($tip['title']) ?></h3>
+                    <p class="text-gray-600 text-[0.9rem] leading-relaxed"><?= $e($tip['text']) ?></p>
                 </div>
             </div>
             <?php endforeach ?>
@@ -675,10 +603,10 @@ $footer = new Footer();
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10">
             <div class="max-w-2xl">
-                <p class="text-[0.68rem] font-semibold tracking-[0.2em] uppercase" style="color:<?= $e($s['color']) ?>">Практика сезона</p>
-                <h2 class="text-[1.16rem] md:text-[1.34rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"><?= $e($titles['services']) ?></h2>
+                <p class="text-[0.8rem] font-semibold tracking-[0.18em] uppercase" style="color:<?= $e($s['color']) ?>">Практика сезона</p>
+                <h2 class="text-[1.3rem] md:text-[1.52rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"><?= $e($titles['services']) ?></h2>
             </div>
-            <a href="/services" class="inline-flex items-center gap-2 text-[0.82rem] font-semibold text-[#173b64] hover:text-[#2fbdef] transition-colors">
+            <a href="/services" class="inline-flex items-center gap-2 text-[0.92rem] font-semibold text-[#173b64] hover:text-[#2fbdef] transition-colors">
                 Все услуги клиники
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
@@ -704,8 +632,8 @@ $footer = new Footer();
 <section class="py-14 md:py-18 text-white" style="background:<?= $e($s['color_dark']) ?>">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="mx-auto max-w-4xl text-center">
-            <h2 class="text-[1.16rem] md:text-[1.34rem] font-bold mb-3"><?= $e($titles['cta']) ?></h2>
-            <p class="text-white/80 text-[0.8rem] mb-7 max-w-xl mx-auto leading-relaxed">
+            <h2 class="text-[1.3rem] md:text-[1.52rem] font-bold mb-3"><?= $e($titles['cta']) ?></h2>
+            <p class="text-white/80 text-[0.94rem] mb-7 max-w-xl mx-auto leading-relaxed">
                 Наши специалисты разработают индивидуальную программу с учётом сезона и ваших особенностей.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -728,7 +656,7 @@ $footer = new Footer();
 <!-- ═══════════════ SEASON NAVIGATION ═══════════════ -->
 <nav class="py-10 bg-gray-50 border-t border-gray-200" aria-label="Другие сезоны">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-center text-[0.68rem] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-6"><?= $e($titles['nav']) ?></h2>
+        <h2 class="text-center text-[0.8rem] font-semibold tracking-[0.18em] uppercase text-gray-400 mb-6"><?= $e($titles['nav']) ?></h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <?php foreach ($seasons as $key => $sv): ?>
             <?php $is_current = ($key === $slug); ?>
@@ -782,19 +710,13 @@ $footer = new Footer();
     function renderSeasonArtPopup(index){
         if(!seasonPopupItems.length){return;}
         var image = document.getElementById('season-art-popup-image');
-        var title = document.getElementById('season-art-popup-title');
-        var meta = document.getElementById('season-art-popup-meta');
-        var museum = document.getElementById('season-art-popup-museum');
-        if(!image||!title||!meta||!museum){return;}
+        if(!image){return;}
         if(index < 0){index = seasonPopupItems.length - 1;}
         if(index >= seasonPopupItems.length){index = 0;}
         currentSeasonPopupIndex = index;
         var item = seasonPopupItems[index] || {};
         image.src = item.image || '';
-        image.alt = item.alt || item.title || '';
-        title.textContent = item.title ? '«' + item.title + '»' : '';
-        meta.textContent = item.meta || '';
-        museum.textContent = item.museum || '';
+        image.alt = item.alt || '';
     }
     function openSeasonArtPopup(index){
         var popup = document.getElementById('season-art-popup');
