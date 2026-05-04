@@ -5,7 +5,6 @@ define('CLINIC_NAME', 'БИОИНМЕД');
 define('CLINIC_SITE_URL', 'https://next.bioinmed.ru');
 define('CLINIC_ICON_PATH', '/public/images/brand/bioinmed-icon.png');
 define('CLINIC_PHONE', '+7 (495) 796-03-36');
-define('CLINIC_PHONE_2', '8 (800) 770-03-36');
 define('CLINIC_ADDRESS', 'Москва, Оболенский пер., 9А');
 define('CLINIC_METRO', 'м. Фрунзенская');
 define('CLINIC_EMAIL', 'info@bioinmed.ru');
@@ -204,7 +203,7 @@ function bioinmed_medical_organization_schema() {
         'url' => CLINIC_SITE_URL,
         'image' => bioinmed_default_social_image_url(),
         'logo' => bioinmed_absolute_url(CLINIC_ICON_PATH),
-        'telephone' => [CLINIC_PHONE, CLINIC_PHONE_2],
+        'telephone' => [CLINIC_PHONE],
         'email' => CLINIC_EMAIL,
         'address' => [
             '@type' => 'PostalAddress',

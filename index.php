@@ -1,4 +1,21 @@
 <?php
+// PIN-защита сайта
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Проверяем, предоставлен ли доступ через splash.php
+if (!isset($_SESSION['site_access_granted'])) {
+    // Проверяем переменную окружения для отключения PIN-защиты
+    // По умолчанию защита ВКЛЮЧЕНА, отключается только при PIN_PROTECTION_ENABLED=0
+    $pin_protection_disabled = in_array(getenv('PIN_PROTECTION_ENABLED'), ['0', 'false'], true);
+    if (!$pin_protection_disabled) {
+        // PIN-защита включена, перенаправляем на splash.php
+        header('Location: /splash.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
+        exit;
+    }
+}
+
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 

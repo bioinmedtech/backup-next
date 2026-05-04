@@ -777,7 +777,7 @@ class HeroSection extends Component {
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
                         </a>
                         <h1 class="mt-2 max-w-3xl text-[1.52rem] font-bold leading-[1.02] text-[#0f2749] sm:text-[1.9rem] md:text-[2.08rem] lg:text-[2.18rem]">
-                            Медицина - это искусство выздоровления
+                            БИОИНМЕД - с нами выздоравливать легко
                         </h1>
                         <p class="mt-2.5 max-w-xl text-[0.9rem] leading-relaxed text-[#355b89] md:text-[0.96rem]">
                             Подберём специалиста и маршрут восстановления под ваш запрос.
