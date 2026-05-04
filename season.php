@@ -155,9 +155,16 @@ $footer = new Footer();
         'image' => $social_image,
         'image_alt' => $social_image_alt,
     ]) ?>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
     <style>
+        * {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', sans-serif;
+        }
         .season-hero {
             position: relative;
             height: calc(100svh - var(--header-height, 0px));
@@ -172,6 +179,22 @@ $footer = new Footer();
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
+        }
+        .season-hero__video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0;
+            transition: opacity 0.6s ease-in;
+        }
+        .season-hero__video.loaded {
+            opacity: 1;
+        }
+        .season-hero__video.loaded ~ div {
+            /* Скрыть фоновое изображение, когда видео загружено */
         }
         .season-hero__overlay {
             position: absolute;
@@ -536,12 +559,34 @@ $footer = new Footer();
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="season-hero" aria-label="<?= $e($s['name']) ?>">
-    <div class="season-hero__bg hidden md:block" style="background-image:url('<?= $e($hero_image_desktop) ?>');" role="img" aria-label="<?= $e($hero_image_desktop_alt) ?>"></div>
-    <div class="season-hero__bg md:hidden" style="background-image:url('<?= $e($hero_image_mobile) ?>');" role="img" aria-label="<?= $e($hero_image_mobile_alt) ?>"></div>
+    <!-- Desktop video/background -->
+    <div class="season-hero__bg hidden md:block" role="img" aria-label="<?= $e($hero_image_desktop_alt) ?>" style="<?php if (!empty($s['video_desktop'])): ?>background-image:url('<?= $e($hero_image_desktop) ?>');background-size:cover;background-position:center;<?php endif ?>">
+        <?php if (!empty($s['video_desktop'])): ?>
+            <video class="season-hero__video" poster="<?= $e($hero_image_desktop) ?>" autoplay muted loop playsinline preload="metadata">
+                <source src="<?= $e($s['video_desktop']) ?>" type="video/mp4">
+                <img src="<?= $e($hero_image_desktop) ?>" alt="<?= $e($hero_image_desktop_alt) ?>" style="width:100%;height:100%;object-fit:cover;">
+            </video>
+        <?php else: ?>
+            <div style="background-image:url('<?= $e($hero_image_desktop) ?>');background-size:cover;background-position:center;width:100%;height:100%;"></div>
+        <?php endif ?>
+    </div>
+    
+    <!-- Mobile video/background -->
+    <div class="season-hero__bg md:hidden" role="img" aria-label="<?= $e($hero_image_mobile_alt) ?>" style="<?php if (!empty($s['video_mobile'])): ?>background-image:url('<?= $e($hero_image_mobile) ?>');background-size:cover;background-position:center;<?php endif ?>">
+        <?php if (!empty($s['video_mobile'])): ?>
+            <video class="season-hero__video" poster="<?= $e($hero_image_mobile) ?>" autoplay muted loop playsinline preload="metadata">
+                <source src="<?= $e($s['video_mobile']) ?>" type="video/mp4">
+                <img src="<?= $e($hero_image_mobile) ?>" alt="<?= $e($hero_image_mobile_alt) ?>" style="width:100%;height:100%;object-fit:cover;">
+            </video>
+        <?php else: ?>
+            <div style="background-image:url('<?= $e($hero_image_mobile) ?>');background-size:cover;background-position:center;width:100%;height:100%;"></div>
+        <?php endif ?>
+    </div>
+    
     <div class="season-hero__overlay"></div>
 
     <!-- Season switcher -->
-    <div class="absolute top-1/2 -translate-y-1/2 right-6 md:right-10 flex flex-col gap-3 z-10">
+    <div class="absolute top-4 left-1/2 -translate-x-1/2 md:top-1/2 md:right-6 md:left-auto md:-translate-x-0 md:-translate-y-1/2 lg:right-10 flex flex-row md:flex-col gap-2 md:gap-3 z-10">
         <?php foreach ($seasons as $key => $sv): ?>
         <a href="/seasons/<?= $e($key) ?>"
            class="flex items-center gap-2.5 group <?= $key === $slug ? 'opacity-100' : 'opacity-50 hover:opacity-80' ?> transition-opacity"
@@ -569,7 +614,7 @@ $footer = new Footer();
             <p class="text-[1.02rem] md:text-[1.16rem] font-light mb-4 max-w-xl" style="color:rgba(255,255,255,0.92)">
                 <?= $e($s['slogan']) ?>
             </p>
-            <blockquote class="text-[0.92rem] md:text-[1rem] italic max-w-2xl border-l-4 pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.86);border-color:<?= $e($s['color']) ?>">
+            <blockquote class="text-[0.92rem] md:text-[1rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.86);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.15rem,2vw,1.35rem);font-weight:500;">
                 <?= $e($s['quote']) ?>
             </blockquote>
 
@@ -769,6 +814,16 @@ $footer = new Footer();
             if(e.key==='ArrowRight'){showNextSeasonArtPopup();}
             return;
         }
+    });
+    
+    // Плавный переход видео: добавляем класс .loaded когда видео готово
+    document.querySelectorAll('.season-hero__video').forEach(function(video) {
+        video.addEventListener('canplay', function() {
+            this.classList.add('loaded');
+        });
+        video.addEventListener('loadstart', function() {
+            this.classList.remove('loaded');
+        });
     });
 </script>
 </body>

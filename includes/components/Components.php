@@ -266,6 +266,9 @@ class Header extends Component {
         $mobile_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" onclick="closeMobMenu()"' . $mobile_seasons_summary_attr . '>Сезоны: ' . $current_season_name . '</a>';
 
         return <<<HTML
+        <style>
+            * { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', sans-serif; }
+        </style>
         <header id="site-header" class="z-50 border-b border-[#d7e5f1] bg-[#f7fbff] lg:bg-[#f7fbff]/98 lg:backdrop-blur-md">
             <!-- ─── MOBILE HEADER ─── (hidden on lg+ via CSS) -->
             <div id="mob-header-bar">

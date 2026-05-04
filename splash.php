@@ -123,8 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .logo-mark img {
-            max-width: 240px;
-            max-height: 160px;
+            max-width: 320px;
+            max-height: 210px;
             width: auto;
             height: auto;
             display: block;
@@ -307,8 +307,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             .logo-mark img {
-                max-width: 190px;
-                max-height: 130px;
+                max-width: 280px;
+                max-height: 180px;
             }
 
             .form-card {
@@ -348,8 +348,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             .logo-mark img {
-                max-width: 160px;
-                max-height: 110px;
+                max-width: 240px;
+                max-height: 160px;
             }
 
             .pin-input {
@@ -385,10 +385,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label class="pin-label">PIN-код</label>
                     <div class="pin-input-wrapper">
-                        <input type="text" class="pin-input" maxlength="1" pattern="[0-9]" placeholder="•" autocomplete="off" aria-label="PIN цифра 1">
-                        <input type="text" class="pin-input" maxlength="1" pattern="[0-9]" placeholder="•" autocomplete="off" aria-label="PIN цифра 2">
-                        <input type="text" class="pin-input" maxlength="1" pattern="[0-9]" placeholder="•" autocomplete="off" aria-label="PIN цифра 3">
-                        <input type="text" class="pin-input" maxlength="1" pattern="[0-9]" placeholder="•" autocomplete="off" aria-label="PIN цифра 4">
+                        <input type="tel" class="pin-input" maxlength="1" pattern="[0-9]" inputmode="numeric" placeholder="•" autocomplete="off" aria-label="PIN цифра 1">
+                        <input type="tel" class="pin-input" maxlength="1" pattern="[0-9]" inputmode="numeric" placeholder="•" autocomplete="off" aria-label="PIN цифра 2">
+                        <input type="tel" class="pin-input" maxlength="1" pattern="[0-9]" inputmode="numeric" placeholder="•" autocomplete="off" aria-label="PIN цифра 3">
+                        <input type="tel" class="pin-input" maxlength="1" pattern="[0-9]" inputmode="numeric" placeholder="•" autocomplete="off" aria-label="PIN цифра 4">
                     </div>
                     <input type="hidden" name="pin" id="pinInput" value="">
                 </div>
