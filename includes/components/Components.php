@@ -776,15 +776,18 @@ class HeroSection extends Component {
                             Сезон: {$actual_season_name}
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
                         </a>
-                        <h1 class="mt-2 max-w-3xl text-[1.52rem] font-bold leading-[1.08] text-[#0f2749] sm:text-[1.9rem] md:text-[2.08rem] lg:text-[2.18rem]">
+                        <link rel="preconnect" href="https://fonts.googleapis.com">
+                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+                        <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.55rem,3.5vw,2.2rem);font-weight:700;">
                             С нами выздоравливать легко
                         </h1>
-                        <p class="mt-2.5 max-w-xl text-[0.9rem] leading-relaxed text-[#355b89] md:text-[0.96rem]">
+                        <p class="mt-2 max-w-xl leading-relaxed text-[#355b89]" style="font-family:'Caveat',cursive;font-size:clamp(1rem,2vw,1.2rem);font-weight:500;">
                             Подберём специалиста и маршрут восстановления под ваш запрос.
                         </p>
-                        <p class="mt-3 flex items-baseline gap-1.5 text-[0.88rem] italic text-[#4a6f96]">
+                        <p class="mt-3 flex items-baseline gap-1.5 text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(0.95rem,1.8vw,1.1rem);font-weight:500;">
                             <span class="inline-block h-[1px] w-5 shrink-0 self-center bg-[#2fbdef]"></span>
-                            Ваш <strong class="not-italic font-bold text-[#0f2749] tracking-wide">БИОИНМЕД</strong>
+                            Ваш <strong style="font-family:'Caveat',cursive;font-weight:700;color:#0f2749;">Биоинмед</strong>
                         </p>
 
                         <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
