@@ -776,11 +776,15 @@ class HeroSection extends Component {
                             Сезон: {$actual_season_name}
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
                         </a>
-                        <h1 class="mt-2 max-w-3xl text-[1.52rem] font-bold leading-[1.02] text-[#0f2749] sm:text-[1.9rem] md:text-[2.08rem] lg:text-[2.18rem]">
-                            БИОИНМЕД - с нами выздоравливать легко
+                        <h1 class="mt-2 max-w-3xl text-[1.52rem] font-bold leading-[1.08] text-[#0f2749] sm:text-[1.9rem] md:text-[2.08rem] lg:text-[2.18rem]">
+                            С нами выздоравливать легко
                         </h1>
                         <p class="mt-2.5 max-w-xl text-[0.9rem] leading-relaxed text-[#355b89] md:text-[0.96rem]">
                             Подберём специалиста и маршрут восстановления под ваш запрос.
+                        </p>
+                        <p class="mt-3 flex items-baseline gap-1.5 text-[0.88rem] italic text-[#4a6f96]">
+                            <span class="inline-block h-[1px] w-5 shrink-0 self-center bg-[#2fbdef]"></span>
+                            Ваш <strong class="not-italic font-bold text-[#0f2749] tracking-wide">БИОИНМЕД</strong>
                         </p>
 
                         <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">

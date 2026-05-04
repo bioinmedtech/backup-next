@@ -367,9 +367,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="splash-container">
         <div class="logo-block">
-            <div class="logo-mark">
+            <a href="/" class="logo-mark" aria-label="На главную страницу БИОИНМЕД">
                 <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД">
-            </div>
+            </a>
         </div>
 
         <div class="form-card">
@@ -410,10 +410,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         pinInputs.forEach((input, index) => {
             input.addEventListener('input', (e) => {
                 e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                updatePinField();
+                const len = updatePinField();
 
                 if (e.target.value.length === 1 && index < pinInputs.length - 1) {
                     pinInputs[index + 1].focus();
+                }
+
+                if (len === 4) {
+                    submitPin();
                 }
             });
 
@@ -434,10 +438,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     input.value = digits[idx] || '';
                 });
 
-                updatePinField();
+                const pasteLen = updatePinField();
                 pinInputs[Math.min(digits.length, pinInputs.length - 1)].focus();
-
-                if (updatePinField() === 4) {
+                if (pasteLen === 4) {
                     submitPin();
                 }
             });
