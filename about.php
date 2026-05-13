@@ -39,7 +39,7 @@ $chiefTitle = trim((string)($chief['title'] ?? 'Главный врач'));
 $chiefBio = trim((string)($chief['bio'] ?? 'Эксперт в области интегративной медицины, биорегуляции и персональных программ восстановления.'));
 $chiefLeadership = trim((string)($chief['leadership'] ?? ''));
 $chiefExperience = trim((string)($chief['experience'] ?? 'Более 30 лет врачебной практики'));
-$chiefImage = '/public/images/team/kostromina.jpg';
+$chiefImage = '/public/images/team/kostromina-default.jpg';
 $mapUrl = 'https://yandex.com/maps/-/CPGGyEzo';
 if (!empty($chief['image'])) {
 	$chiefImage = '/public/images/team/' . ltrim((string)$chief['image'], '/');

@@ -275,8 +275,8 @@ class Header extends Component {
             <div id="mob-header-bar">
                 <!-- Row 1: logo + phone + burger -->
                 <div class="flex items-center justify-between px-4 py-2.5">
-                    <a href="/" class="inline-flex items-center">
-                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 w-auto" loading="eager">
+                    <a href="/" class="inline-flex items-center mr-3 shrink-0">
+                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 w-auto max-w-none" loading="eager">
                     </a>
                     <div class="flex items-center gap-2">
                         <a href="tel:{$phone_1_link}" aria-label="Позвонить" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#2fbdef]">
@@ -305,9 +305,9 @@ class Header extends Component {
             <!-- ─── DESKTOP HEADER ─── (hidden below lg) -->
             <div class="hidden lg:block">
                 <div class="mx-auto max-w-6xl px-6 pt-2 md:px-10">
-                    <div class="grid gap-2 pb-2.5 lg:grid-cols-[168px_1.05fr_0.9fr_0.74fr_168px] lg:items-start">
-                        <a href="/" class="inline-flex items-center">
-                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 w-auto" loading="eager">
+                    <div class="grid gap-2 pb-2.5 lg:grid-cols-[max-content_1.05fr_0.9fr_0.74fr_168px] lg:items-start">
+                        <a href="/" class="inline-flex items-center mr-3 shrink-0">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 w-auto max-w-none" loading="eager">
                         </a>
 
                         <div class="pt-1 leading-tight text-[#173b64]">
@@ -733,6 +733,7 @@ class Header extends Component {
 class HeroSection extends Component {
     public function render() {
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
+        $habilect_logo = $this->e(bioinmed_versioned_asset_path('/public/images/habilect.png'));
         $seasons = require __DIR__ . '/../../config/seasons.php';
         $actual_slug = bioinmed_current_season_slug();
         if (!isset($seasons[$actual_slug])) {
@@ -879,6 +880,18 @@ class HeroSection extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 md:bottom-6 md:px-6">
+                <a href="/services/hobilect-diagnostics" class="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/55 px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] backdrop-blur-xl transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#2fbdef]/30 md:gap-3 md:px-4 md:py-2.5">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[#2fbdef]/12 ring-1 ring-[#2fbdef]/15 md:h-9 md:w-9">
+                        <img src="{$habilect_logo}" alt="HABILECT" class="h-5 w-auto shrink-0 md:h-6" loading="eager" decoding="async">
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-[0.63rem] font-semibold uppercase tracking-[0.28em] text-[#1f5b91] md:text-[0.68rem]">HABILECT</p>
+                        <p class="hidden text-[0.72rem] font-medium leading-tight text-[#4a6f96] sm:block md:text-[0.78rem]">Инновационные системы диагностики</p>
+                    </div>
+                </a>
             </div>
         </section>
 
@@ -1148,19 +1161,7 @@ class StatsBlock extends Component {
                             <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$experience_desc}</p>
                         </div>
                     </li>
-                    <!-- Stat 2: Rating -->
-                    <li class="flex items-center gap-3 py-4 pl-4 md:px-7 md:py-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                            </svg>
-                        </span>
-                        <div>
-                            <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$rating}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$rating_desc}</p>
-                        </div>
-                    </li>
-                    <!-- Stat 3: Medical directions -->
+                    <!-- Stat 2: Rehabilitation methods -->
                     <li class="flex items-center gap-3 py-4 pr-4 md:px-7 md:py-0">
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
@@ -1170,6 +1171,18 @@ class StatsBlock extends Component {
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$patients}</div>
                             <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$patients_desc}</p>
+                        </div>
+                    </li>
+                    <!-- Stat 3: Rating -->
+                    <li class="flex items-center gap-3 py-4 pl-4 md:px-7 md:py-0">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                            </svg>
+                        </span>
+                        <div>
+                            <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$rating}</div>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$rating_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 4: License -->
@@ -1188,6 +1201,7 @@ class StatsBlock extends Component {
             </div>
         </section>
         HTML;
+
     }
 }
 
@@ -1201,7 +1215,7 @@ class VisualGallery extends Component {
                         <img src="/public/images/content/about-company.jpg" alt="Клиника БИОИНМЕД" class="h-56 w-full object-cover" loading="lazy" />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/kostromina.jpg" alt="Костромина Инна Викторовна" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/team/kostromina-default.jpg" alt="Костромина Инна Викторовна" class="h-56 w-full object-cover" loading="lazy" />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
                         <img src="/public/images/team/ferencz.jpg" alt="Ференц Надежда Юрьевна" class="h-56 w-full object-cover" loading="lazy" />
@@ -1243,6 +1257,7 @@ class ProblemsGrid extends Component {
             'habilect' => 'hobilect-diagnostics',
             'hobilect' => 'hobilect-diagnostics',
             'хабилект' => 'hobilect-diagnostics',
+            'диагностик' => 'chief-doctor-consultation',
             'остеопат' => 'osteopathy',
             'hilt' => 'hilt-therapy',
             'хилт' => 'hilt-therapy',
@@ -1253,6 +1268,10 @@ class ProblemsGrid extends Component {
             'психолог' => 'psychotherapy',
             'мануаль' => 'osteopathy',
             'афк' => 'physiotherapy-comprehensive',
+            'стельк' => 'physiotherapy-comprehensive',
+            'лфк' => 'physiotherapy-comprehensive',
+            'ортопед' => 'physiotherapy-comprehensive',
+            'ортопеди' => 'physiotherapy-comprehensive',
             'биорезонанс' => 'chief-doctor-consultation',
             'гомеопат' => 'chief-doctor-consultation',
             'озон' => 'ozone-therapy',
@@ -1296,7 +1315,13 @@ class ProblemsGrid extends Component {
                 $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#355b89]">' . $this->e($solution_text) . '</span>';
             }
 
-            $visible_solution_chips = array_slice($solution_chips, 0, 3);
+            $visible_solution_limit = 3;
+            $problem_title_lower = mb_strtolower((string)($problem['title'] ?? ''), 'UTF-8');
+            if (mb_strpos($problem_title_lower, 'последствия травм') !== false) {
+                $visible_solution_limit = 7;
+            }
+
+            $visible_solution_chips = array_slice($solution_chips, 0, $visible_solution_limit);
             $hidden_solution_count = count($solution_chips) - count($visible_solution_chips);
             if ($hidden_solution_count > 0) {
                 $visible_solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-transparent bg-[#eaf4fc] px-2.5 py-1 text-[0.78rem] font-semibold text-[#2a5a94]">+' . $hidden_solution_count . ' ещё</span>';
@@ -1406,7 +1431,7 @@ class ChiefDoctorBlock extends Component {
         }
 
         $leadership = isset($this->data['leadership']) ? $this->e($this->data['leadership']) : 'Руководит клиническим процессом и развитием стандартов медицинской помощи.';
-        $chief_image = bioinmed_versioned_asset_path('/public/images/team/' . ($this->data['image'] ?? ''));
+        $chief_image = bioinmed_versioned_asset_path('/public/images/team/kostromina.jpg');
 
         return <<<HTML
         <section class="border-b border-[#e6eef7] bg-[#f6fbff] py-10 md:py-14">

@@ -238,7 +238,7 @@ echo $header->render();
                 <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7 shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
                     <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0f3463]">
                         <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-list-check text-sm"></i></span>
-                        Направления работы
+                        Профиль деятельности
                     </h2>
                     <ul class="mt-5 space-y-3">
                         <?php foreach ($doctor['specializations'] as $spec): ?>
