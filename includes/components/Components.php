@@ -420,8 +420,8 @@ class Header extends Component {
                     <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                 </button>
                 <p class="booking-popup-eyebrow">Онлайн запись</p>
-                <h2 id="booking-popup-title" class="booking-popup-title">Оставьте номер телефона</h2>
-                <p class="booking-popup-text">Мы перезвоним и подберем удобное время приема.</p>
+                <h2 id="booking-popup-title" class="booking-popup-title">Записаться на приём</h2>
+                <p class="booking-popup-text">Перезвоним в течение 15 минут.</p>
                 <form action="{$booking_url}" method="post" class="booking-popup-form">
                     <input type="hidden" name="source" value="header-popup">
                     <label for="booking-popup-phone" class="booking-popup-label">Номер телефона</label>
@@ -435,6 +435,16 @@ class Header extends Component {
                         placeholder="Ваш телефон"
                         class="booking-popup-input"
                     >
+                    <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
+                        <input
+                            type="checkbox"
+                            required
+                            class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
+                        />
+                        <span class="block pt-0.5">
+                            Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a>
+                        </span>
+                    </label>
                     <button type="submit" class="booking-popup-submit">Перезвоните мне</button>
                 </form>
             </div>
@@ -795,7 +805,7 @@ class HeroSection extends Component {
                         <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
                             <div>
                                 <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]">Записаться на приём</h2>
-                                <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#4a6f96]">Оставьте номер, и мы свяжемся с вами.</p>
+                                <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#4a6f96]">Перезвоним в течение 15 минут.</p>
                             </div>
 
                             <form class="mt-3" action="{$booking_url}" method="post" aria-describedby="hero-form-note">
@@ -815,6 +825,16 @@ class HeroSection extends Component {
                                             aria-label="Введите номер телефона"
                                         />
                                     </div>
+                                    <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
+                                        <input
+                                            type="checkbox"
+                                            required
+                                            class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
+                                        />
+                                        <span class="block pt-0.5">
+                                            Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a>
+                                        </span>
+                                    </label>
                                     <button
                                         type="submit"
                                         class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
@@ -822,17 +842,6 @@ class HeroSection extends Component {
                                         Перезвоните мне
                                     </button>
                                 </div>
-
-                                <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
-                                    <input
-                                        type="checkbox"
-                                        required
-                                        class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
-                                    />
-                                    <span class="block pt-0.5">
-                                        Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a>
-                                    </span>
-                                </label>
                             </form>
                         </div>
                     </div>
@@ -1682,11 +1691,18 @@ class AppointmentCTA extends Component {
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9">
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#2fbdef]">Запишитесь на консультацию</p>
-                    <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Оставьте заявку — перезвоним в течение 15 минут</h2>
-                    <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">Мы уточним запрос, подберём специалиста и согласуем удобное время. Ежедневно с 9:00 до 21:00.</p>
-                    <form class="mt-5 flex flex-col gap-2.5 sm:max-w-lg sm:flex-row">
-                        <input type="tel" placeholder="+7 (___) ___-__-__" class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-5 py-2.5 text-[0.94rem] text-[#173f73] outline-none focus:border-[#2fbdef]">
-                        <button type="submit" class="shrink-0 rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#269bc4] transition-colors">Записаться</button>
+                    <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Записаться на приём</h2>
+                    <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">Перезвоним в течение 15 минут.</p>
+                    <form class="mt-5 max-w-lg space-y-2.5">
+                        <div>
+                            <label for="appointment-phone-input" class="mb-1 block text-[0.74rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
+                            <input type="tel" id="appointment-phone-input" name="phone" autocomplete="tel" inputmode="tel" required placeholder="Ваш телефон" class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-5 py-2.5 text-[0.94rem] text-[#173f73] outline-none focus:border-[#2fbdef] focus:ring-2 focus:ring-[#2fbdef]/20">
+                        </div>
+                        <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
+                            <input type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]">
+                            <span class="block pt-0.5">Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a></span>
+                        </label>
+                        <button type="submit" class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.94rem] font-semibold text-white transition-colors hover:bg-[#269bc4]">Перезвоните мне</button>
                     </form>
                 </div>
             </div>

@@ -299,25 +299,26 @@ echo $header->render();
                     <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#2a5a94]">Запись на приём</p>
                     <h3 class="mt-2 text-xl font-bold leading-tight text-[#0f3463]">Записаться на прием к специалисту</h3>
                     <p class="mt-2 text-sm leading-relaxed text-[#355b89]">
-                        Оставьте номер телефона — мы перезвоним в течение 15 минут, уточним запрос и подберём удобное время.
+                        Перезвоним в течение 15 минут.
                     </p>
 
                     <form id="doctor-book-form" class="mt-5 space-y-3">
                         <input type="hidden" name="doctor" value="<?php echo e($doctor['name']); ?>">
                         <div>
-                            <label class="mb-1 block text-xs font-semibold text-[#2a5a94]">Телефон <span class="text-red-500">*</span></label>
+                            <label class="mb-1 block text-[0.74rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
                             <input type="tel" name="phone" id="doc-phone-input" required
-                                   placeholder="+7 999 000 11 22"
+                                   placeholder="Ваш телефон"
                                    class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-4 py-3 text-sm text-[#173f73] outline-none focus:border-[#2fbdef] focus:ring-2 focus:ring-[#2fbdef]/15">
                         </div>
+                        <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
+                            <input type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]" />
+                            <span class="block pt-0.5">Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a></span>
+                        </label>
                         <button type="submit"
                                 class="w-full rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8] active:scale-[.98]">
                             <i class="fa-regular fa-calendar-check mr-1.5"></i> Перезвоните мне
                         </button>
                     </form>
-                    <p class="mt-3 text-[0.72rem] leading-snug text-[#7a9ab8]">
-                        Нажимая кнопку, вы соглашаетесь с обработкой персональных данных в соответствии с&nbsp;ФЗ&nbsp;№&nbsp;152.
-                    </p>
 
                     <!-- divider -->
                     <div class="my-5 flex items-center gap-3">

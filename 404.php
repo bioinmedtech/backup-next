@@ -88,12 +88,19 @@ echo $header->render();
 
         <aside class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.1)]" style="transition-delay:.08s">
             <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#2a5a94]">Помочь с записью</p>
-            <h2 class="mt-2 text-xl font-bold text-[#0f3463]">Перезвоним и найдем нужную страницу</h2>
-            <p class="mt-2 text-sm leading-relaxed text-[#355b89]">Оставьте номер телефона, и мы свяжемся с вами в течение 15 минут.</p>
+            <h2 class="mt-2 text-xl font-bold text-[#0f3463]">Записаться на приём</h2>
+            <p class="mt-2 text-sm leading-relaxed text-[#355b89]">Перезвоним в течение 15 минут.</p>
 
             <form id="lost-page-form" class="mt-4 space-y-3">
-                <input type="tel" id="lost-phone" name="phone" required placeholder="+7 999 000 11 22"
-                       class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-4 py-3 text-sm text-[#173f73] outline-none focus:border-[#2fbdef] focus:ring-2 focus:ring-[#2fbdef]/15">
+                <div>
+                    <label for="lost-phone" class="mb-1 block text-[0.74rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
+                    <input type="tel" id="lost-phone" name="phone" required placeholder="Ваш телефон"
+                           class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-4 py-3 text-sm text-[#173f73] outline-none focus:border-[#2fbdef] focus:ring-2 focus:ring-[#2fbdef]/15">
+                </div>
+                <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
+                    <input type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]" />
+                    <span class="block pt-0.5">Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a></span>
+                </label>
                 <button type="submit"
                         class="w-full rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8] active:scale-[.98]">
                     <i class="fa-regular fa-calendar-check mr-1.5"></i> Перезвоните мне
