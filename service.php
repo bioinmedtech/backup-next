@@ -116,6 +116,7 @@ $catInfo = [
     'physiotherapy'   => ['icon' => 'fa-wave-square',           'label' => 'Физиотерапия'],
     'reflexotherapy'  => ['icon' => 'fa-bullseye',              'label' => 'Рефлексотерапия'],
     'infusion_therapy'=> ['icon' => 'fa-droplet',               'label' => 'Инфузионная терапия'],
+    'ozone_therapy'   => ['icon' => 'fa-wind',                  'label' => 'Озонотерапия'],
     'injection_therapy'=>['icon' => 'fa-syringe',               'label' => 'Инъекционная терапия'],
     'chief_doctor'    => ['icon' => 'fa-user-doctor',           'label' => 'Приём главного врача'],
     'psychology'      => ['icon' => 'fa-brain',                 'label' => 'Психология'],

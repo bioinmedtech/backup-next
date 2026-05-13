@@ -277,10 +277,12 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             <h3 class="text-sm font-bold uppercase tracking-[0.1em] text-[#2fbdef] mb-4">Быстрая навигация:</h3>
             <div class="flex flex-wrap gap-2">
                 <a href="#chief-doctor" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Приём главного врача</a>
+                <a href="#oda" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Диагностика и реабилитация ОДА</a>
                 <a href="#psychology" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Психология</a>
                 <a href="#osteopathy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Остеопатия</a>
                 <a href="#infusion" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Инфузионная терапия</a>
                 <a href="#injection" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Инъекционная терапия</a>
+                <a href="#ozone" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Озонотерапия</a>
                 <a href="#reflexotherapy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Рефлексотерапия</a>
                 <a href="#physiotherapy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Физиотерапия</a>
                 <a href="#taping" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Тейпирование и банки</a>
@@ -352,6 +354,83 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                     <p class="text-sm text-[#214a7f] mt-1">Программа лояльности для пенсионеров 70+, участников СВО, дети 3-11 лет</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Диагностика и реабилитация ОДА -->
+            <section id="oda" class="category-section">
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
+                    <h2 class="text-2xl font-bold text-[#2fbdef]">Диагностика и реабилитация ОДА</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-[#f0f7fc]">
+                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <div class="font-semibold text-[#0f2749]">HABILECT: 3D-диагностика ОДА с подбором ЛФК</div>
+                                    <p class="text-sm text-[#214a7f] mt-1">30 минут, промежуточная диагностика в рамках программы реабилитации бесплатно</p>
+                                </td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Реабилитация с БОС на аппарате HABILECT (1 занятие, 20 мин)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Диагностика + реабилитация с ЛФК и БОС (с видеороликом), 50 мин</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Комплексная диагностика: специалист по реабилитации + HABILECT (без БОС), 60 мин</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Приём специалиста по реабилитации с подбором ЛФК, 40 мин</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Мониторинг специалиста по реабилитации с коррекцией ЛФК, 30 мин</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
+                            </tr>
+                            <tr class="bg-[#f9f0e6]">
+                                <td class="px-4 py-3">
+                                    <div class="font-semibold text-[#0f2749]">Комплексная программа: HABILECT + ЛФК + массаж 45 мин</div>
+                                    <p class="text-sm text-[#214a7f] mt-1">Полный блок реабилитации опорно-двигательного аппарата, 90 мин</p>
+                                </td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Массаж общий (60 мин) / спина+ШВЗ (45 мин) / 1 зона (30 мин)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 / 5 000 / 3 500 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Курс массажа 10 сеансов (1 сеанс в подарок)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">54 000 / 45 000 / 31 500 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Консультация мануального терапевта, невролога (30 мин)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Приём мануального терапевта, невролога (60 мин)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Кинезиотерапия: кинезио-тестирование и кинезио-массаж (60 мин)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Изготовление индивидуальных стелек Formthotics / Фудмастер (30 мин)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">12 900 / 7 900 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -480,14 +559,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3">Гомеопатическая капельница Heel (детоксикация)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
                             </tr>
-                            <tr>
-                                <td class="px-4 py-3">Гомеопатическая капельница Heel + озон</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3">Капельница с озоном (иммуномодуляция)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
-                            </tr>
+
                             <tr>
                                 <td class="px-4 py-3">Капельница с глутатионом (антиоксидант)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
@@ -533,7 +605,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             <section id="injection" class="category-section">
                 <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
                     <h2 class="text-2xl font-bold text-[#2fbdef]">Инъекционная терапия</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">PRP, озон, биопунктура</span>
+                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">PRP, карбокси, биопунктура</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
@@ -581,15 +653,15 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 500 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Карбокситерапия / озонотерапия - 1 зона</td>
+                                <td class="px-4 py-3">Карбокситерапия - 1 зона</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Карбокситерапия / озонотерапия - 2 зоны</td>
+                                <td class="px-4 py-3">Карбокситерапия - 2 зоны</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 500 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Карбокситерапия / озонотерапия - общая</td>
+                                <td class="px-4 py-3">Карбокситерапия - общая</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr>
@@ -599,6 +671,46 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                             <tr>
                                 <td class="px-4 py-3">Внутримышечные инъекции (выездная)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">1 200 ₽</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Озонотерапия -->
+            <section id="ozone" class="category-section">
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
+                    <h2 class="text-2xl font-bold text-[#2fbdef]">Озонотерапия</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Отдельный раздел</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-[#f0f7fc]">
+                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-3">Капельница с озоном (детоксикация, оксигенация, иммуномодуляция)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Гомеопатическая капельница Heel + озон</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Мезотерапия озоном: 1 зона / 2 зоны / общая</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 / 4 500 / 6 000 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Озоновая камера (30 мин)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">Массаж стоп озонированным маслом (20-30 мин)</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -864,9 +976,21 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                 { id: 'psychotherapy', pattern: /приемпсихолога|психотерап/ },
                 { id: 'diagnostika-i-konsultatsiya-vracha-osteopata-nekhoroshevoy-l-s', pattern: /диагностик(аи)?иконсультация.*нехорошев/ },
                 { id: 'diagnostika-i-konsultatsiya-vracha-osteopata-nevrologa-vertlib-v-p', pattern: /диагностик(аи)?иконсультация.*вертлиб/ },
+                { id: 'hobilect-diagnostics', pattern: /habilect|3dдиагностик|диагностикаода/ },
+                { id: 'rehabilitation-specialist-consultation', pattern: /специалистапореабилитациисподборомлфк/ },
+                { id: 'rehabilitation-specialist-monitoring', pattern: /мониторингспециалистапореабилитации/ },
+                { id: 'manual-therapy-consultation', pattern: /консультациямануальноготерапевта/ },
+                { id: 'manual-therapy-session', pattern: /приеммануальноготерапевта/ },
+                { id: 'kineziodiagnostics-therapy', pattern: /кинезиотерапия|кинезиотестирован|кинезиомассаж/ },
+                { id: 'orthotic-insoles-formthotics', pattern: /formthotics|изготовлениеиндивидуальныхстелекformthotics/ },
+                { id: 'orthotic-insoles-footmaster', pattern: /фудмастер|footmaster|изготовлениеиндивидуальныхстелекфудмастер/ },
+                { id: 'massage-course', pattern: /курсмассажа10сеансов/ },
                 { id: 'osteopathy', pattern: /приемостеопата|остеопат/ },
                 { id: 'priem-detskogo-osteopata', pattern: /приемдлядетей|детск(ий|ого)остеопат/ },
                 { id: 'gomeopaticheskaya-kapelnitsa-preparatami-kheel-ozon', pattern: /капельница.*heel.*озон/ },
+                { id: 'detoks-kapelnitsa', pattern: /капельницасозоном/ },
+                { id: 'ozone-therapy', pattern: /мезотерапияозоном|озонотерапия/ },
+                { id: 'ozone-camera', pattern: /озоноваякамера/ },
                 { id: 'gomeopaticheskaya-kapelnitsa-preparatami-kheel', pattern: /гомеопатическа(я|й)капельница.*heel|капельница.*heel/ },
                 { id: 'kapelnitsa-s-glutationom-antioksidant', pattern: /капельницасглутатион/ },
                 { id: 'kapelnitsa-s-elkarom-levokarnitin', pattern: /капельницасэлькар/ },
@@ -876,7 +1000,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                 { id: 'biopunktura', pattern: /биопунктур/ },
                 { id: 'gomeopunktura', pattern: /гомеопунктур/ },
                 { id: 'prp-therapy', pattern: /prpтерапия|плазмотерап/ },
-                { id: 'karboksiterapiya-ozonoterapiya', pattern: /карбокситерапия|озонотерапия/ },
+                { id: 'karboksiterapiya-ozonoterapiya', pattern: /карбокситерапия/ },
                 { id: 'inektsionnaya-terapiya', pattern: /внутримышечны(е|х)инъекц|инъекц/ },
                 { id: 'ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a', pattern: /экспрессприемзавотделения|экспрессприем/ },
                 { id: 'korporalnaya-iglorefleksoterapiya', pattern: /корпоральнаяиглорефлексотерапия/ },

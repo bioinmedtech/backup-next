@@ -323,6 +323,7 @@ function bioinmed_normalize_service_category($category) {
         'manual-therapy' => 'manual_therapy',
         'injection-therapy' => 'injection_therapy',
         'infusion-therapy' => 'infusion_therapy',
+        'ozone-therapy' => 'ozone_therapy',
         'chief-doctor' => 'chief_doctor',
         'musculoskeletal-program' => 'musculoskeletal',
         'physio' => 'physiotherapy',
