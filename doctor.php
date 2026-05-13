@@ -151,7 +151,7 @@ echo $header->render();
                              alt="<?php echo e($doctor['name']); ?>"
                              class="h-full w-full object-cover"
                              loading="eager"
-                             onerror="this.src='/public/images/brand/bioinmed-icon.png'">
+                             onerror="this.src='/public/images/placeholder.jpg'">
                     </div>
                     <!-- quick contact card below photo -->
                     <div class="mt-4 rounded-2xl border border-[#dce8f5] bg-[#f4f9ff] p-4">

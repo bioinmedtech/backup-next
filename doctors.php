@@ -147,7 +147,7 @@ echo $header->render();
                          alt="<?php echo e($chief['name']); ?>"
                          class="h-full max-h-[400px] w-full object-cover"
                          loading="eager"
-                         onerror="this.src='/public/images/brand/bioinmed-icon.png'">
+                        onerror="this.src='/public/images/placeholder.jpg'">
                 </div>
                 <div class="flex flex-col justify-between">
                     <div>
@@ -205,7 +205,7 @@ echo $header->render();
                              alt="<?php echo e($doc['name']); ?>"
                                 class="aspect-square w-full object-cover transition duration-300 group-hover:scale-[1.03]"
                              loading="lazy"
-                             onerror="this.src='/public/images/brand/bioinmed-icon.png'">
+                                      onerror="this.src='/public/images/placeholder.jpg'">
                     </div>
                     <div class="flex flex-1 flex-col p-5">
                         <h3 class="text-base font-bold leading-tight text-[#0f3463]"><?php echo e($doc['name']); ?></h3>
