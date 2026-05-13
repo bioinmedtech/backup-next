@@ -259,11 +259,11 @@ class Header extends Component {
 
         $current_season_name = $seasons_data[$actual_season_slug]['name'];
         $seasons_btn_class = $is_seasons
-            ? 'is-active text-[#2fbdef] border-b-2 border-transparent'
-            : 'text-[#173b64] border-b-2 border-transparent hover:text-[#2fbdef]';
-        $desktop_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" class="' . $seasons_btn_class . ' flex items-center gap-1 text-[0.86rem] font-medium"' . $desktop_seasons_aria . '>'
+            ? 'is-active text-[#2fbdef] border-b-2 border-[#2fbdef]'
+            : 'text-[#2a5a94] border-b-2 border-transparent hover:text-[#2fbdef]';
+        $desktop_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" class="' . $seasons_btn_class . ' inline-flex items-center gap-1 text-[0.86rem] font-semibold"' . $desktop_seasons_aria . '>'
             . 'Сезоны</a>';
-        $mobile_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" onclick="closeMobMenu()"' . $mobile_seasons_summary_attr . '>Сезоны: ' . $current_season_name . '</a>';
+        $mobile_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" onclick="closeMobMenu()"' . $mobile_seasons_summary_attr . '>Сезоны</a>';
 
         return <<<HTML
         <style>
@@ -351,12 +351,12 @@ class Header extends Component {
                 <div id="desktop-menu-row" class="desktop-menu-row flex items-center justify-between py-2.5">
                     <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.92rem] font-medium text-[#173b64] lg:overflow-visible">
                         <a href="/about" class="{$desktop_about_class}"{$desktop_about_aria}>О клинике</a>
+                        {$desktop_seasons_dropdown}
                         {$desktop_services_dropdown}
                         <a href="/doctors" class="{$desktop_doctors_class}"{$desktop_doctors_aria}>Профессиональная команда</a>
                         <a href="/#reviews" class="{$desktop_reviews_class}">Отзывы</a>
                         <a href="/#faq" class="{$desktop_faq_class}">Вопросы</a>
                         <a href="/prices" class="{$desktop_prices_class}"{$desktop_prices_aria}>Цены</a>
-                        {$desktop_seasons_dropdown}
                         <a href="/#contact" class="{$desktop_contacts_class}">Контакты</a>
                     </nav>
                     <div class="flex shrink-0 items-center gap-2">
@@ -387,12 +387,12 @@ class Header extends Component {
             </div>
             <nav id="mob-nav">
                 <a href="/about" onclick="closeMobMenu()"{$mobile_about_attr}>О клинике</a>
+                {$mobile_seasons_dropdown}
                 {$mobile_services_dropdown}
                 <a href="/doctors" onclick="closeMobMenu()"{$mobile_doctors_attr}>Профессиональная команда</a>
                 <a href="/#reviews" onclick="closeMobMenu()">Отзывы</a>
                 <a href="/#faq" onclick="closeMobMenu()">Вопросы</a>
                 <a href="/prices" onclick="closeMobMenu()"{$mobile_prices_attr}>Цены</a>
-                {$mobile_seasons_dropdown}
                 <a href="/#contact" onclick="closeMobMenu()">Контакты</a>
             </nav>
             <div style="margin-top:auto;border-top:1px solid #dce8f3;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
@@ -783,14 +783,13 @@ class HeroSection extends Component {
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                         <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
                         <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.55rem,3.5vw,2.2rem);font-weight:700;">
-                            С нами выздоравливать легко
+                            С нами выздоравливать легко!
                         </h1>
                         <p class="mt-2 max-w-xl leading-relaxed text-[#355b89]" style="font-family:'Caveat',cursive;font-size:clamp(1rem,2vw,1.2rem);font-weight:500;">
-                            Подберём специалиста и маршрут восстановления под ваш запрос.
+                            Ваш Биоинмед.
                         </p>
-                        <p class="mt-3 flex items-baseline gap-1.5 text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(0.95rem,1.8vw,1.1rem);font-weight:500;">
-                            <span class="inline-block h-[1px] w-5 shrink-0 self-center bg-[#2fbdef]"></span>
-                            Ваш <strong style="font-family:'Caveat',cursive;font-weight:700;color:#0f2749;">Биоинмед</strong>
+                        <p class="mt-1 max-w-2xl leading-relaxed text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(0.95rem,1.8vw,1.1rem);font-weight:500;">
+                            Экосистема HABILECT: ваш эффективный маршрут восстановления.
                         </p>
 
                         <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
