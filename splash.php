@@ -9,6 +9,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/config.php';
+
 $correct_pin = '0336';
 $error_message = '';
 $is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
@@ -44,6 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+$logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png');
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -368,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="splash-container">
         <div class="logo-block">
             <a href="/" class="logo-mark" aria-label="На главную страницу БИОИНМЕД">
-                <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД">
+                <img src="<?php echo htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8'); ?>" alt="БИОИНМЕД">
             </a>
         </div>
 

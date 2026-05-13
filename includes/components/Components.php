@@ -48,6 +48,7 @@ class Header extends Component {
         $map_url = 'https://yandex.com/maps/-/CPGGyEzo';
         $vk_url = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram_url = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
+        $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'));
 
         $request_uri = (string)($_SERVER['REQUEST_URI'] ?? '/');
         $current_path = parse_url($request_uri, PHP_URL_PATH);
@@ -275,7 +276,7 @@ class Header extends Component {
                 <!-- Row 1: logo + phone + burger -->
                 <div class="flex items-center justify-between px-4 py-2.5">
                     <a href="/" class="inline-flex items-center">
-                        <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-14 w-auto" loading="eager">
+                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 w-auto" loading="eager">
                     </a>
                     <div class="flex items-center gap-2">
                         <a href="tel:{$phone_1_link}" aria-label="Позвонить" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#2fbdef]">
@@ -306,7 +307,7 @@ class Header extends Component {
                 <div class="mx-auto max-w-6xl px-6 pt-2 md:px-10">
                     <div class="grid gap-2 pb-2.5 lg:grid-cols-[168px_1.05fr_0.9fr_0.74fr_168px] lg:items-start">
                         <a href="/" class="inline-flex items-center">
-                            <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-14 w-auto" loading="eager">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 w-auto" loading="eager">
                         </a>
 
                         <div class="pt-1 leading-tight text-[#173b64]">
@@ -375,7 +376,7 @@ class Header extends Component {
         <div id="mob-backdrop" onclick="closeMobMenu()"></div>
         <div id="mob-menu">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #dce8f3;">
-                <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" style="height:42px;width:auto;">
+                <img src="{$logo_src}" alt="БИОИНМЕД" style="height:42px;width:auto;">
                 <button onclick="closeMobMenu()" aria-label="Закрыть меню" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #dce8f3;background:transparent;cursor:pointer;color:#355b89;">
                     <i class="fa-solid fa-xmark" style="font-size:0.9rem;" aria-hidden="true"></i>
                 </button>
@@ -795,11 +796,12 @@ class HeroSection extends Component {
                         <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.55rem,3.5vw,2.2rem);font-weight:700;">
                             С нами выздоравливать легко!
                         </h1>
-                        <p class="mt-2 max-w-xl leading-relaxed text-[#355b89]" style="font-family:'Caveat',cursive;font-size:clamp(1rem,2vw,1.2rem);font-weight:500;">
+                        <p class="mt-3 inline-flex w-fit items-center rounded-full border border-[#d7e6f3] bg-white/92 px-3.5 py-1.5 leading-none text-[#1f5b91] shadow-[0_8px_18px_rgba(10,43,80,0.05)]" style="font-family:'Caveat',cursive;font-size:clamp(1.02rem,2.1vw,1.18rem);font-weight:700;">
                             Ваш Биоинмед.
                         </p>
-                        <p class="mt-1 max-w-2xl leading-relaxed text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(0.95rem,1.8vw,1.1rem);font-weight:500;">
-                            Экосистема HABILECT: ваш эффективный маршрут восстановления.
+                        <p class="mt-3 flex max-w-2xl items-start gap-2 text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(0.95rem,1.8vw,1.1rem);font-weight:500;">
+                            <span class="mt-[0.55em] inline-block h-[2px] w-6 shrink-0 rounded-full bg-[#2fbdef]"></span>
+                            <span>Экосистема HABILECT: ваш эффективный маршрут восстановления.</span>
                         </p>
 
                         <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
@@ -1926,6 +1928,7 @@ class Footer extends Component {
         $phone1_display = $this->e(CLINIC_PHONE);
         $phone2 = defined('CLINIC_PHONE_2') ? CLINIC_PHONE_2 : '';
         $phone2_link = $phone2 ? $this->phoneLink($phone2) : '';
+        $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'));
         $second_phone_footer = $phone2_link
             ? '<a href="tel:' . $phone2_link . '" class="block text-sm font-semibold text-[#214a7f] hover:text-[#2fbdef] transition-colors">' . $this->e($phone2) . '</a>'
             : '';
@@ -1938,7 +1941,7 @@ class Footer extends Component {
                     <!-- Логотип и описание -->
                     <div class="md:col-span-1">
                         <div class="mb-4">
-                            <img src="/public/images/brand/main-logotype.png" alt="БИОИНМЕД" class="h-14 mb-3" loading="lazy" decoding="async">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 mb-3" loading="lazy" decoding="async">
                         </div>
                         <p class="text-[0.96rem] text-[#214a7f] leading-relaxed">
                             Интегративная и восстановительная медицина с персональным маршрутом лечения для каждого пациента.

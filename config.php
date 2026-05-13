@@ -78,7 +78,7 @@ function bioinmed_versioned_asset_path($path = '') {
 }
 
 function bioinmed_default_social_image_path() {
-    return '/public/images/brand/og-preview-bioinmed.jpg';
+    return '/public/images/brand/og-preview-bioinmed.png';
 }
 
 function bioinmed_default_social_image_url() {
