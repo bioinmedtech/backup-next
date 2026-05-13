@@ -76,7 +76,7 @@ echo $header->render();
                 <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#355b89]">
                     <p class="font-semibold text-[#0f3463]">Ищете врача?</p>
                     <p class="mt-1">Посмотрите команду специалистов и выберите удобный формат приёма.</p>
-                    <a href="/doctors" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#2fbdef] hover:text-[#1fb3d8]">Открыть специалистов <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></a>
+                    <a href="/doctors" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#2fbdef] hover:text-[#1fb3d8]">Открыть профессиональную команду <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></a>
                 </div>
                 <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#355b89]">
                     <p class="font-semibold text-[#0f3463]">Нужна помощь с навигацией?</p>

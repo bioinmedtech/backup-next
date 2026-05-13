@@ -24,7 +24,7 @@ $iconPath = CLINIC_ICON_PATH;
 $iconUrl  = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/doctors';
-$pageTitle = 'Наши специалисты — клиника БИОИНМЕД';
+$pageTitle = 'Профессиональная команда — клиника БИОИНМЕД';
 $pageDescription = 'Познакомьтесь с командой врачей клиники БИОИНМЕД. Опытные специалисты в области остеопатии, рефлексотерапии, гомеопатии, психотерапии и восстановительной медицины в Москве.';
 $phone1      = CLINIC_PHONE;
 $phone1link  = preg_replace('/\D/', '', $phone1);
@@ -65,7 +65,7 @@ $pageStructuredData = [
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Специалисты', 'url' => '/doctors'],
+    ['name' => 'Профессиональная команда', 'url' => '/doctors'],
 ]);
 ?>
 <!doctype html>
@@ -118,11 +118,11 @@ echo $header->render();
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
                 <a href="/" class="hover:text-[#2fbdef]">Главная</a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <span class="text-[#0f2749]">Специалисты</span>
+                <span class="text-[#0f2749]">Профессиональная команда</span>
             </nav>
             <div class="max-w-2xl">
                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#2a5a94]">Клиника БИОИНМЕД · Москва</p>
-                <h1 class="mt-2 text-2xl font-bold leading-tight text-[#0f3463] md:text-3xl lg:text-4xl">Наши специалисты</h1>
+                <h1 class="mt-2 text-2xl font-bold leading-tight text-[#0f3463] md:text-3xl lg:text-4xl">Профессиональная команда</h1>
                 <p class="mt-3 text-sm leading-relaxed text-[#355b89] md:text-base">
                     Команда клиники БИОИНМЕД — врачи с многолетним опытом в области интегративной медицины, остеопатии, рефлексотерапии, гомеопатии и психотерапии. Каждый специалист строит индивидуальный план лечения.
                 </p>
@@ -135,6 +135,7 @@ echo $header->render();
     $chief = $doctors[0] ?? null;
     if ($chief):
         $chiefExp = trim((string)($chief['experience'] ?? ''));
+        $chiefImage = bioinmed_versioned_asset_path('/public/images/team/' . ($chief['image'] ?? ''));
         $chiefYears = null;
         if (preg_match('/(\d+)\s*(?:лет|год)/ui', $chiefExp, $m)) $chiefYears = $m[1];
     ?>
@@ -143,7 +144,7 @@ echo $header->render();
             <p class="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Главный врач</p>
             <div class="fade-up grid gap-8 rounded-3xl border border-[#d6e5f2] bg-white p-6 shadow-[0_18px_40px_rgba(6,29,60,0.08)] md:grid-cols-[320px_1fr] md:p-8">
                 <div class="overflow-hidden rounded-2xl">
-                    <img src="/public/images/team/<?php echo e($chief['image']); ?>"
+                    <img src="<?php echo e($chiefImage); ?>"
                          alt="<?php echo e($chief['name']); ?>"
                          class="h-full max-h-[400px] w-full object-cover"
                          loading="eager"
@@ -188,12 +189,13 @@ echo $header->render();
     <section class="py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Команда клиники</p>
-            <h2 class="mt-2 text-xl font-bold text-[#0f3463] md:text-2xl">Все специалисты</h2>
+            <h2 class="mt-2 text-xl font-bold text-[#0f3463] md:text-2xl">Врачи команды</h2>
             <p class="mt-2 text-sm text-[#4a6f9c]">Нажмите на карточку врача, чтобы узнать подробнее о его специализации и записаться на приём</p>
 
             <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach (array_slice($doctors, 1) as $index => $doc):
                     $docExp = trim((string)($doc['experience'] ?? ''));
+                    $docImage = bioinmed_versioned_asset_path('/public/images/team/' . ($doc['image'] ?? ''));
                     $docYears = null;
                     if (preg_match('/(\d+)\s*(?:лет|год)/ui', $docExp, $m)) $docYears = $m[1];
                 ?>
@@ -201,7 +203,7 @@ echo $header->render();
                    class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition hover:border-[#2fbdef] hover:shadow-[0_12px_30px_rgba(47,189,239,0.13)]"
                    style="transition-delay:<?php echo $index * 60; ?>ms">
                     <div class="overflow-hidden">
-                        <img src="/public/images/team/<?php echo e($doc['image']); ?>"
+                                <img src="<?php echo e($docImage); ?>"
                              alt="<?php echo e($doc['name']); ?>"
                                 class="aspect-square w-full object-cover transition duration-300 group-hover:scale-[1.03]"
                              loading="lazy"

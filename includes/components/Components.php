@@ -352,7 +352,7 @@ class Header extends Component {
                     <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.92rem] font-medium text-[#173b64] lg:overflow-visible">
                         <a href="/about" class="{$desktop_about_class}"{$desktop_about_aria}>О клинике</a>
                         {$desktop_services_dropdown}
-                        <a href="/doctors" class="{$desktop_doctors_class}"{$desktop_doctors_aria}>Специалисты</a>
+                        <a href="/doctors" class="{$desktop_doctors_class}"{$desktop_doctors_aria}>Профессиональная команда</a>
                         <a href="/#reviews" class="{$desktop_reviews_class}">Отзывы</a>
                         <a href="/#faq" class="{$desktop_faq_class}">Вопросы</a>
                         <a href="/prices" class="{$desktop_prices_class}"{$desktop_prices_aria}>Цены</a>
@@ -388,7 +388,7 @@ class Header extends Component {
             <nav id="mob-nav">
                 <a href="/about" onclick="closeMobMenu()"{$mobile_about_attr}>О клинике</a>
                 {$mobile_services_dropdown}
-                <a href="/doctors" onclick="closeMobMenu()"{$mobile_doctors_attr}>Специалисты</a>
+                <a href="/doctors" onclick="closeMobMenu()"{$mobile_doctors_attr}>Профессиональная команда</a>
                 <a href="/#reviews" onclick="closeMobMenu()">Отзывы</a>
                 <a href="/#faq" onclick="closeMobMenu()">Вопросы</a>
                 <a href="/prices" onclick="closeMobMenu()"{$mobile_prices_attr}>Цены</a>
@@ -1396,12 +1396,13 @@ class ChiefDoctorBlock extends Component {
         }
 
         $leadership = isset($this->data['leadership']) ? $this->e($this->data['leadership']) : 'Руководит клиническим процессом и развитием стандартов медицинской помощи.';
+        $chief_image = bioinmed_versioned_asset_path('/public/images/team/' . ($this->data['image'] ?? ''));
 
         return <<<HTML
         <section class="border-b border-[#e6eef7] bg-[#f6fbff] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="grid gap-8 rounded-3xl border border-[#d6e5f2] bg-white p-6 shadow-[0_18px_40px_rgba(6,29,60,0.08)] md:grid-cols-[0.85fr_1.15fr] md:p-8">
-                    <img src="/public/images/team/{$this->e($this->data['image'])}" alt="{$this->e($this->data['name'])}" class="h-full max-h-[460px] w-full rounded-2xl object-cover" loading="lazy" />
+                    <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full max-h-[460px] w-full rounded-2xl object-cover" loading="lazy" />
                     <div>
                         <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Экспертный подход</p>
                         <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($this->data['name'])}</h2>
@@ -1478,9 +1479,10 @@ class DoctorsGrid extends Component {
         foreach ($this->data as $doctor) {
             $slug = isset($doctor['slug']) ? $this->e($doctor['slug']) : '';
             $doctor_link = '/doctors/' . $slug;
+            $doctor_image = bioinmed_versioned_asset_path('/public/images/team/' . ($doctor['image'] ?? ''));
             $cards_html .= <<<HTML
             <article class="min-w-[280px] max-w-[280px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[310px] sm:max-w-[310px] flex h-[560px] flex-col sm:h-[585px]">
-                <img src="/public/images/team/{$this->e($doctor['image'])}" alt="{$this->e($doctor['name'])}" class="h-72 w-full object-cover" loading="lazy">
+                <img src="{$this->e($doctor_image)}" alt="{$this->e($doctor['name'])}" class="h-72 w-full object-cover" loading="lazy">
                 <div class="flex flex-col flex-1 p-6">
                     <div class="flex-1">
                         <h3 class="text-lg font-bold leading-tight text-[#0f3463]" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{$this->e($doctor['name'])}</h3>
@@ -1952,7 +1954,7 @@ class Footer extends Component {
                         <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Компания</h4>
                         <ul class="space-y-2">
                             <li><a href="/about" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">О клинике</a></li>
-                            <li><a href="/doctors" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Специалисты</a></li>
+                            <li><a href="/doctors" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Профессиональная команда</a></li>
                             <li><a href="/prices" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Прайс-лист</a></li>
                             <li><a href="/privacy.php" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Политика конфиденциальности</a></li>
                             <li><a href="/user-agreement.php" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Пользовательское соглашение</a></li>

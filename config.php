@@ -14,7 +14,7 @@ define('ONLINE_BOOKING_URL', '#contact');
 define('CLINIC_VK', 'https://vk.com/bioinmed');
 define('CLINIC_TELEGRAM', 'https://t.me/bioinmed');
 define('HERO_TITLE', 'Восстановление здоровья через интегративную медицину');
-define('HERO_IMAGE', '/public/images/team/kostromina_i_v.png');
+define('HERO_IMAGE', '/public/images/team/kostromina-inna-viktorovna-1x1-1.jpg');
 define('RECAPTCHA_SITE_KEY', getenv('BIOINMED_RECAPTCHA_SITE_KEY') ?: '6LfmOs0sAAAAAKHWO2jG24uuWIL7UBy3x7gG8awh');
 define('RECAPTCHA_SECRET_KEY', getenv('BIOINMED_RECAPTCHA_SECRET_KEY') ?: '6LfmOs0sAAAAAJQP0aJ3ho1kB7VHy4VeyW_s4GQe');
 
@@ -51,6 +51,30 @@ function bioinmed_absolute_url($path = '') {
         return $value;
     }
     return $site_url . '/' . ltrim($value, '/');
+}
+
+function bioinmed_versioned_asset_path($path = '') {
+    $value = trim((string)$path);
+    if ($value === '') {
+        return '';
+    }
+
+    if (preg_match('~^https?://~i', $value)) {
+        return $value;
+    }
+
+    $normalized = '/' . ltrim($value, '/');
+    $full_path = __DIR__ . $normalized;
+    if (!is_file($full_path)) {
+        return $normalized;
+    }
+
+    $version = @filemtime($full_path);
+    if (!is_int($version) || $version <= 0) {
+        return $normalized;
+    }
+
+    return $normalized . '?v=' . $version;
 }
 
 function bioinmed_default_social_image_path() {

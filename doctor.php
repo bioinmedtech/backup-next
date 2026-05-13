@@ -60,13 +60,16 @@ $experienceYears = null; // numeric years only
 if (preg_match('/(\d+)\s*(?:лет|год)/ui', $experienceText, $experienceMatch)) {
     $experienceYears = $experienceMatch[1];
 }
+$doctorImagePath = $doctor && !empty($doctor['image'])
+    ? bioinmed_versioned_asset_path('/public/images/team/' . $doctor['image'])
+    : '';
 $socialImageUrl = $doctor && !empty($doctor['image'])
-    ? bioinmed_absolute_url('/public/images/team/' . $doctor['image'])
+    ? bioinmed_absolute_url($doctorImagePath)
     : bioinmed_default_social_image_url();
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Специалисты', 'url' => '/doctors'],
+    ['name' => 'Профессиональная команда', 'url' => '/doctors'],
     ['name' => $doctor['name'] ?? 'Профиль врача', 'url' => $canonicalUrl],
 ]);
 ?>
@@ -94,7 +97,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         'jobTitle'  => $doctor['title'] ?? '',
         'description' => $doctor['bio'] ?? '',
         'worksFor'  => ['@type' => 'MedicalOrganization', 'name' => CLINIC_NAME, 'url' => CLINIC_SITE_URL],
-        'image'     => CLINIC_SITE_URL . '/public/images/team/' . ($doctor['image'] ?? ''),
+        'image'     => bioinmed_absolute_url($doctorImagePath),
         'url'       => $canonicalUrl,
         'mainEntityOfPage' => $canonicalUrl,
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
@@ -137,7 +140,7 @@ echo $header->render();
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
                 <a href="/" class="hover:text-[#2fbdef]">Главная</a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <a href="/doctors" class="hover:text-[#2fbdef]">Специалисты</a>
+                <a href="/doctors" class="hover:text-[#2fbdef]">Профессиональная команда</a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
                 <span class="text-[#0f2749]"><?php echo e($doctor['name']); ?></span>
             </nav>
@@ -147,7 +150,7 @@ echo $header->render();
                 <!-- photo -->
                 <div class="fade-up">
                     <div class="overflow-hidden rounded-3xl border border-[#d9e7f3] shadow-[0_12px_36px_rgba(8,36,70,0.10)]">
-                        <img src="/public/images/team/<?php echo e($doctor['image']); ?>"
+                            <img src="<?php echo e($doctorImagePath); ?>"
                              alt="<?php echo e($doctor['name']); ?>"
                              class="h-full w-full object-cover"
                              loading="eager"
