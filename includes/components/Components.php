@@ -1449,7 +1449,7 @@ class SpecialOffer extends Component {
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Специальное предложение для новых пациентов</p>
                     <h2 class="mt-2 text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Диагностика HABILECT + первичный приём врача</h2>
                     <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">
-                        Начните знакомство с комплексной диагностики HABILECT и первичного приёма. Получите персональный план восстановления и рекомендации по лечению.
+                        Начните знакомство с клиникой и вашим маршрутом лечения: комплексная диагностика HABILECT и первичный приём врача. Получите персональный план восстановления и рекомендации по лечению.
                     </p>
                     <div class="mt-4">
                         <a href="tel:{$phone_link}" class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#1fb3d8]">
@@ -1481,16 +1481,16 @@ class DoctorsGrid extends Component {
             $doctor_link = '/doctors/' . $slug;
             $doctor_image = bioinmed_versioned_asset_path('/public/images/team/' . ($doctor['image'] ?? ''));
             $cards_html .= <<<HTML
-            <article class="min-w-[280px] max-w-[280px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[310px] sm:max-w-[310px] flex h-[560px] flex-col sm:h-[585px]">
+            <article class="min-w-[280px] max-w-[280px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[310px] sm:max-w-[310px] flex flex-col self-stretch">
                 <img src="{$this->e($doctor_image)}" alt="{$this->e($doctor['name'])}" class="h-72 w-full object-cover" loading="lazy">
-                <div class="flex flex-col flex-1 p-6">
+                <div class="flex flex-1 flex-col p-6">
                     <div class="flex-1">
-                        <h3 class="text-lg font-bold leading-tight text-[#0f3463]" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{$this->e($doctor['name'])}</h3>
+                        <h3 class="text-lg font-bold leading-tight text-[#0f3463]">{$this->e($doctor['name'])}</h3>
                         <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94]">{$this->e($doctor['title'])}</p>
-                        <p class="mt-3 text-[0.96rem] text-[#355b89]" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">{$this->e($doctor['specialty'])}</p>
+                        <p class="mt-3 text-[0.96rem] text-[#355b89]">{$this->e($doctor['specialty'])}</p>
                         <p class="mt-2 text-[0.96rem] font-semibold text-[#214a7f]">{$this->e($doctor['experience'])}</p>
                     </div>
-                    <a href="{$doctor_link}" class="mt-auto w-full rounded-full bg-[#2fbdef] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#1fb3d8]">Подробнее</a>
+                    <a href="{$doctor_link}" class="mt-4 w-full rounded-full bg-[#2fbdef] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#1fb3d8]">Подробнее</a>
                 </div>
             </article>
             HTML;
@@ -1610,22 +1610,27 @@ class ServicesGrid extends Component {
                 }
                 $price_display .= '</div>';
             }
+            $card_description = isset($service['card_description']) && trim((string)$service['card_description']) !== ''
+                ? (string)$service['card_description']
+                : (string)($service['description'] ?? '');
 
             $items_html .= <<<HTML
-            <article class="group rounded-[1.35rem] border border-[#d7e4ef] bg-white/80 p-5 transition hover:-translate-y-0.5 hover:border-[#2fbdef] hover:shadow-[0_12px_28px_rgba(47,189,239,0.16)]">
-                {$service_image_html}
-                <div class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#2fbdef] mb-3">
-                    <i class="fa-solid {$icon} text-[1rem]" aria-hidden="true"></i>
+            <article class="group flex h-full flex-col rounded-[1.35rem] border border-[#d7e4ef] bg-white/80 p-5 transition hover:-translate-y-0.5 hover:border-[#2fbdef] hover:shadow-[0_12px_28px_rgba(47,189,239,0.16)]">
+                <div class="flex-1">
+                    {$service_image_html}
+                    <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#2fbdef]">
+                        <i class="fa-solid {$icon} text-[1rem]" aria-hidden="true"></i>
+                    </div>
+                    <p class="mb-1 text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#2a5a94]">{$this->e($service['subtitle'] ?? 'Услуга')}</p>
+                    <h3 class="mb-2 text-[1.2rem] font-bold leading-[1.2]">
+                        <a href="{$service_link}" class="text-[#0f2749] transition hover:text-[#2fbdef] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2fbdef] focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+                            {$this->e($service['name'])}
+                        </a>
+                    </h3>
+                    <p class="text-[0.96rem] leading-relaxed text-[#355b89]">{$this->e($card_description)}</p>
+                    {$price_display}
                 </div>
-                <p class="text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#2a5a94] mb-1">{$this->e($service['subtitle'] ?? 'Услуга')}</p>
-                <h3 class="mb-2 text-[1.2rem] font-bold leading-[1.2]">
-                    <a href="{$service_link}" class="text-[#0f2749] transition hover:text-[#2fbdef] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2fbdef] focus-visible:ring-offset-2 focus-visible:ring-offset-white">
-                        {$this->e($service['name'])}
-                    </a>
-                </h3>
-                <p class="text-[0.96rem] leading-relaxed text-[#355b89] line-clamp-2">{$this->e($service['description'])}</p>
-                {$price_display}
-                <a href="{$service_link}" class="mt-4 inline-flex rounded-lg border border-[#2fbdef] bg-[#f0fafe] px-3.5 py-2 text-[0.88rem] font-semibold text-[#2fbdef] transition hover:bg-[#2fbdef] hover:text-white">
+                <a href="{$service_link}" class="mt-4 inline-flex self-start rounded-lg border border-[#2fbdef] bg-[#f0fafe] px-3.5 py-2 text-[0.88rem] font-semibold text-[#2fbdef] transition hover:bg-[#2fbdef] hover:text-white">
                     Подробнее →
                 </a>
             </article>
