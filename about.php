@@ -242,16 +242,9 @@ echo $header->render();
 				</div>
 			</div>
 			<div class="p-5 md:p-7">
-				<form class="max-w-xl" action="<?php echo e($bookingUrl); ?>" method="post">
-					<input type="hidden" name="source" value="about-page">
-					<label for="about-phone-input" class="mb-1 block text-[0.64rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
-					<input type="tel" id="about-phone-input" name="phone" autocomplete="tel" inputmode="tel" required placeholder="Ваш телефон" class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.84rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20" aria-label="Введите номер телефона" />
-					<label class="mt-3 flex items-start gap-2 text-[0.63rem] leading-snug text-[#355b89]">
-						<input type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]" />
-						<span class="block pt-0.5">Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a></span>
-					</label>
-					<button type="submit" class="mt-3 w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.84rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]">Перезвоните мне</button>
-				</form>
+				<div class="max-w-xl">
+					<a href="javascript:void(0)" class="jsClientix_openWidget mt-3 inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.84rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]">Перезвоните мне</a>
+				</div>
 			</div>
 		</div>
 	</section>

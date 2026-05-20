@@ -700,8 +700,8 @@ $footer = new Footer();
                 Наши специалисты разработают индивидуальную программу с учётом сезона и ваших особенностей.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="javascript:void(0)" onclick="openBookingPopup(true);return false;"
-                   class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-[0.9rem] font-semibold shadow-lg transition hover:-translate-y-0.5"
+                     <a href="javascript:void(0)"
+                         class="jsClientix_openWidget inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-[0.9rem] font-semibold shadow-lg transition hover:-translate-y-0.5"
                    style="color:<?= $e($s['color_dark']) ?>">
                     <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
                     Записаться онлайн

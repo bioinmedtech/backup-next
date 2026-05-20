@@ -341,7 +341,7 @@ class Header extends Component {
                         </div>
 
                         <div class="pt-1 text-right">
-                            <a href="{$booking_url}" onclick="openBookingPopup();return false;" class="inline-flex h-11 w-auto min-w-[164px] items-center justify-center rounded-full bg-[#2fbdef] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(47,189,239,0.2)] transition hover:bg-[#1fb3d8]">
+                            <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-auto min-w-[164px] items-center justify-center rounded-full bg-[#2fbdef] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(47,189,239,0.2)] transition hover:bg-[#1fb3d8]">
                                 Онлайн запись
                             </a>
                         </div>
@@ -404,7 +404,7 @@ class Header extends Component {
                     <i class="fa-solid fa-phone-volume" style="color:#2fbdef;" aria-hidden="true"></i>
                     {$phone_1}
                 </a>
-                <a href="{$booking_url}" onclick="openBookingPopup(true);return false;" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#2fbdef;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
+                <a href="javascript:void(0)" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#2fbdef;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
                     Онлайн запись
                 </a>
                 <div style="display:flex;gap:8px;">
@@ -415,42 +415,6 @@ class Header extends Component {
                         <i class="fa-brands fa-vk" style="font-size:0.86rem;" aria-hidden="true"></i>
                     </a>
                 </div>
-            </div>
-        </div>
-        <div id="booking-popup-backdrop" onclick="closeBookingPopup()"></div>
-        <div id="booking-popup" role="dialog" aria-modal="true" aria-labelledby="booking-popup-title">
-            <div class="booking-popup-card">
-                <button type="button" class="booking-popup-close" onclick="closeBookingPopup()" aria-label="Закрыть окно записи">
-                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                </button>
-                <p class="booking-popup-eyebrow">Онлайн запись</p>
-                <h2 id="booking-popup-title" class="booking-popup-title">Записаться на приём</h2>
-                <p class="booking-popup-text">Перезвоним в течение 15 минут.</p>
-                <form action="{$booking_url}" method="post" class="booking-popup-form">
-                    <input type="hidden" name="source" value="header-popup">
-                    <label for="booking-popup-phone" class="booking-popup-label">Номер телефона</label>
-                    <input
-                        type="tel"
-                        id="booking-popup-phone"
-                        name="phone"
-                        autocomplete="tel"
-                        inputmode="tel"
-                        required
-                        placeholder="Ваш телефон"
-                        class="booking-popup-input"
-                    >
-                    <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
-                        <input
-                            type="checkbox"
-                            required
-                            class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
-                        />
-                        <span class="block pt-0.5">
-                            Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a>
-                        </span>
-                    </label>
-                    <button type="submit" class="booking-popup-submit">Перезвоните мне</button>
-                </form>
             </div>
         </div>
         <style>
@@ -487,43 +451,11 @@ class Header extends Component {
             #mob-nav details>summary.is-active{color:#2fbdef}
             #mob-nav details>summary.is-active i{color:#2fbdef}
             .mob-subnav a.is-active{color:#2fbdef!important}
-            #booking-popup-backdrop{display:none;position:fixed;inset:0;z-index:120;background:rgba(12,31,52,.55)}
-            #booking-popup-backdrop.open{display:block}
-            #booking-popup{display:none;position:fixed;inset:0;z-index:121;align-items:center;justify-content:center;padding:20px}
-            #booking-popup.open{display:flex}
-            .booking-popup-card{position:relative;width:min(100%,420px);border:1px solid #d8e6f3;border-radius:24px;background:#fff;padding:22px;box-shadow:0 20px 44px rgba(8,36,70,.2)}
-            .booking-popup-close{position:absolute;top:12px;right:12px;display:flex;height:32px;width:32px;align-items:center;justify-content:center;border:1px solid #dce8f3;border-radius:9999px;background:#fff;color:#355b89;cursor:pointer}
-            .booking-popup-eyebrow{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#2a5a94}
-            .booking-popup-title{margin-top:6px;font-size:1.24rem;font-weight:700;line-height:1.2;color:#0f2749}
-            .booking-popup-text{margin-top:8px;font-size:.9rem;line-height:1.45;color:#4a6f96}
-            .booking-popup-form{margin-top:14px}
-            .booking-popup-label{display:block;margin-bottom:6px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#4a6f96}
-            .booking-popup-input{width:100%;border:1px solid #d6e2ee;border-radius:9999px;background:#f9fcff;padding:11px 16px;font-size:.92rem;color:#173f73;outline:none}
-            .booking-popup-input:focus{border-color:#2fbdef;box-shadow:0 0 0 3px rgba(47,189,239,.16)}
-            .booking-popup-submit{margin-top:10px;width:100%;border:0;border-radius:9999px;background:#2fbdef;padding:11px 16px;font-size:.92rem;font-weight:700;color:#fff;cursor:pointer}
-            .booking-popup-submit:hover{background:#1fb3d8}
         </style>
         <script>
             function toggleMobMenu(){var m=document.getElementById('mob-menu');if(m.classList.contains('open')){closeMobMenu();}else{m.classList.add('open');document.getElementById('mob-backdrop').classList.add('open');document.getElementById('mob-icon').className='fa-solid fa-xmark';document.getElementById('mob-toggle').setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}}
             function closeMobMenu(){document.getElementById('mob-menu').classList.remove('open');document.getElementById('mob-backdrop').classList.remove('open');document.getElementById('mob-icon').className='fa-solid fa-bars';document.getElementById('mob-toggle').setAttribute('aria-expanded','false');document.body.style.overflow='';}
-            function openBookingPopup(closeMobileMenu){
-                if(closeMobileMenu){closeMobMenu();}
-                var popup=document.getElementById('booking-popup');
-                var backdrop=document.getElementById('booking-popup-backdrop');
-                if(!popup||!backdrop){return;}
-                popup.classList.add('open');
-                backdrop.classList.add('open');
-                document.body.style.overflow='hidden';
-                setTimeout(function(){var input=document.getElementById('booking-popup-phone');if(input){input.focus();}},20);
-            }
-            function closeBookingPopup(){
-                var popup=document.getElementById('booking-popup');
-                var backdrop=document.getElementById('booking-popup-backdrop');
-                if(popup){popup.classList.remove('open');}
-                if(backdrop){backdrop.classList.remove('open');}
-                document.body.style.overflow='';
-            }
-            document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeMobMenu();closeBookingPopup();}});
+            document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeMobMenu();}});
             window.addEventListener('resize',function(){if(window.innerWidth>=1024)closeMobMenu();});
             function updateHeaderMetrics(){
                 var h=document.getElementById('site-header');
@@ -814,41 +746,14 @@ class HeroSection extends Component {
                                 <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#4a6f96]">Перезвоним в течение 15 минут.</p>
                             </div>
 
-                            <form class="mt-3" action="{$booking_url}" method="post" aria-describedby="hero-form-note">
-                                <input type="hidden" name="source" value="homepage-hero">
-                                <div class="space-y-2.5">
-                                    <div>
-                                        <label for="hero-phone-input" class="mb-1 block text-[0.74rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
-                                        <input
-                                            type="tel"
-                                            id="hero-phone-input"
-                                            name="phone"
-                                            autocomplete="tel"
-                                            inputmode="tel"
-                                            required
-                                            placeholder="Ваш телефон"
-                                            class="w-full rounded-full border border-[#d6e2ee] bg-[#f9fcff] px-4 py-2.5 text-[0.92rem] text-[#173f73] outline-none placeholder:text-[#8ca2b8] transition focus:border-[#2fbdef] focus:bg-white focus:ring-2 focus:ring-[#2fbdef]/20"
-                                            aria-label="Введите номер телефона"
-                                        />
-                                    </div>
-                                    <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
-                                        <input
-                                            type="checkbox"
-                                            required
-                                            class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]"
-                                        />
-                                        <span class="block pt-0.5">
-                                            Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a>
-                                        </span>
-                                    </label>
-                                    <button
-                                        type="submit"
-                                        class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
-                                    >
-                                        Перезвоните мне
-                                    </button>
-                                </div>
-                            </form>
+                            <div class="mt-3">
+                                <a
+                                    href="javascript:void(0)"
+                                    class="jsClientix_openWidget inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
+                                >
+                                    Перезвоните мне
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -1723,17 +1628,9 @@ class AppointmentCTA extends Component {
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#2fbdef]">Запишитесь на консультацию</p>
                     <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Записаться на приём</h2>
                     <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">Перезвоним в течение 15 минут.</p>
-                    <form class="mt-5 max-w-lg space-y-2.5">
-                        <div>
-                            <label for="appointment-phone-input" class="mb-1 block text-[0.74rem] font-semibold uppercase tracking-[0.08em] text-[#4a6f96]">Номер телефона</label>
-                            <input type="tel" id="appointment-phone-input" name="phone" autocomplete="tel" inputmode="tel" required placeholder="Ваш телефон" class="w-full rounded-full border border-[#d6e4f2] bg-[#f8fbff] px-5 py-2.5 text-[0.94rem] text-[#173f73] outline-none focus:border-[#2fbdef] focus:ring-2 focus:ring-[#2fbdef]/20">
-                        </div>
-                        <label class="mt-2.5 flex items-start gap-2 text-[0.72rem] leading-snug text-[#355b89]">
-                            <input type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-[#89b9df] text-[#2fbdef]">
-                            <span class="block pt-0.5">Я даю согласие с <a href="/privacy.php" class="text-[#2fbdef] underline-offset-2 hover:underline">политикой конфиденциальности</a> и <a href="/user-agreement.php" class="text-[#2fbdef] underline-offset-2 hover:underline">пользовательским соглашением</a></span>
-                        </label>
-                        <button type="submit" class="w-full rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.94rem] font-semibold text-white transition-colors hover:bg-[#269bc4]">Перезвоните мне</button>
-                    </form>
+                    <div class="mt-5 max-w-lg">
+                        <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.94rem] font-semibold text-white transition-colors hover:bg-[#269bc4]">Перезвоните мне</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2080,6 +1977,36 @@ class Footer extends Component {
                 </div>
             </div>
         </footer>
+        <style>
+            #clientixAppointmentButton {display:none;}
+        </style>
+        <script type="text/javascript" src="https://klientiks.ru/js/online/clientixWidget.js"></script>
+        <script type="text/javascript">
+            (function initClientixBookingWidget() {
+                if (window.__clientixWidgetBooted) {
+                    return;
+                }
+                window.__clientixWidgetBooted = true;
+
+                function runLoad() {
+                    if (!window.clientixWidget || typeof window.clientixWidget.load !== 'function') {
+                        return;
+                    }
+                    window.clientixWidget.load({
+                        baseUrl: 'https://klientiks.ru',
+                        alias: '/app2/BIOINMED?awaiting_list=true',
+                        text: 'Записаться онлайн',
+                        color: '#2fbdef'
+                    });
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', runLoad, { once: true });
+                } else {
+                    runLoad();
+                }
+            })();
+        </script>
         HTML;
     }
 }
