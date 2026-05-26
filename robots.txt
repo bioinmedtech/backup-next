@@ -5,4 +5,4 @@ Disallow: /internal/
 Disallow: /data/
 Disallow: /docs/
 
-Sitemap: https://next.bioinmed.ru/sitemap.xml
+Sitemap: https://bioinmed.ru/sitemap.xml

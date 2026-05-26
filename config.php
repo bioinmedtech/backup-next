@@ -2,7 +2,7 @@
 // Конфигурация и общие данные клиники
 
 define('CLINIC_NAME', 'БИОИНМЕД');
-define('CLINIC_SITE_URL', 'https://next.bioinmed.ru');
+define('CLINIC_SITE_URL', 'https://bioinmed.ru');
 define('CLINIC_ICON_PATH', '/public/images/brand/bioinmed-icon.png');
 define('CLINIC_PHONE', '+7 (495) 796-03-36');
 define('CLINIC_ADDRESS', 'Москва, Оболенский пер., 9А');
