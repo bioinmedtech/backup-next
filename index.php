@@ -24,8 +24,8 @@ $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/';
-$pageTitle = 'Клиника интегративной медицины в Москве | БИОИНМЕД';
-$pageDescription = 'БИОИНМЕД: клиника интегративной и восстановительной медицины в Москве. Диагностика HABILECT, остеопатия, рефлексотерапия, физиотерапия, опытные врачи и персональный план лечения.';
+$pageTitle = 'Клиника восстановительной медицины в Москве | БИОИНМЕД';
+$pageDescription = 'Диагностика HABILECT, остеопатия, рефлексотерапия, физиотерапия, опытные врачи и персональный план лечения.';
 
 $structuredData = bioinmed_medical_organization_schema();
 
@@ -143,6 +143,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
             }
         }
     </style>
+<?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="antialiased">
     <!-- Header -->

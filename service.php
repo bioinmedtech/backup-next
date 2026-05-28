@@ -197,6 +197,7 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
         .prose-service p { margin-bottom: .85rem; line-height: 1.75; }
         .service-gallery-thumb.is-active { border-color: #2fbdef; box-shadow: 0 0 0 3px rgba(47, 189, 239, 0.16); }
     </style>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="flex min-h-screen flex-col bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
 <?php

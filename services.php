@@ -168,6 +168,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             transition: transform 0.18s;
         }
     </style>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
 <?php

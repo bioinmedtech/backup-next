@@ -246,6 +246,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             }
         }
     </style>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
     <?php
@@ -454,21 +455,21 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold text-[#0f2749]">Приём психолога - 60 минут</div>
+                                    <div class="font-semibold text-[#0f2749]">Приём интегративного психолога - 60 минут</div>
                                     <p class="text-sm text-[#214a7f] mt-1">Психодиагностика и терапия (базовый пакет)</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold text-[#0f2749]">Приём психолога - 90 минут</div>
+                                    <div class="font-semibold text-[#0f2749]">Приём интегративного психолога - 90 минут</div>
                                     <p class="text-sm text-[#214a7f] mt-1">Расширенная консультация с глубокой диагностикой</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">7 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold text-[#0f2749]">Приём психолога - 120 минут</div>
+                                    <div class="font-semibold text-[#0f2749]">Приём интегративного психолога - 120 минут</div>
                                     <p class="text-sm text-[#214a7f] mt-1">Интенсивная работа над сложными психологическими вопросами</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
@@ -989,7 +990,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                 { id: 'priem-detskogo-osteopata', pattern: /приемдлядетей|детск(ий|ого)остеопат/ },
                 { id: 'gomeopaticheskaya-kapelnitsa-preparatami-kheel-ozon', pattern: /капельница.*heel.*озон/ },
                 { id: 'detoks-kapelnitsa', pattern: /капельницасозоном/ },
-                { id: 'ozone-therapy', pattern: /мезотерапияозоном|озонотерапия/ },
+                { id: 'ozonoterapiya', pattern: /мезотерапияозоном|озонотерапия/ },
                 { id: 'ozone-camera', pattern: /озоноваякамера/ },
                 { id: 'gomeopaticheskaya-kapelnitsa-preparatami-kheel', pattern: /гомеопатическа(я|й)капельница.*heel|капельница.*heel/ },
                 { id: 'kapelnitsa-s-glutationom-antioksidant', pattern: /капельницасглутатион/ },

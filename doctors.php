@@ -103,6 +103,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
     </style>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="flex min-h-screen flex-col bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
 <?php
@@ -126,6 +127,18 @@ echo $header->render();
                 <p class="mt-3 text-sm leading-relaxed text-[#355b89] md:text-base">
                     Команда клиники БИОИНМЕД — врачи с многолетним опытом в области интегративной медицины, остеопатии, рефлексотерапии, гомеопатии и психотерапии. Каждый специалист строит индивидуальный план лечения.
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="border-b border-[#e4edf6] bg-[#f7fbff] py-10 md:py-14">
+        <div class="mx-auto max-w-6xl px-6 md:px-10">
+            <div class="fade-up overflow-hidden rounded-3xl border border-[#d6e5f2] bg-[#eaf3fb] shadow-[0_18px_40px_rgba(6,29,60,0.08)]">
+                <img src="<?php echo e(bioinmed_versioned_asset_path('/public/images/team/team-photo.jpg')); ?>"
+                     alt="Команда клиники БИОИНМЕД"
+                     class="h-auto max-h-[520px] w-full object-contain"
+                     loading="eager"
+                     onerror="this.src='/public/images/placeholder.jpg'">
             </div>
         </div>
     </section>
@@ -196,16 +209,18 @@ echo $header->render();
                 <?php foreach (array_slice($doctors, 1) as $index => $doc):
                     $docExp = trim((string)($doc['experience'] ?? ''));
                     $docImage = bioinmed_versioned_asset_path('/public/images/team/' . ($doc['image'] ?? ''));
+                          $docHasProfile = !array_key_exists('has_profile', $doc) || $doc['has_profile'] !== false;
                     $docYears = null;
                     if (preg_match('/(\d+)\s*(?:лет|год)/ui', $docExp, $m)) $docYears = $m[1];
                 ?>
-                <a href="/doctors/<?php echo e($doc['slug']); ?>"
-                   class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition hover:border-[#2fbdef] hover:shadow-[0_12px_30px_rgba(47,189,239,0.13)]"
-                   style="transition-delay:<?php echo $index * 60; ?>ms">
+                     <<?php echo $docHasProfile ? 'a' : 'article'; ?>
+                         <?php if ($docHasProfile): ?>href="/doctors/<?php echo e($doc['slug']); ?>"<?php endif; ?>
+                         class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition <?php echo $docHasProfile ? 'hover:border-[#2fbdef] hover:shadow-[0_12px_30px_rgba(47,189,239,0.13)]' : ''; ?>"
+                         style="transition-delay:<?php echo $index * 60; ?>ms">
                     <div class="overflow-hidden">
                                 <img src="<?php echo e($docImage); ?>"
                              alt="<?php echo e($doc['name']); ?>"
-                                class="aspect-square w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                                          class="aspect-square w-full object-cover transition duration-300 <?php echo $docHasProfile ? 'group-hover:scale-[1.03]' : ''; ?>"
                              loading="lazy"
                                       onerror="this.src='/public/images/placeholder.jpg'">
                     </div>
@@ -227,10 +242,10 @@ echo $header->render();
 
                         <div class="mt-auto flex items-center justify-between pt-4">
                             <span class="text-xs text-[#7a9cc4]"><?php echo e($docExp); ?></span>
-                            <span class="text-xs font-semibold text-[#2fbdef] group-hover:underline">Подробнее →</span>
+                            <span class="text-xs font-semibold <?php echo $docHasProfile ? 'text-[#2fbdef] group-hover:underline' : 'text-[#6d8db2]'; ?>"><?php echo $docHasProfile ? 'Подробнее →' : 'Команда клиники'; ?></span>
                         </div>
                     </div>
-                </a>
+                </<?php echo $docHasProfile ? 'a' : 'article'; ?>>
                 <?php endforeach; ?>
             </div>
         </div>

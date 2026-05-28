@@ -79,7 +79,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bioinmed.ru/services/ozone-therapy</loc>
+    <loc>https://bioinmed.ru/services/ozonoterapiya</loc>
     <lastmod>2026-04-29T17:09:23+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -356,12 +356,6 @@
   </url>
   <url>
     <loc>https://bioinmed.ru/doctors/kondratova-elena-aleksandrovna</loc>
-    <lastmod>2026-04-29T17:09:23+03:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://bioinmed.ru/doctors/mhitaryan-nana-vladimirovna</loc>
     <lastmod>2026-04-29T17:09:23+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

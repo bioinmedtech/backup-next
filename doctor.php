@@ -27,7 +27,7 @@ $slug = isset($_GET['slug']) ? trim((string)$_GET['slug']) : '';
 $doctor = null;
 
 foreach ($doctors as $item) {
-    if (isset($item['slug']) && $item['slug'] === $slug) {
+    if (isset($item['slug']) && $item['slug'] === $slug && (!array_key_exists('has_profile', $item) || $item['has_profile'] !== false)) {
         $doctor = $item;
         break;
     }
@@ -110,6 +110,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
     </style>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="flex min-h-screen flex-col bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
 <?php

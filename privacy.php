@@ -37,6 +37,7 @@ function e($value) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="min-h-screen bg-[linear-gradient(to_bottom,#f9fcff_0%,#f2f7fc_50%,#edf4fb_100%)] text-[#0f2749] antialiased">
 <?php

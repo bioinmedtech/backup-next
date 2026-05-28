@@ -553,6 +553,7 @@ $footer = new Footer();
             }
         }
     </style>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="bg-white antialiased">
 <?= $header->render() ?>

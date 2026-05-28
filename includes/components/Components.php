@@ -48,6 +48,8 @@ class Header extends Component {
         $map_url = 'https://yandex.com/maps/-/CPGGyEzo';
         $vk_url = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram_url = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
+        $max_url = 'https://max.ru/id9704215369_bot';
+        $max_icon_src = $this->e(bioinmed_versioned_asset_path('/public/images/icons/max-logo.png'));
         $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'));
 
         $request_uri = (string)($_SERVER['REQUEST_URI'] ?? '/');
@@ -279,7 +281,7 @@ class Header extends Component {
                 <!-- Row 1: logo + phone + burger -->
                 <div class="flex items-center justify-between px-4 py-2.5">
                     <a href="/" class="inline-flex items-center mr-3 shrink-0">
-                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 w-auto max-w-none" loading="eager">
+                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" loading="eager">
                     </a>
                     <div class="flex items-center gap-2">
                         <a href="tel:{$phone_1_link}" aria-label="Позвонить" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#2fbdef]">
@@ -310,7 +312,7 @@ class Header extends Component {
                 <div class="mx-auto max-w-6xl px-6 pt-2 md:px-10">
                     <div class="grid gap-2 pb-2.5 lg:grid-cols-[max-content_1.05fr_0.9fr_0.74fr_168px] lg:items-start">
                         <a href="/" class="inline-flex items-center mr-3 shrink-0">
-                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 w-auto max-w-none" loading="eager">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" loading="eager">
                         </a>
 
                         <div class="pt-1 leading-tight text-[#173b64]">
@@ -363,12 +365,15 @@ class Header extends Component {
                         <a href="/prices" class="{$desktop_prices_class}"{$desktop_prices_aria}>Цены</a>
                         <a href="/#contact" class="{$desktop_contacts_class}">Контакты</a>
                     </nav>
-                    <div class="flex shrink-0 items-center gap-2">
-                        <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="group flex h-9 w-9 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef] shadow-[0_4px_12px_rgba(47,189,239,0.08)] transition hover:-translate-y-0.5 hover:bg-[#f2f8fd] hover:text-[#1fb3d8]">
-                            <i class="fa-brands fa-telegram text-[0.9rem]" aria-hidden="true"></i>
+                    <div class="ml-1 flex shrink-0 items-center gap-3 -mr-0.5">
+                        <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" class="group inline-flex items-center justify-center text-[#2787f5] transition hover:text-[#1f6fd0]">
+                            <i class="fa-brands fa-vk translate-x-[1px] text-[1.82rem] leading-none" aria-hidden="true"></i>
                         </a>
-                        <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" class="group flex h-9 w-9 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef] shadow-[0_4px_12px_rgba(47,189,239,0.08)] transition hover:-translate-y-0.5 hover:bg-[#f2f8fd] hover:text-[#1fb3d8]">
-                            <i class="fa-brands fa-vk text-[0.86rem]" aria-hidden="true"></i>
+                        <a href="{$max_url}" target="_blank" rel="noreferrer noopener" aria-label="MAX" class="group inline-flex items-center justify-center transition hover:opacity-85">
+                            <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" loading="lazy" decoding="async">
+                        </a>
+                        <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="group inline-flex items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]">
+                            <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -379,7 +384,7 @@ class Header extends Component {
         <div id="mob-backdrop" onclick="closeMobMenu()"></div>
         <div id="mob-menu">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #dce8f3;">
-                <img src="{$logo_src}" alt="БИОИНМЕД" style="height:42px;width:auto;">
+                <img src="{$logo_src}" alt="БИОИНМЕД" style="height:48px;width:auto;">
                 <button onclick="closeMobMenu()" aria-label="Закрыть меню" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #dce8f3;background:transparent;cursor:pointer;color:#355b89;">
                     <i class="fa-solid fa-xmark" style="font-size:0.9rem;" aria-hidden="true"></i>
                 </button>
@@ -407,12 +412,15 @@ class Header extends Component {
                 <a href="javascript:void(0)" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#2fbdef;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
                     Онлайн запись
                 </a>
-                <div style="display:flex;gap:8px;">
-                    <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" style="display:flex;width:36px;height:36px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #c9dcee;background:#fff;color:#2fbdef;text-decoration:none;">
-                        <i class="fa-brands fa-telegram" style="font-size:0.9rem;" aria-hidden="true"></i>
+                <div style="display:flex;gap:12px;">
+                    <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" style="display:flex;align-items:center;justify-content:center;color:#2787f5;text-decoration:none;">
+                        <i class="fa-brands fa-vk" style="font-size:1.82rem;line-height:1;transform:translateX(1px);" aria-hidden="true"></i>
                     </a>
-                    <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" style="display:flex;width:36px;height:36px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #c9dcee;background:#fff;color:#2fbdef;text-decoration:none;">
-                        <i class="fa-brands fa-vk" style="font-size:0.86rem;" aria-hidden="true"></i>
+                    <a href="{$max_url}" target="_blank" rel="noreferrer noopener" aria-label="MAX" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">
+                        <img src="{$max_icon_src}" alt="MAX" style="height:1.72rem;width:auto;" loading="lazy" decoding="async">
+                    </a>
+                    <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" style="display:flex;align-items:center;justify-content:center;color:#27a7e7;text-decoration:none;">
+                        <i class="fa-brands fa-telegram" style="font-size:1.82rem;line-height:1;" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
@@ -685,13 +693,13 @@ class HeroSection extends Component {
         $modal_thumbs_html = '';
         $slide_count = 20;
 
-        for ($i = $slide_count; $i >= 1; $i--) {
-            $is_first = ($i === $slide_count);
-            $slide_src = '/public/images/slider/slider-' . $i . '.webp';
+        for ($i = 1; $i <= $slide_count; $i++) {
+            $is_first = ($i === 1);
+            $slide_src = bioinmed_versioned_asset_path('/public/images/slider-v2/slider-' . $i . '.jpg');
             $slide_alt = 'Интерьер клиники БИОИНМЕД ' . $i;
             $loading = $is_first ? 'eager' : 'lazy';
             $active_class = $is_first ? ' is-active' : '';
-            $slide_index = $slide_count - $i;
+            $slide_index = $i - 1;
 
             $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full" data-hero-image-src="' . $slide_src . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="Открыть фото ' . $i . '">'
                 . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
@@ -719,7 +727,7 @@ class HeroSection extends Component {
             <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
 
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
-                <div class="flex w-full flex-col lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
+                <div class="relative -top-2 flex w-full flex-col md:-top-3 lg:-top-5 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
                     <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
                         <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
                             <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
@@ -1182,8 +1190,8 @@ class ProblemsGrid extends Component {
             'ортопеди' => 'physiotherapy-comprehensive',
             'биорезонанс' => 'chief-doctor-consultation',
             'гомеопат' => 'chief-doctor-consultation',
-            'озон' => 'ozone-therapy',
-            'озонова' => 'ozone-therapy',
+            'озон' => 'ozonoterapiya',
+            'озонова' => 'ozonoterapiya',
             'капельниц' => 'infusion-therapy',
             'инфузион' => 'infusion-therapy',
             'микропунктур' => 'mikropunktura-aurikulyarnaya',
@@ -1423,6 +1431,10 @@ class DoctorsGrid extends Component {
             $slug = isset($doctor['slug']) ? $this->e($doctor['slug']) : '';
             $doctor_link = '/doctors/' . $slug;
             $doctor_image = bioinmed_versioned_asset_path('/public/images/team/' . ($doctor['image'] ?? ''));
+            $has_profile = !array_key_exists('has_profile', $doctor) || $doctor['has_profile'] !== false;
+            $card_action = $has_profile
+                ? '<a href="' . $doctor_link . '" class="mt-4 w-full rounded-full bg-[#2fbdef] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#1fb3d8]">Подробнее</a>'
+                : '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-[#f5faff] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]">Команда клиники</div>';
             $cards_html .= <<<HTML
             <article class="min-w-[280px] max-w-[280px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[310px] sm:max-w-[310px] flex flex-col self-stretch">
                 <img src="{$this->e($doctor_image)}" alt="{$this->e($doctor['name'])}" class="h-72 w-full object-cover" loading="lazy">
@@ -1433,7 +1445,7 @@ class DoctorsGrid extends Component {
                         <p class="mt-3 text-[0.96rem] text-[#355b89]">{$this->e($doctor['specialty'])}</p>
                         <p class="mt-2 text-[0.96rem] font-semibold text-[#214a7f]">{$this->e($doctor['experience'])}</p>
                     </div>
-                    <a href="{$doctor_link}" class="mt-4 w-full rounded-full bg-[#2fbdef] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#1fb3d8]">Подробнее</a>
+                    {$card_action}
                 </div>
             </article>
             HTML;
@@ -1849,6 +1861,8 @@ class Footer extends Component {
     public function render() {
         $vk = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
+        $max = 'https://max.ru/id9704215369_bot';
+        $max_icon_src = $this->e(bioinmed_versioned_asset_path('/public/images/icons/max-logo.png'));
         $phone = $this->phoneLink(CLINIC_PHONE);
         $phone1_display = $this->e(CLINIC_PHONE);
         $phone2 = defined('CLINIC_PHONE_2') ? CLINIC_PHONE_2 : '';
@@ -1866,21 +1880,20 @@ class Footer extends Component {
                     <!-- Логотип и описание -->
                     <div class="md:col-span-1">
                         <div class="mb-4">
-                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-14 mb-3" loading="lazy" decoding="async">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 mb-3" loading="lazy" decoding="async">
                         </div>
                         <p class="text-[0.96rem] text-[#214a7f] leading-relaxed">
                             Интегративная и восстановительная медицина с персональным маршрутом лечения для каждого пациента.
                         </p>
                         <div class="mt-4 flex gap-3">
-                            <a href="{$vk}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-10 h-10 bg-[#2fbdef]/10 hover:bg-[#2fbdef] rounded-full text-[#2fbdef] hover:text-white transition-colors" title="ВКонтакте">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14C20.67 22 22 20.67 22 15.07V8.93C22 3.33 20.67 2 15.07 2zm3.08 13.96h-1.58c-.6 0-.78-.48-1.86-1.57-1-.94-1.4-.94-1.64-.94-.33 0-.42.1-.42.54v1.43c0 .38-.12.6-1.12.6-1.65 0-3.47-.99-4.75-2.84C5.43 10.41 5 8.68 5 8.31c0-.24.1-.46.54-.46h1.58c.4 0 .55.18.7.6.77 2.22 2.06 4.17 2.6 4.17.2 0 .29-.1.29-.63V9.75c-.06-1.13-.66-1.22-.66-1.62 0-.2.16-.4.42-.4h2.49c.34 0 .46.18.46.57v3.07c0 .34.15.46.25.46.2 0 .37-.12.74-.5 1.15-1.28 1.97-3.25 1.97-3.25.1-.24.3-.46.7-.46h1.58c.48 0 .58.24.48.57-.2.94-2.15 3.69-2.15 3.69-.17.27-.23.4 0 .7.17.23.74.71 1.12 1.14.7.8 1.23 1.47 1.37 1.94.16.46-.08.7-.54.7z"/>
-                                </svg>
+                            <a href="{$vk}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#2787f5] hover:text-[#1f6fd0] transition-colors" title="ВКонтакте" aria-label="ВКонтакте">
+                                <i class="fa-brands fa-vk translate-x-[1px] text-[1.82rem] leading-none" aria-hidden="true"></i>
                             </a>
-                            <a href="{$telegram}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-10 h-10 bg-[#2fbdef]/10 hover:bg-[#2fbdef] rounded-full text-[#2fbdef] hover:text-white transition-colors" title="Telegram">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.82-1.084.51l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.21-3.053 5.56-5.023c.242-.213-.054-.33-.373-.117l-6.869 4.332-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.461c.54-.203 1.01.131.84.941z"/>
-                                </svg>
+                            <a href="{$max}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center transition-opacity hover:opacity-85" title="MAX" aria-label="MAX">
+                                <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" loading="lazy" decoding="async">
+                            </a>
+                            <a href="{$telegram}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#27a7e7] hover:text-[#1c8fca] transition-colors" title="Telegram" aria-label="Telegram">
+                                <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -1956,24 +1969,10 @@ class Footer extends Component {
                 </div>
 
                 <!-- Нижняя часть подвала -->
-                <div class="flex flex-col gap-3 border-t border-[#dce8f5] pt-5 md:flex-row md:items-center md:justify-between">
+                <div class="border-t border-[#dce8f5] pt-5">
                     <p class="text-[0.84rem] leading-relaxed text-[#5a7fa3]">
                         © 2026 <strong>КЛИНИКА БИОИНМЕД</strong> — интегративная и восстановительная медицина. Все права защищены.
                     </p>
-                    <div class="flex items-center gap-4">
-                        <a href="/privacy.php" class="text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
-                            Политика
-                        </a>
-                        <a href="/user-agreement.php" class="text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
-                            Соглашение
-                        </a>
-                        <a href="/prices" class="text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
-                            Прайс-лист
-                        </a>
-                        <a href="/#contact" class="text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#2fbdef] hover:text-[#0f2749] transition-colors">
-                            Контакты
-                        </a>
-                    </div>
                 </div>
             </div>
         </footer>

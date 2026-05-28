@@ -367,6 +367,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
             }
         }
     </style>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body>
     <div class="splash-container">

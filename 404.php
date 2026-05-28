@@ -40,6 +40,7 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
         .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
     </style>
+    <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="flex min-h-screen flex-col bg-[radial-gradient(circle_at_15%_20%,rgba(47,189,239,0.13),transparent_38%),radial-gradient(circle_at_85%_0%,rgba(31,179,216,0.10),transparent_35%),linear-gradient(to_bottom,#f9fcff_0%,#eff6fd_55%,#e9f2fb_100%)] text-[#0f2749] antialiased">
 <?php
