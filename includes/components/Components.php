@@ -573,22 +573,26 @@ class Header extends Component {
                     
                     // Стандартный плейсхолдер для России
                     var config=PHONE_CONFIGS['7'];
-                    input.placeholder=config.placeholder;
+                    var defaultPlaceholder=input.getAttribute('data-placeholder-default')||config.placeholder;
+                    var activePlaceholder=input.getAttribute('data-placeholder-active')||config.placeholder;
+                    input.placeholder=defaultPlaceholder;
                     input.type='tel';
                     input.inputMode='tel';
                     input.autocomplete='tel';
 
                     function syncPlaceholderByValue(rawValue){
                         var digits=getDigitsOnly(rawValue);
-                        var activeConfig=digits ? detectCountry(digits) : PHONE_CONFIGS['7'];
-                        input.placeholder=activeConfig.placeholder;
+                        if(!digits){
+                            input.placeholder=document.activeElement===input ? activePlaceholder : defaultPlaceholder;
+                            return;
+                        }
+                        var currentConfig=detectCountry(digits);
+                        input.placeholder=currentConfig.placeholder;
                     }
 
                     input.addEventListener('focus',function(){
-                        // При фокусе на пустое поле вставляем +7
                         if(this.value===''){
                             this.value='+7';
-                            // Переместить курсор в конец
                             this.setSelectionRange(this.value.length,this.value.length);
                         }
                         syncPlaceholderByValue(this.value);
@@ -598,9 +602,13 @@ class Header extends Component {
                         var currentValue=this.value;
                         var digits=getDigitsOnly(currentValue);
                         
-                        // Если удалили всё после +, позволяем вводить новый код
-                        if(currentValue==='+'||currentValue===''){
-                            this.value='+';
+                        if(currentValue===''){
+                            this.value='';
+                            syncPlaceholderByValue(this.value);
+                            return;
+                        }
+
+                        if(currentValue==='+'){
                             syncPlaceholderByValue(this.value);
                             return;
                         }
@@ -720,6 +728,11 @@ class HeroSection extends Component {
                 . '</button>';
         }
 
+        $hero_callback_form = bioinmed_render_callback_form([
+            'source_label' => 'Главная — hero',
+            'submit_label' => 'Перезвоните мне',
+        ]);
+
         return <<<HTML
         <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_36%,#deedf8_100%)] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))]">
             <div class="pointer-events-none absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(47,189,239,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(47,189,239,0.06)_1px,transparent_1px)] [background-size:32px_32px]"></div>
@@ -755,12 +768,7 @@ class HeroSection extends Component {
                             </div>
 
                             <div class="mt-3">
-                                <a
-                                    href="javascript:void(0)"
-                                    class="jsClientix_openWidget inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]"
-                                >
-                                    Перезвоните мне
-                                </a>
+                                {$hero_callback_form}
                             </div>
                         </div>
                     </div>
@@ -1633,6 +1641,11 @@ class CasesSlider extends Component {
 
 class AppointmentCTA extends Component {
     public function render() {
+        $callback_form = bioinmed_render_callback_form([
+            'source_label' => 'Главная — финальная CTA',
+            'submit_label' => 'Перезвоните мне',
+        ]);
+
         return <<<HTML
         <section id="book-now" class="border-b border-[#e6eef7] bg-[linear-gradient(120deg,#ecf6ff_0%,#f7fbff_45%,#edf7ff_100%)] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
@@ -1641,7 +1654,7 @@ class AppointmentCTA extends Component {
                     <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Записаться на приём</h2>
                     <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">Перезвоним в течение 15 минут.</p>
                     <div class="mt-5 max-w-lg">
-                        <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.94rem] font-semibold text-white transition-colors hover:bg-[#269bc4]">Перезвоните мне</a>
+                        {$callback_form}
                     </div>
                 </div>
             </div>
@@ -1917,8 +1930,8 @@ class Footer extends Component {
                             <li><a href="/about" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">О клинике</a></li>
                             <li><a href="/doctors" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Профессиональная команда</a></li>
                             <li><a href="/prices" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Прайс-лист</a></li>
-                            <li><a href="/privacy.php" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Политика конфиденциальности</a></li>
-                            <li><a href="/user-agreement.php" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Пользовательское соглашение</a></li>
+                            <li><a href="/privacy" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Политика конфиденциальности</a></li>
+                            <li><a href="/user-agreement" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Пользовательское соглашение</a></li>
                             <li><a href="/#contact" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Контакты</a></li>
                         </ul>
                     </div>
@@ -1977,20 +1990,21 @@ class Footer extends Component {
             </div>
         </footer>
         <style>
-            #clientixAppointmentButton {display:none;}
+            #clientixAppointmentButton { display:none !important; }
         </style>
         <script type="text/javascript" src="https://klientiks.ru/js/online/clientixWidget.js"></script>
         <script type="text/javascript">
-            (function initClientixBookingWidget() {
-                if (window.__clientixWidgetBooted) {
+            (function initBioinmedBookingUi() {
+                if (window.__bioinmedBookingUiReady) {
                     return;
                 }
-                window.__clientixWidgetBooted = true;
+                window.__bioinmedBookingUiReady = true;
 
-                function runLoad() {
-                    if (!window.clientixWidget || typeof window.clientixWidget.load !== 'function') {
+                function initQuickBookingWidget() {
+                    if (window.__clientixWidgetBooted || !window.clientixWidget || typeof window.clientixWidget.load !== 'function') {
                         return;
                     }
+                    window.__clientixWidgetBooted = true;
                     window.clientixWidget.load({
                         baseUrl: 'https://klientiks.ru',
                         alias: '/app2/BIOINMED?awaiting_list=true',
@@ -2000,10 +2014,152 @@ class Footer extends Component {
                 }
 
                 if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', runLoad, { once: true });
+                    document.addEventListener('DOMContentLoaded', initQuickBookingWidget, { once: true });
                 } else {
-                    runLoad();
+                    initQuickBookingWidget();
                 }
+
+                function setStatus(form, type, message) {
+                    var status = form ? form.querySelector('.js-callback-status') : null;
+                    if (!status) {
+                        return;
+                    }
+                    if (!message) {
+                        status.className = 'js-callback-status hidden rounded-2xl px-3 py-2 text-[0.82rem] leading-relaxed';
+                        status.textContent = '';
+                        return;
+                    }
+                    status.className = 'js-callback-status rounded-2xl px-3 py-2 text-[0.82rem] leading-relaxed ' + (type === 'success'
+                        ? 'bg-[#ecfbf3] text-[#1f7a46]'
+                        : 'bg-[#fff4f4] text-[#b44545]');
+                    status.textContent = message;
+                }
+
+                function syncConsentState(form) {
+                    if (!form) {
+                        return;
+                    }
+                    var consent = form.querySelector('.js-callback-consent');
+                    var submit = form.querySelector('.js-callback-submit');
+                    if (!consent || !submit) {
+                        return;
+                    }
+                    submit.disabled = !consent.checked;
+                }
+
+                function hydrateFormContext(form) {
+                    if (!form) {
+                        return;
+                    }
+                    var pageTitleField = form.querySelector('input[name="page_title"]');
+                    var pageUrlField = form.querySelector('input[name="page_url"]');
+                    if (pageTitleField) {
+                        pageTitleField.value = document.title || '';
+                    }
+                    if (pageUrlField) {
+                        pageUrlField.value = window.location.href || '';
+                    }
+                }
+
+                function syncPhonePlaceholder(input) {
+                    if (!input) {
+                        return;
+                    }
+                    var defaultPlaceholder = input.getAttribute('data-placeholder-default') || 'Ваш телефон';
+                    var activePlaceholder = input.getAttribute('data-placeholder-active') || '+7 (___) ___-__-__';
+                    input.placeholder = input.value ? activePlaceholder : defaultPlaceholder;
+                }
+
+                document.querySelectorAll('.js-callback-phone').forEach(function(input) {
+                    syncPhonePlaceholder(input);
+                    input.addEventListener('focus', function() {
+                        input.placeholder = input.getAttribute('data-placeholder-active') || '+7 (___) ___-__-__';
+                    });
+                    input.addEventListener('input', function() {
+                        syncPhonePlaceholder(input);
+                    });
+                    input.addEventListener('blur', function() {
+                        syncPhonePlaceholder(input);
+                    });
+                });
+
+                document.querySelectorAll('.js-callback-form').forEach(function(form) {
+                    if (form.dataset.callbackReady === '1') {
+                        return;
+                    }
+                    form.dataset.callbackReady = '1';
+
+                    var consent = form.querySelector('.js-callback-consent');
+                    var submit = form.querySelector('.js-callback-submit');
+                    if (consent) {
+                        consent.addEventListener('change', function() {
+                            syncConsentState(form);
+                        });
+                    }
+
+                    syncConsentState(form);
+                    hydrateFormContext(form);
+
+                    var phoneInput = form.querySelector('.js-callback-phone');
+                    if (phoneInput) {
+                        syncPhonePlaceholder(phoneInput);
+                    }
+
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        syncConsentState(form);
+                        if (submit && submit.disabled) {
+                            return;
+                        }
+
+                        hydrateFormContext(form);
+                        setStatus(form, '', '');
+
+                        var formData = new FormData(form);
+                        if (submit) {
+                            submit.disabled = true;
+                            submit.dataset.loadingText = submit.textContent || '';
+                            submit.textContent = 'Отправляем...';
+                        }
+
+                        fetch(form.getAttribute('action') || '/callback-request.php', {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: formData
+                        })
+                            .then(function(response) {
+                                return response.json().catch(function() {
+                                    return {
+                                        success: false,
+                                        message: 'Не удалось обработать ответ сервера.'
+                                    };
+                                });
+                            })
+                            .then(function(payload) {
+                                if (!payload || payload.success !== true) {
+                                    throw new Error(payload && payload.message ? payload.message : 'Не удалось отправить заявку.');
+                                }
+                                setStatus(form, 'success', payload.message || 'Заявка отправлена.');
+                                form.reset();
+                                if (phoneInput) {
+                                    syncPhonePlaceholder(phoneInput);
+                                }
+                                syncConsentState(form);
+                            })
+                            .catch(function(error) {
+                                setStatus(form, 'error', error && error.message ? error.message : 'Не удалось отправить заявку.');
+                                syncConsentState(form);
+                            })
+                            .finally(function() {
+                                if (submit) {
+                                    submit.textContent = submit.dataset.loadingText || submit.textContent;
+                                    syncConsentState(form);
+                                }
+                            });
+                    });
+                });
             })();
         </script>
         HTML;

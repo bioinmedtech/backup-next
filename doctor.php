@@ -304,10 +304,11 @@ echo $header->render();
                     </p>
 
                     <div class="mt-5 space-y-3">
-                        <a href="javascript:void(0)"
-                           class="jsClientix_openWidget inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8] active:scale-[.98]">
-                            <i class="fa-regular fa-calendar-check mr-1.5"></i> Перезвоните мне
-                        </a>
+                        <?php echo bioinmed_render_callback_form([
+                            'source_label' => ($doctor['name'] ?? 'Врач') . ' — sticky CTA',
+                            'submit_label' => 'Перезвоните мне',
+                            'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                        ]); ?>
                     </div>
 
                     <!-- divider -->
@@ -462,10 +463,14 @@ echo $header->render();
                 <?php echo e($doctor['name']); ?> принимает в клинике БИОИНМЕД по адресу: <?php echo e(CLINIC_ADDRESS); ?>, <?php echo e(CLINIC_METRO); ?>.
                 Запись ежедневно с 9:00 до 21:00.
             </p>
-            <div class="mt-6 flex flex-wrap justify-center gap-3">
-                <a href="javascript:void(0)" class="jsClientix_openWidget rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
-                    <i class="fa-regular fa-calendar-check mr-1.5"></i>Записаться на приём
-                </a>
+            <div class="mx-auto mt-6 max-w-md">
+                <?php echo bioinmed_render_callback_form([
+                    'source_label' => ($doctor['name'] ?? 'Врач') . ' — финальная CTA',
+                    'submit_label' => 'Записаться на приём',
+                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                ]); ?>
+            </div>
+            <div class="mt-4 flex flex-wrap justify-center gap-3">
                 <a href="tel:<?php echo $phone1link; ?>" class="rounded-full border border-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-[#2fbdef] hover:bg-white">
                     <i class="fa-solid fa-phone mr-1.5"></i><?php echo e($phone1); ?>
                 </a>

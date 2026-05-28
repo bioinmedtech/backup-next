@@ -93,10 +93,11 @@ echo $header->render();
             <p class="mt-2 text-sm leading-relaxed text-[#355b89]">Перезвоним в течение 15 минут.</p>
 
             <div class="mt-4">
-                <a href="javascript:void(0)"
-                   class="jsClientix_openWidget inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8] active:scale-[.98]">
-                    <i class="fa-regular fa-calendar-check mr-1.5"></i> Перезвоните мне
-                </a>
+                <?php echo bioinmed_render_callback_form([
+                    'source_label' => '404 — форма обратного звонка',
+                    'submit_label' => 'Перезвоните мне',
+                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                ]); ?>
             </div>
 
             <div class="my-5 flex items-center gap-3">

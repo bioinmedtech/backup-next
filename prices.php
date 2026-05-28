@@ -278,7 +278,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             <h3 class="text-sm font-bold uppercase tracking-[0.1em] text-[#2fbdef] mb-4">Быстрая навигация:</h3>
             <div class="flex flex-wrap gap-2">
                 <a href="#chief-doctor" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Приём главного врача</a>
-                <a href="#oda" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Диагностика и реабилитация ОДА</a>
+                <a href="#oda" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Диагностика и реабилитация опорно-двигательного аппарата</a>
                 <a href="#psychology" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Психология</a>
                 <a href="#osteopathy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Остеопатия</a>
                 <a href="#infusion" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Инфузионная терапия</a>
@@ -361,10 +361,10 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                 </div>
             </section>
 
-            <!-- Диагностика и реабилитация ОДА -->
+            <!-- Диагностика и реабилитация опорно-двигательного аппарата -->
             <section id="oda" class="category-section">
                 <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Диагностика и реабилитация ОДА</h2>
+                    <h2 class="text-2xl font-bold text-[#2fbdef]">Диагностика и реабилитация опорно-двигательного аппарата</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
@@ -377,7 +377,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold text-[#0f2749]">HABILECT: 3D-диагностика ОДА с подбором ЛФК</div>
+                                    <div class="font-semibold text-[#0f2749]">HABILECT: 3D-диагностика опорно-двигательного аппарата с подбором ЛФК</div>
                                     <p class="text-sm text-[#214a7f] mt-1">30 минут, промежуточная диагностика в рамках программы реабилитации бесплатно</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>

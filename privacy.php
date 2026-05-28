@@ -5,7 +5,7 @@ require_once 'includes/components/Components.php';
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $socialImageUrl = bioinmed_default_social_image_url();
-$canonicalUrl = $siteUrl . '/privacy.php';
+$canonicalUrl = $siteUrl . '/privacy';
 $pageTitle = 'Политика конфиденциальности | ' . CLINIC_NAME;
 $pageDescription = 'Политика конфиденциальности клиники ' . CLINIC_NAME . ': порядок обработки персональных данных, контактная информация и права пользователя.';
 

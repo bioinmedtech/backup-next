@@ -5,7 +5,7 @@ require_once 'includes/components/Components.php';
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $socialImageUrl = bioinmed_default_social_image_url();
-$canonicalUrl = $siteUrl . '/user-agreement.php';
+$canonicalUrl = $siteUrl . '/user-agreement';
 $pageTitle = 'Пользовательское соглашение | ' . CLINIC_NAME;
 $pageDescription = 'Пользовательское соглашение сайта клиники ' . CLINIC_NAME . ': условия использования сайта, записи через формы и обратной связи.';
 

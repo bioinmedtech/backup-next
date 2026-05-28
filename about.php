@@ -244,7 +244,10 @@ echo $header->render();
 			</div>
 			<div class="p-5 md:p-7">
 				<div class="max-w-xl">
-					<a href="javascript:void(0)" class="jsClientix_openWidget mt-3 inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-2.5 text-[0.84rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1597b9]">Перезвоните мне</a>
+					<?php echo bioinmed_render_callback_form([
+						'source_label' => 'О клинике — CTA',
+						'submit_label' => 'Перезвоните мне',
+					]); ?>
 				</div>
 			</div>
 		</div>

@@ -17,6 +17,10 @@ define('HERO_TITLE', 'Восстановление здоровья через �
 define('HERO_IMAGE', '/public/images/team/kostromina.jpg');
 define('RECAPTCHA_SITE_KEY', getenv('BIOINMED_RECAPTCHA_SITE_KEY') ?: '6LfmOs0sAAAAAKHWO2jG24uuWIL7UBy3x7gG8awh');
 define('RECAPTCHA_SECRET_KEY', getenv('BIOINMED_RECAPTCHA_SECRET_KEY') ?: '6LfmOs0sAAAAAJQP0aJ3ho1kB7VHy4VeyW_s4GQe');
+define('KLIENTIKS_API_ACCOUNT_ID', getenv('BIOINMED_KLIENTIKS_ACCOUNT_ID') ?: '2c9bfa39d606');
+define('KLIENTIKS_API_USER_ID', getenv('BIOINMED_KLIENTIKS_USER_ID') ?: '560a4e656f4d');
+define('KLIENTIKS_API_TOKEN', getenv('BIOINMED_KLIENTIKS_API_TOKEN') ?: '924c34b977b92cbf644536023d58429c');
+define('KLIENTIKS_API_BASE_URL', getenv('BIOINMED_KLIENTIKS_API_BASE_URL') ?: 'https://klientiks.ru/clientix/Restapi');
 
 // Ключевые показатели (статистика)
 define('CLINIC_EXPERIENCE_YEARS', '5+');
@@ -90,6 +94,74 @@ function bioinmed_uis_counter_head() {
     <!-- UIS -->
     <script type="text/javascript" async src="https://app.uiscom.ru/static/cs.min.js?k=if02ewgEvY95V_mhIKLExPfM0ipC6i1u"></script>
     <!-- UIS -->
+    HTML;
+}
+
+function bioinmed_render_callback_form(array $options = []) {
+    static $instance = 0;
+    $instance++;
+
+    $escape = static function ($value) {
+        return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    };
+
+    $source_label = trim((string)($options['source_label'] ?? 'Заявка с сайта'));
+    $submit_label = trim((string)($options['submit_label'] ?? 'Перезвоните мне'));
+    $form_class = trim((string)($options['form_class'] ?? ''));
+    $button_class = trim((string)($options['button_class'] ?? ''));
+
+    if ($submit_label === '') {
+        $submit_label = 'Перезвоните мне';
+    }
+
+    if ($button_class === '') {
+        $button_class = 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-3 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90';
+    }
+
+    $phone_id = 'callback-phone-' . $instance;
+    $consent_id = 'callback-consent-' . $instance;
+
+    return <<<HTML
+    <form action="/callback-request.php" method="post" class="js-callback-form {$escape($form_class)}" novalidate>
+        <input type="hidden" name="source_label" value="{$escape($source_label)}">
+        <input type="hidden" name="page_title" value="">
+        <input type="hidden" name="page_url" value="">
+        <div class="space-y-3">
+            <div>
+                <input
+                    id="{$escape($phone_id)}"
+                    type="tel"
+                    name="phone"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    aria-label="Ваш телефон"
+                    data-placeholder-default="Ваш телефон"
+                    data-placeholder-active="+7 (___) ___-__-__"
+                    placeholder="Ваш телефон"
+                    class="js-callback-phone w-full rounded-2xl border border-[#d4e3f0] bg-[#f9fcff] px-4 py-3 text-[0.95rem] text-[#0f2749] outline-none transition placeholder:text-[#87a4c3] focus:border-[#2fbdef] focus:bg-white"
+                    required
+                >
+            </div>
+            <label for="{$escape($consent_id)}" class="flex items-start gap-2 text-[0.76rem] leading-relaxed text-[#5a7fa3]">
+                <input
+                    id="{$escape($consent_id)}"
+                    type="checkbox"
+                    name="consent"
+                    value="1"
+                    class="js-callback-consent mt-0.5 h-4 w-4 shrink-0 rounded border-[#b8d2e7] text-[#2fbdef] focus:ring-[#2fbdef]"
+                    required
+                >
+                <span>
+                    Я соглашаюсь с условиями
+                    <a href="/privacy" class="font-semibold text-[#2a5a94] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#2fbdef]">Политики конфиденциальности</a>
+                    и
+                    <a href="/user-agreement" class="font-semibold text-[#2a5a94] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#2fbdef]">Пользовательского соглашения</a>.
+                </span>
+            </label>
+            <button type="submit" class="js-callback-submit {$escape($button_class)}" disabled>{$escape($submit_label)}</button>
+            <p class="js-callback-status hidden rounded-2xl px-3 py-2 text-[0.82rem] leading-relaxed"></p>
+        </div>
+    </form>
     HTML;
 }
 
@@ -694,7 +766,7 @@ $problems = [
         'icon' => '🔴',
     ],
     [
-        'title' => 'Точная диагностика скрытых проблем ОДА и биомеханики',
+        'title' => 'Точная диагностика скрытых проблем опорно-двигательного аппарата и биомеханики',
         'description' => 'Выявление причин заболеваний на ранних стадиях, оценка функции опорно-двигательного аппарата, анализ биомеханики тела, улучшение качества жизни',
         'solutions' => 'HABILECT-диагностика, Консультация главного врача клиники',
         'icon' => '🔴',
@@ -762,12 +834,12 @@ $doctors = [
         'id' => 11,
         'slug' => 'donskaya-galina-vitalyevna',
         'name' => 'Донская Галина Витальевна',
-        'title' => 'Генеральный директор',
-        'specialty' => 'Стратегическое развитие клиники, организация сервиса и сопровождение пациентского маршрута',
+        'title' => 'Исполнительный директор клиники',
+        'specialty' => 'Управление клиникой, организация сервиса и сопровождение пациентского маршрута',
         'experience' => 'Управленческая практика в медицинских проектах',
-        'bio' => 'Координирует развитие клиники, отвечает за качество сервиса и выстраивает процессы так, чтобы пациент получал понятный и комфортный маршрут взаимодействия с командой БИОИНМЕД.',
+        'bio' => 'Управляет ежедневной работой клиники, отвечает за качество сервиса и выстраивает процессы так, чтобы пациент получал понятный и комфортный маршрут взаимодействия с командой БИОИНМЕД.',
         'focus' => [
-            'Развитие клиники и координация ключевых внутренних процессов',
+            'Управление клиникой и координация ключевых внутренних процессов',
             'Повышение качества сервиса и сопровождения пациентов',
             'Организация слаженной работы команды и операционных процессов',
         ],

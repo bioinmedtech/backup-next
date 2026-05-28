@@ -443,10 +443,11 @@ echo $header->render();
                         <p class="mt-1 text-sm text-[#355b89]">Перезвоним в течение 15 минут.</p>
 
                         <div class="mt-4">
-                            <a href="javascript:void(0)"
-                               class="jsClientix_openWidget inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-3.5 text-sm font-semibold text-white shadow hover:bg-[#1fb3d8] active:scale-[.98]">
-                                <i class="fa-regular fa-calendar-check mr-2"></i>Перезвоните мне
-                            </a>
+                            <?php echo bioinmed_render_callback_form([
+                                'source_label' => ($service['name'] ?? 'Услуга') . ' — сайдбар',
+                                'submit_label' => 'Перезвоните мне',
+                                'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                            ]); ?>
                         </div>
 
                         <div class="my-4 flex items-center gap-3">
@@ -476,10 +477,12 @@ echo $header->render();
                                 <span>По итогам вы получите понятный персональный план лечения.</span>
                             </li>
                         </ul>
-                                <a href="javascript:void(0)"
-                                    class="jsClientix_openWidget mt-4 flex items-center justify-center gap-2 rounded-full bg-[#2fbdef] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
-                            <i class="fa-regular fa-calendar-check"></i> Оставить заявку
-                        </a>
+                                <?php echo bioinmed_render_callback_form([
+                                    'source_label' => ($service['name'] ?? 'Услуга') . ' — блок преимуществ',
+                                    'submit_label' => 'Оставить заявку',
+                                    'form_class' => 'mt-4',
+                                    'button_class' => 'mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#2fbdef] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                                ]); ?>
                     </div>
 
                     <div class="rounded-3xl border border-[#d9e7f3] bg-[#f4f9ff] p-5">
@@ -516,10 +519,14 @@ echo $header->render();
             <p class="mx-auto mt-3 max-w-xl text-sm text-[#355b89]">
                 Запишитесь на консультацию, чтобы понять причину симптомов и получить персональный план восстановления без лишних назначений.
             </p>
-            <div class="mt-6 flex flex-wrap justify-center gap-3">
-                <a href="javascript:void(0)" class="jsClientix_openWidget rounded-full bg-[#2fbdef] px-7 py-3 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
-                    <i class="fa-regular fa-calendar-check mr-1.5"></i>Записаться на приём
-                </a>
+            <div class="mx-auto mt-6 max-w-md">
+                <?php echo bioinmed_render_callback_form([
+                    'source_label' => ($service['name'] ?? 'Услуга') . ' — финальная CTA',
+                    'submit_label' => 'Записаться на приём',
+                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                ]); ?>
+            </div>
+            <div class="mt-4 flex flex-wrap justify-center gap-3">
                 <a href="tel:<?php echo $phone1link; ?>" class="rounded-full border border-[#c9dcee] bg-white px-7 py-3 text-sm font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">
                     <i class="fa-solid fa-phone mr-1.5"></i><?php echo e($phone1); ?>
                 </a>
