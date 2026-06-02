@@ -196,6 +196,25 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
         .fade-up.visible { opacity: 1; transform: translateY(0); }
         .prose-service p { margin-bottom: .85rem; line-height: 1.75; }
         .service-gallery-thumb.is-active { border-color: #2fbdef; box-shadow: 0 0 0 3px rgba(47, 189, 239, 0.16); }
+        .service-main-image-frame { overflow: hidden; }
+        .service-main-image-live {
+            transform: scale(1.08);
+            will-change: transform;
+        }
+        .service-main-image-live.is-animating {
+            animation: serviceLivePhotoZoom 6s ease-out forwards;
+        }
+        @keyframes serviceLivePhotoZoom {
+            from { transform: scale(1.1); }
+            to { transform: scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .service-main-image-live,
+            .service-main-image-live.is-animating {
+                animation: none;
+                transform: none;
+            }
+        }
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
@@ -397,11 +416,11 @@ echo $header->render();
                 <div class="order-first fade-up space-y-4 lg:order-2" style="transition-delay:.07s">
                     <?php if ($servicePrimaryImage): ?>
                     <div class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-                        <div class="relative aspect-[5/4] overflow-hidden bg-[#edf7ff]">
+                        <div class="service-main-image-frame relative aspect-[5/4] overflow-hidden bg-[#edf7ff]">
                             <img src="<?php echo e($servicePrimaryImage); ?>"
                                  alt="<?php echo e($service['name']); ?>"
                                  id="service-main-image"
-                                 class="h-full w-full cursor-zoom-in object-cover"
+                                 class="service-main-image-live is-animating h-full w-full cursor-zoom-in object-cover"
                                  loading="eager">
                             <button type="button"
                                     id="service-image-zoom"
@@ -573,10 +592,18 @@ echo $footer->render();
     const imageModalImage = document.getElementById('service-image-modal-image');
     const imageModalClose = document.getElementById('service-image-modal-close');
 
+    function restartServiceImageAnimation() {
+        if (!mainImage || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        mainImage.classList.remove('is-animating');
+        void mainImage.offsetWidth;
+        mainImage.classList.add('is-animating');
+    }
+
     function setActiveGalleryImage(src, alt) {
         if (!mainImage || !src) return;
         mainImage.src = src;
         mainImage.alt = alt || mainImage.alt;
+        restartServiceImageAnimation();
         if (imageModalImage) {
             imageModalImage.src = src;
             imageModalImage.alt = alt || imageModalImage.alt;
@@ -623,6 +650,8 @@ echo $footer->render();
             closeImageModal();
         }
     });
+
+    restartServiceImageAnimation();
 </script>
 </body>
 </html>

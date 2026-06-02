@@ -699,18 +699,23 @@ class HeroSection extends Component {
         $thumbs_html = '';
         $mobile_strip_html = '';
         $modal_thumbs_html = '';
-        $slide_count = 20;
+        $hero_slides = [
+            '/public/images/slider-v2/main-photo-bioinmed-v1.jpg',
+        ];
+        for ($i = 1; $i <= 20; $i++) {
+            $hero_slides[] = '/public/images/slider-v2/slider-' . $i . '.jpg';
+        }
+        $slide_count = count($hero_slides);
 
-        for ($i = 1; $i <= $slide_count; $i++) {
-            $is_first = ($i === 1);
-            $slide_src = bioinmed_versioned_asset_path('/public/images/slider-v2/slider-' . $i . '.jpg');
-            $slide_alt = 'Интерьер клиники БИОИНМЕД ' . $i;
+        foreach ($hero_slides as $slide_index => $slide_path) {
+            $is_first = ($slide_index === 0);
+            $slide_src = bioinmed_versioned_asset_path($slide_path);
+            $slide_alt = 'Интерьер клиники БИОИНМЕД ' . ($slide_index + 1);
             $loading = $is_first ? 'eager' : 'lazy';
             $active_class = $is_first ? ' is-active' : '';
-            $slide_index = $i - 1;
 
-            $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full" data-hero-image-src="' . $slide_src . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="Открыть фото ' . $i . '">'
-                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
+            $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full' . $active_class . '" data-hero-image-src="' . $slide_src . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="Открыть фото ' . ($slide_index + 1) . '">'
+                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
                 . '</button>';
 
             $dots_html .= '<button type="button" class="hero-clinic-dot' . $active_class . '" data-slide-index="' . $slide_index . '" aria-label="Слайд ' . ($slide_index + 1) . '"></button>';
@@ -855,6 +860,9 @@ class HeroSection extends Component {
 
                     function render() {
                         track.style.transform = 'translateX(-' + (current * 100) + '%)';
+                        slides.forEach(function(slide, index) {
+                            slide.classList.toggle('is-active', index === current);
+                        });
                         dots.forEach(function(dot, index) {
                             dot.classList.toggle('is-active', index === current);
                         });
@@ -991,6 +999,41 @@ class HeroSection extends Component {
                 padding: 0;
                 background: transparent;
                 cursor: zoom-in;
+            }
+
+            .hero-clinic-slide {
+                overflow: hidden;
+            }
+
+            .hero-clinic-slide-image {
+                transform: scale(1.08);
+                transition: transform 0.6s ease-out;
+                will-change: transform;
+            }
+
+            .hero-clinic-slide.is-active .hero-clinic-slide-image {
+                animation: heroLivePhotoZoom 6s ease-out forwards;
+            }
+
+            @keyframes heroLivePhotoZoom {
+                from {
+                    transform: scale(1.1);
+                }
+                to {
+                    transform: scale(1);
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .hero-clinic-slide-image {
+                    transform: none;
+                    transition: none;
+                }
+
+                .hero-clinic-slide.is-active .hero-clinic-slide-image {
+                    animation: none;
+                    transform: none;
+                }
             }
 
             .hero-clinic-thumb,
@@ -1355,6 +1398,20 @@ class ChiefDoctorBlock extends Component {
         }
 
         $leadership = isset($this->data['leadership']) ? $this->e($this->data['leadership']) : 'Руководит клиническим процессом и развитием стандартов медицинской помощи.';
+        $hero_leadership = isset($this->data['hero_leadership']) ? $this->e($this->data['hero_leadership']) : $leadership;
+        $hero_tagline = trim((string)($this->data['hero_tagline'] ?? ''));
+        $hero_tagline_html = $hero_tagline !== ''
+            ? '<p class="mt-4 max-w-3xl text-[#4f6f92]" style="font-family:\'Caveat\',cursive;font-size:clamp(1.48rem,5vw,1.82rem);line-height:1.14;font-weight:700;">' . $this->e($hero_tagline) . '</p>'
+            : '<p class="mt-5 text-base leading-relaxed text-[#355b89]">В БИОИНМЕД каждый пациент получает не набор разрозненных процедур, а цельный лечебный маршрут: диагностика причин, подбор метода, оценка динамики и коррекция тактики.</p>';
+        $hero_highlights = $this->data['hero_highlights'] ?? [];
+        $hero_highlights_html = '';
+        if (!empty($hero_highlights) && is_array($hero_highlights)) {
+            $hero_highlights_html .= '<ul class="mt-4 space-y-2 text-sm leading-relaxed text-[#355b89]">';
+            foreach ($hero_highlights as $highlight) {
+                $hero_highlights_html .= '<li class="flex items-start gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#2fbdef]"></span><span>' . $this->e($highlight) . '</span></li>';
+            }
+            $hero_highlights_html .= '</ul>';
+        }
         $chief_image = bioinmed_versioned_asset_path('/public/images/team/kostromina.jpg');
 
         return <<<HTML
@@ -1366,29 +1423,10 @@ class ChiefDoctorBlock extends Component {
                         <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Экспертный подход</p>
                         <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($this->data['name'])}</h2>
                         <p class="mt-1 text-[0.84rem] font-semibold uppercase tracking-[0.15em] text-[#4a6f96]">{$this->e($this->data['title'])}</p>
-                        <p class="mt-5 text-base leading-relaxed text-[#355b89]">
-                            В БИОИНМЕД каждый пациент получает не набор разрозненных процедур, а цельный лечебный маршрут:
-                            диагностика причин, подбор метода, оценка динамики и коррекция тактики.
-                        </p>
-                        <div class="mt-5 rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4">
-                            <p class="text-[0.82rem] font-semibold uppercase tracking-[0.13em] text-[#2a5a94]">Образовательная и управленческая роль</p>
-                            <p class="mt-2 text-[0.96rem] leading-relaxed text-[#214a7f]">{$leadership}</p>
-                        </div>
-                        <ul class="mt-6 space-y-3 text-sm text-[#214a7f]">
-                            <li class="flex items-start gap-3">
-                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-[0.82rem]" aria-hidden="true"></i></span>
-                                <span>Комплексное ведение сложных хронических случаев</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-[0.82rem]" aria-hidden="true"></i></span>
-                                <span>Интегративная схема лечения без избыточной медикаментозной нагрузки</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]"><i class="fa-solid fa-check text-[0.82rem]" aria-hidden="true"></i></span>
-                                <span>Ежегодное обновление клинических протоколов и методик</span>
-                            </li>
-                        </ul>
-                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.92rem] font-semibold text-white hover:bg-[#1fb3d8]">Подробнее о специалисте</a>
+                        {$hero_tagline_html}
+                        <p class="mt-3 text-[1rem] leading-relaxed text-[#4a6f9c] md:text-[1.08rem]">{$hero_leadership}</p>
+                        {$hero_highlights_html}
+                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.92rem] font-semibold text-white hover:bg-[#1fb3d8]">Подробнее</a>
                     </div>
                 </div>
             </div>
@@ -1399,22 +1437,59 @@ class ChiefDoctorBlock extends Component {
 
 class SpecialOffer extends Component {
     public function render() {
-        $phone = $this->e(CLINIC_PHONE);
-        $phone_link = $this->phoneLink(CLINIC_PHONE);
+        $callback_form = bioinmed_render_callback_form([
+            'source_label' => 'Главная — спецпредложение HABILECT',
+            'submit_label' => 'Перезвоните мне',
+        ]);
         return <<<HTML
         <section class="border-b border-[#e6eef7] bg-white py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-[linear-gradient(110deg,#ecf6ff_0%,#f7fcff_60%,#eaf7f5_100%)] px-6 py-6 md:px-8 md:py-7">
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Специальное предложение для новых пациентов</p>
-                    <h2 class="mt-2 text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Диагностика HABILECT + первичный приём врача</h2>
-                    <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">
-                        Начните знакомство с клиникой и вашим маршрутом лечения: комплексная диагностика HABILECT и первичный приём врача. Получите персональный план восстановления и рекомендации по лечению.
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Специальное предложение для пациентов</p>
+                    <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Первичная 3D диагностика Хабилект + консультация реабилитолога</h2>
+                    <div class="mt-4 border-l-4 border-[#2fbdef] pl-4 md:pl-5">
+                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Специальная цена</p>
+                        <div class="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
+                            <span class="text-2xl font-bold leading-none text-[#0f2749] md:text-[1.9rem]">3000 руб.</span>
+                            <span class="text-sm text-[#5b81a8] md:text-[0.98rem]">вместо <span class="line-through">6000 руб.</span></span>
+                        </div>
+                        <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]">Экономия 3000 руб.</p>
+                    </div>
+                    <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#355b89]">
+                        Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика Хабилект даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.
                     </p>
+                    <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#214a7f]">
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
+                            <span>3D-диагностика Хабилект для точной оценки нарушений опорно-двигательного аппарата</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
+                            <span>Консультация реабилитолога с подбором индивидуального комплекса ЛФК</span>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
+                            <span>Диагностика стоп на подоскопе в подарок</span>
+                        </li>
+                    </ul>
                     <div class="mt-4">
-                        <a href="tel:{$phone_link}" class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#1fb3d8]">
+                        <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#1fb3d8]">
                             <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
-                            Записаться на консультацию
-                        </a>
+                            Перезвоните мне
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="special-offer-callback-modal" class="fixed inset-0 z-[120] hidden items-center justify-center bg-[rgba(7,21,40,0.72)] px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="special-offer-callback-title">
+                <div class="relative w-full max-w-md rounded-[1.75rem] border border-[#d8e7f5] bg-white p-6 shadow-[0_24px_60px_rgba(7,21,40,0.24)] md:p-7">
+                    <button type="button" data-special-offer-close class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#d7e6f3] bg-white text-[#4a6f96] transition hover:border-[#2fbdef] hover:text-[#2fbdef]" aria-label="Закрыть окно">
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                    <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#2fbdef]">Специальное предложение</p>
+                    <h3 id="special-offer-callback-title" class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Перезвоним и запишем на консультацию</h3>
+                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#355b89]">Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику Хабилект.</p>
+                    <div class="mt-5">
+                        {$callback_form}
                     </div>
                 </div>
             </div>
@@ -1440,18 +1515,27 @@ class DoctorsGrid extends Component {
             $doctor_link = '/doctors/' . $slug;
             $doctor_image = bioinmed_versioned_asset_path('/public/images/team/' . ($doctor['image'] ?? ''));
             $has_profile = !array_key_exists('has_profile', $doctor) || $doctor['has_profile'] !== false;
+            $card_action_text = trim((string)($doctor['card_action_text'] ?? 'Команда клиники'));
+            $doctor_image_html = $has_profile
+                ? '<a href="' . $doctor_link . '" class="block overflow-hidden"><img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover transition duration-300 group-hover:scale-[1.03] md:h-[22rem]" loading="lazy"></a>'
+                : '<img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover md:h-[22rem]" loading="lazy">';
+            $doctor_name_html = $has_profile
+                ? '<h3 class="text-lg font-bold leading-tight text-[#0f3463]"><a href="' . $doctor_link . '" class="transition hover:text-[#2fbdef]">' . $this->e($doctor['name']) . '</a></h3>'
+                : '<h3 class="text-lg font-bold leading-tight text-[#0f3463]">' . $this->e($doctor['name']) . '</h3>';
             $card_action = $has_profile
                 ? '<a href="' . $doctor_link . '" class="mt-4 w-full rounded-full bg-[#2fbdef] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#1fb3d8]">Подробнее</a>'
-                : '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-[#f5faff] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]">Команда клиники</div>';
+                : ($card_action_text !== ''
+                    ? '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-[#f5faff] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]">' . $this->e($card_action_text) . '</div>'
+                    : '');
             $cards_html .= <<<HTML
             <article class="min-w-[280px] max-w-[280px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[310px] sm:max-w-[310px] flex flex-col self-stretch">
-                <img src="{$this->e($doctor_image)}" alt="{$this->e($doctor['name'])}" class="h-72 w-full object-cover" loading="lazy">
+                {$doctor_image_html}
                 <div class="flex flex-1 flex-col p-6">
                     <div class="flex-1">
-                        <h3 class="text-lg font-bold leading-tight text-[#0f3463]">{$this->e($doctor['name'])}</h3>
+                        {$doctor_name_html}
                         <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94]">{$this->e($doctor['title'])}</p>
+                        <p class="mt-2 text-sm font-semibold leading-snug text-[#214a7f]">{$this->e($doctor['experience'])}</p>
                         <p class="mt-3 text-[0.96rem] text-[#355b89]">{$this->e($doctor['specialty'])}</p>
-                        <p class="mt-2 text-[0.96rem] font-semibold text-[#214a7f]">{$this->e($doctor['experience'])}</p>
                     </div>
                     {$card_action}
                 </div>
@@ -2068,6 +2152,56 @@ class Footer extends Component {
                     var defaultPlaceholder = input.getAttribute('data-placeholder-default') || 'Ваш телефон';
                     var activePlaceholder = input.getAttribute('data-placeholder-active') || '+7 (___) ___-__-__';
                     input.placeholder = input.value ? activePlaceholder : defaultPlaceholder;
+                }
+
+                var specialOfferModal = document.getElementById('special-offer-callback-modal');
+                var specialOfferBodyOverflow = '';
+
+                function openSpecialOfferModal() {
+                    if (!specialOfferModal) {
+                        return;
+                    }
+                    specialOfferBodyOverflow = document.body.style.overflow || '';
+                    specialOfferModal.classList.remove('hidden');
+                    specialOfferModal.classList.add('flex');
+                    document.body.style.overflow = 'hidden';
+                    var phoneInput = specialOfferModal.querySelector('.js-callback-phone');
+                    if (phoneInput) {
+                        window.requestAnimationFrame(function() {
+                            phoneInput.focus();
+                        });
+                    }
+                }
+
+                function closeSpecialOfferModal() {
+                    if (!specialOfferModal) {
+                        return;
+                    }
+                    specialOfferModal.classList.add('hidden');
+                    specialOfferModal.classList.remove('flex');
+                    document.body.style.overflow = specialOfferBodyOverflow;
+                }
+
+                document.querySelectorAll('[data-special-offer-open]').forEach(function(button) {
+                    button.addEventListener('click', openSpecialOfferModal);
+                });
+
+                document.querySelectorAll('[data-special-offer-close]').forEach(function(button) {
+                    button.addEventListener('click', closeSpecialOfferModal);
+                });
+
+                if (specialOfferModal) {
+                    specialOfferModal.addEventListener('click', function(event) {
+                        if (event.target === specialOfferModal) {
+                            closeSpecialOfferModal();
+                        }
+                    });
+
+                    document.addEventListener('keydown', function(event) {
+                        if (event.key === 'Escape' && !specialOfferModal.classList.contains('hidden')) {
+                            closeSpecialOfferModal();
+                        }
+                    });
                 }
 
                 document.querySelectorAll('.js-callback-phone').forEach(function(input) {

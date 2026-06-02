@@ -63,6 +63,9 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
         <script type="application/ld+json">
                 <?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
@@ -175,6 +178,77 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     $advantages_section = new AdvantagesBlock($advantages, $brand_colors);
     echo $advantages_section->render();
     ?>
+
+    <section class="border-b border-[#e6eef7] bg-[linear-gradient(180deg,#eef7ff_0%,#f4fbff_100%)] py-12 md:py-16">
+        <div class="mx-auto max-w-6xl px-6 md:px-10">
+            <div class="rounded-[2rem] border border-[#dbe8f4] bg-white p-6 shadow-[0_16px_40px_rgba(8,36,70,0.07)] md:p-8">
+                <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                    <div>
+                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Маршрут пациента</p>
+                        <h2 class="mt-2 text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Понятный путь от первого обращения до результата</h2>
+                    </div>
+                    <p class="max-w-2xl text-[0.92rem] leading-relaxed text-[#4f759c]">Маршрут построен так, чтобы пациент видел всю логику лечения целиком: от первого обращения до устойчивого результата.</p>
+                </div>
+
+                <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-user-doctor text-[1rem]"></i></span>
+                            <div>
+                                <p class="text-[1rem] font-semibold text-[#17446f]">Консультация</p>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Врач собирает жалобы, историю заболевания и формирует первичное понимание ситуации.</p>
+                    </article>
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-magnifying-glass-chart text-[1rem]"></i></span>
+                            <div>
+                                <p class="text-[1rem] font-semibold text-[#17446f]">Диагностика</p>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Подбираются нужные методы обследования, чтобы увидеть причину нарушений, а не только симптомы.</p>
+                    </article>
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-heart-pulse text-[1rem]"></i></span>
+                            <div>
+                                <p class="text-[1rem] font-semibold text-[#17446f]">Лечение</p>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Составляется персональный лечебный план с процедурами, рекомендациями и понятной последовательностью шагов.</p>
+                    </article>
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-kit-medical text-[1rem]"></i></span>
+                            <div>
+                                <p class="text-[1rem] font-semibold text-[#17446f]">Восстановление</p>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Организм адаптируется к изменениям, а улучшения постепенно закрепляются без лишней перегрузки.</p>
+                    </article>
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-person-walking text-[1rem]"></i></span>
+                            <div>
+                                <p class="text-[1rem] font-semibold text-[#17446f]">Лечебная физическая активность</p>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Подключаются упражнения и безопасная физическая нагрузка, чтобы сохранить результат в повседневной жизни.</p>
+                    </article>
+                    <article class="rounded-2xl border border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f7ef] text-[#2f9b6a]"><i class="fa-solid fa-star text-[1rem]"></i></span>
+                            <div>
+                                <p class="text-[1rem] font-semibold text-[#17446f]">Результат</p>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Цель маршрута - не временный эффект, а более устойчивое самочувствие и понятное движение к восстановлению.</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Special Offer -->
     <?php

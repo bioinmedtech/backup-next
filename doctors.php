@@ -98,6 +98,9 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
@@ -167,28 +170,33 @@ echo $header->render();
                     <div>
                         <h2 class="text-2xl font-bold leading-tight text-[#0f3463] md:text-3xl"><?php echo e($chief['name']); ?></h2>
                         <p class="mt-1 text-sm font-semibold uppercase tracking-[0.15em] text-[#2a5a94]"><?php echo e($chief['title']); ?></p>
+                        <?php if (!empty($chief['hero_tagline'])): ?>
+                        <p class="mt-4 max-w-3xl text-[#4f6f92]" style="font-family:'Caveat',cursive;font-size:clamp(1.48rem,5vw,1.82rem);line-height:1.14;font-weight:700;">
+                            <?php echo e($chief['hero_tagline']); ?>
+                        </p>
+                        <?php else: ?>
                         <p class="mt-4 text-sm leading-relaxed text-[#355b89]"><?php echo e($chief['bio']); ?></p>
-                        <?php if (!empty($chief['leadership'])): ?>
-                        <p class="mt-3 text-sm italic text-[#4a6f9c]"><?php echo e($chief['leadership']); ?></p>
                         <?php endif; ?>
-
-                        <div class="mt-5 flex flex-wrap gap-2">
-                            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#e8f3fc] px-3 py-1.5 text-xs font-semibold text-[#1b5c99]">
-                                <i class="fa-solid fa-stethoscope text-[#2fbdef]"></i>
-                                <?php echo e($chief['specialty']); ?>
-                            </span>
-                            <?php if ($chiefYears): ?>
-                            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#e8f3fc] px-3 py-1.5 text-xs font-semibold text-[#1b5c99]">
-                                <i class="fa-solid fa-clock text-[#2fbdef]"></i>
-                                <?php echo e($chiefExp); ?>
-                            </span>
-                            <?php endif; ?>
-                        </div>
+                        <?php $chiefHeroLeadership = trim((string)($chief['hero_leadership'] ?? ($chief['leadership'] ?? ''))); ?>
+                        <?php if ($chiefHeroLeadership !== ''): ?>
+                        <p class="mt-3 text-[1rem] leading-relaxed text-[#4a6f9c] md:text-[1.08rem]"><?php echo e($chiefHeroLeadership); ?></p>
+                        <?php endif; ?>
+                        <?php $chiefHighlights = $chief['hero_highlights'] ?? []; ?>
+                        <?php if (!empty($chiefHighlights) && is_array($chiefHighlights)): ?>
+                        <ul class="mt-4 space-y-2 text-sm leading-relaxed text-[#355b89]">
+                            <?php foreach ($chiefHighlights as $highlight): ?>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#2fbdef]"></span>
+                                <span><?php echo e($highlight); ?></span>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php endif; ?>
                     </div>
                     <div class="mt-6">
                         <a href="/doctors/<?php echo e($chief['slug']); ?>"
                            class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
-                            Подробнее о враче
+                            Подробнее
                             <i class="fa-solid fa-arrow-right text-xs"></i>
                         </a>
                     </div>
@@ -201,51 +209,61 @@ echo $header->render();
     <!-- ALL DOCTORS GRID -->
     <section class="py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Команда клиники</p>
-            <h2 class="mt-2 text-xl font-bold text-[#0f3463] md:text-2xl">Врачи команды</h2>
-            <p class="mt-2 text-sm text-[#4a6f9c]">Нажмите на карточку врача, чтобы узнать подробнее о его специализации и записаться на приём</p>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Команда клиники</p>
+            <h2 class="mt-2 text-2xl font-bold text-[#0f3463] md:text-3xl">Врачи команды</h2>
+            <p class="mt-2 text-base text-[#4a6f9c]">Нажмите на карточку врача, чтобы узнать подробнее о его специализации и записаться на приём</p>
 
             <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach (array_slice($doctors, 1) as $index => $doc):
                     $docExp = trim((string)($doc['experience'] ?? ''));
                     $docImage = bioinmed_versioned_asset_path('/public/images/team/' . ($doc['image'] ?? ''));
                           $docHasProfile = !array_key_exists('has_profile', $doc) || $doc['has_profile'] !== false;
+                    $docActionText = trim((string)($doc['card_action_text'] ?? 'Команда клиники'));
+                    $docLink = '/doctors/' . ($doc['slug'] ?? '');
                     $docYears = null;
                     if (preg_match('/(\d+)\s*(?:лет|год)/ui', $docExp, $m)) $docYears = $m[1];
                 ?>
-                     <<?php echo $docHasProfile ? 'a' : 'article'; ?>
-                         <?php if ($docHasProfile): ?>href="/doctors/<?php echo e($doc['slug']); ?>"<?php endif; ?>
+                     <article
                          class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition <?php echo $docHasProfile ? 'hover:border-[#2fbdef] hover:shadow-[0_12px_30px_rgba(47,189,239,0.13)]' : ''; ?>"
                          style="transition-delay:<?php echo $index * 60; ?>ms">
                     <div class="overflow-hidden">
-                                <img src="<?php echo e($docImage); ?>"
-                             alt="<?php echo e($doc['name']); ?>"
-                                          class="aspect-square w-full object-cover transition duration-300 <?php echo $docHasProfile ? 'group-hover:scale-[1.03]' : ''; ?>"
+                        <?php if ($docHasProfile): ?>
+                        <a href="<?php echo e($docLink); ?>" class="block overflow-hidden">
+                        <?php endif; ?>
+                                          <img src="<?php echo e($docImage); ?>"
+                                      alt="<?php echo e($doc['name']); ?>"
+                                                        class="aspect-[4/5] w-full object-cover transition duration-300 md:aspect-[5/6] <?php echo $docHasProfile ? 'group-hover:scale-[1.03]' : ''; ?>"
                              loading="lazy"
                                       onerror="this.src='/public/images/placeholder.jpg'">
-                    </div>
-                    <div class="flex flex-1 flex-col p-5">
-                        <h3 class="text-base font-bold leading-tight text-[#0f3463]"><?php echo e($doc['name']); ?></h3>
-                        <p class="mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#2a5a94]"><?php echo e($doc['title']); ?></p>
-                        <p class="mt-3 text-xs leading-relaxed text-[#4a6f9c] line-clamp-3"><?php echo e($doc['bio']); ?></p>
-
-                        <?php if (!empty($doc['focus']) && is_array($doc['focus'])): ?>
-                        <ul class="mt-3 space-y-1">
-                            <?php foreach (array_slice($doc['focus'], 0, 2) as $f): ?>
-                            <li class="flex items-center gap-2 text-xs text-[#355b89]">
-                                <i class="fa-solid fa-check shrink-0 text-[#2fbdef] text-[0.6rem]"></i>
-                                <?php echo e($f); ?>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <?php if ($docHasProfile): ?>
+                        </a>
                         <?php endif; ?>
-
-                        <div class="mt-auto flex items-center justify-between pt-4">
-                            <span class="text-xs text-[#7a9cc4]"><?php echo e($docExp); ?></span>
-                            <span class="text-xs font-semibold <?php echo $docHasProfile ? 'text-[#2fbdef] group-hover:underline' : 'text-[#6d8db2]'; ?>"><?php echo $docHasProfile ? 'Подробнее →' : 'Команда клиники'; ?></span>
-                        </div>
                     </div>
-                </<?php echo $docHasProfile ? 'a' : 'article'; ?>>
+                    <div class="flex flex-1 flex-col p-5 md:p-6">
+                        <h3 class="text-base font-bold leading-tight text-[#0f3463] md:text-[1.05rem]">
+                            <?php if ($docHasProfile): ?>
+                            <a href="<?php echo e($docLink); ?>" class="transition hover:text-[#2fbdef]"><?php echo e($doc['name']); ?></a>
+                            <?php else: ?>
+                            <?php echo e($doc['name']); ?>
+                            <?php endif; ?>
+                        </h3>
+                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#2a5a94] md:text-[0.86rem]"><?php echo e($doc['title']); ?></p>
+                        <?php if ($docExp !== ''): ?>
+                        <p class="mt-2 text-[0.92rem] font-semibold leading-snug text-[#214a7f] md:text-[0.96rem]"><?php echo e($docExp); ?></p>
+                        <?php endif; ?>
+                        <p class="mt-3 text-sm leading-relaxed text-[#4a6f9c] md:text-[0.95rem] line-clamp-3"><?php echo e($doc['bio']); ?></p>
+
+                        <?php if ($docHasProfile || $docActionText !== ''): ?>
+                        <div class="mt-auto flex items-center justify-end pt-4">
+                            <?php if ($docHasProfile): ?>
+                            <a href="<?php echo e($docLink); ?>" class="text-sm font-semibold text-[#2fbdef] hover:underline">Подробнее →</a>
+                            <?php else: ?>
+                            <span class="text-sm font-semibold text-[#6d8db2]"><?php echo e($docActionText); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </article>
                 <?php endforeach; ?>
             </div>
         </div>
