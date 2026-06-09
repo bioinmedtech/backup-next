@@ -328,21 +328,21 @@ $footer = new Footer();
             background: rgba(47, 189, 239, 0.12);
             padding: 0.28rem 0.68rem;
             color: #2a5a94;
-            font-size: 0.76rem;
+            font-size: 0.84rem;
             font-weight: 700;
             letter-spacing: 0.07em;
             text-transform: uppercase;
         }
         .season-practice-card__title {
             margin-top: 0.7rem;
-            font-size: 1.08rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #173b64;
             line-height: 1.25;
         }
         .season-practice-card__subtitle {
             margin-top: 0.45rem;
-            font-size: 0.8rem;
+            font-size: 0.88rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: #7a91aa;
@@ -350,7 +350,7 @@ $footer = new Footer();
         }
         .season-practice-card__desc {
             margin-top: 0.7rem;
-            font-size: 0.92rem;
+            font-size: 1.03rem;
             line-height: 1.6;
             color: #4f6f91;
         }
@@ -360,7 +360,7 @@ $footer = new Footer();
             align-items: center;
             gap: 0.42rem;
             color: #214f80;
-            font-size: 0.88rem;
+            font-size: 0.96rem;
             font-weight: 700;
         }
         .season-practice-card__cta i {
@@ -478,7 +478,7 @@ $footer = new Footer();
         }
         .season-art-popup__title {
             color: #fff;
-            font-size: 0.8rem;
+            font-size: 0.94rem;
             font-weight: 700;
             line-height: 1.25;
             text-shadow: 0 2px 8px rgba(0,0,0,0.44);
@@ -486,13 +486,13 @@ $footer = new Footer();
         .season-art-popup__meta {
             margin-top: 0.35rem;
             color: rgba(255,255,255,0.82);
-            font-size: 0.66rem;
+            font-size: 0.76rem;
             text-shadow: 0 1px 6px rgba(0,0,0,0.4);
         }
         .season-art-popup__museum {
             margin-top: 0.5rem;
             color: rgba(255,255,255,0.66);
-            font-size: 0.56rem;
+            font-size: 0.64rem;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             text-shadow: 0 1px 6px rgba(0,0,0,0.36);
@@ -606,16 +606,16 @@ $footer = new Footer();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
 
             <!-- Main hero text -->
-            <p class="text-[0.8rem] font-semibold tracking-[0.18em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>">
+            <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>">
                 Времена года
             </p>
             <h1 class="text-4xl md:text-6xl font-black text-white leading-none mb-4">
                 <?= $e($s['name']) ?>
             </h1>
-            <p class="text-[1.02rem] md:text-[1.16rem] font-light mb-4 max-w-xl" style="color:rgba(255,255,255,0.92)">
+            <p class="text-[1.16rem] md:text-[1.3rem] font-light mb-4 max-w-xl leading-relaxed" style="color:rgba(255,255,255,0.92)">
                 <?= $e($s['slogan']) ?>
             </p>
-            <blockquote class="text-[0.92rem] md:text-[1rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.86);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.15rem,2vw,1.35rem);font-weight:500;">
+            <blockquote class="text-[1.06rem] md:text-[1.18rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.9);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.35rem,2.5vw,1.75rem);font-weight:600;">
                 <?= $e($s['quote']) ?>
             </blockquote>
 
@@ -629,10 +629,10 @@ $footer = new Footer();
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="mx-auto max-w-4xl text-center">
             <span class="text-4xl mb-5 block"><?= $s['icon'] ?></span>
-            <h2 class="text-[1.3rem] md:text-[1.52rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>">
+            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>">
                 <?= $e($titles['health']) ?>
             </h2>
-            <p class="text-[0.96rem] text-gray-700 leading-relaxed max-w-3xl mx-auto">
+            <p class="text-[1.08rem] md:text-[1.16rem] text-gray-700 leading-relaxed max-w-3xl mx-auto">
                 <?= $e($s['intro']) ?>
             </p>
         </div>
@@ -642,7 +642,7 @@ $footer = new Footer();
 <!-- ═══════════════ SEASONAL TIPS ═══════════════ -->
 <section class="py-14 md:py-20 bg-white">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-[1.3rem] md:text-[1.52rem] font-bold text-[#173b64] mb-7 text-center">
+        <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#173b64] mb-7 text-center">
             <?= $e($titles['tips']) ?>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -653,8 +653,8 @@ $footer = new Footer();
                     <i class="fa-solid <?= $e($tip['icon']) ?>" aria-hidden="true"></i>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-[1rem] text-[#173b64] mb-1.5"><?= $e($tip['title']) ?></h3>
-                    <p class="text-gray-600 text-[0.9rem] leading-relaxed"><?= $e($tip['text']) ?></p>
+                    <h3 class="font-semibold text-[1.1rem] md:text-[1.16rem] text-[#173b64] mb-1.5"><?= $e($tip['title']) ?></h3>
+                    <p class="text-gray-600 text-[1rem] md:text-[1.06rem] leading-relaxed"><?= $e($tip['text']) ?></p>
                 </div>
             </div>
             <?php endforeach ?>
@@ -667,10 +667,10 @@ $footer = new Footer();
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10">
             <div class="max-w-2xl">
-                <p class="text-[0.8rem] font-semibold tracking-[0.18em] uppercase" style="color:<?= $e($s['color']) ?>">Практика сезона</p>
-                <h2 class="text-[1.3rem] md:text-[1.52rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"><?= $e($titles['services']) ?></h2>
+                <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase" style="color:<?= $e($s['color']) ?>">Практика сезона</p>
+                <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"><?= $e($titles['services']) ?></h2>
             </div>
-            <a href="/services" class="inline-flex items-center gap-2 text-[0.92rem] font-semibold text-[#173b64] hover:text-[#2fbdef] transition-colors">
+            <a href="/services" class="inline-flex items-center gap-2 text-[1rem] md:text-[1.04rem] font-semibold text-[#173b64] hover:text-[#2fbdef] transition-colors">
                 Все услуги клиники
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
@@ -696,19 +696,19 @@ $footer = new Footer();
 <section class="py-14 md:py-18 text-white" style="background:<?= $e($s['color_dark']) ?>">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="mx-auto max-w-4xl text-center">
-            <h2 class="text-[1.3rem] md:text-[1.52rem] font-bold mb-3"><?= $e($titles['cta']) ?></h2>
-            <p class="text-white/80 text-[0.94rem] mb-7 max-w-xl mx-auto leading-relaxed">
+            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3"><?= $e($titles['cta']) ?></h2>
+            <p class="text-white/80 text-[1.04rem] md:text-[1.12rem] mb-7 max-w-xl mx-auto leading-relaxed">
                 Наши специалисты разработают индивидуальную программу с учётом сезона и ваших особенностей.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                      <a href="javascript:void(0)"
-                         class="jsClientix_openWidget inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-[0.9rem] font-semibold shadow-lg transition hover:-translate-y-0.5"
+                         class="jsClientix_openWidget inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-[1rem] font-semibold shadow-lg transition hover:-translate-y-0.5"
                    style="color:<?= $e($s['color_dark']) ?>">
                     <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
                     Записаться онлайн
                 </a>
                 <a href="tel:<?= $e(preg_replace('/[^+\d]/', '', CLINIC_PHONE)) ?>"
-                   class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-7 py-3.5 text-[0.9rem] font-medium text-white transition hover:bg-white/10">
+                   class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-7 py-3.5 text-[1rem] font-medium text-white transition hover:bg-white/10">
                     <i class="fa-solid fa-phone" aria-hidden="true"></i>
                     <?= $e(CLINIC_PHONE) ?>
                 </a>
@@ -720,7 +720,7 @@ $footer = new Footer();
 <!-- ═══════════════ SEASON NAVIGATION ═══════════════ -->
 <nav class="py-10 bg-gray-50 border-t border-gray-200" aria-label="Другие сезоны">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-center text-[0.8rem] font-semibold tracking-[0.18em] uppercase text-gray-400 mb-6"><?= $e($titles['nav']) ?></h2>
+        <h2 class="text-center text-[0.88rem] md:text-[0.94rem] font-semibold tracking-[0.16em] uppercase text-gray-400 mb-6"><?= $e($titles['nav']) ?></h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <?php foreach ($seasons as $key => $sv): ?>
             <?php $is_current = ($key === $slug); ?>
@@ -732,7 +732,7 @@ $footer = new Footer();
                 <img src="<?= $e($sv['image']) ?>" alt="<?= $e($sv['name']) ?>" class="absolute inset-0 h-full w-full object-cover">
                 <div class="absolute inset-0 transition-opacity" style="background:linear-gradient(to top, rgba(8,22,38,0.72) 0%, rgba(8,22,38,0.08) 58%)"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <div class="font-semibold text-sm text-white"><?= $e($sv['name']) ?></div>
+                    <div class="font-semibold text-[1rem] md:text-[1.06rem] text-white"><?= $e($sv['name']) ?></div>
                 </div>
                 <?php if ($is_actual_now): ?>
                  <div class="absolute top-3 right-3 inline-flex text-xs font-bold text-white rounded-full px-2 py-0.5"
