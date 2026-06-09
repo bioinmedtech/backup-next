@@ -377,13 +377,13 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold text-[#0f2749]">HABILECT: 3D-диагностика опорно-двигательного аппарата с подбором ЛФК</div>
+                                    <div class="font-semibold text-[#0f2749]">Хабилект: 3D-диагностика опорно-двигательного аппарата с подбором ЛФК</div>
                                     <p class="text-sm text-[#214a7f] mt-1">30 минут, промежуточная диагностика в рамках программы реабилитации бесплатно</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Реабилитация с БОС на аппарате HABILECT (1 занятие, 20 мин)</td>
+                                <td class="px-4 py-3">Реабилитация с БОС на аппарате Хабилект (1 занятие, 20 мин)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
                             </tr>
                             <tr>
@@ -391,7 +391,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Комплексная диагностика: специалист по реабилитации + HABILECT (без БОС), 60 мин</td>
+                                <td class="px-4 py-3">Комплексная диагностика: специалист по реабилитации + Хабилект (без БОС), 60 мин</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr>
@@ -404,7 +404,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                             </tr>
                             <tr class="bg-[#f9f0e6]">
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold text-[#0f2749]">Комплексная программа: HABILECT + ЛФК + массаж 45 мин</div>
+                                    <div class="font-semibold text-[#0f2749]">Комплексная программа: Хабилект + ЛФК + массаж 45 мин</div>
                                     <p class="text-sm text-[#214a7f] mt-1">Полный блок реабилитации опорно-двигательного аппарата, 90 мин</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
@@ -430,7 +430,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Изготовление индивидуальных стелек Formthotics / Фудмастер (30 мин)</td>
+                                <td class="px-4 py-3">Изготовление индивидуальных стелек Формтотикс / Футмастер (30 мин)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">12 900 / 7 900 ₽</td>
                             </tr>
                         </tbody>
@@ -557,7 +557,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="px-4 py-3">Гомеопатическая капельница Heel (детоксикация)</td>
+                                <td class="px-4 py-3">Гомеопатическая капельница Хеель (детоксикация)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
                             </tr>
 
@@ -606,7 +606,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             <section id="injection" class="category-section">
                 <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
                     <h2 class="text-2xl font-bold text-[#2fbdef]">Инъекционная терапия</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">PRP, карбокси, биопунктура</span>
+                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">ПРП, карбокси, биопунктура</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
@@ -622,27 +622,27 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">7 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Гомеопунктура с препаратами HEEL</td>
+                                <td class="px-4 py-3">Гомеопунктура с препаратами Хеель</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
-                                <td class="px-4 py-3">PRP-терапия (плазмотерапия) - 1 пробирка</td>
+                                <td class="px-4 py-3">ПРП-терапия (плазмотерапия) - 1 пробирка</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">7 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
-                                <td class="px-4 py-3">PRP-терапия - 2 пробирки</td>
+                                <td class="px-4 py-3">ПРП-терапия - 2 пробирки</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">9 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
-                                <td class="px-4 py-3">PRP-терапия - 3 пробирки</td>
+                                <td class="px-4 py-3">ПРП-терапия - 3 пробирки</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">11 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
-                                <td class="px-4 py-3">PRP-терапия - 4 пробирки</td>
+                                <td class="px-4 py-3">ПРП-терапия - 4 пробирки</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">13 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
-                                <td class="px-4 py-3">PRP-терапия - 5 пробирок</td>
+                                <td class="px-4 py-3">ПРП-терапия - 5 пробирок</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">15 000 ₽</td>
                             </tr>
                             <tr>
@@ -698,7 +698,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Гомеопатическая капельница Heel + озон</td>
+                                <td class="px-4 py-3">Гомеопатическая капельница Хеель + озон</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
@@ -792,11 +792,11 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="px-4 py-3">HILT (лазерная терапия) - 1 зона</td>
+                                <td class="px-4 py-3">ХИЛТ (лазерная терапия) - 1 зона</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">HILT (лазерная терапия) - 2 зоны</td>
+                                <td class="px-4 py-3">ХИЛТ (лазерная терапия) - 2 зоны</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                             <tr>
@@ -832,19 +832,19 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 500 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Электромиостимуляция VIP LINE - 1 зона</td>
+                                <td class="px-4 py-3">Электромиостимуляция ВИП ЛАЙН - 1 зона</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Электромиостимуляция VIP LINE - 2 зоны</td>
+                                <td class="px-4 py-3">Электромиостимуляция ВИП ЛАЙН - 2 зоны</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 500 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Электромиостимуляция VIP LINE - 3 зоны</td>
+                                <td class="px-4 py-3">Электромиостимуляция ВИП ЛАЙН - 3 зоны</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Микротоки VIP LINE (лицо, шея, декольте)</td>
+                                <td class="px-4 py-3">Микротоки ВИП ЛАЙН (лицо, шея, декольте)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>

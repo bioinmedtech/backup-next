@@ -43,6 +43,7 @@ $categoryLabels = [
     'physiotherapy' => 'Физиотерапия',
     'reflexotherapy' => 'Рефлексотерапия',
     'infusion_therapy' => 'Инфузионная терапия',
+    'ozone_therapy' => 'Озонотерапия',
     'injection_therapy' => 'Инъекционная терапия',
     'taping' => 'Тейпирование и банки',
     'other' => 'Другие услуги',

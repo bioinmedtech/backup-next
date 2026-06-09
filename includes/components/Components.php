@@ -1252,40 +1252,68 @@ class ProblemsGrid extends Component {
         $items_html = '';
         foreach ($this->data as $problem) {
             $solution_chips = [];
+            $solution_links = $problem['solution_links'] ?? [];
+            $details_sections = $problem['details_sections'] ?? [];
             $solutions_raw = (string)($problem['solutions'] ?? '');
             $solution_parts = preg_split('/\s*,\s*/u', $solutions_raw, -1, PREG_SPLIT_NO_EMPTY);
 
-            foreach ($solution_parts as $solution_part) {
-                $solution_text = trim((string)$solution_part);
-                if ($solution_text === '') {
-                    continue;
-                }
+            if (!empty($solution_links) && is_array($solution_links)) {
+                foreach ($solution_links as $solution_link) {
+                    if (!is_array($solution_link)) {
+                        continue;
+                    }
 
-                $needle = mb_strtolower($solution_text, 'UTF-8');
-                $resolved_id = '';
-                foreach ($solution_keyword_map as $keyword => $service_id) {
-                    if (mb_strpos($needle, $keyword) !== false) {
-                        $resolved_id = $service_id;
-                        break;
+                    $solution_text = trim((string)($solution_link['label'] ?? ''));
+                    $resolved_id = trim((string)($solution_link['id'] ?? ''));
+                    if ($solution_text === '' || $resolved_id === '') {
+                        continue;
+                    }
+
+                    if (isset($service_aliases[$resolved_id])) {
+                        $resolved_id = (string)$service_aliases[$resolved_id];
+                    }
+
+                    if (isset($services_map[$resolved_id])) {
+                        $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">' . $this->e($solution_text) . '</a>';
+                    } else {
+                        $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#355b89]">' . $this->e($solution_text) . '</span>';
                     }
                 }
-
-                if ($resolved_id !== '' && isset($service_aliases[$resolved_id])) {
-                    $resolved_id = (string)$service_aliases[$resolved_id];
-                }
-
-                if ($resolved_id !== '' && isset($services_map[$resolved_id])) {
-                    $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">' . $this->e($solution_text) . '</a>';
-                    continue;
-                }
-
-                $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#355b89]">' . $this->e($solution_text) . '</span>';
             }
 
-            $visible_solution_limit = 3;
+            if (empty($solution_chips)) {
+                foreach ($solution_parts as $solution_part) {
+                    $solution_text = trim((string)$solution_part);
+                    if ($solution_text === '') {
+                        continue;
+                    }
+
+                    $needle = mb_strtolower($solution_text, 'UTF-8');
+                    $resolved_id = '';
+                    foreach ($solution_keyword_map as $keyword => $service_id) {
+                        if (mb_strpos($needle, $keyword) !== false) {
+                            $resolved_id = $service_id;
+                            break;
+                        }
+                    }
+
+                    if ($resolved_id !== '' && isset($service_aliases[$resolved_id])) {
+                        $resolved_id = (string)$service_aliases[$resolved_id];
+                    }
+
+                    if ($resolved_id !== '' && isset($services_map[$resolved_id])) {
+                        $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">' . $this->e($solution_text) . '</a>';
+                        continue;
+                    }
+
+                    $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#355b89]">' . $this->e($solution_text) . '</span>';
+                }
+            }
+
+            $visible_solution_limit = 6;
             $problem_title_lower = mb_strtolower((string)($problem['title'] ?? ''), 'UTF-8');
             if (mb_strpos($problem_title_lower, 'последствия травм') !== false) {
-                $visible_solution_limit = 7;
+                $visible_solution_limit = 8;
             }
 
             $visible_solution_chips = array_slice($solution_chips, 0, $visible_solution_limit);
@@ -1294,6 +1322,37 @@ class ProblemsGrid extends Component {
                 $visible_solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-transparent bg-[#eaf4fc] px-2.5 py-1 text-[0.78rem] font-semibold text-[#2a5a94]">+' . $hidden_solution_count . ' ещё</span>';
             }
             $solutions_html = implode('', $visible_solution_chips);
+
+            $details_sections_html = '';
+            if (!empty($details_sections) && is_array($details_sections)) {
+                foreach ($details_sections as $section) {
+                    if (!is_array($section)) {
+                        continue;
+                    }
+
+                    $section_title = trim((string)($section['title'] ?? ''));
+                    $section_items = $section['items'] ?? [];
+                    if ($section_title === '' && (empty($section_items) || !is_array($section_items))) {
+                        continue;
+                    }
+
+                    $section_items_html = '';
+                    if (!empty($section_items) && is_array($section_items)) {
+                        foreach ($section_items as $section_item) {
+                            $section_items_html .= '<li class="flex items-start gap-2.5"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2fbdef]"></span><span>' . $this->e((string)$section_item) . '</span></li>';
+                        }
+                    }
+
+                    $details_sections_html .= '<div class="rounded-lg border border-[#e2edf7] bg-white p-3">';
+                    if ($section_title !== '') {
+                        $details_sections_html .= '<h4 class="text-[0.84rem] font-semibold text-[#0f2749]">' . $this->e($section_title) . '</h4>';
+                    }
+                    if ($section_items_html !== '') {
+                        $details_sections_html .= '<ul class="mt-2 space-y-1.5 text-[0.82rem] leading-relaxed text-[#355b89]">' . $section_items_html . '</ul>';
+                    }
+                    $details_sections_html .= '</div>';
+                }
+            }
 
             $items_html .= <<<HTML
             <details class="group border-b border-[#e8f0f8] last:border-0">
@@ -1311,6 +1370,7 @@ class ProblemsGrid extends Component {
                 <div class="px-4 pb-3.5 pt-0 md:px-6">
                     <div class="rounded-xl bg-[#f5faff] p-3.5">
                         <p class="text-[0.9rem] leading-relaxed text-[#355b89]">{$this->e($problem['description'])}</p>
+                        <div class="mt-3 space-y-2">{$details_sections_html}</div>
                         <div class="mt-3 flex flex-wrap gap-1.5">{$solutions_html}</div>
                     </div>
                 </div>
