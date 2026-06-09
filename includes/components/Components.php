@@ -1185,7 +1185,7 @@ class VisualGallery extends Component {
                         <img src="/public/images/team/kostromina-default.jpg" alt="Костромина Инна Викторовна" class="h-56 w-full object-cover" loading="lazy" />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/ferencz.jpg" alt="Ференц Надежда Юрьевна" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/team/navrozov.jpg" alt="Наврозов Евгений Сергеевич" class="h-56 w-full object-cover" loading="lazy" />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
                         <img src="/public/images/team/nehorosheva.jpg" alt="Нехорошева Людмила Сергеевна" class="h-56 w-full object-cover" loading="lazy" />

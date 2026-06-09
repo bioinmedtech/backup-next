@@ -442,7 +442,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             <section id="psychology" class="category-section">
                 <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
                     <h2 class="text-2xl font-bold text-[#2fbdef]">Психология</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Ференц Н.Ю.</span>
+                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Специалист</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">

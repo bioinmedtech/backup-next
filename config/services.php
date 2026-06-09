@@ -153,7 +153,7 @@ return array (
   array (
     'id' => 'psychotherapy',
     'name' => 'Психотерапевтическая консультация',
-    'subtitle' => 'Ференц Надежда Юрьевна, интегративный психолог',
+    'subtitle' => 'Интегративный психолог',
     'category' => 'psychology',
     'price' => 'от 5 000 ₽',
     'price_note' => '/сеанс',
