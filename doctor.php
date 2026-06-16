@@ -105,6 +105,14 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        html {
+            font-size: clamp(16px, 0.4vw + 14px, 18px);
+        }
+
+        body {
+            line-height: 1.72;
+        }
+
         .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
     </style>
@@ -159,25 +167,25 @@ echo $header->render();
 
                 <!-- info -->
                 <div class="fade-up" style="transition-delay:.08s">
-                    <h1 class="text-2xl font-bold leading-tight text-[#0f3463] md:text-3xl lg:text-4xl"><?php echo e($doctor['name']); ?></h1>
-                    <p class="mt-2 text-base font-semibold text-[#2a5a94] md:text-lg"><?php echo e($doctor['title']); ?></p>
+                    <h1 class="text-[2rem] font-bold leading-tight text-[#0f3463] md:text-[2.35rem] lg:text-[2.75rem]"><?php echo e($doctor['name']); ?></h1>
+                    <p class="mt-2 text-[1.02rem] font-semibold text-[#2a5a94] md:text-[1.12rem]"><?php echo e($doctor['title']); ?></p>
 
                     <?php if (!empty($doctor['hero_tagline'])): ?>
                     <p class="mt-4 max-w-3xl text-[#4f6f92]" style="font-family:'Caveat',cursive;font-size:clamp(1.52rem,5.2vw,1.9rem);line-height:1.14;font-weight:700;">
                         <?php echo e($doctor['hero_tagline']); ?>
                     </p>
                     <?php else: ?>
-                    <p class="mt-4 text-sm leading-relaxed text-[#355b89] md:text-[0.95rem]"><?php echo e($doctor['bio']); ?></p>
+                    <p class="mt-4 text-[0.98rem] leading-relaxed text-[#355b89] md:text-[1.03rem]"><?php echo e($doctor['bio']); ?></p>
                     <?php endif; ?>
 
                     <?php $heroLeadership = trim((string)($doctor['hero_leadership'] ?? ($doctor['leadership'] ?? ''))); ?>
                     <?php if ($heroLeadership !== ''): ?>
-                    <p class="mt-3 text-[1rem] leading-relaxed text-[#4a6f9c] md:text-[1.08rem]"><?php echo e($heroLeadership); ?></p>
+                    <p class="mt-3 text-[1.04rem] leading-relaxed text-[#4a6f9c] md:text-[1.1rem]"><?php echo e($heroLeadership); ?></p>
                     <?php endif; ?>
 
                     <?php $heroHighlights = $doctor['hero_highlights'] ?? []; ?>
                     <?php if (!empty($heroHighlights) && is_array($heroHighlights)): ?>
-                    <ul class="mt-4 space-y-2 text-sm leading-relaxed text-[#355b89]">
+                    <ul class="mt-4 space-y-2 text-[0.96rem] leading-relaxed text-[#355b89]">
                         <?php foreach ($heroHighlights as $highlight): ?>
                         <li class="flex items-start gap-3">
                             <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#2fbdef]"></span>
@@ -189,8 +197,8 @@ echo $header->render();
 
                     <div class="mt-6 lg:hidden">
                         <div id="book-mobile" class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-                            <h3 class="mt-2 text-xl font-bold leading-tight text-[#0f3463]">Записаться на прием</h3>
-                            <p class="mt-2 text-sm leading-relaxed text-[#355b89]">
+                            <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f3463]">Записаться на прием</h3>
+                            <p class="mt-2 text-[0.96rem] leading-relaxed text-[#355b89]">
                                 Перезвоним в течение 15 минут.
                             </p>
 
@@ -198,7 +206,7 @@ echo $header->render();
                                 <?php echo bioinmed_render_callback_form([
                                     'source_label' => ($doctor['name'] ?? 'Врач') . ' — mobile CTA',
                                     'submit_label' => 'Перезвоните мне',
-                                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.98rem] font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                                 ]); ?>
                             </div>
 
@@ -256,7 +264,7 @@ echo $header->render();
                 <?php if (!$hideStandardSections && !empty($doctor['specializations']) && is_array($doctor['specializations'])): ?>
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
-                        <span class="flex items-center gap-2.5 text-xl font-bold text-[#0f3463]">
+                        <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0f3463]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-list-check text-sm"></i></span>
                             <span>Направления деятельности</span>
                         </span>
@@ -291,7 +299,7 @@ echo $header->render();
                     <div class="px-7 pb-7">
                         <ul class="grid gap-3 sm:grid-cols-2">
                             <?php foreach ($doctor['focus'] as $item): ?>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fcff] p-3 text-sm leading-snug text-[#214a7f]">
+                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fcff] p-3 text-[0.96rem] leading-snug text-[#214a7f]">
                                 <i class="fa-solid fa-check mt-0.5 shrink-0 text-[#2fbdef]"></i>
                                 <span><?php echo e($item); ?></span>
                             </li>
@@ -328,15 +336,15 @@ echo $header->render();
                     </summary>
                     <div class="space-y-5 px-7 pb-7">
                         <?php if ($sectionIntro !== ''): ?>
-                        <p class="text-sm leading-relaxed text-[#355b89]"><?php echo e($sectionIntro); ?></p>
+                        <p class="text-[0.96rem] leading-relaxed text-[#355b89]"><?php echo e($sectionIntro); ?></p>
                         <?php endif; ?>
 
                         <?php if ($sectionText !== ''): ?>
-                        <p class="text-sm leading-relaxed text-[#355b89]"><?php echo e($sectionText); ?></p>
+                        <p class="text-[0.96rem] leading-relaxed text-[#355b89]"><?php echo e($sectionText); ?></p>
                         <?php endif; ?>
 
                         <?php if (!empty($sectionItems) && is_array($sectionItems)): ?>
-                        <ul class="space-y-3 text-sm leading-snug text-[#214a7f]">
+                        <ul class="space-y-3 text-[0.96rem] leading-snug text-[#214a7f]">
                             <?php foreach ($sectionItems as $item): ?>
                             <li class="flex items-start gap-3">
                                 <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#2fbdef]"></span>
@@ -357,10 +365,10 @@ echo $header->render();
                             ?>
                             <div class="rounded-2xl border border-[#e4edf6] bg-[#f8fcff] p-4 md:p-5">
                                 <?php if ($subTitle !== ''): ?>
-                                <h3 class="text-sm font-semibold text-[#0f3463] md:text-[0.98rem]"><?php echo e($subTitle); ?></h3>
+                                <h3 class="text-[0.98rem] font-semibold text-[#0f3463] md:text-[1.03rem]"><?php echo e($subTitle); ?></h3>
                                 <?php endif; ?>
                                 <?php if (!empty($subItems) && is_array($subItems)): ?>
-                                <ul class="mt-3 space-y-3 text-sm leading-snug text-[#214a7f]">
+                                <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#214a7f]">
                                     <?php foreach ($subItems as $subItem): ?>
                                     <li class="flex items-start gap-3">
                                         <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#2fbdef]"></span>
@@ -390,7 +398,7 @@ echo $header->render();
                         </span>
                     </summary>
                     <div class="px-7 pb-7">
-                        <p class="text-sm leading-relaxed text-[#355b89]"><?php echo e($doctor['education']); ?></p>
+                        <p class="text-[0.96rem] leading-relaxed text-[#355b89]"><?php echo e($doctor['education']); ?></p>
                     </div>
                 </details>
                 <?php endif; ?>
@@ -407,7 +415,7 @@ echo $header->render();
                         </span>
                     </summary>
                     <div class="px-7 pb-7">
-                        <ul class="space-y-3 text-sm text-[#214a7f]">
+                        <ul class="space-y-3 text-[0.96rem] text-[#214a7f]">
                             <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i><span>Индивидуальный план лечения — никаких шаблонных схем</span></li>
                             <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i><span>Сочетание классической и интегративной медицины</span></li>
                             <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i><span>Работает до устойчивого результата, контролирует динамику</span></li>
@@ -421,8 +429,8 @@ echo $header->render();
             <!-- right column: sticky CTA -->
             <div class="hidden lg:block">
                 <div id="book" class="fade-up sticky top-24 rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-                    <h3 class="mt-2 text-xl font-bold leading-tight text-[#0f3463]">Записаться на прием</h3>
-                    <p class="mt-2 text-sm leading-relaxed text-[#355b89]">
+                    <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f3463]">Записаться на прием</h3>
+                    <p class="mt-2 text-[0.96rem] leading-relaxed text-[#355b89]">
                         Перезвоним в течение 15 минут.
                     </p>
 
@@ -430,7 +438,7 @@ echo $header->render();
                         <?php echo bioinmed_render_callback_form([
                             'source_label' => ($doctor['name'] ?? 'Врач') . ' — sticky CTA',
                             'submit_label' => 'Перезвоните мне',
-                            'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                            'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.98rem] font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                         ]); ?>
                     </div>
 

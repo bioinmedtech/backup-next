@@ -103,6 +103,14 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        html {
+            font-size: clamp(16px, 0.4vw + 14px, 18px);
+        }
+
+        body {
+            line-height: 1.72;
+        }
+
         .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
     </style>
@@ -125,9 +133,9 @@ echo $header->render();
                 <span class="text-[#0f2749]">Профессиональная команда</span>
             </nav>
             <div class="max-w-2xl">
-                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#2a5a94]">Клиника БИОИНМЕД · Москва</p>
-                <h1 class="mt-2 text-2xl font-bold leading-tight text-[#0f3463] md:text-3xl lg:text-4xl">Профессиональная команда</h1>
-                <p class="mt-3 text-sm leading-relaxed text-[#355b89] md:text-base">
+                <p class="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#2a5a94]">Клиника БИОИНМЕД · Москва</p>
+                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0f3463] md:text-[2.35rem] lg:text-[2.8rem]">Профессиональная команда</h1>
+                <p class="mt-3 text-[0.98rem] leading-relaxed text-[#355b89] md:text-[1.04rem]">
                     Команда клиники БИОИНМЕД — врачи с многолетним опытом в области интегративной медицины, остеопатии, рефлексотерапии, гомеопатии и психотерапии. Каждый специалист строит индивидуальный план лечения.
                 </p>
             </div>
@@ -157,7 +165,7 @@ echo $header->render();
     ?>
     <section class="border-b border-[#e4edf6] bg-[#f6fbff] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="mb-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Главный врач</p>
+            <p class="mb-6 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Главный врач</p>
             <div class="fade-up grid gap-8 rounded-3xl border border-[#d6e5f2] bg-white p-6 shadow-[0_18px_40px_rgba(6,29,60,0.08)] md:grid-cols-[320px_1fr] md:p-8">
                 <div class="overflow-hidden rounded-2xl">
                     <img src="<?php echo e($chiefImage); ?>"
@@ -168,14 +176,14 @@ echo $header->render();
                 </div>
                 <div class="flex flex-col justify-between">
                     <div>
-                        <h2 class="text-2xl font-bold leading-tight text-[#0f3463] md:text-3xl"><?php echo e($chief['name']); ?></h2>
-                        <p class="mt-1 text-sm font-semibold uppercase tracking-[0.15em] text-[#2a5a94]"><?php echo e($chief['title']); ?></p>
+                        <h2 class="text-[2rem] font-bold leading-tight text-[#0f3463] md:text-[2.35rem]"><?php echo e($chief['name']); ?></h2>
+                        <p class="mt-1 text-[0.92rem] font-semibold uppercase tracking-[0.15em] text-[#2a5a94]"><?php echo e($chief['title']); ?></p>
                         <?php if (!empty($chief['hero_tagline'])): ?>
                         <p class="mt-4 max-w-3xl text-[#4f6f92]" style="font-family:'Caveat',cursive;font-size:clamp(1.48rem,5vw,1.82rem);line-height:1.14;font-weight:700;">
                             <?php echo e($chief['hero_tagline']); ?>
                         </p>
                         <?php else: ?>
-                        <p class="mt-4 text-sm leading-relaxed text-[#355b89]"><?php echo e($chief['bio']); ?></p>
+                        <p class="mt-4 text-[0.98rem] leading-relaxed text-[#355b89]"><?php echo e($chief['bio']); ?></p>
                         <?php endif; ?>
                         <?php $chiefHeroLeadership = trim((string)($chief['hero_leadership'] ?? ($chief['leadership'] ?? ''))); ?>
                         <?php if ($chiefHeroLeadership !== ''): ?>
@@ -183,7 +191,7 @@ echo $header->render();
                         <?php endif; ?>
                         <?php $chiefHighlights = $chief['hero_highlights'] ?? []; ?>
                         <?php if (!empty($chiefHighlights) && is_array($chiefHighlights)): ?>
-                        <ul class="mt-4 space-y-2 text-sm leading-relaxed text-[#355b89]">
+                        <ul class="mt-4 space-y-2 text-[0.96rem] leading-relaxed text-[#355b89]">
                             <?php foreach ($chiefHighlights as $highlight): ?>
                             <li class="flex items-start gap-3">
                                 <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#2fbdef]"></span>
@@ -195,7 +203,7 @@ echo $header->render();
                     </div>
                     <div class="mt-6">
                         <a href="/doctors/<?php echo e($chief['slug']); ?>"
-                           class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
+                            class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.98rem] font-semibold text-white hover:bg-[#1fb3d8]">
                             Подробнее
                             <i class="fa-solid fa-arrow-right text-xs"></i>
                         </a>
@@ -209,9 +217,9 @@ echo $header->render();
     <!-- ALL DOCTORS GRID -->
     <section class="py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Команда клиники</p>
-            <h2 class="mt-2 text-2xl font-bold text-[#0f3463] md:text-3xl">Врачи команды</h2>
-            <p class="mt-2 text-base text-[#4a6f9c]">Нажмите на карточку врача, чтобы узнать подробнее о его специализации и записаться на приём</p>
+            <p class="text-[0.92rem] font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Команда клиники</p>
+            <h2 class="mt-2 text-[2rem] font-bold text-[#0f3463] md:text-[2.35rem]">Врачи команды</h2>
+            <p class="mt-2 text-[1.02rem] text-[#4a6f9c]">Нажмите на карточку врача, чтобы узнать подробнее о его специализации и записаться на приём</p>
 
             <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach (array_slice($doctors, 1) as $index => $doc):
@@ -240,25 +248,25 @@ echo $header->render();
                         <?php endif; ?>
                     </div>
                     <div class="flex flex-1 flex-col p-5 md:p-6">
-                        <h3 class="text-base font-bold leading-tight text-[#0f3463] md:text-[1.05rem]">
+                        <h3 class="text-[1.02rem] font-bold leading-tight text-[#0f3463] md:text-[1.08rem]">
                             <?php if ($docHasProfile): ?>
                             <a href="<?php echo e($docLink); ?>" class="transition hover:text-[#2fbdef]"><?php echo e($doc['name']); ?></a>
                             <?php else: ?>
                             <?php echo e($doc['name']); ?>
                             <?php endif; ?>
                         </h3>
-                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#2a5a94] md:text-[0.86rem]"><?php echo e($doc['title']); ?></p>
+                        <p class="mt-1 text-[0.88rem] font-semibold uppercase tracking-[0.08em] text-[#2a5a94] md:text-[0.92rem]"><?php echo e($doc['title']); ?></p>
                         <?php if ($docExp !== ''): ?>
-                        <p class="mt-2 text-[0.92rem] font-semibold leading-snug text-[#214a7f] md:text-[0.96rem]"><?php echo e($docExp); ?></p>
+                        <p class="mt-2 text-[0.98rem] font-semibold leading-snug text-[#214a7f] md:text-[1rem]"><?php echo e($docExp); ?></p>
                         <?php endif; ?>
-                        <p class="mt-3 text-sm leading-relaxed text-[#4a6f9c] md:text-[0.95rem] line-clamp-3"><?php echo e($doc['bio']); ?></p>
+                        <p class="mt-3 text-[0.96rem] leading-relaxed text-[#4a6f9c] md:text-[1rem] line-clamp-3"><?php echo e($doc['bio']); ?></p>
 
                         <?php if ($docHasProfile || $docActionText !== ''): ?>
                         <div class="mt-auto flex items-center justify-end pt-4">
                             <?php if ($docHasProfile): ?>
-                            <a href="<?php echo e($docLink); ?>" class="text-sm font-semibold text-[#2fbdef] hover:underline">Подробнее →</a>
+                            <a href="<?php echo e($docLink); ?>" class="text-[0.96rem] font-semibold text-[#2fbdef] hover:underline">Подробнее →</a>
                             <?php else: ?>
-                            <span class="text-sm font-semibold text-[#6d8db2]"><?php echo e($docActionText); ?></span>
+                            <span class="text-[0.96rem] font-semibold text-[#6d8db2]"><?php echo e($docActionText); ?></span>
                             <?php endif; ?>
                         </div>
                         <?php endif; ?>
@@ -272,17 +280,17 @@ echo $header->render();
     <!-- CTA -->
     <section class="border-y border-[#e4edf6] bg-[linear-gradient(90deg,#ecf6ff_0%,#f7fbff_100%)] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Клиника БИОИНМЕД · <?php echo e(CLINIC_METRO); ?></p>
-            <h2 class="mt-3 text-xl font-bold text-[#0f3463] md:text-2xl">Запишитесь к нужному специалисту</h2>
-            <p class="mx-auto mt-3 max-w-xl text-sm text-[#355b89]">
+            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Клиника БИОИНМЕД · <?php echo e(CLINIC_METRO); ?></p>
+            <h2 class="mt-3 text-[1.32rem] font-bold text-[#0f3463] md:text-[1.58rem]">Запишитесь к нужному специалисту</h2>
+            <p class="mx-auto mt-3 max-w-xl text-[0.98rem] text-[#355b89]">
                 Если не знаете, к кому обратиться — позвоните нам. Мы поможем выбрать врача под ваш запрос.
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
-                <a href="tel:<?php echo $phone1link; ?>" class="rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
+                <a href="tel:<?php echo $phone1link; ?>" class="rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.98rem] font-semibold text-white hover:bg-[#1fb3d8]">
                     <i class="fa-solid fa-phone mr-1.5"></i><?php echo e($phone1); ?>
                 </a>
                 <?php if ($phone2): ?>
-                <a href="tel:<?php echo $phone2link; ?>" class="rounded-full border border-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-[#2fbdef] hover:bg-white">
+                <a href="tel:<?php echo $phone2link; ?>" class="rounded-full border border-[#2fbdef] px-5 py-2.5 text-[0.98rem] font-semibold text-[#2fbdef] hover:bg-white">
                     <i class="fa-solid fa-phone mr-1.5"></i><?php echo e($phone2); ?>
                 </a>
                 <?php endif; ?>

@@ -151,6 +151,14 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        html {
+            font-size: clamp(16px, 0.4vw + 14px, 18px);
+        }
+
+        body {
+            line-height: 1.72;
+        }
+
         .services-anchor {
             scroll-margin-top: 130px;
         }
@@ -168,6 +176,21 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .service-card-arrow {
             transition: transform 0.18s;
         }
+
+        .services-anchor h2 {
+            font-size: 1.45rem;
+        }
+
+        .services-anchor p,
+        .service-card p {
+            font-size: 0.95rem;
+            line-height: 1.58;
+        }
+
+        .service-card h3 {
+            font-size: 1.02rem;
+            line-height: 1.25;
+        }
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
@@ -177,17 +200,17 @@ $header = new Header($brand_colors);
 echo $header->render();
 ?>
 
-<main class="mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
+    <main class="mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
     <section class="relative overflow-hidden rounded-2xl border border-[#d7e4ef] bg-[linear-gradient(120deg,#eef6fd_0%,#e4f1fb_45%,#dff0fb_100%)] p-5 shadow-[0_10px_24px_rgba(6,29,60,0.07)] md:p-7">
         <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#2fbdef1f] blur-3xl"></div>
         <div class="pointer-events-none absolute -left-14 bottom-0 h-32 w-32 rounded-full bg-[#2fbdef14] blur-3xl"></div>
         <div class="relative">
-            <p class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-[#2fbdef]">Каталог услуг</p>
-            <h1 class="mt-2 text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[2rem]">Все услуги клиники БИОИНМЕД</h1>
-            <p class="mt-2 max-w-3xl text-[0.92rem] leading-relaxed text-[#214a7f] md:text-[0.98rem]">
+            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#2fbdef]">Каталог услуг</p>
+            <h1 class="mt-2 text-[1.68rem] font-bold leading-tight text-[#0f2749] md:text-[2.15rem]">Все услуги клиники БИОИНМЕД</h1>
+            <p class="mt-2 max-w-3xl text-[0.97rem] leading-relaxed text-[#214a7f] md:text-[1.03rem]">
                 Выберите направление и перейдите на подробную страницу услуги: описание, показания, цена и запись на приём.
             </p>
-            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.76rem] font-semibold text-[#2a5a94]">
+            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.82rem] font-semibold text-[#2a5a94]">
                 <i class="fa-solid fa-list-check text-[#2fbdef]" aria-hidden="true"></i>
                 Всего услуг: <?php echo intval($totalServices); ?>
             </div>
@@ -196,16 +219,16 @@ echo $header->render();
 
     <?php if (!empty($servicesByCategory)): ?>
         <section class="mt-5 rounded-2xl border border-[#dce8f5] bg-white p-3.5 md:p-4">
-            <p class="mb-3 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-[#2fbdef]">Быстрый переход по направлениям</p>
+            <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#2fbdef]">Быстрый переход по направлениям</p>
             <div class="flex flex-wrap gap-2">
                 <?php foreach ($servicesByCategory as $categoryKey => $categoryItems): ?>
                     <?php
                     $categoryTitle = $categoryLabels[$categoryKey] ?? ucfirst(str_replace(['_', '-'], ' ', $categoryKey));
                     $count = count($categoryItems);
                     ?>
-                    <a href="#cat-<?php echo e($categoryKey); ?>" class="inline-flex items-center gap-2 rounded-full border border-[#cfe0ef] bg-[#f8fcff] px-3 py-1.5 text-[0.73rem] font-semibold text-[#2a5a94] transition hover:border-[#8bb7dc] hover:text-[#2fbdef]">
+                    <a href="#cat-<?php echo e($categoryKey); ?>" class="inline-flex items-center gap-2 rounded-full border border-[#cfe0ef] bg-[#f8fcff] px-3 py-1.5 text-[0.8rem] font-semibold text-[#2a5a94] transition hover:border-[#8bb7dc] hover:text-[#2fbdef]">
                         <span><?php echo e($categoryTitle); ?></span>
-                        <span class="rounded-full bg-white px-1.5 py-0.5 text-[0.65rem] text-[#2fbdef]"><?php echo intval($count); ?></span>
+                        <span class="rounded-full bg-white px-1.5 py-0.5 text-[0.72rem] text-[#2fbdef]"><?php echo intval($count); ?></span>
                     </a>
                 <?php endforeach; ?>
             </div>
@@ -220,9 +243,9 @@ echo $header->render();
                 <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor rounded-2xl border border-[#dce8f5] bg-white p-4 shadow-[0_6px_16px_rgba(10,43,80,0.05)] md:p-5">
                     <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3">
                         <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e8f4fd] text-[#2fbdef]">
-                            <i class="fa-solid <?php echo e($categoryIcon); ?> text-[0.78rem]" aria-hidden="true"></i>
+                            <i class="fa-solid <?php echo e($categoryIcon); ?> text-[0.82rem]" aria-hidden="true"></i>
                         </span>
-                        <h2 class="text-[1.1rem] font-bold leading-tight text-[#0f2749] md:text-[1.25rem]"><?php echo e($categoryTitle); ?></h2>
+                        <h2 class="text-[1.18rem] font-bold leading-tight text-[#0f2749] md:text-[1.42rem]"><?php echo e($categoryTitle); ?></h2>
                     </div>
 
                     <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -245,13 +268,13 @@ echo $header->render();
                                     <i class="service-card-arrow fa-solid fa-arrow-right mt-0.5 shrink-0 text-[0.65rem] text-[#9bbdd8]" aria-hidden="true"></i>
                                 </div>
                                 <?php if ($serviceDesc !== ''): ?>
-                                    <p class="mt-2 line-clamp-2 text-[0.8rem] leading-relaxed text-[#4a6e99]"><?php echo e($serviceDesc); ?></p>
+                                    <p class="mt-2 line-clamp-2 text-[0.9rem] leading-relaxed text-[#4a6e99]"><?php echo e($serviceDesc); ?></p>
                                 <?php endif; ?>
                                 <div class="mt-auto pt-3">
                                     <?php if ($priceLabel !== ''): ?>
-                                        <span class="inline-block rounded-full bg-[#e9f6ff] px-2.5 py-0.5 text-[0.72rem] font-semibold text-[#1a7dbf]"><?php echo e($priceLabel); ?></span>
+                                        <span class="inline-block rounded-full bg-[#e9f6ff] px-2.5 py-0.5 text-[0.78rem] font-semibold text-[#1a7dbf]"><?php echo e($priceLabel); ?></span>
                                     <?php else: ?>
-                                        <span class="inline-block rounded-full bg-[#f3f6fb] px-2.5 py-0.5 text-[0.72rem] font-medium text-[#7093b8]">По запросу</span>
+                                        <span class="inline-block rounded-full bg-[#f3f6fb] px-2.5 py-0.5 text-[0.78rem] font-medium text-[#7093b8]">По запросу</span>
                                     <?php endif; ?>
                                 </div>
                             </a>

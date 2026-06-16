@@ -92,6 +92,14 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        html {
+            font-size: clamp(16px, 0.4vw + 14px, 18px);
+        }
+
+        body {
+            line-height: 1.72;
+        }
+
         .category-section {
             scroll-margin-top: 120px;
         }
@@ -142,14 +150,14 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .category-section td,
         .category-section th {
             border-bottom: 1px solid #e9f2fb;
-            padding: 0.62rem 0.82rem;
-            font-size: 0.88rem;
-            line-height: 1.35;
+            padding: 0.76rem 0.92rem;
+            font-size: 0.96rem;
+            line-height: 1.45;
         }
 
         .category-section h2 {
-            font-size: 1.36rem;
-            line-height: 1.2;
+            font-size: 1.48rem;
+            line-height: 1.18;
         }
 
         .category-section > div:first-child {
@@ -158,13 +166,13 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         }
 
         .category-section td p {
-            font-size: 0.8rem;
-            line-height: 1.35;
+            font-size: 0.9rem;
+            line-height: 1.45;
             margin-top: 0.3rem;
         }
 
         .category-section td div.font-semibold {
-            font-size: 0.9rem;
+            font-size: 1rem;
             line-height: 1.3;
         }
 
@@ -175,23 +183,23 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         }
 
         .prices-hero h1 {
-            font-size: 1.58rem;
-            line-height: 1.16;
+            font-size: 1.76rem;
+            line-height: 1.14;
         }
 
         .prices-hero p {
-            font-size: 0.88rem;
-            line-height: 1.45;
+            font-size: 0.98rem;
+            line-height: 1.5;
         }
 
         .prices-nav h3 {
-            font-size: 0.73rem;
+            font-size: 0.82rem;
             margin-bottom: 0.65rem;
         }
 
         .prices-nav a {
-            font-size: 0.71rem;
-            padding: 0.36rem 0.72rem;
+            font-size: 0.8rem;
+            padding: 0.42rem 0.78rem;
         }
 
         .category-section tbody tr:last-child td {
@@ -199,18 +207,18 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         }
 
         .prices-cta h3 {
-            font-size: 1.28rem;
+            font-size: 1.42rem;
             line-height: 1.2;
             margin-bottom: 0.55rem;
         }
 
         .prices-cta p {
-            font-size: 0.86rem;
-            line-height: 1.42;
+            font-size: 0.96rem;
+            line-height: 1.5;
         }
 
         .prices-cta a {
-            font-size: 0.86rem;
+            font-size: 0.94rem;
         }
 
         .price-service-link {
@@ -228,7 +236,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
         @media (min-width: 768px) {
             .prices-hero h1 {
-                font-size: 1.95rem;
+                font-size: 2.15rem;
             }
         }
 
@@ -238,11 +246,11 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             }
 
             .category-section h2 {
-                font-size: 1.14rem;
+                font-size: 1.24rem;
             }
 
             .prices-hero h1 {
-                font-size: 1.36rem;
+                font-size: 1.55rem;
             }
         }
     </style>

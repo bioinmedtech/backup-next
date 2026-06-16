@@ -192,9 +192,44 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        html {
+            font-size: clamp(16px, 0.4vw + 14px, 18px);
+        }
+
+        body {
+            line-height: 1.72;
+        }
+
+        main p,
+        main li {
+            line-height: 1.72;
+        }
+
+        main .text-xs {
+            font-size: 0.8rem;
+        }
+
+        main .text-sm {
+            font-size: 0.96rem;
+        }
+
+        main .text-base {
+            font-size: 1.04rem;
+        }
+
+        main h1 {
+            font-size: clamp(2rem, 2.6vw, 3rem);
+            line-height: 1.12;
+        }
+
+        main h2 {
+            font-size: clamp(1.3rem, 1.7vw, 1.7rem);
+            line-height: 1.18;
+        }
+
         .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
-        .prose-service p { margin-bottom: .85rem; line-height: 1.75; }
+        .prose-service p { margin-bottom: .95rem; line-height: 1.78; }
         .service-gallery-thumb.is-active { border-color: #2fbdef; box-shadow: 0 0 0 3px rgba(47, 189, 239, 0.16); }
         .service-main-image-frame { overflow: hidden; }
         .service-main-image-live {
