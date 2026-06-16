@@ -167,16 +167,16 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     echo $stats->render();
     ?>
 
-    <!-- Problems Grid -->
-    <?php
-    $problems_section = new ProblemsGrid($problems, $brand_colors);
-    echo $problems_section->render();
-    ?>
-    
     <!-- Advantages -->
     <?php
     $advantages_section = new AdvantagesBlock($advantages, $brand_colors);
     echo $advantages_section->render();
+    ?>
+
+    <!-- Problems Grid -->
+    <?php
+    $problems_section = new ProblemsGrid($problems, $brand_colors);
+    echo $problems_section->render();
     ?>
 
     <section class="border-b border-[#e6eef7] bg-[linear-gradient(180deg,#eef7ff_0%,#f4fbff_100%)] py-12 md:py-16">
@@ -184,7 +184,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
             <div class="rounded-[2rem] border border-[#dbe8f4] bg-white p-6 shadow-[0_16px_40px_rgba(8,36,70,0.07)] md:p-8">
                 <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                     <div>
-                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Маршрут пациента</p>
+                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Ваш маршрут здоровья</p>
                         <h2 class="mt-2 text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Понятный путь от первого обращения до результата</h2>
                     </div>
                     <p class="max-w-2xl text-[0.92rem] leading-relaxed text-[#4f759c]">Маршрут построен так, чтобы пациент видел всю логику лечения целиком: от первого обращения до устойчивого результата.</p>

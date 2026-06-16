@@ -158,7 +158,7 @@ function bioinmed_render_callback_form(array $options = []) {
                     <a href="/user-agreement" class="font-semibold text-[#2a5a94] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#2fbdef]">Пользовательского соглашения</a>.
                 </span>
             </label>
-            <button type="submit" class="js-callback-submit {$escape($button_class)}" disabled>{$escape($submit_label)}</button>
+            <button type="submit" class="js-callback-submit {$escape($button_class)}">{$escape($submit_label)}</button>
             <p class="js-callback-status hidden rounded-2xl px-3 py-2 text-[0.82rem] leading-relaxed"></p>
         </div>
     </form>

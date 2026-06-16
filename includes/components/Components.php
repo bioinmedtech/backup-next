@@ -739,7 +739,7 @@ class HeroSection extends Component {
         ]);
 
         return <<<HTML
-        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_36%,#deedf8_100%)] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))]">
+        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_36%,#deedf8_100%)] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))] pb-24 md:pb-0">
             <div class="pointer-events-none absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(47,189,239,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(47,189,239,0.06)_1px,transparent_1px)] [background-size:32px_32px]"></div>
             <div class="pointer-events-none absolute -left-20 top-10 h-52 w-52 rounded-full bg-[#2fbdef24] blur-3xl md:-left-32 md:h-72 md:w-72"></div>
             <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
@@ -763,7 +763,7 @@ class HeroSection extends Component {
                         </p>
                         <p class="mt-3 flex max-w-2xl items-start gap-2 text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(0.95rem,1.8vw,1.1rem);font-weight:500;">
                             <span class="mt-[0.55em] inline-block h-[2px] w-6 shrink-0 rounded-full bg-[#2fbdef]"></span>
-                            <span>Экосистема HABILECT: ваш эффективный маршрут восстановления.</span>
+                            <a href="/services/hobilect-diagnostics" class="hover:text-[#214a7f] transition-colors">Экосистема HABILECT: ваш эффективный маршрут здоровья.</a>
                         </p>
 
                         <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
@@ -2179,18 +2179,6 @@ class Footer extends Component {
                     status.textContent = message;
                 }
 
-                function syncConsentState(form) {
-                    if (!form) {
-                        return;
-                    }
-                    var consent = form.querySelector('.js-callback-consent');
-                    var submit = form.querySelector('.js-callback-submit');
-                    if (!consent || !submit) {
-                        return;
-                    }
-                    submit.disabled = !consent.checked;
-                }
-
                 function hydrateFormContext(form) {
                     if (!form) {
                         return;
@@ -2283,15 +2271,7 @@ class Footer extends Component {
                     }
                     form.dataset.callbackReady = '1';
 
-                    var consent = form.querySelector('.js-callback-consent');
                     var submit = form.querySelector('.js-callback-submit');
-                    if (consent) {
-                        consent.addEventListener('change', function() {
-                            syncConsentState(form);
-                        });
-                    }
-
-                    syncConsentState(form);
                     hydrateFormContext(form);
 
                     var phoneInput = form.querySelector('.js-callback-phone');
@@ -2301,11 +2281,6 @@ class Footer extends Component {
 
                     form.addEventListener('submit', function(event) {
                         event.preventDefault();
-                        syncConsentState(form);
-                        if (submit && submit.disabled) {
-                            return;
-                        }
-
                         hydrateFormContext(form);
                         setStatus(form, '', '');
 
@@ -2340,16 +2315,14 @@ class Footer extends Component {
                                 if (phoneInput) {
                                     syncPhonePlaceholder(phoneInput);
                                 }
-                                syncConsentState(form);
                             })
                             .catch(function(error) {
                                 setStatus(form, 'error', error && error.message ? error.message : 'Не удалось отправить заявку.');
-                                syncConsentState(form);
                             })
                             .finally(function() {
                                 if (submit) {
+                                    submit.disabled = false;
                                     submit.textContent = submit.dataset.loadingText || submit.textContent;
-                                    syncConsentState(form);
                                 }
                             });
                     });

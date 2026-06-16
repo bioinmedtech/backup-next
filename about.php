@@ -188,8 +188,8 @@ echo $header->render();
 		<div class="p-6 md:p-8">
 			<div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
 				<div>
-					<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Маршрут пациента</p>
-					<h2 class="mt-2 text-[1.35rem] font-bold text-[#0f2749] md:text-[1.75rem]">Как выглядит путь пациента в БИОИНМЕД</h2>
+					<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Ваш маршрут здоровья</p>
+					<h2 class="mt-2 text-[1.35rem] font-bold text-[#0f2749] md:text-[1.75rem]">Как выглядит ваш маршрут здоровья в БИОИНМЕД</h2>
 				</div>
 				<p class="max-w-2xl text-[0.9rem] leading-relaxed text-[#4f759c]">Маршрут помогает увидеть всю последовательность лечения целиком: от первого обращения до устойчивого результата.</p>
 			</div>
