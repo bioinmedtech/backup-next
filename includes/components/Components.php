@@ -23,13 +23,13 @@ class Component {
 
     protected function sectionTitle($eyebrow, $title, $subtitle = '') {
         $subtitle_html = $subtitle !== ''
-            ? '<p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">' . $this->e($subtitle) . '</p>'
+            ? '<p class="mt-2.5 max-w-2xl text-[1rem] leading-relaxed text-[#355b89]">' . $this->e($subtitle) . '</p>'
             : '';
 
         return <<<HTML
         <div class="mb-7">
-            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">{$this->e($eyebrow)}</p>
-            <h2 class="mt-1.5 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($title)}</h2>
+            <p class="text-[0.8rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">{$this->e($eyebrow)}</p>
+            <h2 class="mt-1.5 text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">{$this->e($title)}</h2>
             {$subtitle_html}
         </div>
         HTML;
@@ -273,6 +273,26 @@ class Header extends Component {
 
         return <<<HTML
         <style>
+            html {
+                font-size: clamp(16px, 0.4vw + 14px, 18px);
+            }
+
+            body {
+                line-height: 1.72;
+            }
+
+            .max-w-6xl {
+                max-width: 80rem;
+            }
+
+            .max-w-5xl {
+                max-width: 74rem;
+            }
+
+            .max-w-4xl {
+                max-width: 68rem;
+            }
+
             * { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', sans-serif; }
         </style>
         <header id="site-header" class="z-50 border-b border-[#d7e5f1] bg-[#f7fbff] lg:bg-[#f7fbff]/98 lg:backdrop-blur-md">
@@ -755,13 +775,13 @@ class HeroSection extends Component {
                         <link rel="preconnect" href="https://fonts.googleapis.com">
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                         <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-                        <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.55rem,3.5vw,2.2rem);font-weight:700;">
+                        <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.95rem,4.25vw,2.85rem);font-weight:700;">
                             С нами выздоравливать легко!
                         </h1>
-                        <p class="mt-3 inline-flex w-fit items-center rounded-full border border-[#d7e6f3] bg-white/92 px-3.5 py-1.5 leading-none text-[#1f5b91] shadow-[0_8px_18px_rgba(10,43,80,0.05)]" style="font-family:'Caveat',cursive;font-size:clamp(1.02rem,2.1vw,1.18rem);font-weight:700;">
+                        <p class="mt-3 inline-flex w-fit items-center rounded-full border border-[#d7e6f3] bg-white/92 px-3.5 py-1.5 leading-none text-[#1f5b91] shadow-[0_8px_18px_rgba(10,43,80,0.05)]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
                             Ваш Биоинмед.
                         </p>
-                        <p class="mt-3 flex max-w-2xl items-start gap-2 text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(0.95rem,1.8vw,1.1rem);font-weight:500;">
+                        <p class="mt-3 flex max-w-2xl items-start gap-2 text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(1.08rem,2.1vw,1.22rem);font-weight:500;">
                             <span class="mt-[0.55em] inline-block h-[2px] w-6 shrink-0 rounded-full bg-[#2fbdef]"></span>
                             <a href="/services/hobilect-diagnostics" class="hover:text-[#214a7f] transition-colors">Экосистема HABILECT: ваш эффективный маршрут здоровья.</a>
                         </p>

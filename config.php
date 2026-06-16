@@ -115,7 +115,7 @@ function bioinmed_render_callback_form(array $options = []) {
     }
 
     if ($button_class === '') {
-        $button_class = 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-3 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90';
+        $button_class = 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-3 text-[0.98rem] font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90';
     }
 
     $phone_id = 'callback-phone-' . $instance;
@@ -138,11 +138,11 @@ function bioinmed_render_callback_form(array $options = []) {
                     data-placeholder-default="Ваш телефон"
                     data-placeholder-active="+7 (___) ___-__-__"
                     placeholder="Ваш телефон"
-                    class="js-callback-phone w-full rounded-2xl border border-[#d4e3f0] bg-[#f9fcff] px-4 py-3 text-[0.95rem] text-[#0f2749] outline-none transition placeholder:text-[#87a4c3] focus:border-[#2fbdef] focus:bg-white"
+                    class="js-callback-phone w-full rounded-2xl border border-[#d4e3f0] bg-[#f9fcff] px-4 py-3 text-[1rem] text-[#0f2749] outline-none transition placeholder:text-[#87a4c3] focus:border-[#2fbdef] focus:bg-white"
                     required
                 >
             </div>
-            <label for="{$escape($consent_id)}" class="flex items-start gap-2 text-[0.76rem] leading-relaxed text-[#5a7fa3]">
+            <label for="{$escape($consent_id)}" class="flex items-start gap-2 text-[0.84rem] leading-relaxed text-[#5a7fa3]">
                 <input
                     id="{$escape($consent_id)}"
                     type="checkbox"

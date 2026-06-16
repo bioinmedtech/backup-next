@@ -71,6 +71,10 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
             --secondary: #355b89;
             --accent: #2fbdef;
         }
+
+        html {
+            font-size: clamp(16px, 0.4vw + 14px, 18px);
+        }
         
         * {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', sans-serif;
@@ -85,6 +89,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
             align-items: center;
             justify-content: center;
             padding: 40px 20px;
+            line-height: 1.72;
         }
 
         .splash-container {
@@ -135,7 +140,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
         }
 
         .logo-text h1 {
-            font-size: 36px;
+            font-size: 2.45rem;
             font-weight: 700;
             color: var(--foreground);
             letter-spacing: -0.5px;
@@ -143,7 +148,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
         }
 
         .logo-text p {
-            font-size: 14px;
+            font-size: 0.92rem;
             color: var(--accent);
             font-weight: 600;
             text-transform: uppercase;
@@ -166,7 +171,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
         }
 
         .form-header h2 {
-            font-size: 24px;
+            font-size: 1.65rem;
             font-weight: 700;
             color: var(--foreground);
             margin: 0 0 10px 0;
@@ -174,7 +179,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
 
         .form-header p {
             color: var(--secondary);
-            font-size: 15px;
+            font-size: 1rem;
             line-height: 1.6;
             margin: 0;
         }
@@ -185,7 +190,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
 
         .error-message {
             color: #dc2626;
-            font-size: 14px;
+            font-size: 0.92rem;
             padding: 12px 16px;
             background-color: #fee2e2;
             border-radius: 10px;
@@ -200,7 +205,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
 
         .success-message {
             color: #059669;
-            font-size: 14px;
+            font-size: 0.92rem;
             padding: 12px 16px;
             background-color: #d1fae5;
             border-radius: 10px;
@@ -262,7 +267,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
         .submit-btn {
             width: 100%;
             padding: 14px 32px;
-            font-size: 15px;
+            font-size: 0.98rem;
             font-weight: 600;
             color: white;
             background: linear-gradient(135deg, #2fbdef 0%, #0fa3c8 100%);
@@ -342,7 +347,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
 
             .submit-btn {
                 padding: 12px 24px;
-                font-size: 14px;
+                font-size: 0.95rem;
             }
         }
 
