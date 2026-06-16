@@ -735,7 +735,7 @@ class HeroSection extends Component {
             $active_class = $is_first ? ' is-active' : '';
 
             $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full' . $active_class . '" data-hero-image-src="' . $slide_src . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="Открыть фото ' . ($slide_index + 1) . '">'
-                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
+                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover object-top" loading="' . $loading . '" decoding="async">'
                 . '</button>';
 
             $dots_html .= '<button type="button" class="hero-clinic-dot' . $active_class . '" data-slide-index="' . $slide_index . '" aria-label="Слайд ' . ($slide_index + 1) . '"></button>';
@@ -809,7 +809,7 @@ class HeroSection extends Component {
                             </p>
                         </div>
 
-                        <div class="hero-clinic-slider relative hidden overflow-hidden rounded-[1.25rem] border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_18px_38px_rgba(10,43,80,0.1)] sm:h-[340px] md:h-[420px] lg:block lg:h-[400px]" data-slide-count="{$slide_count}">
+                        <div class="hero-clinic-slider relative hidden overflow-hidden rounded-[1.25rem] border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_18px_38px_rgba(10,43,80,0.1)] sm:h-[340px] md:h-[420px] lg:block lg:h-[520px] xl:h-[580px] lg:w-full" data-slide-count="{$slide_count}">
                             <div class="hero-clinic-slider-track flex h-full transition-transform duration-500 ease-out">
                                 {$slides_html}
                             </div>
@@ -1026,7 +1026,8 @@ class HeroSection extends Component {
             }
 
             .hero-clinic-slide-image {
-                transform: scale(1.08);
+                object-position: center top;
+                transform: scale(1.02);
                 transition: transform 0.6s ease-out;
                 will-change: transform;
             }
@@ -1037,7 +1038,7 @@ class HeroSection extends Component {
 
             @keyframes heroLivePhotoZoom {
                 from {
-                    transform: scale(1.1);
+                    transform: scale(1.03);
                 }
                 to {
                     transform: scale(1);
