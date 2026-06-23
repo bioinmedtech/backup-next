@@ -29,7 +29,7 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
     <meta name="description" content="<?php echo e($pageDescription); ?>">
     <meta name="robots" content="noindex,follow,noarchive">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
-    <meta name="theme-color" content="#2fbdef">
+    <meta name="theme-color" content="#1977b2">
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
         'image' => bioinmed_default_social_image_url(),
     ]); ?>
@@ -42,7 +42,7 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="flex min-h-screen flex-col bg-[radial-gradient(circle_at_15%_20%,rgba(47,189,239,0.13),transparent_38%),radial-gradient(circle_at_85%_0%,rgba(31,179,216,0.10),transparent_35%),linear-gradient(to_bottom,#f9fcff_0%,#eff6fd_55%,#e9f2fb_100%)] text-[#0f2749] antialiased">
+<body class="flex min-h-screen flex-col bg-[radial-gradient(circle_at_15%_20%,rgba(25,119,178,0.13),transparent_38%),radial-gradient(circle_at_85%_0%,rgba(31,122,230,0.10),transparent_35%),linear-gradient(to_bottom,#f9fcff_0%,#eff6fd_55%,#e9f2fb_100%)] text-[#0f2749] antialiased">
 <?php
 $header = new Header($brand_colors);
 echo $header->render();
@@ -51,66 +51,66 @@ echo $header->render();
 <main class="mx-auto flex w-full max-w-6xl grow items-center px-6 py-12 md:px-10 md:py-16">
     <div class="grid w-full items-start gap-6 lg:grid-cols-[1fr_390px]">
         <section class="fade-up rounded-3xl border border-[#d8e6f3] bg-white p-7 shadow-[0_16px_40px_rgba(8,36,70,0.08)] md:p-9">
-            <div class="inline-flex items-center gap-2 rounded-full border border-[#d5e5f3] bg-[#f2f9ff] px-3 py-1.5 text-xs font-semibold text-[#2a5a94]">
-                <i class="fa-solid fa-triangle-exclamation text-[#2fbdef]"></i>
+            <div class="inline-flex items-center gap-2 rounded-full border border-[#d5e5f3] bg-[#f2f9ff] px-3 py-1.5 text-xs font-semibold text-[#0a293c]">
+                <i class="fa-solid fa-triangle-exclamation text-[#1977b2]"></i>
                 Ошибка 404
             </div>
-            <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0f3463] md:text-4xl">Мы не нашли эту страницу</h1>
-            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-[#355b89] md:text-base">
+            <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0a293c] md:text-4xl">Мы не нашли эту страницу</h1>
+            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-[#0a293c] md:text-base">
                 Возможно, ссылка устарела или адрес введён с ошибкой. Вы можете вернуться на главную,
                 открыть каталог услуг или оставить номер, и мы быстро подскажем нужного специалиста.
             </p>
 
             <div class="mt-6 flex flex-wrap gap-3">
-                <a href="/" class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
+                <a href="/" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#16658f]">
                     <i class="fa-solid fa-house"></i> На главную
                 </a>
-                <a href="/services" class="inline-flex items-center gap-2 rounded-full border border-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-[#2fbdef] hover:bg-[#f2f9ff]">
+                <a href="/services" class="inline-flex items-center gap-2 rounded-full border border-[#1977b2] px-5 py-2.5 text-sm font-semibold text-[#1977b2] hover:bg-[#f2f9ff]">
                     <i class="fa-solid fa-stethoscope"></i> Услуги
                 </a>
-                <a href="/prices" class="inline-flex items-center gap-2 rounded-full border border-[#c8ddee] bg-white px-5 py-2.5 text-sm font-semibold text-[#2a5a94] hover:bg-[#f2f9ff]">
+                <a href="/prices" class="inline-flex items-center gap-2 rounded-full border border-[#c8ddee] bg-white px-5 py-2.5 text-sm font-semibold text-[#0a293c] hover:bg-[#f2f9ff]">
                     <i class="fa-solid fa-list"></i> Прайс-лист
                 </a>
             </div>
 
             <div class="mt-8 grid gap-3 sm:grid-cols-2">
-                <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#355b89]">
-                    <p class="font-semibold text-[#0f3463]">Ищете врача?</p>
+                <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#0a293c]">
+                    <p class="font-semibold text-[#0a293c]">Ищете врача?</p>
                     <p class="mt-1">Посмотрите команду специалистов и выберите удобный формат приёма.</p>
-                    <a href="/doctors" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#2fbdef] hover:text-[#1fb3d8]">Открыть профессиональную команду <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></a>
+                    <a href="/doctors" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#1977b2] hover:text-[#16658f]">Открыть профессиональную команду <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></a>
                 </div>
-                <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#355b89]">
-                    <p class="font-semibold text-[#0f3463]">Нужна помощь с навигацией?</p>
+                <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-4 text-sm text-[#0a293c]">
+                    <p class="font-semibold text-[#0a293c]">Нужна помощь с навигацией?</p>
                     <p class="mt-1">Мы подскажем нужную услугу и поможем выбрать подходящего врача.</p>
-                    <a href="tel:<?php echo e($phone1link); ?>" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#2fbdef] hover:text-[#1fb3d8]">Позвонить сейчас <i class="fa-solid fa-phone text-[0.65rem]"></i></a>
+                    <a href="tel:<?php echo e($phone1link); ?>" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#1977b2] hover:text-[#16658f]">Позвонить сейчас <i class="fa-solid fa-phone text-[0.65rem]"></i></a>
                 </div>
             </div>
         </section>
 
         <aside class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.1)]" style="transition-delay:.08s">
-            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#2a5a94]">Помочь с записью</p>
-            <h2 class="mt-2 text-xl font-bold text-[#0f3463]">Записаться на приём</h2>
-            <p class="mt-2 text-sm leading-relaxed text-[#355b89]">Перезвоним в течение 15 минут.</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0a293c]">Помочь с записью</p>
+            <h2 class="mt-2 text-xl font-bold text-[#0a293c]">Записаться на приём</h2>
+            <p class="mt-2 text-sm leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
 
             <div class="mt-4">
                 <?php echo bioinmed_render_callback_form([
                     'source_label' => '404 — форма обратного звонка',
                     'submit_label' => 'Перезвоните мне',
-                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                 ]); ?>
             </div>
 
             <div class="my-5 flex items-center gap-3">
                 <div class="h-px grow bg-[#e2ecf5]"></div>
-                <span class="text-xs text-[#9ab8d4]">или позвоните</span>
+                <span class="text-xs text-[#0a293c]">или позвоните</span>
                 <div class="h-px grow bg-[#e2ecf5]"></div>
             </div>
 
-            <a href="tel:<?php echo e($phone1link); ?>" class="flex items-center justify-center gap-2 rounded-full border border-[#2fbdef] px-5 py-2.5 text-sm font-semibold text-[#2fbdef] hover:bg-[#f0f8ff]">
+            <a href="tel:<?php echo e($phone1link); ?>" class="flex items-center justify-center gap-2 rounded-full border border-[#1977b2] px-5 py-2.5 text-sm font-semibold text-[#1977b2] hover:bg-[#f0f8ff]">
                 <i class="fa-solid fa-phone"></i> <?php echo e($phone1); ?>
             </a>
             <?php if ($phone2): ?>
-            <a href="tel:<?php echo e($phone2link); ?>" class="mt-2 flex items-center justify-center gap-2 rounded-full border border-[#d6e4f2] px-5 py-2.5 text-sm font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">
+            <a href="tel:<?php echo e($phone2link); ?>" class="mt-2 flex items-center justify-center gap-2 rounded-full border border-[#d6e4f2] px-5 py-2.5 text-sm font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">
                 <i class="fa-solid fa-phone text-xs"></i> <?php echo e($phone2); ?>
             </a>
             <?php endif; ?>
@@ -137,7 +137,7 @@ echo $footer->render();
         e.preventDefault();
         const btn = this.querySelector('button[type=submit]');
         btn.textContent = '✓ Приняли! Скоро перезвоним';
-        btn.classList.remove('bg-[#2fbdef]', 'hover:bg-[#1fb3d8]');
+        btn.classList.remove('bg-[#1977b2]', 'hover:bg-[#16658f]');
         btn.classList.add('bg-green-600');
         btn.disabled = true;
     });

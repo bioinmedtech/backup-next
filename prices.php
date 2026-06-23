@@ -81,7 +81,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <meta name="description" content="<?php echo htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8'); ?>">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <link rel="canonical" href="<?php echo htmlspecialchars($canonicalUrl, ENT_QUOTES, 'UTF-8'); ?>">
-    <meta name="theme-color" content="#2fbdef">
+    <meta name="theme-color" content="#1977b2">
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
         'image' => $socialImageUrl,
     ]); ?>
@@ -222,16 +222,16 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         }
 
         .price-service-link {
-            color: #0f3463;
+            color: #0a293c;
             text-decoration: underline;
-            text-decoration-color: rgba(47, 189, 239, 0.45);
+            text-decoration-color: rgba(36, 140, 255, 0.45);
             text-underline-offset: 2px;
             transition: color .2s ease, text-decoration-color .2s ease;
         }
 
         .price-service-link:hover {
-            color: #2fbdef;
-            text-decoration-color: rgba(47, 189, 239, 0.95);
+            color: #1977b2;
+            text-decoration-color: rgba(36, 140, 255, 0.95);
         }
 
         @media (min-width: 768px) {
@@ -266,35 +266,35 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <main class="mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
         <!-- Заголовок -->
         <div class="prices-hero mb-6 p-5 md:p-6">
-            <div class="absolute -right-14 -top-14 h-36 w-36 rounded-full bg-[#2fbdef1f] blur-2xl"></div>
-            <div class="absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[#2fbdef14] blur-2xl"></div>
+            <div class="absolute -right-14 -top-14 h-36 w-36 rounded-full bg-[#1977b21f] blur-2xl"></div>
+            <div class="absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[#1977b214] blur-2xl"></div>
             <div class="relative">
-                <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#2fbdef]">Стоимость услуг</p>
+                <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Стоимость услуг</p>
                 <h1 class="mt-2 font-bold text-[#0f2749]">Прайс-лист клиники</h1>
-                <p class="mt-2 max-w-3xl text-[0.95rem] leading-relaxed text-[#214a7f] md:text-[1.02rem]">
+                <p class="mt-2 max-w-3xl text-[0.95rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
                     Актуальные цены по направлениям лечения: от первичной консультации до комплексных программ восстановления. Поможем подобрать специалиста и оптимальный формат терапии.
                 </p>
                 <div class="mt-3.5 flex flex-wrap gap-2">
-                    <span class="inline-flex rounded-full border border-[#c7ddf0] bg-white/75 px-3 py-1 text-[0.74rem] font-semibold text-[#2a5a94]">Актуальные цены</span>
-                    <span class="inline-flex rounded-full border border-[#c7ddf0] bg-white/75 px-3 py-1 text-[0.74rem] font-semibold text-[#2a5a94]">Ежедневно 9:00-21:00</span>
+                    <span class="inline-flex rounded-full border border-[#c7ddf0] bg-white/75 px-3 py-1 text-[0.74rem] font-semibold text-[#0a293c]">Актуальные цены</span>
+                    <span class="inline-flex rounded-full border border-[#c7ddf0] bg-white/75 px-3 py-1 text-[0.74rem] font-semibold text-[#0a293c]">Ежедневно 9:00-21:00</span>
                 </div>
             </div>
         </div>
 
         <!-- Навигация по разделам -->
         <div class="prices-nav mb-6 p-3.5 md:p-4">
-            <h3 class="text-sm font-bold uppercase tracking-[0.1em] text-[#2fbdef] mb-4">Быстрая навигация:</h3>
+            <h3 class="text-sm font-bold uppercase tracking-[0.1em] text-[#1977b2] mb-4">Быстрая навигация:</h3>
             <div class="flex flex-wrap gap-2">
-                <a href="#chief-doctor" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Приём главного врача</a>
-                <a href="#oda" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Диагностика и реабилитация опорно-двигательного аппарата</a>
-                <a href="#psychology" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Психология</a>
-                <a href="#osteopathy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Остеопатия</a>
-                <a href="#infusion" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Инфузионная терапия</a>
-                <a href="#injection" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Инъекционная терапия</a>
-                <a href="#ozone" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Озонотерапия</a>
-                <a href="#reflexotherapy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Рефлексотерапия</a>
-                <a href="#physiotherapy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Физиотерапия</a>
-                <a href="#taping" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#2a5a94] hover:border-[#8bb7dc] hover:text-[#2fbdef]">Тейпирование и банки</a>
+                <a href="#chief-doctor" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Приём главного врача</a>
+                <a href="#oda" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Диагностика и реабилитация опорно-двигательного аппарата</a>
+                <a href="#psychology" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Психология</a>
+                <a href="#osteopathy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Остеопатия</a>
+                <a href="#infusion" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Инфузионная терапия</a>
+                <a href="#injection" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Инъекционная терапия</a>
+                <a href="#ozone" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Озонотерапия</a>
+                <a href="#reflexotherapy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Рефлексотерапия</a>
+                <a href="#physiotherapy" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Физиотерапия</a>
+                <a href="#taping" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]">Тейпирование и банки</a>
             </div>
         </div>
 
@@ -302,67 +302,67 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         <div class="space-y-6">
             <!-- Приём главного врача -->
             <section id="chief-doctor" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Приём главного врача</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Костромина И.В.</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Приём главного врача</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Костромина И.В.</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Лечебно-диагностический приём</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Многоуровневая Системная Адаптационная Диагностика и Терапия (МСАДТ) - ВРТ, БРТ, психорегуляция, биорегуляция</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Многоуровневая Системная Адаптационная Диагностика и Терапия (МСАДТ) - ВРТ, БРТ, психорегуляция, биорегуляция</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">12 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">12 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Авторский тематический приём</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">ВРТ и БРТ + психогенетическая диагностика, кинезиодиагностика и психорегуляция</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">ВРТ и БРТ + психогенетическая диагностика, кинезиодиагностика и психорегуляция</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">15 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">15 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Приём "Мать и дитя"</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Авторская методика для мамы и ребенка (0-3 года). Стоимость за 2-х пациентов</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Авторская методика для мамы и ребенка (0-3 года). Стоимость за 2-х пациентов</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">12 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">12 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Мониторинг и препараты</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Изготовление индивидуального гомеопатического или аромапрепарата. Бесплатно для пациентов на комплексной программе</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Изготовление индивидуального гомеопатического или аромапрепарата. Бесплатно для пациентов на комплексной программе</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">"Экосистема - Естественное омоложение"</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Детоксикация, биорегуляция, регенерация без учета стоимости препарата</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Детоксикация, биорегуляция, регенерация без учета стоимости препарата</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">10 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">"Экосистема" с плазмолифтингом</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Полная программа с омолаживающими процедурами</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Полная программа с омолаживающими процедурами</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">13 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">13 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f9f0e6]">
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Социальный приём</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Программа лояльности для пенсионеров 70+, участников СВО, дети 3-11 лет</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Программа лояльности для пенсионеров 70+, участников СВО, дети 3-11 лет</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -371,75 +371,75 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Диагностика и реабилитация опорно-двигательного аппарата -->
             <section id="oda" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Диагностика и реабилитация опорно-двигательного аппарата</h2>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Диагностика и реабилитация опорно-двигательного аппарата</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Хабилект: 3D-диагностика опорно-двигательного аппарата с подбором ЛФК</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">30 минут, промежуточная диагностика в рамках программы реабилитации бесплатно</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">30 минут, промежуточная диагностика в рамках программы реабилитации бесплатно</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Реабилитация с БОС на мультифункциональном комплексе Хабилект (1 занятие, 20 мин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Диагностика + реабилитация с ЛФК и БОС (с видеороликом), 50 мин</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Комплексная диагностика: специалист по реабилитации + Хабилект (без БОС), 60 мин</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Приём специалиста по реабилитации с подбором ЛФК, 40 мин</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Мониторинг специалиста по реабилитации с коррекцией ЛФК, 30 мин</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f9f0e6]">
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Комплексная программа: Хабилект + ЛФК + массаж 45 мин</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Полный блок реабилитации опорно-двигательного аппарата, 90 мин</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Полный блок реабилитации опорно-двигательного аппарата, 90 мин</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">10 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Массаж общий (60 мин) / спина+ШВЗ (45 мин) / 1 зона (30 мин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 / 5 000 / 3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">6 000 / 5 000 / 3 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Курс массажа 10 сеансов (1 сеанс в подарок)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">54 000 / 45 000 / 31 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">54 000 / 45 000 / 31 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Консультация мануального терапевта, невролога (30 мин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Приём мануального терапевта, невролога (60 мин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Кинезиотерапия: кинезио-тестирование и кинезио-массаж (60 мин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Изготовление индивидуальных стелек Формтотикс / Футмастер (30 мин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">12 900 / 7 900 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">12 900 / 7 900 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -448,39 +448,39 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Психология -->
             <section id="psychology" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Психология</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Специалист</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Психология</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Специалист</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Приём интегративного психолога - 60 минут</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Психодиагностика и терапия (базовый пакет)</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Психодиагностика и терапия (базовый пакет)</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Приём интегративного психолога - 90 минут</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Расширенная консультация с глубокой диагностикой</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Расширенная консультация с глубокой диагностикой</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">7 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">7 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Приём интегративного психолога - 120 минут</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Интенсивная работа над сложными психологическими вопросами</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Интенсивная работа над сложными психологическими вопросами</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">10 000 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -489,60 +489,60 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Остеопатия -->
             <section id="osteopathy" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Остеопатия</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Специалисты</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Остеопатия</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Специалисты</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Диагностика и консультация (Нехорошева Л.С.)</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Врач-остеопат, мануальный терапевт, кандидат медицинских наук</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Врач-остеопат, мануальный терапевт, кандидат медицинских наук</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Приём остеопата (Нехорошева Л.С.)</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Полный лечебный сеанс</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Полный лечебный сеанс</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">10 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Диагностика и консультация (Вертлиб В.П.)</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Врач-остеопат, невролог</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Врач-остеопат, невролог</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Приём остеопата (Вертлиб В.П.)</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Полный лечебный сеанс</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Полный лечебный сеанс</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">10 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Приём для детей 0-3 лет</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Специализированный остеопатический приём</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Специализированный остеопатический приём</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-[#0f2749]">Приём для детей 3-7 лет</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Развивающий и коррекционный прием</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Развивающий и коррекционный прием</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">7 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">7 000 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -551,59 +551,59 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Инфузионная терапия -->
             <section id="infusion" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Инфузионная терапия</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Капельницы</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Инфузионная терапия</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Капельницы</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">Гомеопатическая капельница Хеель (детоксикация)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 000 ₽</td>
                             </tr>
 
                             <tr>
                                 <td class="px-4 py-3">Капельница с глутатионом (антиоксидант)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Капельница с элькаром (левокарнитин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Капельница с липоевой кислотой (Германия)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Капельница с цитофлавином</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 500 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">Капельница Лаеннек (Япония) - 1 ампула 2мл</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 500 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">Капельница Лаеннек (Япония) - 2 ампулы 4мл</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">Капельница Лаеннек (Япония) - 3 ампулы 6мл</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">Капельница Лаеннек (Япония) - 4 ампулы 8мл</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">10 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">10 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">Капельница Лаеннек (Япония) - 5 ампул 10мл</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">12 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">12 000 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -612,74 +612,74 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Инъекционная терапия -->
             <section id="injection" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Инъекционная терапия</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">ПРП, карбокси, биопунктура</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Инъекционная терапия</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">ПРП, карбокси, биопунктура</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">Биопунктура МЭЛСМОН (плацента, иммуномодуляция)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">7 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">7 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Гомеопунктура с препаратами Хеель</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">ПРП-терапия (плазмотерапия) - 1 пробирка</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">7 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">7 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">ПРП-терапия - 2 пробирки</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">9 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">9 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">ПРП-терапия - 3 пробирки</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">11 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">11 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">ПРП-терапия - 4 пробирки</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">13 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">13 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f0f7fc] font-semibold">
                                 <td class="px-4 py-3">ПРП-терапия - 5 пробирок</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">15 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">15 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Индивидуальный иммуномодулятор "Принцесса на горошине"</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">7 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">7 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Омолаживающая сыворотка из плазмы (14 дней)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Карбокситерапия - 1 зона</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Карбокситерапия - 2 зоны</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Карбокситерапия - общая</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Внутримышечные инъекции</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">600 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">600 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Внутримышечные инъекции (выездная)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">1 200 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">1 200 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -688,38 +688,38 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Озонотерапия -->
             <section id="ozone" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Озонотерапия</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Отдельный раздел</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Озонотерапия</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Отдельный раздел</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">Капельница с озоном (детоксикация, оксигенация, иммуномодуляция)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Гомеопатическая капельница Хеель + озон</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Мезотерапия озоном: 1 зона / 2 зоны / общая</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 / 4 500 / 6 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 / 4 500 / 6 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Озоновая камера (30 мин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Массаж стоп озонированным маслом (20-30 мин)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -728,56 +728,56 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Рефлексотерапия -->
             <section id="reflexotherapy" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Рефлексотерапия</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Кондратова Е.А.</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Рефлексотерапия</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Кондратова Е.А.</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">Диагностика и консультация зав.отделения</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Экспресс-приём зав.отделения</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Корпоральная иглорефлексотерапия (10-15 игл)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Микропунктура (аурикулотерапия, краниотерапия, Су-Джок)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Лазеропунктура</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Акупунктурный лифтинг лица и тела</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr class="bg-[#f9f0e6]">
                                 <td class="px-4 py-3">
                                     <div class="font-semibold">Авторский метод "Восточный экспресс"</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Кетгут-терапия (10 нитей) + подарок - нить в ухо</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Кетгут-терапия (10 нитей) + подарок - нить в ухо</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">12 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">12 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold">Программа "Женское здоровье"</div>
-                                    <p class="text-sm text-[#214a7f] mt-1">Биоакупунктура + вакуумная гармонизация + активизация ухо</p>
+                                    <p class="text-sm text-[#0a293c] mt-1">Биоакупунктура + вакуумная гармонизация + активизация ухо</p>
                                 </td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -786,90 +786,90 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Физиотерапия -->
             <section id="physiotherapy" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Физиотерапия</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Аппаратные методы</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Физиотерапия</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Аппаратные методы</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">ХИЛТ (лазерная терапия) - 1 зона</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">ХИЛТ (лазерная терапия) - 2 зоны</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Транскраниальная магнитотерапия (ТКМТ)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Транскраниальная электростимуляция</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Магнитотерапия / фотостимуляция Амблио</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">1 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">1 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Ударно-волновая терапия - 1 зона</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Ударно-волновая терапия - 2 и более зон</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">6 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">НЛОК (надвенное лазерное облучение крови)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">1 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">1 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Гелиосплазма - 1 зона</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">1 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">1 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Гелиосплазма - омоложение кожи</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Электромиостимуляция ВИП ЛАЙН - 1 зона</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Электромиостимуляция ВИП ЛАЙН - 2 зоны</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Электромиостимуляция ВИП ЛАЙН - 3 зоны</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">8 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">8 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Микротоки ВИП ЛАЙН (лицо, шея, декольте)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Изометрическая миостимуляция (лицо и шея)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">5 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Электрофорез лекарственный</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Ультрафонофорез лекарственный (1-2 зоны)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Ультрафонофорез лекарственный (3-4 зоны)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 500 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -878,50 +878,50 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
             <!-- Тейпирование и банки -->
             <section id="taping" class="category-section">
-                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#2fbdef]">
-                    <h2 class="text-2xl font-bold text-[#2fbdef]">Тейпирование и банки</h2>
-                    <span class="inline-flex items-center rounded-full bg-[#2fbdef] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Процедуры Кондратовой Е.А.</span>
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]">
+                    <h2 class="text-2xl font-bold text-[#1977b2]">Тейпирование и банки</h2>
+                    <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white">Процедуры Кондратовой Е.А.</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-[#f0f7fc]">
-                                <th class="text-left px-4 py-3 font-semibold text-[#2fbdef]">Услуга</th>
-                                <th class="text-right px-4 py-3 font-semibold text-[#2fbdef] whitespace-nowrap">Цена</th>
+                                <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
+                                <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">Кинезиотейпирование - 1 зона</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Кинезиотейпирование - 2 зоны</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Кинезиотейпирование - 3 зоны</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Акупунктурное кросс-тейпирование (1-2 зоны)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Акупунктурное кросс-тейпирование (3-4 зоны)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 500 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 500 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Акупунктурное кросс-тейпирование (5-6 зон)</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Постановка банок - 1 зона</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 000 ₽</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">Постановка банок - 2 зоны</td>
-                                <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">4 000 ₽</td>
+                                <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">4 000 ₽</td>
                             </tr>
                         </tbody>
                     </table>
@@ -930,7 +930,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         </div>
 
         <!-- CTA блок -->
-        <div class="prices-cta mt-9 rounded-2xl border border-[#2fbdef]/20 bg-gradient-to-r from-[#2fbdef] to-[#2fbdef] p-5 text-white shadow-[0_12px_28px_rgba(47,189,239,0.2)] md:p-6">
+        <div class="prices-cta mt-9 rounded-2xl border border-[#1977b2]/20 bg-gradient-to-r from-[#1977b2] to-[#1977b2] p-5 text-white shadow-[0_12px_28px_rgba(25,119,178,0.2)] md:p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div>
                     <h3 class="font-bold">Не уверены, какая услуга вам нужна?</h3>
@@ -942,7 +942,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                     </p>
                 </div>
                 <div class="flex flex-col gap-3">
-                    <a href="tel:<?php echo preg_replace('/\D/', '', CLINIC_PHONE); ?>" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 font-semibold text-[#2fbdef] hover:bg-[#f0f7fc] transition-colors">
+                    <a href="tel:<?php echo preg_replace('/\D/', '', CLINIC_PHONE); ?>" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 font-semibold text-[#1977b2] hover:bg-[#f0f7fc] transition-colors">
                         <i class="fas fa-phone"></i>
                         Позвонить: <?php echo CLINIC_PHONE; ?>
                     </a>

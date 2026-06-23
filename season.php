@@ -313,21 +313,21 @@ $footer = new Footer();
             left: 0;
             height: 100%;
             width: 4px;
-            background: var(--season-accent, #2fbdef);
+            background: var(--season-accent, #1977b2);
         }
         .season-practice-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 20px 36px rgba(8, 36, 70, 0.12);
-            border-color: rgba(47, 189, 239, 0.34);
+            border-color: rgba(36, 140, 255, 0.34);
         }
         .season-practice-card__kicker {
             display: inline-flex;
             align-items: center;
             gap: 0.35rem;
             border-radius: 9999px;
-            background: rgba(47, 189, 239, 0.12);
+            background: rgba(36, 140, 255, 0.12);
             padding: 0.28rem 0.68rem;
-            color: #2a5a94;
+            color: #0a293c;
             font-size: 0.84rem;
             font-weight: 700;
             letter-spacing: 0.07em;
@@ -337,7 +337,7 @@ $footer = new Footer();
             margin-top: 0.7rem;
             font-size: 1.2rem;
             font-weight: 700;
-            color: #173b64;
+            color: #0a293c;
             line-height: 1.25;
         }
         .season-practice-card__subtitle {
@@ -642,7 +642,7 @@ $footer = new Footer();
 <!-- ═══════════════ SEASONAL TIPS ═══════════════ -->
 <section class="py-14 md:py-20 bg-white">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#173b64] mb-7 text-center">
+        <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#0a293c] mb-7 text-center">
             <?= $e($titles['tips']) ?>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -653,7 +653,7 @@ $footer = new Footer();
                     <i class="fa-solid <?= $e($tip['icon']) ?>" aria-hidden="true"></i>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-[1.1rem] md:text-[1.16rem] text-[#173b64] mb-1.5"><?= $e($tip['title']) ?></h3>
+                    <h3 class="font-semibold text-[1.1rem] md:text-[1.16rem] text-[#0a293c] mb-1.5"><?= $e($tip['title']) ?></h3>
                     <p class="text-gray-600 text-[1rem] md:text-[1.06rem] leading-relaxed"><?= $e($tip['text']) ?></p>
                 </div>
             </div>
@@ -670,7 +670,7 @@ $footer = new Footer();
                 <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase" style="color:<?= $e($s['color']) ?>">Практика сезона</p>
                 <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"><?= $e($titles['services']) ?></h2>
             </div>
-            <a href="/services" class="inline-flex items-center gap-2 text-[1rem] md:text-[1.04rem] font-semibold text-[#173b64] hover:text-[#2fbdef] transition-colors">
+            <a href="/services" class="inline-flex items-center gap-2 text-[1rem] md:text-[1.04rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors">
                 Все услуги клиники
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>

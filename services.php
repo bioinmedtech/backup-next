@@ -140,7 +140,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <meta name="description" content="<?php echo e($pageDescription); ?>">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
-    <meta name="theme-color" content="#2fbdef">
+    <meta name="theme-color" content="#1977b2">
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
         'image' => $socialImageUrl,
     ]); ?>
@@ -202,16 +202,16 @@ echo $header->render();
 
     <main class="mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
     <section class="relative overflow-hidden rounded-2xl border border-[#d7e4ef] bg-[linear-gradient(120deg,#eef6fd_0%,#e4f1fb_45%,#dff0fb_100%)] p-5 shadow-[0_10px_24px_rgba(6,29,60,0.07)] md:p-7">
-        <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#2fbdef1f] blur-3xl"></div>
-        <div class="pointer-events-none absolute -left-14 bottom-0 h-32 w-32 rounded-full bg-[#2fbdef14] blur-3xl"></div>
+        <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#1977b21f] blur-3xl"></div>
+        <div class="pointer-events-none absolute -left-14 bottom-0 h-32 w-32 rounded-full bg-[#1977b214] blur-3xl"></div>
         <div class="relative">
-            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#2fbdef]">Каталог услуг</p>
+            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]">Каталог услуг</p>
             <h1 class="mt-2 text-[1.68rem] font-bold leading-tight text-[#0f2749] md:text-[2.15rem]">Все услуги клиники БИОИНМЕД</h1>
-            <p class="mt-2 max-w-3xl text-[0.97rem] leading-relaxed text-[#214a7f] md:text-[1.03rem]">
+            <p class="mt-2 max-w-3xl text-[0.97rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]">
                 Выберите направление и перейдите на подробную страницу услуги: описание, показания, цена и запись на приём.
             </p>
-            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.82rem] font-semibold text-[#2a5a94]">
-                <i class="fa-solid fa-list-check text-[#2fbdef]" aria-hidden="true"></i>
+            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.82rem] font-semibold text-[#0a293c]">
+                <i class="fa-solid fa-list-check text-[#1977b2]" aria-hidden="true"></i>
                 Всего услуг: <?php echo intval($totalServices); ?>
             </div>
         </div>
@@ -219,16 +219,16 @@ echo $header->render();
 
     <?php if (!empty($servicesByCategory)): ?>
         <section class="mt-5 rounded-2xl border border-[#dce8f5] bg-white p-3.5 md:p-4">
-            <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#2fbdef]">Быстрый переход по направлениям</p>
+            <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Быстрый переход по направлениям</p>
             <div class="flex flex-wrap gap-2">
                 <?php foreach ($servicesByCategory as $categoryKey => $categoryItems): ?>
                     <?php
                     $categoryTitle = $categoryLabels[$categoryKey] ?? ucfirst(str_replace(['_', '-'], ' ', $categoryKey));
                     $count = count($categoryItems);
                     ?>
-                    <a href="#cat-<?php echo e($categoryKey); ?>" class="inline-flex items-center gap-2 rounded-full border border-[#cfe0ef] bg-[#f8fcff] px-3 py-1.5 text-[0.8rem] font-semibold text-[#2a5a94] transition hover:border-[#8bb7dc] hover:text-[#2fbdef]">
+                    <a href="#cat-<?php echo e($categoryKey); ?>" class="inline-flex items-center gap-2 rounded-full border border-[#cfe0ef] bg-[#f8fcff] px-3 py-1.5 text-[0.8rem] font-semibold text-[#0a293c] transition hover:border-[#8bb7dc] hover:text-[#1977b2]">
                         <span><?php echo e($categoryTitle); ?></span>
-                        <span class="rounded-full bg-white px-1.5 py-0.5 text-[0.72rem] text-[#2fbdef]"><?php echo intval($count); ?></span>
+                        <span class="rounded-full bg-white px-1.5 py-0.5 text-[0.72rem] text-[#1977b2]"><?php echo intval($count); ?></span>
                     </a>
                 <?php endforeach; ?>
             </div>
@@ -242,7 +242,7 @@ echo $header->render();
                 ?>
                 <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor rounded-2xl border border-[#dce8f5] bg-white p-4 shadow-[0_6px_16px_rgba(10,43,80,0.05)] md:p-5">
                     <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3">
-                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e8f4fd] text-[#2fbdef]">
+                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e8f4fd] text-[#1977b2]">
                             <i class="fa-solid <?php echo e($categoryIcon); ?> text-[0.82rem]" aria-hidden="true"></i>
                         </span>
                         <h2 class="text-[1.18rem] font-bold leading-tight text-[#0f2749] md:text-[1.42rem]"><?php echo e($categoryTitle); ?></h2>
@@ -263,7 +263,7 @@ echo $header->render();
                             <a href="/services/<?php echo e($serviceId); ?>"
                                class="service-card group flex flex-col rounded-xl border border-[#deebf6] bg-white p-4 no-underline cursor-pointer">
                                 <div class="flex items-start justify-between gap-2">
-                                    <h3 class="text-[0.93rem] font-semibold leading-snug text-[#173b64] group-hover:text-[#2fbdef]"
+                                    <h3 class="text-[0.93rem] font-semibold leading-snug text-[#0a293c] group-hover:text-[#1977b2]"
                                         style="transition:color 0.15s"><?php echo e($serviceName); ?></h3>
                                     <i class="service-card-arrow fa-solid fa-arrow-right mt-0.5 shrink-0 text-[0.65rem] text-[#9bbdd8]" aria-hidden="true"></i>
                                 </div>
@@ -286,8 +286,8 @@ echo $header->render();
     <?php else: ?>
         <section class="mt-6 rounded-2xl border border-[#dce8f5] bg-white p-6 text-center">
             <h2 class="text-[1.15rem] font-bold text-[#0f2749]">Раздел услуг временно недоступен</h2>
-            <p class="mt-2 text-[0.9rem] text-[#355b89]">Пожалуйста, обновите страницу позже или перейдите в прайс-лист.</p>
-            <a href="/prices" class="mt-4 inline-flex items-center rounded-lg bg-[#2fbdef] px-4 py-2 text-[0.82rem] font-semibold text-white hover:bg-[#1fb3d8]">Перейти к ценам</a>
+            <p class="mt-2 text-[0.9rem] text-[#0a293c]">Пожалуйста, обновите страницу позже или перейдите в прайс-лист.</p>
+            <a href="/prices" class="mt-4 inline-flex items-center rounded-lg bg-[#1977b2] px-4 py-2 text-[0.82rem] font-semibold text-white hover:bg-[#16658f]">Перейти к ценам</a>
         </section>
     <?php endif; ?>
 </main>

@@ -23,12 +23,12 @@ class Component {
 
     protected function sectionTitle($eyebrow, $title, $subtitle = '') {
         $subtitle_html = $subtitle !== ''
-            ? '<p class="mt-2.5 max-w-2xl text-[1rem] leading-relaxed text-[#355b89]">' . $this->e($subtitle) . '</p>'
+            ? '<p class="mt-2.5 max-w-2xl text-[1rem] leading-relaxed text-[#0a293c]">' . $this->e($subtitle) . '</p>'
             : '';
 
         return <<<HTML
         <div class="mb-7">
-            <p class="text-[0.8rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">{$this->e($eyebrow)}</p>
+            <p class="text-[0.8rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">{$this->e($eyebrow)}</p>
             <h2 class="mt-1.5 text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">{$this->e($title)}</h2>
             {$subtitle_html}
         </div>
@@ -71,9 +71,9 @@ class Header extends Component {
 
         $desktop_link_class = function ($is_active) {
             if ($is_active) {
-                return 'is-active text-[#2fbdef] border-b-2 border-transparent';
+                return 'is-active text-[#1977b2] border-b-2 border-transparent';
             }
-            return 'text-[#173b64] border-b-2 border-transparent hover:text-[#2fbdef]';
+            return 'text-[#0a293c] border-b-2 border-transparent hover:text-[#1977b2]';
         };
         $mobile_link_attr = function ($is_active) {
             return $is_active ? ' class="is-active" aria-current="page"' : '';
@@ -104,7 +104,7 @@ class Header extends Component {
         $mobile_services_details_open = $is_services ? ' open' : '';
 
         $second_phone = $phone_2 !== ''
-            ? '<a href="tel:' . $phone_2_link . '" class="mt-0.5 block whitespace-nowrap text-[0.81rem] font-medium leading-tight text-[#133b63] hover:text-[#2fbdef] md:text-[0.84rem]">' . $phone_2 . '</a>'
+            ? '<a href="tel:' . $phone_2_link . '" class="mt-0.5 block whitespace-nowrap text-[0.81rem] font-medium leading-tight text-[#0a293c] hover:text-[#1977b2] md:text-[0.84rem]">' . $phone_2 . '</a>'
             : '';
 
         $category_labels = [
@@ -265,8 +265,8 @@ class Header extends Component {
 
         $current_season_name = $seasons_data[$actual_season_slug]['name'];
         $seasons_btn_class = $is_seasons
-            ? 'is-active text-[#2fbdef] border-b-2 border-[#2fbdef]'
-            : 'text-[#2a5a94] border-b-2 border-transparent hover:text-[#2fbdef]';
+            ? 'is-active text-[#1977b2] border-b-2 border-[#1977b2]'
+            : 'text-[#0a293c] border-b-2 border-transparent hover:text-[#1977b2]';
         $desktop_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" class="' . $seasons_btn_class . ' inline-flex items-center gap-1 text-[0.86rem] font-semibold"' . $desktop_seasons_aria . '>'
             . 'Сезоны</a>';
         $mobile_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" onclick="closeMobMenu()"' . $mobile_seasons_summary_attr . '>Сезоны</a>';
@@ -304,23 +304,23 @@ class Header extends Component {
                         <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" loading="eager">
                     </a>
                     <div class="flex items-center gap-2">
-                        <a href="tel:{$phone_1_link}" aria-label="Позвонить" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#2fbdef]">
+                        <a href="tel:{$phone_1_link}" aria-label="Позвонить" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#1977b2]">
                             <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
                         </a>
-                        <button id="mob-toggle" onclick="toggleMobMenu()" aria-label="Меню" aria-expanded="false" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#2fbdef]">
+                        <button id="mob-toggle" onclick="toggleMobMenu()" aria-label="Меню" aria-expanded="false" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#c9dcee] bg-white text-[#1977b2]">
                             <i id="mob-icon" class="fa-solid fa-bars text-[0.9rem]" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
                 <!-- Row 2: address — always visible, critical -->
-                <div class="border-t border-[#e4eef7] bg-[#f0f7fd] px-4 py-2 text-[#173b64]">
+                <div class="border-t border-[#e4eef7] bg-[#f0f7fd] px-4 py-2 text-[#0a293c]">
                     <div class="flex items-start justify-between gap-3">
                         <div class="leading-tight">
                             <p class="text-[0.88rem] font-semibold">{$this->e(CLINIC_ADDRESS)}</p>
                             <p class="mt-0.5 text-[0.8rem] font-medium text-[#2a5894]">{$this->e(CLINIC_METRO)}</p>
                         </div>
-                        <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.74rem] font-medium text-[#2fbdef] hover:text-[#1fb3d8]">
-                            <i class="fa-solid fa-location-dot text-[0.66rem] text-[#2fbdef]" aria-hidden="true"></i>
+                        <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.74rem] font-medium text-[#1977b2] hover:text-[#16658f]">
+                            <i class="fa-solid fa-location-dot text-[0.66rem] text-[#1977b2]" aria-hidden="true"></i>
                             На карте
                         </a>
                     </div>
@@ -335,35 +335,35 @@ class Header extends Component {
                             <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" loading="eager">
                         </a>
 
-                        <div class="pt-1 leading-tight text-[#173b64]">
+                        <div class="pt-1 leading-tight text-[#0a293c]">
                             <p class="text-[0.92rem] font-medium md:text-[0.96rem]">{$this->e(CLINIC_ADDRESS)}</p>
                             <p class="mt-0.5 text-[0.88rem] font-medium text-[#24588d] md:text-[0.9rem]">{$this->e(CLINIC_METRO)}</p>
                             <div class="mt-1.5">
-                                <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.76rem] font-medium text-[#2fbdef] hover:border-[#a8cbe6] hover:text-[#1fb3d8]">
-                                    <i class="fa-solid fa-location-dot text-[0.66rem] text-[#2fbdef]" aria-hidden="true"></i>
+                                <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.76rem] font-medium text-[#1977b2] hover:border-[#a8cbe6] hover:text-[#16658f]">
+                                    <i class="fa-solid fa-location-dot text-[0.66rem] text-[#1977b2]" aria-hidden="true"></i>
                                     На карте
                                 </a>
                             </div>
                         </div>
 
-                        <div class="pt-1 leading-tight text-[#173b64]">
+                        <div class="pt-1 leading-tight text-[#0a293c]">
                             <p class="text-[0.92rem] font-medium">{$this->e(CLINIC_HOURS)}</p>
-                            <p class="mt-0.5 text-[0.78rem] font-medium text-[#2fbdef]">Приём по предварительной записи</p>
+                            <p class="mt-0.5 text-[0.78rem] font-medium text-[#1977b2]">Приём по предварительной записи</p>
                         </div>
 
-                        <div class="flex items-start gap-2.5 pt-1 text-[#173b64]">
-                            <div class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#b9d7ef] text-[#2fbdef]">
+                        <div class="flex items-start gap-2.5 pt-1 text-[#0a293c]">
+                            <div class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#b9d7ef] text-[#1977b2]">
                                 <i class="fa-solid fa-phone-volume text-[0.76rem]" aria-hidden="true"></i>
                             </div>
                             <div class="pt-[1px]">
-                                <a href="tel:{$phone_1_link}" class="block whitespace-nowrap text-[0.88rem] font-medium leading-tight text-[#133b63] hover:text-[#2fbdef] md:text-[0.92rem]">{$phone_1}</a>
+                                <a href="tel:{$phone_1_link}" class="block whitespace-nowrap text-[0.88rem] font-medium leading-tight text-[#0a293c] hover:text-[#1977b2] md:text-[0.92rem]">{$phone_1}</a>
                                 {$second_phone}
-                                <p class="mt-0.5 text-[0.76rem] font-medium text-[#2fbdef]">Запись по телефону ежедневно</p>
+                                <p class="mt-0.5 text-[0.76rem] font-medium text-[#1977b2]">Запись по телефону ежедневно</p>
                             </div>
                         </div>
 
                         <div class="pt-1 text-right">
-                            <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-auto min-w-[164px] items-center justify-center rounded-full bg-[#2fbdef] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(47,189,239,0.2)] transition hover:bg-[#1fb3d8]">
+                            <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-auto min-w-[164px] items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
                                 Онлайн запись
                             </a>
                         </div>
@@ -375,7 +375,7 @@ class Header extends Component {
         <div class="desktop-menu-bar hidden lg:block">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div id="desktop-menu-row" class="desktop-menu-row flex items-center justify-between py-2.5">
-                    <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.92rem] font-medium text-[#173b64] lg:overflow-visible">
+                    <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.92rem] font-medium text-[#0a293c] lg:overflow-visible">
                         <a href="/about" class="{$desktop_about_class}"{$desktop_about_aria}>О клинике</a>
                         {$desktop_seasons_dropdown}
                         {$desktop_services_dropdown}
@@ -405,12 +405,12 @@ class Header extends Component {
         <div id="mob-menu">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #dce8f3;">
                 <img src="{$logo_src}" alt="БИОИНМЕД" style="height:48px;width:auto;">
-                <button onclick="closeMobMenu()" aria-label="Закрыть меню" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #dce8f3;background:transparent;cursor:pointer;color:#355b89;">
+                <button onclick="closeMobMenu()" aria-label="Закрыть меню" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #dce8f3;background:transparent;cursor:pointer;color:#0a293c;">
                     <i class="fa-solid fa-xmark" style="font-size:0.9rem;" aria-hidden="true"></i>
                 </button>
             </div>
             <div style="padding:12px 20px;background:#eef5fc;border-bottom:1px solid #dce8f3;">
-                <p style="font-size:0.88rem;font-weight:600;color:#173b64;margin:0;">{$this->e(CLINIC_ADDRESS)}</p>
+                <p style="font-size:0.88rem;font-weight:600;color:#0a293c;margin:0;">{$this->e(CLINIC_ADDRESS)}</p>
                 <p style="font-size:0.8rem;color:#2a5894;margin:4px 0 0;">{$this->e(CLINIC_METRO)}</p>
                 <p style="font-size:0.78rem;color:#2d86ca;margin:2px 0 0;">{$this->e(CLINIC_HOURS)}</p>
             </div>
@@ -425,11 +425,11 @@ class Header extends Component {
                 <a href="/#contact" onclick="closeMobMenu()">Контакты</a>
             </nav>
             <div style="margin-top:auto;border-top:1px solid #dce8f3;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
-                <a href="tel:{$phone_1_link}" style="display:flex;align-items:center;gap:10px;font-size:0.94rem;font-weight:600;color:#133b63;text-decoration:none;">
-                    <i class="fa-solid fa-phone-volume" style="color:#2fbdef;" aria-hidden="true"></i>
+                <a href="tel:{$phone_1_link}" style="display:flex;align-items:center;gap:10px;font-size:0.94rem;font-weight:600;color:#0a293c;text-decoration:none;">
+                    <i class="fa-solid fa-phone-volume" style="color:#1977b2;" aria-hidden="true"></i>
                     {$phone_1}
                 </a>
-                <a href="javascript:void(0)" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#2fbdef;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
+                <a href="javascript:void(0)" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
                     Онлайн запись
                 </a>
                 <div style="display:flex;gap:12px;">
@@ -456,7 +456,7 @@ class Header extends Component {
             #mob-nav{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:4px 20px}
             #mob-nav a{display:block;padding:12px 0;font-size:.98rem;font-weight:500;color:#1b3f6e;text-decoration:none;border-bottom:1px solid #e8f0f8}
             #mob-nav a:last-child{border-bottom:none}
-            #mob-nav a:hover{color:#2fbdef}
+            #mob-nav a:hover{color:#1977b2}
             #mob-nav details{border-bottom:1px solid #e8f0f8}
             #mob-nav details>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 0;font-size:.98rem;font-weight:500;color:#1b3f6e}
             #mob-nav details>summary::-webkit-details-marker{display:none}
@@ -464,7 +464,7 @@ class Header extends Component {
             #mob-nav details[open]>summary i{transform:rotate(180deg)}
             .mob-subnav{margin:0 0 8px;border-left:2px solid #dce8f3;padding-left:10px}
             .mob-nav-subgroup{border-bottom:none!important}
-            .mob-nav-subgroup>summary{padding:10px 0;font-size:.9rem!important;font-weight:600!important;color:#2a5a94!important}
+            .mob-nav-subgroup>summary{padding:10px 0;font-size:.9rem!important;font-weight:600!important;color:#0a293c!important}
             .mob-subsubnav a{display:flex!important;align-items:baseline;justify-content:space-between;gap:8px;border-bottom:1px dashed #e3edf8!important;padding:9px 0!important;font-size:.86rem!important;font-weight:500!important;color:#1b3f6e!important;text-decoration:none}
             .mob-subsubnav a:last-child{border-bottom:none!important}
             .services-nav-item{position:static}
@@ -475,10 +475,10 @@ class Header extends Component {
             .menu-strip::-webkit-scrollbar{display:none}
             .menu-strip a{display:inline-flex;align-items:center;padding-bottom:2px;transition:color .2s ease,border-color .2s ease}
             .menu-strip a.is-active{}
-            #mob-nav a.is-active{color:#2fbdef}
-            #mob-nav details>summary.is-active{color:#2fbdef}
-            #mob-nav details>summary.is-active i{color:#2fbdef}
-            .mob-subnav a.is-active{color:#2fbdef!important}
+            #mob-nav a.is-active{color:#1977b2}
+            #mob-nav details>summary.is-active{color:#1977b2}
+            #mob-nav details>summary.is-active i{color:#1977b2}
+            .mob-subnav a.is-active{color:#1977b2!important}
         </style>
         <script>
             function toggleMobMenu(){var m=document.getElementById('mob-menu');if(m.classList.contains('open')){closeMobMenu();}else{m.classList.add('open');document.getElementById('mob-backdrop').classList.add('open');document.getElementById('mob-icon').className='fa-solid fa-xmark';document.getElementById('mob-toggle').setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}}
@@ -711,7 +711,7 @@ class HeroSection extends Component {
             $actual_slug = 'spring';
         }
         $actual_season_name = $this->e((string)($seasons[$actual_slug]['name'] ?? 'Весна'));
-        $actual_season_color = $this->e((string)($seasons[$actual_slug]['color'] ?? '#2fbdef'));
+        $actual_season_color = $this->e((string)($seasons[$actual_slug]['color'] ?? '#1977b2'));
         $actual_season_href = $this->e('/seasons/' . $actual_slug);
 
         $slides_html = '';
@@ -759,15 +759,14 @@ class HeroSection extends Component {
         ]);
 
         return <<<HTML
-        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_36%,#deedf8_100%)] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))] pb-24 md:pb-0">
-            <div class="pointer-events-none absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(47,189,239,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(47,189,239,0.06)_1px,transparent_1px)] [background-size:32px_32px]"></div>
-            <div class="pointer-events-none absolute -left-20 top-10 h-52 w-52 rounded-full bg-[#2fbdef24] blur-3xl md:-left-32 md:h-72 md:w-72"></div>
+        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#f4fbff] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))] pb-24 md:pb-0">
+            <div class="pointer-events-none absolute -left-20 top-10 h-52 w-52 rounded-full bg-[#1977b224] blur-3xl md:-left-32 md:h-72 md:w-72"></div>
             <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
 
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
                 <div class="relative -top-2 flex w-full flex-col md:-top-3 lg:-top-5 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
                     <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
-                        <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
+                        <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
                             <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
                             Сезон: {$actual_season_name}
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
@@ -775,33 +774,33 @@ class HeroSection extends Component {
                         <link rel="preconnect" href="https://fonts.googleapis.com">
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                         <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-                        <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.95rem,4.25vw,2.85rem);font-weight:700;">
+                        <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.95rem,4.25vw,2.85rem);font-weight:700;">
                             С нами выздоравливать легко!
                         </h1>
                         <p class="mt-3 inline-flex w-fit items-center rounded-full border border-[#d7e6f3] bg-white/92 px-3.5 py-1.5 leading-none text-[#1f5b91] shadow-[0_8px_18px_rgba(10,43,80,0.05)]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
                             Ваш Биоинмед
                         </p>
-                        <p class="mt-3 flex max-w-2xl items-start gap-2 text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(1.08rem,2.1vw,1.22rem);font-weight:500;">
-                            <a href="/services/hobilect-diagnostics" class="inline-block hover:text-[#214a7f] transition-colors">
+                        <p class="mt-3 max-w-2xl text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(0.98rem,1.9vw,1.08rem);font-weight:500;">
+                            <a href="/services/hobilect-diagnostics" class="group inline-block hover:text-[#16658f] transition-colors">
                                 <span class="block">Экосистема HABILECT</span>
                                 <span class="block">Ваш эффективный маршрут здоровья</span>
                                 <span class="block">Где вы особенный</span>
                             </a>
                         </p>
-                        <a href="/services/hobilect-diagnostics" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/55 px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] backdrop-blur-xl transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#2fbdef]/30 md:gap-3 md:px-4 md:py-2.5">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-[#2fbdef]/12 ring-1 ring-[#2fbdef]/15 md:h-13 md:w-13">
-                                <img src="{$habilect_logo}" alt="Хабилект" class="h-7 w-auto shrink-0 md:h-8" loading="eager" decoding="async">
+                        <a href="/services/hobilect-diagnostics" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/55 px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] backdrop-blur-xl transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:gap-3 md:px-4 md:py-2.5">
+                            <div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#1977b2]/12 ring-1 ring-[#1977b2]/15 md:h-18 md:w-18">
+                                <img src="{$habilect_logo}" alt="Хабилект" class="h-10 w-auto shrink-0 md:h-11" loading="eager" decoding="async">
                             </div>
                             <div class="min-w-0">
-                                <p class="text-[0.63rem] font-semibold uppercase tracking-[0.28em] text-[#1f5b91] md:text-[0.68rem]">Хабилект</p>
-                                <p class="hidden text-[0.72rem] font-medium leading-tight text-[#4a6f96] sm:block md:text-[0.78rem]">Инновационные медицинские системы</p>
+                                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2] md:text-[0.82rem]">Хабилект</p>
+                                <p class="hidden text-[0.8rem] font-medium leading-tight text-[#0a293c] sm:block md:text-[0.88rem]">Инновационные медицинские системы</p>
                             </div>
                         </a>
 
                         <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
                             <div>
                                 <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]">Записаться на приём</h2>
-                                <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#4a6f96]">Перезвоним в течение 15 минут.</p>
+                                <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
                             </div>
 
                             <div class="mt-3">
@@ -815,8 +814,8 @@ class HeroSection extends Component {
                             <div class="hero-clinic-mobile-strip flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1">
                                 {$mobile_strip_html}
                             </div>
-                            <p class="mt-2 flex items-center gap-1.5 text-[0.78rem] font-medium text-[#2a5a94]">
-                                <i class="fa-solid fa-hand-pointer text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
+                            <p class="mt-2 flex items-center gap-1.5 text-[0.78rem] font-medium text-[#0a293c]">
+                                <i class="fa-solid fa-hand-pointer text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
                                 Листайте фото вправо
                             </p>
                         </div>
@@ -825,11 +824,11 @@ class HeroSection extends Component {
                             <div class="hero-clinic-slider-track flex h-full transition-transform duration-500 ease-out">
                                 {$slides_html}
                             </div>
-                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#0f27490f] via-transparent to-[#2fbdef14]"></div>
-                            <button type="button" class="hero-clinic-prev absolute left-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#2a5a94] shadow-[0_8px_20px_rgba(7,35,68,0.18)] transition hover:bg-white" aria-label="Предыдущее фото">
+                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#0f27490f] via-transparent to-[#1977b214]"></div>
+                            <button type="button" class="hero-clinic-prev absolute left-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#0a293c] shadow-[0_8px_20px_rgba(7,35,68,0.18)] transition hover:bg-white" aria-label="Предыдущее фото">
                                 <i class="fa-solid fa-chevron-left text-[0.92rem]" aria-hidden="true"></i>
                             </button>
-                            <button type="button" class="hero-clinic-next absolute right-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#2a5a94] shadow-[0_8px_20px_rgba(7,35,68,0.18)] transition hover:bg-white" aria-label="Следующее фото">
+                            <button type="button" class="hero-clinic-next absolute right-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#0a293c] shadow-[0_8px_20px_rgba(7,35,68,0.18)] transition hover:bg-white" aria-label="Следующее фото">
                                 <i class="fa-solid fa-chevron-right text-[0.92rem]" aria-hidden="true"></i>
                             </button>
                             <div class="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-[#0f2749]/25 px-2.5 py-1.5 backdrop-blur-sm">
@@ -1080,7 +1079,7 @@ class HeroSection extends Component {
             .hero-clinic-thumb.is-active,
             .hero-modal-thumb.is-active {
                 opacity: 1;
-                border-color: #2fbdef;
+                border-color: #1977b2;
             }
 
             .hero-clinic-mobile-strip,
@@ -1140,50 +1139,50 @@ class StatsBlock extends Component {
                 <ul class="grid grid-cols-2 md:grid-cols-4 md:divide-x md:divide-[#e6eef7]">
                     <!-- Stat 1: Experience -->
                     <li class="flex items-center gap-3 py-4 pr-4 md:px-7 md:py-0 md:first:pl-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2m-6 9 2 2 4-4" />
                             </svg>
                         </span>
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$experience}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$experience_desc}</p>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#0a293c]">{$experience_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 2: Rehabilitation methods -->
                     <li class="flex items-center gap-3 py-4 pr-4 md:px-7 md:py-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 1-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21a48.309 48.309 0 0 1-8.135-.687c-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
                             </svg>
                         </span>
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$patients}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$patients_desc}</p>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#0a293c]">{$patients_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 3: Rating -->
                     <li class="flex items-center gap-3 py-4 pl-4 md:px-7 md:py-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
                             </svg>
                         </span>
                         <div>
                             <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$rating}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$rating_desc}</p>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#0a293c]">{$rating_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 4: License -->
                     <li class="flex items-center gap-3 py-4 pl-4 md:px-7 md:py-0 md:last:pr-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                             </svg>
                         </span>
                         <div>
                             <div class="text-[1.15rem] font-bold leading-none text-[#0f2749]">{$license_text}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#4a6f96]">{$license_desc}</p>
+                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#0a293c]">{$license_desc}</p>
                         </div>
                     </li>
                 </ul>
@@ -1296,9 +1295,9 @@ class ProblemsGrid extends Component {
                     }
 
                     if (isset($services_map[$resolved_id])) {
-                        $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">' . $this->e($solution_text) . '</a>';
+                        $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">' . $this->e($solution_text) . '</a>';
                     } else {
-                        $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#355b89]">' . $this->e($solution_text) . '</span>';
+                        $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c]">' . $this->e($solution_text) . '</span>';
                     }
                 }
             }
@@ -1324,11 +1323,11 @@ class ProblemsGrid extends Component {
                     }
 
                     if ($resolved_id !== '' && isset($services_map[$resolved_id])) {
-                        $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">' . $this->e($solution_text) . '</a>';
+                        $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">' . $this->e($solution_text) . '</a>';
                         continue;
                     }
 
-                    $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#355b89]">' . $this->e($solution_text) . '</span>';
+                    $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c]">' . $this->e($solution_text) . '</span>';
                 }
             }
 
@@ -1341,7 +1340,7 @@ class ProblemsGrid extends Component {
             $visible_solution_chips = array_slice($solution_chips, 0, $visible_solution_limit);
             $hidden_solution_count = count($solution_chips) - count($visible_solution_chips);
             if ($hidden_solution_count > 0) {
-                $visible_solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-transparent bg-[#eaf4fc] px-2.5 py-1 text-[0.78rem] font-semibold text-[#2a5a94]">+' . $hidden_solution_count . ' ещё</span>';
+                $visible_solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-transparent bg-[#eaf4fc] px-2.5 py-1 text-[0.78rem] font-semibold text-[#0a293c]">+' . $hidden_solution_count . ' ещё</span>';
             }
             $solutions_html = implode('', $visible_solution_chips);
 
@@ -1361,7 +1360,7 @@ class ProblemsGrid extends Component {
                     $section_items_html = '';
                     if (!empty($section_items) && is_array($section_items)) {
                         foreach ($section_items as $section_item) {
-                            $section_items_html .= '<li class="flex items-start gap-2.5"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2fbdef]"></span><span>' . $this->e((string)$section_item) . '</span></li>';
+                            $section_items_html .= '<li class="flex items-start gap-2.5"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1977b2]"></span><span>' . $this->e((string)$section_item) . '</span></li>';
                         }
                     }
 
@@ -1370,7 +1369,7 @@ class ProblemsGrid extends Component {
                         $details_sections_html .= '<h4 class="text-[0.84rem] font-semibold text-[#0f2749]">' . $this->e($section_title) . '</h4>';
                     }
                     if ($section_items_html !== '') {
-                        $details_sections_html .= '<ul class="mt-2 space-y-1.5 text-[0.82rem] leading-relaxed text-[#355b89]">' . $section_items_html . '</ul>';
+                        $details_sections_html .= '<ul class="mt-2 space-y-1.5 text-[0.82rem] leading-relaxed text-[#0a293c]">' . $section_items_html . '</ul>';
                     }
                     $details_sections_html .= '</div>';
                 }
@@ -1385,13 +1384,13 @@ class ProblemsGrid extends Component {
                         </span>
                         <h3 class="text-[1rem] font-semibold leading-tight text-[#0f2749]">{$this->e($problem['title'])}</h3>
                     </div>
-                    <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#d4e5f2] bg-[#f3f9ff] text-[#2a5a94] transition-transform group-open:rotate-180" aria-hidden="true">
+                    <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#d4e5f2] bg-[#f3f9ff] text-[#0a293c] transition-transform group-open:rotate-180" aria-hidden="true">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </span>
                 </summary>
                 <div class="px-4 pb-3.5 pt-0 md:px-6">
                     <div class="rounded-xl bg-[#f5faff] p-3.5">
-                        <p class="text-[0.9rem] leading-relaxed text-[#355b89]">{$this->e($problem['description'])}</p>
+                        <p class="text-[0.9rem] leading-relaxed text-[#0a293c]">{$this->e($problem['description'])}</p>
                         <div class="mt-3 space-y-2">{$details_sections_html}</div>
                         <div class="mt-3 flex flex-wrap gap-1.5">{$solutions_html}</div>
                     </div>
@@ -1408,7 +1407,7 @@ class ProblemsGrid extends Component {
                     {$items_html}
                 </div>
                 <div class="mt-5 flex justify-start">
-                    <a href="/#contact" class="inline-flex items-center gap-1.5 rounded-full border border-[#c6ddf2] bg-white px-4 py-2 text-[0.86rem] font-semibold text-[#2a5a94] hover:bg-[#ebf4ff]">
+                    <a href="/#contact" class="inline-flex items-center gap-1.5 rounded-full border border-[#c6ddf2] bg-white px-4 py-2 text-[0.86rem] font-semibold text-[#0a293c] hover:bg-[#ebf4ff]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
                         Не нашли свою ситуацию? Записаться на консультацию
                     </a>
@@ -1443,12 +1442,12 @@ class AdvantagesBlock extends Component {
             $icon = $fa_icons[$index % count($fa_icons)];
             $items_html .= <<<HTML
             <li class="flex items-start gap-3.5 rounded-xl border border-[#dce8f5] bg-white p-4">
-                <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#2fbdef]" aria-hidden="true">
+                <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
                     <i class="fa-solid {$icon} text-[1rem]"></i>
                 </span>
                 <div>
                     <h3 class="text-[1rem] font-bold leading-tight text-[#0f2749]">{$this->e($advantage['title'])}</h3>
-                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#4a6f96]">{$this->e($advantage['description'])}</p>
+                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#0a293c]">{$this->e($advantage['description'])}</p>
                 </div>
             </li>
             HTML;
@@ -1484,13 +1483,13 @@ class ChiefDoctorBlock extends Component {
         $hero_tagline = trim((string)($this->data['hero_tagline'] ?? ''));
         $hero_tagline_html = $hero_tagline !== ''
             ? '<p class="mt-4 max-w-3xl text-[#4f6f92]" style="font-family:\'Caveat\',cursive;font-size:clamp(1.48rem,5vw,1.82rem);line-height:1.14;font-weight:700;">' . $this->e($hero_tagline) . '</p>'
-            : '<p class="mt-5 text-base leading-relaxed text-[#355b89]">В БИОИНМЕД каждый пациент получает не набор разрозненных процедур, а цельный лечебный маршрут: диагностика причин, подбор метода, оценка динамики и коррекция тактики.</p>';
+            : '<p class="mt-5 text-base leading-relaxed text-[#0a293c]">В БИОИНМЕД каждый пациент получает не набор разрозненных процедур, а цельный лечебный маршрут: диагностика причин, подбор метода, оценка динамики и коррекция тактики.</p>';
         $hero_highlights = $this->data['hero_highlights'] ?? [];
         $hero_highlights_html = '';
         if (!empty($hero_highlights) && is_array($hero_highlights)) {
-            $hero_highlights_html .= '<ul class="mt-4 space-y-2 text-sm leading-relaxed text-[#355b89]">';
+            $hero_highlights_html .= '<ul class="mt-4 space-y-2 text-sm leading-relaxed text-[#0a293c]">';
             foreach ($hero_highlights as $highlight) {
-                $hero_highlights_html .= '<li class="flex items-start gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#2fbdef]"></span><span>' . $this->e($highlight) . '</span></li>';
+                $hero_highlights_html .= '<li class="flex items-start gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span><span>' . $this->e($highlight) . '</span></li>';
             }
             $hero_highlights_html .= '</ul>';
         }
@@ -1502,13 +1501,13 @@ class ChiefDoctorBlock extends Component {
                 <div class="grid gap-8 rounded-3xl border border-[#d6e5f2] bg-white p-6 shadow-[0_18px_40px_rgba(6,29,60,0.08)] md:grid-cols-[0.85fr_1.15fr] md:p-8">
                     <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full max-h-[460px] w-full rounded-2xl object-cover" loading="lazy" />
                     <div>
-                        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Экспертный подход</p>
+                        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Экспертный подход</p>
                         <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($this->data['name'])}</h2>
-                        <p class="mt-1 text-[0.84rem] font-semibold uppercase tracking-[0.15em] text-[#4a6f96]">{$this->e($this->data['title'])}</p>
+                        <p class="mt-1 text-[0.84rem] font-semibold uppercase tracking-[0.15em] text-[#0a293c]">{$this->e($this->data['title'])}</p>
                         {$hero_tagline_html}
                         <p class="mt-3 text-[1rem] leading-relaxed text-[#4a6f9c] md:text-[1.08rem]">{$hero_leadership}</p>
                         {$hero_highlights_html}
-                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.92rem] font-semibold text-white hover:bg-[#1fb3d8]">Подробнее</a>
+                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.92rem] font-semibold text-white hover:bg-[#16658f]">Подробнее</a>
                     </div>
                 </div>
             </div>
@@ -1527,35 +1526,35 @@ class SpecialOffer extends Component {
         <section class="border-b border-[#e6eef7] bg-white py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-[linear-gradient(110deg,#ecf6ff_0%,#f7fcff_60%,#eaf7f5_100%)] px-6 py-6 md:px-8 md:py-7">
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Специальное предложение для пациентов</p>
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Специальное предложение для пациентов</p>
                     <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Первичная 3D диагностика на мультифункциональном комплексе Хабилект + консультация реабилитолога</h2>
-                    <div class="mt-4 border-l-4 border-[#2fbdef] pl-4 md:pl-5">
-                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Специальная цена</p>
+                    <div class="mt-4 border-l-4 border-[#1977b2] pl-4 md:pl-5">
+                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#0a293c]">Специальная цена</p>
                         <div class="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
                             <span class="text-2xl font-bold leading-none text-[#0f2749] md:text-[1.9rem]">3000 руб.</span>
                             <span class="text-sm text-[#5b81a8] md:text-[0.98rem]">вместо <span class="line-through">6000 руб.</span></span>
                         </div>
                         <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]">Экономия 3000 руб.</p>
                     </div>
-                    <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#355b89]">
+                    <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#0a293c]">
                         Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика на мультифункциональном комплексе Хабилект даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.
                     </p>
-                    <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#214a7f]">
+                    <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#0a293c]">
                         <li class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
+                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
                             <span>3D-диагностика на мультифункциональном комплексе Хабилект для точной оценки нарушений опорно-двигательного аппарата</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
+                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
                             <span>Консультация реабилитолога с подбором индивидуального комплекса ЛФК</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
+                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
                             <span>Диагностика стоп на подоскопе в подарок</span>
                         </li>
                     </ul>
                     <div class="mt-4">
-                        <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#1fb3d8]">
+                        <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
                             <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
                             Перезвоните мне
                         </button>
@@ -1564,12 +1563,12 @@ class SpecialOffer extends Component {
             </div>
             <div id="special-offer-callback-modal" class="fixed inset-0 z-[120] hidden items-center justify-center bg-[rgba(7,21,40,0.72)] px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="special-offer-callback-title">
                 <div class="relative w-full max-w-md rounded-[1.75rem] border border-[#d8e7f5] bg-white p-6 shadow-[0_24px_60px_rgba(7,21,40,0.24)] md:p-7">
-                    <button type="button" data-special-offer-close class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#d7e6f3] bg-white text-[#4a6f96] transition hover:border-[#2fbdef] hover:text-[#2fbdef]" aria-label="Закрыть окно">
+                    <button type="button" data-special-offer-close class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#d7e6f3] bg-white text-[#0a293c] transition hover:border-[#1977b2] hover:text-[#1977b2]" aria-label="Закрыть окно">
                         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                     </button>
-                    <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#2fbdef]">Специальное предложение</p>
+                    <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Специальное предложение</p>
                     <h3 id="special-offer-callback-title" class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Перезвоним и запишем на консультацию</h3>
-                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#355b89]">Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику на мультифункциональном комплексе Хабилект.</p>
+                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#0a293c]">Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику на мультифункциональном комплексе Хабилект.</p>
                     <div class="mt-5">
                         {$callback_form}
                     </div>
@@ -1602,10 +1601,10 @@ class DoctorsGrid extends Component {
                 ? '<a href="' . $doctor_link . '" class="block overflow-hidden"><img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover transition duration-300 group-hover:scale-[1.03] md:h-[22rem]" loading="lazy"></a>'
                 : '<img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover md:h-[22rem]" loading="lazy">';
             $doctor_name_html = $has_profile
-                ? '<h3 class="text-lg font-bold leading-tight text-[#0f3463]"><a href="' . $doctor_link . '" class="transition hover:text-[#2fbdef]">' . $this->e($doctor['name']) . '</a></h3>'
-                : '<h3 class="text-lg font-bold leading-tight text-[#0f3463]">' . $this->e($doctor['name']) . '</h3>';
+                ? '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"><a href="' . $doctor_link . '" class="transition hover:text-[#1977b2]">' . $this->e($doctor['name']) . '</a></h3>'
+                : '<h3 class="text-lg font-bold leading-tight text-[#0a293c]">' . $this->e($doctor['name']) . '</h3>';
             $card_action = $has_profile
-                ? '<a href="' . $doctor_link . '" class="mt-4 w-full rounded-full bg-[#2fbdef] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#1fb3d8]">Подробнее</a>'
+                ? '<a href="' . $doctor_link . '" class="mt-4 w-full rounded-full bg-[#1977b2] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#16658f]">Подробнее</a>'
                 : ($card_action_text !== ''
                     ? '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-[#f5faff] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]">' . $this->e($card_action_text) . '</div>'
                     : '');
@@ -1615,9 +1614,9 @@ class DoctorsGrid extends Component {
                 <div class="flex flex-1 flex-col p-6">
                     <div class="flex-1">
                         {$doctor_name_html}
-                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#2a5a94]">{$this->e($doctor['title'])}</p>
-                        <p class="mt-2 text-sm font-semibold leading-snug text-[#214a7f]">{$this->e($doctor['experience'])}</p>
-                        <p class="mt-3 text-[0.96rem] text-[#355b89]">{$this->e($doctor['specialty'])}</p>
+                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c]">{$this->e($doctor['title'])}</p>
+                        <p class="mt-2 text-sm font-semibold leading-snug text-[#0a293c]">{$this->e($doctor['experience'])}</p>
+                        <p class="mt-3 text-[0.96rem] text-[#0a293c]">{$this->e($doctor['specialty'])}</p>
                     </div>
                     {$card_action}
                 </div>
@@ -1631,10 +1630,10 @@ class DoctorsGrid extends Component {
                 {$this->sectionTitle('Наша команда', 'Профессиональная команда специалистов', 'Познакомьтесь с врачами команды и перейдите в карточку специалиста для подробной информации.')}
                 <div class="rounded-3xl border border-[#dce8f5] bg-[#f7fbff] p-4 sm:p-5">
                     <div class="mb-4 flex items-center justify-end gap-2">
-                        <button type="button" class="doctor-slider-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#2a5a94] hover:bg-[#ecf5ff]" aria-label="Прокрутить влево">
+                        <button type="button" class="doctor-slider-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#0a293c] hover:bg-[#ecf5ff]" aria-label="Прокрутить влево">
                             <i class="fa-solid fa-chevron-left text-[1rem]" aria-hidden="true"></i>
                         </button>
-                        <button type="button" class="doctor-slider-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#2a5a94] hover:bg-[#ecf5ff]" aria-label="Прокрутить вправо">
+                        <button type="button" class="doctor-slider-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#0a293c] hover:bg-[#ecf5ff]" aria-label="Прокрутить вправо">
                             <i class="fa-solid fa-chevron-right text-[1rem]" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -1663,13 +1662,13 @@ class FAQBlock extends Component {
         foreach ($this->data as $item) {
             $items_html .= <<<HTML
             <details class="group rounded-2xl border border-[#dce8f5] bg-white p-5 open:shadow-[0_10px_30px_rgba(7,35,68,0.08)]">
-                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-semibold text-[#0f3463]">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-semibold text-[#0a293c]">
                     <span>{$this->e($item['question'])}</span>
-                    <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#2a5a94]">
+                    <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#0a293c]">
                         <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                     </span>
                 </summary>
-                <p class="mt-4 text-[0.96rem] leading-relaxed text-[#355b89]">{$this->e($item['answer'])}</p>
+                <p class="mt-4 text-[0.96rem] leading-relaxed text-[#0a293c]">{$this->e($item['answer'])}</p>
             </details>
             HTML;
         }
@@ -1725,7 +1724,7 @@ class ServicesGrid extends Component {
                 $service_image_html = '<div class="relative mb-4 overflow-hidden rounded-2xl border border-[#dfeaf3] bg-[#eef7fd] aspect-[4/3]">'
                     . '<img src="' . $this->e($service_image) . '" alt="' . $this->e($service['name']) . '" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" loading="lazy">'
                     . '<div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[rgba(8,35,67,0.60)] via-[rgba(8,35,67,0.18)] to-transparent"></div>'
-                    . '<div class="absolute left-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/88 text-[#2fbdef] shadow-[0_8px_18px_rgba(8,36,70,0.12)]">'
+                    . '<div class="absolute left-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/88 text-[#1977b2] shadow-[0_8px_18px_rgba(8,36,70,0.12)]">'
                     . '<i class="fa-solid ' . $icon . ' text-[1rem]" aria-hidden="true"></i>'
                     . '</div>'
                     . '</div>';
@@ -1733,9 +1732,9 @@ class ServicesGrid extends Component {
             
             $price_display = '';
             if (isset($service['price'])) {
-                $price_display = '<div class="mt-4 text-[1rem] font-semibold text-[#2fbdef]">' . $this->e($service['price']);
+                $price_display = '<div class="mt-4 text-[1rem] font-semibold text-[#1977b2]">' . $this->e($service['price']);
                 if (isset($service['price_note']) && !empty($service['price_note'])) {
-                    $price_display .= ' <span class="text-[0.86rem] font-normal text-[#355b89]">' . $this->e($service['price_note']) . '</span>';
+                    $price_display .= ' <span class="text-[0.86rem] font-normal text-[#0a293c]">' . $this->e($service['price_note']) . '</span>';
                 }
                 $price_display .= '</div>';
             }
@@ -1744,22 +1743,22 @@ class ServicesGrid extends Component {
                 : (string)($service['description'] ?? '');
 
             $items_html .= <<<HTML
-            <article class="group flex h-full flex-col rounded-[1.35rem] border border-[#d7e4ef] bg-white/80 p-5 transition hover:-translate-y-0.5 hover:border-[#2fbdef] hover:shadow-[0_12px_28px_rgba(47,189,239,0.16)]">
+            <article class="group flex h-full flex-col rounded-[1.35rem] border border-[#d7e4ef] bg-white/80 p-5 transition hover:-translate-y-0.5 hover:border-[#1977b2] hover:shadow-[0_12px_28px_rgba(25,119,178,0.16)]">
                 <div class="flex-1">
                     {$service_image_html}
-                    <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#2fbdef]">
+                    <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#1977b2]">
                         <i class="fa-solid {$icon} text-[1rem]" aria-hidden="true"></i>
                     </div>
-                    <p class="mb-1 text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#2a5a94]">{$this->e($service['subtitle'] ?? 'Услуга')}</p>
+                    <p class="mb-1 text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#0a293c]">{$this->e($service['subtitle'] ?? 'Услуга')}</p>
                     <h3 class="mb-2 text-[1.2rem] font-bold leading-[1.2]">
-                        <a href="{$service_link}" class="text-[#0f2749] transition hover:text-[#2fbdef] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2fbdef] focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+                        <a href="{$service_link}" class="text-[#0f2749] transition hover:text-[#1977b2] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-white">
                             {$this->e($service['name'])}
                         </a>
                     </h3>
-                    <p class="text-[0.96rem] leading-relaxed text-[#355b89]">{$this->e($card_description)}</p>
+                    <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">{$this->e($card_description)}</p>
                     {$price_display}
                 </div>
-                <a href="{$service_link}" class="mt-4 inline-flex self-start rounded-lg border border-[#2fbdef] bg-[#f0fafe] px-3.5 py-2 text-[0.88rem] font-semibold text-[#2fbdef] transition hover:bg-[#2fbdef] hover:text-white">
+                <a href="{$service_link}" class="mt-4 inline-flex self-start rounded-lg border border-[#1977b2] bg-[#f0fafe] px-3.5 py-2 text-[0.88rem] font-semibold text-[#1977b2] transition hover:bg-[#1977b2] hover:text-white">
                     Подробнее →
                 </a>
             </article>
@@ -1775,8 +1774,8 @@ class ServicesGrid extends Component {
                     {$items_html}
                 </div>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <p class="text-[0.96rem] text-[#355b89]">Хотите начать с комплексной диагностики?</p>
-                    <a href="/services/hobilect-diagnostics" class="inline-flex rounded-lg bg-[#2fbdef] px-5 py-2.5 text-[0.96rem] font-semibold text-white transition hover:bg-[#1fb3d8] active:bg-[#1a9ec0]">
+                    <p class="text-[0.96rem] text-[#0a293c]">Хотите начать с комплексной диагностики?</p>
+                    <a href="/services/hobilect-diagnostics" class="inline-flex rounded-lg bg-[#1977b2] px-5 py-2.5 text-[0.96rem] font-semibold text-white transition hover:bg-[#16658f] active:bg-[#13557f]">
                         HABILECT диагностика →
                     </a>
                 </div>
@@ -1816,9 +1815,9 @@ class AppointmentCTA extends Component {
         <section id="book-now" class="border-b border-[#e6eef7] bg-[linear-gradient(120deg,#ecf6ff_0%,#f7fbff_45%,#edf7ff_100%)] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9">
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#2fbdef]">Запишитесь на консультацию</p>
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Запишитесь на консультацию</p>
                     <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Записаться на приём</h2>
-                    <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#355b89]">Перезвоним в течение 15 минут.</p>
+                    <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
                     <div class="mt-5 max-w-lg">
                         {$callback_form}
                     </div>
@@ -1841,7 +1840,7 @@ class ContactSection extends Component {
         $phone_link_2 = defined('CLINIC_PHONE_2') ? $this->phoneLink(CLINIC_PHONE_2) : '';
 
         $second_phone_html = $phone_2 !== ''
-            ? '<div class="mt-1"><a href="tel:' . $phone_link_2 . '" class="text-[1rem] font-semibold text-[#2fbdef] hover:text-[#0f2749] transition">' . $phone_2 . '</a></div>'
+            ? '<div class="mt-1"><a href="tel:' . $phone_link_2 . '" class="text-[1rem] font-semibold text-[#1977b2] hover:text-[#0f2749] transition">' . $phone_2 . '</a></div>'
             : '';
 
         return <<<HTML
@@ -1871,12 +1870,12 @@ class ContactSection extends Component {
                         <!-- Заголовок карточки -->
                         <div class="rounded-2xl border border-[#d7e4ef] bg-white p-6 shadow-[0_4px_16px_rgba(6,29,60,0.06)]">
                             <div class="flex items-start gap-3 mb-1">
-                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#2fbdef] shrink-0">
+                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#1977b2] shrink-0">
                                     <i class="fa-solid fa-hospital text-[0.9rem]" aria-hidden="true"></i>
                                 </span>
                                 <h3 class="text-[1.25rem] font-bold text-[#0f2749]">Клиника «БИОИНМЕД»</h3>
                             </div>
-                            <p class="text-[0.96rem] text-[#355b89] leading-relaxed ml-11">
+                            <p class="text-[0.96rem] text-[#0a293c] leading-relaxed ml-11">
                                 Свяжитесь с нами удобным способом или посетите клинику по указанному адресу
                             </p>
                         </div>
@@ -1886,12 +1885,12 @@ class ContactSection extends Component {
                             <!-- Телефон -->
                             <div class="rounded-xl border border-[#d7e4ef] bg-white p-4">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
+                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
                                         <i class="fa-solid fa-phone text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Телефон</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]">Телефон</p>
                                 </div>
-                                <a href="tel:{$phone_link_1}" class="block text-[1rem] font-bold text-[#2fbdef] hover:text-[#0f2749] transition leading-snug">
+                                <a href="tel:{$phone_link_1}" class="block text-[1rem] font-bold text-[#1977b2] hover:text-[#0f2749] transition leading-snug">
                                     {$phone_1}
                                 </a>
                                 {$second_phone_html}
@@ -1900,15 +1899,15 @@ class ContactSection extends Component {
                             <!-- Адрес -->
                             <div class="rounded-xl border border-[#d7e4ef] bg-white p-4">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
+                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
                                         <i class="fa-solid fa-map-pin text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Адрес</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]">Адрес</p>
                                 </div>
                                 <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug">
                                     {$address}
                                 </p>
-                                <p class="text-[0.92rem] text-[#214a7f] mt-1">
+                                <p class="text-[0.92rem] text-[#0a293c] mt-1">
                                     {$metro}
                                 </p>
                             </div>
@@ -1916,10 +1915,10 @@ class ContactSection extends Component {
                             <!-- Режим работы -->
                             <div class="rounded-xl border border-[#d7e4ef] bg-white p-4">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
+                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
                                         <i class="fa-solid fa-clock text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Режим</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]">Режим</p>
                                 </div>
                                 <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug">
                                     {$hours}
@@ -1929,29 +1928,29 @@ class ContactSection extends Component {
                             <!-- Email -->
                             <div class="rounded-xl border border-[#d7e4ef] bg-white p-4">
                                 <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#2fbdef]">
+                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
                                         <i class="fa-solid fa-envelope text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#2a5a94]">Email</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]">Email</p>
                                 </div>
-                                <a href="mailto:{$email}" class="text-[1rem] font-semibold text-[#2fbdef] hover:text-[#0f2749] transition break-all">
+                                <a href="mailto:{$email}" class="text-[1rem] font-semibold text-[#1977b2] hover:text-[#0f2749] transition break-all">
                                     {$email}
                                 </a>
                             </div>
                         </div>
 
                         <!-- Как добраться -->
-                        <div class="rounded-xl border border-[#2fbdef] bg-gradient-to-br from-[#f0fafe] to-[#e8f7fb] p-5">
+                        <div class="rounded-xl border border-[#1977b2] bg-gradient-to-br from-[#f0fafe] to-[#e8f7fb] p-5">
                             <div class="flex items-start gap-3">
-                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#2fbdef] text-white shrink-0 mt-0.5">
+                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#1977b2] text-white shrink-0 mt-0.5">
                                     <i class="fa-solid fa-directions text-[0.9rem]" aria-hidden="true"></i>
                                 </span>
                                 <div>
                                     <h4 class="font-bold text-[#0f2749] mb-2">Как добраться</h4>
-                                    <p class="text-[0.92rem] text-[#355b89] leading-relaxed mb-3">
+                                    <p class="text-[0.92rem] text-[#0a293c] leading-relaxed mb-3">
                                         Станция метро <strong>Фрунзенская</strong>. Выход из стеклянных дверей налево, затем прямо по переулку Хользунова до первого перекрёстка со светофором. Перейдите дорогу (ориентир — кафе «Брусника») и пройдите ещё около 50 метров до вывески «БИОИНМЕД».
                                     </p>
-                                    <a href="https://yandex.com/maps/-/CPGGyEzo" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#2fbdef] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#1fb3d8]">
+                                    <a href="https://yandex.com/maps/-/CPGGyEzo" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]">
                                         <i class="fa-solid fa-map text-[0.82rem]" aria-hidden="true"></i>
                                         Открыть в Яндекс.Картах
                                     </a>
@@ -1963,19 +1962,19 @@ class ContactSection extends Component {
                         <div class="rounded-xl border border-[#dce8f5] bg-[#f8fcff] p-5">
                             <h4 class="font-bold text-[#0f2749] mb-3">Оставить отзыв о центре</h4>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <a href="https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
-                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#2fbdef]"></i>
+                                <a href="https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">
+                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
                                     Яндекс
                                 </a>
-                                <a href="https://2gis.ru/moscow/firm/70000001085756150/tab/reviews" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
-                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#2fbdef]"></i>
+                                <a href="https://2gis.ru/moscow/firm/70000001085756150/tab/reviews" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">
+                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
                                     2ГИС
                                 </a>
-                                <a href="https://doctu.ru/msk/clinic/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
-                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#2fbdef]"></i>
+                                <a href="https://doctu.ru/msk/clinic/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">
+                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
                                     Doctu
                                 </a>
-                                <a href="https://vk.com/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#2a5a94] transition hover:border-[#2fbdef] hover:bg-[#f0fafe]">
+                                <a href="https://vk.com/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">
                                     <i class="fa-brands fa-vk text-[0.88rem] mr-1"></i>
                                     ВКонтакте
                                 </a>
@@ -2048,11 +2047,11 @@ class Footer extends Component {
         $phone2_link = $phone2 ? $this->phoneLink($phone2) : '';
         $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'));
         $second_phone_footer = $phone2_link
-            ? '<a href="tel:' . $phone2_link . '" class="block text-sm font-semibold text-[#214a7f] hover:text-[#2fbdef] transition-colors">' . $this->e($phone2) . '</a>'
+            ? '<a href="tel:' . $phone2_link . '" class="block text-sm font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors">' . $this->e($phone2) . '</a>'
             : '';
 
         return <<<HTML
-        <footer class="bg-gradient-to-b from-[#f4f9ff] to-[#e8f1fa] border-t-2 border-[#2fbdef]">
+        <footer class="bg-gradient-to-b from-[#f4f9ff] to-[#e8f1fa] border-t-2 border-[#1977b2]">
             <div class="mx-auto max-w-6xl px-6 md:px-10 py-12 md:py-16">
                 <!-- Верхняя часть подвала -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
@@ -2061,7 +2060,7 @@ class Footer extends Component {
                         <div class="mb-4">
                             <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 mb-3" loading="lazy" decoding="async">
                         </div>
-                        <p class="text-[0.96rem] text-[#214a7f] leading-relaxed">
+                        <p class="text-[0.96rem] text-[#0a293c] leading-relaxed">
                             Интегративная и восстановительная медицина с персональным маршрутом лечения для каждого пациента.
                         </p>
                         <div class="mt-4 flex gap-3">
@@ -2079,67 +2078,67 @@ class Footer extends Component {
 
                     <!-- Услуги -->
                     <div>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Услуги</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4">Услуги</h4>
                         <ul class="space-y-2">
-                            <li><a href="/services/hobilect-diagnostics" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Диагностика HABILECT</a></li>
-                            <li><a href="/services/musculoskeletal-program" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Восстановление опорно-двигательного аппарата</a></li>
-                            <li><a href="/services/osteopathy" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Остеопатия</a></li>
-                            <li><a href="/services/reflexotherapy" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Рефлексотерапия</a></li>
-                            <li><a href="/prices" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors font-semibold">Все услуги и цены →</a></li>
+                            <li><a href="/services/hobilect-diagnostics" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Диагностика HABILECT</a></li>
+                            <li><a href="/services/musculoskeletal-program" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Восстановление опорно-двигательного аппарата</a></li>
+                            <li><a href="/services/osteopathy" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Остеопатия</a></li>
+                            <li><a href="/services/reflexotherapy" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Рефлексотерапия</a></li>
+                            <li><a href="/prices" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors font-semibold">Все услуги и цены →</a></li>
                         </ul>
                     </div>
 
                     <!-- Компания -->
                     <div>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Компания</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4">Компания</h4>
                         <ul class="space-y-2">
-                            <li><a href="/about" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">О клинике</a></li>
-                            <li><a href="/doctors" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Профессиональная команда</a></li>
-                            <li><a href="/prices" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Прайс-лист</a></li>
-                            <li><a href="/privacy" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Политика конфиденциальности</a></li>
-                            <li><a href="/user-agreement" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Пользовательское соглашение</a></li>
-                            <li><a href="/#contact" class="text-[0.96rem] text-[#214a7f] hover:text-[#2fbdef] transition-colors">Контакты</a></li>
+                            <li><a href="/about" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">О клинике</a></li>
+                            <li><a href="/doctors" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Профессиональная команда</a></li>
+                            <li><a href="/prices" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Прайс-лист</a></li>
+                            <li><a href="/privacy" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Политика конфиденциальности</a></li>
+                            <li><a href="/user-agreement" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Пользовательское соглашение</a></li>
+                            <li><a href="/#contact" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Контакты</a></li>
                         </ul>
                     </div>
 
                     <!-- Контакты -->
                     <div>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#2fbdef] mb-4">Контакты</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4">Контакты</h4>
                         <div class="space-y-3">
                             <div class="flex items-start gap-2">
-                                <svg class="w-5 h-5 text-[#2fbdef] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 </svg>
                                 <div>
-                                    <p class="text-[0.96rem] font-semibold text-[#214a7f]">{$this->e(CLINIC_ADDRESS)}</p>
+                                    <p class="text-[0.96rem] font-semibold text-[#0a293c]">{$this->e(CLINIC_ADDRESS)}</p>
                                     <p class="text-[0.84rem] text-[#5a7fa3]">{$this->e(CLINIC_METRO)}</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-2">
-                                <svg class="w-5 h-5 text-[#2fbdef] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                 </svg>
-                                <a href="mailto:{$this->e(CLINIC_EMAIL)}" class="text-[0.96rem] font-semibold text-[#214a7f] hover:text-[#2fbdef] transition-colors">
+                                <a href="mailto:{$this->e(CLINIC_EMAIL)}" class="text-[0.96rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors">
                                     {$this->e(CLINIC_EMAIL)}
                                 </a>
                             </div>
                             <div class="flex items-start gap-2">
-                                <svg class="w-5 h-5 text-[#2fbdef] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                 </svg>
                                 <div class="space-y-1">
-                                    <a href="tel:{$phone}" class="block text-[0.96rem] font-semibold text-[#214a7f] hover:text-[#2fbdef] transition-colors">
+                                    <a href="tel:{$phone}" class="block text-[0.96rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors">
                                         {$phone1_display}
                                     </a>
                                     {$second_phone_footer}
                                 </div>
                             </div>
                             <div class="flex items-start gap-2 pt-2">
-                                <svg class="w-5 h-5 text-[#2fbdef] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
-                                <p class="text-[0.96rem] text-[#214a7f]">
+                                <p class="text-[0.96rem] text-[#0a293c]">
                                     <strong>{$this->e(CLINIC_HOURS)}</strong>
                                 </p>
                             </div>
@@ -2175,7 +2174,7 @@ class Footer extends Component {
                         baseUrl: 'https://klientiks.ru',
                         alias: '/app2/BIOINMED?awaiting_list=true',
                         text: 'Записаться онлайн',
-                        color: '#2fbdef'
+                        color: '#1977b2'
                     });
                 }
 

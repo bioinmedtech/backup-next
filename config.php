@@ -34,9 +34,9 @@ define('CLINIC_LICENSE_DESC', 'Соблюдаем требования МЗ РФ
 
 // Цветовая палитра
 $brand_colors = [
-    'primary' => '#2fbdef',      // Основной цвет
+    'primary' => '#1977b2',      // Основной цвет
     'secondary' => '#0077bd',    // Дополнительный цвет
-    'accent' => '#2fbdef',       // Акцент
+    'accent' => '#1977b2',       // Акцент
     'mint' => '#5fb5c0',         // Мята
     'success' => '#00d084',      // Зелёный
     'light_bg' => '#f2f8fb',     // Светлый фон
@@ -115,7 +115,7 @@ function bioinmed_render_callback_form(array $options = []) {
     }
 
     if ($button_class === '') {
-        $button_class = 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-3 text-[0.98rem] font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90';
+        $button_class = 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-6 py-3 text-[0.98rem] font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90';
     }
 
     $phone_id = 'callback-phone-' . $instance;
@@ -138,7 +138,7 @@ function bioinmed_render_callback_form(array $options = []) {
                     data-placeholder-default="Ваш телефон"
                     data-placeholder-active="+7 (___) ___-__-__"
                     placeholder="Ваш телефон"
-                    class="js-callback-phone w-full rounded-2xl border border-[#d4e3f0] bg-[#f9fcff] px-4 py-3 text-[1rem] text-[#0f2749] outline-none transition placeholder:text-[#87a4c3] focus:border-[#2fbdef] focus:bg-white"
+                    class="js-callback-phone w-full rounded-2xl border border-[#d4e3f0] bg-[#f9fcff] px-4 py-3 text-[1rem] text-[#0f2749] outline-none transition placeholder:text-[#0a293c] focus:border-[#1977b2] focus:bg-white"
                     required
                 >
             </div>
@@ -148,14 +148,14 @@ function bioinmed_render_callback_form(array $options = []) {
                     type="checkbox"
                     name="consent"
                     value="1"
-                    class="js-callback-consent mt-0.5 h-4 w-4 shrink-0 rounded border-[#b8d2e7] text-[#2fbdef] focus:ring-[#2fbdef]"
+                    class="js-callback-consent mt-0.5 h-4 w-4 shrink-0 rounded border-[#b8d2e7] text-[#1977b2] focus:ring-[#1977b2]"
                     required
                 >
                 <span>
                     Я соглашаюсь с условиями
-                    <a href="/privacy" class="font-semibold text-[#2a5a94] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#2fbdef]">Политики конфиденциальности</a>
+                    <a href="/privacy" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">Политики конфиденциальности</a>
                     и
-                    <a href="/user-agreement" class="font-semibold text-[#2a5a94] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#2fbdef]">Пользовательского соглашения</a>.
+                    <a href="/user-agreement" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">Пользовательского соглашения</a>.
                 </span>
             </label>
             <button type="submit" class="js-callback-submit {$escape($button_class)}">{$escape($submit_label)}</button>
@@ -1059,7 +1059,7 @@ $doctors = [
                 'title' => 'Образование',
                 'icon' => 'fa-solid fa-graduation-cap',
                 'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#2fbdef]',
+                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
                 'intro' => 'Высококвалифицированный специалист с более чем 30-летним стажем. Имеет фундаментальное педиатрическое и терапевтическое образование, многолетний опыт работы в научной, клинической и управленческой сферах.',
                 'subsections' => [
                     [
@@ -1096,7 +1096,7 @@ $doctors = [
                 'title' => 'Опыт',
                 'icon' => 'fa-solid fa-briefcase-medical',
                 'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#2fbdef]',
+                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
                 'intro' => 'Клиническая практика и профессиональный путь по данным портфолио.',
                 'items' => [
                     '1985-1987 - Клиника детских болезней Первого ММИ им. И. М. Сеченова: отделение функциональной диагностики и кафедра патофизиологии.',
@@ -1116,7 +1116,7 @@ $doctors = [
                 'title' => 'Профилирование',
                 'icon' => 'fa-solid fa-bullseye',
                 'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#2fbdef]',
+                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
                 'items' => [
                     'Сочетает классическую медицину с современными методами интегративной и восстановительной медицины: вегето-резонансная диагностика, кинезиотестирование, биорезонансная терапия, гомеопатия, гомотоксикология, гомеопунктура, биопунктура, мезотерапия, карбокситерапия, озонотерапия, рефлексотерапия, психотерапия, авторские психогенетические методики, ольфактодиагностика, ольфактотерапия и ароматерапия.',
                     'Виртуозно владеет вегето-резонансным тестированием, что позволяет выявлять причины заболеваний на клеточном уровне.',
@@ -1131,7 +1131,7 @@ $doctors = [
                 'title' => 'Направления лечебной практики',
                 'icon' => 'fa-solid fa-list-check',
                 'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#2fbdef]',
+                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
                 'subsections' => [
                     [
                         'title' => '1. Заболевания нервной системы и опорно-двигательного аппарата',
@@ -1364,7 +1364,7 @@ $doctors = [
                 'title' => 'Структура приёма',
                 'icon' => 'fa-solid fa-clipboard-list',
                 'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#2fbdef]',
+                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
                 'intro' => 'Длительность приёма: 60-120 минут (в зависимости от клинической задачи и наполнения визита).',
                 'subsections' => [
                     [

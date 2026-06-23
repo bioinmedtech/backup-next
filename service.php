@@ -157,7 +157,7 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
     <meta name="description" content="<?php echo $pageDesc; ?>">
     <meta name="robots" content="<?php echo $robotsContent; ?>">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
-    <meta name="theme-color" content="#2fbdef">
+    <meta name="theme-color" content="#1977b2">
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDesc, $canonicalUrl, [
         'type' => 'article',
         'image' => $socialImageUrl,
@@ -230,7 +230,7 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
         .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
         .prose-service p { margin-bottom: .95rem; line-height: 1.78; }
-        .service-gallery-thumb.is-active { border-color: #2fbdef; box-shadow: 0 0 0 3px rgba(47, 189, 239, 0.16); }
+        .service-gallery-thumb.is-active { border-color: #1977b2; box-shadow: 0 0 0 3px rgba(36, 140, 255, 0.16); }
         .service-main-image-frame { overflow: hidden; }
         .service-main-image-live {
             transform: scale(1.08);
@@ -263,13 +263,13 @@ echo $header->render();
 <main class="mx-auto max-w-4xl grow px-6 py-20 md:px-10">
     <div class="rounded-3xl border border-[#dbe8f3] bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
         <i class="fa-solid fa-triangle-exclamation mb-4 text-5xl text-[#b0c8e0]"></i>
-        <h1 class="text-3xl font-bold text-[#0f3463]">Услуга не найдена</h1>
-        <p class="mt-3 text-[#355b89]">Проверьте ссылку или перейдите к прайс-листу.</p>
+        <h1 class="text-3xl font-bold text-[#0a293c]">Услуга не найдена</h1>
+        <p class="mt-3 text-[#0a293c]">Проверьте ссылку или перейдите к прайс-листу.</p>
         <div class="mt-7 flex flex-wrap justify-center gap-3">
-            <a href="/prices" class="inline-flex items-center gap-2 rounded-full bg-[#2fbdef] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1fb3d8]">
+            <a href="/prices" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-6 py-3 text-sm font-semibold text-white hover:bg-[#16658f]">
                 <i class="fa-solid fa-list"></i> Прайс-лист
             </a>
-            <a href="/" class="inline-flex items-center gap-2 rounded-full border border-[#c4daed] bg-white px-6 py-3 text-sm font-semibold text-[#2a5a94] hover:bg-[#ecf5ff]">
+            <a href="/" class="inline-flex items-center gap-2 rounded-full border border-[#c4daed] bg-white px-6 py-3 text-sm font-semibold text-[#0a293c] hover:bg-[#ecf5ff]">
                 <i class="fa-solid fa-house"></i> На главную
             </a>
         </div>
@@ -285,21 +285,21 @@ echo $header->render();
 
             <!-- breadcrumb -->
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
-                <a href="/" class="hover:text-[#2fbdef]">Главная</a>
+                <a href="/" class="hover:text-[#1977b2]">Главная</a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <a href="/services" class="hover:text-[#2fbdef]">Услуги</a>
+                <a href="/services" class="hover:text-[#1977b2]">Услуги</a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
                 <span class="text-[#0f2749]"><?php echo e($service['name']); ?></span>
             </nav>
 
             <div class="fade-up">
-                    <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0f3463] md:text-3xl lg:text-4xl"><?php echo e($service['name']); ?></h1>
+                    <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0a293c] md:text-3xl lg:text-4xl"><?php echo e($service['name']); ?></h1>
                     <?php if (!empty($service['subtitle'])): ?>
-                    <p class="mt-2 text-lg font-semibold text-[#2a5a94]"><?php echo e($service['subtitle']); ?></p>
+                    <p class="mt-2 text-lg font-semibold text-[#0a293c]"><?php echo e($service['subtitle']); ?></p>
                     <?php endif; ?>
 
                     <?php if (!empty($service['description'])): ?>
-                    <p class="mt-4 max-w-2xl text-base leading-relaxed text-[#355b89] md:text-[1.02rem]">
+                    <p class="mt-4 max-w-2xl text-base leading-relaxed text-[#0a293c] md:text-[1.02rem]">
                         <?php echo e($service['description']); ?>
                     </p>
                     <?php endif; ?>
@@ -313,31 +313,31 @@ echo $header->render();
 
                 <!-- Как проходит приём и лечение -->
                 <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7 shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0f3463]">
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#2fbdef]">
+                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                             <i class="fa-solid fa-circle-play text-sm"></i>
                         </span>
                         Как проходит приём и лечение
                     </h2>
                     <?php if (!empty($service['details'])): ?>
-                    <p class="mt-4 text-sm leading-relaxed text-[#355b89]"><?php echo e($service['details']); ?></p>
+                    <p class="mt-4 text-sm leading-relaxed text-[#0a293c]"><?php echo e($service['details']); ?></p>
                     <?php endif; ?>
                     <ol class="mt-5 space-y-3">
                         <li class="flex items-start gap-3">
-                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#2fbdef] text-xs font-bold text-white">1</span>
-                            <span class="text-sm text-[#214a7f] mt-0.5">Первичная консультация — врач собирает анамнез и оценивает состояние</span>
+                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">1</span>
+                            <span class="text-sm text-[#0a293c] mt-0.5">Первичная консультация — врач собирает анамнез и оценивает состояние</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#2fbdef] text-xs font-bold text-white">2</span>
-                            <span class="text-sm text-[#214a7f] mt-0.5">Диагностика — функциональная оценка, при необходимости инструментальная</span>
+                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">2</span>
+                            <span class="text-sm text-[#0a293c] mt-0.5">Диагностика — функциональная оценка, при необходимости инструментальная</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#2fbdef] text-xs font-bold text-white">3</span>
-                            <span class="text-sm text-[#214a7f] mt-0.5">Составление персонального плана лечения с конкретными целями</span>
+                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">3</span>
+                            <span class="text-sm text-[#0a293c] mt-0.5">Составление персонального плана лечения с конкретными целями</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#2fbdef] text-xs font-bold text-white">4</span>
-                            <span class="text-sm text-[#214a7f] mt-0.5">Проведение курса — с контролем динамики и корректировкой плана</span>
+                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">4</span>
+                            <span class="text-sm text-[#0a293c] mt-0.5">Проведение курса — с контролем динамики и корректировкой плана</span>
                         </li>
                     </ol>
                 </div>
@@ -345,15 +345,15 @@ echo $header->render();
                 <!-- Who it's for -->
                 <?php if (!empty($service['target'])): ?>
                 <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7 shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0f3463]">
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#2fbdef]">
+                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                             <i class="fa-solid fa-users text-sm"></i>
                         </span>
                         Кому показана услуга
                     </h2>
-                    <p class="mt-4 text-sm leading-relaxed text-[#355b89]"><?php echo e($service['target']); ?></p>
-                    <div class="mt-4 rounded-xl bg-[#f4f9ff] border border-[#dce8f5] p-4 text-sm text-[#214a7f]">
-                        <i class="fa-solid fa-circle-info text-[#2fbdef] mr-2"></i>
+                    <p class="mt-4 text-sm leading-relaxed text-[#0a293c]"><?php echo e($service['target']); ?></p>
+                    <div class="mt-4 rounded-xl bg-[#f4f9ff] border border-[#dce8f5] p-4 text-sm text-[#0a293c]">
+                        <i class="fa-solid fa-circle-info text-[#1977b2] mr-2"></i>
                         Точные показания определяет врач на первичной консультации. Запишитесь — первый приём займёт 60–90 минут.
                     </div>
                 </div>
@@ -361,38 +361,38 @@ echo $header->render();
 
                 <!-- Why BIOINMED -->
                 <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-[#f4f9ff] p-7">
-                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0f3463]">
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#dceefb] text-[#2fbdef]">
+                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#dceefb] text-[#1977b2]">
                             <i class="fa-solid fa-award text-sm"></i>
                         </span>
                         Почему БИОИНМЕД
                     </h2>
                     <ul class="mt-5 grid gap-3 sm:grid-cols-2">
-                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#214a7f]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Лечим причину боли, а не маскируем симптомы
+                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Лечим причину боли, а не маскируем симптомы
                         </li>
-                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#214a7f]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Объясняем диагноз и план простым понятным языком
+                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Объясняем диагноз и план простым понятным языком
                         </li>
-                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#214a7f]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Собираем персональный маршрут из методов, которые реально сочетаются
+                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Собираем персональный маршрут из методов, которые реально сочетаются
                         </li>
-                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#214a7f]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Контролируем динамику на каждом этапе и корректируем курс
+                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Контролируем динамику на каждом этапе и корректируем курс
                         </li>
-                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#214a7f]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Врачи с 20-30-летним опытом и клиника с лицензией МЗ РФ
+                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Врачи с 20-30-летним опытом и клиника с лицензией МЗ РФ
                         </li>
-                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#214a7f]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#2fbdef]"></i>Прозрачные цены и быстрый контакт с клиникой без ожидания
+                        <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Прозрачные цены и быстрый контакт с клиникой без ожидания
                         </li>
                     </ul>
                 </div>
 
                 <!-- FAQ mini -->
                 <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7 shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0f3463]">
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#2fbdef]">
+                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                             <i class="fa-solid fa-circle-question text-sm"></i>
                         </span>
                         Часто задаваемые вопросы
@@ -402,11 +402,11 @@ echo $header->render();
                         foreach ($faqs_on_page as $i => $faq):
                         ?>
                         <details class="group rounded-xl border border-[#e4edf6] bg-[#f8fbff]">
-                            <summary class="flex cursor-pointer items-center justify-between gap-3 px-5 py-4 text-sm font-semibold text-[#0f3463] marker:hidden list-none">
+                            <summary class="flex cursor-pointer items-center justify-between gap-3 px-5 py-4 text-sm font-semibold text-[#0a293c] marker:hidden list-none">
                                 <?php echo e($faq['q']); ?>
-                                <i class="fa-solid fa-chevron-down text-[#2fbdef] text-xs transition-transform group-open:rotate-180 shrink-0"></i>
+                                <i class="fa-solid fa-chevron-down text-[#1977b2] text-xs transition-transform group-open:rotate-180 shrink-0"></i>
                             </summary>
-                            <p class="px-5 pb-4 text-sm leading-relaxed text-[#355b89]"><?php echo e($faq['a']); ?></p>
+                            <p class="px-5 pb-4 text-sm leading-relaxed text-[#0a293c]"><?php echo e($faq['a']); ?></p>
                         </details>
                         <?php endforeach; ?>
                     </div>
@@ -415,18 +415,18 @@ echo $header->render();
                 <!-- Related services -->
                 <?php if (!empty($related)): ?>
                 <div class="fade-up">
-                    <h2 class="text-xl font-bold text-[#0f3463]">Другие услуги клиники</h2>
+                    <h2 class="text-xl font-bold text-[#0a293c]">Другие услуги клиники</h2>
                     <div class="mt-4 grid gap-4 sm:grid-cols-2">
                         <?php foreach (array_slice($related, 0, 4) as $rel): ?>
                         <a href="/services/<?php echo e($rel['id']); ?>"
-                           class="flex flex-col justify-between rounded-2xl border border-[#dce8f5] bg-white p-5 hover:border-[#2fbdef] hover:shadow-md transition-all">
+                           class="flex flex-col justify-between rounded-2xl border border-[#dce8f5] bg-white p-5 hover:border-[#1977b2] hover:shadow-md transition-all">
                             <div>
-                                <p class="text-sm font-semibold leading-snug text-[#0f3463]"><?php echo e($rel['name']); ?></p>
+                                <p class="text-sm font-semibold leading-snug text-[#0a293c]"><?php echo e($rel['name']); ?></p>
                                 <p class="mt-1 text-xs text-[#5a7fa3]"><?php echo e($rel['description'] ?? ''); ?></p>
                             </div>
                             <div class="mt-4 flex items-center justify-between">
-                                <span class="text-sm font-bold text-[#2fbdef]"><?php echo e($rel['price'] ?? ''); ?></span>
-                                <span class="text-xs font-semibold text-[#2fbdef]">Подробнее <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></span>
+                                <span class="text-sm font-bold text-[#1977b2]"><?php echo e($rel['price'] ?? ''); ?></span>
+                                <span class="text-xs font-semibold text-[#1977b2]">Подробнее <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></span>
                             </div>
                         </a>
                         <?php endforeach; ?>
@@ -449,14 +449,14 @@ echo $header->render();
                                     id="service-image-zoom"
                                     class="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/88 text-[#1b5c99] shadow-[0_10px_24px_rgba(8,36,70,0.12)] transition hover:bg-white"
                                     aria-label="Увеличить изображение">
-                                <i class="fa-solid fa-magnifying-glass-plus text-[#2fbdef]"></i>
+                                <i class="fa-solid fa-magnifying-glass-plus text-[#1977b2]"></i>
                             </button>
                         </div>
                         <?php if (!empty($serviceGallery)): ?>
                         <div class="grid grid-cols-4 gap-2 border-t border-[#e7eef6] bg-[#f8fbff] p-3">
                             <?php foreach ($serviceGallery as $galleryIndex => $galleryImage): ?>
                             <button type="button"
-                                    class="service-gallery-thumb <?php echo $galleryIndex === 0 ? 'is-active' : ''; ?> overflow-hidden rounded-2xl border border-[#dfe7f1] bg-white aspect-[4/3] transition hover:border-[#2fbdef]"
+                                    class="service-gallery-thumb <?php echo $galleryIndex === 0 ? 'is-active' : ''; ?> overflow-hidden rounded-2xl border border-[#dfe7f1] bg-white aspect-[4/3] transition hover:border-[#1977b2]"
                                     data-image-src="<?php echo e($galleryImage); ?>"
                                     data-image-alt="<?php echo e($service['name']); ?>">
                                 <img src="<?php echo e($galleryImage); ?>"
@@ -474,48 +474,48 @@ echo $header->render();
                         <div class="flex items-end gap-2 border-b border-[#eaf1f8] pb-5">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]">Стоимость</p>
-                                <p class="mt-1 text-3xl font-bold text-[#0f3463]"><?php echo e($service['price'] ?? 'По запросу'); ?></p>
+                                <p class="mt-1 text-3xl font-bold text-[#0a293c]"><?php echo e($service['price'] ?? 'По запросу'); ?></p>
                                 <?php if (!empty($service['price_note'])): ?>
                                 <p class="mt-0.5 text-sm text-[#5a7fa3]"><?php echo e($service['price_note']); ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
 
-                        <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#2a5a94]">Записаться на приём</p>
-                        <p class="mt-1 text-sm text-[#355b89]">Перезвоним в течение 15 минут.</p>
+                        <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Записаться на приём</p>
+                        <p class="mt-1 text-sm text-[#0a293c]">Перезвоним в течение 15 минут.</p>
 
                         <div class="mt-4">
                             <?php echo bioinmed_render_callback_form([
                                 'source_label' => ($service['name'] ?? 'Услуга') . ' — сайдбар',
                                 'submit_label' => 'Перезвоните мне',
-                                'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                                'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                             ]); ?>
                         </div>
 
                         <div class="my-4 flex items-center gap-3">
                             <div class="h-px grow bg-[#e2ecf5]"></div>
-                            <span class="text-xs text-[#9ab8d4]">или позвоните</span>
+                            <span class="text-xs text-[#0a293c]">или позвоните</span>
                             <div class="h-px grow bg-[#e2ecf5]"></div>
                         </div>
                         <a href="tel:<?php echo $phone1link; ?>"
-                           class="flex items-center justify-center gap-2 rounded-full border-2 border-[#2fbdef] px-5 py-2.5 text-sm font-bold text-[#2fbdef] hover:bg-[#f0f8ff]">
+                           class="flex items-center justify-center gap-2 rounded-full border-2 border-[#1977b2] px-5 py-2.5 text-sm font-bold text-[#1977b2] hover:bg-[#f0f8ff]">
                             <i class="fa-solid fa-phone-volume"></i> <?php echo e($phone1); ?>
                         </a>
                     </div>
 
                     <div class="rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
                         <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]">Как подготовиться к визиту</p>
-                        <ul class="mt-3 space-y-2.5 text-sm text-[#214a7f]">
+                        <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]">
                             <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-file-medical mt-0.5 shrink-0 text-[#2fbdef]"></i>
+                                <i class="fa-solid fa-file-medical mt-0.5 shrink-0 text-[#1977b2]"></i>
                                 <span>Возьмите результаты анализов и исследований, если они есть.</span>
                             </li>
                             <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-clock mt-0.5 shrink-0 text-[#2fbdef]"></i>
+                                <i class="fa-solid fa-clock mt-0.5 shrink-0 text-[#1977b2]"></i>
                                 <span>Первичный приём обычно занимает 60-90 минут.</span>
                             </li>
                             <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-list-check mt-0.5 shrink-0 text-[#2fbdef]"></i>
+                                <i class="fa-solid fa-list-check mt-0.5 shrink-0 text-[#1977b2]"></i>
                                 <span>По итогам вы получите понятный персональный план лечения.</span>
                             </li>
                         </ul>
@@ -523,19 +523,19 @@ echo $header->render();
                                     'source_label' => ($service['name'] ?? 'Услуга') . ' — блок преимуществ',
                                     'submit_label' => 'Оставить заявку',
                                     'form_class' => 'mt-4',
-                                    'button_class' => 'mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#2fbdef] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                                    'button_class' => 'mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#1977b2] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                                 ]); ?>
                     </div>
 
                     <div class="rounded-3xl border border-[#d9e7f3] bg-[#f4f9ff] p-5">
                         <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]">Клиника БИОИНМЕД</p>
-                        <ul class="mt-3 space-y-2.5 text-sm text-[#214a7f]">
+                        <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]">
                             <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-location-dot mt-0.5 shrink-0 text-[#2fbdef]"></i>
+                                <i class="fa-solid fa-location-dot mt-0.5 shrink-0 text-[#1977b2]"></i>
                                 <span><?php echo e(CLINIC_ADDRESS); ?>, <?php echo e(CLINIC_METRO); ?></span>
                             </li>
                             <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-clock mt-0.5 shrink-0 text-[#2fbdef]"></i>
+                                <i class="fa-solid fa-clock mt-0.5 shrink-0 text-[#1977b2]"></i>
                                 <span><?php echo e(CLINIC_HOURS); ?></span>
                             </li>
                         </ul>
@@ -548,23 +548,23 @@ echo $header->render();
     <!-- ===== FINAL CTA STRIP ===== -->
     <section class="border-y border-[#e4edf6] bg-[linear-gradient(90deg,#ecf6ff_0%,#f7fbff_100%)] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#2a5a94]">Клиника БИОИНМЕД · <?php echo e(CLINIC_ADDRESS); ?></p>
-            <h2 class="mt-3 text-xl font-bold text-[#0f3463] md:text-2xl">Жизнь без боли начинается с первого шага</h2>
-            <p class="mx-auto mt-3 max-w-xl text-sm text-[#355b89]">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника БИОИНМЕД · <?php echo e(CLINIC_ADDRESS); ?></p>
+            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl">Жизнь без боли начинается с первого шага</h2>
+            <p class="mx-auto mt-3 max-w-xl text-sm text-[#0a293c]">
                 Запишитесь на консультацию, чтобы понять причину симптомов и получить персональный план восстановления без лишних назначений.
             </p>
             <div class="mx-auto mt-6 max-w-md">
                 <?php echo bioinmed_render_callback_form([
                     'source_label' => ($service['name'] ?? 'Услуга') . ' — финальная CTA',
                     'submit_label' => 'Записаться на приём',
-                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#2fbdef] px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#1fb3d8] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
+                    'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                 ]); ?>
             </div>
             <div class="mt-4 flex flex-wrap justify-center gap-3">
-                <a href="tel:<?php echo $phone1link; ?>" class="rounded-full border border-[#c9dcee] bg-white px-7 py-3 text-sm font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">
+                <a href="tel:<?php echo $phone1link; ?>" class="rounded-full border border-[#c9dcee] bg-white px-7 py-3 text-sm font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">
                     <i class="fa-solid fa-phone mr-1.5"></i><?php echo e($phone1); ?>
                 </a>
-                <a href="/prices" class="rounded-full border border-[#c9dcee] bg-white px-7 py-3 text-sm font-semibold text-[#2a5a94] hover:border-[#2fbdef] hover:text-[#2fbdef]">
+                <a href="/prices" class="rounded-full border border-[#c9dcee] bg-white px-7 py-3 text-sm font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">
                     <i class="fa-solid fa-list mr-1.5"></i>Все услуги и цены
                 </a>
             </div>

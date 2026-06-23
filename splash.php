@@ -60,7 +60,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
     <link rel="icon" href="/public/images/brand/bioinmed-icon.png" type="image/png">
     <link rel="shortcut icon" href="/public/images/brand/bioinmed-icon.png" type="image/png">
     <link rel="apple-touch-icon" href="/public/images/brand/bioinmed-icon.png">
-    <meta name="theme-color" content="#2fbdef">
+    <meta name="theme-color" content="#1977b2">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -68,8 +68,8 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
         :root {
             --background: #f3f8fd;
             --foreground: #0f2749;
-            --secondary: #355b89;
-            --accent: #2fbdef;
+            --secondary: #0a293c;
+            --accent: #1977b2;
         }
 
         html {
@@ -270,7 +270,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
             font-size: 0.98rem;
             font-weight: 600;
             color: white;
-            background: linear-gradient(135deg, #2fbdef 0%, #0fa3c8 100%);
+            background: linear-gradient(135deg, #1977b2 0%, #16658f 100%);
             border: none;
             border-radius: 14px;
             cursor: pointer;

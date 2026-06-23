@@ -28,7 +28,7 @@ function e($value) {
     <meta name="description" content="<?php echo e($pageDescription); ?>">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
-    <meta name="theme-color" content="#2fbdef">
+    <meta name="theme-color" content="#248CFF">
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
         'image' => $socialImageUrl,
     ]); ?>

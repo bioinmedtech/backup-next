@@ -28,7 +28,7 @@ function e($value) {
     <meta name="description" content="<?php echo e($pageDescription); ?>">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
-    <meta name="theme-color" content="#2fbdef">
+    <meta name="theme-color" content="#1977b2">
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
         'image' => $socialImageUrl,
     ]); ?>
@@ -48,19 +48,19 @@ echo $header->render();
 <main class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
     <section class="pb-8">
         <div class="max-w-4xl">
-            <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#2a5a94]">Правовая информация</p>
+            <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Правовая информация</p>
             <h1 class="mt-2 text-[1.8rem] font-bold leading-tight text-[#0f2749] md:text-[2.6rem]">Пользовательское соглашение</h1>
-            <p class="mt-4 text-[0.98rem] leading-relaxed text-[#355b89]">
+            <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c]">
                 Настоящее соглашение регулирует использование сайта клиники <?php echo e(CLINIC_NAME); ?>, размещённых на нём материалов,
                 форм обратной связи, сервиса записи на приём и иных пользовательских сценариев взаимодействия с сайтом.
             </p>
             <div class="mt-4 flex flex-col gap-1 text-[0.82rem] text-[#5a7fa3] sm:flex-row sm:flex-wrap sm:gap-4">
-                <p><span class="font-semibold text-[#2a5a94]">Дата вступления в силу:</span> 30.04.2026</p>
-                <p><span class="font-semibold text-[#2a5a94]">Дата последнего изменения:</span> 30.04.2026</p>
+                <p><span class="font-semibold text-[#0a293c]">Дата вступления в силу:</span> 30.04.2026</p>
+                <p><span class="font-semibold text-[#0a293c]">Дата последнего изменения:</span> 30.04.2026</p>
             </div>
         </div>
 
-        <div class="mt-8 max-w-4xl space-y-8 text-[0.98rem] leading-relaxed text-[#355b89]">
+        <div class="mt-8 max-w-4xl space-y-8 text-[0.98rem] leading-relaxed text-[#0a293c]">
             <section class="border-b border-[#e2ecf5] pb-6">
                 <h2 class="text-[1.16rem] font-bold text-[#0f2749]">1. Общие положения</h2>
                 <p class="mt-3">Используя сайт, пользователь подтверждает, что ознакомился с настоящим соглашением и принимает его условия в полном объёме. Если пользователь не согласен с условиями, он должен прекратить использование сайта.</p>

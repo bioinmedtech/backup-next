@@ -53,7 +53,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     <meta name="description" content="<?php echo htmlspecialchars($pageDescription, ENT_QUOTES, 'UTF-8'); ?>">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
     <link rel="canonical" href="<?php echo $canonicalUrl; ?>">
-    <meta name="theme-color" content="#2fbdef">
+    <meta name="theme-color" content="#1977b2">
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, [
         'image' => $socialImageUrl,
     ]); ?>
@@ -119,12 +119,12 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
         }
 
         ::selection {
-            background: rgba(47, 189, 239, 0.3);
-            color: #2fbdef;
+            background: rgba(36, 140, 255, 0.3);
+            color: #1977b2;
         }
 
         input:focus, textarea:focus {
-            box-shadow: 0 0 0 3px rgba(47, 189, 239, 0.1);
+            box-shadow: 0 0 0 3px rgba(36, 140, 255, 0.1);
         }
 
 
@@ -184,7 +184,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
             <div class="rounded-[2rem] border border-[#dbe8f4] bg-white p-6 shadow-[0_16px_40px_rgba(8,36,70,0.07)] md:p-8">
                 <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                     <div>
-                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#2fbdef]">Ваш маршрут здоровья</p>
+                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">Ваш маршрут здоровья</p>
                         <h2 class="mt-2 text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Понятный путь от первого обращения до результата</h2>
                     </div>
                     <p class="max-w-2xl text-[0.92rem] leading-relaxed text-[#4f759c]">Маршрут построен так, чтобы пациент видел всю логику лечения целиком: от первого обращения до устойчивого результата.</p>
@@ -193,7 +193,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                 <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-user-doctor text-[1rem]"></i></span>
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-user-doctor text-[1rem]"></i></span>
                             <div>
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Консультация</p>
                             </div>
@@ -202,7 +202,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-magnifying-glass-chart text-[1rem]"></i></span>
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-magnifying-glass-chart text-[1rem]"></i></span>
                             <div>
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Диагностика</p>
                             </div>
@@ -211,7 +211,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-heart-pulse text-[1rem]"></i></span>
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-heart-pulse text-[1rem]"></i></span>
                             <div>
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Лечение</p>
                             </div>
@@ -220,7 +220,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-kit-medical text-[1rem]"></i></span>
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-kit-medical text-[1rem]"></i></span>
                             <div>
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Восстановление</p>
                             </div>
@@ -229,7 +229,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#2fbdef]"><i class="fa-solid fa-person-walking text-[1rem]"></i></span>
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-person-walking text-[1rem]"></i></span>
                             <div>
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Лечебная физическая активность</p>
                             </div>
