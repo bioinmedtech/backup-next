@@ -152,7 +152,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         html {
-            font-size: clamp(16px, 0.4vw + 14px, 18px);
+            font-size: clamp(17px, 0.5vw + 15px, 19px);
         }
 
         body {
@@ -218,7 +218,7 @@ echo $header->render();
     </section>
 
     <?php if (!empty($servicesByCategory)): ?>
-        <section class="mt-5 rounded-2xl border border-[#dce8f5] bg-white p-3.5 md:p-4">
+        <section class="mt-5 rounded-2xl border border-[#dce8f5] bg-[#f4fbff] p-3.5 md:p-4">
             <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Быстрый переход по направлениям</p>
             <div class="flex flex-wrap gap-2">
                 <?php foreach ($servicesByCategory as $categoryKey => $categoryItems): ?>
@@ -226,7 +226,7 @@ echo $header->render();
                     $categoryTitle = $categoryLabels[$categoryKey] ?? ucfirst(str_replace(['_', '-'], ' ', $categoryKey));
                     $count = count($categoryItems);
                     ?>
-                    <a href="#cat-<?php echo e($categoryKey); ?>" class="inline-flex items-center gap-2 rounded-full border border-[#cfe0ef] bg-[#f8fcff] px-3 py-1.5 text-[0.8rem] font-semibold text-[#0a293c] transition hover:border-[#8bb7dc] hover:text-[#1977b2]">
+                    <a href="#cat-<?php echo e($categoryKey); ?>" class="inline-flex items-center gap-2 rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-[0.8rem] font-semibold text-[#0a293c] transition hover:border-[#8bb7dc] hover:text-[#1977b2]">
                         <span><?php echo e($categoryTitle); ?></span>
                         <span class="rounded-full bg-white px-1.5 py-0.5 text-[0.72rem] text-[#1977b2]"><?php echo intval($count); ?></span>
                     </a>
@@ -240,7 +240,7 @@ echo $header->render();
                 $categoryTitle = $categoryLabels[$categoryKey] ?? ucfirst(str_replace(['_', '-'], ' ', $categoryKey));
                 $categoryIcon = $categoryIcons[$categoryKey] ?? 'fa-stethoscope';
                 ?>
-                <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor rounded-2xl border border-[#dce8f5] bg-white p-4 shadow-[0_6px_16px_rgba(10,43,80,0.05)] md:p-5">
+                <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor rounded-2xl border border-[#dce8f5] bg-[#f4fbff] p-4 shadow-[0_6px_16px_rgba(10,43,80,0.05)] md:p-5">
                     <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3">
                         <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e8f4fd] text-[#1977b2]">
                             <i class="fa-solid <?php echo e($categoryIcon); ?> text-[0.82rem]" aria-hidden="true"></i>
@@ -284,7 +284,7 @@ echo $header->render();
             <?php endforeach; ?>
         </div>
     <?php else: ?>
-        <section class="mt-6 rounded-2xl border border-[#dce8f5] bg-white p-6 text-center">
+        <section class="mt-6 rounded-2xl border border-[#dce8f5] bg-[#f4fbff] p-6 text-center">
             <h2 class="text-[1.15rem] font-bold text-[#0f2749]">Раздел услуг временно недоступен</h2>
             <p class="mt-2 text-[0.9rem] text-[#0a293c]">Пожалуйста, обновите страницу позже или перейдите в прайс-лист.</p>
             <a href="/prices" class="mt-4 inline-flex items-center rounded-lg bg-[#1977b2] px-4 py-2 text-[0.82rem] font-semibold text-white hover:bg-[#16658f]">Перейти к ценам</a>

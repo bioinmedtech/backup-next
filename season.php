@@ -213,7 +213,7 @@ $footer = new Footer();
             padding: 2rem 0;
         }
         .season-nav-dot.active {
-            background: white;
+            background: #f4fbff;
             width: 2rem;
         }
         .season-gallery-shell {
@@ -555,7 +555,7 @@ $footer = new Footer();
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="bg-white antialiased">
+<body class="bg-[#f4fbff] antialiased">
 <?= $header->render() ?>
 
 <!-- ═══════════════ HERO ═══════════════ -->
@@ -640,7 +640,7 @@ $footer = new Footer();
 </section>
 
 <!-- ═══════════════ SEASONAL TIPS ═══════════════ -->
-<section class="py-14 md:py-20 bg-white">
+<section class="py-14 md:py-20 bg-[#f4fbff]">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#0a293c] mb-7 text-center">
             <?= $e($titles['tips']) ?>

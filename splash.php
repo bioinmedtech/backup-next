@@ -73,7 +73,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
         }
 
         html {
-            font-size: clamp(16px, 0.4vw + 14px, 18px);
+            font-size: clamp(17px, 0.5vw + 15px, 19px);
         }
         
         * {
@@ -157,7 +157,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
         }
 
         .form-card {
-            background: white;
+            background: #f4fbff;
             border-radius: 24px;
             padding: 40px 36px;
             width: 100%;
@@ -257,7 +257,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 4px rgba(47, 187, 239, 0.15);
-            background-color: white;
+            background-color: #f4fbff;
         }
 
         .pin-input::placeholder {

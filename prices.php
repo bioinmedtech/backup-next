@@ -93,7 +93,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         html {
-            font-size: clamp(16px, 0.4vw + 14px, 18px);
+            font-size: clamp(17px, 0.5vw + 15px, 19px);
         }
 
         body {

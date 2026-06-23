@@ -104,7 +104,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         html {
-            font-size: clamp(16px, 0.4vw + 14px, 18px);
+            font-size: clamp(17px, 0.5vw + 15px, 19px);
         }
 
         body {
@@ -125,7 +125,7 @@ echo $header->render();
 <main class="grow">
 
     <!-- HERO -->
-    <section class="border-b border-[#e4edf6] bg-white">
+    <section class="border-b border-[#e4edf6] bg-[#f4fbff]">
         <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
                 <a href="/" class="hover:text-[#1977b2]">Главная</a>

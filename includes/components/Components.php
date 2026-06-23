@@ -274,7 +274,7 @@ class Header extends Component {
         return <<<HTML
         <style>
             html {
-                font-size: clamp(16px, 0.4vw + 14px, 18px);
+                font-size: clamp(17px, 0.5vw + 15px, 19px);
             }
 
             body {
@@ -766,7 +766,7 @@ class HeroSection extends Component {
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
                 <div class="relative -top-2 flex w-full flex-col md:-top-3 lg:-top-5 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
                     <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
-                        <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-[#d6e4f0] bg-white/92 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c] shadow-[0_8px_18px_rgba(10,43,80,0.05)] transition hover:border-[#9fc7e6] hover:text-[#1f4f7f]">
+                        <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.1em] text-white shadow-[0_10px_24px_rgba(10,43,80,0.10)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(10,43,80,0.14)]" style="background:{$actual_season_color};">
                             <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
                             Сезон: {$actual_season_name}
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
@@ -774,10 +774,10 @@ class HeroSection extends Component {
                         <link rel="preconnect" href="https://fonts.googleapis.com">
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                         <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-                        <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.95rem,4.25vw,2.85rem);font-weight:700;">
+                        <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.95rem,4.25vw,2.85rem);font-weight:700;">
                             С нами выздоравливать легко!
                         </h1>
-                        <p class="mt-3 inline-flex w-fit items-center rounded-full border border-[#d7e6f3] bg-white/92 px-3.5 py-1.5 leading-none text-[#1f5b91] shadow-[0_8px_18px_rgba(10,43,80,0.05)]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
+                        <p class="mt-3 inline-flex w-fit items-center rounded-full border border-[#d7e6f3] bg-white/92 px-3.5 py-1.5 leading-none text-[#1977b2] shadow-[0_8px_18px_rgba(10,43,80,0.05)]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
                             Ваш Биоинмед
                         </p>
                         <p class="mt-3 max-w-2xl text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(0.98rem,1.9vw,1.08rem);font-weight:500;">
@@ -1134,7 +1134,7 @@ class StatsBlock extends Component {
         $license_desc = defined('CLINIC_LICENSE_DESC') ? $this->e(CLINIC_LICENSE_DESC) : 'ЛИЦЕНЗИЯ И АККРЕДИТАЦИЯ';
 
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-white py-5 md:py-6">
+        <section class="border-b border-[#e6eef7] bg-[#f4fbff] py-5 md:py-6">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <ul class="grid grid-cols-2 md:grid-cols-4 md:divide-x md:divide-[#e6eef7]">
                     <!-- Stat 1: Experience -->
@@ -1196,7 +1196,7 @@ class StatsBlock extends Component {
 class VisualGallery extends Component {
     public function render() {
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-white py-10 md:py-14">
+        <section class="border-b border-[#e6eef7] bg-[#f4fbff] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="grid gap-4 md:grid-cols-4">
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
@@ -1297,7 +1297,7 @@ class ProblemsGrid extends Component {
                     if (isset($services_map[$resolved_id])) {
                         $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">' . $this->e($solution_text) . '</a>';
                     } else {
-                        $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c]">' . $this->e($solution_text) . '</span>';
+                        $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c]">' . $this->e($solution_text) . '</span>';
                     }
                 }
             }
@@ -1327,7 +1327,7 @@ class ProblemsGrid extends Component {
                         continue;
                     }
 
-                    $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-[#f8fcff] px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c]">' . $this->e($solution_text) . '</span>';
+                    $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c]">' . $this->e($solution_text) . '</span>';
                 }
             }
 
@@ -1364,12 +1364,12 @@ class ProblemsGrid extends Component {
                         }
                     }
 
-                    $details_sections_html .= '<div class="rounded-lg border border-[#e2edf7] bg-white p-3">';
+                    $details_sections_html .= '<div class="rounded-lg border border-[#e2edf7] bg-[#f4fbff] p-3.5">';
                     if ($section_title !== '') {
-                        $details_sections_html .= '<h4 class="text-[0.84rem] font-semibold text-[#0f2749]">' . $this->e($section_title) . '</h4>';
+                        $details_sections_html .= '<h4 class="text-[0.92rem] font-semibold text-[#0f2749]">' . $this->e($section_title) . '</h4>';
                     }
                     if ($section_items_html !== '') {
-                        $details_sections_html .= '<ul class="mt-2 space-y-1.5 text-[0.82rem] leading-relaxed text-[#0a293c]">' . $section_items_html . '</ul>';
+                        $details_sections_html .= '<ul class="mt-2.5 space-y-1.5 text-[0.9rem] leading-relaxed text-[#0a293c]">' . $section_items_html . '</ul>';
                     }
                     $details_sections_html .= '</div>';
                 }
@@ -1382,15 +1382,15 @@ class ProblemsGrid extends Component {
                         <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#fde8e8] text-[#d94f4f]" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
                         </span>
-                        <h3 class="text-[1rem] font-semibold leading-tight text-[#0f2749]">{$this->e($problem['title'])}</h3>
+                        <h3 class="text-[1.08rem] font-semibold leading-tight text-[#0f2749] md:text-[1.15rem]">{$this->e($problem['title'])}</h3>
                     </div>
-                    <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#d4e5f2] bg-[#f3f9ff] text-[#0a293c] transition-transform group-open:rotate-180" aria-hidden="true">
+                    <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#d4e5f2] bg-white text-[#0a293c] transition-transform group-open:rotate-180" aria-hidden="true">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </span>
                 </summary>
                 <div class="px-4 pb-3.5 pt-0 md:px-6">
-                    <div class="rounded-xl bg-[#f5faff] p-3.5">
-                        <p class="text-[0.9rem] leading-relaxed text-[#0a293c]">{$this->e($problem['description'])}</p>
+                    <div class="rounded-xl bg-white p-3.5 md:p-4">
+                        <p class="text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">{$this->e($problem['description'])}</p>
                         <div class="mt-3 space-y-2">{$details_sections_html}</div>
                         <div class="mt-3 flex flex-wrap gap-1.5">{$solutions_html}</div>
                     </div>
@@ -1400,14 +1400,14 @@ class ProblemsGrid extends Component {
         }
 
         return <<<HTML
-        <section id="problems" class="border-b border-[#e6eef7] bg-white py-12 md:py-16">
+        <section id="problems" class="border-b border-[#e6eef7] bg-[#f4fbff] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('С какой проблемой обращаются', 'Найдите вашу ситуацию', 'Нажмите на свою проблему — покажем метод лечения, который применяем в клинике.')}
                 <div class="overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(10,43,80,0.07)]">
                     {$items_html}
                 </div>
                 <div class="mt-5 flex justify-start">
-                    <a href="/#contact" class="inline-flex items-center gap-1.5 rounded-full border border-[#c6ddf2] bg-white px-4 py-2 text-[0.86rem] font-semibold text-[#0a293c] hover:bg-[#ebf4ff]">
+                    <a href="/#contact" class="inline-flex items-center gap-1.5 rounded-full border border-[#c6ddf2] bg-white px-4 py-2 text-[0.92rem] font-semibold text-[#0a293c] hover:bg-[#ebf4ff]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
                         Не нашли свою ситуацию? Записаться на консультацию
                     </a>
@@ -1523,7 +1523,7 @@ class SpecialOffer extends Component {
             'submit_label' => 'Перезвоните мне',
         ]);
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-white py-10 md:py-12">
+        <section class="border-b border-[#e6eef7] bg-[#f4fbff] py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-[linear-gradient(110deg,#ecf6ff_0%,#f7fcff_60%,#eaf7f5_100%)] px-6 py-6 md:px-8 md:py-7">
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Специальное предложение для пациентов</p>
@@ -1606,7 +1606,7 @@ class DoctorsGrid extends Component {
             $card_action = $has_profile
                 ? '<a href="' . $doctor_link . '" class="mt-4 w-full rounded-full bg-[#1977b2] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#16658f]">Подробнее</a>'
                 : ($card_action_text !== ''
-                    ? '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-[#f5faff] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]">' . $this->e($card_action_text) . '</div>'
+                    ? '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-white py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]">' . $this->e($card_action_text) . '</div>'
                     : '');
             $cards_html .= <<<HTML
             <article class="min-w-[280px] max-w-[280px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[310px] sm:max-w-[310px] flex flex-col self-stretch">
@@ -1625,7 +1625,7 @@ class DoctorsGrid extends Component {
         }
 
         return <<<HTML
-        <section id="doctors" class="border-b border-[#e6eef7] bg-white py-12 md:py-16">
+        <section id="doctors" class="border-b border-[#e6eef7] bg-[#f4fbff] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('Наша команда', 'Профессиональная команда специалистов', 'Познакомьтесь с врачами команды и перейдите в карточку специалиста для подробной информации.')}
                 <div class="rounded-3xl border border-[#dce8f5] bg-[#f7fbff] p-4 sm:p-5">
@@ -1664,7 +1664,7 @@ class FAQBlock extends Component {
             <details class="group rounded-2xl border border-[#dce8f5] bg-white p-5 open:shadow-[0_10px_30px_rgba(7,35,68,0.08)]">
                 <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-semibold text-[#0a293c]">
                     <span>{$this->e($item['question'])}</span>
-                    <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#0a293c]">
+                    <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                         <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                     </span>
                 </summary>
@@ -1767,7 +1767,7 @@ class ServicesGrid extends Component {
         }
 
         return <<<HTML
-        <section id="services" class="border-b border-[#e6eef7] bg-white py-10 md:py-14">
+        <section id="services" class="border-b border-[#e6eef7] bg-[#f4fbff] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('Популярные услуги', 'Основные направления лечения', 'Выберите интересующее вас направление, чтобы узнать подробнее о методах, показаниях и ценах')}
                 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -1844,7 +1844,7 @@ class ContactSection extends Component {
             : '';
 
         return <<<HTML
-        <section id="contact" class="bg-gradient-to-b from-white to-[#f8fbff] py-10 md:py-14">
+        <section id="contact" class="bg-gradient-to-b from-[#f4fbff] to-[#f8fbff] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('Контакты', 'Адрес и связь с клиникой', 'Мы всегда на связи и готовы ответить на ваши вопросы')}
 
@@ -1959,7 +1959,7 @@ class ContactSection extends Component {
                         </div>
 
                         <!-- Оставить отзыв -->
-                        <div class="rounded-xl border border-[#dce8f5] bg-[#f8fcff] p-5">
+                        <div class="rounded-xl border border-[#dce8f5] bg-white p-5">
                             <h4 class="font-bold text-[#0f2749] mb-3">Оставить отзыв о центре</h4>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                 <a href="https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">

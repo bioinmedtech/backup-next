@@ -193,7 +193,7 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         html {
-            font-size: clamp(16px, 0.4vw + 14px, 18px);
+            font-size: clamp(17px, 0.5vw + 15px, 19px);
         }
 
         body {
@@ -519,12 +519,6 @@ echo $header->render();
                                 <span>По итогам вы получите понятный персональный план лечения.</span>
                             </li>
                         </ul>
-                                <?php echo bioinmed_render_callback_form([
-                                    'source_label' => ($service['name'] ?? 'Услуга') . ' — блок преимуществ',
-                                    'submit_label' => 'Оставить заявку',
-                                    'form_class' => 'mt-4',
-                                    'button_class' => 'mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#1977b2] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
-                                ]); ?>
                     </div>
 
                     <div class="rounded-3xl border border-[#d9e7f3] bg-[#f4f9ff] p-5">

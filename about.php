@@ -292,7 +292,7 @@ echo $header->render();
 		</article>
 	</section>
 
-	<section class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
+	<section class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
 		<div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
 			<div class="bg-[linear-gradient(145deg,#eff8ff_0%,#f9fcff_65%)] p-5 md:p-7">
 				<p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Записаться на прием</p>

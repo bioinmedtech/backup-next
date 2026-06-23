@@ -106,7 +106,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         html {
-            font-size: clamp(16px, 0.4vw + 14px, 18px);
+            font-size: clamp(17px, 0.5vw + 15px, 19px);
         }
 
         body {
@@ -140,7 +140,7 @@ echo $header->render();
 <main class="grow">
 
     <!-- ===== HERO ===== -->
-    <section class="bg-white border-b border-[#e4edf6]">
+    <section class="bg-[#f4fbff] border-b border-[#e4edf6]">
         <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
 
             <!-- breadcrumb -->
@@ -262,13 +262,13 @@ echo $header->render();
             <div class="space-y-6">
 
                 <?php if (!$hideStandardSections && !empty($doctor['specializations']) && is_array($doctor['specializations'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-list-check text-sm"></i></span>
                             <span>Направления деятельности</span>
                         </span>
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#0a293c]">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                         </span>
                     </summary>
@@ -286,20 +286,20 @@ echo $header->render();
                 <?php endif; ?>
 
                 <?php if (!$hideStandardSections && !empty($doctor['focus']) && is_array($doctor['focus'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="focus">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="focus">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-bullseye text-sm"></i></span>
                             <span>Профиль деятельности</span>
                         </span>
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#0a293c]">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                         </span>
                     </summary>
                     <div class="px-7 pb-7">
                         <ul class="grid gap-3 sm:grid-cols-2">
                             <?php foreach ($doctor['focus'] as $item): ?>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fcff] p-3 text-[0.96rem] leading-snug text-[#0a293c]">
+                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.96rem] leading-snug text-[#0a293c]">
                                 <i class="fa-solid fa-check mt-0.5 shrink-0 text-[#1977b2]"></i>
                                 <span><?php echo e($item); ?></span>
                             </li>
@@ -314,7 +314,7 @@ echo $header->render();
                     $sectionKey = trim((string)($section['key'] ?? ''));
                     $sectionTitle = trim((string)($section['title'] ?? ''));
                     $sectionIcon = trim((string)($section['icon'] ?? 'fa-solid fa-circle-info'));
-                    $sectionCardClasses = trim((string)($section['card_classes'] ?? 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]'));
+                    $sectionCardClasses = trim((string)($section['card_classes'] ?? 'rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]'));
                     $sectionIconBgClasses = trim((string)($section['icon_bg_classes'] ?? 'bg-[#e8f3fc] text-[#1977b2]'));
                     $sectionIntro = trim((string)($section['intro'] ?? ''));
                     $sectionText = trim((string)($section['text'] ?? ''));
@@ -330,7 +330,7 @@ echo $header->render();
                             <span class="flex h-9 w-9 items-center justify-center rounded-full <?php echo e($sectionIconBgClasses); ?>"><i class="<?php echo e($sectionIcon); ?> text-sm"></i></span>
                             <span><?php echo e($sectionTitle); ?></span>
                         </span>
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#0a293c]">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                         </span>
                     </summary>
@@ -363,7 +363,7 @@ echo $header->render();
                                     continue;
                                 }
                             ?>
-                            <div class="rounded-2xl border border-[#e4edf6] bg-[#f8fcff] p-4 md:p-5">
+                            <div class="rounded-2xl border border-[#e4edf6] bg-white p-4 md:p-5">
                                 <?php if ($subTitle !== ''): ?>
                                 <h3 class="text-[0.98rem] font-semibold text-[#0a293c] md:text-[1.03rem]"><?php echo e($subTitle); ?></h3>
                                 <?php endif; ?>
@@ -387,13 +387,13 @@ echo $header->render();
                 <?php endif; ?>
 
                 <?php if (!in_array('education', $customSectionKeys, true) && !empty($doctor['education'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="education">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="education">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-university text-sm"></i></span>
                             <span>Образование и квалификация</span>
                         </span>
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#0a293c]">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                         </span>
                     </summary>
@@ -404,13 +404,13 @@ echo $header->render();
                 <?php endif; ?>
 
                 <?php if (!in_array('trust', $customSectionKeys, true)): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="trust">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="trust">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-shield-halved text-sm"></i></span>
                             <span>Почему пациенты выбирают этого специалиста</span>
                         </span>
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-[#f3f9ff] text-[#0a293c]">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                         </span>
                     </summary>
@@ -556,7 +556,7 @@ echo $header->render();
     $doctorServices = array_values($doctorServices);
     ?>
     <?php if (!empty($doctorServices)): ?>
-    <section class="border-t border-[#e4edf6] bg-white py-12">
+    <section class="border-t border-[#e4edf6] bg-[#f4fbff] py-12">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Специалист клиники БИОИНМЕД</p>
             <h2 class="mt-2 text-xl font-bold text-[#0a293c] md:text-2xl">Релевантные услуги</h2>
@@ -565,7 +565,7 @@ echo $header->render();
             <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach ($doctorServices as $srv): ?>
                 <a href="/services/<?php echo e($srv['id']); ?>"
-                   class="fade-up group flex flex-col rounded-2xl border border-[#dce8f5] bg-[#f8fcff] p-5 transition hover:border-[#1977b2] hover:shadow-[0_6px_20px_rgba(25,119,178,0.12)]">
+                   class="fade-up group flex flex-col rounded-2xl border border-[#dce8f5] bg-white p-5 transition hover:border-[#1977b2] hover:shadow-[0_6px_20px_rgba(25,119,178,0.12)]">
                     <p class="text-sm font-semibold leading-snug text-[#0a293c] group-hover:text-[#1977b2]">
                         <?php echo e($srv['name']); ?>
                     </p>
