@@ -35,7 +35,7 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
     ]); ?>
     <?php echo bioinmed_render_favicon_links($iconPath); ?>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
     <style>
         .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }

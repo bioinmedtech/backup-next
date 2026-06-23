@@ -91,7 +91,7 @@ function e($value) {
 	]); ?>
 	<?php echo bioinmed_render_favicon_links($iconPath); ?>
 	<script src="https://cdn.tailwindcss.com"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
@@ -199,6 +199,7 @@ echo $header->render();
 			<p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
 				Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью
 			</p>
+			<p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
 		</div>
 		<article class="p-5 md:p-7">
 			<p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($chiefTitle); ?></p>

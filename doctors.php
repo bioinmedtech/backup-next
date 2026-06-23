@@ -127,7 +127,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
     <style>
         html {
             font-size: clamp(17px, 0.5vw + 15px, 19px);
@@ -204,7 +204,8 @@ echo $header->render();
                         <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
                             Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью
                         </p>
-                        <?php endif; ?>
+                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
+                    <?php endif; ?>
                     </div>
                 <div class="flex flex-col justify-between">
                     <div>

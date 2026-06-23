@@ -282,15 +282,15 @@ class Header extends Component {
             }
 
             .max-w-6xl {
-                max-width: 80rem;
+                max-width: 88rem;
             }
 
             .max-w-5xl {
-                max-width: 74rem;
+                max-width: 84rem;
             }
 
             .max-w-4xl {
-                max-width: 68rem;
+                max-width: 76rem;
             }
 
             * { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', sans-serif; }
@@ -315,9 +315,12 @@ class Header extends Component {
                 <!-- Row 2: address — always visible, critical -->
                 <div class="border-t border-[#e4eef7] bg-[#f0f7fd] px-4 py-2 text-[#0a293c]">
                     <div class="flex items-start justify-between gap-3">
-                        <div class="leading-tight">
+                        <div class="min-w-0 leading-tight">
                             <p class="text-[0.88rem] font-semibold">{$this->e(CLINIC_ADDRESS)}</p>
                             <p class="mt-0.5 text-[0.8rem] font-medium text-[#2a5894]">{$this->e(CLINIC_METRO)}</p>
+                            <a href="javascript:void(0)" class="jsClientix_openWidget mt-3 inline-flex h-10 items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.84rem] font-semibold text-white shadow-[0_8px_18px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
+                                Онлайн запись
+                            </a>
                         </div>
                         <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.74rem] font-medium text-[#1977b2] hover:text-[#16658f]">
                             <i class="fa-solid fa-location-dot text-[0.66rem] text-[#1977b2]" aria-hidden="true"></i>
@@ -777,16 +780,26 @@ class HeroSection extends Component {
                         <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.95rem,4.25vw,2.85rem);font-weight:700;">
                             С нами выздоравливать легко!
                         </h1>
-                        <p class="mt-3 inline-flex w-fit items-center rounded-full border border-[#d7e6f3] bg-white/92 px-3.5 py-1.5 leading-none text-[#1977b2] shadow-[0_8px_18px_rgba(10,43,80,0.05)]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
+                        <p class="mt-3 inline-flex w-fit items-center bg-transparent px-0 py-0 leading-none text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
                             Ваш Биоинмед
                         </p>
-                        <p class="mt-3 max-w-2xl text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(0.98rem,1.9vw,1.08rem);font-weight:500;">
-                            <a href="/services/hobilect-diagnostics" class="group inline-block hover:text-[#16658f] transition-colors">
-                                <span class="block">Экосистема HABILECT</span>
-                                <span class="block">Ваш эффективный маршрут здоровья</span>
-                                <span class="block">Где Вы особенный</span>
+                        <div class="mt-3 max-w-2xl space-y-2">
+                            <a href="/services/hobilect-diagnostics" class="group flex items-start gap-3 border-l-4 border-[#1977b2]/35 pl-4 transition-colors hover:border-[#1977b2]">
+                                <span class="pt-0.5 text-[1.06rem] font-medium leading-snug text-[#17446f] md:text-[1.14rem]">
+                                    Экосистема HABILECT
+                                </span>
                             </a>
-                        </p>
+                            <a href="/services/hobilect-diagnostics" class="group flex items-start gap-3 border-l-4 border-[#1977b2]/35 pl-4 transition-colors hover:border-[#1977b2]">
+                                <span class="pt-0.5 text-[1.06rem] font-medium leading-snug text-[#17446f] md:text-[1.14rem]">
+                                    Ваш эффективный маршрут здоровья
+                                </span>
+                            </a>
+                            <a href="/services/hobilect-diagnostics" class="group flex items-start gap-3 border-l-4 border-[#1977b2]/35 pl-4 transition-colors hover:border-[#1977b2]">
+                                <span class="pt-0.5 text-[1.06rem] font-medium leading-snug text-[#17446f] md:text-[1.14rem]">
+                                    Где Вы особенный
+                                </span>
+                            </a>
+                        </div>
                         <a href="/services/hobilect-diagnostics" class="mt-4 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff] hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:gap-3 md:px-4 md:py-2.5">
                             <img src="{$habilect_logo}" alt="Хабилект" class="h-9 w-auto shrink-0 md:h-10" loading="eager" decoding="async">
                             <div class="min-w-0">
@@ -1132,11 +1145,11 @@ class StatsBlock extends Component {
         $license_desc = defined('CLINIC_LICENSE_DESC') ? $this->e(CLINIC_LICENSE_DESC) : 'ЛИЦЕНЗИЯ И АККРЕДИТАЦИЯ';
 
         return <<<HTML
-        <section class="fade-in border-b border-[#e6eef7] bg-[#1977b2] py-6 md:py-8">
-            <div class="w-full px-6 md:px-10 lg:px-12">
-                <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+        <section class="fade-in border-b border-[#e6eef7] bg-[#1977b2] py-4 md:py-6">
+            <div class="w-full">
+                <ul class="grid w-full grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-4">
                     <!-- Stat 1: Experience -->
-                    <li class="flex items-center gap-4 py-5 pl-4 text-white md:px-8 md:py-1 md:first:pl-0">
+                    <li class="flex h-full w-full items-center gap-4 border-b border-white/15 px-6 py-5 text-white last:border-b-0 sm:border-r sm:border-b-0 sm:last:border-r-0 md:px-8 md:py-6">
                         <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2m-6 9 2 2 4-4" />
@@ -1148,7 +1161,7 @@ class StatsBlock extends Component {
                         </div>
                     </li>
                     <!-- Stat 2: Rehabilitation methods -->
-                    <li class="flex items-center gap-4 py-5 pl-4 text-white md:px-8 md:py-1">
+                    <li class="flex h-full w-full items-center gap-4 border-b border-white/15 px-6 py-5 text-white last:border-b-0 sm:border-r sm:border-b-0 sm:last:border-r-0 md:px-8 md:py-6">
                         <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 1-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21a48.309 48.309 0 0 1-8.135-.687c-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
@@ -1160,7 +1173,7 @@ class StatsBlock extends Component {
                         </div>
                     </li>
                     <!-- Stat 3: Rating -->
-                    <li class="flex items-center gap-4 py-5 pl-4 text-white md:px-8 md:py-1">
+                    <li class="flex h-full w-full items-center gap-4 border-b border-white/15 px-6 py-5 text-white last:border-b-0 sm:border-r sm:border-b-0 sm:last:border-r-0 md:px-8 md:py-6">
                         <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
@@ -1172,7 +1185,7 @@ class StatsBlock extends Component {
                         </div>
                     </li>
                     <!-- Stat 4: License -->
-                    <li class="flex items-center gap-4 py-5 pl-4 text-white md:px-8 md:py-1 md:last:pr-0">
+                    <li class="flex h-full w-full items-center gap-4 px-6 py-5 text-white sm:border-b-0 md:px-8 md:py-6">
                         <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
@@ -1217,9 +1230,14 @@ class VisualGallery extends Component {
 }
 
 class ProblemsGrid extends Component {
-    public function __construct($problems, $colors = []) {
+    protected $showTitle = true;
+    protected $showCta = true;
+
+    public function __construct($problems, $colors = [], $options = []) {
         parent::__construct($colors);
         $this->data = $problems;
+        $this->showTitle = (bool)($options['show_title'] ?? true);
+        $this->showCta = (bool)($options['show_cta'] ?? true);
     }
 
     public function render() {
@@ -1227,189 +1245,44 @@ class ProblemsGrid extends Component {
             return '';
         }
 
-        global $services, $service_aliases;
-
-        $services_map = [];
-        if (is_array($services)) {
-            foreach ($services as $service) {
-                $sid = trim((string)($service['id'] ?? ''));
-                if ($sid !== '') {
-                    $services_map[$sid] = true;
-                }
-            }
-        }
-
-        $solution_keyword_map = [
-            'habilect' => 'hobilect-diagnostics',
-            'hobilect' => 'hobilect-diagnostics',
-            'хабилект' => 'hobilect-diagnostics',
-            'диагностик' => 'chief-doctor-consultation',
-            'остеопат' => 'osteopathy',
-            'hilt' => 'hilt-therapy',
-            'хилт' => 'hilt-therapy',
-            'физиотерап' => 'fizioterapiya',
-            'рефлекс' => 'acupuncture',
-            'игло' => 'acupuncture',
-            'психотерап' => 'psychotherapy',
-            'психолог' => 'psychotherapy',
-            'мануаль' => 'osteopathy',
-            'афк' => 'physiotherapy-comprehensive',
-            'стельк' => 'physiotherapy-comprehensive',
-            'лфк' => 'physiotherapy-comprehensive',
-            'ортопед' => 'physiotherapy-comprehensive',
-            'ортопеди' => 'physiotherapy-comprehensive',
-            'биорезонанс' => 'chief-doctor-consultation',
-            'гомеопат' => 'chief-doctor-consultation',
-            'озон' => 'ozonoterapiya',
-            'озонова' => 'ozonoterapiya',
-            'капельниц' => 'infusion-therapy',
-            'инфузион' => 'infusion-therapy',
-            'микропунктур' => 'mikropunktura-aurikulyarnaya',
-            'консультация главного' => 'chief-doctor-consultation',
-        ];
-
         $items_html = '';
         foreach ($this->data as $problem) {
-            $solution_chips = [];
-            $solution_links = $problem['solution_links'] ?? [];
-            $details_sections = $problem['details_sections'] ?? [];
-            $solutions_raw = (string)($problem['solutions'] ?? '');
-            $solution_parts = preg_split('/\s*,\s*/u', $solutions_raw, -1, PREG_SPLIT_NO_EMPTY);
-
-            if (!empty($solution_links) && is_array($solution_links)) {
-                foreach ($solution_links as $solution_link) {
-                    if (!is_array($solution_link)) {
-                        continue;
-                    }
-
-                    $solution_text = trim((string)($solution_link['label'] ?? ''));
-                    $resolved_id = trim((string)($solution_link['id'] ?? ''));
-                    if ($solution_text === '' || $resolved_id === '') {
-                        continue;
-                    }
-
-                    if (isset($service_aliases[$resolved_id])) {
-                        $resolved_id = (string)$service_aliases[$resolved_id];
-                    }
-
-                    if (isset($services_map[$resolved_id])) {
-                        $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">' . $this->e($solution_text) . '</a>';
-                    } else {
-                        $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c]">' . $this->e($solution_text) . '</span>';
-                    }
-                }
-            }
-
-            if (empty($solution_chips)) {
-                foreach ($solution_parts as $solution_part) {
-                    $solution_text = trim((string)$solution_part);
-                    if ($solution_text === '') {
-                        continue;
-                    }
-
-                    $needle = mb_strtolower($solution_text, 'UTF-8');
-                    $resolved_id = '';
-                    foreach ($solution_keyword_map as $keyword => $service_id) {
-                        if (mb_strpos($needle, $keyword) !== false) {
-                            $resolved_id = $service_id;
-                            break;
-                        }
-                    }
-
-                    if ($resolved_id !== '' && isset($service_aliases[$resolved_id])) {
-                        $resolved_id = (string)$service_aliases[$resolved_id];
-                    }
-
-                    if ($resolved_id !== '' && isset($services_map[$resolved_id])) {
-                        $solution_chips[] = '<a href="/services/' . $this->e($resolved_id) . '" class="inline-flex items-center gap-1 rounded-full border border-[#c9dff1] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">' . $this->e($solution_text) . '</a>';
-                        continue;
-                    }
-
-                    $solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-[#e1ecf7] bg-white px-2.5 py-1 text-[0.8rem] font-semibold text-[#0a293c]">' . $this->e($solution_text) . '</span>';
-                }
-            }
-
-            $visible_solution_limit = 6;
-            $problem_title_lower = mb_strtolower((string)($problem['title'] ?? ''), 'UTF-8');
-            if (mb_strpos($problem_title_lower, 'последствия травм') !== false) {
-                $visible_solution_limit = 8;
-            }
-
-            $visible_solution_chips = array_slice($solution_chips, 0, $visible_solution_limit);
-            $hidden_solution_count = count($solution_chips) - count($visible_solution_chips);
-            if ($hidden_solution_count > 0) {
-                $visible_solution_chips[] = '<span class="inline-flex items-center gap-1 rounded-full border border-transparent bg-[#eaf4fc] px-2.5 py-1 text-[0.78rem] font-semibold text-[#0a293c]">+' . $hidden_solution_count . ' ещё</span>';
-            }
-            $solutions_html = implode('', $visible_solution_chips);
-
-            $details_sections_html = '';
-            if (!empty($details_sections) && is_array($details_sections)) {
-                foreach ($details_sections as $section) {
-                    if (!is_array($section)) {
-                        continue;
-                    }
-
-                    $section_title = trim((string)($section['title'] ?? ''));
-                    $section_items = $section['items'] ?? [];
-                    if ($section_title === '' && (empty($section_items) || !is_array($section_items))) {
-                        continue;
-                    }
-
-                    $section_items_html = '';
-                    if (!empty($section_items) && is_array($section_items)) {
-                        foreach ($section_items as $section_item) {
-                            $section_items_html .= '<li class="flex items-start gap-2.5"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1977b2]"></span><span>' . $this->e((string)$section_item) . '</span></li>';
-                        }
-                    }
-
-                    $details_sections_html .= '<div class="rounded-lg border border-[#e2edf7] bg-[#e4f1fa] p-3.5">';
-                    if ($section_title !== '') {
-                        $details_sections_html .= '<h4 class="text-[0.92rem] font-semibold text-[#0f2749]">' . $this->e($section_title) . '</h4>';
-                    }
-                    if ($section_items_html !== '') {
-                        $details_sections_html .= '<ul class="mt-2.5 space-y-1.5 text-[0.9rem] leading-relaxed text-[#0a293c]">' . $section_items_html . '</ul>';
-                    }
-                    $details_sections_html .= '</div>';
-                }
+            $slug = trim((string)($problem['slug'] ?? ''));
+            $title = trim((string)($problem['title'] ?? ''));
+            $description = trim((string)($problem['description'] ?? ''));
+            if ($slug === '' || $title === '') {
+                continue;
             }
 
             $items_html .= <<<HTML
-            <details class="group border-b border-[#e8f0f8] last:border-0">
-                <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3.5 md:px-6">
-                    <div class="flex items-center gap-3">
-                        <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#fde8e8] text-[#d94f4f]" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-                        </span>
-                        <h3 class="text-[1.08rem] font-semibold leading-tight text-[#0f2749] md:text-[1.15rem]">{$this->e($problem['title'])}</h3>
-                    </div>
-                    <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#d4e5f2] bg-white text-[#0a293c] transition-transform group-open:rotate-180" aria-hidden="true">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                    </span>
-                </summary>
-                <div class="px-4 pb-3.5 pt-0 md:px-6">
-                    <div class="rounded-xl bg-white p-3.5 md:p-4">
-                        <p class="text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">{$this->e($problem['description'])}</p>
-                        <div class="mt-3 space-y-2">{$details_sections_html}</div>
-                        <div class="mt-3 flex flex-wrap gap-1.5">{$solutions_html}</div>
-                    </div>
+            <a href="/problems/{$this->e($slug)}" class="group flex h-full min-h-[210px] flex-col rounded-[1rem] bg-[#1977b2] p-6 text-white transition hover:bg-[#16658f]">
+                <div class="min-w-0 flex-1">
+                    <h3 class="text-[1.18rem] font-bold leading-[1.08] text-white md:text-[1.32rem]">{$this->e($title)}</h3>
+                    <p class="mt-4 max-w-[22rem] text-[0.92rem] leading-relaxed text-white md:text-[0.98rem]">{$this->e($description)}</p>
                 </div>
-            </details>
+                <div class="mt-5 inline-flex self-start items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.92rem] font-semibold text-[#1977b2] shadow-[0_8px_18px_rgba(10,43,80,0.08)] transition group-hover:bg-[#f8fcff] group-hover:text-[#16658f]">
+                    Подробнее
+                    <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i>
+                </div>
+            </a>
             HTML;
         }
+
+        $section_title_html = $this->showTitle
+            ? $this->sectionTitle('С какой проблемой обращаются', 'Найдите вашу ситуацию', 'Нажмите на карточку — откроется отдельная страница с подробным описанием, этапами маршрута и подходящими услугами.')
+            : '';
+        $section_cta_html = $this->showCta
+            ? '<div class="mt-6 flex justify-start"><a href="/#contact" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-3 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">Не нашли свою ситуацию? Записаться на консультацию</a></div>'
+            : '';
 
         return <<<HTML
         <section id="problems" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                {$this->sectionTitle('С какой проблемой обращаются', 'Найдите вашу ситуацию', 'Нажмите на свою проблему — покажем метод лечения, который применяем в клинике.')}
-                <div class="overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(10,43,80,0.07)]">
+                {$section_title_html}
+                <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
                     {$items_html}
                 </div>
-                <div class="mt-5 flex justify-start">
-                    <a href="/#contact" class="inline-flex items-center gap-1.5 rounded-full border border-[#c6ddf2] bg-white px-4 py-2 text-[0.92rem] font-semibold text-[#0a293c] hover:bg-[#ebf4ff]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
-                        Не нашли свою ситуацию? Записаться на консультацию
-                    </a>
-                </div>
+                {$section_cta_html}
             </div>
         </section>
         HTML;
@@ -1479,10 +1352,13 @@ class ChiefDoctorBlock extends Component {
         $leadership = isset($this->data['leadership']) ? $this->e($this->data['leadership']) : 'Руководит клиническим процессом и развитием стандартов медицинской помощи.';
         $hero_leadership = isset($this->data['hero_leadership']) ? $this->e($this->data['hero_leadership']) : $leadership;
         $hero_tagline = trim((string)($this->data['hero_tagline'] ?? ''));
-        $project_title = trim((string)($this->data['project_title'] ?? 'Автор лечебно-восстановительного проекта «Хабилект»'));
+        $project_title = trim((string)($this->data['project_title'] ?? ''));
         $hero_tagline_html = $hero_tagline !== ''
-            ? '<p class="mt-4 max-w-3xl text-[#0a293c]" style="font-family:\'Caveat\',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">' . $this->e($hero_tagline) . '</p>'
+            ? '<div class="mt-4 max-w-3xl"><p class="text-[#0a293c]" style="font-family:\'Caveat\',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">' . $this->e($hero_tagline) . '</p><p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:\'Caveat\',cursive;">Костромина И.В.</p></div>'
             : '<p class="mt-5 text-base leading-relaxed text-[#0a293c]">В БИОИНМЕД каждый пациент получает не набор разрозненных процедур, а цельный лечебный маршрут: диагностика причин, подбор метода, оценка динамики и коррекция тактики.</p>';
+        $project_title_html = $project_title !== ''
+            ? '<p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">' . $this->e($project_title) . '</p>'
+            : '';
         $hero_highlights = $this->data['hero_highlights'] ?? [];
         $hero_highlights_html = '';
         if (!empty($hero_highlights) && is_array($hero_highlights)) {
@@ -1503,11 +1379,12 @@ class ChiefDoctorBlock extends Component {
                             <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy" />
                         </div>
                         <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью</p>
+                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
                     </div>
                     <div>
                         <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ</p>
                         <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($this->data['name'])}</h2>
-                        <p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">{$this->e($project_title)}</p>
+                        {$project_title_html}
                         <p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]">Специализируюсь на сложных случаях. Более 30 лет клинической практики в области детской и взрослой медицины. {$hero_leadership}</p>
                         {$hero_highlights_html}
                         <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
@@ -1915,6 +1792,9 @@ class ContactSection extends Component {
                                 <p class="text-[0.92rem] text-[#0a293c] mt-1">
                                     {$metro}
                                 </p>
+                                <a href="javascript:void(0)" class="jsClientix_openWidget mt-4 inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden">
+                                    Онлайн запись
+                                </a>
                             </div>
 
                             <!-- Режим работы -->

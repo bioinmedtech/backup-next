@@ -58,7 +58,7 @@ $phone2link   = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
 $doctorImagePath = $doctor && !empty($doctor['image'])
     ? bioinmed_versioned_asset_path('/public/images/team/' . $doctor['image'])
     : '';
-$doctorProjectTitle = trim((string)($doctor['project_title'] ?? 'Автор лечебно-восстановительного проекта «Хабилект»'));
+$doctorProjectTitle = trim((string)($doctor['project_title'] ?? ''));
 $socialImageUrl = $doctor && !empty($doctor['image'])
     ? bioinmed_absolute_url($doctorImagePath)
     : bioinmed_default_social_image_url();
@@ -104,7 +104,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
     <style>
         html {
             font-size: clamp(17px, 0.5vw + 15px, 19px);
@@ -168,6 +168,7 @@ echo $header->render();
                     <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
                         <?php echo e($doctor['hero_tagline']); ?>
                     </p>
+                    <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
                     <?php endif; ?>
                 </div>
 
@@ -175,8 +176,13 @@ echo $header->render();
                 <div class="fade-up" style="transition-delay:.08s">
                     <p class="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e($doctor['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ'); ?></p>
                     <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.75rem]"><?php echo e($doctor['name']); ?></h1>
+                    <?php if ($doctorProjectTitle !== ''): ?>
                     <p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($doctorProjectTitle); ?></p>
+                    <?php endif; ?>
                     <?php $heroLeadership = trim((string)($doctor['hero_leadership'] ?? ($doctor['leadership'] ?? ''))); ?>
+                    <?php if (($doctor['slug'] ?? '') === 'kostromina-inna-viktorovna' && $heroLeadership !== ''): ?>
+                    <?php $heroLeadership .= ' Более 30 лет клинической практики в области детской и взрослой медицины. Специализируюсь на сложных случаях.'; ?>
+                    <?php endif; ?>
                     <?php if ($heroLeadership !== ''): ?>
                     <p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]"><?php echo e($heroLeadership); ?></p>
                     <?php endif; ?>
@@ -278,6 +284,38 @@ echo $header->render();
                 return trim((string)($section['key'] ?? ''));
             }, $customSections))) : []; ?>
             <div class="space-y-6">
+
+                <?php if (($doctor['slug'] ?? '') === 'kostromina-inna-viktorovna'): ?>
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="educational-role">
+                    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
+                        <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
+                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
+                                <i class="fa-solid fa-clipboard-list text-sm" aria-hidden="true"></i>
+                            </span>
+                            <span>Образовательная и управленческая роль</span>
+                        </span>
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
+                            <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="px-7 pb-7">
+                        <ul class="space-y-3 text-[0.96rem] leading-relaxed text-[#0a293c]">
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
+                                <span>Лично обучаю и стажирую специалистов Клиники и курирую сложные клинические кейсы.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
+                                <span>Разрабатываю внутренние стандарты безопасности и сервиса, чтобы каждый прием соответствовал уровню, за который я отвечаю своим именем.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
+                                <span>Участвуя в профессиональных встречах, внедряю в работу Клиники современные методики и инструменты.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </details>
+                <?php endif; ?>
 
                 <?php if (!$hideStandardSections && !empty($doctor['specializations']) && is_array($doctor['specializations'])): ?>
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
@@ -621,7 +659,7 @@ echo $header->render();
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника БИОИНМЕД · Москва</p>
-            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl">Не откладывайте заботу о здоровье</h2>
+            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl">Не откладывайте заботу о Вашем здоровье</h2>
             <p class="mx-auto mt-3 max-w-2xl text-sm text-[#0a293c]">
                 <?php echo e($doctor['name']); ?> принимает в клинике БИОИНМЕД по адресу: <?php echo e(CLINIC_ADDRESS); ?>, <?php echo e(CLINIC_METRO); ?>.
                 Запись ежедневно с 9:00 до 21:00.

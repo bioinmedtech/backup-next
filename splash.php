@@ -63,7 +63,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
     <meta name="theme-color" content="#1977b2">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
     <style>
         :root {
             --background: #f3f8fd;
