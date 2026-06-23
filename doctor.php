@@ -66,7 +66,6 @@ $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => '/'],
     ['name' => 'Профессиональная команда', 'url' => '/doctors'],
-    ['name' => $doctor['name'] ?? 'Профиль врача', 'url' => $canonicalUrl],
 ]);
 ?>
 <!doctype html>
@@ -149,8 +148,6 @@ echo $header->render();
                 <a href="/" class="hover:text-[#1977b2]">Главная</a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
                 <a href="/doctors" class="hover:text-[#1977b2]">Профессиональная команда</a>
-                <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <span class="text-[#0f2749]"><?php echo e($doctor['name']); ?></span>
             </nav>
 
             <div class="grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
@@ -174,34 +171,12 @@ echo $header->render();
 
                 <!-- info -->
                 <div class="fade-up" style="transition-delay:.08s">
-                    <p class="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e($doctor['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ'); ?></p>
-                    <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.75rem]"><?php echo e($doctor['name']); ?></h1>
-                    <?php if ($doctorProjectTitle !== ''): ?>
-                    <p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($doctorProjectTitle); ?></p>
-                    <?php endif; ?>
-                    <?php $heroLeadership = trim((string)($doctor['hero_leadership'] ?? ($doctor['leadership'] ?? ''))); ?>
-                    <?php if (($doctor['slug'] ?? '') === 'kostromina-inna-viktorovna' && $heroLeadership !== ''): ?>
-                    <?php $heroLeadership .= ' Более 30 лет клинической практики в области детской и взрослой медицины. Специализируюсь на сложных случаях.'; ?>
-                    <?php endif; ?>
-                    <?php if ($heroLeadership !== ''): ?>
-                    <p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]"><?php echo e($heroLeadership); ?></p>
-                    <?php endif; ?>
-
-                    <?php if (empty($doctor['hero_tagline'])): ?>
-                    <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]"><?php echo e($doctor['bio']); ?></p>
-                    <?php endif; ?>
-
-                    <?php $heroHighlights = $doctor['hero_highlights'] ?? []; ?>
-                    <?php if (!empty($heroHighlights) && is_array($heroHighlights)): ?>
-                    <ul class="mt-4 space-y-2 text-[0.96rem] leading-relaxed text-[#0a293c]">
-                        <?php foreach ($heroHighlights as $highlight): ?>
-                        <li class="flex items-start gap-3">
-                            <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                            <span><?php echo e($highlight); ?></span>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <?php endif; ?>
+                    <div class="mt-6">
+                        <?php echo bioinmed_render_chief_doctor_summary($doctor, [
+                            'show_cta' => false,
+                            'surface_class' => 'space-y-4',
+                        ]); ?>
+                    </div>
 
                     <div class="mt-6 lg:hidden">
                         <div id="book-mobile" class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
@@ -289,7 +264,7 @@ echo $header->render();
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="educational-role">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                 <i class="fa-solid fa-clipboard-list text-sm" aria-hidden="true"></i>
                             </span>
                             <span>Образовательная и управленческая роль</span>
@@ -321,7 +296,7 @@ echo $header->render();
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c]">
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-list-check text-sm"></i></span>
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-list-check text-sm"></i></span>
                             <span>Направления деятельности</span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
@@ -345,7 +320,7 @@ echo $header->render();
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="focus">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-bullseye text-sm"></i></span>
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-bullseye text-sm"></i></span>
                             <span>Профиль деятельности</span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
@@ -385,7 +360,7 @@ echo $header->render();
                 <details id="doctor-section-<?php echo e($sectionKey); ?>" class="doctor-section-toggle fade-up group <?php echo e($sectionCardClasses); ?>" data-doctor-toggle="<?php echo e($sectionKey); ?>">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full <?php echo e($sectionIconBgClasses); ?>"><i class="<?php echo e($sectionIcon); ?> text-sm"></i></span>
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full <?php echo e($sectionIconBgClasses); ?>"><i class="<?php echo e($sectionIcon); ?> text-sm"></i></span>
                             <span><?php echo e($sectionTitle); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
@@ -457,7 +432,7 @@ echo $header->render();
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="education">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-university text-sm"></i></span>
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-university text-sm"></i></span>
                             <span>Образование и квалификация</span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
@@ -474,7 +449,7 @@ echo $header->render();
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="trust">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
-                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-shield-halved text-sm"></i></span>
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-shield-halved text-sm"></i></span>
                             <span>Почему пациенты выбирают этого специалиста</span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">

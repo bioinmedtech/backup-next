@@ -184,8 +184,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
             <div class="rounded-[2rem] border border-[#dbe8f4] bg-white p-6 shadow-[0_16px_40px_rgba(8,36,70,0.07)] md:p-8">
                 <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                     <div>
-                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">Ваш маршрут здоровья в Биоинмед</p>
-                        <h2 class="mt-2 text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Понятный путь от первого обращения до результата</h2>
+                        <h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Ваш маршрут здоровья в Биоинмед</h2>
                     </div>
                     <p class="max-w-2xl text-[0.92rem] leading-relaxed text-[#1977b2]">Маршрут построен так, чтобы пациент видел всю логику лечения целиком: от первого обращения до устойчивого результата.</p>
                 </div>
@@ -198,7 +197,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Консультация</p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#1977b2]">Врач собирает жалобы, историю заболевания и формирует первичное понимание ситуации.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Врач собирает жалобы, историю заболевания и формирует первичное понимание ситуации.</p>
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
@@ -207,7 +206,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Диагностика</p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#1977b2]">Подбираются нужные методы обследования, чтобы увидеть причину нарушений, а не только симптомы.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Подбираются нужные методы обследования, чтобы увидеть причину нарушений, а не только симптомы.</p>
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
@@ -216,7 +215,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Лечение</p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#1977b2]">Составляется персональный лечебный план с процедурами, рекомендациями и понятной последовательностью шагов.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Составляется персональный лечебный план с процедурами, рекомендациями и понятной последовательностью шагов.</p>
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
@@ -225,7 +224,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Восстановление</p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#1977b2]">Организм адаптируется к изменениям, а улучшения постепенно закрепляются без лишней перегрузки.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Организм адаптируется к изменениям, а улучшения постепенно закрепляются без лишней перегрузки.</p>
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
@@ -234,7 +233,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Лечебная физическая активность</p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#1977b2]">Подключаются упражнения и безопасная физическая нагрузка, чтобы сохранить результат в повседневной жизни.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Подключаются упражнения и безопасная физическая нагрузка, чтобы сохранить результат в повседневной жизни.</p>
                     </article>
                     <article class="rounded-2xl border border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
@@ -243,7 +242,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                                 <p class="text-[1rem] font-semibold text-[#17446f]">Результат</p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#1977b2]">Цель маршрута - не временный эффект, а более устойчивое самочувствие и понятное движение к восстановлению.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Цель маршрута - не временный эффект, а более устойчивое самочувствие и понятное движение к восстановлению.</p>
                     </article>
                 </div>
             </div>

@@ -218,7 +218,7 @@ echo $header->render();
     </section>
 
     <?php if (!empty($servicesByCategory)): ?>
-        <section class="mt-5 rounded-2xl border border-[#dce8f5] bg-[#e4f1fa] p-3.5 md:p-4">
+        <section class="mt-5 px-0 py-2">
             <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Быстрый переход по направлениям</p>
             <div class="flex flex-wrap gap-2">
                 <?php foreach ($servicesByCategory as $categoryKey => $categoryItems): ?>
@@ -240,7 +240,7 @@ echo $header->render();
                 $categoryTitle = $categoryLabels[$categoryKey] ?? ucfirst(str_replace(['_', '-'], ' ', $categoryKey));
                 $categoryIcon = $categoryIcons[$categoryKey] ?? 'fa-stethoscope';
                 ?>
-                <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor rounded-2xl border border-[#dce8f5] bg-[#e4f1fa] p-4 shadow-[0_6px_16px_rgba(10,43,80,0.05)] md:p-5">
+                <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor pt-2 md:pt-3">
                     <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3">
                         <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e8f4fd] text-[#1977b2]">
                             <i class="fa-solid <?php echo e($categoryIcon); ?> text-[0.82rem]" aria-hidden="true"></i>
@@ -253,7 +253,6 @@ echo $header->render();
                             <?php
                             $serviceId = trim((string)($service['id'] ?? ''));
                             $serviceName = trim((string)($service['name'] ?? ''));
-                            $serviceDesc = trim((string)($service['description'] ?? ''));
                             $servicePrice = trim((string)($service['price'] ?? ''));
                             $servicePriceNote = trim((string)($service['price_note'] ?? ''));
                             $priceLabel = $servicePrice !== '' && $servicePrice !== 'По запросу'
@@ -267,9 +266,6 @@ echo $header->render();
                                         style="transition:color 0.15s"><?php echo e($serviceName); ?></h3>
                                     <i class="service-card-arrow fa-solid fa-arrow-right mt-0.5 shrink-0 text-[0.65rem] text-[#9bbdd8]" aria-hidden="true"></i>
                                 </div>
-                                <?php if ($serviceDesc !== ''): ?>
-                                    <p class="mt-2 line-clamp-2 text-[0.9rem] leading-relaxed text-[#4a6e99]"><?php echo e($serviceDesc); ?></p>
-                                <?php endif; ?>
                                 <div class="mt-auto pt-3">
                                     <?php if ($priceLabel !== ''): ?>
                                         <span class="inline-block rounded-full bg-[#e9f6ff] px-2.5 py-0.5 text-[0.78rem] font-semibold text-[#1a7dbf]"><?php echo e($priceLabel); ?></span>

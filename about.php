@@ -35,12 +35,6 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 $bookingUrl = defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '#contact';
 $chief = $doctors[0] ?? [];
 $chiefName = trim((string)($chief['name'] ?? 'Инна Викторовна Костромина'));
-$chiefTitle = trim((string)($chief['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ'));
-$chiefProjectTitle = trim((string)($chief['project_title'] ?? 'Автор лечебно-восстановительного проекта «Хабилект»'));
-$chiefBio = trim((string)($chief['bio'] ?? 'Эксперт в области интегративной медицины, биорегуляции и персональных программ восстановления.'));
-$chiefLeadership = trim((string)($chief['hero_leadership'] ?? ($chief['leadership'] ?? '')));
-$chiefTagline = trim((string)($chief['hero_tagline'] ?? ''));
-$chiefHighlights = $chief['hero_highlights'] ?? [];
 $chiefImage = '/public/images/team/kostromina-default.jpg';
 $mapUrl = 'https://yandex.com/maps/-/CPGGyEzo';
 if (!empty($chief['image'])) {
@@ -202,30 +196,7 @@ echo $header->render();
 			<p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
 		</div>
 		<article class="p-5 md:p-7">
-			<p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($chiefTitle); ?></p>
-			<h2 class="mt-2 text-[1.32rem] font-bold leading-tight text-[#0f2749] md:text-[1.7rem]"><?php echo e($chiefName); ?></h2>
-			<p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($chiefProjectTitle); ?></p>
-			<p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]">
-				Специализируюсь на сложных случаях. Более 30 лет клинической практики в области детской и взрослой медицины.<?php echo $chiefLeadership !== '' ? ' ' . e($chiefLeadership) : ''; ?>
-			</p>
-			<?php if (!empty($chiefHighlights) && is_array($chiefHighlights)): ?>
-			<div class="mt-4 rounded-2xl border border-[#dce8f4] bg-[#e4f1fa] p-4">
-				<ul class="space-y-2 text-[0.84rem] leading-relaxed text-[#0a293c]">
-					<?php foreach ($chiefHighlights as $highlight): ?>
-						<li class="flex items-start gap-3">
-							<span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-							<span><?php echo e($highlight); ?></span>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-			<?php else: ?>
-			<div class="mt-4 space-y-2 rounded-2xl border border-[#dce8f4] bg-[#e4f1fa] p-4 text-[0.84rem] leading-relaxed text-[#0a293c]">
-				<p>Потомственный доктор и эксперт в сфере интегративной медицины, психологии, гомеопатии, рефлексотерапии и биорегуляции.</p>
-				<p>Разработала более десятка авторских методик, семинаров и комплексных оздоровительных программ.</p>
-				<p>Профессиональный фокус - объединение медицины и психологии для поиска первопричины заболевания задолго до выраженных клинических проявлений.</p>
-			</div>
-			<?php endif; ?>
+			<?php echo bioinmed_render_chief_doctor_summary($chief, ['show_cta' => false]); ?>
 		</article>
 	</section>
 

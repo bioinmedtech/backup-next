@@ -46,6 +46,7 @@ $canonicalUrl = $problem ? $siteUrl . '/problems/' . rawurlencode((string)$probl
 $robotsContent = $problem ? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' : 'noindex,follow';
 $socialImageUrl = bioinmed_default_social_image_url();
 $organizationStructuredData = bioinmed_medical_organization_schema();
+$problemDetailsStorageKey = $problem ? ('bioinmed-problem-details:' . (string)($problem['slug'] ?? 'problem')) : '';
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => '/'],
     ['name' => 'Найдите вашу ситуацию', 'url' => '/problems'],
@@ -127,26 +128,22 @@ echo $header->render();
         </div>
     </section>
 <?php else: ?>
-    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
+    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div class="rounded-[2rem] bg-white p-6 shadow-[0_16px_40px_rgba(10,43,80,0.08)] md:p-8 lg:p-10">
-                <div class="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
-                    <div>
-                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Ситуации и симптомы</p>
-                        <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"><?php echo e($problem['title']); ?></h1>
-                        <p class="mt-4 max-w-2xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"><?php echo e($problem['description']); ?></p>
-                        <p class="mt-5 max-w-2xl text-[0.96rem] leading-relaxed text-[#0a293c]">
-                            Ниже мы собрали для Вас понятный маршрут, поэтапное описание и релевантные услуги, чтобы Вы сразу увидели логику восстановления.
-                        </p>
-                    </div>
-                </div>
+            <div>
+                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Ситуации и симптомы</p>
+                <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"><?php echo e($problem['title']); ?></h1>
+                <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"><?php echo e($problem['description']); ?></p>
+                <p class="mt-4 max-w-3xl text-[0.96rem] leading-relaxed text-[#0a293c]">
+                    Ниже мы собрали для Вас понятный маршрут, поэтапное описание и релевантные услуги, чтобы Вы сразу увидели логику восстановления.
+                </p>
             </div>
         </div>
     </section>
 
-    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
+    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div class="grid gap-3">
+            <div class="grid gap-2.5 md:gap-3">
                 <?php foreach (($problem['details_sections'] ?? []) as $index => $section): ?>
                     <?php
                     if (!is_array($section)) continue;
@@ -156,7 +153,7 @@ echo $header->render();
                     if ($sectionTitle === '' && (empty($sectionItems) || !is_array($sectionItems))) continue;
                     $sectionIcon = ['fa-user-doctor', 'fa-magnifying-glass', 'fa-clipboard-check', 'fa-kit-medical', 'fa-star'][$index] ?? 'fa-circle-info';
                     ?>
-                    <details class="group rounded-[1.4rem] bg-white p-5 shadow-[0_12px_28px_rgba(10,43,80,0.06)]">
+                    <details class="group rounded-[1.4rem] bg-white p-5 shadow-[0_12px_28px_rgba(10,43,80,0.06)]" data-problem-step="<?php echo e((string)$index); ?>"<?php echo $index < 5 ? ' open' : ''; ?>>
                         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
                             <div class="flex items-center gap-3">
                                 <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#e8f3fc] text-[#1977b2]">
@@ -174,13 +171,14 @@ echo $header->render();
                             </span>
                         </summary>
                         <?php if (!empty($sectionItems) && is_array($sectionItems)): ?>
-                            <div class="mt-4 grid gap-2 md:grid-cols-2">
+                            <ul class="mt-4 space-y-2.5">
                                 <?php foreach ($sectionItems as $sectionItem): ?>
-                                    <div class="rounded-xl bg-[#f8fbff] p-3 text-[0.92rem] leading-relaxed text-[#0a293c]">
-                                        <?php echo e(problem_list_text((string)$sectionItem)); ?>
-                                    </div>
+                                    <li class="flex items-start gap-3 border-l-2 border-[#dbe8f3] pl-3 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                        <i class="fa-solid fa-check mt-1 text-[0.75rem] text-[#1977b2]" aria-hidden="true"></i>
+                                        <span><?php echo e(problem_list_text((string)$sectionItem)); ?></span>
+                                    </li>
                                 <?php endforeach; ?>
-                            </div>
+                            </ul>
                         <?php endif; ?>
                     </details>
                 <?php endforeach; ?>
@@ -188,13 +186,13 @@ echo $header->render();
         </div>
     </section>
 
-    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
+    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div class="rounded-[2rem] border border-[#d7e6f3] bg-white p-6 shadow-[0_14px_34px_rgba(10,43,80,0.08)] md:p-8">
+            <div class="rounded-[2rem] bg-transparent p-0">
                 <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Запись</p>
                 <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">Записаться на приём</h2>
                 <p class="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]">Оставьте заявку, и мы свяжемся с Вами, чтобы помочь выбрать правильный шаг и удобное время консультации.</p>
-                <div class="mt-6 max-w-xl">
+                <div class="mt-5 max-w-xl">
                     <?php echo bioinmed_render_callback_form([
                         'source_label' => 'Страница проблемы',
                         'submit_label' => 'Записаться на приём',
@@ -204,7 +202,7 @@ echo $header->render();
         </div>
     </section>
 
-    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
+    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <div>
@@ -224,7 +222,7 @@ echo $header->render();
                     $serviceDescription = trim((string)($service['card_description'] ?? $service['description'] ?? ''));
                     $servicePrice = trim((string)($service['price'] ?? ''));
                     ?>
-                    <article class="group rounded-[1.6rem] bg-white p-5 shadow-[0_10px_26px_rgba(10,43,80,0.06)] ring-1 ring-[#d9e7f2] transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(10,43,80,0.1)]">
+                    <a href="<?php echo e($serviceLink); ?>" class="group block rounded-[1.6rem] bg-white p-5 shadow-[0_10px_26px_rgba(10,43,80,0.06)] ring-1 ring-[#d9e7f2] transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(10,43,80,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]">
                         <p class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"><?php echo e($service['display_label'] ?? 'Услуга'); ?></p>
                         <h3 class="mt-2 text-[1.08rem] font-bold leading-tight text-[#0f2749]"><?php echo e($serviceName); ?></h3>
                         <?php if ($serviceSubtitle !== ''): ?>
@@ -235,12 +233,12 @@ echo $header->render();
                             <?php if ($servicePrice !== ''): ?>
                                 <span class="text-[0.92rem] font-semibold text-[#1977b2]"><?php echo e($servicePrice); ?></span>
                             <?php endif; ?>
-                            <a href="<?php echo e($serviceLink); ?>" class="inline-flex items-center gap-2 text-[0.92rem] font-semibold text-[#1977b2] transition group-hover:gap-2.5 group-hover:text-[#16658f]">
+                            <span class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition group-hover:bg-[#16658f] group-hover:gap-2.5">
                                 Подробнее
                                 <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i>
-                            </a>
+                            </span>
                         </div>
-                    </article>
+                    </a>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -263,6 +261,65 @@ echo $footer->render();
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
     document.querySelectorAll('.fade-up').forEach(function(el) { observer.observe(el); });
+
+    (function() {
+        const storageKey = <?php echo json_encode($problemDetailsStorageKey, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+        const steps = Array.from(document.querySelectorAll('[data-problem-step]'));
+
+        if (!steps.length) {
+            return;
+        }
+
+        const safeParse = function(value) {
+            if (!value) {
+                return null;
+            }
+
+            try {
+                const parsed = JSON.parse(value);
+                return parsed && typeof parsed === 'object' ? parsed : null;
+            } catch (error) {
+                return null;
+            }
+        };
+
+        let savedState = null;
+        try {
+            savedState = safeParse(window.localStorage.getItem(storageKey));
+        } catch (error) {
+            savedState = null;
+        }
+
+        steps.forEach(function(step, index) {
+            const stepId = String(step.getAttribute('data-problem-step') || index);
+
+            if (savedState && Object.prototype.hasOwnProperty.call(savedState, stepId)) {
+                step.open = Boolean(savedState[stepId]);
+            } else if (!step.hasAttribute('open') && index < 5) {
+                step.open = true;
+            }
+        });
+
+        const persistState = function() {
+            const nextState = {};
+
+            steps.forEach(function(step, index) {
+                nextState[String(step.getAttribute('data-problem-step') || index)] = step.open;
+            });
+
+            try {
+                window.localStorage.setItem(storageKey, JSON.stringify(nextState));
+            } catch (error) {
+                // Ignore storage write failures.
+            }
+        };
+
+        steps.forEach(function(step) {
+            step.addEventListener('toggle', persistState);
+        });
+
+        persistState();
+    })();
 </script>
 </body>
 </html>

@@ -318,9 +318,6 @@ class Header extends Component {
                         <div class="min-w-0 leading-tight">
                             <p class="text-[0.88rem] font-semibold">{$this->e(CLINIC_ADDRESS)}</p>
                             <p class="mt-0.5 text-[0.8rem] font-medium text-[#2a5894]">{$this->e(CLINIC_METRO)}</p>
-                            <a href="javascript:void(0)" class="jsClientix_openWidget mt-3 inline-flex h-10 items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.84rem] font-semibold text-white shadow-[0_8px_18px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
-                                Онлайн запись
-                            </a>
                         </div>
                         <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.74rem] font-medium text-[#1977b2] hover:text-[#16658f]">
                             <i class="fa-solid fa-location-dot text-[0.66rem] text-[#1977b2]" aria-hidden="true"></i>
@@ -364,7 +361,6 @@ class Header extends Component {
                                 <p class="mt-0.5 text-[0.76rem] font-medium text-[#1977b2]">Запись по телефону ежедневно</p>
                             </div>
                         </div>
-
                         <div class="pt-1 text-right">
                             <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-auto min-w-[164px] items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
                                 Онлайн запись
@@ -762,11 +758,16 @@ class HeroSection extends Component {
         ]);
 
         return <<<HTML
-        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#e4f1fa] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))] pb-24 md:pb-0">
+        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#e4f1fa] flex flex-col justify-center min-h-0 pb-10 md:pb-0 md:min-h-[calc(100svh-var(--header-height,140px))]">
             <div class="pointer-events-none absolute -left-20 top-10 h-52 w-52 rounded-full bg-[#1977b224] blur-3xl md:-left-32 md:h-72 md:w-72"></div>
             <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
 
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
+                <div class="mb-6 flex justify-start lg:hidden">
+                    <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-auto items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
+                        Онлайн запись
+                    </a>
+                </div>
                 <div class="relative -top-2 flex w-full flex-col md:-top-3 lg:-top-5 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
                     <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
                         <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.1em] text-white shadow-[0_10px_24px_rgba(10,43,80,0.10)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(10,43,80,0.14)]" style="background:{$actual_season_color};">
@@ -777,30 +778,33 @@ class HeroSection extends Component {
                         <link rel="preconnect" href="https://fonts.googleapis.com">
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                         <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-                        <h1 class="mt-2 max-w-3xl leading-[1.1] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(1.95rem,4.25vw,2.85rem);font-weight:700;">
+                        <h1 class="mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;">
                             С нами выздоравливать легко!
                         </h1>
-                        <p class="mt-3 inline-flex w-fit items-center bg-transparent px-0 py-0 leading-none text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
+                        <p class="mt-4 inline-flex w-fit items-center bg-transparent px-0 py-0 leading-[1.16] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
                             Ваш Биоинмед
                         </p>
-                        <div class="mt-3 max-w-2xl space-y-2">
-                            <a href="/services/hobilect-diagnostics" class="group flex items-start gap-3 border-l-4 border-[#1977b2]/35 pl-4 transition-colors hover:border-[#1977b2]">
-                                <span class="pt-0.5 text-[1.06rem] font-medium leading-snug text-[#17446f] md:text-[1.14rem]">
-                                    Экосистема HABILECT
+                        <div class="mt-4 flex max-w-3xl flex-col gap-2.5 md:mt-5 md:gap-3">
+                            <a href="/services/hobilect-diagnostics" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
+                                <span class="flex items-start gap-2 text-[#17446f]">
+                                    <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
+                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]">Экосистема HABILECT</span>
                                 </span>
                             </a>
-                            <a href="/services/hobilect-diagnostics" class="group flex items-start gap-3 border-l-4 border-[#1977b2]/35 pl-4 transition-colors hover:border-[#1977b2]">
-                                <span class="pt-0.5 text-[1.06rem] font-medium leading-snug text-[#17446f] md:text-[1.14rem]">
-                                    Ваш эффективный маршрут здоровья
+                            <a href="/services/hobilect-diagnostics" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
+                                <span class="flex items-start gap-2 text-[#17446f]">
+                                    <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
+                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]">Ваш эффективный маршрут здоровья</span>
                                 </span>
                             </a>
-                            <a href="/services/hobilect-diagnostics" class="group flex items-start gap-3 border-l-4 border-[#1977b2]/35 pl-4 transition-colors hover:border-[#1977b2]">
-                                <span class="pt-0.5 text-[1.06rem] font-medium leading-snug text-[#17446f] md:text-[1.14rem]">
-                                    Где Вы особенный
+                            <a href="/services/hobilect-diagnostics" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
+                                <span class="flex items-start gap-2 text-[#17446f]">
+                                    <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
+                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]">Где Вы особенный</span>
                                 </span>
                             </a>
                         </div>
-                        <a href="/services/hobilect-diagnostics" class="mt-4 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff] hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:gap-3 md:px-4 md:py-2.5">
+                        <a href="/services/hobilect-diagnostics" class="mt-5 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff] hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:mt-6 md:gap-3 md:px-4 md:py-2.5">
                             <img src="{$habilect_logo}" alt="Хабилект" class="h-9 w-auto shrink-0 md:h-10" loading="eager" decoding="async">
                             <div class="min-w-0">
                                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2] md:text-[0.82rem]">Хабилект</p>
@@ -808,7 +812,7 @@ class HeroSection extends Component {
                             </div>
                         </a>
 
-                        <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
+                        <div class="mt-6 hidden w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-7 md:p-4 lg:block">
                             <div>
                                 <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]">Записаться на приём</h2>
                                 <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
@@ -853,6 +857,18 @@ class HeroSection extends Component {
                 </div>
             </div>
 
+        </section>
+
+        <section class="-mt-3 border-b border-[#dbe7f2] bg-[#e4f1fa] pt-0 pb-8 lg:hidden">
+            <div class="mx-auto w-full max-w-6xl px-6">
+                <div class="rounded-[1.2rem] border border-[#d6e4f0] bg-white p-6 shadow-[0_18px_38px_rgba(10,43,80,0.09)]">
+                    <h2 class="text-[1rem] font-bold text-[#0f2749]">Записаться на приём</h2>
+                    <p class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
+                    <div class="mt-4">
+                        {$hero_callback_form}
+                    </div>
+                </div>
+            </div>
         </section>
 
         <div id="hero-image-modal" class="fixed inset-0 z-[110] hidden bg-[rgba(7,21,40,0.84)] px-4 py-6">
@@ -1255,12 +1271,12 @@ class ProblemsGrid extends Component {
             }
 
             $items_html .= <<<HTML
-            <a href="/problems/{$this->e($slug)}" class="group flex h-full min-h-[210px] flex-col rounded-[1rem] bg-[#1977b2] p-6 text-white transition hover:bg-[#16658f]">
+            <a href="/problems/{$this->e($slug)}" class="group flex h-full min-h-[210px] flex-col rounded-[1rem] bg-[#c8dbe8] p-6 text-[#0f2749] transition hover:bg-[#bfd5e4]">
                 <div class="min-w-0 flex-1">
-                    <h3 class="text-[1.18rem] font-bold leading-[1.08] text-white md:text-[1.32rem]">{$this->e($title)}</h3>
-                    <p class="mt-4 max-w-[22rem] text-[0.92rem] leading-relaxed text-white md:text-[0.98rem]">{$this->e($description)}</p>
+                    <h3 class="text-[1.18rem] font-bold leading-[1.08] text-[#0f2749] md:text-[1.32rem]">{$this->e($title)}</h3>
+                    <p class="mt-4 max-w-[22rem] text-[0.92rem] leading-relaxed text-[#0f2749] md:text-[0.98rem]">{$this->e($description)}</p>
                 </div>
-                <div class="mt-5 inline-flex self-start items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.92rem] font-semibold text-[#1977b2] shadow-[0_8px_18px_rgba(10,43,80,0.08)] transition group-hover:bg-[#f8fcff] group-hover:text-[#16658f]">
+                <div class="mt-5 inline-flex self-start items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white shadow-[0_8px_18px_rgba(10,43,80,0.08)] transition group-hover:bg-[#16658f] group-hover:text-white">
                     Подробнее
                     <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i>
                 </div>
@@ -1409,33 +1425,35 @@ class SpecialOffer extends Component {
         <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-white px-6 py-6 md:px-8 md:py-7">
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Специальное предложение для пациентов</p>
-                    <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Первичная 3D диагностика на мультифункциональном комплексе Хабилект + консультация реабилитолога</h2>
-                    <div class="mt-4 border-l-4 border-[#1977b2] pl-4 md:pl-5">
-                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#0a293c]">Специальная цена</p>
-                        <div class="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
-                            <span class="text-2xl font-bold leading-none text-[#0f2749] md:text-[1.9rem]">3000 руб.</span>
-                            <span class="text-sm text-[#5b81a8] md:text-[0.98rem]">вместо <span class="line-through">6000 руб.</span></span>
+                    <a href="/services/hobilect-diagnostics" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" aria-label="Перейти к услуге Хабилект">
+                        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Специальное предложение для пациентов</p>
+                        <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Первичная 3D диагностика на мультифункциональном комплексе Хабилект + консультация реабилитолога</h2>
+                        <div class="mt-4 border-l-4 border-[#1977b2] pl-4 md:pl-5">
+                            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#0a293c]">Специальная цена</p>
+                            <div class="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
+                                <span class="text-2xl font-bold leading-none text-[#0f2749] md:text-[1.9rem]">3000 руб.</span>
+                                <span class="text-sm text-[#5b81a8] md:text-[0.98rem]">вместо <span class="line-through">6000 руб.</span></span>
+                            </div>
+                            <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]">Экономия 3000 руб.</p>
                         </div>
-                        <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]">Экономия 3000 руб.</p>
-                    </div>
-                    <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#0a293c]">
-                        Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика на мультифункциональном комплексе Хабилект даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.
-                    </p>
-                    <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#0a293c]">
-                        <li class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                            <span>3D-диагностика на мультифункциональном комплексе Хабилект для точной оценки нарушений опорно-двигательного аппарата</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                            <span>Консультация реабилитолога с подбором индивидуального комплекса ЛФК</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                            <span>Диагностика стоп на подоскопе в подарок</span>
-                        </li>
-                    </ul>
+                        <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#0a293c]">
+                            Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика на мультифункциональном комплексе Хабилект даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.
+                        </p>
+                        <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#0a293c]">
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
+                                <span>3D-диагностика на мультифункциональном комплексе Хабилект для точной оценки нарушений опорно-двигательного аппарата</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
+                                <span>Консультация реабилитолога с подбором индивидуального комплекса ЛФК</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
+                                <span>Диагностика стоп на подоскопе в подарок</span>
+                            </li>
+                        </ul>
+                    </a>
                     <div class="mt-4">
                         <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
                             <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
