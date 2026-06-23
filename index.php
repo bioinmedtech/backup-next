@@ -80,7 +80,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     <!-- Фирменные шрифты и стили -->
     <style>
         :root {
-            --background: #f3f8fd;
+            --background: #e4f1fa;
             --foreground: #0f2749;
         }
         
@@ -94,7 +94,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
         }
         
         body {
-            background: linear-gradient(to bottom, #f9fcff 0%, #f3f8fd 45%, #eef4fb 100%);
+            background: var(--background);
             color: var(--foreground);
         }
         
@@ -179,12 +179,12 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     echo $problems_section->render();
     ?>
 
-    <section class="border-b border-[#e6eef7] bg-[linear-gradient(180deg,#eef7ff_0%,#f4fbff_100%)] py-12 md:py-16">
+    <section class="border-b border-[#e6eef7] bg-[linear-gradient(180deg,#eef7ff_0%,#e4f1fa_100%)] py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="rounded-[2rem] border border-[#dbe8f4] bg-white p-6 shadow-[0_16px_40px_rgba(8,36,70,0.07)] md:p-8">
                 <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                     <div>
-                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">Ваш маршрут здоровья</p>
+                        <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">Ваш маршрут здоровья в Биоинмед</p>
                         <h2 class="mt-2 text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Понятный путь от первого обращения до результата</h2>
                     </div>
                     <p class="max-w-2xl text-[0.92rem] leading-relaxed text-[#4f759c]">Маршрут построен так, чтобы пациент видел всю логику лечения целиком: от первого обращения до устойчивого результата.</p>
@@ -295,8 +295,20 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     
     <!-- Contacts -->
     <?php
+    $solidarity_section = new SolidarityMedicineBlock($brand_colors);
+    echo $solidarity_section->render();
+    ?>
+
+    <!-- Contacts -->
+    <?php
     $contact_section = new ContactSection($brand_colors);
     echo $contact_section->render();
+    ?>
+
+    <!-- Partners -->
+    <?php
+    $partners_section = new PartnersBlock($brand_colors);
+    echo $partners_section->render();
     ?>
     
     <!-- Footer -->

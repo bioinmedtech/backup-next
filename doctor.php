@@ -58,6 +58,7 @@ $phone2link   = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
 $doctorImagePath = $doctor && !empty($doctor['image'])
     ? bioinmed_versioned_asset_path('/public/images/team/' . $doctor['image'])
     : '';
+$doctorProjectTitle = trim((string)($doctor['project_title'] ?? 'Автор лечебно-восстановительного проекта «Хабилект»'));
 $socialImageUrl = $doctor && !empty($doctor['image'])
     ? bioinmed_absolute_url($doctorImagePath)
     : bioinmed_default_social_image_url();
@@ -118,7 +119,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="flex min-h-screen flex-col bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
+<body class="flex min-h-screen flex-col bg-[#e4f1fa] text-[#0f2749] antialiased">
 <?php
 $header = new Header($brand_colors);
 echo $header->render();
@@ -140,8 +141,8 @@ echo $header->render();
 <main class="grow">
 
     <!-- ===== HERO ===== -->
-    <section class="bg-[#f4fbff] border-b border-[#e4edf6]">
-        <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
+    <section class="bg-[#e4f1fa] py-10 md:py-14">
+        <div class="mx-auto max-w-6xl px-6 md:px-10">
 
             <!-- breadcrumb -->
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
@@ -152,35 +153,36 @@ echo $header->render();
                 <span class="text-[#0f2749]"><?php echo e($doctor['name']); ?></span>
             </nav>
 
-            <div class="grid items-start gap-7 md:grid-cols-[340px_1fr] lg:grid-cols-[400px_1fr]">
+            <div class="grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
 
                 <!-- photo -->
-                <div class="fade-up">
-                    <div class="overflow-hidden rounded-3xl border border-[#d9e7f3] shadow-[0_12px_36px_rgba(8,36,70,0.10)]">
+                <div class="fade-up w-full max-w-[480px]">
+                    <div class="aspect-square overflow-hidden rounded-3xl">
                             <img src="<?php echo e($doctorImagePath); ?>"
                              alt="<?php echo e($doctor['name']); ?>"
-                             class="h-full w-full object-cover"
+                             class="h-full w-full rounded-3xl object-cover object-top"
                              loading="eager"
                              onerror="this.src='/public/images/placeholder.jpg'">
                     </div>
+                    <?php if (!empty($doctor['hero_tagline'])): ?>
+                    <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
+                        <?php echo e($doctor['hero_tagline']); ?>
+                    </p>
+                    <?php endif; ?>
                 </div>
 
                 <!-- info -->
                 <div class="fade-up" style="transition-delay:.08s">
-                    <h1 class="text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.75rem]"><?php echo e($doctor['name']); ?></h1>
-                    <p class="mt-2 text-[1.02rem] font-semibold text-[#0a293c] md:text-[1.12rem]"><?php echo e($doctor['title']); ?></p>
-
-                    <?php if (!empty($doctor['hero_tagline'])): ?>
-                    <p class="mt-4 max-w-3xl text-[#4f6f92]" style="font-family:'Caveat',cursive;font-size:clamp(1.52rem,5.2vw,1.9rem);line-height:1.14;font-weight:700;">
-                        <?php echo e($doctor['hero_tagline']); ?>
-                    </p>
-                    <?php else: ?>
-                    <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]"><?php echo e($doctor['bio']); ?></p>
-                    <?php endif; ?>
-
+                    <p class="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e($doctor['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ'); ?></p>
+                    <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.75rem]"><?php echo e($doctor['name']); ?></h1>
+                    <p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($doctorProjectTitle); ?></p>
                     <?php $heroLeadership = trim((string)($doctor['hero_leadership'] ?? ($doctor['leadership'] ?? ''))); ?>
                     <?php if ($heroLeadership !== ''): ?>
-                    <p class="mt-3 text-[1.04rem] leading-relaxed text-[#4a6f9c] md:text-[1.1rem]"><?php echo e($heroLeadership); ?></p>
+                    <p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]"><?php echo e($heroLeadership); ?></p>
+                    <?php endif; ?>
+
+                    <?php if (empty($doctor['hero_tagline'])): ?>
+                    <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]"><?php echo e($doctor['bio']); ?></p>
                     <?php endif; ?>
 
                     <?php $heroHighlights = $doctor['hero_highlights'] ?? []; ?>
@@ -243,16 +245,32 @@ echo $header->render();
             <?php
             if (!empty($customSections) && is_array($customSections)) {
                 $practiceSectionIndex = null;
+                $authorMethodSectionIndex = null;
                 foreach ($customSections as $sectionIndex => $sectionData) {
-                    if (trim((string)($sectionData['key'] ?? '')) === 'treatment-practice-directions') {
+                    $sectionKey = trim((string)($sectionData['key'] ?? ''));
+                    if ($sectionKey === 'author-method-omolozhenie') {
+                        $authorMethodSectionIndex = $sectionIndex;
+                    }
+                    if ($sectionKey === 'treatment-practice-directions') {
                         $practiceSectionIndex = $sectionIndex;
-                        break;
                     }
                 }
-                if ($practiceSectionIndex !== null && $practiceSectionIndex !== 0) {
+                $authorMethodSection = null;
+                if ($authorMethodSectionIndex !== null) {
+                    $authorMethodSection = $customSections[$authorMethodSectionIndex];
+                    unset($customSections[$authorMethodSectionIndex]);
+                }
+                if ($practiceSectionIndex !== null) {
                     $practiceSection = $customSections[$practiceSectionIndex];
                     unset($customSections[$practiceSectionIndex]);
-                    array_unshift($customSections, $practiceSection);
+                    if ($authorMethodSection !== null) {
+                        array_unshift($customSections, $practiceSection);
+                        array_unshift($customSections, $authorMethodSection);
+                    } else {
+                        array_unshift($customSections, $practiceSection);
+                    }
+                } elseif ($authorMethodSection !== null) {
+                    array_unshift($customSections, $authorMethodSection);
                 }
             }
             ?>
@@ -262,7 +280,7 @@ echo $header->render();
             <div class="space-y-6">
 
                 <?php if (!$hideStandardSections && !empty($doctor['specializations']) && is_array($doctor['specializations'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-list-check text-sm"></i></span>
@@ -286,7 +304,7 @@ echo $header->render();
                 <?php endif; ?>
 
                 <?php if (!$hideStandardSections && !empty($doctor['focus']) && is_array($doctor['focus'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="focus">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="focus">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-bullseye text-sm"></i></span>
@@ -314,10 +332,12 @@ echo $header->render();
                     $sectionKey = trim((string)($section['key'] ?? ''));
                     $sectionTitle = trim((string)($section['title'] ?? ''));
                     $sectionIcon = trim((string)($section['icon'] ?? 'fa-solid fa-circle-info'));
-                    $sectionCardClasses = trim((string)($section['card_classes'] ?? 'rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]'));
+                    $sectionCardClasses = trim((string)($section['card_classes'] ?? 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]'));
                     $sectionIconBgClasses = trim((string)($section['icon_bg_classes'] ?? 'bg-[#e8f3fc] text-[#1977b2]'));
                     $sectionIntro = trim((string)($section['intro'] ?? ''));
                     $sectionText = trim((string)($section['text'] ?? ''));
+                    $sectionLinkLabel = trim((string)($section['link_label'] ?? ''));
+                    $sectionLinkHref = trim((string)($section['link_href'] ?? ''));
                     $sectionItems = $section['items'] ?? [];
                     $sectionSubsections = $section['subsections'] ?? [];
                     if ($sectionKey === '' || $sectionTitle === '') {
@@ -341,6 +361,15 @@ echo $header->render();
 
                         <?php if ($sectionText !== ''): ?>
                         <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($sectionText); ?></p>
+                        <?php endif; ?>
+
+                        <?php if ($sectionLinkLabel !== '' && $sectionLinkHref !== ''): ?>
+                        <div>
+                            <a href="<?php echo e($sectionLinkHref); ?>" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.88rem] font-semibold text-white transition hover:bg-[#16658f]">
+                                <span><?php echo e($sectionLinkLabel); ?></span>
+                                <i class="fa-solid fa-arrow-right text-[0.74rem]" aria-hidden="true"></i>
+                            </a>
+                        </div>
                         <?php endif; ?>
 
                         <?php if (!empty($sectionItems) && is_array($sectionItems)): ?>
@@ -387,7 +416,7 @@ echo $header->render();
                 <?php endif; ?>
 
                 <?php if (!in_array('education', $customSectionKeys, true) && !empty($doctor['education'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="education">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="education">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-university text-sm"></i></span>
@@ -404,7 +433,7 @@ echo $header->render();
                 <?php endif; ?>
 
                 <?php if (!in_array('trust', $customSectionKeys, true)): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="trust">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="trust">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-shield-halved text-sm"></i></span>
@@ -556,11 +585,11 @@ echo $header->render();
     $doctorServices = array_values($doctorServices);
     ?>
     <?php if (!empty($doctorServices)): ?>
-    <section class="border-t border-[#e4edf6] bg-[#f4fbff] py-12">
+    <section class="border-t border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Специалист клиники БИОИНМЕД</p>
             <h2 class="mt-2 text-xl font-bold text-[#0a293c] md:text-2xl">Релевантные услуги</h2>
-            <p class="mt-2 text-sm text-[#4a6f9c]">Услуги, которые чаще всего выбирают на этом приёме</p>
+            <p class="mt-2 text-sm text-[#0a293c]">Услуги, которые чаще всего выбирают на этом приёме</p>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach ($doctorServices as $srv): ?>
@@ -570,13 +599,16 @@ echo $header->render();
                         <?php echo e($srv['name']); ?>
                     </p>
                     <?php if (!empty($srv['description'])): ?>
-                    <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-[#5a7fa3]">
+                    <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-[#0a293c]">
                         <?php echo e(mb_substr($srv['description'], 0, 110, 'UTF-8')); ?>…
                     </p>
                     <?php endif; ?>
                     <div class="mt-auto flex items-center justify-between pt-4">
                         <span class="text-xs font-semibold text-[#1977b2]"><?php echo e($srv['price'] ?? 'Уточнить'); ?></span>
-                        <span class="text-xs text-[#0a293c] group-hover:text-[#1977b2]">Подробнее →</span>
+                        <span class="inline-flex items-center gap-1 rounded-full bg-[#1977b2] px-3 py-1.5 text-[0.72rem] font-semibold text-white shadow-[0_8px_18px_rgba(25,119,178,0.18)] transition group-hover:bg-[#16658f]">
+                            Подробнее
+                            <i class="fa-solid fa-arrow-right text-[0.62rem]"></i>
+                        </span>
                     </div>
                 </a>
                 <?php endforeach; ?>
@@ -586,7 +618,7 @@ echo $header->render();
     <?php endif; ?>
 
     <!-- ===== CTA STRIP ===== -->
-    <section class="border-y border-[#e4edf6] bg-[linear-gradient(90deg,#ecf6ff_0%,#f7fbff_100%)] py-12">
+    <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника БИОИНМЕД · Москва</p>
             <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl">Не откладывайте заботу о здоровье</h2>

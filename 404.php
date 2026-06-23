@@ -42,7 +42,7 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="flex min-h-screen flex-col bg-[radial-gradient(circle_at_15%_20%,rgba(25,119,178,0.13),transparent_38%),radial-gradient(circle_at_85%_0%,rgba(31,122,230,0.10),transparent_35%),linear-gradient(to_bottom,#f9fcff_0%,#eff6fd_55%,#e9f2fb_100%)] text-[#0f2749] antialiased">
+<body class="flex min-h-screen flex-col bg-[#e4f1fa] text-[#0f2749] antialiased">
 <?php
 $header = new Header($brand_colors);
 echo $header->render();
@@ -50,7 +50,7 @@ echo $header->render();
 
 <main class="mx-auto flex w-full max-w-6xl grow items-center px-6 py-12 md:px-10 md:py-16">
     <div class="grid w-full items-start gap-6 lg:grid-cols-[1fr_390px]">
-        <section class="fade-up rounded-3xl border border-[#d8e6f3] bg-[#f4fbff] p-7 shadow-[0_16px_40px_rgba(8,36,70,0.08)] md:p-9">
+        <section class="fade-up rounded-3xl border border-[#d8e6f3] bg-[#e4f1fa] p-7 shadow-[0_16px_40px_rgba(8,36,70,0.08)] md:p-9">
             <div class="inline-flex items-center gap-2 rounded-full border border-[#d5e5f3] bg-[#f2f9ff] px-3 py-1.5 text-xs font-semibold text-[#0a293c]">
                 <i class="fa-solid fa-triangle-exclamation text-[#1977b2]"></i>
                 Ошибка 404

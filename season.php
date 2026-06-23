@@ -126,7 +126,7 @@ $season_titles = [
 $titles = $season_titles[$slug] ?? [
     'health' => 'Здоровье ' . $s['name_gen'],
     'gallery' => 'Пейзажи ' . $s['name_gen'],
-    'tips' => 'Советы для вашего здоровья',
+    'tips' => 'Советы для Вашего здоровья',
     'services' => 'Услуги для ' . $s['name_gen'],
     'cta' => 'Запишитесь на консультацию',
     'nav' => 'Другие сезоны',
@@ -213,7 +213,7 @@ $footer = new Footer();
             padding: 2rem 0;
         }
         .season-nav-dot.active {
-            background: #f4fbff;
+            background: #e4f1fa;
             width: 2rem;
         }
         .season-gallery-shell {
@@ -301,7 +301,7 @@ $footer = new Footer();
             overflow: hidden;
             border-radius: 1.5rem;
             border: 1px solid rgba(13, 42, 72, 0.08);
-            background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,251,255,0.96) 100%);
+            background: linear-gradient(180deg, rgba(228,241,250,0.95) 0%, rgba(255,255,255,0.98) 100%);
             padding: 1.05rem;
             box-shadow: 0 14px 30px rgba(8, 36, 70, 0.08);
             transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
@@ -325,7 +325,7 @@ $footer = new Footer();
             align-items: center;
             gap: 0.35rem;
             border-radius: 9999px;
-            background: rgba(36, 140, 255, 0.12);
+            background: rgba(25, 119, 178, 0.12);
             padding: 0.28rem 0.68rem;
             color: #0a293c;
             font-size: 0.84rem;
@@ -555,7 +555,7 @@ $footer = new Footer();
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="bg-[#f4fbff] antialiased">
+<body class="bg-[#e4f1fa] antialiased">
 <?= $header->render() ?>
 
 <!-- ═══════════════ HERO ═══════════════ -->
@@ -640,14 +640,14 @@ $footer = new Footer();
 </section>
 
 <!-- ═══════════════ SEASONAL TIPS ═══════════════ -->
-<section class="py-14 md:py-20 bg-[#f4fbff]">
+<section class="py-14 md:py-20 bg-[#e4f1fa]">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#0a293c] mb-7 text-center">
             <?= $e($titles['tips']) ?>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <?php foreach ($s['tips'] as $tip): ?>
-            <div class="flex gap-4 p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex gap-4 p-5 rounded-2xl border border-[#dce8f5] bg-white shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center text-white text-base"
                      style="background:<?= $e($s['color']) ?>">
                     <i class="fa-solid <?= $e($tip['icon']) ?>" aria-hidden="true"></i>
@@ -698,7 +698,7 @@ $footer = new Footer();
         <div class="mx-auto max-w-4xl text-center">
             <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3"><?= $e($titles['cta']) ?></h2>
             <p class="text-white/80 text-[1.04rem] md:text-[1.12rem] mb-7 max-w-xl mx-auto leading-relaxed">
-                Наши специалисты разработают индивидуальную программу с учётом сезона и ваших особенностей.
+                Наши специалисты разработают индивидуальную программу с учётом сезона и Ваших особенностей.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                      <a href="javascript:void(0)"

@@ -24,7 +24,7 @@ $iconPath = CLINIC_ICON_PATH;
 $iconUrl  = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/doctors';
-$pageTitle = 'Профессиональная команда — клиника БИОИНМЕД';
+$pageTitle = 'Моя профессиональная команда — клиника БИОИНМЕД';
 $pageDescription = 'Познакомьтесь с командой врачей клиники БИОИНМЕД. Опытные специалисты в области остеопатии, рефлексотерапии, гомеопатии, психотерапии и восстановительной медицины в Москве.';
 $phone1      = CLINIC_PHONE;
 $phone1link  = preg_replace('/\D/', '', $phone1);
@@ -33,9 +33,35 @@ $phone2link  = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
 
 function e($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
+$doctorOrder = [
+    'fomichev-dmitriy-viktorovich',
+    'kondratova-elena-aleksandrovna',
+    'nehorosheva-lyudmila-sergeevna',
+    'vertlib-valeriya-pavlovna',
+    'mayorova-darya-sergeevna',
+    'rozhkov-sergei-leonidovich',
+];
+$doctorOrderMap = array_flip($doctorOrder);
+$chiefDoctor = $doctors[0] ?? null;
+$teamDoctors = [];
+foreach (array_slice($doctors, 1) as $originalIndex => $doctorItem) {
+    $doctorItem['__original_index'] = $originalIndex;
+    $teamDoctors[] = $doctorItem;
+}
+usort($teamDoctors, static function (array $left, array $right) use ($doctorOrderMap): int {
+    $leftOrder = $doctorOrderMap[$left['slug'] ?? ''] ?? 999;
+    $rightOrder = $doctorOrderMap[$right['slug'] ?? ''] ?? 999;
+    if ($leftOrder === $rightOrder) {
+        return ($left['__original_index'] ?? 0) <=> ($right['__original_index'] ?? 0);
+    }
+    return $leftOrder <=> $rightOrder;
+});
+
+$orderedDoctors = $chiefDoctor ? array_merge([$chiefDoctor], $teamDoctors) : $teamDoctors;
+
 $doctorListElements = [];
 $doctorPosition = 1;
-foreach ($doctors as $doctorItem) {
+foreach ($orderedDoctors as $doctorItem) {
     $doctorSlug = trim((string)($doctorItem['slug'] ?? ''));
     $doctorName = trim((string)($doctorItem['name'] ?? ''));
     if ($doctorSlug === '' || $doctorName === '') {
@@ -88,12 +114,12 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         '@type'    => 'MedicalOrganization',
         'name'     => CLINIC_NAME,
         'url'      => $canonicalUrl,
-        'employee' => array_map(fn($d) => [
+                'employee' => array_map(fn($d) => [
             '@type'    => 'Physician',
             'name'     => $d['name'],
             'jobTitle' => $d['title'] ?? '',
             'url'      => CLINIC_SITE_URL . '/doctors/' . ($d['slug'] ?? ''),
-        ], $doctors),
+        ], $orderedDoctors),
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
@@ -116,7 +142,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="flex min-h-screen flex-col bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
+<body class="flex min-h-screen flex-col bg-[#e4f1fa] text-[#0f2749] antialiased">
 <?php
 $header = new Header($brand_colors);
 echo $header->render();
@@ -125,7 +151,7 @@ echo $header->render();
 <main class="grow">
 
     <!-- HERO -->
-    <section class="border-b border-[#e4edf6] bg-[#f4fbff]">
+    <section class="border-b border-[#e4edf6] bg-[#e4f1fa]">
         <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
                 <a href="/" class="hover:text-[#1977b2]">Главная</a>
@@ -134,7 +160,7 @@ echo $header->render();
             </nav>
             <div class="max-w-2xl">
                 <p class="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Клиника БИОИНМЕД · Москва</p>
-                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]">Профессиональная команда</h1>
+                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]">Врачи клиники</h1>
                 <p class="mt-3 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.04rem]">
                     Команда клиники БИОИНМЕД — врачи с многолетним опытом в области интегративной медицины, остеопатии, рефлексотерапии, гомеопатии и психотерапии. Каждый специалист строит индивидуальный план лечения.
                 </p>
@@ -142,12 +168,12 @@ echo $header->render();
         </div>
     </section>
 
-    <section class="border-b border-[#e4edf6] bg-[#f7fbff] py-10 md:py-14">
+    <section class="border-b border-[#e4edf6] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div class="fade-up overflow-hidden rounded-3xl border border-[#d6e5f2] bg-[#eaf3fb] shadow-[0_18px_40px_rgba(6,29,60,0.08)]">
+            <div class="fade-up overflow-hidden rounded-3xl">
                 <img src="<?php echo e(bioinmed_versioned_asset_path('/public/images/team/team-photo.jpg')); ?>"
                      alt="Команда клиники БИОИНМЕД"
-                     class="h-auto max-h-[520px] w-full object-contain"
+                     class="h-auto max-h-[520px] w-full rounded-3xl object-contain"
                      loading="eager"
                      onerror="this.src='/public/images/placeholder.jpg'">
             </div>
@@ -156,38 +182,41 @@ echo $header->render();
 
     <!-- CHIEF DOCTOR -->
     <?php
-    $chief = $doctors[0] ?? null;
+    $chief = $chiefDoctor;
     if ($chief):
         $chiefExp = trim((string)($chief['experience'] ?? ''));
         $chiefImage = bioinmed_versioned_asset_path('/public/images/team/' . ($chief['image'] ?? ''));
         $chiefYears = null;
         if (preg_match('/(\d+)\s*(?:лет|год)/ui', $chiefExp, $m)) $chiefYears = $m[1];
     ?>
-    <section class="border-b border-[#e4edf6] bg-[#f6fbff] py-10 md:py-14">
+    <section class="bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="mb-6 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">Главный врач</p>
-            <div class="fade-up grid gap-8 rounded-3xl border border-[#d6e5f2] bg-white p-6 shadow-[0_18px_40px_rgba(6,29,60,0.08)] md:grid-cols-[320px_1fr] md:p-8">
-                <div class="overflow-hidden rounded-2xl">
-                    <img src="<?php echo e($chiefImage); ?>"
-                         alt="<?php echo e($chief['name']); ?>"
-                         class="h-full max-h-[400px] w-full object-cover"
-                         loading="eager"
-                        onerror="this.src='/public/images/placeholder.jpg'">
-                </div>
+                <div class="fade-up grid gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
+                    <div class="w-full max-w-[480px]">
+                        <div class="aspect-square overflow-hidden rounded-3xl">
+                            <img src="<?php echo e($chiefImage); ?>"
+                                 alt="<?php echo e($chief['name']); ?>"
+                                 class="h-full w-full rounded-3xl object-cover object-top"
+                                 loading="eager"
+                                 onerror="this.src='/public/images/placeholder.jpg'">
+                        </div>
+                        <?php if (!empty($chief['hero_tagline'])): ?>
+                        <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
+                            Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью
+                        </p>
+                        <?php endif; ?>
+                    </div>
                 <div class="flex flex-col justify-between">
                     <div>
-                        <h2 class="text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem]"><?php echo e($chief['name']); ?></h2>
-                        <p class="mt-1 text-[0.92rem] font-semibold uppercase tracking-[0.15em] text-[#0a293c]"><?php echo e($chief['title']); ?></p>
-                        <?php if (!empty($chief['hero_tagline'])): ?>
-                        <p class="mt-4 max-w-3xl text-[#4f6f92]" style="font-family:'Caveat',cursive;font-size:clamp(1.48rem,5vw,1.82rem);line-height:1.14;font-weight:700;">
-                            <?php echo e($chief['hero_tagline']); ?>
-                        </p>
-                        <?php else: ?>
-                        <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c]"><?php echo e($chief['bio']); ?></p>
-                        <?php endif; ?>
+                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"><?php echo e($chief['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ'); ?></p>
+                        <h2 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem]"><?php echo e($chief['name']); ?></h2>
+                        <p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($chief['project_title'] ?? 'Автор лечебно-восстановительного проекта «Хабилект»'); ?></p>
                         <?php $chiefHeroLeadership = trim((string)($chief['hero_leadership'] ?? ($chief['leadership'] ?? ''))); ?>
-                        <?php if ($chiefHeroLeadership !== ''): ?>
-                        <p class="mt-3 text-[1rem] leading-relaxed text-[#4a6f9c] md:text-[1.08rem]"><?php echo e($chiefHeroLeadership); ?></p>
+                        <p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]">
+                            Специализируюсь на сложных случаях. Более 30 лет клинической практики в области детской и взрослой медицины.<?php echo $chiefHeroLeadership !== '' ? ' ' . e($chiefHeroLeadership) : ''; ?>
+                        </p>
+                        <?php if (empty($chief['hero_tagline'])): ?>
+                        <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c]"><?php echo e($chief['bio']); ?></p>
                         <?php endif; ?>
                         <?php $chiefHighlights = $chief['hero_highlights'] ?? []; ?>
                         <?php if (!empty($chiefHighlights) && is_array($chiefHighlights)): ?>
@@ -203,9 +232,9 @@ echo $header->render();
                     </div>
                     <div class="mt-6">
                         <a href="/doctors/<?php echo e($chief['slug']); ?>"
-                            class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.98rem] font-semibold text-white hover:bg-[#16658f]">
-                            Подробнее
-                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                            class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
+                            Подробнее о враче
+                            <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
                         </a>
                     </div>
                 </div>
@@ -215,14 +244,14 @@ echo $header->render();
     <?php endif; ?>
 
     <!-- ALL DOCTORS GRID -->
-    <section class="py-12 md:py-16">
+    <section class="bg-[#e4f1fa] py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <p class="text-[0.92rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Команда клиники</p>
-            <h2 class="mt-2 text-[2rem] font-bold text-[#0a293c] md:text-[2.35rem]">Врачи команды</h2>
-            <p class="mt-2 text-[1.02rem] text-[#4a6f9c]">Нажмите на карточку врача, чтобы узнать подробнее о его специализации и записаться на приём</p>
+            <h2 class="mt-2 text-[2rem] font-bold text-[#0a293c] md:text-[2.35rem]">Специалисты клиники</h2>
+            <p class="mt-2 text-[1.02rem] text-[#0a293c]">Нажмите на карточку врача, чтобы узнать подробнее о его специализации и записаться к нужному Вам специалисту.</p>
 
-            <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                <?php foreach (array_slice($doctors, 1) as $index => $doc):
+            <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-2">
+                <?php foreach ($teamDoctors as $index => $doc):
                     $docExp = trim((string)($doc['experience'] ?? ''));
                     $docImage = bioinmed_versioned_asset_path('/public/images/team/' . ($doc['image'] ?? ''));
                           $docHasProfile = !array_key_exists('has_profile', $doc) || $doc['has_profile'] !== false;
@@ -232,15 +261,15 @@ echo $header->render();
                     if (preg_match('/(\d+)\s*(?:лет|год)/ui', $docExp, $m)) $docYears = $m[1];
                 ?>
                      <article
-                         class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition <?php echo $docHasProfile ? 'hover:border-[#1977b2] hover:shadow-[0_12px_30px_rgba(25,119,178,0.13)]' : ''; ?>"
+                         class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition md:flex-row md:items-stretch <?php echo $docHasProfile ? 'hover:border-[#1977b2] hover:shadow-[0_12px_30px_rgba(25,119,178,0.13)]' : ''; ?>"
                          style="transition-delay:<?php echo $index * 60; ?>ms">
-                    <div class="overflow-hidden">
+                    <div class="overflow-hidden md:w-[260px] lg:w-[320px] md:self-stretch md:shrink-0">
                         <?php if ($docHasProfile): ?>
-                        <a href="<?php echo e($docLink); ?>" class="block overflow-hidden">
+                        <a href="<?php echo e($docLink); ?>" class="block h-full overflow-hidden">
                         <?php endif; ?>
                                           <img src="<?php echo e($docImage); ?>"
                                       alt="<?php echo e($doc['name']); ?>"
-                                                        class="aspect-[4/5] w-full object-cover transition duration-300 md:aspect-[5/6] <?php echo $docHasProfile ? 'group-hover:scale-[1.03]' : ''; ?>"
+                                                        class="block aspect-[4/5] w-full object-cover object-top transition duration-300 md:h-full md:min-h-full md:aspect-auto <?php echo $docHasProfile ? 'group-hover:scale-[1.03]' : ''; ?>"
                              loading="lazy"
                                       onerror="this.src='/public/images/placeholder.jpg'">
                         <?php if ($docHasProfile): ?>
@@ -259,12 +288,13 @@ echo $header->render();
                         <?php if ($docExp !== ''): ?>
                         <p class="mt-2 text-[0.98rem] font-semibold leading-snug text-[#0a293c] md:text-[1rem]"><?php echo e($docExp); ?></p>
                         <?php endif; ?>
-                        <p class="mt-3 text-[0.96rem] leading-relaxed text-[#4a6f9c] md:text-[1rem] line-clamp-3"><?php echo e($doc['bio']); ?></p>
-
                         <?php if ($docHasProfile || $docActionText !== ''): ?>
                         <div class="mt-auto flex items-center justify-end pt-4">
                             <?php if ($docHasProfile): ?>
-                            <a href="<?php echo e($docLink); ?>" class="text-[0.96rem] font-semibold text-[#1977b2] hover:underline">Подробнее →</a>
+                            <a href="<?php echo e($docLink); ?>" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
+                                Подробнее
+                                <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
+                            </a>
                             <?php else: ?>
                             <span class="text-[0.96rem] font-semibold text-[#6d8db2]"><?php echo e($docActionText); ?></span>
                             <?php endif; ?>
@@ -278,12 +308,12 @@ echo $header->render();
     </section>
 
     <!-- CTA -->
-    <section class="border-y border-[#e4edf6] bg-[linear-gradient(90deg,#ecf6ff_0%,#f7fbff_100%)] py-12">
+    <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
             <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника БИОИНМЕД · <?php echo e(CLINIC_METRO); ?></p>
-            <h2 class="mt-3 text-[1.32rem] font-bold text-[#0a293c] md:text-[1.58rem]">Запишитесь к нужному специалисту</h2>
+            <h2 class="mt-3 text-[1.32rem] font-bold text-[#0a293c] md:text-[1.58rem]">Запишитесь к нужному Вам специалисту</h2>
             <p class="mx-auto mt-3 max-w-xl text-[0.98rem] text-[#0a293c]">
-                Если не знаете, к кому обратиться — позвоните нам. Мы поможем выбрать врача под ваш запрос.
+                Если не знаете, к кому обратиться — позвоните нам. Мы поможем выбрать врача под Ваш запрос.
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
                 <a href="tel:<?php echo $phone1link; ?>" class="rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.98rem] font-semibold text-white hover:bg-[#16658f]">

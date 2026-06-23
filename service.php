@@ -129,16 +129,19 @@ $catLabel = $catInfo[$cat]['label'] ?? 'Услуга';
 $serviceGallery = $service ? bioinmed_service_gallery_urls($service, 4) : [];
 $servicePrimaryImage = $serviceGallery[0] ?? null;
 $socialImageUrl = $servicePrimaryImage ? ($siteUrl . $servicePrimaryImage) : bioinmed_default_social_image_url();
+$serviceDoctorTitle = trim((string)($service['doctor_title'] ?? ''));
+$serviceDoctorName = trim((string)($service['doctor_name'] ?? ''));
+$serviceDoctorProjectTitle = trim((string)($service['doctor_project_title'] ?? ''));
 $serviceGalleryJson = json_encode(array_values($serviceGallery), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 $faqs_on_page = [
     ['q' => 'Сколько времени занимает первичный приём?',
      'a' => 'Обычно 60–90 минут. Врач собирает анамнез, проводит оценку состояния и формирует маршрут лечения.'],
     ['q' => 'Нужна ли предварительная подготовка?',
-     'a' => 'Специальной подготовки не требуется. Возьмите с собой имеющиеся результаты анализов и исследований (если есть).'],
+     'a' => 'Специальной подготовки не требуется. Возьмите с собой имеющиеся результаты анализов и исследований (если есть). Чистую облегающую одежду, за исключением черного цвета и бархатной ткани.'],
     ['q' => 'Как быстро будет результат?',
-     'a' => 'Зависит от состояния пациента. Часть пациентов отмечают улучшение уже после первой–второй процедуры, другие — после курса. Врач контролирует динамику и корректирует план.'],
+     'a' => 'Зависит от Вашего состояния. Часть пациентов отмечают улучшение уже после первой–второй сеанса, при длительной патологии — после курса.'],
     ['q' => 'Можно ли совмещать с другими методами лечения?',
-     'a' => 'Да. Интегративный подход клиники именно об этом: услуги сочетаются и усиливают друг друга. Врач подберёт оптимальную комбинацию.'],
+     'a' => 'Да, в клинике Биоинмед комплексный подход: услуги сочетаются и усиливают друг друга. Врач подберёт оптимальную комбинацию.'],
 ];
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
@@ -253,7 +256,7 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="flex min-h-screen flex-col bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
+<body class="flex min-h-screen flex-col bg-[#e4f1fa] text-[#0f2749] antialiased">
 <?php
 $header = new Header($brand_colors);
 echo $header->render();
@@ -293,9 +296,23 @@ echo $header->render();
             </nav>
 
             <div class="fade-up">
+                    <?php if ($serviceDoctorTitle !== '' || $serviceDoctorName !== '' || $serviceDoctorProjectTitle !== ''): ?>
+                    <?php if ($serviceDoctorTitle !== ''): ?>
+                    <p class="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e($serviceDoctorTitle); ?></p>
+                    <?php endif; ?>
+                    <?php if ($serviceDoctorName !== ''): ?>
+                    <h1 class="mt-2 text-2xl font-bold leading-tight text-[#0a293c] md:text-3xl lg:text-4xl"><?php echo e($serviceDoctorName); ?></h1>
+                    <?php else: ?>
+                    <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0a293c] md:text-3xl lg:text-4xl"><?php echo e($service['name']); ?></h1>
+                    <?php endif; ?>
+                    <?php if ($serviceDoctorProjectTitle !== ''): ?>
+                    <p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($serviceDoctorProjectTitle); ?></p>
+                    <?php endif; ?>
+                    <?php else: ?>
                     <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0a293c] md:text-3xl lg:text-4xl"><?php echo e($service['name']); ?></h1>
                     <?php if (!empty($service['subtitle'])): ?>
                     <p class="mt-2 text-lg font-semibold text-[#0a293c]"><?php echo e($service['subtitle']); ?></p>
+                    <?php endif; ?>
                     <?php endif; ?>
 
                     <?php if (!empty($service['description'])): ?>
@@ -311,13 +328,268 @@ echo $header->render();
                 <!-- left: main content -->
                 <div class="space-y-6 lg:order-1">
 
-                <!-- Как проходит приём и лечение -->
+                <!-- Реабилитация Хабилект -->
+                <?php $isHobilect = (($service['id'] ?? '') === 'hobilect-diagnostics'); ?>
+                <?php if ($isHobilect): ?>
+                <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7 shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
+                    <p class="text-[0.84rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]">Реабилитация с биологической обратной связью</p>
+                    <h2 class="mt-2 text-[1.42rem] font-bold leading-tight text-[#0a293c] md:text-[1.75rem]">
+                        Реабилитация с биологической обратной связью и анализом движений
+                    </h2>
+                    <p class="mt-4 max-w-3xl text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
+                        Во время занятия пациент выполняет упражнения под контролем специалиста, а система фиксирует движения, равновесие, координацию и качество выполнения. На экране сразу виден результат, поэтому восстановление становится понятным, наглядным и мотивирующим.
+                    </p>
+                    <p class="mt-3 max-w-3xl text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
+                        Методика применяется в неврологии, травматологии, ортопедии, спортивной и детской реабилитации, а также при восстановлении после травм, операций и нарушений походки.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-2">
+                        <a href="#hobilect-for-who" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-4 py-2 text-[0.82rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:text-[#1977b2]">Для кого подходит</a>
+                        <a href="#hobilect-assessment" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-4 py-2 text-[0.82rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:text-[#1977b2]">Что оценивает система</a>
+                        <a href="#hobilect-process" class="inline-flex items-center rounded-full border border-[#1977b2] bg-[#1977b2] px-4 py-2 text-[0.82rem] font-semibold text-white shadow-[0_8px_20px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">Как проходит занятие</a>
+                        <a href="#hobilect-biofeedback" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-4 py-2 text-[0.82rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:text-[#1977b2]">Биологическая обратная связь</a>
+                        <a href="#hobilect-reports" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-4 py-2 text-[0.82rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:text-[#1977b2]">Анализ и отчёты</a>
+                    </div>
+
+                    <div class="mt-6 space-y-4">
+                        <details id="hobilect-for-who" class="group rounded-2xl border border-[#dce8f5] bg-[#f8fbff]">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-user-group text-xs"></i></span>
+                                    Для кого подходит методика
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Услуга может быть полезна пациентам, которым важно восстановить движение, улучшить координацию и научиться лучше контролировать положение тела.</p>
+                                <div class="mt-4 grid gap-3 md:grid-cols-2">
+                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
+                                        <ul class="space-y-2.5 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Нарушения походки и снижение устойчивости.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Нарушения координации движений и равновесия.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Восстановление после травм и операций.</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
+                                        <ul class="space-y-2.5 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Неврологические, ортопедические и травматологические состояния.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Детская и спортивная реабилитация.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Контроль риска падений и двигательных нарушений.</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details id="hobilect-assessment" class="group rounded-2xl border border-[#dce8f5] bg-[#f8fbff]">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-chart-column text-xs"></i></span>
+                                    Что оценивает специалист
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Система анализа движений помогает врачу получить объективные данные о том, как пациент выполняет движения в статике и динамике.</p>
+                                <div class="mt-4 grid gap-3 md:grid-cols-2">
+                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
+                                        <ul class="space-y-2.5 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Походку, симметричность движений и центр тяжести.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Равновесие, устойчивость и координацию.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Движения в суставах и параметры движения в трёх плоскостях.</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
+                                        <ul class="space-y-2.5 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Качество выполнения упражнений и динамику восстановления.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Патологические паттерны походки и слабые места опоры.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Изменение центра тяжести в статике и динамике.</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details id="hobilect-process" class="group rounded-2xl border border-[#dce8f5] bg-[#f8fbff]">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-person-walking text-xs"></i></span>
+                                    Как проходит занятие
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Занятие проходит под контролем специалиста. Пациент выполняет простые двигательные задания в зависимости от цели реабилитации, а программа помогает сразу увидеть и скорректировать результат.</p>
+                                <div class="mt-4 grid gap-4 md:grid-cols-2">
+                                    <div class="rounded-xl border border-[#dce8f5] bg-white p-4">
+                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Форматы</p>
+                                        <ul class="mt-3 space-y-2.5 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Упражнения стоя и сидя.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Ходьба, задания на равновесие и координацию.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Упражнения с дополнительным инвентарём.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Игровые сценарии и визуальная обратная связь.</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="rounded-xl border border-[#dce8f5] bg-white p-4">
+                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Роль специалиста</p>
+                                        <ul class="mt-3 space-y-2.5 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Контроль правильности выполнения движений.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Коррекция нагрузки по мере выполнения задания.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Изменение программы под текущее состояние пациента.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Подготовка к занятию занимает минимум времени.</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details id="hobilect-biofeedback" class="group rounded-2xl border border-[#dce8f5] bg-[#f8fbff]">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-circle-nodes text-xs"></i></span>
+                                    Биологическая обратная связь
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Пациент не просто выполняет движение, а сразу видит на экране, насколько точно оно выполняется. Это делает реабилитацию более наглядной и вовлекающей.</p>
+                                <ul class="mt-4 grid gap-3 md:grid-cols-2 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Улучшение контроля движений.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Повышение осознанности выполнения упражнений.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Закрепление правильного двигательного навыка.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Рост мотивации и понятный прогресс в динамике.</span></li>
+                                </ul>
+                            </div>
+                        </details>
+
+                        <details id="hobilect-games" class="group rounded-2xl border border-[#dce8f5] bg-[#f8fbff]">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-gamepad text-xs"></i></span>
+                                    Игровые упражнения
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Игровой формат помогает сделать реабилитацию более вовлекающей, особенно для детей и пациентов, которым сложно сохранять интерес к однотипным упражнениям.</p>
+                                <ul class="mt-4 grid gap-3 md:grid-cols-3 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Разные уровни сложности и типы движений.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Сценарии под задачи реабилитации.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Повышение вовлечённости без потери лечебной цели.</span></li>
+                                </ul>
+                            </div>
+                        </details>
+
+                        <details id="hobilect-reports" class="group rounded-2xl border border-[#dce8f5] bg-[#f8fbff]">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-file-waveform text-xs"></i></span>
+                                    Анализ движений и отчёты
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Система позволяет не только проводить занятия, но и отслеживать изменения. По результатам специалист получает наглядные данные для оценки состояния и контроля восстановления.</p>
+                                <div class="mt-4 grid gap-3 md:grid-cols-2">
+                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
+                                        <ul class="space-y-2.5 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Запись и воспроизведение проб.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Анализ в статике и динамике.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Графики, таблицы и сравнение результатов в динамике.</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
+                                        <ul class="space-y-2.5 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Подготовка отчётов для контроля лечения.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Оценка симметричности движений и баланса.</span></li>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Понятная база для корректировки программы.</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details id="hobilect-benefits" class="group rounded-2xl border border-[#dce8f5] bg-white">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-award text-xs"></i></span>
+                                    Преимущества методики
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <ul class="grid gap-3 md:grid-cols-2 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Объективная оценка движений, а не только визуальное наблюдение.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Анализ более 80 параметров биомеханики.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Быстрая подготовка пациента к пробе.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Индивидуальный подбор упражнений и контроль динамики.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Подходит взрослым и детям.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Визуальная обратная связь повышает мотивацию.</span></li>
+                                </ul>
+                            </div>
+                        </details>
+
+                        <details id="hobilect-patient-result" class="group rounded-2xl border border-[#dce8f5] bg-white">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-clipboard-check text-xs"></i></span>
+                                    Что получает пациент
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">После диагностики и занятий пациент получает более понятное представление о своём состоянии и видит, какие движения требуют коррекции.</p>
+                                <ul class="mt-4 grid gap-3 md:grid-cols-2 text-[0.95rem] leading-relaxed text-[#0a293c]">
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Понимание цели упражнений и собственного прогресса.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Повышение уверенности в движениях.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Индивидуальную программу восстановления с возможностью корректировки.</span></li>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-[#f8fbff] p-4"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Чёткое понимание динамики и следующего шага.</span></li>
+                                </ul>
+                            </div>
+                        </details>
+
+                        <details id="hobilect-safety" class="group rounded-2xl border border-[#dce8f5] bg-[#f8fbff]">
+                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 md:p-6 marker:hidden">
+                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-shield-heart text-xs"></i></span>
+                                    Используемое оборудование и безопасность
+                                </span>
+                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+                                </span>
+                            </summary>
+                            <div class="px-5 pb-5 md:px-6 md:pb-6">
+                                <div class="grid gap-4 md:grid-cols-2">
+                                    <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">В клинике используется медицинская система Хабилект с программными модулями для анализа движений и реабилитационных занятий с биологической обратной связью. Система позволяет проводить двигательную реабилитацию, оценивать походку, баланс, координацию и анализ движений в статике и динамике.</p>
+                                    <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Занятия проводятся под контролем специалиста, с учётом состояния пациента, возраста, диагноза и целей восстановления. Подготовка занимает минимум времени, а формат подбирается индивидуально и безопасно.</p>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+                <?php else: ?>
+                <!-- Как проходит приём и кому показана услуга -->
                 <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7 shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
                     <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                             <i class="fa-solid fa-circle-play text-sm"></i>
                         </span>
-                        Как проходит приём и лечение
+                        Как проходит приём и кому показана услуга
                     </h2>
                     <?php if (!empty($service['details'])): ?>
                     <p class="mt-4 text-sm leading-relaxed text-[#0a293c]"><?php echo e($service['details']); ?></p>
@@ -333,35 +605,29 @@ echo $header->render();
                         </li>
                         <li class="flex items-start gap-3">
                             <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">3</span>
-                            <span class="text-sm text-[#0a293c] mt-0.5">Составление персонального плана лечения с конкретными целями</span>
+                            <span class="text-sm text-[#0a293c] mt-0.5">Составление персонального маршрута лечения с конкретными целями</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">4</span>
-                            <span class="text-sm text-[#0a293c] mt-0.5">Проведение курса — с контролем динамики и корректировкой плана</span>
+                            <span class="text-sm text-[#0a293c] mt-0.5">Проведение курса — с контролем динамики и корректировкой маршрута</span>
                         </li>
                     </ol>
-                </div>
-
-                <!-- Who it's for -->
-                <?php if (!empty($service['target'])): ?>
-                <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7 shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
-                            <i class="fa-solid fa-users text-sm"></i>
-                        </span>
-                        Кому показана услуга
-                    </h2>
-                    <p class="mt-4 text-sm leading-relaxed text-[#0a293c]"><?php echo e($service['target']); ?></p>
-                    <div class="mt-4 rounded-xl bg-[#f4f9ff] border border-[#dce8f5] p-4 text-sm text-[#0a293c]">
-                        <i class="fa-solid fa-circle-info text-[#1977b2] mr-2"></i>
-                        Точные показания определяет врач на первичной консультации. Запишитесь — первый приём займёт 60–90 минут.
+                    <?php if (!empty($service['target'])): ?>
+                    <div class="mt-6 rounded-2xl border border-[#dce8f5] bg-[#f8fbff] p-4">
+                        <h3 class="text-[0.92rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Кому показана услуга</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-[#0a293c]"><?php echo e($service['target']); ?></p>
+                        <div class="mt-4 rounded-xl bg-white border border-[#dce8f5] p-4 text-sm text-[#0a293c]">
+                            <i class="fa-solid fa-circle-info text-[#1977b2] mr-2"></i>
+                            Точные показания определяет врач на первичной консультации. Запишитесь - первый приём займёт 60-90 минут.
+                        </div>
                     </div>
+                    <?php endif; ?>
                 </div>
                 <?php endif; ?>
 
                 <!-- Why BIOINMED -->
-                <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-[#f4f9ff] p-7">
-                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
+                <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7">
+                    <h2 class="flex items-center gap-2.5 text-[1.45rem] font-bold text-[#0a293c] md:text-[1.8rem]">
                         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#dceefb] text-[#1977b2]">
                             <i class="fa-solid fa-award text-sm"></i>
                         </span>
@@ -369,13 +635,13 @@ echo $header->render();
                     </h2>
                     <ul class="mt-5 grid gap-3 sm:grid-cols-2">
                         <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Лечим причину боли, а не маскируем симптомы
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Мы с Вами от первого касания до результата
                         </li>
                         <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Объясняем диагноз и план простым понятным языком
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Биоинмед - Ваш комплексный персональный маршрут лечения
                         </li>
                         <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
-                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Собираем персональный маршрут из методов, которые реально сочетаются
+                            <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Объясняем диагноз и маршрут лечения простым понятным языком
                         </li>
                         <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-sm text-[#0a293c]">
                             <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Контролируем динамику на каждом этапе и корректируем курс
@@ -391,7 +657,7 @@ echo $header->render();
 
                 <!-- FAQ mini -->
                 <div class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-7 shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                    <h2 class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
+                    <h2 class="flex items-center gap-2.5 text-[1.45rem] font-bold text-[#0a293c] md:text-[1.8rem]">
                         <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                             <i class="fa-solid fa-circle-question text-sm"></i>
                         </span>
@@ -402,11 +668,11 @@ echo $header->render();
                         foreach ($faqs_on_page as $i => $faq):
                         ?>
                         <details class="group rounded-xl border border-[#e4edf6] bg-[#f8fbff]">
-                            <summary class="flex cursor-pointer items-center justify-between gap-3 px-5 py-4 text-sm font-semibold text-[#0a293c] marker:hidden list-none">
+                            <summary class="flex cursor-pointer items-center justify-between gap-3 px-5 py-4 text-[1rem] font-semibold text-[#0a293c] marker:hidden list-none md:text-[1.06rem]">
                                 <?php echo e($faq['q']); ?>
                                 <i class="fa-solid fa-chevron-down text-[#1977b2] text-xs transition-transform group-open:rotate-180 shrink-0"></i>
                             </summary>
-                            <p class="px-5 pb-4 text-sm leading-relaxed text-[#0a293c]"><?php echo e($faq['a']); ?></p>
+                            <p class="px-5 pb-4 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]"><?php echo e($faq['a']); ?></p>
                         </details>
                         <?php endforeach; ?>
                     </div>
@@ -422,7 +688,7 @@ echo $header->render();
                            class="flex flex-col justify-between rounded-2xl border border-[#dce8f5] bg-white p-5 hover:border-[#1977b2] hover:shadow-md transition-all">
                             <div>
                                 <p class="text-sm font-semibold leading-snug text-[#0a293c]"><?php echo e($rel['name']); ?></p>
-                                <p class="mt-1 text-xs text-[#5a7fa3]"><?php echo e($rel['description'] ?? ''); ?></p>
+                                <p class="mt-1 text-xs text-[#0a293c]"><?php echo e($rel['description'] ?? ''); ?></p>
                             </div>
                             <div class="mt-4 flex items-center justify-between">
                                 <span class="text-sm font-bold text-[#1977b2]"><?php echo e($rel['price'] ?? ''); ?></span>
@@ -476,7 +742,7 @@ echo $header->render();
                                 <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]">Стоимость</p>
                                 <p class="mt-1 text-3xl font-bold text-[#0a293c]"><?php echo e($service['price'] ?? 'По запросу'); ?></p>
                                 <?php if (!empty($service['price_note'])): ?>
-                                <p class="mt-0.5 text-sm text-[#5a7fa3]"><?php echo e($service['price_note']); ?></p>
+                                <p class="mt-0.5 text-sm text-[#0a293c]"><?php echo e($service['price_note']); ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -516,13 +782,13 @@ echo $header->render();
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <i class="fa-solid fa-list-check mt-0.5 shrink-0 text-[#1977b2]"></i>
-                                <span>По итогам вы получите понятный персональный план лечения.</span>
+                                <span>По итогам Вы получите понятный персональный маршрут лечения.</span>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="rounded-3xl border border-[#d9e7f3] bg-[#f4f9ff] p-5">
-                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]">Клиника БИОИНМЕД</p>
+                    <div class="rounded-3xl border border-[#d9e7f3] bg-white p-5">
+                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Клиника БИОИНМЕД</p>
                         <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]">
                             <li class="flex items-start gap-2.5">
                                 <i class="fa-solid fa-location-dot mt-0.5 shrink-0 text-[#1977b2]"></i>
@@ -540,7 +806,7 @@ echo $header->render();
     </section>
 
     <!-- ===== FINAL CTA STRIP ===== -->
-    <section class="border-y border-[#e4edf6] bg-[linear-gradient(90deg,#ecf6ff_0%,#f7fbff_100%)] py-12">
+    <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника БИОИНМЕД · <?php echo e(CLINIC_ADDRESS); ?></p>
             <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl">Жизнь без боли начинается с первого шага</h2>
@@ -645,6 +911,31 @@ echo $footer->render();
         document.body.classList.remove('overflow-hidden');
     }
 
+    function openDetailsTarget(hash) {
+        if (!hash) return false;
+        var target = document.querySelector(hash);
+        if (!target) return false;
+
+        var details = target.tagName && target.tagName.toLowerCase() === 'details'
+            ? target
+            : target.closest('details');
+
+        if (details) {
+            details.open = true;
+            window.requestAnimationFrame(function() {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            return true;
+        }
+
+        return false;
+    }
+
+    function syncDetailsAnchor() {
+        if (!window.location.hash) return;
+        openDetailsTarget(window.location.hash);
+    }
+
     mainImage?.addEventListener('click', openImageModal);
     zoomButton?.addEventListener('click', openImageModal);
     imageModalClose?.addEventListener('click', closeImageModal);
@@ -659,6 +950,20 @@ echo $footer->render();
             closeImageModal();
         }
     });
+
+    document.querySelectorAll('a[href^="#hobilect-"]').forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            var hash = link.getAttribute('href');
+            if (!hash || hash === '#') return;
+            if (openDetailsTarget(hash)) {
+                event.preventDefault();
+                history.replaceState(null, '', hash);
+            }
+        });
+    });
+
+    window.addEventListener('hashchange', syncDetailsAnchor);
+    syncDetailsAnchor();
 
     restartServiceImageAnimation();
 </script>

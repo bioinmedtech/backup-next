@@ -256,7 +256,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="bg-[linear-gradient(to_bottom,#f9fcff_0%,#f3f8fd_45%,#eef4fb_100%)] text-[#0f2749] antialiased">
+<body class="bg-[#e4f1fa] text-[#0f2749] antialiased">
     <?php
     $header = new Header($brand_colors);
     echo $header->render();

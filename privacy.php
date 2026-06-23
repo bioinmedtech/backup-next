@@ -39,7 +39,7 @@ function e($value) {
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="min-h-screen bg-[linear-gradient(to_bottom,#f9fcff_0%,#f2f7fc_50%,#edf4fb_100%)] text-[#0f2749] antialiased">
+<body class="min-h-screen bg-[#e4f1fa] text-[#0f2749] antialiased">
 <?php
 $header = new Header($brand_colors);
 echo $header->render();
@@ -54,7 +54,7 @@ echo $header->render();
                 Настоящая политика определяет порядок обработки, хранения и защиты персональных данных, которые клиника <?php echo e(CLINIC_NAME); ?>
                 получает при обращении через сайт, по телефону, по электронной почте, через формы записи и при дальнейшем взаимодействии с пациентом.
             </p>
-            <div class="mt-4 flex flex-col gap-1 text-[0.82rem] text-[#5a7fa3] sm:flex-row sm:flex-wrap sm:gap-4">
+            <div class="mt-4 flex flex-col gap-1 text-[0.82rem] text-[#0a293c] sm:flex-row sm:flex-wrap sm:gap-4">
                 <p><span class="font-semibold text-[#2a5a94]">Дата вступления в силу:</span> 30.04.2026</p>
                 <p><span class="font-semibold text-[#2a5a94]">Дата последнего изменения:</span> 30.04.2026</p>
             </div>

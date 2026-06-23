@@ -35,7 +35,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 $bookingUrl = defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '#contact';
 $chief = $doctors[0] ?? [];
 $chiefName = trim((string)($chief['name'] ?? 'Инна Викторовна Костромина'));
-$chiefTitle = trim((string)($chief['title'] ?? 'Главный врач'));
+$chiefTitle = trim((string)($chief['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ'));
+$chiefProjectTitle = trim((string)($chief['project_title'] ?? 'Автор лечебно-восстановительного проекта «Хабилект»'));
 $chiefBio = trim((string)($chief['bio'] ?? 'Эксперт в области интегративной медицины, биорегуляции и персональных программ восстановления.'));
 $chiefLeadership = trim((string)($chief['hero_leadership'] ?? ($chief['leadership'] ?? '')));
 $chiefTagline = trim((string)($chief['hero_tagline'] ?? ''));
@@ -98,7 +99,7 @@ function e($value) {
 	<script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
 	<?php echo bioinmed_uis_counter_head(); ?>
 </head>
-<body class="min-h-screen bg-[linear-gradient(to_bottom,#f9fcff_0%,#f2f7fc_50%,#edf4fb_100%)] text-[#0f2749] antialiased">
+<body class="min-h-screen bg-[#e4f1fa] text-[#0f2749] antialiased">
 <?php
 $header = new Header($brand_colors);
 echo $header->render();
@@ -112,27 +113,20 @@ echo $header->render();
 			<div>
 				<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника гомеопатии и биорегуляции</p>
 				<h1 class="mt-2 text-[1.65rem] font-bold leading-[1.08] text-[#0f2749] md:text-[2.2rem]">Клиника БИОИНМЕД</h1>
-				<p class="mt-3.5 max-w-2xl text-[0.9rem] leading-relaxed text-[#0a293c]">
-					Мы объединили классическую и восточную медицину, направления информационной медицины, психологию,
-					психогенетику, гомеопатию, рефлексо-физиотерапию и нутрициологию в единую систему восстановления.
-				</p>
-				<div class="mt-5 rounded-2xl border border-[#d6e5f2] bg-white/90 p-4 shadow-[0_8px_20px_rgba(8,36,70,0.05)]">
-					<p class="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Подход БИОИНМЕД</p>
-					<p class="mt-2 text-[1.05rem] font-semibold leading-snug text-[#0f2749]">Выздоровление как искусство: точно, глубоко, персонально.</p>
-				</div>
-				<div class="mt-4 grid gap-3 sm:grid-cols-3">
-					<div class="rounded-xl border border-[#d9e7f4] bg-white p-3.5 shadow-[0_6px_16px_rgba(8,36,70,0.04)]">
-						<p class="text-[1.18rem] font-bold text-[#0f2749]">30+</p>
-						<p class="text-[0.75rem] leading-snug text-[#4f759c]">лет клинического опыта</p>
-					</div>
-					<div class="rounded-xl border border-[#d9e7f4] bg-white p-3.5 shadow-[0_6px_16px_rgba(8,36,70,0.04)]">
-						<p class="text-[1.18rem] font-bold text-[#0f2749]">20+</p>
-						<p class="text-[0.75rem] leading-snug text-[#4f759c]">направлений интегративной медицины</p>
-					</div>
-					<div class="rounded-xl border border-[#d9e7f4] bg-white p-3.5 shadow-[0_6px_16px_rgba(8,36,70,0.04)]">
-						<p class="text-[1.18rem] font-bold text-[#0f2749]">1</p>
-						<p class="text-[0.75rem] leading-snug text-[#4f759c]">персональный маршрут для каждого пациента</p>
-					</div>
+				<div class="mt-4 max-w-2xl space-y-2">
+					<p class="text-[0.74rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Ваша экосистема здоровья</p>
+					<p class="text-[1.08rem] font-semibold leading-[1.42] text-[#0a293c] md:text-[1.1rem]">
+						Клиника Биоинмед - ваша экосистема, где вы особенный.
+					</p>
+					<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]">
+						Учитывая высокий уровень психологического стресса в условиях мегаполиса, при травмах, операциях, спортивных нагрузках и гиподинамии мы предлагаем ключевые решения для здорового образа жизни.
+					</p>
+					<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]">
+						Объединяя традиции и инновации, мы создаем научно-обоснованные решения и авторские методики в области современной медицины.
+					</p>
+					<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]">
+						Наши уникальные методы диагностики и лечения, высокий уровень профессионализма, передовые технологии, системный и экологичный подход обеспечивают высокий результат от первого касания до выздоровления.
+					</p>
 				</div>
 			</div>
 			<aside class="rounded-3xl border border-[#d6e4f1] bg-white p-5 shadow-[0_16px_38px_rgba(8,36,70,0.13)]">
@@ -140,7 +134,7 @@ echo $header->render();
 				<h2 class="mt-2 text-[1.25rem] font-bold leading-tight text-[#0f2749]"><?php echo e(CLINIC_ADDRESS); ?></h2>
 				<p class="mt-1 text-[0.9rem] font-medium text-[#0a293c]"><?php echo e(CLINIC_METRO); ?></p>
 
-				<div class="mt-4 space-y-3 rounded-2xl border border-[#dce8f4] bg-[#f7fbff] p-4">
+				<div class="mt-4 space-y-3 rounded-2xl border border-[#dce8f4] bg-[#e4f1fa] p-4">
 					<div class="flex items-start gap-2 text-[0.86rem] text-[#0a293c]">
 						<i class="fa-solid fa-location-dot mt-0.5 text-[#1977b2]"></i>
 						<span>Клиника находится в удобной доступности от метро и городского транспорта.</span>
@@ -171,108 +165,50 @@ echo $header->render();
 
 	<section>
 		<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-			<h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Уникальные особенности БИОИНМЕД</h2>
-			<p class="text-[0.84rem] text-[#4f759c]">Диагностика, биорегуляция и интегративные протоколы в одной клинической системе</p>
+			<h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Ключевые задачи клиники</h2>
+			<p class="text-[0.84rem] text-[#0a293c]">Профессиональный и научно-обоснованный подход к лечению</p>
 		</div>
-		<div class="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-			<article class="rounded-2xl border border-[#dce8f4] bg-white p-5 shadow-[0_8px_18px_rgba(8,36,70,0.06)] transition hover:border-[#bfd7eb]"><p class="font-semibold text-[#17446f]">Вегетативно-резонансный тест</p><p class="mt-2 text-sm leading-relaxed text-[#4f759c]">Точная оценка функциональных нарушений и подбор персонального маршрута восстановления.</p></article>
-			<article class="rounded-2xl border border-[#dce8f4] bg-white p-5 shadow-[0_8px_18px_rgba(8,36,70,0.06)] transition hover:border-[#bfd7eb]"><p class="font-semibold text-[#17446f]">Диагностика HABILECT</p><p class="mt-2 text-sm leading-relaxed text-[#4f759c]">Инновационная система для диагностики и реабилитации опорно-двигательного аппарата.</p></article>
-			<article class="rounded-2xl border border-[#dce8f4] bg-white p-5 shadow-[0_8px_18px_rgba(8,36,70,0.06)] transition hover:border-[#bfd7eb]"><p class="font-semibold text-[#17446f]">Кинезиодиагностика</p><p class="mt-2 text-sm leading-relaxed text-[#4f759c]">Выявление функциональных цепочек, перегрузок и глубинных причин хронической боли.</p></article>
-			<article class="rounded-2xl border border-[#dce8f4] bg-white p-5 shadow-[0_8px_18px_rgba(8,36,70,0.06)] transition hover:border-[#bfd7eb]"><p class="font-semibold text-[#17446f]">Психодиагностика</p><p class="mt-2 text-sm leading-relaxed text-[#4f759c]">Определение психоэмоциональных факторов, влияющих на состояние и скорость восстановления.</p></article>
-			<article class="rounded-2xl border border-[#dce8f4] bg-white p-5 shadow-[0_8px_18px_rgba(8,36,70,0.06)] transition hover:border-[#bfd7eb]"><p class="font-semibold text-[#17446f]">Ольфактодиагностика</p><p class="mt-2 text-sm leading-relaxed text-[#4f759c]">Дополнительный инструмент оценки адаптационных возможностей и тонкой настройки терапии.</p></article>
-			<article class="rounded-2xl border border-[#dce8f4] bg-white p-5 shadow-[0_8px_18px_rgba(8,36,70,0.06)] transition hover:border-[#bfd7eb]"><p class="font-semibold text-[#17446f]">Интегративная синергия</p><p class="mt-2 text-sm leading-relaxed text-[#4f759c]">Сочетание аппаратных и информационных технологий, психотерапии, рефлексотерапии, остеопатии и нутрициологии.</p></article>
-		</div>
-	</section>
-
-	<section class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-[linear-gradient(180deg,#eef7ff_0%,#f4fbff_100%)] shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-		<div class="p-6 md:p-8">
-			<div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-				<div>
-					<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">Ваш маршрут здоровья</p>
-					<h2 class="mt-2 text-[1.35rem] font-bold text-[#0f2749] md:text-[1.75rem]">Как выглядит ваш маршрут здоровья в БИОИНМЕД</h2>
+		<div class="mt-5 rounded-3xl border border-[#d9e7f3] bg-white p-5 shadow-[0_10px_24px_rgba(8,36,70,0.08)] md:p-6">
+			<div class="grid gap-4 md:grid-cols-2">
+				<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
+					<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Соблюдение этапов восстановления здоровья</p>
+					<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]">Детоксикация - биорегуляция - адаптация - регенерация.</p>
 				</div>
-				<p class="max-w-2xl text-[0.9rem] leading-relaxed text-[#4f759c]">Маршрут помогает увидеть всю последовательность лечения целиком: от первого обращения до устойчивого результата.</p>
-			</div>
-
-			<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-				<article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
-					<div class="flex items-center gap-3">
-						<span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-user-doctor text-[1rem]"></i></span>
-						<div>
-							<p class="text-[1rem] font-semibold text-[#17446f]">Консультация</p>
-						</div>
-					</div>
-					<p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Врач изучает жалобы, историю заболевания и текущее состояние пациента, чтобы определить направление дальнейшей работы.</p>
-				</article>
-				<article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
-					<div class="flex items-center gap-3">
-						<span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-magnifying-glass-chart text-[1rem]"></i></span>
-						<div>
-							<p class="text-[1rem] font-semibold text-[#17446f]">Диагностика</p>
-						</div>
-					</div>
-					<p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Подбираются нужные методы обследования, чтобы увидеть источник симптомов и понять, какие механизмы требуют коррекции.</p>
-				</article>
-				<article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
-					<div class="flex items-center gap-3">
-						<span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-heart-pulse text-[1rem]"></i></span>
-						<div>
-							<p class="text-[1rem] font-semibold text-[#17446f]">Лечение</p>
-						</div>
-					</div>
-					<p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Формируется индивидуальная программа помощи с нужной последовательностью процедур, рекомендаций и наблюдения в динамике.</p>
-				</article>
-				<article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
-					<div class="flex items-center gap-3">
-						<span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-kit-medical text-[1rem]"></i></span>
-						<div>
-							<p class="text-[1rem] font-semibold text-[#17446f]">Восстановление</p>
-						</div>
-					</div>
-					<p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Организм постепенно адаптируется к изменениям, а терапия помогает перевести улучшения в более устойчивое состояние.</p>
-				</article>
-				<article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
-					<div class="flex items-center gap-3">
-						<span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-person-walking text-[1rem]"></i></span>
-						<div>
-							<p class="text-[1rem] font-semibold text-[#17446f]">Лечебная физическая активность</p>
-						</div>
-					</div>
-					<p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Пациент получает упражнения и безопасную физическую нагрузку, которые помогают телу закрепить результат и вернуться к активности.</p>
-				</article>
-				<article class="rounded-2xl border border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
-					<div class="flex items-center gap-3">
-						<span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f7ef] text-[#2f9b6a]"><i class="fa-solid fa-star text-[1rem]"></i></span>
-						<div>
-							<p class="text-[1rem] font-semibold text-[#17446f]">Результат</p>
-						</div>
-					</div>
-					<p class="mt-3 text-[0.9rem] leading-relaxed text-[#4f759c]">Финальная цель маршрута - не временное облегчение, а понятное движение к стабильному улучшению качества жизни.</p>
-				</article>
+				<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
+					<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Экологичные технологии диагностики</p>
+					<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]">Применяем неинвазивные информационные медицинские технологии для точной диагностики.</p>
+				</div>
+				<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
+					<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Авторские методики и консилиум</p>
+					<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]">Внедряем индивидуальные программы и обсуждаем лечение на клиническом консилиуме.</p>
+				</div>
+				<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
+					<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Мониторинг выздоровления</p>
+					<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]">Контролируем динамику состояния пациента по принципу БОС - биологической обратной связи.</p>
+				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-		<div class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-			<img src="<?php echo e($chiefImage); ?>" alt="<?php echo e($chiefName); ?>" class="h-full min-h-[320px] w-full object-cover object-top" loading="lazy">
-		</div>
-		<article class="rounded-3xl border border-[#d9e7f3] bg-white p-5 md:p-7 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-			<p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Об основателе</p>
-			<h2 class="mt-2 text-[1.32rem] font-bold leading-tight text-[#0f2749] md:text-[1.7rem]"><?php echo e($chiefName); ?></h2>
-			<p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c]"><?php echo e($chiefTitle); ?></p>
-			<?php if ($chiefTagline !== ''): ?>
-			<p class="mt-3.5 max-w-3xl text-[#4f6f92]" style="font-family:'Caveat',cursive;font-size:clamp(1.48rem,5vw,1.82rem);line-height:1.14;font-weight:700;">
-				<?php echo e($chiefTagline); ?>
+	<section class="bg-[#e4f1fa] py-10 md:py-14">
+		<div class="grid gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr] md:items-start">
+		<div class="w-full max-w-[480px]">
+			<div class="aspect-square overflow-hidden rounded-3xl">
+				<img src="<?php echo e($chiefImage); ?>" alt="<?php echo e($chiefName); ?>" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy">
+			</div>
+			<p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
+				Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью
 			</p>
-			<?php else: ?>
-			<p class="mt-2.5 text-[0.9rem] leading-relaxed text-[#0a293c]"><?php echo e($chiefBio); ?></p>
-			<?php endif; ?>
-			<?php if ($chiefLeadership !== ''): ?>
-				<p class="mt-3 text-[1rem] leading-relaxed text-[#4a6f9c] md:text-[1.08rem]"><?php echo e($chiefLeadership); ?></p>
-			<?php endif; ?>
+		</div>
+		<article class="p-5 md:p-7">
+			<p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($chiefTitle); ?></p>
+			<h2 class="mt-2 text-[1.32rem] font-bold leading-tight text-[#0f2749] md:text-[1.7rem]"><?php echo e($chiefName); ?></h2>
+			<p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($chiefProjectTitle); ?></p>
+			<p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]">
+				Специализируюсь на сложных случаях. Более 30 лет клинической практики в области детской и взрослой медицины.<?php echo $chiefLeadership !== '' ? ' ' . e($chiefLeadership) : ''; ?>
+			</p>
 			<?php if (!empty($chiefHighlights) && is_array($chiefHighlights)): ?>
-			<div class="mt-4 rounded-2xl border border-[#dce8f4] bg-[#f7fbff] p-4">
+			<div class="mt-4 rounded-2xl border border-[#dce8f4] bg-[#e4f1fa] p-4">
 				<ul class="space-y-2 text-[0.84rem] leading-relaxed text-[#0a293c]">
 					<?php foreach ($chiefHighlights as $highlight): ?>
 						<li class="flex items-start gap-3">
@@ -283,7 +219,7 @@ echo $header->render();
 				</ul>
 			</div>
 			<?php else: ?>
-			<div class="mt-4 space-y-2 rounded-2xl border border-[#dce8f4] bg-[#f7fbff] p-4 text-[0.84rem] leading-relaxed text-[#0a293c]">
+			<div class="mt-4 space-y-2 rounded-2xl border border-[#dce8f4] bg-[#e4f1fa] p-4 text-[0.84rem] leading-relaxed text-[#0a293c]">
 				<p>Потомственный доктор и эксперт в сфере интегративной медицины, психологии, гомеопатии, рефлексотерапии и биорегуляции.</p>
 				<p>Разработала более десятка авторских методик, семинаров и комплексных оздоровительных программ.</p>
 				<p>Профессиональный фокус - объединение медицины и психологии для поиска первопричины заболевания задолго до выраженных клинических проявлений.</p>
@@ -292,12 +228,10 @@ echo $header->render();
 		</article>
 	</section>
 
-	<section class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-[#f4fbff] shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
+	<section class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
 		<div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-			<div class="bg-[linear-gradient(145deg,#eff8ff_0%,#f9fcff_65%)] p-5 md:p-7">
-				<p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Записаться на прием</p>
-				<h2 class="mt-2 text-[1.26rem] font-bold leading-tight text-[#0f2749] md:text-[1.65rem]">Записаться на приём</h2>
-				<p class="mt-2.5 max-w-md text-[0.86rem] leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
+			<div class="bg-white p-5 md:p-7">
+				<h2 class="text-[1.26rem] font-bold leading-tight text-[#0f2749] md:text-[1.65rem]">Записаться на приём</h2>
 				<div class="mt-4 space-y-2 text-[0.8rem] text-[#0a293c]">
 					<p class="flex items-center gap-2"><i class="fa-solid fa-phone-volume text-[#1977b2]"></i> Свяжемся в ближайшее время</p>
 					<p class="flex items-center gap-2"><i class="fa-solid fa-user-doctor text-[#1977b2]"></i> Подскажем профильного специалиста</p>

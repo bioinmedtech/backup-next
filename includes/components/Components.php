@@ -295,7 +295,7 @@ class Header extends Component {
 
             * { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', sans-serif; }
         </style>
-        <header id="site-header" class="z-50 border-b border-[#d7e5f1] bg-[#f7fbff] lg:bg-[#f7fbff]/98 lg:backdrop-blur-md">
+        <header id="site-header" class="z-50 border-b border-[#d7e5f1] bg-[#e4f1fa] lg:bg-[#e4f1fa]/98 lg:backdrop-blur-md">
             <!-- ─── MOBILE HEADER ─── (hidden on lg+ via CSS) -->
             <div id="mob-header-bar">
                 <!-- Row 1: logo + phone + burger -->
@@ -450,7 +450,7 @@ class Header extends Component {
             @media(min-width:1024px){#mob-header-bar{display:none}}
             #mob-backdrop{display:none;position:fixed;inset:0;z-index:51;background:rgba(0,0,0,.35)}
             #mob-backdrop.open{display:block}
-            #mob-menu{position:fixed;top:0;right:0;bottom:0;z-index:52;width:min(80vw,320px);display:flex;flex-direction:column;background:#f7fbff;box-shadow:-4px 0 32px rgba(10,30,60,.18);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
+            #mob-menu{position:fixed;top:0;right:0;bottom:0;z-index:52;width:min(80vw,320px);display:flex;flex-direction:column;background:#e4f1fa;box-shadow:-4px 0 32px rgba(10,30,60,.18);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
             @media(min-width:1024px){#mob-menu{display:none!important}}
             #mob-menu.open{transform:translateX(0)}
             #mob-nav{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:4px 20px}
@@ -469,8 +469,8 @@ class Header extends Component {
             .mob-subsubnav a:last-child{border-bottom:none!important}
             .services-nav-item{position:static}
             .services-nav-item button{line-height:1}
-            .desktop-menu-bar{position:sticky;top:0;z-index:80;border-bottom:1px solid #dbe8f3;background:#f7fbff}
-            .desktop-menu-row{position:relative;background:#f7fbff}
+            .desktop-menu-bar{position:sticky;top:0;z-index:80;border-bottom:1px solid #dbe8f3;background:#e4f1fa}
+            .desktop-menu-row{position:relative;background:#e4f1fa}
             .menu-strip{scrollbar-width:none}
             .menu-strip::-webkit-scrollbar{display:none}
             .menu-strip a{display:inline-flex;align-items:center;padding-bottom:2px;transition:color .2s ease,border-color .2s ease}
@@ -759,7 +759,7 @@ class HeroSection extends Component {
         ]);
 
         return <<<HTML
-        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#f4fbff] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))] pb-24 md:pb-0">
+        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#e4f1fa] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,140px))] pb-24 md:pb-0">
             <div class="pointer-events-none absolute -left-20 top-10 h-52 w-52 rounded-full bg-[#1977b224] blur-3xl md:-left-32 md:h-72 md:w-72"></div>
             <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
 
@@ -784,13 +784,11 @@ class HeroSection extends Component {
                             <a href="/services/hobilect-diagnostics" class="group inline-block hover:text-[#16658f] transition-colors">
                                 <span class="block">Экосистема HABILECT</span>
                                 <span class="block">Ваш эффективный маршрут здоровья</span>
-                                <span class="block">Где вы особенный</span>
+                                <span class="block">Где Вы особенный</span>
                             </a>
                         </p>
-                        <a href="/services/hobilect-diagnostics" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/55 px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] backdrop-blur-xl transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:gap-3 md:px-4 md:py-2.5">
-                            <div class="flex h-16 w-16 items-center justify-center rounded-full bg-[#1977b2]/12 ring-1 ring-[#1977b2]/15 md:h-18 md:w-18">
-                                <img src="{$habilect_logo}" alt="Хабилект" class="h-10 w-auto shrink-0 md:h-11" loading="eager" decoding="async">
-                            </div>
+                        <a href="/services/hobilect-diagnostics" class="mt-4 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff] hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:gap-3 md:px-4 md:py-2.5">
+                            <img src="{$habilect_logo}" alt="Хабилект" class="h-9 w-auto shrink-0 md:h-10" loading="eager" decoding="async">
                             <div class="min-w-0">
                                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2] md:text-[0.82rem]">Хабилект</p>
                                 <p class="hidden text-[0.8rem] font-medium leading-tight text-[#0a293c] sm:block md:text-[0.88rem]">Инновационные медицинские системы</p>
@@ -1134,55 +1132,55 @@ class StatsBlock extends Component {
         $license_desc = defined('CLINIC_LICENSE_DESC') ? $this->e(CLINIC_LICENSE_DESC) : 'ЛИЦЕНЗИЯ И АККРЕДИТАЦИЯ';
 
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-[#f4fbff] py-5 md:py-6">
-            <div class="mx-auto max-w-6xl px-6 md:px-10">
-                <ul class="grid grid-cols-2 md:grid-cols-4 md:divide-x md:divide-[#e6eef7]">
+        <section class="fade-in border-b border-[#e6eef7] bg-[#1977b2] py-6 md:py-8">
+            <div class="w-full px-6 md:px-10 lg:px-12">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
                     <!-- Stat 1: Experience -->
-                    <li class="flex items-center gap-3 py-4 pr-4 md:px-7 md:py-0 md:first:pl-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
+                    <li class="flex items-center gap-4 py-5 pl-4 text-white md:px-8 md:py-1 md:first:pl-0">
+                        <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2m-6 9 2 2 4-4" />
                             </svg>
                         </span>
                         <div>
-                            <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$experience}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#0a293c]">{$experience_desc}</p>
+                            <div class="text-[2rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[2.25rem]">{$experience}</div>
+                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]">{$experience_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 2: Rehabilitation methods -->
-                    <li class="flex items-center gap-3 py-4 pr-4 md:px-7 md:py-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
+                    <li class="flex items-center gap-4 py-5 pl-4 text-white md:px-8 md:py-1">
+                        <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 1-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21a48.309 48.309 0 0 1-8.135-.687c-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
                             </svg>
                         </span>
                         <div>
-                            <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$patients}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#0a293c]">{$patients_desc}</p>
+                            <div class="text-[2rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[2.25rem]">{$patients}</div>
+                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]">{$patients_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 3: Rating -->
-                    <li class="flex items-center gap-3 py-4 pl-4 md:px-7 md:py-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
+                    <li class="flex items-center gap-4 py-5 pl-4 text-white md:px-8 md:py-1">
+                        <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
                             </svg>
                         </span>
                         <div>
-                            <div class="text-[1.35rem] font-bold leading-none text-[#0f2749] [font-variant-numeric:tabular-nums]">{$rating}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#0a293c]">{$rating_desc}</p>
+                            <div class="text-[2rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[2.25rem]">{$rating}</div>
+                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]">{$rating_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 4: License -->
-                    <li class="flex items-center gap-3 py-4 pl-4 md:px-7 md:py-0 md:last:pr-0">
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
+                    <li class="flex items-center gap-4 py-5 pl-4 text-white md:px-8 md:py-1 md:last:pr-0">
+                        <span class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-white" aria-hidden="true">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                             </svg>
                         </span>
                         <div>
-                            <div class="text-[1.15rem] font-bold leading-none text-[#0f2749]">{$license_text}</div>
-                            <p class="mt-0.5 text-[0.72rem] font-semibold uppercase leading-tight tracking-wide text-[#0a293c]">{$license_desc}</p>
+                            <div class="text-[1.7rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[1.9rem]">{$license_text}</div>
+                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]">{$license_desc}</p>
                         </div>
                     </li>
                 </ul>
@@ -1196,7 +1194,7 @@ class StatsBlock extends Component {
 class VisualGallery extends Component {
     public function render() {
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-[#f4fbff] py-10 md:py-14">
+        <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="grid gap-4 md:grid-cols-4">
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
@@ -1364,7 +1362,7 @@ class ProblemsGrid extends Component {
                         }
                     }
 
-                    $details_sections_html .= '<div class="rounded-lg border border-[#e2edf7] bg-[#f4fbff] p-3.5">';
+                    $details_sections_html .= '<div class="rounded-lg border border-[#e2edf7] bg-[#e4f1fa] p-3.5">';
                     if ($section_title !== '') {
                         $details_sections_html .= '<h4 class="text-[0.92rem] font-semibold text-[#0f2749]">' . $this->e($section_title) . '</h4>';
                     }
@@ -1400,7 +1398,7 @@ class ProblemsGrid extends Component {
         }
 
         return <<<HTML
-        <section id="problems" class="border-b border-[#e6eef7] bg-[#f4fbff] py-12 md:py-16">
+        <section id="problems" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('С какой проблемой обращаются', 'Найдите вашу ситуацию', 'Нажмите на свою проблему — покажем метод лечения, который применяем в клинике.')}
                 <div class="overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(10,43,80,0.07)]">
@@ -1455,7 +1453,7 @@ class AdvantagesBlock extends Component {
         }
 
         return <<<HTML
-        <section id="advantages" class="border-b border-[#e6eef7] bg-[#f7fbff] py-12 md:py-16">
+        <section id="advantages" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('Почему выбирают нас', 'Преимущества клиники', 'Каждый пункт отражает наш стандарт работы: точная диагностика, персональный план и контроль результата.')}
                 <ul class="grid gap-3 sm:grid-cols-2">
@@ -1481,8 +1479,9 @@ class ChiefDoctorBlock extends Component {
         $leadership = isset($this->data['leadership']) ? $this->e($this->data['leadership']) : 'Руководит клиническим процессом и развитием стандартов медицинской помощи.';
         $hero_leadership = isset($this->data['hero_leadership']) ? $this->e($this->data['hero_leadership']) : $leadership;
         $hero_tagline = trim((string)($this->data['hero_tagline'] ?? ''));
+        $project_title = trim((string)($this->data['project_title'] ?? 'Автор лечебно-восстановительного проекта «Хабилект»'));
         $hero_tagline_html = $hero_tagline !== ''
-            ? '<p class="mt-4 max-w-3xl text-[#4f6f92]" style="font-family:\'Caveat\',cursive;font-size:clamp(1.48rem,5vw,1.82rem);line-height:1.14;font-weight:700;">' . $this->e($hero_tagline) . '</p>'
+            ? '<p class="mt-4 max-w-3xl text-[#0a293c]" style="font-family:\'Caveat\',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">' . $this->e($hero_tagline) . '</p>'
             : '<p class="mt-5 text-base leading-relaxed text-[#0a293c]">В БИОИНМЕД каждый пациент получает не набор разрозненных процедур, а цельный лечебный маршрут: диагностика причин, подбор метода, оценка динамики и коррекция тактики.</p>';
         $hero_highlights = $this->data['hero_highlights'] ?? [];
         $hero_highlights_html = '';
@@ -1496,18 +1495,25 @@ class ChiefDoctorBlock extends Component {
         $chief_image = bioinmed_versioned_asset_path('/public/images/team/kostromina.jpg');
 
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-[#f6fbff] py-10 md:py-14">
+        <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                <div class="grid gap-8 rounded-3xl border border-[#d6e5f2] bg-white p-6 shadow-[0_18px_40px_rgba(6,29,60,0.08)] md:grid-cols-[0.85fr_1.15fr] md:p-8">
-                    <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full max-h-[460px] w-full rounded-2xl object-cover" loading="lazy" />
+                <div class="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-start">
+                    <div class="max-w-[480px]">
+                        <div class="aspect-square overflow-hidden rounded-3xl">
+                            <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy" />
+                        </div>
+                        <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью</p>
+                    </div>
                     <div>
-                        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Экспертный подход</p>
+                        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ</p>
                         <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($this->data['name'])}</h2>
-                        <p class="mt-1 text-[0.84rem] font-semibold uppercase tracking-[0.15em] text-[#0a293c]">{$this->e($this->data['title'])}</p>
-                        {$hero_tagline_html}
-                        <p class="mt-3 text-[1rem] leading-relaxed text-[#4a6f9c] md:text-[1.08rem]">{$hero_leadership}</p>
+                        <p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">{$this->e($project_title)}</p>
+                        <p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]">Специализируюсь на сложных случаях. Более 30 лет клинической практики в области детской и взрослой медицины. {$hero_leadership}</p>
                         {$hero_highlights_html}
-                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.92rem] font-semibold text-white hover:bg-[#16658f]">Подробнее</a>
+                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
+                            Подробнее о враче
+                            <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1523,9 +1529,9 @@ class SpecialOffer extends Component {
             'submit_label' => 'Перезвоните мне',
         ]);
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-[#f4fbff] py-10 md:py-12">
+        <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-[linear-gradient(110deg,#ecf6ff_0%,#f7fcff_60%,#eaf7f5_100%)] px-6 py-6 md:px-8 md:py-7">
+                <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-white px-6 py-6 md:px-8 md:py-7">
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Специальное предложение для пациентов</p>
                     <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Первичная 3D диагностика на мультифункциональном комплексе Хабилект + консультация реабилитолога</h2>
                     <div class="mt-4 border-l-4 border-[#1977b2] pl-4 md:pl-5">
@@ -1604,12 +1610,12 @@ class DoctorsGrid extends Component {
                 ? '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"><a href="' . $doctor_link . '" class="transition hover:text-[#1977b2]">' . $this->e($doctor['name']) . '</a></h3>'
                 : '<h3 class="text-lg font-bold leading-tight text-[#0a293c]">' . $this->e($doctor['name']) . '</h3>';
             $card_action = $has_profile
-                ? '<a href="' . $doctor_link . '" class="mt-4 w-full rounded-full bg-[#1977b2] py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#16658f]">Подробнее</a>'
+                ? '<a href="' . $doctor_link . '" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">Подробнее <i class="fa-solid fa-arrow-right text-[0.72rem]"></i></a>'
                 : ($card_action_text !== ''
                     ? '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-white py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]">' . $this->e($card_action_text) . '</div>'
                     : '');
             $cards_html .= <<<HTML
-            <article class="min-w-[280px] max-w-[280px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[310px] sm:max-w-[310px] flex flex-col self-stretch">
+            <article class="min-w-[320px] max-w-[320px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[350px] sm:max-w-[350px] lg:min-w-[380px] lg:max-w-[380px] flex flex-col self-stretch">
                 {$doctor_image_html}
                 <div class="flex flex-1 flex-col p-6">
                     <div class="flex-1">
@@ -1625,21 +1631,19 @@ class DoctorsGrid extends Component {
         }
 
         return <<<HTML
-        <section id="doctors" class="border-b border-[#e6eef7] bg-[#f4fbff] py-12 md:py-16">
+        <section id="doctors" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('Наша команда', 'Профессиональная команда специалистов', 'Познакомьтесь с врачами команды и перейдите в карточку специалиста для подробной информации.')}
-                <div class="rounded-3xl border border-[#dce8f5] bg-[#f7fbff] p-4 sm:p-5">
-                    <div class="mb-4 flex items-center justify-end gap-2">
-                        <button type="button" class="doctor-slider-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#0a293c] hover:bg-[#ecf5ff]" aria-label="Прокрутить влево">
-                            <i class="fa-solid fa-chevron-left text-[1rem]" aria-hidden="true"></i>
-                        </button>
-                        <button type="button" class="doctor-slider-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#0a293c] hover:bg-[#ecf5ff]" aria-label="Прокрутить вправо">
-                            <i class="fa-solid fa-chevron-right text-[1rem]" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <div class="doctor-slider-track flex items-stretch gap-4 overflow-x-auto scroll-smooth pb-2">
-                        {$cards_html}
-                    </div>
+                <div class="mb-4 flex items-center justify-end gap-2">
+                    <button type="button" class="doctor-slider-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#0a293c] hover:bg-[#ecf5ff]" aria-label="Прокрутить влево">
+                        <i class="fa-solid fa-chevron-left text-[1rem]" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="doctor-slider-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#0a293c] hover:bg-[#ecf5ff]" aria-label="Прокрутить вправо">
+                        <i class="fa-solid fa-chevron-right text-[1rem]" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="doctor-slider-track flex items-stretch gap-4 overflow-x-auto scroll-smooth">
+                    {$cards_html}
                 </div>
             </div>
         </section>
@@ -1674,7 +1678,7 @@ class FAQBlock extends Component {
         }
 
         return <<<HTML
-        <section id="faq" class="border-b border-[#e6eef7] bg-[#f8fcff] py-12 md:py-16">
+        <section id="faq" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('Ответы на частые вопросы', 'Что важно знать перед записью', 'Коротко отвечаем на самые частые вопросы перед первым визитом.')}
                 <div class="grid gap-3 md:gap-4">
@@ -1758,8 +1762,9 @@ class ServicesGrid extends Component {
                     <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">{$this->e($card_description)}</p>
                     {$price_display}
                 </div>
-                <a href="{$service_link}" class="mt-4 inline-flex self-start rounded-lg border border-[#1977b2] bg-[#f0fafe] px-3.5 py-2 text-[0.88rem] font-semibold text-[#1977b2] transition hover:bg-[#1977b2] hover:text-white">
-                    Подробнее →
+                <a href="{$service_link}" class="mt-4 inline-flex items-center gap-2 self-start rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
+                    Подробнее
+                    <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
                 </a>
             </article>
             HTML;
@@ -1767,9 +1772,9 @@ class ServicesGrid extends Component {
         }
 
         return <<<HTML
-        <section id="services" class="border-b border-[#e6eef7] bg-[#f4fbff] py-10 md:py-14">
+        <section id="services" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                {$this->sectionTitle('Популярные услуги', 'Основные направления лечения', 'Выберите интересующее вас направление, чтобы узнать подробнее о методах, показаниях и ценах')}
+                {$this->sectionTitle('Популярные услуги', 'Основные направления лечения', 'Выберите интересующее Вас направление, чтобы узнать подробнее о методах, показаниях и ценах')}
                 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {$items_html}
                 </div>
@@ -1792,7 +1797,7 @@ class CasesSlider extends Component {
 
     public function render() {
         return <<<HTML
-        <section id="reviews" class="border-b border-[#e6eef7] bg-[#f7fbff] py-12 md:py-16">
+        <section id="reviews" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('Нам доверяют', 'Отзывы пациентов', 'Отзывы наших пациентов на Яндекс.Картах.')}
                 <div class="mx-auto overflow-hidden rounded-2xl border border-[#dce8f5] shadow-[0_8px_24px_rgba(10,43,80,0.07)]" style="max-width:700px;">
@@ -1812,7 +1817,7 @@ class AppointmentCTA extends Component {
         ]);
 
         return <<<HTML
-        <section id="book-now" class="border-b border-[#e6eef7] bg-[linear-gradient(120deg,#ecf6ff_0%,#f7fbff_45%,#edf7ff_100%)] py-10 md:py-14">
+        <section id="book-now" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9">
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Запишитесь на консультацию</p>
@@ -1844,9 +1849,9 @@ class ContactSection extends Component {
             : '';
 
         return <<<HTML
-        <section id="contact" class="bg-gradient-to-b from-[#f4fbff] to-[#f8fbff] py-10 md:py-14">
+        <section id="contact" class="bg-gradient-to-b from-[#e4f1fa] to-[#f8fbff] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                {$this->sectionTitle('Контакты', 'Адрес и связь с клиникой', 'Мы всегда на связи и готовы ответить на ваши вопросы')}
+                {$this->sectionTitle('Контакты', 'Адрес и связь с клиникой', 'Мы всегда на связи и готовы ответить на Ваши вопросы')}
 
                 <div class="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
                     <!-- Левая часть: Фото клиники -->
@@ -1988,6 +1993,112 @@ class ContactSection extends Component {
     }
 }
 
+class PartnersBlock extends Component {
+    public function render() {
+        $heel_logo = $this->e(bioinmed_versioned_asset_path('/public/images/partners/heel-logo.svg'));
+        $habilect_logo = $this->e(bioinmed_versioned_asset_path('/public/images/partners/habilect-logo.png'));
+
+        return <<<HTML
+        <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
+            <div class="mx-auto max-w-6xl px-6 md:px-10">
+                <div class="rounded-[2rem] bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)] p-6 shadow-[0_10px_24px_rgba(6,29,60,0.04)] md:p-8">
+                    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                        <div>
+                            <p class="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Партнёры и технологии</p>
+                            <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.7rem]">Heel и HABILECT в основе нашего подхода</h2>
+                        </div>
+                        <p class="max-w-2xl text-[0.9rem] leading-relaxed text-[#0a293c] md:text-[0.95rem]">
+                            Мы объединяем доказательные решения и современные технологии диагностики, чтобы путь пациента был точным, понятным и результативным.
+                        </p>
+                    </div>
+
+                    <div class="mt-5 overflow-hidden rounded-[1.75rem] bg-white/55">
+                        <div class="grid gap-0 md:grid-cols-2">
+                            <div class="flex flex-col items-center gap-4 px-5 py-5 md:px-8 md:py-7">
+                                <div class="flex h-16 w-28 shrink-0 items-center justify-center md:h-18 md:w-36">
+                                    <img src="{$heel_logo}" alt="Heel" class="h-12 w-[120px] max-w-none object-contain md:h-14 md:w-[150px]" loading="lazy" decoding="async">
+                                </div>
+                                <div class="min-w-0 text-center">
+                                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Heel</p>
+                                    <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]">Надёжный партнёр в интегративной терапии и мягких лечебных программах.</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-4 border-t border-[#edf3f9] px-5 py-5 md:border-l md:border-t-0 md:px-8 md:py-7">
+                                <div class="flex h-16 w-28 shrink-0 items-center justify-center md:h-18 md:w-36">
+                                    <img src="{$habilect_logo}" alt="HABILECT" class="h-12 w-[120px] max-w-none object-contain md:h-14 md:w-[150px]" loading="lazy" decoding="async">
+                                </div>
+                                <div class="min-w-0 text-center">
+                                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Habilect</p>
+                                    <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]">Точная 3D-диагностика и персональный маршрут восстановления.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        HTML;
+    }
+}
+
+class SolidarityMedicineBlock extends Component {
+    public function render() {
+        return <<<HTML
+        <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
+            <div class="mx-auto max-w-6xl px-6 md:px-10">
+                <div class="overflow-hidden rounded-[2rem] border border-[#d7e6f3] bg-white shadow-[0_18px_42px_rgba(6,29,60,0.08)]">
+                    <div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
+                        <div class="p-6 md:p-8 lg:p-10">
+                            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Профессиональное объединение</p>
+                            <h2 class="mt-2 text-[1.4rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">Солидарная авторская медицина</h2>
+                            <p class="mt-3 text-[1.05rem] font-semibold text-[#0a293c]">Проект «Солидарная авторская медицина»</p>
+                            <p class="mt-5 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]">
+                                Это профессиональное объединение опытных врачей, работающих на единой научно-практической площадке.
+                            </p>
+                            <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]">
+                                Проект объединяет специалистов с большим клиническим опытом, авторскими методиками, собственными программами восстановления здоровья и индивидуальным подходом к пациенту.
+                            </p>
+                            <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]">
+                                В основе проекта - обмен профессиональным опытом, медицинские консилиумы, научные дискуссии, разработка новых подходов, подготовка статей и докладов.
+                            </p>
+                        </div>
+
+                        <div class="border-t border-[#e6eef7] bg-[#f8fbff] p-6 md:p-8 lg:border-l lg:border-t-0 lg:p-10">
+                            <div class="flex h-full flex-col justify-between">
+                                <div>
+                                    <div class="inline-flex items-center gap-2 rounded-full bg-[#e8f3fc] px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]">
+                                        <i class="fa-solid fa-diagram-project text-[0.75rem]" aria-hidden="true"></i>
+                                        Общая площадка
+                                    </div>
+                                    <blockquote class="mt-5 text-[1.02rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]">
+                                        «Солидарная авторская медицина» - это пространство для профессионального роста врачей, развития медицинской практики и формирования эффективных решений на стыке опыта, науки и доказательной медицины.
+                                    </blockquote>
+                                </div>
+
+                                <div class="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                                    <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
+                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">Консилиумы</p>
+                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]">Совместный разбор сложных клинических случаев</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
+                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">Наука</p>
+                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]">Исследования, статьи, доклады и профессиональная дискуссия</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
+                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">Практика</p>
+                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]">Авторские методики и индивидуальные программы восстановления</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        HTML;
+    }
+}
+
 class SeasonsBlock extends Component {
     public function render() {
         $seasons = require __DIR__ . '/../../config/seasons.php';
@@ -2051,7 +2162,7 @@ class Footer extends Component {
             : '';
 
         return <<<HTML
-        <footer class="bg-gradient-to-b from-[#f4f9ff] to-[#e8f1fa] border-t-2 border-[#1977b2]">
+        <footer class="bg-[#e4f1fa] border-t-2 border-[#1977b2]">
             <div class="mx-auto max-w-6xl px-6 md:px-10 py-12 md:py-16">
                 <!-- Верхняя часть подвала -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
@@ -2112,7 +2223,7 @@ class Footer extends Component {
                                 </svg>
                                 <div>
                                     <p class="text-[0.96rem] font-semibold text-[#0a293c]">{$this->e(CLINIC_ADDRESS)}</p>
-                                    <p class="text-[0.84rem] text-[#5a7fa3]">{$this->e(CLINIC_METRO)}</p>
+                                    <p class="text-[0.84rem] text-[#0a293c]">{$this->e(CLINIC_METRO)}</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-2">
@@ -2148,7 +2259,7 @@ class Footer extends Component {
 
                 <!-- Нижняя часть подвала -->
                 <div class="border-t border-[#dce8f5] pt-5">
-                    <p class="text-[0.84rem] leading-relaxed text-[#5a7fa3]">
+                    <p class="text-[0.84rem] leading-relaxed text-[#0a293c]">
                         © 2026 <strong>КЛИНИКА БИОИНМЕД</strong> — интегративная и восстановительная медицина. Все права защищены.
                     </p>
                 </div>
