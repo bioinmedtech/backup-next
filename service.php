@@ -304,18 +304,6 @@ echo $header->render();
                     </p>
                     <?php endif; ?>
 
-                    <!-- trust badges -->
-                    <div class="mt-7 flex flex-wrap gap-3">
-                        <div class="flex items-center gap-2 rounded-full border border-[#d6e4f2] bg-white px-3 py-2 text-xs font-semibold text-[#2a5a94]">
-                            <i class="fa-solid fa-shield-heart text-[#2fbdef]"></i> Лицензированная клиника
-                        </div>
-                        <div class="flex items-center gap-2 rounded-full border border-[#d6e4f2] bg-white px-3 py-2 text-xs font-semibold text-[#2a5a94]">
-                            <i class="fa-solid fa-user-doctor text-[#2fbdef]"></i> Врачи с опытом 20–30 лет
-                        </div>
-                        <div class="flex items-center gap-2 rounded-full border border-[#d6e4f2] bg-white px-3 py-2 text-xs font-semibold text-[#2a5a94]">
-                            <i class="fa-solid fa-clock text-[#2fbdef]"></i> Индивидуальный план лечения
-                        </div>
-                    </div>
                 </div>
 
             <div class="mt-8 grid items-start gap-8 lg:mt-10 lg:grid-cols-[minmax(0,1fr)_380px]">
@@ -549,14 +537,6 @@ echo $header->render();
                             <li class="flex items-start gap-2.5">
                                 <i class="fa-solid fa-clock mt-0.5 shrink-0 text-[#2fbdef]"></i>
                                 <span><?php echo e(CLINIC_HOURS); ?></span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-shield-heart mt-0.5 shrink-0 text-[#2fbdef]"></i>
-                                <span>Лицензия МЗ РФ, СанПиН</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-user-doctor mt-0.5 shrink-0 text-[#2fbdef]"></i>
-                                <span>Врачи с опытом 20–30 лет</span>
                             </li>
                         </ul>
                     </div>

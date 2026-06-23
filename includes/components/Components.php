@@ -779,12 +779,24 @@ class HeroSection extends Component {
                             С нами выздоравливать легко!
                         </h1>
                         <p class="mt-3 inline-flex w-fit items-center rounded-full border border-[#d7e6f3] bg-white/92 px-3.5 py-1.5 leading-none text-[#1f5b91] shadow-[0_8px_18px_rgba(10,43,80,0.05)]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
-                            Ваш Биоинмед.
+                            Ваш Биоинмед
                         </p>
                         <p class="mt-3 flex max-w-2xl items-start gap-2 text-[#4a6f96]" style="font-family:'Caveat',cursive;font-size:clamp(1.08rem,2.1vw,1.22rem);font-weight:500;">
-                            <span class="mt-[0.55em] inline-block h-[2px] w-6 shrink-0 rounded-full bg-[#2fbdef]"></span>
-                            <a href="/services/hobilect-diagnostics" class="hover:text-[#214a7f] transition-colors">Экосистема HABILECT: ваш эффективный маршрут здоровья.</a>
+                            <a href="/services/hobilect-diagnostics" class="inline-block hover:text-[#214a7f] transition-colors">
+                                <span class="block">Экосистема HABILECT</span>
+                                <span class="block">Ваш эффективный маршрут здоровья</span>
+                                <span class="block">Где вы особенный</span>
+                            </a>
                         </p>
+                        <a href="/services/hobilect-diagnostics" class="mt-4 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/55 px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] backdrop-blur-xl transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#2fbdef]/30 md:gap-3 md:px-4 md:py-2.5">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-[#2fbdef]/12 ring-1 ring-[#2fbdef]/15 md:h-13 md:w-13">
+                                <img src="{$habilect_logo}" alt="Хабилект" class="h-7 w-auto shrink-0 md:h-8" loading="eager" decoding="async">
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-[0.63rem] font-semibold uppercase tracking-[0.28em] text-[#1f5b91] md:text-[0.68rem]">Хабилект</p>
+                                <p class="hidden text-[0.72rem] font-medium leading-tight text-[#4a6f96] sm:block md:text-[0.78rem]">Инновационные медицинские системы</p>
+                            </div>
+                        </a>
 
                         <div class="mt-5 w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-6 md:p-4">
                             <div>
@@ -831,17 +843,6 @@ class HeroSection extends Component {
                 </div>
             </div>
 
-            <div class="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex justify-center px-4 md:bottom-6 md:px-6">
-                <a href="/services/hobilect-diagnostics" class="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/55 px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] backdrop-blur-xl transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#2fbdef]/30 md:gap-3 md:px-4 md:py-2.5">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[#2fbdef]/12 ring-1 ring-[#2fbdef]/15 md:h-9 md:w-9">
-                        <img src="{$habilect_logo}" alt="HABILECT" class="h-5 w-auto shrink-0 md:h-6" loading="eager" decoding="async">
-                    </div>
-                    <div class="min-w-0">
-                        <p class="text-[0.63rem] font-semibold uppercase tracking-[0.28em] text-[#1f5b91] md:text-[0.68rem]">HABILECT</p>
-                        <p class="hidden text-[0.72rem] font-medium leading-tight text-[#4a6f96] sm:block md:text-[0.78rem]">Инновационные системы диагностики</p>
-                    </div>
-                </a>
-            </div>
         </section>
 
         <div id="hero-image-modal" class="fixed inset-0 z-[110] hidden bg-[rgba(7,21,40,0.84)] px-4 py-6">
@@ -1527,7 +1528,7 @@ class SpecialOffer extends Component {
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-[linear-gradient(110deg,#ecf6ff_0%,#f7fcff_60%,#eaf7f5_100%)] px-6 py-6 md:px-8 md:py-7">
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#2fbdef]">Специальное предложение для пациентов</p>
-                    <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Первичная 3D диагностика Хабилект + консультация реабилитолога</h2>
+                    <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Первичная 3D диагностика на мультифункциональном комплексе Хабилект + консультация реабилитолога</h2>
                     <div class="mt-4 border-l-4 border-[#2fbdef] pl-4 md:pl-5">
                         <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#2a5a94]">Специальная цена</p>
                         <div class="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
@@ -1537,12 +1538,12 @@ class SpecialOffer extends Component {
                         <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]">Экономия 3000 руб.</p>
                     </div>
                     <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#355b89]">
-                        Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика Хабилект даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.
+                        Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика на мультифункциональном комплексе Хабилект даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.
                     </p>
                     <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#214a7f]">
                         <li class="flex items-start gap-2.5">
                             <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
-                            <span>3D-диагностика Хабилект для точной оценки нарушений опорно-двигательного аппарата</span>
+                            <span>3D-диагностика на мультифункциональном комплексе Хабилект для точной оценки нарушений опорно-двигательного аппарата</span>
                         </li>
                         <li class="flex items-start gap-2.5">
                             <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#2fbdef]" aria-hidden="true"></i>
@@ -1568,7 +1569,7 @@ class SpecialOffer extends Component {
                     </button>
                     <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#2fbdef]">Специальное предложение</p>
                     <h3 id="special-offer-callback-title" class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Перезвоним и запишем на консультацию</h3>
-                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#355b89]">Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику Хабилект.</p>
+                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#355b89]">Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику на мультифункциональном комплексе Хабилект.</p>
                     <div class="mt-5">
                         {$callback_form}
                     </div>

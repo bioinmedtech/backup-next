@@ -391,7 +391,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Реабилитация с БОС на аппарате Хабилект (1 занятие, 20 мин)</td>
+                                <td class="px-4 py-3">Реабилитация с БОС на мультифункциональном комплексе Хабилект (1 занятие, 20 мин)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#2fbdef] whitespace-nowrap">2 000 ₽</td>
                             </tr>
                             <tr>
