@@ -212,7 +212,7 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
     <?php if ($service): ?>
     <script type="application/ld+json"><?php echo json_encode($faqStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <?php endif; ?>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
     <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
     <style>
         html {

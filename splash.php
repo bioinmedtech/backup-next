@@ -62,7 +62,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
     <link rel="apple-touch-icon" href="/public/images/brand/bioinmed-icon.png">
     <meta name="theme-color" content="#1977b2">
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
     <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
     <style>
         :root {

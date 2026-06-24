@@ -33,7 +33,7 @@ function e($value) {
         'image' => $socialImageUrl,
     ]); ?>
     <?php echo bioinmed_render_favicon_links($iconPath); ?>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
     <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>

@@ -84,7 +84,7 @@ function e($value) {
 		'image' => $socialImageUrl,
 	]); ?>
 	<?php echo bioinmed_render_favicon_links($iconPath); ?>
-	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
 	<link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
