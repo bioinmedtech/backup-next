@@ -4,10 +4,7 @@
  * Используется для скрытия сайта от публичного доступа
  */
 
-// Проверяем сессию
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/includes/pin_protection.php';
 
 require_once __DIR__ . '/config.php';
 
@@ -20,8 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $entered_pin = isset($_POST['pin']) ? trim($_POST['pin']) : '';
     
     if ($entered_pin === $correct_pin) {
-        $_SESSION['site_access_granted'] = true;
-        $_SESSION['access_time'] = time();
+        bioinmed_pin_grant_access();
         
         if ($is_ajax) {
             // Возвращаем JSON для AJAX запроса

@@ -1,16 +1,7 @@
 <?php
-// PIN-защита сайта
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/includes/pin_protection.php';
+bioinmed_pin_require_access();
 
-if (!isset($_SESSION['site_access_granted'])) {
-    $pin_protection_disabled = in_array(getenv('PIN_PROTECTION_ENABLED'), ['0', 'false'], true);
-    if (!$pin_protection_disabled) {
-        header('Location: /splash.php?redirect=' . urlencode($_SERVER['REQUEST_URI']));
-        exit;
-    }
-}
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
