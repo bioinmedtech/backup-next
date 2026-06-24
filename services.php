@@ -6,35 +6,22 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$servicesPage = bioinmed_read_json_file('pages/services.json');
+$servicesMeta = is_array($servicesPage['meta'] ?? null) ? $servicesPage['meta'] : [];
+
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/services';
-$pageTitle = 'Все услуги клиники | ' . CLINIC_NAME;
-$pageDescription = 'Полный каталог услуг клиники БИОИНМЕД с переходом на детальные страницы: диагностика, остеопатия, рефлексотерапия, физиотерапия и другие направления.';
+$pageTitle = trim((string)($servicesMeta['title'] ?? '')) . ' | ' . CLINIC_NAME;
+$pageDescription = trim((string)($servicesMeta['description'] ?? ''));
 
 function e($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
 
-$categoryLabels = [
-    'diagnostics' => 'Диагностика',
-    'musculoskeletal' => 'Опорно-двигательный аппарат',
-    'manual_therapy' => 'Остеопатия и мануальные методики',
-    'therapy' => 'Терапевтические программы',
-    'integrative' => 'Интегративное сопровождение',
-    'chief_doctor' => 'Приём главного врача',
-    'psychology' => 'Психология',
-    'osteopathy' => 'Остеопатия',
-    'physiotherapy' => 'Физиотерапия',
-    'reflexotherapy' => 'Рефлексотерапия',
-    'infusion_therapy' => 'Инфузионная терапия',
-    'ozone_therapy' => 'Озонотерапия',
-    'injection_therapy' => 'Инъекционная терапия',
-    'taping' => 'Тейпирование и банки',
-    'other' => 'Другие услуги',
-];
+$categoryLabels = is_array($servicesPage['categories'] ?? null) ? $servicesPage['categories'] : [];
 
 $categoryIcons = [
     'diagnostics' => 'fa-microscope',
@@ -114,8 +101,8 @@ $structuredData = [
 
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
-    ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Услуги', 'url' => '/services'],
+    ['name' => (string)($servicesPage['breadcrumbs']['home'] ?? ''), 'url' => '/'],
+    ['name' => (string)($servicesPage['breadcrumbs']['services'] ?? ''), 'url' => '/services'],
 ]);
 ?>
 <!doctype html>
@@ -192,21 +179,21 @@ echo $header->render();
         <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#1977b21f] blur-3xl"></div>
         <div class="pointer-events-none absolute -left-14 bottom-0 h-32 w-32 rounded-full bg-[#1977b214] blur-3xl"></div>
         <div class="relative">
-            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]">Каталог услуг</p>
-            <h1 class="mt-2 text-[1.68rem] font-bold leading-tight text-[#0f2749] md:text-[2.15rem]">Все услуги клиники БИОИНМЕД</h1>
+            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"><?php echo e($servicesMeta['catalog_eyebrow'] ?? ''); ?></p>
+            <h1 class="mt-2 text-[1.68rem] font-bold leading-tight text-[#0f2749] md:text-[2.15rem]"><?php echo e(($servicesMeta['catalog_heading'] ?? '') . ' ' . CLINIC_NAME); ?></h1>
             <p class="mt-2 max-w-3xl text-[0.97rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]">
-                Выберите направление и перейдите на подробную страницу услуги: описание, показания, цена и запись на приём.
+                <?php echo e($servicesMeta['catalog_text'] ?? ''); ?>
             </p>
             <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.82rem] font-semibold text-[#0a293c]">
                 <i class="fa-solid fa-list-check text-[#1977b2]" aria-hidden="true"></i>
-                Всего услуг: <?php echo intval($totalServices); ?>
+                <?php echo e($servicesMeta['total_services_label'] ?? ''); ?> <?php echo intval($totalServices); ?>
             </div>
         </div>
     </section>
 
     <?php if (!empty($servicesByCategory)): ?>
         <section class="mt-5 px-0 py-2">
-            <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Быстрый переход по направлениям</p>
+            <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"><?php echo e($servicesMeta['quick_nav_label'] ?? ''); ?></p>
             <div class="flex flex-wrap gap-2">
                 <?php foreach ($servicesByCategory as $categoryKey => $categoryItems): ?>
                     <?php
@@ -257,7 +244,7 @@ echo $header->render();
                                     <?php if ($priceLabel !== ''): ?>
                                         <span class="inline-block rounded-full bg-[#e9f6ff] px-2.5 py-0.5 text-[0.78rem] font-semibold text-[#1a7dbf]"><?php echo e($priceLabel); ?></span>
                                     <?php else: ?>
-                                        <span class="inline-block rounded-full bg-[#f3f6fb] px-2.5 py-0.5 text-[0.78rem] font-medium text-[#7093b8]">По запросу</span>
+                                        <span class="inline-block rounded-full bg-[#f3f6fb] px-2.5 py-0.5 text-[0.78rem] font-medium text-[#7093b8]"><?php echo e($servicesMeta['price_on_request'] ?? ''); ?></span>
                                     <?php endif; ?>
                                 </div>
                             </a>
@@ -268,9 +255,9 @@ echo $header->render();
         </div>
     <?php else: ?>
         <section class="mt-6 rounded-2xl border border-[#dce8f5] bg-[#e4f1fa] p-6 text-center">
-            <h2 class="text-[1.15rem] font-bold text-[#0f2749]">Раздел услуг временно недоступен</h2>
-            <p class="mt-2 text-[0.9rem] text-[#0a293c]">Пожалуйста, обновите страницу позже или перейдите в прайс-лист.</p>
-            <a href="/prices" class="mt-4 inline-flex items-center rounded-lg bg-[#1977b2] px-4 py-2 text-[0.82rem] font-semibold text-white hover:bg-[#16658f]">Перейти к ценам</a>
+            <h2 class="text-[1.15rem] font-bold text-[#0f2749]"><?php echo e($servicesMeta['empty_title'] ?? ''); ?></h2>
+            <p class="mt-2 text-[0.9rem] text-[#0a293c]"><?php echo e($servicesMeta['empty_text'] ?? ''); ?></p>
+            <a href="<?php echo e(bioinmed_link('nav.prices')['url']); ?>" class="mt-4 inline-flex items-center rounded-lg bg-[#1977b2] px-4 py-2 text-[0.82rem] font-semibold text-white hover:bg-[#16658f]"><?php echo e($servicesMeta['empty_button'] ?? ''); ?></a>
         </section>
     <?php endif; ?>
 </main>

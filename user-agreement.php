@@ -2,17 +2,21 @@
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$agreementPage = bioinmed_read_json_file('pages/user-agreement.json');
+$agreementMeta = is_array($agreementPage['meta'] ?? null) ? $agreementPage['meta'] : [];
+$agreementSections = is_array($agreementPage['sections'] ?? null) ? $agreementPage['sections'] : [];
+
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/user-agreement';
-$pageTitle = 'Пользовательское соглашение | ' . CLINIC_NAME;
-$pageDescription = 'Пользовательское соглашение сайта клиники ' . CLINIC_NAME . ': условия использования сайта, записи через формы и обратной связи.';
+$pageTitle = trim((string)($agreementMeta['title'] ?? 'Пользовательское соглашение')) . ' | ' . CLINIC_NAME;
+$pageDescription = trim((string)($agreementMeta['description'] ?? 'Пользовательское соглашение сайта клиники')) . ' ' . CLINIC_NAME . ': условия использования сайта, записи через формы и обратной связи.';
 
 $structuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => $siteUrl . '/'],
-    ['name' => 'Пользовательское соглашение', 'url' => $canonicalUrl],
+    ['name' => trim((string)($agreementMeta['title'] ?? 'Пользовательское соглашение')), 'url' => $canonicalUrl],
 ]);
 
 function e($value) {
@@ -48,63 +52,38 @@ echo $header->render();
 <main class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
     <section class="pb-8">
         <div class="max-w-4xl">
-            <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Правовая информация</p>
-            <h1 class="mt-2 text-[1.8rem] font-bold leading-tight text-[#0f2749] md:text-[2.6rem]">Пользовательское соглашение</h1>
+            <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e($agreementMeta['eyebrow'] ?? 'Правовая информация'); ?></p>
+            <h1 class="mt-2 text-[1.8rem] font-bold leading-tight text-[#0f2749] md:text-[2.6rem]"><?php echo e($agreementMeta['title'] ?? 'Пользовательское соглашение'); ?></h1>
             <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c]">
-                Настоящее соглашение регулирует использование сайта клиники <?php echo e(CLINIC_NAME); ?>, размещённых на нём материалов,
-                форм обратной связи, сервиса записи на приём и иных пользовательских сценариев взаимодействия с сайтом.
+                <?php
+                $intro = str_replace('клиники', 'клиники ' . CLINIC_NAME, (string)($agreementMeta['intro'] ?? ''));
+                echo e($intro);
+                ?>
             </p>
             <div class="mt-4 flex flex-col gap-1 text-[0.82rem] text-[#0a293c] sm:flex-row sm:flex-wrap sm:gap-4">
-                <p><span class="font-semibold text-[#0a293c]">Дата вступления в силу:</span> 30.04.2026</p>
-                <p><span class="font-semibold text-[#0a293c]">Дата последнего изменения:</span> 30.04.2026</p>
+                <p><span class="font-semibold text-[#0a293c]"><?php echo e($agreementMeta['effective_date_label'] ?? 'Дата вступления в силу:'); ?></span> <?php echo e($agreementMeta['effective_date'] ?? '30.04.2026'); ?></p>
+                <p><span class="font-semibold text-[#0a293c]"><?php echo e($agreementMeta['updated_date_label'] ?? 'Дата последнего изменения:'); ?></span> <?php echo e($agreementMeta['updated_date'] ?? '30.04.2026'); ?></p>
             </div>
         </div>
 
         <div class="mt-8 max-w-4xl space-y-8 text-[0.98rem] leading-relaxed text-[#0a293c]">
-            <section class="border-b border-[#e2ecf5] pb-6">
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">1. Общие положения</h2>
-                <p class="mt-3">Используя сайт, пользователь подтверждает, что ознакомился с настоящим соглашением и принимает его условия в полном объёме. Если пользователь не согласен с условиями, он должен прекратить использование сайта.</p>
-            </section>
-
-            <section class="border-b border-[#e2ecf5] pb-6">
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">2. Назначение сайта</h2>
-                <p class="mt-3">Сайт предназначен для предоставления информации о клинике, специалистах, услугах, ценах, формате записи и контактах. Информация на сайте носит справочный характер и не заменяет очную консультацию врача.</p>
-            </section>
-
-            <section class="border-b border-[#e2ecf5] pb-6">
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">3. Порядок использования форм и сервисов записи</h2>
-                <p class="mt-3">При заполнении форм пользователь обязуется указывать достоверные сведения, достаточные для обратной связи. Отправка формы означает согласие пользователя на получение звонка или сообщения по указанным контактным данным в целях обработки запроса и организации записи.</p>
-            </section>
-
-            <section class="border-b border-[#e2ecf5] pb-6">
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">4. Информационные материалы и ограничения</h2>
-                <p class="mt-3">Материалы сайта не являются публичной офертой, медицинским заключением, диагнозом или назначением лечения. Решения о диагностике и терапии принимаются только лечащим врачом по итогам личного приема и обследования.</p>
-            </section>
-
-            <section class="border-b border-[#e2ecf5] pb-6">
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">5. Интеллектуальная собственность</h2>
-                <p class="mt-3">Все материалы сайта, включая тексты, изображения, графику, логотипы, структуру страниц и элементы интерфейса, охраняются законом. Их копирование, распространение и иное использование допускается только с письменного разрешения правообладателя или в случаях, предусмотренных законодательством.</p>
-            </section>
-
-            <section class="border-b border-[#e2ecf5] pb-6">
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">6. Ограничение ответственности</h2>
-                <p class="mt-3">Администрация сайта предпринимает разумные меры для поддержания актуальности информации, однако не гарантирует абсолютную полноту, точность и бесперебойность работы сайта. Клиника не несёт ответственности за возможные убытки, возникшие вследствие использования материалов сайта без очной консультации специалиста.</p>
-            </section>
-
-            <section class="border-b border-[#e2ecf5] pb-6">
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">7. Ссылки на сторонние ресурсы</h2>
-                <p class="mt-3">На сайте могут размещаться ссылки на сторонние ресурсы и сервисы. Клиника не контролирует содержание таких ресурсов и не несёт ответственности за их работу, политику обработки данных и актуальность размещённой на них информации.</p>
-            </section>
-
-            <section class="border-b border-[#e2ecf5] pb-6">
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">8. Связь с администрацией сайта</h2>
-                <p class="mt-3">По вопросам использования сайта, направления замечаний, обработки обращений и организации записи пользователь может обратиться по телефону <?php echo e(CLINIC_PHONE); ?> или по электронной почте <?php echo e(CLINIC_EMAIL); ?>.</p>
-            </section>
-
-            <section>
-                <h2 class="text-[1.16rem] font-bold text-[#0f2749]">9. Изменение условий соглашения</h2>
-                <p class="mt-3">Клиника вправе вносить изменения в настоящее соглашение. Новая редакция действует с момента публикации на этой странице, если иное прямо не указано в тексте обновления.</p>
-            </section>
+            <?php foreach ($agreementSections as $index => $section): ?>
+                <?php
+                $isLast = ($index === count($agreementSections) - 1);
+                $title = trim((string)($section['title'] ?? ''));
+                $paragraphs = is_array($section['paragraphs'] ?? null) ? $section['paragraphs'] : [];
+                ?>
+                <section class="<?php echo $isLast ? '' : 'border-b border-[#e2ecf5] pb-6'; ?>">
+                    <h2 class="text-[1.16rem] font-bold text-[#0f2749]"><?php echo e($title); ?></h2>
+                    <?php foreach ($paragraphs as $paragraph): ?>
+                        <?php
+                        $line = str_replace('{{clinic_phone}}', CLINIC_PHONE, (string)$paragraph);
+                        $line = str_replace('{{clinic_email}}', CLINIC_EMAIL, $line);
+                        ?>
+                        <p class="mt-3"><?php echo e($line); ?></p>
+                    <?php endforeach; ?>
+                </section>
+            <?php endforeach; ?>
         </div>
     </section>
 </main>

@@ -6,13 +6,20 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$doctorsPage = bioinmed_read_json_file('pages/doctors.json');
+$doctorsMeta = is_array($doctorsPage['meta'] ?? null) ? $doctorsPage['meta'] : [];
+$doctorsHero = is_array($doctorsPage['hero'] ?? null) ? $doctorsPage['hero'] : [];
+$doctorsChiefQuote = is_array($doctorsPage['chief_quote'] ?? null) ? $doctorsPage['chief_quote'] : [];
+$doctorsTeam = is_array($doctorsPage['team'] ?? null) ? $doctorsPage['team'] : [];
+$doctorsCta = is_array($doctorsPage['cta'] ?? null) ? $doctorsPage['cta'] : [];
+
 $siteUrl  = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl  = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/doctors';
-$pageTitle = 'Моя профессиональная команда — клиника БИОИНМЕД';
-$pageDescription = 'Познакомьтесь с командой врачей клиники БИОИНМЕД. Опытные специалисты в области остеопатии, рефлексотерапии, гомеопатии, психотерапии и восстановительной медицины в Москве.';
+$pageTitle = trim((string)($doctorsMeta['title'] ?? '')) . (string)($doctorsMeta['title_suffix'] ?? '') . CLINIC_NAME;
+$pageDescription = trim((string)($doctorsMeta['description'] ?? ''));
 $phone1      = CLINIC_PHONE;
 $phone1link  = preg_replace('/\D/', '', $phone1);
 $phone2      = defined('CLINIC_PHONE_2') ? CLINIC_PHONE_2 : '';
@@ -76,8 +83,8 @@ $pageStructuredData = [
 
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
-    ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Профессиональная команда', 'url' => '/doctors'],
+    ['name' => trim((string)($doctorsHero['breadcrumb_home'] ?? '')), 'url' => '/'],
+    ['name' => trim((string)($doctorsHero['breadcrumb_current'] ?? '')), 'url' => '/doctors'],
 ]);
 ?>
 <!doctype html>
@@ -140,14 +147,14 @@ echo $header->render();
     <section class="border-b border-[#e4edf6] bg-[#e4f1fa]">
         <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
-                <a href="/" class="hover:text-[#1977b2]">Главная</a>
+                <a href="/" class="hover:text-[#1977b2]"><?php echo e($doctorsHero['breadcrumb_home'] ?? ''); ?></a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <span class="text-[#0f2749]">Профессиональная команда</span>
+                <span class="text-[#0f2749]"><?php echo e($doctorsHero['breadcrumb_current'] ?? ''); ?></span>
             </nav>
             <div>
-                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]">Наша профессиональная команда</h1>
+                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]"><?php echo e($doctorsHero['heading'] ?? ''); ?></h1>
                 <p class="mt-3 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.04rem]">
-                    Команда клиники БИОИНМЕД — врачи с многолетним опытом в области восстановительной медицины, остеопатии, рефлексотерапии, гомеопатии и психотерапии. Каждый специалист строит индивидуальный план лечения.
+                    <?php echo e($doctorsHero['text'] ?? ''); ?>
                 </p>
             </div>
         </div>
@@ -157,7 +164,7 @@ echo $header->render();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="fade-up overflow-hidden rounded-3xl">
                 <img src="<?php echo e(bioinmed_versioned_asset_path('/public/images/team/team-photo.jpg')); ?>"
-                     alt="Команда клиники БИОИНМЕД"
+                     alt="<?php echo e($doctorsHero['team_image_alt'] ?? ''); ?>"
                      class="h-auto max-h-[520px] w-full rounded-3xl object-contain"
                      loading="eager"
                      onerror="this.src='/public/images/placeholder.jpg'">
@@ -187,15 +194,15 @@ echo $header->render();
                         </div>
                         <?php if (!empty($chief['hero_tagline'])): ?>
                         <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
-                            Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью
+                            <?php echo e($doctorsChiefQuote['text'] ?? ''); ?>
                         </p>
-                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
+                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"><?php echo e($doctorsChiefQuote['sign'] ?? ''); ?></p>
                     <?php endif; ?>
                     </div>
                 <?php echo bioinmed_render_chief_doctor_summary($chief, [
                     'show_cta' => true,
                     'cta_url' => '/doctors/' . ($chief['slug'] ?? ''),
-                    'cta_label' => 'Подробнее',
+                    'cta_label' => bioinmed_text('common.more_details'),
                 ]); ?>
             </div>
         </div>
@@ -205,16 +212,16 @@ echo $header->render();
     <!-- ALL DOCTORS GRID -->
     <section class="bg-[#e4f1fa] py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="text-[0.92rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Команда клиники</p>
-            <h2 class="mt-2 text-[2rem] font-bold text-[#0a293c] md:text-[2.35rem]">Специалисты клиники</h2>
-            <p class="mt-2 text-[1.02rem] text-[#0a293c]">Нажмите на карточку врача, чтобы узнать подробнее о его специализации и записаться к нужному Вам специалисту.</p>
+            <p class="text-[0.92rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e($doctorsTeam['eyebrow'] ?? ''); ?></p>
+            <h2 class="mt-2 text-[2rem] font-bold text-[#0a293c] md:text-[2.35rem]"><?php echo e($doctorsTeam['title'] ?? ''); ?></h2>
+            <p class="mt-2 text-[1.02rem] text-[#0a293c]"><?php echo e($doctorsTeam['description'] ?? ''); ?></p>
 
             <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-2">
                 <?php foreach ($teamDoctors as $index => $doc):
                     $docExp = trim((string)($doc['experience'] ?? ''));
                     $docImage = bioinmed_versioned_asset_path('/public/images/team/' . ($doc['image'] ?? ''));
                           $docHasProfile = !array_key_exists('has_profile', $doc) || $doc['has_profile'] !== false;
-                    $docActionText = trim((string)($doc['card_action_text'] ?? 'Команда клиники'));
+                    $docActionText = trim((string)($doc['card_action_text'] ?? ($doctorsTeam['card_action_fallback'] ?? '')));
                     $docLink = '/doctors/' . ($doc['slug'] ?? '');
                     $docYears = null;
                     if (preg_match('/(\d+)\s*(?:лет|год)/ui', $docExp, $m)) $docYears = $m[1];
@@ -251,7 +258,7 @@ echo $header->render();
                         <div class="mt-auto flex items-center justify-end pt-3">
                             <?php if ($docHasProfile): ?>
                             <a href="<?php echo e($docLink); ?>" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
-                                Подробнее
+                                <?php echo e(bioinmed_text('common.more_details')); ?>
                                 <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
                             </a>
                             <?php else: ?>
@@ -269,10 +276,10 @@ echo $header->render();
     <!-- CTA -->
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника БИОИНМЕД · <?php echo e(CLINIC_METRO); ?></p>
-            <h2 class="mt-3 text-[1.32rem] font-bold text-[#0a293c] md:text-[1.58rem]">Запишитесь к нужному Вам специалисту</h2>
+            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e(($doctorsCta['eyebrow'] ?? '') . ' ' . CLINIC_NAME . ' · ' . CLINIC_METRO); ?></p>
+            <h2 class="mt-3 text-[1.32rem] font-bold text-[#0a293c] md:text-[1.58rem]"><?php echo e($doctorsCta['title'] ?? ''); ?></h2>
             <p class="mx-auto mt-3 max-w-xl text-[0.98rem] text-[#0a293c]">
-                Если не знаете, к кому обратиться — позвоните нам. Мы поможем выбрать врача под Ваш запрос.
+                <?php echo e($doctorsCta['text'] ?? ''); ?>
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
                 <a href="tel:<?php echo $phone1link; ?>" class="rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.98rem] font-semibold text-white hover:bg-[#16658f]">

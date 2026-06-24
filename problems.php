@@ -6,16 +6,20 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$problemsPage = bioinmed_read_json_file('pages/problems.json');
+$problemsMeta = is_array($problemsPage['meta'] ?? null) ? $problemsPage['meta'] : [];
+$problemsInsideItems = is_array($problemsPage['inside_items'] ?? null) ? $problemsPage['inside_items'] : [];
+
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $canonicalUrl = $siteUrl . '/problems';
-$pageTitle = 'Найдите вашу ситуацию — БИОИНМЕД';
-$pageDescription = 'Выберите вашу ситуацию и перейдите на отдельную страницу с раскрывающимся описанием, этапами маршрута лечения и релевантными услугами клиники БИОИНМЕД.';
+$pageTitle = trim((string)($problemsMeta['title'] ?? '')) . (string)($problemsMeta['title_suffix'] ?? '');
+$pageDescription = trim((string)($problemsMeta['description'] ?? '')) . ' ' . CLINIC_NAME . (string)($problemsMeta['description_suffix'] ?? '');
 $socialImageUrl = bioinmed_default_social_image_url();
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
-    ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Найдите вашу ситуацию', 'url' => '/problems'],
+    ['name' => (string)($problemsPage['breadcrumbs']['home'] ?? ''), 'url' => '/'],
+    ['name' => trim((string)($problemsMeta['title'] ?? '')), 'url' => '/problems'],
 ]);
 
 function e($value) {
@@ -60,18 +64,18 @@ echo $header->render();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
                 <div>
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Ситуации и симптомы</p>
-                    <h1 class="mt-2 text-[1.9rem] font-bold leading-tight text-[#0f2749] md:text-[2.45rem]">Найдите вашу ситуацию</h1>
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"><?php echo e($problemsMeta['hero_eyebrow'] ?? ''); ?></p>
+                    <h1 class="mt-2 text-[1.9rem] font-bold leading-tight text-[#0f2749] md:text-[2.45rem]"><?php echo e($problemsMeta['hero_heading'] ?? ''); ?></h1>
                     <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.05rem]">
-                        Выберите проблему, которая ближе всего к вашему запросу. На отдельной странице вы увидите раскрывающееся описание, понятный маршрут восстановления и релевантные услуги клиники.
+                        <?php echo e($problemsMeta['hero_text'] ?? ''); ?>
                     </p>
                 </div>
                 <div class="rounded-[2rem] bg-white p-6 shadow-[0_14px_34px_rgba(10,43,80,0.08)]">
-                    <p class="text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">Что внутри</p>
+                    <p class="text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"><?php echo e($problemsMeta['inside_title'] ?? ''); ?></p>
                     <ul class="mt-4 space-y-3 text-[0.96rem] leading-relaxed text-[#0a293c]">
-                        <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-[#1977b2]"></span><span>Подробный разбор по этапам</span></li>
-                        <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-[#1977b2]"></span><span>Подходящие услуги и методы</span></li>
-                        <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-[#1977b2]"></span><span>Переход к консультации</span></li>
+                        <?php foreach ($problemsInsideItems as $item): ?>
+                            <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-[#1977b2]"></span><span><?php echo e($item); ?></span></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>

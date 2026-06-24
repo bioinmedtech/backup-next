@@ -1,0 +1,101 @@
+{
+  "clinic": {
+    "name": "БИОИНМЕД",
+    "site_url": "https://bioinmed.ru",
+    "icon_path": "/public/images/brand/bioinmed-icon.png",
+    "phone": "+7 (495) 796-03-36",
+    "address": "Москва, Оболенский пер., 9А",
+    "metro": "м. Фрунзенская",
+    "email": "info@bioinmed.ru",
+    "hours": "Ежедневно с 9:00 до 21:00 (без выходных)",
+    "tagline": "Интегративная и восстановительная медицина. Индивидуальный подход к каждому пациенту.",
+    "online_booking_url": "#contact",
+    "vk": "https://vk.com/bioinmed",
+    "telegram": "https://t.me/bioinmed",
+    "hero_title": "Восстановление здоровья через интегративную медицину",
+    "hero_image": "/public/images/team/kostromina.jpg"
+  },
+  "stats": {
+    "experience_years": "5+",
+    "experience_desc": "ЛЕТ КЛИНИЧЕСКОГО ОПЫТА",
+    "rating": "5",
+    "rating_desc": "ОЦЕНКА ПАЦИЕНТОВ",
+    "patients_yearly": "20+",
+    "patients_desc": "МЕТОДИК РЕАБИЛИТАЦИИ",
+    "license_text": "Лицензия",
+    "license_desc": "Медицинская лицензия, соблюдение норм СанПиН"
+  },
+  "brand_colors": {
+    "primary": "#1977b2",
+    "secondary": "#0077bd",
+    "accent": "#1977b2",
+    "mint": "#5fb5c0",
+    "success": "#00d084",
+    "light_bg": "#f2f8fb",
+    "white": "#ffffff",
+    "text_dark": "#0f2749",
+    "text_light": "#2a4b7c"
+  },
+  "service_text_replacements": {
+    "HABILECT": "«Хабилект»",
+    "HILT": "ХИЛТ",
+    "PRP": "ПРП",
+    "VIP LINE": "ВИП ЛАЙН",
+    "Heel": "Хеель",
+    "HEEЛ": "ХЕЕЛЬ",
+    "HEEL": "ХЕЕЛЬ",
+    "Detox": "Детокс",
+    "detox": "детокс",
+    "LINE": "ЛАЙН"
+  },
+  "docs_category_rules": [
+    {
+      "category": "infusion_therapy",
+      "keywords": ["инфуз", "капель"]
+    },
+    {
+      "category": "injection_therapy",
+      "keywords": ["инъек", "prp", "озон"]
+    },
+    {
+      "category": "reflexotherapy",
+      "keywords": ["рефлекс", "акупункт"]
+    },
+    {
+      "category": "physiotherapy",
+      "keywords": ["физио", "hilt", "увт"]
+    },
+    {
+      "category": "taping",
+      "keywords": ["тейп", "банк"]
+    },
+    {
+      "category": "psychology",
+      "keywords": ["психолог"]
+    },
+    {
+      "category": "chief_doctor",
+      "keywords": ["главн", "костромин"]
+    },
+    {
+      "category": "osteopathy",
+      "keywords": ["остеоп", "массаж"]
+    }
+  ],
+  "service_image_exact_map": {
+    "hobilect-diagnostics": ["habilect.jpg", "habilect-2.jpg"],
+    "chief-doctor-consultation": ["chief-doctor-consultation.jpg"],
+    "hilt-therapy": ["Advanced Regenerative Therapy Laser.jpg"],
+    "acupuncture": ["acupuncture-therapy.jpg", "acupuncture-therapy-2.jpg", "acupuncture-therapy-3.jpg"],
+    "shock-wave-therapy": ["shockwave-therapy.jpg", "shockwave-therapy-2.jpg", "shockwave-therapy-3.jpg", "shockwave-therapy-4.jpg"],
+    "infusion-therapy": ["infusion-therapy.jpg"],
+    "cupping": ["cupping-therapy.jpg", "cupping-therapy-2.jpg"],
+    "fizioterapiya": ["physiotherapy-treatment.jpg", "physiotherapy-treatment-2.jpg"],
+    "inektsionnaya-terapiya": ["injection-therapy.jpg", "injection-therapy-4.jpg", "injection-therapy-5.jpg"],
+    "akupunkturnoe-kross-teypirovanie": ["cross-taping.jpg", "cross-taping-2.jpg", "cross-taping-3.jpg"],
+    "elektroforez": ["electrophoresis-therapy.jpg", "electrophoresis-therapy-2.jpg", "electrophoresis-therapy-3.jpg"],
+    "transkranialnaya-magnitoterapiya-tkmt": ["transcranial-therapy.jpg", "transcranial-therapy-2.jpg"],
+    "miostimulyatsiya-vip-layn": ["vip-line-therapy.jpg", "vip-line-therapy-2.jpg", "vip-line-therapy-3.jpg", "vip-line-therapy-4.jpg"],
+    "magnitoterapiya-fotostimulyatsiya-amblio": ["amblyo-therapy.jpg", "amblyo-therapy-2.jpg", "amblyo-therapy-3.jpg", "amblyo-therapy-4.jpg"]
+  }
+}

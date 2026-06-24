@@ -6,17 +6,26 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$aboutPage = bioinmed_read_json_file('pages/about.json');
+$aboutMeta = is_array($aboutPage['meta'] ?? null) ? $aboutPage['meta'] : [];
+$aboutHero = is_array($aboutPage['hero'] ?? null) ? $aboutPage['hero'] : [];
+$aboutAddress = is_array($aboutPage['address'] ?? null) ? $aboutPage['address'] : [];
+$aboutTasks = is_array($aboutPage['tasks'] ?? null) ? $aboutPage['tasks'] : [];
+$aboutTaskItems = is_array($aboutTasks['items'] ?? null) ? $aboutTasks['items'] : [];
+$aboutChiefQuote = is_array($aboutPage['chief_quote'] ?? null) ? $aboutPage['chief_quote'] : [];
+$aboutCta = is_array($aboutPage['cta'] ?? null) ? $aboutPage['cta'] : [];
+
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/about';
-$pageTitle = 'О клинике | ' . CLINIC_NAME;
-$pageDescription = 'Клиника гомеопатии и биорегуляции БИОИНМЕД: интегративная медицина, диагностика первопричин и персональные программы восстановления.';
+$pageTitle = trim((string)($aboutMeta['title'] ?? 'О клинике')) . ' | ' . CLINIC_NAME;
+$pageDescription = trim((string)($aboutMeta['description'] ?? 'Клиника гомеопатии и биорегуляции: интегративная медицина, диагностика первопричин и персональные программы восстановления.'));
 
 $structuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 	['name' => 'Главная', 'url' => $siteUrl . '/'],
-	['name' => 'О клинике', 'url' => $canonicalUrl],
+	['name' => trim((string)($aboutMeta['title'] ?? 'О клинике')), 'url' => $canonicalUrl],
 ]);
 
 $bookingUrl = defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '#contact';
@@ -92,33 +101,27 @@ echo $header->render();
 		<div class="pointer-events-none absolute -left-10 bottom-0 h-36 w-36 rounded-full bg-[#0f274914] blur-3xl"></div>
 		<div class="relative grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
 			<div>
-				<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника гомеопатии и биорегуляции</p>
-				<h1 class="mt-2 text-[1.65rem] font-bold leading-[1.08] text-[#0f2749] md:text-[2.2rem]">Клиника БИОИНМЕД</h1>
+				<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e($aboutHero['eyebrow'] ?? ''); ?></p>
+				<h1 class="mt-2 text-[1.65rem] font-bold leading-[1.08] text-[#0f2749] md:text-[2.2rem]"><?php echo e(($aboutHero['heading'] ?? 'Клиника') . ' ' . CLINIC_NAME); ?></h1>
 				<div class="mt-4 max-w-2xl space-y-2">
-					<p class="text-[0.74rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Ваша экосистема здоровья</p>
+					<p class="text-[0.74rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"><?php echo e($aboutHero['ecosystem_label'] ?? ''); ?></p>
 					<p class="text-[1.08rem] font-semibold leading-[1.42] text-[#0a293c] md:text-[1.1rem]">
-						Клиника Биоинмед - Ваша экосистема, где Вы особенный.
+						<?php echo e($aboutHero['ecosystem_title'] ?? ''); ?>
 					</p>
-					<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]">
-						Учитывая высокий уровень психологического стресса в условиях мегаполиса, при травмах, операциях, спортивных нагрузках и гиподинамии мы предлагаем ключевые решения для здорового образа жизни.
-					</p>
-					<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]">
-						Объединяя традиции и инновации, мы создаем научно-обоснованные решения и авторские методики в области современной медицины.
-					</p>
-					<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]">
-						Наши уникальные методы диагностики и лечения, высокий уровень профессионализма, передовые технологии, системный и экологичный подход обеспечивают высокий результат от первого касания до выздоровления.
-					</p>
+					<?php foreach ((is_array($aboutHero['paragraphs'] ?? null) ? $aboutHero['paragraphs'] : []) as $heroParagraph): ?>
+						<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]"><?php echo e($heroParagraph); ?></p>
+					<?php endforeach; ?>
 				</div>
 			</div>
 			<aside class="rounded-3xl border border-[#d6e4f1] bg-white p-5 shadow-[0_16px_38px_rgba(8,36,70,0.13)]">
-				<p class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Адрес клиники</p>
+				<p class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($aboutAddress['title'] ?? 'Адрес клиники'); ?></p>
 				<h2 class="mt-2 text-[1.25rem] font-bold leading-tight text-[#0f2749]"><?php echo e(CLINIC_ADDRESS); ?></h2>
 				<p class="mt-1 text-[0.9rem] font-medium text-[#0a293c]"><?php echo e(CLINIC_METRO); ?></p>
 
 				<div class="mt-4 space-y-3 rounded-2xl border border-[#dce8f4] bg-[#e4f1fa] p-4">
 					<div class="flex items-start gap-2 text-[0.86rem] text-[#0a293c]">
 						<i class="fa-solid fa-location-dot mt-0.5 text-[#1977b2]"></i>
-						<span>Клиника находится в удобной доступности от метро и городского транспорта.</span>
+						<span><?php echo e($aboutAddress['transport_text'] ?? ''); ?></span>
 					</div>
 					<div class="flex items-start gap-2 text-[0.86rem] text-[#0a293c]">
 						<i class="fa-solid fa-clock mt-0.5 text-[#1977b2]"></i>
@@ -133,11 +136,11 @@ echo $header->render();
 				<div class="mt-4 grid gap-2 sm:grid-cols-2">
 					<a href="<?php echo e($mapUrl); ?>" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center gap-2 rounded-full border border-[#c7dbed] bg-white px-3.5 py-2 text-[0.78rem] font-semibold text-[#0a293c] transition hover:border-[#8fbde0] hover:text-[#1977b2]">
 						<i class="fa-solid fa-map-location-dot"></i>
-						Открыть карту
+						<?php echo e($aboutAddress['open_map'] ?? 'Открыть карту'); ?>
 					</a>
 					<a href="tel:<?php echo e(preg_replace('/\D/', '', CLINIC_PHONE)); ?>" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#1977b2] px-3.5 py-2 text-[0.78rem] font-semibold text-white transition hover:bg-[#16658f]">
 						<i class="fa-solid fa-phone-volume"></i>
-						Позвонить
+						<?php echo e($aboutAddress['call'] ?? 'Позвонить'); ?>
 					</a>
 				</div>
 			</p>
@@ -146,27 +149,17 @@ echo $header->render();
 
 	<section>
 		<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-			<h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Ключевые задачи клиники</h2>
-			<p class="text-[0.84rem] text-[#0a293c]">Профессиональный и научно-обоснованный подход к лечению</p>
+			<h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]"><?php echo e($aboutTasks['title'] ?? 'Ключевые задачи клиники'); ?></h2>
+			<p class="text-[0.84rem] text-[#0a293c]"><?php echo e($aboutTasks['subtitle'] ?? ''); ?></p>
 		</div>
 		<div class="mt-5 rounded-3xl border border-[#d9e7f3] bg-white p-5 shadow-[0_10px_24px_rgba(8,36,70,0.08)] md:p-6">
 			<div class="grid gap-4 md:grid-cols-2">
-				<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
-					<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Соблюдение этапов восстановления здоровья</p>
-					<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]">Детоксикация - биорегуляция - адаптация - регенерация.</p>
-				</div>
-				<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
-					<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Экологичные технологии диагностики</p>
-					<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]">Применяем неинвазивные информационные медицинские технологии для точной диагностики.</p>
-				</div>
-				<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
-					<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Авторские методики и консилиум</p>
-					<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]">Внедряем индивидуальные программы и обсуждаем лечение на клиническом консилиуме.</p>
-				</div>
-				<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
-					<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">Мониторинг выздоровления</p>
-					<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]">Контролируем динамику состояния пациента по принципу БОС - биологической обратной связи.</p>
-				</div>
+				<?php foreach ($aboutTaskItems as $task): ?>
+					<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
+						<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"><?php echo e($task['title'] ?? ''); ?></p>
+						<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]"><?php echo e($task['text'] ?? ''); ?></p>
+					</div>
+				<?php endforeach; ?>
 			</div>
 		</div>
 	</section>
@@ -178,9 +171,9 @@ echo $header->render();
 				<img src="<?php echo e($chiefImage); ?>" alt="<?php echo e($chiefName); ?>" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy">
 			</div>
 			<p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
-				Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью
+				<?php echo e($aboutChiefQuote['text'] ?? ''); ?>
 			</p>
-			<p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
+			<p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"><?php echo e($aboutChiefQuote['sign'] ?? ''); ?></p>
 		</div>
 		<article class="p-5 md:p-7">
 			<?php echo bioinmed_render_chief_doctor_summary($chief, ['show_cta' => false]); ?>
@@ -190,18 +183,18 @@ echo $header->render();
 	<section class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
 		<div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
 			<div class="bg-white p-5 md:p-7">
-				<h2 class="text-[1.26rem] font-bold leading-tight text-[#0f2749] md:text-[1.65rem]">Записаться на приём</h2>
+				<h2 class="text-[1.26rem] font-bold leading-tight text-[#0f2749] md:text-[1.65rem]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h2>
 				<div class="mt-4 space-y-2 text-[0.8rem] text-[#0a293c]">
-					<p class="flex items-center gap-2"><i class="fa-solid fa-phone-volume text-[#1977b2]"></i> Свяжемся в ближайшее время</p>
-					<p class="flex items-center gap-2"><i class="fa-solid fa-user-doctor text-[#1977b2]"></i> Подскажем профильного специалиста</p>
-					<p class="flex items-center gap-2"><i class="fa-solid fa-calendar-check text-[#1977b2]"></i> Подберем комфортное окно записи</p>
+					<p class="flex items-center gap-2"><i class="fa-solid fa-phone-volume text-[#1977b2]"></i> <?php echo e($aboutCta['help_soon'] ?? ''); ?></p>
+					<p class="flex items-center gap-2"><i class="fa-solid fa-user-doctor text-[#1977b2]"></i> <?php echo e($aboutCta['select_doctor'] ?? ''); ?></p>
+					<p class="flex items-center gap-2"><i class="fa-solid fa-calendar-check text-[#1977b2]"></i> <?php echo e($aboutCta['pick_time'] ?? ''); ?></p>
 				</div>
 			</div>
 			<div class="p-5 md:p-7">
 				<div class="max-w-xl">
 					<?php echo bioinmed_render_callback_form([
 						'source_label' => 'О клинике — CTA',
-						'submit_label' => 'Перезвоните мне',
+						'submit_label' => bioinmed_text('common.request_callback'),
 					]); ?>
 				</div>
 			</div>

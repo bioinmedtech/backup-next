@@ -1,0 +1,68 @@
+{
+  "legal": {
+    "privacy": {
+      "text": "Политика конфиденциальности",
+      "url": "/privacy"
+    },
+    "privacy_genitive": {
+      "text": "Политики конфиденциальности",
+      "url": "/privacy"
+    },
+    "user_agreement": {
+      "text": "Пользовательское соглашение",
+      "url": "/user-agreement"
+    },
+    "user_agreement_genitive": {
+      "text": "Пользовательского соглашения",
+      "url": "/user-agreement"
+    }
+  },
+  "nav": {
+    "reviews": {
+      "text": "Отзывы",
+      "url": "/#reviews"
+    },
+    "faq": {
+      "text": "Вопросы",
+      "url": "/#faq"
+    },
+    "contacts": {
+      "text": "Контакты",
+      "url": "/#contact"
+    },
+    "prices": {
+      "text": "Стоимость",
+      "url": "/prices"
+    },
+    "about": {
+      "text": "О клинике",
+      "url": "/about"
+    },
+    "doctors": {
+      "text": "Профессиональная команда",
+      "url": "/doctors"
+    },
+    "all_services_and_prices": {
+      "text": "Все услуги и цены →",
+      "url": "/prices"
+    }
+  },
+  "services": {
+    "habilect_diagnostics": {
+      "text": "Диагностика «Хабилект»",
+      "url": "/services/hobilect-diagnostics"
+    },
+    "musculoskeletal_program": {
+      "text": "Восстановление опорно-двигательного аппарата",
+      "url": "/services/musculoskeletal-program"
+    },
+    "osteopathy": {
+      "text": "Остеопатия",
+      "url": "/services/osteopathy"
+    },
+    "reflexotherapy": {
+      "text": "Рефлексотерапия",
+      "url": "/services/reflexotherapy"
+    }
+  }
+}

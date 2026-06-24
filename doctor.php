@@ -6,6 +6,18 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$doctorPage = bioinmed_read_json_file('pages/doctor.json');
+$doctorMeta = is_array($doctorPage['meta'] ?? null) ? $doctorPage['meta'] : [];
+$doctorBreadcrumbs = is_array($doctorPage['breadcrumbs'] ?? null) ? $doctorPage['breadcrumbs'] : [];
+$doctorNotFound = is_array($doctorPage['not_found'] ?? null) ? $doctorPage['not_found'] : [];
+$doctorHero = is_array($doctorPage['hero'] ?? null) ? $doctorPage['hero'] : [];
+$doctorCta = is_array($doctorPage['cta'] ?? null) ? $doctorPage['cta'] : [];
+$doctorSectionsText = is_array($doctorPage['sections'] ?? null) ? $doctorPage['sections'] : [];
+$doctorServicesText = is_array($doctorPage['services'] ?? null) ? $doctorPage['services'] : [];
+$doctorFinalCta = is_array($doctorPage['final_cta'] ?? null) ? $doctorPage['final_cta'] : [];
+$doctorEducationalRole = is_array($doctorSectionsText['educational_role'] ?? null) ? $doctorSectionsText['educational_role'] : [];
+$doctorTrustSection = is_array($doctorSectionsText['trust'] ?? null) ? $doctorSectionsText['trust'] : [];
+
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
@@ -28,10 +40,10 @@ function e($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
 
-$pageTitle    = $doctor ? e($doctor['name']) . ' — специалист клиники БИОИНМЕД' : 'Врач не найден | БИОИНМЕД';
+$pageTitle    = $doctor ? e($doctor['name']) . (string)($doctorMeta['title_suffix'] ?? '') . CLINIC_NAME : ((string)($doctorMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
 $pageDesc     = $doctor
-    ? e($doctor['name']) . ' — ' . e($doctor['specialty'] ?? '') . '. Запись на приём в клинику БИОИНМЕД в Москве.'
-    : 'Профиль специалиста не найден';
+    ? e($doctor['name']) . ' — ' . e($doctor['specialty'] ?? '') . (string)($doctorMeta['description_suffix'] ?? '')
+    : ($doctorMeta['not_found_description'] ?? '');
 $canonicalUrl = $doctor
     ? $siteUrl . '/doctors/' . rawurlencode((string)$slug)
     : $siteUrl . '/doctors';
@@ -51,8 +63,8 @@ $socialImageUrl = $doctor && !empty($doctor['image'])
     : bioinmed_default_social_image_url();
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
-    ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Профессиональная команда', 'url' => '/doctors'],
+    ['name' => (string)($doctorBreadcrumbs['home'] ?? ''), 'url' => '/'],
+    ['name' => (string)($doctorBreadcrumbs['team'] ?? ''), 'url' => '/doctors'],
 ]);
 ?>
 <!doctype html>
@@ -68,7 +80,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDesc, $canonicalUrl, [
         'type' => 'profile',
         'image' => $socialImageUrl,
-        'image_alt' => $doctor['name'] ?? (CLINIC_NAME . ' — специалист клиники'),
+        'image_alt' => $doctor['name'] ?? (CLINIC_NAME . (string)($doctorMeta['social_image_alt_suffix'] ?? '')),
     ]); ?>
     <?php echo bioinmed_render_favicon_links($iconPath); ?>
     <?php if ($doctor): ?>
@@ -115,10 +127,10 @@ echo $header->render();
 <main class="mx-auto max-w-4xl grow px-6 py-20 md:px-10">
     <div class="rounded-3xl border border-[#dbe8f3] bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
         <i class="fa-solid fa-user-slash mb-4 text-5xl text-[#b0c8e0]"></i>
-        <h1 class="text-3xl font-bold text-[#0a293c]">Профиль врача не найден</h1>
-        <p class="mt-3 text-[#0a293c]">Проверьте ссылку или вернитесь на главную страницу.</p>
+        <h1 class="text-3xl font-bold text-[#0a293c]"><?php echo e($doctorNotFound['title'] ?? ''); ?></h1>
+        <p class="mt-3 text-[#0a293c]"><?php echo e($doctorNotFound['text'] ?? ''); ?></p>
         <a href="/" class="mt-7 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#16658f]">
-            <i class="fa-solid fa-house"></i> На главную
+            <i class="fa-solid fa-house"></i> <?php echo e($doctorNotFound['home_button'] ?? ''); ?>
         </a>
     </div>
 </main>
@@ -132,9 +144,9 @@ echo $header->render();
 
             <!-- breadcrumb -->
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
-                <a href="/" class="hover:text-[#1977b2]">Главная</a>
+                <a href="/" class="hover:text-[#1977b2]"><?php echo e($doctorBreadcrumbs['home'] ?? ''); ?></a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <a href="/doctors" class="hover:text-[#1977b2]">Профессиональная команда</a>
+                <a href="/doctors" class="hover:text-[#1977b2]"><?php echo e($doctorBreadcrumbs['team'] ?? ''); ?></a>
             </nav>
 
             <div class="grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
@@ -152,7 +164,7 @@ echo $header->render();
                     <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
                         <?php echo e($doctor['hero_tagline']); ?>
                     </p>
-                    <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
+                    <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"><?php echo e($doctorHero['sign'] ?? ''); ?></p>
                     <?php endif; ?>
                 </div>
 
@@ -167,22 +179,22 @@ echo $header->render();
 
                     <div class="mt-6 lg:hidden">
                         <div id="book-mobile" class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-                            <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]">Записаться на прием</h3>
+                            <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
                             <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]">
-                                Перезвоним в течение 15 минут.
+                                <?php echo e(bioinmed_text('common.callback_15_min')); ?>
                             </p>
 
                             <div class="mt-5 space-y-3">
                                 <?php echo bioinmed_render_callback_form([
-                                    'source_label' => ($doctor['name'] ?? 'Врач') . ' — mobile CTA',
-                                    'submit_label' => 'Перезвоните мне',
+                                    'source_label' => ($doctor['name'] ?? '') . (string)($doctorCta['mobile_source_suffix'] ?? ''),
+                                    'submit_label' => bioinmed_text('common.request_callback'),
                                     'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.98rem] font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                                 ]); ?>
                             </div>
 
                             <div class="my-5 flex items-center gap-3">
                                 <div class="h-px grow bg-[#e2ecf5]"></div>
-                                <span class="text-xs text-[#0a293c]">или позвоните напрямую</span>
+                                <span class="text-xs text-[#0a293c]"><?php echo e($doctorCta['call_direct'] ?? ''); ?></span>
                                 <div class="h-px grow bg-[#e2ecf5]"></div>
                             </div>
 
@@ -254,7 +266,7 @@ echo $header->render();
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                 <i class="fa-solid fa-clipboard-list text-sm" aria-hidden="true"></i>
                             </span>
-                            <span>Образовательная и управленческая роль</span>
+                            <span><?php echo e($doctorEducationalRole['title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -262,18 +274,12 @@ echo $header->render();
                     </summary>
                     <div class="px-7 pb-7">
                         <ul class="space-y-3 text-[0.96rem] leading-relaxed text-[#0a293c]">
+                            <?php foreach ((is_array($doctorEducationalRole['items'] ?? null) ? $doctorEducationalRole['items'] : []) as $eduItem): ?>
                             <li class="flex items-start gap-3">
                                 <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                <span>Лично обучаю и стажирую специалистов Клиники и курирую сложные клинические кейсы.</span>
+                                <span><?php echo e($eduItem); ?></span>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                <span>Разрабатываю внутренние стандарты безопасности и сервиса, чтобы каждый прием соответствовал уровню, за который я отвечаю своим именем.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                <span>Участвуя в профессиональных встречах, внедряю в работу Клиники современные методики и инструменты.</span>
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                 </details>
@@ -284,7 +290,7 @@ echo $header->render();
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-list-check text-sm"></i></span>
-                            <span>Направления деятельности</span>
+                            <span><?php echo e($doctorSectionsText['specializations_title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -308,7 +314,7 @@ echo $header->render();
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-bullseye text-sm"></i></span>
-                            <span>Профиль деятельности</span>
+                            <span><?php echo e($doctorSectionsText['focus_title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -420,7 +426,7 @@ echo $header->render();
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-university text-sm"></i></span>
-                            <span>Образование и квалификация</span>
+                            <span><?php echo e($doctorSectionsText['education_title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -437,7 +443,7 @@ echo $header->render();
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-shield-halved text-sm"></i></span>
-                            <span>Почему пациенты выбирают этого специалиста</span>
+                            <span><?php echo e($doctorTrustSection['title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -445,10 +451,9 @@ echo $header->render();
                     </summary>
                     <div class="px-7 pb-7">
                         <ul class="space-y-3 text-[0.96rem] text-[#0a293c]">
-                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Индивидуальный план лечения — никаких шаблонных схем</span></li>
-                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Сочетание классической и интегративной медицины</span></li>
-                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Работает до устойчивого результата, контролирует динамику</span></li>
-                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Принимает в лицензированной клинике с полным оснащением</span></li>
+                            <?php foreach ((is_array($doctorTrustSection['items'] ?? null) ? $doctorTrustSection['items'] : []) as $trustItem): ?>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($trustItem); ?></span></li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                 </details>
@@ -458,15 +463,15 @@ echo $header->render();
             <!-- right column: sticky CTA -->
             <div class="hidden lg:block">
                 <div id="book" class="fade-up sticky top-24 rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-                    <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]">Записаться на прием</h3>
+                    <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
                     <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]">
-                        Перезвоним в течение 15 минут.
+                        <?php echo e(bioinmed_text('common.callback_15_min')); ?>
                     </p>
 
                     <div class="mt-5 space-y-3">
                         <?php echo bioinmed_render_callback_form([
-                            'source_label' => ($doctor['name'] ?? 'Врач') . ' — sticky CTA',
-                            'submit_label' => 'Перезвоните мне',
+                            'source_label' => ($doctor['name'] ?? '') . (string)($doctorCta['sticky_source_suffix'] ?? ''),
+                            'submit_label' => bioinmed_text('common.request_callback'),
                             'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.98rem] font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                         ]); ?>
                     </div>
@@ -474,7 +479,7 @@ echo $header->render();
                     <!-- divider -->
                     <div class="my-5 flex items-center gap-3">
                         <div class="h-px grow bg-[#e2ecf5]"></div>
-                        <span class="text-xs text-[#0a293c]">или позвоните напрямую</span>
+                        <span class="text-xs text-[#0a293c]"><?php echo e($doctorCta['call_direct'] ?? ''); ?></span>
                         <div class="h-px grow bg-[#e2ecf5]"></div>
                     </div>
 
@@ -587,9 +592,9 @@ echo $header->render();
     <?php if (!empty($doctorServices)): ?>
     <section class="border-t border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Специалист клиники БИОИНМЕД</p>
-            <h2 class="mt-2 text-xl font-bold text-[#0a293c] md:text-2xl">Релевантные услуги</h2>
-            <p class="mt-2 text-sm text-[#0a293c]">Услуги, которые чаще всего выбирают на этом приёме</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e(($doctorServicesText['eyebrow'] ?? '') . ' ' . CLINIC_NAME); ?></p>
+            <h2 class="mt-2 text-xl font-bold text-[#0a293c] md:text-2xl"><?php echo e($doctorServicesText['title'] ?? ''); ?></h2>
+            <p class="mt-2 text-sm text-[#0a293c]"><?php echo e($doctorServicesText['description'] ?? ''); ?></p>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach ($doctorServices as $srv): ?>
@@ -604,9 +609,9 @@ echo $header->render();
                     </p>
                     <?php endif; ?>
                     <div class="mt-auto flex items-center justify-between pt-4">
-                        <span class="text-xs font-semibold text-[#1977b2]"><?php echo e($srv['price'] ?? 'Уточнить'); ?></span>
+                        <span class="text-xs font-semibold text-[#1977b2]"><?php echo e($srv['price'] ?? ($doctorServicesText['price_fallback'] ?? '')); ?></span>
                         <span class="inline-flex items-center gap-1 rounded-full bg-[#1977b2] px-3 py-1.5 text-[0.72rem] font-semibold text-white shadow-[0_8px_18px_rgba(25,119,178,0.18)] transition group-hover:bg-[#16658f]">
-                            Подробнее
+                            <?php echo e(bioinmed_text('common.more_details')); ?>
                             <i class="fa-solid fa-arrow-right text-[0.62rem]"></i>
                         </span>
                     </div>
@@ -620,16 +625,24 @@ echo $header->render();
     <!-- ===== CTA STRIP ===== -->
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника БИОИНМЕД · Москва</p>
-            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl">Не откладывайте заботу о Вашем здоровье</h2>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e(($doctorFinalCta['eyebrow'] ?? '') . ' ' . CLINIC_NAME . ' · ' . ($doctorFinalCta['city'] ?? '')); ?></p>
+            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl"><?php echo e($doctorFinalCta['title'] ?? ''); ?></h2>
             <p class="mx-auto mt-3 max-w-2xl text-sm text-[#0a293c]">
-                <?php echo e($doctor['name']); ?> принимает в клинике БИОИНМЕД по адресу: <?php echo e(CLINIC_ADDRESS); ?>, <?php echo e(CLINIC_METRO); ?>.
-                Запись ежедневно с 9:00 до 21:00.
+                <?php
+                $finalDescription = (string)($doctorFinalCta['description_template'] ?? '');
+                $finalDescription = strtr($finalDescription, [
+                    '{{doctor_name}}' => (string)($doctor['name'] ?? ''),
+                    '{{clinic_name}}' => CLINIC_NAME,
+                    '{{clinic_address}}' => CLINIC_ADDRESS,
+                    '{{clinic_metro}}' => CLINIC_METRO,
+                ]);
+                echo e($finalDescription);
+                ?>
             </p>
             <div class="mx-auto mt-6 max-w-md">
                 <?php echo bioinmed_render_callback_form([
-                    'source_label' => ($doctor['name'] ?? 'Врач') . ' — финальная CTA',
-                    'submit_label' => 'Записаться на приём',
+                    'source_label' => ($doctor['name'] ?? '') . (string)($doctorCta['final_source_suffix'] ?? ''),
+                    'submit_label' => bioinmed_text('common.book_appointment'),
                     'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                 ]); ?>
             </div>

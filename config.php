@@ -1,20 +1,48 @@
 <?php
 // Конфигурация и общие данные клиники
 
-define('CLINIC_NAME', 'БИОИНМЕД');
-define('CLINIC_SITE_URL', 'https://bioinmed.ru');
-define('CLINIC_ICON_PATH', '/public/images/brand/bioinmed-icon.png');
-define('CLINIC_PHONE', '+7 (495) 796-03-36');
-define('CLINIC_ADDRESS', 'Москва, Оболенский пер., 9А');
-define('CLINIC_METRO', 'м. Фрунзенская');
-define('CLINIC_EMAIL', 'info@bioinmed.ru');
-define('CLINIC_HOURS', 'Ежедневно с 9:00 до 21:00 (без выходных)');
-define('CLINIC_TAGLINE', 'Интегративная и восстановительная медицина. Индивидуальный подход к каждому пациенту.');
-define('ONLINE_BOOKING_URL', '#contact');
-define('CLINIC_VK', 'https://vk.com/bioinmed');
-define('CLINIC_TELEGRAM', 'https://t.me/bioinmed');
-define('HERO_TITLE', 'Восстановление здоровья через интегративную медицину');
-define('HERO_IMAGE', '/public/images/team/kostromina.jpg');
+function bioinmed_bootstrap_site_data() {
+    $path = __DIR__ . '/data/content/ru/site.json';
+    if (!is_file($path)) {
+        return [];
+    }
+
+    $raw = @file_get_contents($path);
+    if (!is_string($raw) || $raw === '') {
+        return [];
+    }
+
+    $decoded = json_decode($raw, true);
+    return is_array($decoded) ? $decoded : [];
+}
+
+function bioinmed_bootstrap_get(array $source, $key_path, $default = null) {
+    $current = $source;
+    foreach (array_filter(explode('.', (string)$key_path), static function ($part) { return $part !== ''; }) as $part) {
+        if (!is_array($current) || !array_key_exists($part, $current)) {
+            return $default;
+        }
+        $current = $current[$part];
+    }
+    return $current;
+}
+
+$bioinmed_site_data = bioinmed_bootstrap_site_data();
+
+define('CLINIC_NAME', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.name', 'БИОИНМЕД'));
+define('CLINIC_SITE_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.site_url', 'https://bioinmed.ru'));
+define('CLINIC_ICON_PATH', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.icon_path', '/public/images/brand/bioinmed-icon.png'));
+define('CLINIC_PHONE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.phone', '+7 (495) 796-03-36'));
+define('CLINIC_ADDRESS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.address', 'Москва, Оболенский пер., 9А'));
+define('CLINIC_METRO', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.metro', 'м. Фрунзенская'));
+define('CLINIC_EMAIL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.email', 'info@bioinmed.ru'));
+define('CLINIC_HOURS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hours', 'Ежедневно с 9:00 до 21:00 (без выходных)'));
+define('CLINIC_TAGLINE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.tagline', 'Интегративная и восстановительная медицина. Индивидуальный подход к каждому пациенту.'));
+define('ONLINE_BOOKING_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.online_booking_url', '#contact'));
+define('CLINIC_VK', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.vk', 'https://vk.com/bioinmed'));
+define('CLINIC_TELEGRAM', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.telegram', 'https://t.me/bioinmed'));
+define('HERO_TITLE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hero_title', 'Восстановление здоровья через интегративную медицину'));
+define('HERO_IMAGE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hero_image', '/public/images/team/kostromina.jpg'));
 define('RECAPTCHA_SITE_KEY', getenv('BIOINMED_RECAPTCHA_SITE_KEY') ?: '6LfmOs0sAAAAAKHWO2jG24uuWIL7UBy3x7gG8awh');
 define('RECAPTCHA_SECRET_KEY', getenv('BIOINMED_RECAPTCHA_SECRET_KEY') ?: '6LfmOs0sAAAAAJQP0aJ3ho1kB7VHy4VeyW_s4GQe');
 define('KLIENTIKS_API_ACCOUNT_ID', getenv('BIOINMED_KLIENTIKS_ACCOUNT_ID') ?: '2c9bfa39d606');
@@ -23,27 +51,31 @@ define('KLIENTIKS_API_TOKEN', getenv('BIOINMED_KLIENTIKS_API_TOKEN') ?: '924c34b
 define('KLIENTIKS_API_BASE_URL', getenv('BIOINMED_KLIENTIKS_API_BASE_URL') ?: 'https://klientiks.ru/clientix/Restapi');
 
 // Ключевые показатели (статистика)
-define('CLINIC_EXPERIENCE_YEARS', '5+');
-define('CLINIC_EXPERIENCE_DESC', 'ЛЕТ КЛИНИЧЕСКОГО ОПЫТА');
-define('CLINIC_RATING', '5');
-define('CLINIC_RATING_DESC', 'ОЦЕНКА ПАЦИЕНТОВ');
-define('CLINIC_PATIENTS_YEARLY', '20+');
-define('CLINIC_PATIENTS_DESC', 'МЕТОДИК РЕАБИЛИТАЦИИ');
-define('CLINIC_LICENSE_TEXT', 'Лицензия');
-define('CLINIC_LICENSE_DESC', 'Медицинская лицензия, соблюдение норм СанПиН');
+define('CLINIC_EXPERIENCE_YEARS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'stats.experience_years', '5+'));
+define('CLINIC_EXPERIENCE_DESC', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'stats.experience_desc', 'ЛЕТ КЛИНИЧЕСКОГО ОПЫТА'));
+define('CLINIC_RATING', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'stats.rating', '5'));
+define('CLINIC_RATING_DESC', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'stats.rating_desc', 'ОЦЕНКА ПАЦИЕНТОВ'));
+define('CLINIC_PATIENTS_YEARLY', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'stats.patients_yearly', '20+'));
+define('CLINIC_PATIENTS_DESC', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'stats.patients_desc', 'МЕТОДИК РЕАБИЛИТАЦИИ'));
+define('CLINIC_LICENSE_TEXT', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'stats.license_text', 'Лицензия'));
+define('CLINIC_LICENSE_DESC', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'stats.license_desc', 'Медицинская лицензия, соблюдение норм СанПиН'));
 
 // Цветовая палитра
 $brand_colors = [
-    'primary' => '#1977b2',      // Основной цвет
-    'secondary' => '#0077bd',    // Дополнительный цвет
-    'accent' => '#1977b2',       // Акцент
-    'mint' => '#5fb5c0',         // Мята
-    'success' => '#00d084',      // Зелёный
-    'light_bg' => '#f2f8fb',     // Светлый фон
+    'primary' => '#1977b2',
+    'secondary' => '#0077bd',
+    'accent' => '#1977b2',
+    'mint' => '#5fb5c0',
+    'success' => '#00d084',
+    'light_bg' => '#f2f8fb',
     'white' => '#ffffff',
     'text_dark' => '#0f2749',
     'text_light' => '#2a4b7c',
 ];
+$site_brand_colors = bioinmed_bootstrap_get($bioinmed_site_data, 'brand_colors', []);
+if (is_array($site_brand_colors)) {
+    $brand_colors = array_merge($brand_colors, $site_brand_colors);
+}
 
 function bioinmed_absolute_url($path = '') {
     $site_url = rtrim((string)CLINIC_SITE_URL, '/');
@@ -89,6 +121,97 @@ function bioinmed_default_social_image_url() {
     return bioinmed_absolute_url(bioinmed_default_social_image_path());
 }
 
+function bioinmed_content_json_path($file_name) {
+    $name = trim((string)$file_name);
+    if ($name === '') {
+        return '';
+    }
+
+    return __DIR__ . '/data/content/ru/' . $name;
+}
+
+function bioinmed_read_json_file($file_name) {
+    static $cache = [];
+
+    $path = bioinmed_content_json_path($file_name);
+    if ($path === '') {
+        return [];
+    }
+
+    if (array_key_exists($path, $cache)) {
+        return $cache[$path];
+    }
+
+    if (!is_file($path)) {
+        $cache[$path] = [];
+        return $cache[$path];
+    }
+
+    $raw = @file_get_contents($path);
+    if (!is_string($raw) || $raw === '') {
+        $cache[$path] = [];
+        return $cache[$path];
+    }
+
+    $decoded = json_decode($raw, true);
+    if (!is_array($decoded)) {
+        $cache[$path] = [];
+        return $cache[$path];
+    }
+
+    $cache[$path] = $decoded;
+    return $cache[$path];
+}
+
+function bioinmed_json_get($source, $key_path, $default = null) {
+    $current = $source;
+    $parts = array_filter(explode('.', (string)$key_path), static function ($part) {
+        return $part !== '';
+    });
+
+    foreach ($parts as $part) {
+        if (!is_array($current) || !array_key_exists($part, $current)) {
+            return $default;
+        }
+        $current = $current[$part];
+    }
+
+    return $current;
+}
+
+function bioinmed_text($key_path, $default = '') {
+    static $texts = null;
+    if (!is_array($texts)) {
+        $texts = bioinmed_read_json_file('texts.json');
+    }
+
+    $value = bioinmed_json_get($texts, $key_path, $default);
+    return is_scalar($value) ? (string)$value : (string)$default;
+}
+
+function bioinmed_link($key_path, array $fallback = []) {
+    static $links = null;
+    if (!is_array($links)) {
+        $links = bioinmed_read_json_file('links.json');
+    }
+
+    $node = bioinmed_json_get($links, $key_path, null);
+    if (!is_array($node)) {
+        $node = [];
+    }
+
+    $text = trim((string)($node['text'] ?? ($fallback['text'] ?? '')));
+    $url = trim((string)($node['url'] ?? ($fallback['url'] ?? '#')));
+    if ($url === '') {
+        $url = '#';
+    }
+
+    return [
+        'text' => $text,
+        'url' => $url,
+    ];
+}
+
 function bioinmed_uis_counter_head() {
     return <<<HTML
     <!-- UIS -->
@@ -106,12 +229,15 @@ function bioinmed_render_callback_form(array $options = []) {
     };
 
     $source_label = trim((string)($options['source_label'] ?? 'Заявка с сайта'));
-    $submit_label = trim((string)($options['submit_label'] ?? 'Перезвоните мне'));
+    $submit_label = trim((string)($options['submit_label'] ?? bioinmed_text('common.request_callback')));
     $form_class = trim((string)($options['form_class'] ?? ''));
     $button_class = trim((string)($options['button_class'] ?? ''));
 
+    $privacy_link = bioinmed_link('legal.privacy_genitive');
+    $agreement_link = bioinmed_link('legal.user_agreement_genitive');
+
     if ($submit_label === '') {
-        $submit_label = 'Перезвоните мне';
+        $submit_label = bioinmed_text('common.request_callback');
     }
 
     if ($button_class === '') {
@@ -153,9 +279,9 @@ function bioinmed_render_callback_form(array $options = []) {
                 >
                 <span>
                     Я соглашаюсь с условиями
-                    <a href="/privacy" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">Политики конфиденциальности</a>
+                    <a href="{$escape($privacy_link['url'])}" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">{$escape($privacy_link['text'])}</a>
                     и
-                    <a href="/user-agreement" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">Пользовательского соглашения</a>.
+                    <a href="{$escape($agreement_link['url'])}" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">{$escape($agreement_link['text'])}</a>.
                 </span>
             </label>
             <button type="submit" class="js-callback-submit {$escape($button_class)}">{$escape($submit_label)}</button>
@@ -381,7 +507,7 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
     $slug = trim((string)($doctor['slug'] ?? ''));
     $showCta = (bool)($options['show_cta'] ?? false);
     $ctaUrl = trim((string)($options['cta_url'] ?? ''));
-    $ctaLabel = trim((string)($options['cta_label'] ?? 'Подробнее'));
+    $ctaLabel = trim((string)($options['cta_label'] ?? bioinmed_text('common.more_details')));
     $ctaIcon = trim((string)($options['cta_icon'] ?? 'fa-arrow-right'));
     $surfaceClass = trim((string)($options['surface_class'] ?? 'flex flex-col justify-between'));
     $showBioIfTaglineMissing = array_key_exists('show_bio_if_tagline_missing', $options)
@@ -474,7 +600,9 @@ function bioinmed_normalize_service_category($category) {
         return 'other';
     }
 
-    $aliases = [
+    static $aliases = null;
+    if ($aliases === null) {
+        $aliases = [
         'manual-therapy' => 'manual_therapy',
         'injection-therapy' => 'injection_therapy',
         'infusion-therapy' => 'infusion_therapy',
@@ -483,7 +611,14 @@ function bioinmed_normalize_service_category($category) {
         'chief-doctor' => 'chief_doctor',
         'musculoskeletal-program' => 'musculoskeletal',
         'physio' => 'physiotherapy',
-    ];
+        ];
+
+        $config_data = bioinmed_read_json_file('config-data.json');
+        $json_aliases = bioinmed_json_get($config_data, 'service_category_aliases', []);
+        if (is_array($json_aliases)) {
+            $aliases = array_merge($aliases, $json_aliases);
+        }
+    }
 
     return $aliases[$value] ?? str_replace('-', '_', $value);
 }
@@ -518,23 +653,17 @@ function bioinmed_slugify_problem_name($text) {
 }
 
 function bioinmed_localize_service_text($text) {
+    global $bioinmed_site_data;
+
     $value = (string)$text;
     if ($value === '') {
         return '';
     }
 
-    $replacements = [
-        'HABILECT' => '«Хабилект»',
-        'HILT' => 'ХИЛТ',
-        'PRP' => 'ПРП',
-        'VIP LINE' => 'ВИП ЛАЙН',
-        'Heel' => 'Хеель',
-        'HEEЛ' => 'ХЕЕЛЬ',
-        'HEEL' => 'ХЕЕЛЬ',
-        'Detox' => 'Детокс',
-        'detox' => 'детокс',
-        'LINE' => 'ЛАЙН',
-    ];
+    $replacements = bioinmed_bootstrap_get($bioinmed_site_data, 'service_text_replacements', []);
+    if (!is_array($replacements)) {
+        $replacements = [];
+    }
 
     $value = strtr($value, $replacements);
     // Исправление частой смешанной латиницы в русских словах.
@@ -605,7 +734,25 @@ function bioinmed_contains_ci($haystack, $needle) {
 }
 
 function bioinmed_docs_category_by_path($relativePath, $title) {
+    global $bioinmed_site_data;
+
     $haystack = (string)($relativePath . ' ' . $title);
+
+    $rules = bioinmed_bootstrap_get($bioinmed_site_data, 'docs_category_rules', []);
+    if (is_array($rules) && !empty($rules)) {
+        foreach ($rules as $rule) {
+            $category = trim((string)($rule['category'] ?? ''));
+            $keywords = $rule['keywords'] ?? [];
+            if ($category === '' || !is_array($keywords)) {
+                continue;
+            }
+            foreach ($keywords as $keyword) {
+                if (bioinmed_contains_ci($haystack, $keyword)) {
+                    return $category;
+                }
+            }
+        }
+    }
 
     if (bioinmed_contains_ci($haystack, 'инфуз') || bioinmed_contains_ci($haystack, 'капель')) {
         return 'infusion_therapy';
@@ -645,6 +792,8 @@ function bioinmed_service_image_url($filename) {
 }
 
 function bioinmed_service_image_files($service, $limit = 4) {
+    global $bioinmed_site_data;
+
     static $available = null;
 
     if ($available === null) {
@@ -664,8 +813,6 @@ function bioinmed_service_image_files($service, $limit = 4) {
     }
 
     $service_id = strtolower(trim((string)($service['id'] ?? '')));
-    $service_name = strtolower(trim((string)($service['name'] ?? '')));
-    $service_category = strtolower(trim((string)($service['category'] ?? 'other')));
     $images = [];
 
     $push = static function ($filename) use (&$images, $available, $limit) {
@@ -685,22 +832,10 @@ function bioinmed_service_image_files($service, $limit = 4) {
         }
     };
 
-    $exact_map = [
-        'hobilect-diagnostics' => ['habilect.jpg', 'habilect-2.jpg'],
-        'chief-doctor-consultation' => ['chief-doctor-consultation.jpg'],
-        'hilt-therapy' => ['Advanced Regenerative Therapy Laser.jpg'],
-        'acupuncture' => ['acupuncture-therapy.jpg', 'acupuncture-therapy-2.jpg', 'acupuncture-therapy-3.jpg'],
-        'shock-wave-therapy' => ['shockwave-therapy.jpg', 'shockwave-therapy-2.jpg', 'shockwave-therapy-3.jpg', 'shockwave-therapy-4.jpg'],
-        'infusion-therapy' => ['infusion-therapy.jpg'],
-        'cupping' => ['cupping-therapy.jpg', 'cupping-therapy-2.jpg'],
-        'fizioterapiya' => ['physiotherapy-treatment.jpg', 'physiotherapy-treatment-2.jpg'],
-        'inektsionnaya-terapiya' => ['injection-therapy.jpg', 'injection-therapy-4.jpg', 'injection-therapy-5.jpg'],
-        'akupunkturnoe-kross-teypirovanie' => ['cross-taping.jpg', 'cross-taping-2.jpg', 'cross-taping-3.jpg'],
-        'elektroforez' => ['electrophoresis-therapy.jpg', 'electrophoresis-therapy-2.jpg', 'electrophoresis-therapy-3.jpg'],
-        'transkranialnaya-magnitoterapiya-tkmt' => ['transcranial-therapy.jpg', 'transcranial-therapy-2.jpg'],
-        'miostimulyatsiya-vip-layn' => ['vip-line-therapy.jpg', 'vip-line-therapy-2.jpg', 'vip-line-therapy-3.jpg', 'vip-line-therapy-4.jpg'],
-        'magnitoterapiya-fotostimulyatsiya-amblio' => ['amblyo-therapy.jpg', 'amblyo-therapy-2.jpg', 'amblyo-therapy-3.jpg', 'amblyo-therapy-4.jpg'],
-    ];
+    $exact_map = bioinmed_bootstrap_get($bioinmed_site_data, 'service_image_exact_map', []);
+    if (!is_array($exact_map)) {
+        $exact_map = [];
+    }
 
     if (isset($exact_map[$service_id])) {
         $push_group($exact_map[$service_id]);
@@ -731,6 +866,11 @@ function bioinmed_service_primary_image_url($service) {
 $services = require __DIR__ . '/config/services.php';
 $faq_items = require __DIR__ . '/config/faqs.php';
 $service_aliases = require __DIR__ . '/config/service_aliases.php';
+$bioinmed_config_data = bioinmed_read_json_file('config-data.json');
+$bioinmed_config_array = static function ($key_path) use ($bioinmed_config_data) {
+    $value = bioinmed_json_get($bioinmed_config_data, $key_path, []);
+    return is_array($value) ? $value : [];
+};
 
 // Нормализация категорий для каталога услуг.
 $normalized_services = [];
@@ -764,314 +904,21 @@ usort($services, function ($a, $b) {
     return intval($a['order'] ?? 9999) <=> intval($b['order'] ?? 9999);
 });
 
-// Проблемы пациентов
-$problems = [
-    [
-        'title' => 'Боли в спине и суставах',
-        'description' => 'Боль и скованность в спине, шее, плечах или суставах, которые усиливаются при движении, нагрузке или после долгого сидения.',
-        'solutions' => 'Диагностика «Хабилект», Остеопатия, Мануальная терапия, Стельки Формтотикс, ЛФК, Массаж, Физиотерапия',
-        'solution_links' => [
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-            ['label' => 'Мануальная терапия', 'id' => 'manual-therapy-session'],
-            ['label' => 'Остеопатия', 'id' => 'osteopathy'],
-            ['label' => 'ЛФК и реабилитация', 'id' => 'physiotherapy-comprehensive'],
-            ['label' => 'Стельки Формтотикс', 'id' => 'orthotic-insoles-formthotics'],
-            ['label' => 'Медицинский массаж', 'id' => 'massage'],
-            ['label' => 'Физиотерапия', 'id' => 'fizioterapiya'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Головные боли и мигрени',
-        'description' => 'Повторяющиеся головные боли, мигрени, тяжесть в голове и дискомфорт на фоне стресса, усталости или напряжения.',
-        'solutions' => 'Консультация главного врача, Мануальная терапия, Остеопатия, Рефлексотерапия, Психотерапия, Инфузионная терапия',
-        'solution_links' => [
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-            ['label' => 'Консультация невролога/мануального терапевта', 'id' => 'manual-therapy-consultation'],
-            ['label' => 'Остеопатия', 'id' => 'osteopathy'],
-            ['label' => 'Рефлексотерапия', 'id' => 'acupuncture'],
-            ['label' => 'Психотерапия', 'id' => 'psychotherapy'],
-            ['label' => 'Инфузионная терапия', 'id' => 'infusion-therapy'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Сколиоз и нарушение осанки',
-        'description' => 'Сутулость, асимметрия плеч и лопаток, нарушение осанки и мышечный дисбаланс.',
-        'solutions' => '«Хабилект»-диагностика, Реабилитолог, ЛФК, Кинезиотерапия, Стельки Формтотикс, Остеопатия, Физиотерапия',
-        'solution_links' => [
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Приём реабилитолога', 'id' => 'rehabilitation-specialist-consultation'],
-            ['label' => 'ЛФК и реабилитация', 'id' => 'physiotherapy-comprehensive'],
-            ['label' => 'Кинезиотерапия', 'id' => 'kineziodiagnostics-therapy'],
-            ['label' => 'Стельки Формтотикс', 'id' => 'orthotic-insoles-formthotics'],
-            ['label' => 'Остеопатия', 'id' => 'osteopathy'],
-            ['label' => 'Физиотерапия', 'id' => 'fizioterapiya'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Плоскостопие, вальгус, варус и деформации стоп',
-        'description' => 'Плоскостопие, завал стопы, вальгус или варус, боли в стопах, коленях и пояснице при ходьбе и нагрузке.',
-        'solutions' => 'Стельки Формтотикс, Стельки Футмастер, Реабилитолог, Диагностика «Хабилект», Остеопатия, ЛФК',
-        'solution_links' => [
-            ['label' => 'Стельки Формтотикс', 'id' => 'orthotic-insoles-formthotics'],
-            ['label' => 'Стельки Футмастер', 'id' => 'orthotic-insoles-footmaster'],
-            ['label' => 'Приём реабилитолога', 'id' => 'rehabilitation-specialist-consultation'],
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'ЛФК и реабилитация', 'id' => 'physiotherapy-comprehensive'],
-            ['label' => 'Остеопатия', 'id' => 'osteopathy'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Последствия травм и операций',
-        'description' => 'Боль, отёк, скованность или ограничение движения после травмы, операции или длительной иммобилизации.',
-        'solutions' => 'Диагностика «Хабилект», Реабилитолог, Кинезиотерапия, ЛФК, Массаж, УВТ, ХИЛТ, Физиотерапия, Инъекционная терапия',
-        'solution_links' => [
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Приём реабилитолога', 'id' => 'rehabilitation-specialist-consultation'],
-            ['label' => 'Кинезиотерапия', 'id' => 'kineziodiagnostics-therapy'],
-            ['label' => 'ЛФК и реабилитация', 'id' => 'physiotherapy-comprehensive'],
-            ['label' => 'Медицинский массаж', 'id' => 'massage'],
-            ['label' => 'УВТ', 'id' => 'shock-wave-therapy'],
-            ['label' => 'ХИЛТ-терапия', 'id' => 'hilt-therapy'],
-            ['label' => 'Физиотерапия', 'id' => 'fizioterapiya'],
-            ['label' => 'Инъекционная терапия', 'id' => 'inektsionnaya-terapiya'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Неврологические нарушения',
-        'description' => 'Онемение, покалывание, головокружение, слабость, боли по ходу нервов и другие неврологические жалобы.',
-        'solutions' => 'Консультация невролога, Диагностика «Хабилект», Рефлексотерапия, Остеопатия, Физиотерапия, Инфузионная терапия',
-        'solution_links' => [
-            ['label' => 'Консультация невролога/мануального терапевта', 'id' => 'manual-therapy-consultation'],
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Рефлексотерапия', 'id' => 'acupuncture'],
-            ['label' => 'Остеопатия', 'id' => 'osteopathy'],
-            ['label' => 'Физиотерапия', 'id' => 'fizioterapiya'],
-            ['label' => 'Инфузионная терапия', 'id' => 'infusion-therapy'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Синдром хронической усталости и постковид',
-        'description' => 'Слабость, быстрая утомляемость, снижение переносимости нагрузок и проблемы с восстановлением после ковида или затяжной болезни.',
-        'solutions' => 'Консультация главного врача, Диагностика «Хабилект», Инфузионная терапия, Озонотерапия, Карбокситерапия, Рефлексотерапия, ЛФК',
-        'solution_links' => [
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Инфузионная терапия', 'id' => 'infusion-therapy'],
-            ['label' => 'Озонотерапия', 'id' => 'ozonoterapiya'],
-            ['label' => 'Карбокситерапия', 'id' => 'karboksiterapiya-ozonoterapiya'],
-            ['label' => 'Рефлексотерапия', 'id' => 'acupuncture'],
-            ['label' => 'ЛФК и реабилитация', 'id' => 'physiotherapy-comprehensive'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Тревога, стресс, проблемы со сном',
-        'description' => 'Тревога, внутреннее напряжение, нарушения сна, раздражительность и ощущение постоянного стресса.',
-        'solutions' => 'Психотерапия, Рефлексотерапия, Микропунктура, Инфузионная терапия, Консультация главного врача',
-        'solution_links' => [
-            ['label' => 'Психотерапия', 'id' => 'psychotherapy'],
-            ['label' => 'Рефлексотерапия', 'id' => 'acupuncture'],
-            ['label' => 'Микропунктура', 'id' => 'mikropunktura-aurikulyarnaya'],
-            ['label' => 'Инфузионная терапия', 'id' => 'infusion-therapy'],
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Отсутствие уверенности в себе',
-        'description' => 'Снижение уверенности, трудности в общении, страх оценки и ощущение эмоциональной зажатости.',
-        'solutions' => 'Психотерапия, Рефлексотерапия, Консультация главного врача, Инфузионная терапия',
-        'solution_links' => [
-            ['label' => 'Психотерапия', 'id' => 'psychotherapy'],
-            ['label' => 'Рефлексотерапия', 'id' => 'acupuncture'],
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-            ['label' => 'Инфузионная терапия', 'id' => 'infusion-therapy'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Малоподвижный образ жизни: лишний вес, метаболический синдром, гипоксия',
-        'description' => 'Снижение активности, лишний вес, одышка, быстрая утомляемость и ощущение тяжести в теле.',
-        'solutions' => 'Диагностика «Хабилект», Реабилитолог, ЛФК, Физиотерапия, Инфузионная терапия, Психотерапия',
-        'solution_links' => [
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Приём реабилитолога', 'id' => 'rehabilitation-specialist-consultation'],
-            ['label' => 'ЛФК и реабилитация', 'id' => 'physiotherapy-comprehensive'],
-            ['label' => 'Физиотерапия', 'id' => 'fizioterapiya'],
-            ['label' => 'Инфузионная терапия', 'id' => 'infusion-therapy'],
-            ['label' => 'Психотерапия', 'id' => 'psychotherapy'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Пожилые пациенты 70+: нарушения памяти, сна, когнитивные функции, шаткость',
-        'description' => 'Снижение памяти, сна, устойчивости и общей активности в пожилом возрасте.',
-        'solutions' => 'Консультация главного врача, Диагностика «Хабилект», Рефлексотерапия, Остеопатия, Реабилитолог, Физиотерапия',
-        'solution_links' => [
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Рефлексотерапия', 'id' => 'acupuncture'],
-            ['label' => 'Остеопатия', 'id' => 'osteopathy'],
-            ['label' => 'Приём реабилитолога', 'id' => 'rehabilitation-specialist-consultation'],
-            ['label' => 'Физиотерапия', 'id' => 'fizioterapiya'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Трудности с переносимостью спортивных нагрузок',
-        'description' => 'Быстрое утомление, боли после тренировок, снижение выносливости и трудности с восстановлением.',
-        'solutions' => 'Диагностика «Хабилект», Кинезиотерапия, ЛФК, Стельки Формтотикс, Остеопатия, Физиотерапия, УВТ',
-        'solution_links' => [
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Кинезиотерапия', 'id' => 'kineziodiagnostics-therapy'],
-            ['label' => 'ЛФК и реабилитация', 'id' => 'physiotherapy-comprehensive'],
-            ['label' => 'Стельки Формтотикс', 'id' => 'orthotic-insoles-formthotics'],
-            ['label' => 'Остеопатия', 'id' => 'osteopathy'],
-            ['label' => 'Физиотерапия', 'id' => 'fizioterapiya'],
-            ['label' => 'УВТ', 'id' => 'shock-wave-therapy'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Слабый иммунитет и частые ОРВИ',
-        'description' => 'Частые ОРВИ, затяжное восстановление, слабость и ощущение, что организм долго не приходит в норму.',
-        'solutions' => 'Консультация главного врача, Инфузионная терапия, Озонотерапия, Карбокситерапия, Рефлексотерапия',
-        'solution_links' => [
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-            ['label' => 'Инфузионная терапия', 'id' => 'infusion-therapy'],
-            ['label' => 'Озонотерапия', 'id' => 'ozonoterapiya'],
-            ['label' => 'Карбокситерапия', 'id' => 'karboksiterapiya-ozonoterapiya'],
-            ['label' => 'Рефлексотерапия', 'id' => 'acupuncture'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Точная диагностика скрытых проблем опорно-двигательного аппарата и биомеханики',
-        'description' => 'Скрытые перегрузки, нарушения биомеханики, осанки и опоры, которые могут проявляться болью или усталостью.',
-        'solutions' => 'Диагностика «Хабилект», Консультация главного врача, Приём реабилитолога, Кинезиотерапия, Стельки Формтотикс',
-        'solution_links' => [
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-            ['label' => 'Приём реабилитолога', 'id' => 'rehabilitation-specialist-consultation'],
-            ['label' => 'Кинезиотерапия', 'id' => 'kineziodiagnostics-therapy'],
-            ['label' => 'Стельки Формтотикс', 'id' => 'orthotic-insoles-formthotics'],
-        ],
-        'icon' => '🔴',
-    ],
-    [
-        'title' => 'Детские проблемы',
-        'description' => 'Частые запросы: нарушение осанки и сколиоз, плоскостопие, задержка моторного развития, частые ОРВИ и тревожность/нарушения сна.',
-        'solutions' => 'Диагностика «Хабилект», Консультация главного врача, ЛФК и реабилитация, Остеопатия, Рефлексотерапия, Психотерапия',
-        'solution_links' => [
-            ['label' => 'Диагностика «Хабилект»', 'id' => 'hobilect-diagnostics'],
-            ['label' => 'Консультация главного врача', 'id' => 'chief-doctor-consultation'],
-            ['label' => 'ЛФК и реабилитация', 'id' => 'physiotherapy-comprehensive'],
-            ['label' => 'Остеопатия', 'id' => 'osteopathy'],
-            ['label' => 'Рефлексотерапия', 'id' => 'acupuncture'],
-            ['label' => 'Психотерапия', 'id' => 'psychotherapy'],
-        ],
-        'icon' => '🔴',
-    ],
-];
-
-$problem_common_consultation = [
-    'Главный врач, врач ВРТ, гомеопат, интегративный психолог',
-    'Заведующая отделением: врач акушер-гинеколог, рефлексотерапевт, физиотерапевт',
-    'Врач-невролог, мануальный терапевт',
-    'Врач-остеопат',
-    'Специалист по реабилитации',
-    'Кинезиолог',
-];
-
-$problem_common_diagnostics = [
-    'Вегетативно-резонансное тестирование',
-    '3D-диагностика опорно-двигательного аппарата на мультифункциональном комплексе «Хабилект»',
-    'Диагностика стоп на подоскопе (Формтотикс)',
-];
-
-$problem_common_plan = [
-    'Формируется персональный маршрут лечения по этапам и приоритетам',
-    'Определяются профильные специалисты и последовательность приёмов',
-    'Подбирается комбинация методов по клинической задаче и переносимости',
-    'Согласовывается программа реабилитации и контрольные визиты',
-];
-
-$rehab_tracks = [
-    'broad' => [
-        'ЛФК.',
-        'Стельки Формтотикс/Футмастер по показаниям.',
-        'Массаж.',
-        'Кинезиотерапия.',
-        'Инъекционная и инфузионная терапия (в том числе гомеопунктура Хеель и плазмотерапия).',
-        'Озонотерапия/карбокситерапия.',
-        'Физиотерапия: УВТ, ХИЛТ, НЛОК, гелиосплазма, электростимуляция, электрофорез, ультрафонофорез, магнитотерапия.',
-    ],
-    'headache' => [
-        'Массаж.',
-        'Инъекционная и инфузионная терапия по показаниям.',
-        'Озонотерапия/карбокситерапия.',
-        'Физиотерапия: УВТ, ХИЛТ, НЛОК, гелиосплазма, электростимуляция, электрофорез, ультрафонофорез, магнитотерапия.',
-    ],
-    'posture' => [
-        'ЛФК.',
-        'Стельки Формтотикс/Футмастер.',
-        'Массаж.',
-        'Физиотерапия: УВТ, электростимуляция, электрофорез, ультрафонофорез, магнитотерапия.',
-    ],
-];
-
-$result_tracks = [
-    'pain' => [
-        'Снижение или снятие болевого синдрома.',
-        'Улучшение подвижности и переносимости нагрузки.',
-        'Уменьшение контрактур и мышечного напряжения.',
-        'Общее улучшение самочувствия и качества жизни.',
-    ],
-    'headache' => [
-        'Снижение частоты и интенсивности головной боли.',
-        'Стабилизация сна и уровня стресса.',
-        'Общее улучшение самочувствия и качества жизни.',
-    ],
-    'posture' => [
-        'Улучшение осанки и устойчивости.',
-        'Снижение боли и перегрузки при движении.',
-        'Повышение качества жизни.',
-    ],
-    'neuro' => [
-        'Снижение выраженности неврологической симптоматики.',
-        'Улучшение сна, когнитивных функций и самочувствия.',
-        'Улучшение подвижности, устойчивости и качества жизни.',
-    ],
-];
-
-$problem_profiles = [
-    'Боли в спине и суставах' => ['rehab' => 'broad', 'result' => 'pain'],
-    'Головные боли и мигрени' => ['rehab' => 'headache', 'result' => 'headache'],
-    'Сколиоз и нарушение осанки' => ['rehab' => 'posture', 'result' => 'posture'],
-    'Плоскостопие, вальгус, варус и деформации стоп' => ['rehab' => 'posture', 'result' => 'pain'],
-    'Последствия травм и операций' => ['rehab' => 'broad', 'result' => 'pain'],
-    'Неврологические нарушения' => ['rehab' => 'broad', 'result' => 'neuro'],
-    'Синдром хронической усталости и постковид' => ['rehab' => 'broad', 'result' => 'neuro'],
-    'Тревога, стресс, проблемы со сном' => ['rehab' => 'broad', 'result' => 'headache'],
-    'Отсутствие уверенности в себе' => ['rehab' => 'broad', 'result' => 'headache'],
-    'Малоподвижный образ жизни: лишний вес, метаболический синдром, гипоксия' => ['rehab' => 'broad', 'result' => 'pain'],
-    'Пожилые пациенты 70+: нарушения памяти, сна, когнитивные функции, шаткость' => ['rehab' => 'broad', 'result' => 'neuro'],
-    'Трудности с переносимостью спортивных нагрузок' => ['rehab' => 'broad', 'result' => 'pain'],
-    'Слабый иммунитет и частые ОРВИ' => ['rehab' => 'broad', 'result' => 'headache'],
-    'Точная диагностика скрытых проблем опорно-двигательного аппарата и биомеханики' => ['rehab' => 'posture', 'result' => 'posture'],
-    'Детские проблемы' => ['rehab' => 'broad', 'result' => 'posture'],
-];
+$problems = $bioinmed_config_array('problems_raw');
+$problem_common_consultation = $bioinmed_config_array('problem_common_consultation');
+$problem_common_diagnostics = $bioinmed_config_array('problem_common_diagnostics');
+$problem_common_plan = $bioinmed_config_array('problem_common_plan');
+$rehab_tracks = $bioinmed_config_array('rehab_tracks');
+$result_tracks = $bioinmed_config_array('result_tracks');
+$problem_profiles = $bioinmed_config_array('problem_profiles');
 
 foreach ($problems as &$problem) {
-    $title = (string)($problem['title'] ?? '');
-    if (!isset($problem_profiles[$title])) {
+    if (!is_array($problem)) {
+        continue;
+    }
+
+    $title = trim((string)($problem['title'] ?? ''));
+    if ($title === '' || !isset($problem_profiles[$title]) || !is_array($problem_profiles[$title])) {
         continue;
     }
 
@@ -1079,8 +926,8 @@ foreach ($problems as &$problem) {
         $problem['slug'] = bioinmed_slugify_problem_name($title);
     }
 
-    $rehab_key = (string)$problem_profiles[$title]['rehab'];
-    $result_key = (string)$problem_profiles[$title]['result'];
+    $rehab_key = (string)($problem_profiles[$title]['rehab'] ?? 'broad');
+    $result_key = (string)($problem_profiles[$title]['result'] ?? 'pain');
 
     $problem['page_title'] = trim($title . ' — БИОИНМЕД');
     $problem['page_description'] = trim((string)($problem['description'] ?? '') . ' Отдельная страница с раскрывающимся описанием проблемы, этапами маршрута лечения и релевантными услугами клиники.');
@@ -1104,37 +951,21 @@ foreach ($problems as &$problem) {
         [
             'title' => '4. Реабилитация',
             'intro' => 'Подключаем методы, которые помогают безопасно восстановить движение, снизить боль и закрепить результат.',
-            'items' => $rehab_tracks[$rehab_key] ?? $rehab_tracks['broad'],
+            'items' => isset($rehab_tracks[$rehab_key]) && is_array($rehab_tracks[$rehab_key]) ? $rehab_tracks[$rehab_key] : ($rehab_tracks['broad'] ?? []),
         ],
         [
             'title' => '5. Результат',
             'intro' => 'Цель этапа - устойчивое улучшение самочувствия, подвижности и качества жизни.',
-            'items' => $result_tracks[$result_key] ?? $result_tracks['pain'],
+            'items' => isset($result_tracks[$result_key]) && is_array($result_tracks[$result_key]) ? $result_tracks[$result_key] : ($result_tracks['pain'] ?? []),
         ],
     ];
 }
 unset($problem);
 
-$problem_order = [
-    'Боли в спине и суставах',
-    'Головные боли и мигрени',
-    'Сколиоз и нарушение осанки',
-    'Плоскостопие, вальгус, варус и деформации стоп',
-    'Последствия травм и операций',
-    'Неврологические нарушения',
-    'Синдром хронической усталости и постковид',
-    'Тревога, стресс, проблемы со сном',
-    'Отсутствие уверенности в себе',
-    'Малоподвижный образ жизни: лишний вес, метаболический синдром, гипоксия',
-    'Пожилые пациенты 70+: нарушения памяти, сна, когнитивные функции, шаткость',
-    'Трудности с переносимостью спортивных нагрузок',
-    'Слабый иммунитет и частые ОРВИ',
-    'Точная диагностика скрытых проблем опорно-двигательного аппарата и биомеханики',
-    'Детские проблемы',
-];
+$problem_order = $bioinmed_config_array('problem_order');
 $problem_order_map = [];
 foreach ($problem_order as $order_index => $problem_title) {
-    $problem_order_map[$problem_title] = $order_index;
+    $problem_order_map[trim((string)$problem_title)] = $order_index;
 }
 
 usort($problems, static function (array $left, array $right) use ($problem_order_map): int {
@@ -1149,21 +980,18 @@ usort($problems, static function (array $left, array $right) use ($problem_order
     return $left_order <=> $right_order;
 });
 
-$children_problem_titles = [
-    'Сколиоз и нарушение осанки',
-    'Плоскостопие, вальгус, варус и деформации стоп',
-    'Неврологические нарушения',
-    'Тревога, стресс, проблемы со сном',
-    'Слабый иммунитет и частые ОРВИ',
-    'Последствия травм и операций',
-];
+$children_problem_titles = $bioinmed_config_array('children_problem_titles');
 $children_problems_map = [];
 foreach ($children_problem_titles as $children_problem_title) {
-    $children_problems_map[$children_problem_title] = true;
+    $children_problems_map[trim((string)$children_problem_title)] = true;
 }
 
 $children_problems = [];
 foreach ($problems as $problem_item) {
+    if (!is_array($problem_item)) {
+        continue;
+    }
+
     $problem_title = trim((string)($problem_item['title'] ?? ''));
     if ($problem_title === '' || !isset($children_problems_map[$problem_title])) {
         continue;
@@ -1172,480 +1000,6 @@ foreach ($problems as $problem_item) {
     $children_problems[] = $problem_item;
 }
 
-// Преимущества клиники
-$advantages = [
-    [
-        'title' => 'Современное оборудование',
-        'description' => 'Точная диагностика и лечение на немецких аппаратах Хеель, УВТ и лазерных системах.',
-        'icon' => '🏥',
-    ],
-    [
-        'title' => 'Опытные врачи',
-        'description' => 'Персональный план лечения: стаж от 10 лет, кандидаты наук и постоянное обучение команды.',
-        'icon' => '👨‍⚕️',
-    ],
-    [
-        'title' => 'Безопасные методы',
-        'description' => 'Контроль результата на каждом этапе без вреда для печени и органов, с натуральными подходами.',
-        'icon' => '✓',
-    ],
-    [
-        'title' => 'Удобная локация',
-        'description' => 'Метро Фрунзенская, 3 минуты пешком',
-        'icon' => '📍',
-    ],
-];
-
-// Наша профессиональная команда
-$doctors = [
-    [
-        'id' => 1,
-        'slug' => 'kostromina-inna-viktorovna',
-        'name' => 'Инна Викторовна Костромина',
-        'title' => 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ',
-        'project_title' => 'Автор лечебно-восстановительного проекта «Хабилект»',
-        'specialty' => 'Врач ВРТ и БРТ, гомеопат, интегративный психолог, рефлексотерапевт, гомотоксиколог, аромотерапевт',
-        'experience' => 'Более 30 лет врачебной практики',
-        'bio' => 'Ведёт пациентов со сложными хроническими, психоэмоциональными, репродуктивными и нейросоматическими состояниями, сочетая классическую и интегративную медицину.',
-        'hero_tagline' => 'Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью',
-        'hero_leadership' => 'Формирую клинические стандарты и авторские методики БИОИНМЕД, разрабатываю персональные маршруты восстановления и курирую работу команды специалистов.',
-        'leadership' => 'Формирует клинические стандарты и авторские методики БИОИНМЕД, разрабатывает персональные маршруты восстановления и курирует работу команды специалистов.',
-        'hide_standard_sections' => true,
-        'custom_sections' => [
-            [
-                'key' => 'education',
-                'title' => 'Образование',
-                'icon' => 'fa-solid fa-graduation-cap',
-                'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
-                'intro' => 'Высококвалифицированный специалист с более чем 30-летним стажем. Имеет фундаментальное педиатрическое и терапевтическое образование, многолетний опыт работы в научной, клинической и управленческой сферах.',
-                'subsections' => [
-                    [
-                        'title' => 'Базовое образование',
-                        'items' => [
-                            '1995 - Первый Московский медицинский институт имени И. М. Сеченова, специальность «Лечебное дело».',
-                            '1996 - Интернатура по специальности «Врач-педиатр».',
-                            '1998 - Клиническая ординатура по специальности «Врач-педиатр».',
-                            '2000 - Российский университет дружбы народов, курс «Общая и клиническая фито- и ароматерапия».',
-                            '2004 - Российский государственный медицинский университет, дерматовенерология.',
-                            '2004 - РГМУ, дермато-косметология (кафедра кожных и венерических болезней).',
-                        ],
-                    ],
-                    [
-                        'title' => 'Дополнительное постдипломное профессиональное образование',
-                        'items' => [
-                            '2005 - Миланский университет: курс классической гомеопатии и гомотоксикологии, гомеосинергетическая медицина и кинезиология.',
-                            '2006 - Российская медицинская академия последипломного образования: мезотерапия, фармакопунктура.',
-                            '2009 - РГМУ, МОНИКИ: дерматовенерология, дерматокосметология.',
-                            '2011 - Институт повышения квалификации ФМБА: электропунктурная диагностика по Фоллю, вегетативный резонансный тест, биорезонансная косметология.',
-                            '2012 - Московский институт гомеопатии.',
-                            '2015-2017 - МУИЦ, Институт психотерапии: практическая психология, эриксоновский гипноз, гештальт-терапия.',
-                            '2020 - Медицинский центр «Артемида»: классическая гипнотерапия, регрессивный и мгновенный гипноз.',
-                            '2021 - Кубанская медицинская академия: биорезонансная терапия, вегетативный резонансный тест.',
-                            '2022 - МЦИД «Артемида»: квантовые техники, работа с временными точками, хроносиматика.',
-                            '2023 - Школа карбокситерапии, курс ударно-волновой терапии.',
-                            '2024 - Академия ПРП-терапии: плазмолифтинг в косметологии и трихологии.',
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'key' => 'experience',
-                'title' => 'Опыт',
-                'icon' => 'fa-solid fa-briefcase-medical',
-                'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
-                'intro' => 'Клиническая практика и профессиональный путь по данным портфолио.',
-                'items' => [
-                    '1985-1987 - Клиника детских болезней Первого ММИ им. И. М. Сеченова: отделение функциональной диагностики и кафедра патофизиологии.',
-                    '1995-1996 - Клиника детских болезней Первого ММИ, врач-интерн.',
-                    '1996-1998 - Клиника детских болезней Первого ММИ, врач-ординатор.',
-                    '1999-2001 - Центр профориентации при Правительстве г. Москвы, главный специалист отдела психофизиологической реабилитации.',
-                    '2000-2001 - Клиническая ароматерапия на кафедре ФУВ РУДН, авторский семинар по влиянию запахов на психоэмоциональное состояние.',
-                    '2001-2003 - Медицинский центр «Грация», главный врач.',
-                    '2004-2010 - ЗАО «Мартинес Имидж»: научно-методическая и практическая работа, дерматолог, дерматокосметолог.',
-                    '2010-2022 - Частная практика.',
-                    '2022-2023 - ООО «Медицинский центр инновационных технологий «АРТЕМИДА», заместитель директора по медицинской части.',
-                    '2023 - настоящее время - ООО «Клиника гомеопатии и биорегуляции «БИОИНМЕД», главный врач.',
-                ],
-            ],
-            [
-                'key' => 'profiling',
-                'title' => 'Профилирование',
-                'icon' => 'fa-solid fa-bullseye',
-                'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
-                'items' => [
-                    'Сочетает классическую медицину с современными методами интегративной и восстановительной медицины: вегето-резонансная диагностика, кинезиотестирование, биорезонансная терапия, гомеопатия, гомотоксикология, гомеопунктура, биопунктура, мезотерапия, карбокситерапия, озонотерапия, рефлексотерапия, психотерапия, авторские психогенетические методики, ольфактодиагностика, ольфактотерапия и ароматерапия.',
-                    'Виртуозно владеет вегето-резонансным тестированием, что позволяет выявлять причины заболеваний на клеточном уровне.',
-                    'Автор уникальных методик психогенетической диагностики и естественного омоложения.',
-                    'Работает со сложными случаями, включая онкологические, инфекционные, аутоиммунные, эндокринопатии, аллергические кожные, репродуктивные, психосоматические и психогенетические нарушения.',
-                    'Уделяет особое внимание психоэмоциональному состоянию пациентов и коррекции глубинных причин болезней.',
-                    'Ведёт пациентов от точки зачатия до серебряного возраста и проводит комплексные приёмы для матери и ребёнка.',
-                ],
-            ],
-            [
-                'key' => 'author-method-omolozhenie',
-                'title' => 'Авторская методика «Естественное омоложение организма»',
-                'icon' => 'fa-solid fa-wand-magic-sparkles',
-                'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
-                'intro' => 'Отдельный авторский подход к восстановлению, поддержанию ресурса и мягкому омоложению организма.',
-                'text' => 'Интенсивная авторская программа омоложения, в которой несколько методов работают в связке ради заметного эффекта за один визит.',
-                'link_label' => 'Подробнее об услуге',
-                'link_href' => '/services/avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie',
-            ],
-            [
-                'key' => 'treatment-practice-directions',
-                'title' => 'Направления лечебной практики',
-                'icon' => 'fa-solid fa-list-check',
-                'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
-                'subsections' => [
-                    [
-                        'title' => '1. Заболевания нервной системы и опорно-двигательного аппарата',
-                        'items' => [
-                            'Нервная система: головные боли напряжения, мигрени, головокружения, вегетососудистая дистония (ВСД), панические атаки, невропатии лицевого и тройничного нерва.',
-                            'Неврозы, тики, последствия стрессов и психоэмоциональных перегрузок.',
-                            'Нарушения сна: бессонница, лунатизм, энурез.',
-                            'Посттравматические и послеоперационные неврологические состояния.',
-                            'Неврологические нарушения у детей: задержка нервно-психического развития, гипервозбудимость, последствия перинатальной патологии.',
-                            'Опорно-двигательный аппарат: боли в спине, остеохондроз, дорсопатии, межпозвонковые грыжи, протрузии.',
-                            'Заболевания суставов: артриты, артрозы, периартриты.',
-                            'Мышечно-тонические синдромы, миофасциальные боли.',
-                            'Последствия травм, в том числе спортивных, и операций.',
-                            'Нарушения осанки, сколиоз у детей и взрослых.',
-                        ],
-                    ],
-                    [
-                        'title' => '2. Репродуктивная и перинатальная медицина',
-                        'items' => [
-                            'Дисфункции и заболевания репродуктивной системы мужчин и женщин.',
-                            'Заболевания урогенитального тракта у женщин и мужчин, гинекологические заболевания.',
-                            'Проблемы зачатия, ведение беременности и родов.',
-                            'Послеродовой период у мам и малышей, включая поддержку грудного вскармливания.',
-                            'Неврологические нарушения в грудном и раннем детском возрасте.',
-                            'Адаптация к детскому саду и школе.',
-                        ],
-                    ],
-                    [
-                        'title' => '3. Психотерапия и психосоматика',
-                        'items' => [
-                            'Панические атаки, страхи, тревожные состояния.',
-                            'Нарушения сна, лунатизм, энурез.',
-                            'Психосоматические, психоэмоциональные проблемы и психотравмы.',
-                            'Психогенетические нарушения, негативные жизненные сценарии и внутренние конфликты.',
-                            'Замкнутый круг повторяющихся событий и глубинные деструктивные сценарии.',
-                        ],
-                    ],
-                    [
-                        'title' => '4. Эндокринология и аутоиммунные нарушения',
-                        'items' => [
-                            'Метаболический синдром.',
-                            'Сахарный диабет и заболевания щитовидной железы.',
-                            'Аутоиммунные процессы и метаболические нарушения.',
-                        ],
-                    ],
-                    [
-                        'title' => '5. Онкология и реабилитация',
-                        'items' => [
-                            'Диагностика и сопровождение онкологических больных',
-                            'Сопровождение в послеоперационном периоде',
-                            'Устранение рецидивов',
-                        ],
-                    ],
-                    [
-                        'title' => '6. Аллергология и дерматология',
-                        'items' => [
-                            'Аллергические реакции и кожные заболевания.',
-                            'Дерматокосметология.',
-                        ],
-                    ],
-                    [
-                        'title' => '7. Эстетическая медицина и омоложение',
-                        'items' => [
-                            'Мезотерапия, биопунктура, ПРП-терапия, Лаеннек- и Мэлсмон-терапия.',
-                            'Карбокситерапия.',
-                        ],
-                    ],
-                    [
-                        'title' => '8. Общая терапия',
-                        'items' => [
-                            'Заболевания внутренних органов',
-                        ],
-                    ],
-                ],
-            ],
-        ],
-        'specializations' => [
-            'Вегетативно-резонансная диагностика и биорезонансная терапия',
-            'Классическая гомеопатия, гомотоксикология и фармакопунктура',
-            'Психотерапевтическое и психогенетическое сопровождение',
-            'Ольфактотерапия, рефлексотерапия и восстановительные методики',
-        ],
-        'education' => 'Первый Московский медицинский институт им. И. М. Сеченова, интернатура и ординатура по педиатрии, последипломная подготовка по гомеопатии, психотерапии, ароматерапии, рефлексотерапии и биорезонансной терапии.',
-        'focus' => [
-            'Комплексные программы при хронических, аутоиммунных и психосоматических состояниях',
-            'Выявление первопричин симптомов на клеточном и функциональном уровне',
-            'Персональные схемы восстановления для взрослых и детей',
-        ],
-        'services' => [
-            'priem-glavnogo-vracha-kliniki-kostrominoy-i-v',
-            'chief-doctor-consultation',
-            'hobilect-diagnostics',
-            'acupuncture',
-            'refleksoterapiya',
-            'lechebno-diagnosticheskiy-priem',
-        ],
-        'image' => 'kostromina-default.jpg',
-    ],
-    [
-        'id' => 7,
-        'slug' => 'rozhkov-sergei-leonidovich',
-        'name' => 'Сергей Леонидович Рожков',
-        'title' => 'Инструктор-методист АФК, соавтор лечебного проекта «Хабилект»',
-        'project_title' => 'Соавтор лечебно-восстановительного проекта «Хабилект»',
-        'specialty' => 'Адаптивная физическая культура, восстановительные программы, спортивная методика',
-        'experience' => 'Более 15 лет в спортивной и методической работе',
-        'bio' => 'Заслуженный мастер спорта и чемпион мира по биатлону. Работает с восстановлением после травм и операций, сочетая спортивную методику, АФК и научный подход.',
-        'specializations' => [
-            'Адаптивная физическая культура и индивидуальные восстановительные программы',
-            'Реабилитация после травм и операций на опорно-двигательном аппарате',
-            'Научно-методическое сопровождение и тренировочные протоколы',
-            'Работа со спортсменами и пациентами после функциональных перегрузок',
-        ],
-        'education' => 'Мурманский государственный педагогический институт, Мурманский государственный технический университет, дополнительная подготовка по теории и методике адаптивной физической культуры в Чайковской государственной академии физической культуры.',
-        'focus' => [
-            'Восстановление после операций, травм и снижения двигательной активности',
-            'Коррекция нарушений опорно-двигательного аппарата и безопасное возвращение к нагрузке',
-            'Работа со спортсменами и пациентами, которым нужна структурированная реабилитация',
-        ],
-        'services' => [
-            'physiotherapy-comprehensive',
-            'taping',
-            'kinezioteypirovanie',
-            'massage',
-            'massazh',
-        ],
-        'image' => 'rozhkov.jpg',
-    ],
-    [
-        'id' => 4,
-        'slug' => 'kondratova-elena-aleksandrovna',
-        'name' => 'Елена Александровна Кондратова',
-        'title' => 'АКУШЕР-ГИНЕКОЛОГ, РЕФЛЕКСОТЕРАПЕВТ',
-        'specialty' => 'Заведующая отделением физиотерапии, акушер-гинеколог, рефлексотерапевт',
-        'experience' => 'Более 30 лет врачебной практики',
-        'bio' => 'Сочетает классическую акушерско-гинекологическую школу с рефлексотерапией и восстановительными методиками. Ведёт программы по репродуктивному здоровью, боли, реабилитации и эстетической гинекологии.',
-        'specializations' => [
-            'Акушерство, гинекология и репродуктивное здоровье',
-            'Корпоральная акупунктура, су-джок, кранио- и аурикулотерапия',
-            'Фармакопунктура, гомеопунктура, ПРП и кетгут-терапия',
-            'Вакуумная терапия, тейпирование и авторские программы рефлексотерапии',
-        ],
-        'education' => 'Владивостокский государственный медицинский университет, государственные сертификаты по акушерству и гинекологии, рефлексотерапии и физиотерапии, дополнительная подготовка по фармакопунктуре, кетгут-терапии и эстетической гинекологии.',
-        'focus' => [
-            'Подготовка к беременности и сопровождение при бесплодии и гинекологических нарушениях',
-            'Головные боли, боли в спине, неврологические и вегетативные нарушения',
-            'Омоложение, реабилитация и восстановление после нагрузок и травм',
-        ],
-        'services' => [
-            'ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a',
-            'avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove',
-            'akupunkturnyy-avtorskiy-metod-kondratovoy-e-a-vostochnyy-ekspress',
-            'refleksoterapiya',
-            'korporalnaya-iglorefleksoterapiya',
-            'fizioterapiya',
-            'mikropunktura-lazernaya',
-            'mikropunktura-aurikulyarnaya',
-            'semyanoterapiya',
-        ],
-        'image' => 'kondratova.jpg',
-    ],
-    [
-        'id' => 9,
-        'slug' => 'navrozov-evgeniy-sergeevich',
-        'name' => 'Евгений Сергеевич Наврозов',
-        'title' => 'Остеопат, кинезиолог',
-        'specialty' => 'Остеопат, прикладной кинезиолог, специалист по медицинскому массажу',
-        'experience' => 'Более 6 лет клинической практики',
-        'bio' => 'Ведёт пациентов с функциональными нарушениями опорно-двигательного аппарата, мышечным дисбалансом и последствиями перегрузок. Сочетает остеопатическую диагностику, кинезиологическое тестирование и мягкие телесные техники для восстановления движения и снижения боли.',
-        'specializations' => [
-            'Остеопатическая диагностика и мягкая мануальная коррекция',
-            'Прикладная кинезиология и функциональное мышечное тестирование',
-            'Медицинский массаж и восстановительные протоколы при мышечно-скелетных перегрузках',
-            'Комплексный подход к биомеханике, осанке и двигательному стереотипу',
-        ],
-        'education' => 'Европейская школа остеопатии (ESO), Академия прикладной кинезиологии и мануальной терапии проф. Л. Ф. Васильевой, Университет образовательной медицины по направлению нутрициологии и превентивного управления здоровьем, Медицинский колледж №1 по специальности «Сестринское дело».',
-        'focus' => [
-            'Боли в спине, шее и суставах, мышечные зажимы и ограничение подвижности',
-            'Нарушения биомеханики, осанки и двигательного паттерна',
-            'Восстановление после физических перегрузок и хронического мышечного напряжения',
-        ],
-        'services' => [
-            'osteopathy',
-            'kineziodiagnostics-therapy',
-            'massage',
-            'massage-course',
-        ],
-        'image' => 'navrozov.jpg',
-    ],
-    [
-        'id' => 8,
-        'slug' => 'mayorova-darya-sergeevna',
-        'name' => 'Дарья Сергеевна Майорова',
-        'title' => 'Специалист по реабилитации и инструктор ЛФК',
-        'specialty' => 'ЛФК, реабилитация, массаж, подиатрия, ортопедические стельки',
-        'experience' => '15 лет практики',
-        'bio' => 'Специализируется на диагностике опорно-двигательного аппарата, восстановлении после травм и операций, коррекции сколиоза и подборе индивидуальных ортопедических решений.',
-        'custom_sections' => [
-            [
-                'key' => 'appointment-structure',
-                'title' => 'Структура приёма',
-                'icon' => 'fa-solid fa-clipboard-list',
-                'card_classes' => 'rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]',
-                'icon_bg_classes' => 'bg-[#e8f3fc] text-[#1977b2]',
-                'intro' => 'Длительность приёма: 60-120 минут (в зависимости от клинической задачи и наполнения визита).',
-                'subsections' => [
-                    [
-                        'title' => '1. Сбор анамнеза и функциональных жалоб',
-                        'items' => [
-                            'Жалобы: боль, скованность, нестабильность, усталость, нарушение походки.',
-                            'Хронология симптомов: когда началось, что усиливает или уменьшает проявления.',
-                            'Перенесённые травмы, операции, хронические заболевания и текущая активность.',
-                        ],
-                    ],
-                    [
-                        'title' => '2. Диагностика опорно-двигательного аппарата',
-                        'items' => [
-                            'Диагностика на мультифункциональном комплексе «Хабилект»: оценка мышечного баланса и биомеханики.',
-                            'Визуальный осмотр и пальпация в покое и в движении: осанка, позвоночник, таз, длина ног.',
-                            'Осмотр стоп на плантографе и функциональные пробы: тест Адамса, присед, наклон, подъём ноги.',
-                            'Оценка походки: обычный шаг, ходьба на носках и пятках, приставной шаг.',
-                        ],
-                    ],
-                    [
-                        'title' => '3. Формирование карты реабилитации',
-                        'items' => [
-                            'Определяются зоны гипотонуса и гипертонуса.',
-                            'Фиксируется вид воздействия для каждой зоны: ЛФК, массаж, активация, коррекция опоры.',
-                            'Пациент получает персональную карту с целями и этапами восстановления.',
-                        ],
-                    ],
-                    [
-                        'title' => '4. Формовка ортопедических стелек (по показаниям)',
-                        'items' => [
-                            'Термоформование или подбор готовой модели с подгонкой.',
-                            'Обязательная проверка в стоянии и при ходьбе 2-3 минуты.',
-                            'Критерий безопасности: после подбора не должно появляться новой боли.',
-                        ],
-                    ],
-                    [
-                        'title' => '5. Установочное занятие по ЛФК (15-20 минут)',
-                        'items' => [
-                            'Базовые упражнения на коррекцию выявленных двигательных паттернов.',
-                            'При сколиозе используется подход S.E.A.S. (де-ротация и стабилизация).',
-                            'Обучение дыхательному стереотипу и домашнее задание: 2-3 упражнения.',
-                        ],
-                    ],
-                    [
-                        'title' => '6. Массаж (по карте реабилитации)',
-                        'items' => [
-                            'Выполняется после ЛФК при наличии показаний.',
-                            'Тип выбирается индивидуально: медицинский, спортивный или релакс-формат.',
-                        ],
-                    ],
-                    [
-                        'title' => '7. Заключение и план лечения',
-                        'items' => [
-                            'Формулируется функциональный диагноз и индивидуальный маршрут восстановления.',
-                            'Определяется график повторных визитов и контрольных оценок.',
-                            'Выдаются рекомендации по обуви, домашнему режиму, рабочему месту и нагрузкам.',
-                        ],
-                    ],
-                ],
-            ],
-        ],
-        'specializations' => [
-            'Диагностика опорно-двигательного аппарата и индивидуальные программы ЛФК',
-            'Реабилитация после травм и операций на суставах и позвоночнике',
-            'Медицинский массаж и коррекция сколиоза по методике S.E.A.S.',
-            'Подиатрическая диагностика и изготовление индивидуальных ортопедических стелек',
-        ],
-        'education' => 'Российский государственный университет физической культуры, спорта, молодёжи и туризма, профессиональная переподготовка по лечебной физкультуре и реабилитации, дополнительное обучение по массажу, подиатрии, Футмастер и Формтотикс.',
-        'focus' => [
-            'Восстановление после травм, операций и заболеваний опорно-двигательного аппарата',
-            'Сколиоз, нарушения осанки, плоскостопие и коррекция стопы',
-            'Реабилитация спортсменов и пациентов с разным уровнем физической подготовки',
-        ],
-        'services' => [
-            'physiotherapy-comprehensive',
-            'hobilect-diagnostics',
-            'taping',
-            'kinezioteypirovanie',
-            'massage',
-            'massazh',
-        ],
-        'image' => 'mayorova.jpg',
-    ],
-    [
-        'id' => 6,
-        'slug' => 'vertlib-valeriya-pavlovna',
-        'name' => 'Валерия Павловна Вертлиб',
-        'title' => 'Врач-остеопат, невролог',
-        'specialty' => 'Невролог, остеопат, рефлексотерапевт',
-        'experience' => 'Более 20 лет врачебной практики',
-        'bio' => 'Комплексно ведёт пациентов с нейросоматическими дисфункциями, хронической болью, психосоматическими состояниями и нарушениями опорно-двигательного аппарата. Работает со взрослыми, детьми и беременными.',
-        'specializations' => [
-            'Структуральная, краниальная, висцеральная, миофасциальная и биодинамическая остеопатия',
-            'Нейропролотерапия и перепрограммирование двигательного стереотипа',
-            'Рефлексотерапия и мягкие релакс-техники',
-            'Остеопатическое сопровождение беременности, детей и пациентов с ВНЧС',
-        ],
-        'education' => 'Кубанский государственный медицинский университет, интернатура по неврологии, повышение квалификации по детской неврологии, переподготовка по рефлексотерапии, Институт остеопатии Санкт-Петербурга.',
-        'focus' => [
-            'Острые и хронические болевые синдромы, нейропатии и головные боли',
-            'Психосоматические состояния, синдром хронической усталости и последствия стресса',
-            'Педиатрическая и перинатальная остеопатия, посттравматическое восстановление',
-        ],
-        'services' => [
-            'diagnostika-i-konsultatsiya-vracha-osteopata-nevrologa-vertlib-v-p',
-            'osteopathy',
-            'acupuncture',
-            'refleksoterapiya',
-            'prp-therapy',
-            'prp-terapiya',
-        ],
-        'image' => 'vertlib.jpg',
-    ],
-    [
-        'id' => 3,
-        'slug' => 'nehorosheva-lyudmila-sergeevna',
-        'name' => 'Людмила Сергеевна Нехорошева',
-        'title' => 'Стоматолог, КАНДИДАТ МЕДИЦИНСКИХ НАУК, ВРАЧ-ОСТЕОПАТ, МАНУАЛЬНЫЙ ТЕРАПЕВТ',
-        'specialty' => 'Стоматолог, кандидат медицинских наук, врач-остеопат, мануальный терапевт',
-        'experience' => 'Более 20 лет врачебной практики',
-        'bio' => 'Работает на стыке остеопатии и стоматологии: сопровождает ортодонтическое лечение, коррекцию ВНЧС, детские и взрослые функциональные нарушения, применяя мягкие безопасные техники.',
-        'specializations' => [
-            'Структуральная, краниальная, висцеральная и миофасциальная остеопатия',
-            'Остеопатическое сопровождение ортодонтического и ортопедического лечения',
-            'Сомато-эмоциональное освобождение и лимфодренаж',
-            'Эстетическое моделирование лица и работа с ВНЧС',
-        ],
-        'education' => 'Тверская государственная медицинская академия, ординатура и аспирантура в МГМУ им. Мечникова, обучение в российских и международных школах остеопатии, мануальной терапии и краниосакральных техник.',
-        'focus' => [
-            'Дисфункции ВНЧС, прикуса и зубочелюстной системы',
-            'Детская остеопатия, осанка, неврологические и посттравматические состояния',
-            'Эстетическая и психосоматическая остеопатия у взрослых',
-        ],
-        'services' => [
-            'diagnostika-i-konsultatsiya-vracha-osteopata-nekhoroshevoy-l-s',
-            'osteopathy',
-            'priem-detskogo-osteopata',
-            'massage',
-            'massazh',
-        ],
-        'image' => 'nehorosheva.jpg',
-    ],
-];
+$advantages = $bioinmed_config_array('advantages');
+$doctors = $bioinmed_config_array('doctors');
 ?>

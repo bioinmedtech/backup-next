@@ -256,8 +256,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             <div class="absolute -right-14 -top-14 h-36 w-36 rounded-full bg-[#1977b21f] blur-2xl"></div>
             <div class="absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[#1977b214] blur-2xl"></div>
             <div class="relative">
-                <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Стоимость услуг</p>
-                <h1 class="mt-2 font-bold text-[#0f2749]">Прайс-лист клиники</h1>
+                <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Прайс-лист</p>
+                <h1 class="mt-2 font-bold text-[#0f2749]">Стоимость услуг</h1>
                 <p class="mt-2 max-w-3xl text-[0.95rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
                     Актуальные цены по направлениям лечения: от первичной консультации до комплексных программ восстановления. Поможем подобрать специалиста и оптимальный формат терапии.
                 </p>

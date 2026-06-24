@@ -6,6 +6,21 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$servicePage = bioinmed_read_json_file('pages/service.json');
+$serviceMeta = is_array($servicePage['meta'] ?? null) ? $servicePage['meta'] : [];
+$serviceBreadcrumbs = is_array($servicePage['breadcrumbs'] ?? null) ? $servicePage['breadcrumbs'] : [];
+$serviceNotFound = is_array($servicePage['not_found'] ?? null) ? $servicePage['not_found'] : [];
+$serviceDefault = is_array($servicePage['default'] ?? null) ? $servicePage['default'] : [];
+$serviceFaqText = is_array($servicePage['faq'] ?? null) ? $servicePage['faq'] : [];
+$serviceFlowText = is_array($servicePage['flow'] ?? null) ? $servicePage['flow'] : [];
+$serviceAboutText = is_array($servicePage['about'] ?? null) ? $servicePage['about'] : [];
+$serviceRelatedText = is_array($servicePage['related'] ?? null) ? $servicePage['related'] : [];
+$serviceSidebarText = is_array($servicePage['sidebar'] ?? null) ? $servicePage['sidebar'] : [];
+$serviceFinalCta = is_array($servicePage['final_cta'] ?? null) ? $servicePage['final_cta'] : [];
+$serviceImageModal = is_array($servicePage['image_modal'] ?? null) ? $servicePage['image_modal'] : [];
+$serviceHobilect = is_array($servicePage['hobilect'] ?? null) ? $servicePage['hobilect'] : [];
+$serviceHobilectSections = is_array($serviceHobilect['sections'] ?? null) ? $serviceHobilect['sections'] : [];
+
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
@@ -96,11 +111,11 @@ function service_card_excerpt(string $value, int $limit = 88): string {
 }
 
 $pageTitle = $service
-    ? e($service['name']) . ' — цена, описание, запись | БИОИНМЕД'
-    : 'Услуга не найдена | БИОИНМЕД';
+    ? e($service['name']) . ' — ' . (string)($serviceMeta['title_suffix'] ?? '') . ' | ' . CLINIC_NAME
+    : ((string)($serviceMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
 $pageDesc  = $service
-    ? e($service['description'] ?? $service['name']) . ' Запись на приём в БИОИНМЕД: ' . e(CLINIC_PHONE)
-    : 'Описание услуги не найдено';
+    ? e($service['description'] ?? $service['name']) . ' ' . bioinmed_text('common.book_appointment') . (string)($serviceMeta['description_call_to_action_separator'] ?? '') . CLINIC_NAME . (string)($serviceMeta['description_phone_separator'] ?? '') . e(CLINIC_PHONE)
+    : ((string)($serviceMeta['not_found_description'] ?? ''));
 $canonicalUrl = $service
     ? $siteUrl . '/services/' . rawurlencode((string)($service['id'] ?? $serviceSlug))
     : $siteUrl . '/services';
@@ -115,24 +130,24 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
 
 // Map category to icon + label
 $catInfo = [
-    'diagnostics'     => ['icon' => 'fa-magnifying-glass-plus', 'label' => 'Диагностика'],
-    'musculoskeletal' => ['icon' => 'fa-bone',                  'label' => 'Опорно-двигательный аппарат'],
-    'manual_therapy'  => ['icon' => 'fa-hands',                 'label' => 'Мануальная терапия'],
-    'osteopathy'      => ['icon' => 'fa-hand-sparkles',         'label' => 'Остеопатия'],
-    'therapy'         => ['icon' => 'fa-heart-pulse',           'label' => 'Терапия'],
-    'physiotherapy'   => ['icon' => 'fa-wave-square',           'label' => 'Физиотерапия'],
-    'reflexotherapy'  => ['icon' => 'fa-bullseye',              'label' => 'Рефлексотерапия'],
-    'infusion_therapy'=> ['icon' => 'fa-droplet',               'label' => 'Инфузионная терапия'],
-    'ozone_therapy'   => ['icon' => 'fa-wind',                  'label' => 'Озонотерапия'],
-    'injection_therapy'=>['icon' => 'fa-syringe',               'label' => 'Инъекционная терапия'],
-    'chief_doctor'    => ['icon' => 'fa-user-doctor',           'label' => 'Приём главного врача'],
-    'psychology'      => ['icon' => 'fa-brain',                 'label' => 'Психология'],
-    'taping'          => ['icon' => 'fa-bandage',               'label' => 'Тейпирование и банки'],
-    'integrative'     => ['icon' => 'fa-leaf',                  'label' => 'Интегративная медицина'],
+    'diagnostics'     => ['icon' => 'fa-magnifying-glass-plus', 'label' => bioinmed_text('service.categories.diagnostics', 'Диагностика')],
+    'musculoskeletal' => ['icon' => 'fa-bone',                  'label' => bioinmed_text('service.categories.musculoskeletal', 'Опорно-двигательный аппарат')],
+    'manual_therapy'  => ['icon' => 'fa-hands',                 'label' => bioinmed_text('service.categories.manual_therapy', 'Мануальная терапия')],
+    'osteopathy'      => ['icon' => 'fa-hand-sparkles',         'label' => bioinmed_text('service.categories.osteopathy', 'Остеопатия')],
+    'therapy'         => ['icon' => 'fa-heart-pulse',           'label' => bioinmed_text('service.categories.therapy', 'Терапия')],
+    'physiotherapy'   => ['icon' => 'fa-wave-square',           'label' => bioinmed_text('service.categories.physiotherapy', 'Физиотерапия')],
+    'reflexotherapy'  => ['icon' => 'fa-bullseye',              'label' => bioinmed_text('service.categories.reflexotherapy', 'Рефлексотерапия')],
+    'infusion_therapy'=> ['icon' => 'fa-droplet',               'label' => bioinmed_text('service.categories.infusion_therapy', 'Инфузионная терапия')],
+    'ozone_therapy'   => ['icon' => 'fa-wind',                  'label' => bioinmed_text('service.categories.ozone_therapy', 'Озонотерапия')],
+    'injection_therapy'=>['icon' => 'fa-syringe',               'label' => bioinmed_text('service.categories.injection_therapy', 'Инъекционная терапия')],
+    'chief_doctor'    => ['icon' => 'fa-user-doctor',           'label' => bioinmed_text('service.categories.chief_doctor', 'Приём главного врача')],
+    'psychology'      => ['icon' => 'fa-brain',                 'label' => bioinmed_text('service.categories.psychology', 'Психология')],
+    'taping'          => ['icon' => 'fa-bandage',               'label' => bioinmed_text('service.categories.taping', 'Тейпирование и банки')],
+    'integrative'     => ['icon' => 'fa-leaf',                  'label' => bioinmed_text('service.categories.integrative', 'Интегративная медицина')],
 ];
 $cat      = $service['category'] ?? 'therapy';
 $catIcon  = $catInfo[$cat]['icon']  ?? 'fa-stethoscope';
-$catLabel = $catInfo[$cat]['label'] ?? 'Услуга';
+$catLabel = $catInfo[$cat]['label'] ?? bioinmed_text('service.default_label', '');
 $serviceGallery = $service ? bioinmed_service_gallery_urls($service, 4) : [];
 $servicePrimaryImage = $serviceGallery[0] ?? null;
 $socialImageUrl = $servicePrimaryImage ? ($siteUrl . $servicePrimaryImage) : bioinmed_default_social_image_url();
@@ -141,20 +156,14 @@ $serviceDoctorName = trim((string)($service['doctor_name'] ?? ''));
 $serviceDoctorProjectTitle = trim((string)($service['doctor_project_title'] ?? ''));
 $isHobilect = (($service['id'] ?? '') === 'hobilect-diagnostics');
 $serviceGalleryJson = json_encode(array_values($serviceGallery), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-$faqs_on_page = [
-    ['q' => 'Сколько времени занимает первичный приём?',
-     'a' => 'Обычно 60–90 минут. Врач собирает анамнез, проводит оценку состояния и формирует маршрут лечения.'],
-    ['q' => 'Нужна ли предварительная подготовка?',
-     'a' => 'Специальной подготовки не требуется. Возьмите с собой имеющиеся результаты анализов и исследований (если есть). Чистую облегающую одежду, за исключением черного цвета и бархатной ткани.'],
-    ['q' => 'Как быстро будет результат?',
-     'a' => 'Зависит от Вашего состояния. Часть пациентов отмечают улучшение уже после первой–второй сеанса, при длительной патологии — после курса.'],
-    ['q' => 'Можно ли совмещать с другими методами лечения?',
-     'a' => 'Да, в клинике Биоинмед комплексный подход: услуги сочетаются и усиливают друг друга. Врач подберёт оптимальную комбинацию.'],
-];
+$faqs_on_page = is_array($serviceFaqText['items'] ?? null) ? $serviceFaqText['items'] : [];
+$flowSteps = is_array($serviceFlowText['steps'] ?? null) ? $serviceFlowText['steps'] : [];
+$aboutItems = is_array($serviceAboutText['items'] ?? null) ? $serviceAboutText['items'] : [];
+$visitPrepItems = is_array($serviceSidebarText['visit_prep_items'] ?? null) ? $serviceSidebarText['visit_prep_items'] : [];
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
-    ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Услуги', 'url' => '/services'],
+    ['name' => (string)($serviceBreadcrumbs['home'] ?? ''), 'url' => '/'],
+    ['name' => (string)($serviceBreadcrumbs['services'] ?? ''), 'url' => '/services'],
 ]);
 $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
 ?>
@@ -171,7 +180,7 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
     <?php echo bioinmed_render_social_meta($pageTitle, $pageDesc, $canonicalUrl, [
         'type' => 'article',
         'image' => $socialImageUrl,
-        'image_alt' => $service['name'] ?? (CLINIC_NAME . ' — услуга клиники'),
+        'image_alt' => $service['name'] ?? (CLINIC_NAME . (string)($serviceMeta['social_image_alt_suffix'] ?? '')),
     ]); ?>
     <?php echo bioinmed_render_favicon_links($iconPath); ?>
     <?php if ($service): ?>
@@ -273,14 +282,14 @@ echo $header->render();
 <main class="mx-auto max-w-4xl grow px-6 py-20 md:px-10">
     <div class="rounded-3xl border border-[#dbe8f3] bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
         <i class="fa-solid fa-triangle-exclamation mb-4 text-5xl text-[#b0c8e0]"></i>
-        <h1 class="text-3xl font-bold text-[#0a293c]">Услуга не найдена</h1>
-        <p class="mt-3 text-[#0a293c]">Проверьте ссылку или перейдите к прайс-листу.</p>
+        <h1 class="text-3xl font-bold text-[#0a293c]"><?php echo e($serviceNotFound['title'] ?? ''); ?></h1>
+        <p class="mt-3 text-[#0a293c]"><?php echo e($serviceNotFound['text'] ?? ''); ?></p>
         <div class="mt-7 flex flex-wrap justify-center gap-3">
-            <a href="/prices" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-6 py-3 text-sm font-semibold text-white hover:bg-[#16658f]">
-                <i class="fa-solid fa-list"></i> Прайс-лист
+            <a href="<?php echo e(bioinmed_link('nav.prices')['url']); ?>" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-6 py-3 text-sm font-semibold text-white hover:bg-[#16658f]">
+                <i class="fa-solid fa-list"></i> <?php echo e($serviceNotFound['prices_button'] ?? ''); ?>
             </a>
             <a href="/" class="inline-flex items-center gap-2 rounded-full border border-[#c4daed] bg-white px-6 py-3 text-sm font-semibold text-[#0a293c] hover:bg-[#ecf5ff]">
-                <i class="fa-solid fa-house"></i> На главную
+                <i class="fa-solid fa-house"></i> <?php echo e($serviceNotFound['home_button'] ?? ''); ?>
             </a>
         </div>
     </div>
@@ -295,9 +304,9 @@ echo $header->render();
 
             <!-- breadcrumb -->
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
-                <a href="/" class="hover:text-[#1977b2]">Главная</a>
+                <a href="/" class="hover:text-[#1977b2]"><?php echo e($serviceBreadcrumbs['home'] ?? ''); ?></a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <a href="/services" class="hover:text-[#1977b2]">Услуги</a>
+                <a href="/services" class="hover:text-[#1977b2]"><?php echo e($serviceBreadcrumbs['services'] ?? ''); ?></a>
             </nav>
 
             <div class="fade-up">
@@ -336,44 +345,33 @@ echo $header->render();
                 <!-- Реабилитация «Хабилект» -->
                 <?php if ($isHobilect): ?>
                 <div class="fade-up">
-                    <p class="max-w-3xl text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
-                        Мультифункциональная медицинская система на базе высокоточных бесконтактных сенсоров. Один комплекс объединяет более 10 решений, от биологической обратной связи и баланс-платформы до гониометра и лаборатории движений, а программные модули и игровые сценарии помогают поддерживать точность и вовлечённость.
+                    <?php foreach ((is_array($serviceHobilect['intro_paragraphs'] ?? null) ? $serviceHobilect['intro_paragraphs'] : []) as $hobilectIntroIndex => $hobilectIntro): ?>
+                    <p class="<?php echo $hobilectIntroIndex === 0 ? 'max-w-3xl' : 'mt-3 max-w-3xl'; ?> text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
+                        <?php echo e($hobilectIntro); ?>
                     </p>
-                    <p class="mt-3 max-w-3xl text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
-                        Во время занятия специалист контролирует выполнение, а система фиксирует движения, равновесие, координацию и качество выполнения в реальном времени. Это делает восстановление понятным и наглядным. Методика применяется в неврологии, травматологии, ортопедии, спортивной и детской реабилитации, а также при восстановлении после травм, операций и нарушений походки.
-                    </p>
+                    <?php endforeach; ?>
                     <div class="mt-6">
                         <ul class="mt-4 grid gap-3 md:grid-cols-2">
+                            <?php foreach ((is_array($serviceHobilect['top_points'] ?? null) ? $serviceHobilect['top_points'] : []) as $hobilectPoint): ?>
                             <li class="flex items-start gap-3 rounded-2xl border border-[#e4edf6] bg-white p-3.5 text-[0.92rem] leading-relaxed text-[#0a293c] md:p-4">
                                 <i class="fa-solid fa-check mt-0.5 text-[#1977b2]" aria-hidden="true"></i>
-                                <span>Оптическая сенсорная 3D-диагностика опорно-двигательного аппарата</span>
+                                <span><?php echo e($hobilectPoint); ?></span>
                             </li>
-                            <li class="flex items-start gap-3 rounded-2xl border border-[#e4edf6] bg-white p-3.5 text-[0.92rem] leading-relaxed text-[#0a293c] md:p-4">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]" aria-hidden="true"></i>
-                                <span>Создание вашего цифрового двойника для наглядной оценки состояния</span>
-                            </li>
-                            <li class="flex items-start gap-3 rounded-2xl border border-[#e4edf6] bg-white p-3.5 text-[0.92rem] leading-relaxed text-[#0a293c] md:p-4">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]" aria-hidden="true"></i>
-                                <span>Визуализация биомеханики движений в статике и динамике</span>
-                            </li>
-                            <li class="flex items-start gap-3 rounded-2xl border border-[#e4edf6] bg-white p-3.5 text-[0.92rem] leading-relaxed text-[#0a293c] md:p-4">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]" aria-hidden="true"></i>
-                                <span>Подбор персонального маршрута выздоровления по результатам диагностики</span>
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                     <div class="mt-6 grid gap-4 md:grid-cols-2">
                         <div class="rounded-2xl border border-[#e4edf6] bg-transparent p-4 md:p-5">
-                            <p class="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]">H.Clinic</p>
+                            <p class="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"><?php echo e($serviceHobilect['module_short']['hclinic_title'] ?? 'H.Clinic'); ?></p>
                             <ul class="mt-3 space-y-2.5 text-[0.92rem] leading-relaxed text-[#0a293c]">
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Упражнения под контролем специалиста</span></li>
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Фиксация движений, равновесия и координации</span></li>
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Наглядный результат на экране в реальном времени</span></li>
+                                <?php foreach ((is_array($serviceHobilect['module_short']['hclinic_items'] ?? null) ? $serviceHobilect['module_short']['hclinic_items'] : []) as $moduleShortItem): ?>
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($moduleShortItem); ?></span></li>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
                         <div class="rounded-2xl border border-[#e4edf6] bg-transparent p-4 md:p-5">
-                            <p class="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]">H.MotionLAB</p>
-                            <p class="mt-3 text-[0.92rem] leading-relaxed text-[#0a293c]">Высокоточная лаборатория движений</p>
+                            <p class="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"><?php echo e($serviceHobilect['module_short']['motionlab_title'] ?? 'H.MotionLAB'); ?></p>
+                            <p class="mt-3 text-[0.92rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilect['module_short']['motionlab_text'] ?? ''); ?></p>
                         </div>
                     </div>
 
@@ -382,27 +380,27 @@ echo $header->render();
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-user-group text-xs"></i></span>
-                                    Области применения
+                                    <?php echo e($serviceHobilectSections['for_who']['title'] ?? ''); ?>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">«Хабилект» используется на всех этапах реабилитации: в стационарных учреждениях, в санаториях, спорте, а также для оценки профессиональных заболеваний, в неврологии, травматологии, ортопедии, при оценке риска падения у пожилых и в детской реабилитации.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilectSections['for_who']['intro'] ?? ''); ?></p>
                                 <div class="mt-4 grid gap-3 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Нарушения походки и снижение устойчивости</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Нарушения координации движений и равновесия</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Восстановление после травм и операций</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['for_who']['left_items'] ?? null) ? $serviceHobilectSections['for_who']['left_items'] : []) as $forWhoLeftItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($forWhoLeftItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Неврологические, ортопедические и травматологические состояния</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Детская и спортивная реабилитация</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Контроль риска падений и двигательных нарушений</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['for_who']['right_items'] ?? null) ? $serviceHobilectSections['for_who']['right_items'] : []) as $forWhoRightItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($forWhoRightItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -413,27 +411,27 @@ echo $header->render();
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-chart-column text-xs"></i></span>
-                                    Что оценивает система
+                                    <?php echo e($serviceHobilectSections['assessment']['title'] ?? ''); ?>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Система анализа движений помогает врачу получить объективные данные о пациенте в статике и динамике. В основе - более 80 параметров биомеханики и их корреляции, на которых строится дальнейшая тактика восстановления.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilectSections['assessment']['intro'] ?? ''); ?></p>
                                 <div class="mt-4 grid gap-3 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Походку, симметричность движений и центр тяжести</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Равновесие, устойчивость и координацию</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Движения в суставах и параметры движения в трёх плоскостях</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['assessment']['left_items'] ?? null) ? $serviceHobilectSections['assessment']['left_items'] : []) as $assessmentLeftItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($assessmentLeftItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Качество выполнения упражнений и динамику восстановления</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Патологические паттерны походки и слабые места опоры</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Изменение центра тяжести в статике и динамике</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['assessment']['right_items'] ?? null) ? $serviceHobilectSections['assessment']['right_items'] : []) as $assessmentRightItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($assessmentRightItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -444,29 +442,29 @@ echo $header->render();
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-person-walking text-xs"></i></span>
-                                    Программные модули
+                                    <?php echo e($serviceHobilectSections['modules']['title'] ?? ''); ?>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Комплекс состоит из разных по назначению программных модулей, каждый решает свою задачу, но все они объединены в одном корпусе. Мы постоянно обновляем модули, добавляем новые игровые сценарии и улучшаем точность отображаемых данных.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilectSections['modules']['intro'] ?? ''); ?></p>
                                 <div class="mt-4 grid gap-4 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">H.Clinic</p>
+                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"><?php echo e($serviceHobilectSections['modules']['hclinic_title'] ?? 'H.Clinic'); ?></p>
                                         <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Реабилитация с упражнениями, играми и биологической обратной связью</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Визуальная обратная связь для контроля качества движения</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Подходит для занятий стоя, сидя и с дополнительным инвентарём</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['modules']['hclinic_items'] ?? null) ? $serviceHobilectSections['modules']['hclinic_items'] : []) as $modulesHclinicItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($modulesHclinicItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]">H.MotionLAB</p>
+                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"><?php echo e($serviceHobilectSections['modules']['motionlab_title'] ?? 'H.MotionLAB'); ?></p>
                                         <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Высокоточная лаборатория движений</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Анализ более 80 биомеханических параметров</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Автоматические отчёты и нулевое время подготовки к тесту</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['modules']['motionlab_items'] ?? null) ? $serviceHobilectSections['modules']['motionlab_items'] : []) as $modulesMotionlabItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($modulesMotionlabItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -477,19 +475,18 @@ echo $header->render();
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-circle-nodes text-xs"></i></span>
-                                    Игровые сценарии и биологическая обратная связь
+                                    <?php echo e($serviceHobilectSections['biofeedback']['title'] ?? ''); ?>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">В системе встроены игровые сценарии для взрослых и детских центров реабилитации. Пациент может выполнять задания с биологической обратной связью, с дополненной реальностью, тактильно или следя за движениями в зеркале.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilectSections['biofeedback']['intro'] ?? ''); ?></p>
                                 <ul class="mt-4 grid gap-3 md:grid-cols-2 text-[0.96rem] leading-snug text-[#0a293c]">
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Улучшение контроля движений</span></li>
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Повышение осознанности выполнения упражнений</span></li>
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Закрепление правильного двигательного навыка</span></li>
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Рост мотивации и понятный прогресс в динамике</span></li>
+                                    <?php foreach ((is_array($serviceHobilectSections['biofeedback']['items'] ?? null) ? $serviceHobilectSections['biofeedback']['items'] : []) as $biofeedbackItem): ?>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($biofeedbackItem); ?></span></li>
+                                    <?php endforeach; ?>
                                 </ul>
                             </div>
                         </details>
@@ -498,18 +495,18 @@ echo $header->render();
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-gamepad text-xs"></i></span>
-                                    Игровые упражнения
+                                    <?php echo e($serviceHobilectSections['games']['title'] ?? ''); ?>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Игровой формат помогает сделать реабилитацию более вовлекающей, особенно для детей и пациентов, которым сложно сохранять интерес к однотипным упражнениям.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilectSections['games']['intro'] ?? ''); ?></p>
                                 <ul class="mt-4 grid gap-3 md:grid-cols-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Разные уровни сложности и типы движений</span></li>
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Сценарии под задачи реабилитации</span></li>
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Повышение вовлечённости без потери лечебной цели</span></li>
+                                    <?php foreach ((is_array($serviceHobilectSections['games']['items'] ?? null) ? $serviceHobilectSections['games']['items'] : []) as $gamesItem): ?>
+                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($gamesItem); ?></span></li>
+                                    <?php endforeach; ?>
                                 </ul>
                             </div>
                         </details>
@@ -518,27 +515,27 @@ echo $header->render();
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-file-waveform text-xs"></i></span>
-                                    Наглядные отчёты
+                                    <?php echo e($serviceHobilectSections['reports']['title'] ?? ''); ?>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">«Хабилект» даёт наглядные отчёты, оценку в статике и динамике, мощные инструменты анализа, а также запись и воспроизведение пробы.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilectSections['reports']['intro'] ?? ''); ?></p>
                                 <div class="mt-4 grid gap-3 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Запись и воспроизведение проб</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Анализ в статике и динамике</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Графики, таблицы и сравнение результатов в динамике</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['reports']['left_items'] ?? null) ? $serviceHobilectSections['reports']['left_items'] : []) as $reportsLeftItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($reportsLeftItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Подготовка отчётов для контроля лечения</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Оценка симметричности движений и баланса</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Понятная база для корректировки программы</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['reports']['right_items'] ?? null) ? $serviceHobilectSections['reports']['right_items'] : []) as $reportsRightItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($reportsRightItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -549,29 +546,29 @@ echo $header->render();
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-award text-xs"></i></span>
-                                    Нормативные документы
+                                    <?php echo e($serviceHobilectSections['regulations']['title'] ?? ''); ?>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">«Хабилект» включён в нормативную базу и применяется как медицинское оборудование в клинической практике. Это не просто технологическая платформа, а система, на которую можно опираться в реабилитационных маршрутах и при оснащении медицинских подразделений.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilectSections['regulations']['intro'] ?? ''); ?></p>
                                 <div class="mt-4 grid gap-3 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">Приказы МЗ РФ</p>
+                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"><?php echo e($serviceHobilectSections['regulations']['orders_title'] ?? ''); ?></p>
                                         <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Приказ МЗ РФ от 22.02.2019 № 90н - оснащение региональных сосудистых центров и первичных сосудистых отделений</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Приказ МЗ РФ от 23.10.2019 № 878н - порядок организации медицинской реабилитации детей</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Приказ МЗ РФ от 31.07.2020 № 788н - порядок организации медицинской реабилитации взрослых</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['regulations']['orders_items'] ?? null) ? $serviceHobilectSections['regulations']['orders_items'] : []) as $ordersItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($ordersItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">Клинический контур</p>
+                                        <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"><?php echo e($serviceHobilectSections['regulations']['clinical_title'] ?? ''); ?></p>
                                         <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Используется в рамках реабилитации взрослых и детей</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Поддерживает стандарты оснащения медицинских организаций</span></li>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span>Позволяет внедрять единый подход к диагностике и восстановлению</span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['regulations']['clinical_items'] ?? null) ? $serviceHobilectSections['regulations']['clinical_items'] : []) as $clinicalItem): ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($clinicalItem); ?></span></li>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -582,31 +579,21 @@ echo $header->render();
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-clipboard-check text-xs"></i></span>
-                                    Основные показатели
+                                    <?php echo e($serviceHobilectSections['metrics']['title'] ?? ''); ?>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">80 параметров оценки биомеханики и их корреляции. 5 секунд необходимо для подготовки к проведению пробы. 15 секунд для подготовки отчётов к печати или импорту в МИС. Длительность пробы - любая, от нескольких секунд до часов.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceHobilectSections['metrics']['intro'] ?? ''); ?></p>
                                 <div class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                                    <?php foreach ((is_array($serviceHobilectSections['metrics']['cards'] ?? null) ? $serviceHobilectSections['metrics']['cards'] : []) as $metricCard): ?>
                                     <div class="rounded-2xl border border-[#e4edf6] bg-white p-4 text-center">
-                                        <p class="text-3xl font-bold text-[#1977b2]">80</p>
-                                        <p class="mt-2 text-sm leading-relaxed text-[#0a293c]">параметров оценки биомеханики и их корреляции</p>
+                                        <p class="text-3xl font-bold text-[#1977b2]"><?php echo e($metricCard['value'] ?? ''); ?></p>
+                                        <p class="mt-2 text-sm leading-relaxed text-[#0a293c]"><?php echo e($metricCard['text'] ?? ''); ?></p>
                                     </div>
-                                    <div class="rounded-2xl border border-[#e4edf6] bg-white p-4 text-center">
-                                        <p class="text-3xl font-bold text-[#1977b2]">5</p>
-                                        <p class="mt-2 text-sm leading-relaxed text-[#0a293c]">секунд необходимо для подготовки к проведению пробы</p>
-                                    </div>
-                                    <div class="rounded-2xl border border-[#e4edf6] bg-white p-4 text-center">
-                                        <p class="text-3xl font-bold text-[#1977b2]">15</p>
-                                        <p class="mt-2 text-sm leading-relaxed text-[#0a293c]">секунд для подготовки отчётов к печати или импорту в МИС</p>
-                                    </div>
-                                    <div class="rounded-2xl border border-[#e4edf6] bg-white p-4 text-center">
-                                        <p class="text-3xl font-bold text-[#1977b2]">∞</p>
-                                        <p class="mt-2 text-sm leading-relaxed text-[#0a293c]">любая длительность пробы, от нескольких секунд до часов</p>
-                                    </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </details>
@@ -621,7 +608,7 @@ echo $header->render();
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                 <i class="fa-solid fa-circle-play text-sm"></i>
                             </span>
-                            <span>Как проходит приём и кому показана услуга</span>
+                            <span><?php echo e($serviceFlowText['title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -634,28 +621,28 @@ echo $header->render();
                         <ol class="space-y-3">
                             <li class="flex items-start gap-3">
                                 <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">1</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5">Первичная консультация — врач собирает анамнез и оценивает состояние</span>
+                                <span class="text-sm text-[#0a293c] mt-0.5"><?php echo e($flowSteps[0] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">2</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5">Диагностика — функциональная оценка, при необходимости инструментальная</span>
+                                <span class="text-sm text-[#0a293c] mt-0.5"><?php echo e($flowSteps[1] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">3</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5">Составление персонального маршрута лечения с конкретными целями</span>
+                                <span class="text-sm text-[#0a293c] mt-0.5"><?php echo e($flowSteps[2] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">4</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5">Проведение курса — с контролем динамики и корректировкой маршрута</span>
+                                <span class="text-sm text-[#0a293c] mt-0.5"><?php echo e($flowSteps[3] ?? ''); ?></span>
                             </li>
                         </ol>
                         <?php if (!empty($service['target'])): ?>
                         <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fbff] p-4">
-                            <h3 class="text-[0.92rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Кому показана услуга</h3>
+                            <h3 class="text-[0.92rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($serviceFlowText['target_title'] ?? ''); ?></h3>
                             <p class="mt-2 text-sm leading-relaxed text-[#0a293c]"><?php echo e($service['target']); ?></p>
                             <div class="mt-4 rounded-xl border border-[#dce8f5] bg-white p-4 text-sm text-[#0a293c]">
                                 <i class="fa-solid fa-circle-info text-[#1977b2] mr-2"></i>
-                                Точные показания определяет врач на первичной консультации. Запишитесь - первый приём займёт 60-90 минут.
+                                <?php echo e($serviceFlowText['target_note'] ?? ''); ?>
                             </div>
                         </div>
                         <?php endif; ?>
@@ -670,7 +657,7 @@ echo $header->render();
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#dceefb] text-[#1977b2]">
                                 <i class="fa-solid fa-award text-sm"></i>
                             </span>
-                            <span>О клинике БИОИНМЕД</span>
+                            <span><?php echo e(($serviceAboutText['title'] ?? '') . ' ' . CLINIC_NAME); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -678,24 +665,11 @@ echo $header->render();
                     </summary>
                     <div class="px-5 pb-5 md:px-6 md:pb-6">
                         <ul class="grid gap-3 sm:grid-cols-2">
+                            <?php foreach ($aboutItems as $aboutItem): ?>
                             <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Мы с Вами от первого касания до результата
+                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><?php echo e($aboutItem); ?>
                             </li>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Биоинмед - Ваш комплексный персональный маршрут лечения
-                            </li>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Объясняем диагноз и маршрут лечения простым понятным языком
-                            </li>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Контролируем динамику на каждом этапе и корректируем курс
-                            </li>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Врачи с 20-30-летним опытом и клиника с лицензией МЗ РФ
-                            </li>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i>Прозрачные цены и быстрый контакт с клиникой без ожидания
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                 </details>
@@ -707,7 +681,7 @@ echo $header->render();
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                 <i class="fa-solid fa-circle-question text-sm"></i>
                             </span>
-                            <span>Часто задаваемые вопросы</span>
+                            <span><?php echo e($serviceFaqText['title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -729,7 +703,7 @@ echo $header->render();
                 <!-- Related services -->
                 <?php if (!empty($related)): ?>
                 <div class="fade-up">
-                    <h2 class="text-xl font-bold text-[#0a293c]">Другие услуги клиники</h2>
+                    <h2 class="text-xl font-bold text-[#0a293c]"><?php echo e($serviceRelatedText['title'] ?? ''); ?></h2>
                     <div class="mt-4 grid gap-4 sm:grid-cols-2">
                         <?php foreach (array_slice($related, 0, 4) as $rel): ?>
                         <a href="/services/<?php echo e($rel['id']); ?>"
@@ -740,7 +714,7 @@ echo $header->render();
                             </div>
                             <div class="mt-4 flex items-center justify-between">
                                 <span class="text-sm font-bold text-[#1977b2]"><?php echo e($rel['price'] ?? ''); ?></span>
-                                <span class="text-xs font-semibold text-[#1977b2]">Подробнее <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></span>
+                                <span class="text-xs font-semibold text-[#1977b2]"><?php echo e(bioinmed_text('common.more_details')); ?> <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></span>
                             </div>
                         </a>
                         <?php endforeach; ?>
@@ -762,7 +736,7 @@ echo $header->render();
                             <button type="button"
                                     id="service-image-zoom"
                                     class="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/88 text-[#1b5c99] shadow-[0_10px_24px_rgba(8,36,70,0.12)] transition hover:bg-white"
-                                    aria-label="Увеличить изображение">
+                                    aria-label="<?php echo e($serviceImageModal['zoom_label'] ?? ''); ?>">
                                 <i class="fa-solid fa-magnifying-glass-plus text-[#1977b2]"></i>
                             </button>
                         </div>
@@ -787,28 +761,28 @@ echo $header->render();
                     <div id="book" class="rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
                         <div class="flex items-end gap-2 border-b border-[#eaf1f8] pb-5">
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]">Стоимость</p>
-                                <p class="mt-1 text-3xl font-bold text-[#0a293c]"><?php echo e($service['price'] ?? 'По запросу'); ?></p>
+                                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]"><?php echo e($serviceSidebarText['price_title'] ?? ''); ?></p>
+                                <p class="mt-1 text-3xl font-bold text-[#0a293c]"><?php echo e($service['price'] ?? ($serviceDefault['price_on_request'] ?? '')); ?></p>
                                 <?php if (!empty($service['price_note'])): ?>
                                 <p class="mt-0.5 text-sm text-[#0a293c]"><?php echo e($service['price_note']); ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
 
-                        <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Записаться на приём</p>
-                        <p class="mt-1 text-sm text-[#0a293c]">Перезвоним в течение 15 минут.</p>
+                        <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e(bioinmed_text('common.book_appointment')); ?></p>
+                        <p class="mt-1 text-sm text-[#0a293c]"><?php echo e(bioinmed_text('common.callback_15_min')); ?></p>
 
                         <div class="mt-4">
                             <?php echo bioinmed_render_callback_form([
-                                'source_label' => ($service['name'] ?? 'Услуга') . ' — сайдбар',
-                                'submit_label' => 'Перезвоните мне',
+                                'source_label' => ($service['name'] ?? ($serviceDefault['source_service_label'] ?? '')) . (string)($serviceSidebarText['source_suffix'] ?? ''),
+                                'submit_label' => bioinmed_text('common.request_callback'),
                                 'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                             ]); ?>
                         </div>
 
                         <div class="my-4 flex items-center gap-3">
                             <div class="h-px grow bg-[#e2ecf5]"></div>
-                            <span class="text-xs text-[#0a293c]">или позвоните</span>
+                            <span class="text-xs text-[#0a293c]"><?php echo e($serviceSidebarText['call_label'] ?? ''); ?></span>
                             <div class="h-px grow bg-[#e2ecf5]"></div>
                         </div>
                         <a href="tel:<?php echo $phone1link; ?>"
@@ -818,31 +792,31 @@ echo $header->render();
                     </div>
 
                     <div class="rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]">Как подготовиться к визиту</p>
+                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]"><?php echo e($serviceSidebarText['visit_prep_title'] ?? ''); ?></p>
                         <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]">
                             <li class="flex items-start gap-3">
                                 <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                     <i class="fa-solid fa-file-medical text-[0.68rem]"></i>
                                 </span>
-                                <span>Возьмите результаты анализов и исследований, если они есть.</span>
+                                <span><?php echo e($visitPrepItems[0] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                     <i class="fa-solid fa-clock text-[0.68rem]"></i>
                                 </span>
-                                <span>Первичный приём обычно занимает 60-90 минут.</span>
+                                <span><?php echo e($visitPrepItems[1] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                     <i class="fa-solid fa-list-check text-[0.68rem]"></i>
                                 </span>
-                                <span>По итогам Вы получите понятный персональный маршрут лечения.</span>
+                                <span><?php echo e($visitPrepItems[2] ?? ''); ?></span>
                             </li>
                         </ul>
                     </div>
 
                     <div class="rounded-3xl border border-[#d9e7f3] bg-white p-5">
-                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#0a293c]">Клиника БИОИНМЕД</p>
+                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e(($serviceSidebarText['clinic_title'] ?? '') . ' ' . CLINIC_NAME); ?></p>
                         <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]">
                             <li class="flex items-start gap-2.5">
                                 <i class="fa-solid fa-location-dot mt-0.5 shrink-0 text-[#1977b2]"></i>
@@ -862,15 +836,15 @@ echo $header->render();
     <!-- ===== FINAL CTA STRIP ===== -->
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]">Клиника БИОИНМЕД · <?php echo e(CLINIC_ADDRESS); ?></p>
-            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl">Жизнь без боли начинается с первого шага</h2>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e(($serviceFinalCta['eyebrow_prefix'] ?? '') . ' ' . CLINIC_NAME . ' · ' . CLINIC_ADDRESS); ?></p>
+            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl"><?php echo e($serviceFinalCta['title'] ?? ''); ?></h2>
             <p class="mx-auto mt-3 max-w-xl text-sm text-[#0a293c]">
-                Запишитесь на консультацию, чтобы понять причину симптомов и получить персональный план восстановления без лишних назначений.
+                <?php echo e($serviceFinalCta['text'] ?? ''); ?>
             </p>
             <div class="mx-auto mt-6 max-w-md">
                 <?php echo bioinmed_render_callback_form([
-                    'source_label' => ($service['name'] ?? 'Услуга') . ' — финальная CTA',
-                    'submit_label' => 'Записаться на приём',
+                    'source_label' => ($service['name'] ?? ($serviceDefault['source_service_label'] ?? '')) . (string)($serviceFinalCta['source_suffix'] ?? ''),
+                    'submit_label' => bioinmed_text('common.book_appointment'),
                     'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                 ]); ?>
             </div>
@@ -878,8 +852,8 @@ echo $header->render();
                 <a href="tel:<?php echo $phone1link; ?>" class="rounded-full border border-[#c9dcee] bg-white px-7 py-3 text-sm font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">
                     <i class="fa-solid fa-phone mr-1.5"></i><?php echo e($phone1); ?>
                 </a>
-                <a href="/prices" class="rounded-full border border-[#c9dcee] bg-white px-7 py-3 text-sm font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">
-                    <i class="fa-solid fa-list mr-1.5"></i>Все услуги и цены
+                <a href="<?php echo e(bioinmed_link('nav.prices')['url']); ?>" class="rounded-full border border-[#c9dcee] bg-white px-7 py-3 text-sm font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]">
+                    <i class="fa-solid fa-list mr-1.5"></i><?php echo e($serviceFinalCta['prices_button'] ?? ''); ?>
                 </a>
             </div>
         </div>
@@ -890,7 +864,7 @@ echo $header->render();
 
 <?php if ($servicePrimaryImage): ?>
 <div id="service-image-modal" class="fixed inset-0 z-[100] hidden bg-[rgba(7,21,40,0.82)] px-4 py-6">
-    <button type="button" id="service-image-modal-close" class="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Закрыть">
+    <button type="button" id="service-image-modal-close" class="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="<?php echo e($serviceImageModal['close_label'] ?? ''); ?>">
         <i class="fa-solid fa-xmark text-lg"></i>
     </button>
     <div class="mx-auto flex h-full max-w-6xl items-center justify-center">

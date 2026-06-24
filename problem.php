@@ -6,6 +6,15 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$problemPage = bioinmed_read_json_file('pages/problem.json');
+$problemMeta = is_array($problemPage['meta'] ?? null) ? $problemPage['meta'] : [];
+$problemBreadcrumbs = is_array($problemPage['breadcrumbs'] ?? null) ? $problemPage['breadcrumbs'] : [];
+$problemChildrenText = is_array($problemPage['children'] ?? null) ? $problemPage['children'] : [];
+$problemNotFoundText = is_array($problemPage['not_found'] ?? null) ? $problemPage['not_found'] : [];
+$problemDetailText = is_array($problemPage['problem'] ?? null) ? $problemPage['problem'] : [];
+$problemAppointmentText = is_array($problemPage['appointment'] ?? null) ? $problemPage['appointment'] : [];
+$problemServicesText = is_array($problemPage['services'] ?? null) ? $problemPage['services'] : [];
+
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 
@@ -33,11 +42,11 @@ function problem_list_text(string $value): string {
 }
 
 $pageTitle = $isChildrenProblemsPage
-    ? 'Детские проблемы — БИОИНМЕД'
-    : ($problem ? ($problem['page_title'] ?? ($problem['title'] . ' — БИОИНМЕД')) : 'Проблема не найдена | БИОИНМЕД');
+    ? (($problemMeta['children_title'] ?? '') . ' — ' . CLINIC_NAME)
+    : ($problem ? ($problem['page_title'] ?? ($problem['title'] . ' — ' . CLINIC_NAME)) : (($problemMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME));
 $pageDescription = $isChildrenProblemsPage
-    ? 'Отдельный раздел детских проблем: симптомы, ситуации и переход на подробные страницы с маршрутом восстановления.'
-    : ($problem ? ($problem['page_description'] ?? $problem['description']) : 'Страница не найдена');
+    ? (string)($problemMeta['children_description'] ?? '')
+    : ($problem ? ($problem['page_description'] ?? $problem['description']) : (string)($problemMeta['not_found_description'] ?? ''));
 $canonicalUrl = $isChildrenProblemsPage
     ? $siteUrl . '/problems/children'
     : ($problem ? $siteUrl . '/problems/' . rawurlencode((string)$problem['slug']) : $siteUrl . '/problems');
@@ -48,9 +57,9 @@ $socialImageUrl = bioinmed_default_social_image_url();
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $problemDetailsStorageKey = $problem ? ('bioinmed-problem-details:' . (string)($problem['slug'] ?? 'problem')) : '';
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
-    ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Найдите вашу ситуацию', 'url' => '/problems'],
-    ['name' => $isChildrenProblemsPage ? 'Детские проблемы' : ($problem['title'] ?? 'Проблема'), 'url' => $canonicalUrl],
+    ['name' => (string)($problemBreadcrumbs['home'] ?? ''), 'url' => '/'],
+    ['name' => (string)($problemBreadcrumbs['problems'] ?? ''), 'url' => '/problems'],
+    ['name' => $isChildrenProblemsPage ? (string)($problemBreadcrumbs['children'] ?? '') : ($problem['title'] ?? (string)($problemBreadcrumbs['default_problem'] ?? '')), 'url' => $canonicalUrl],
 ]);
 
 $services_map = [];
@@ -120,9 +129,9 @@ echo $header->render();
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div>
-                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Детское направление</p>
-                <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]">Детские проблемы</h1>
-                <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]">Выберите ситуацию, которая ближе всего к состоянию ребёнка. Каждая карточка ведёт на отдельную страницу с этапами маршрута восстановления и релевантными услугами.</p>
+                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"><?php echo e($problemChildrenText['eyebrow'] ?? ''); ?></p>
+                <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"><?php echo e($problemChildrenText['heading'] ?? ''); ?></h1>
+                <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"><?php echo e($problemChildrenText['description'] ?? ''); ?></p>
             </div>
         </div>
     </section>
@@ -131,8 +140,8 @@ echo $header->render();
     $children_problems_section = new ProblemsGrid($children_problems, $brand_colors, [
         'show_title' => false,
         'show_cta' => true,
-        'cta_url' => '/#contact',
-        'cta_label' => 'Не нашли детскую ситуацию? Записаться на консультацию',
+        'cta_url' => bioinmed_link('nav.contacts')['url'],
+        'cta_label' => (string)($problemChildrenText['cta_label'] ?? ''),
     ]);
     echo $children_problems_section->render();
     ?>
@@ -141,10 +150,10 @@ echo $header->render();
     <section class="mx-auto max-w-4xl px-6 py-20 md:px-10">
         <div class="rounded-3xl bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
             <i class="fa-solid fa-circle-question mb-4 text-5xl text-[#b0c8e0]" aria-hidden="true"></i>
-            <h1 class="text-3xl font-bold text-[#0a293c]">Страница не найдена</h1>
-            <p class="mt-3 text-[#0a293c]">Проверьте ссылку или перейдите на страницу с проблемами.</p>
+            <h1 class="text-3xl font-bold text-[#0a293c]"><?php echo e($problemNotFoundText['title'] ?? ''); ?></h1>
+            <p class="mt-3 text-[#0a293c]"><?php echo e($problemNotFoundText['text'] ?? ''); ?></p>
             <a href="/problems" class="mt-7 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#16658f]">
-                <i class="fa-solid fa-list" aria-hidden="true"></i> Ко всем ситуациям
+                <i class="fa-solid fa-list" aria-hidden="true"></i> <?php echo e($problemNotFoundText['button'] ?? ''); ?>
             </a>
         </div>
     </section>
@@ -152,11 +161,11 @@ echo $header->render();
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div>
-                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Ситуации и симптомы</p>
+                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"><?php echo e($problemDetailText['eyebrow'] ?? ''); ?></p>
                 <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"><?php echo e($problem['title']); ?></h1>
                 <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"><?php echo e($problem['description']); ?></p>
                 <p class="mt-4 max-w-3xl text-[0.96rem] leading-relaxed text-[#0a293c]">
-                    Ниже мы собрали для Вас понятный маршрут, поэтапное описание и релевантные услуги, чтобы Вы сразу увидели логику восстановления.
+                    <?php echo e($problemDetailText['intro'] ?? ''); ?>
                 </p>
             </div>
         </div>
@@ -210,13 +219,13 @@ echo $header->render();
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="rounded-[2rem] bg-transparent p-0">
-                <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Запись</p>
-                <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">Записаться на приём</h2>
-                <p class="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]">Оставьте заявку, и мы свяжемся с Вами, чтобы помочь выбрать правильный шаг и удобное время консультации.</p>
+                <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"><?php echo e($problemAppointmentText['eyebrow'] ?? ''); ?></p>
+                <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h2>
+                <p class="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"><?php echo e($problemAppointmentText['text'] ?? ''); ?></p>
                 <div class="mt-5 max-w-xl">
                     <?php echo bioinmed_render_callback_form([
-                        'source_label' => 'Страница проблемы',
-                        'submit_label' => 'Записаться на приём',
+                        'source_label' => (string)($problemAppointmentText['source_label'] ?? ''),
+                        'submit_label' => bioinmed_text('common.book_appointment'),
                     ]); ?>
                 </div>
             </div>
@@ -227,10 +236,10 @@ echo $header->render();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <div>
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Релевантные услуги</p>
-                    <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">Что может помочь при этой ситуации</h2>
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"><?php echo e($problemServicesText['eyebrow'] ?? ''); ?></p>
+                    <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"><?php echo e($problemServicesText['title'] ?? ''); ?></h2>
                 </div>
-                <p class="max-w-2xl text-[0.94rem] leading-relaxed text-[#0a293c]">Собрали услуги, которые чаще всего сочетаются в таком маршруте и помогают двигаться к результату поэтапно.</p>
+                <p class="max-w-2xl text-[0.94rem] leading-relaxed text-[#0a293c]"><?php echo e($problemServicesText['description'] ?? ''); ?></p>
             </div>
 
             <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -244,7 +253,7 @@ echo $header->render();
                     $servicePrice = trim((string)($service['price'] ?? ''));
                     ?>
                     <a href="<?php echo e($serviceLink); ?>" class="group block rounded-[1.6rem] bg-white p-5 shadow-[0_10px_26px_rgba(10,43,80,0.06)] ring-1 ring-[#d9e7f2] transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(10,43,80,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]">
-                        <p class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"><?php echo e($service['display_label'] ?? 'Услуга'); ?></p>
+                        <p class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"><?php echo e($service['display_label'] ?? ($problemServicesText['display_label_fallback'] ?? '')); ?></p>
                         <h3 class="mt-2 text-[1.08rem] font-bold leading-tight text-[#0f2749]"><?php echo e($serviceName); ?></h3>
                         <?php if ($serviceSubtitle !== ''): ?>
                             <p class="mt-1 text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#0a293c]"><?php echo e($serviceSubtitle); ?></p>
@@ -255,7 +264,7 @@ echo $header->render();
                                 <span class="text-[0.92rem] font-semibold text-[#1977b2]"><?php echo e($servicePrice); ?></span>
                             <?php endif; ?>
                             <span class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition group-hover:bg-[#16658f] group-hover:gap-2.5">
-                                Подробнее
+                                <?php echo e(bioinmed_text('common.more_details')); ?>
                                 <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i>
                             </span>
                         </div>
