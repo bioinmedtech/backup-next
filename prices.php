@@ -385,13 +385,13 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                         <tbody>
                             <tr>
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold text-[#0f2749]">Хабилект: 3D-диагностика опорно-двигательного аппарата с подбором ЛФК</div>
+                                    <div class="font-semibold text-[#0f2749]">«Хабилект»: 3D-диагностика опорно-двигательного аппарата с подбором ЛФК</div>
                                     <p class="text-sm text-[#0a293c] mt-1">30 минут, промежуточная диагностика в рамках программы реабилитации бесплатно</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">3 500 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Реабилитация с БОС на мультифункциональном комплексе Хабилект (1 занятие, 20 мин)</td>
+                                <td class="px-4 py-3">Реабилитация с БОС на мультифункциональном комплексе «Хабилект» (1 занятие, 20 мин)</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">2 000 ₽</td>
                             </tr>
                             <tr>
@@ -399,7 +399,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                                 <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">5 000 ₽</td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-3">Комплексная диагностика: специалист по реабилитации + Хабилект (без БОС), 60 мин</td>
+                                <td class="px-4 py-3">Комплексная диагностика: специалист по реабилитации + «Хабилект» (без БОС), 60 мин</td>
                                 <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">6 000 ₽</td>
                             </tr>
                             <tr>
@@ -412,7 +412,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                             </tr>
                             <tr class="bg-[#f9f0e6]">
                                 <td class="px-4 py-3">
-                                    <div class="font-semibold text-[#0f2749]">Комплексная программа: Хабилект + ЛФК + массаж 45 мин</div>
+                                    <div class="font-semibold text-[#0f2749]">Комплексная программа: «Хабилект» + ЛФК + массаж 45 мин</div>
                                     <p class="text-sm text-[#0a293c] mt-1">Полный блок реабилитации опорно-двигательного аппарата, 90 мин</p>
                                 </td>
                                 <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap">10 000 ₽</td>

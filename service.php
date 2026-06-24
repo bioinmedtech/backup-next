@@ -346,7 +346,7 @@ echo $header->render();
                 <!-- left: main content -->
                 <div class="space-y-6 lg:order-1">
 
-                <!-- Реабилитация Хабилект -->
+                <!-- Реабилитация «Хабилект» -->
                 <?php if ($isHobilect): ?>
                 <div class="fade-up">
                     <p class="max-w-3xl text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
@@ -402,7 +402,7 @@ echo $header->render();
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Хабилект используется на всех этапах реабилитации: в стационарных учреждениях, в санаториях, спорте, а также для оценки профессиональных заболеваний, в неврологии, травматологии, ортопедии, при оценке риска падения у пожилых и в детской реабилитации.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">«Хабилект» используется на всех этапах реабилитации: в стационарных учреждениях, в санаториях, спорте, а также для оценки профессиональных заболеваний, в неврологии, травматологии, ортопедии, при оценке риска падения у пожилых и в детской реабилитации.</p>
                                 <div class="mt-4 grid gap-3 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
@@ -538,7 +538,7 @@ echo $header->render();
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Хабилект даёт наглядные отчёты, оценку в статике и динамике, мощные инструменты анализа, а также запись и воспроизведение пробы.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">«Хабилект» даёт наглядные отчёты, оценку в статике и динамике, мощные инструменты анализа, а также запись и воспроизведение пробы.</p>
                                 <div class="mt-4 grid gap-3 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
@@ -569,7 +569,7 @@ echo $header->render();
                                 </span>
                             </summary>
                             <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">Хабилект включён в нормативную базу и применяется как медицинское оборудование в клинической практике. Это не просто технологическая платформа, а система, на которую можно опираться в реабилитационных маршрутах и при оснащении медицинских подразделений.</p>
+                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">«Хабилект» включён в нормативную базу и применяется как медицинское оборудование в клинической практике. Это не просто технологическая платформа, а система, на которую можно опираться в реабилитационных маршрутах и при оснащении медицинских подразделений.</p>
                                 <div class="mt-4 grid gap-3 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">Приказы МЗ РФ</p>

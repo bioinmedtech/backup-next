@@ -788,7 +788,7 @@ class HeroSection extends Component {
                             <a href="/services/hobilect-diagnostics" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
                                 <span class="flex items-start gap-2 text-[#17446f]">
                                     <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
-                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]">Экосистема HABILECT</span>
+                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]">Экосистема «Хабилект»</span>
                                 </span>
                             </a>
                             <a href="/services/hobilect-diagnostics" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
@@ -805,9 +805,9 @@ class HeroSection extends Component {
                             </a>
                         </div>
                         <a href="/services/hobilect-diagnostics" class="mt-5 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff] hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:mt-6 md:gap-3 md:px-4 md:py-2.5">
-                            <img src="{$habilect_logo}" alt="Хабилект" class="h-9 w-auto shrink-0 md:h-10" loading="eager" decoding="async">
+                            <img src="{$habilect_logo}" alt="«Хабилект»" class="h-9 w-auto shrink-0 md:h-10" loading="eager" decoding="async">
                             <div class="min-w-0">
-                                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2] md:text-[0.82rem]">Хабилект</p>
+                                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2] md:text-[0.82rem]">«Хабилект»</p>
                                 <p class="hidden text-[0.8rem] font-medium leading-tight text-[#0a293c] sm:block md:text-[0.88rem]">Инновационные медицинские системы</p>
                             </div>
                         </a>
@@ -1230,13 +1230,13 @@ class VisualGallery extends Component {
                         <img src="/public/images/content/about-company.jpg" alt="Клиника БИОИНМЕД" class="h-56 w-full object-cover" loading="lazy" />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/kostromina-default.jpg" alt="Костромина Инна Викторовна" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/team/kostromina-default.jpg" alt="Инна Викторовна Костромина" class="h-56 w-full object-cover" loading="lazy" />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/navrozov.jpg" alt="Наврозов Евгений Сергеевич" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/team/navrozov.jpg" alt="Евгений Сергеевич Наврозов" class="h-56 w-full object-cover" loading="lazy" />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/nehorosheva.jpg" alt="Нехорошева Людмила Сергеевна" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/team/nehorosheva.jpg" alt="Людмила Сергеевна Нехорошева" class="h-56 w-full object-cover" loading="lazy" />
                     </div>
                 </div>
             </div>
@@ -1248,12 +1248,24 @@ class VisualGallery extends Component {
 class ProblemsGrid extends Component {
     protected $showTitle = true;
     protected $showCta = true;
+    protected $sectionId = 'problems';
+    protected $sectionEyebrow = 'С какой проблемой обращаются';
+    protected $sectionHeading = 'Найдите вашу ситуацию';
+    protected $sectionSubtitle = 'Нажмите на карточку — откроется отдельная страница с подробным описанием, этапами маршрута и подходящими услугами.';
+    protected $ctaUrl = '/#contact';
+    protected $ctaLabel = 'Не нашли свою ситуацию? Записаться на консультацию';
 
     public function __construct($problems, $colors = [], $options = []) {
         parent::__construct($colors);
         $this->data = $problems;
         $this->showTitle = (bool)($options['show_title'] ?? true);
         $this->showCta = (bool)($options['show_cta'] ?? true);
+        $this->sectionId = trim((string)($options['section_id'] ?? 'problems')) ?: 'problems';
+        $this->sectionEyebrow = trim((string)($options['eyebrow'] ?? $this->sectionEyebrow));
+        $this->sectionHeading = trim((string)($options['title'] ?? $this->sectionHeading));
+        $this->sectionSubtitle = trim((string)($options['subtitle'] ?? $this->sectionSubtitle));
+        $this->ctaUrl = trim((string)($options['cta_url'] ?? $this->ctaUrl)) ?: '/#contact';
+        $this->ctaLabel = trim((string)($options['cta_label'] ?? $this->ctaLabel));
     }
 
     public function render() {
@@ -1284,15 +1296,20 @@ class ProblemsGrid extends Component {
             HTML;
         }
 
-        $section_title_html = $this->showTitle
-            ? $this->sectionTitle('С какой проблемой обращаются', 'Найдите вашу ситуацию', 'Нажмите на карточку — откроется отдельная страница с подробным описанием, этапами маршрута и подходящими услугами.')
-            : '';
-        $section_cta_html = $this->showCta
-            ? '<div class="mt-6 flex justify-start"><a href="/#contact" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-3 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">Не нашли свою ситуацию? Записаться на консультацию</a></div>'
+        $section_title_html = '';
+        if ($this->showTitle) {
+            if ($this->sectionEyebrow === '' && $this->sectionSubtitle === '') {
+                $section_title_html = '<div class="mb-7"><h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">' . $this->e($this->sectionHeading) . '</h2></div>';
+            } else {
+                $section_title_html = $this->sectionTitle($this->sectionEyebrow, $this->sectionHeading, $this->sectionSubtitle);
+            }
+        }
+        $section_cta_html = ($this->showCta && $this->ctaLabel !== '')
+            ? '<div class="mt-6 flex justify-start"><a href="' . $this->e($this->ctaUrl) . '" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-3 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">' . $this->e($this->ctaLabel) . '</a></div>'
             : '';
 
         return <<<HTML
-        <section id="problems" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
+        <section id="{$this->e($this->sectionId)}" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$section_title_html}
                 <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
@@ -1344,7 +1361,9 @@ class AdvantagesBlock extends Component {
         return <<<HTML
         <section id="advantages" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                {$this->sectionTitle('Почему выбирают нас', 'Преимущества клиники', 'Каждый пункт отражает наш стандарт работы: точная диагностика, персональный план и контроль результата.')}
+                <div class="mb-6">
+                    <h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">Почему выбирают нас</h2>
+                </div>
                 <ul class="grid gap-3 sm:grid-cols-2">
                     {$items_html}
                 </ul>
@@ -1365,49 +1384,25 @@ class ChiefDoctorBlock extends Component {
             return '';
         }
 
-        $leadership = isset($this->data['leadership']) ? $this->e($this->data['leadership']) : 'Руководит клиническим процессом и развитием стандартов медицинской помощи.';
-        $hero_leadership = isset($this->data['hero_leadership']) ? $this->e($this->data['hero_leadership']) : $leadership;
-        $hero_tagline = trim((string)($this->data['hero_tagline'] ?? ''));
-        $project_title = trim((string)($this->data['project_title'] ?? ''));
-        $hero_tagline_html = $hero_tagline !== ''
-            ? '<div class="mt-4 max-w-3xl"><p class="text-[#0a293c]" style="font-family:\'Caveat\',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">' . $this->e($hero_tagline) . '</p><p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:\'Caveat\',cursive;">Костромина И.В.</p></div>'
-            : '<p class="mt-5 text-base leading-relaxed text-[#0a293c]">В БИОИНМЕД каждый пациент получает не набор разрозненных процедур, а цельный лечебный маршрут: диагностика причин, подбор метода, оценка динамики и коррекция тактики.</p>';
-        $project_title_html = $project_title !== ''
-            ? '<p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">' . $this->e($project_title) . '</p>'
-            : '';
-        $hero_highlights = $this->data['hero_highlights'] ?? [];
-        $hero_highlights_html = '';
-        if (!empty($hero_highlights) && is_array($hero_highlights)) {
-            $hero_highlights_html .= '<ul class="mt-4 space-y-2 text-sm leading-relaxed text-[#0a293c]">';
-            foreach ($hero_highlights as $highlight) {
-                $hero_highlights_html .= '<li class="flex items-start gap-3"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span><span>' . $this->e($highlight) . '</span></li>';
-            }
-            $hero_highlights_html .= '</ul>';
-        }
+        $summary_html = bioinmed_render_chief_doctor_summary($this->data, [
+            'show_cta' => true,
+            'cta_url' => '/doctors/' . ($this->data['slug'] ?? ''),
+            'cta_label' => 'Подробнее',
+        ]);
         $chief_image = bioinmed_versioned_asset_path('/public/images/team/kostromina.jpg');
 
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
+        <section class="bg-[#e4f1fa] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                <div class="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-start">
-                    <div class="max-w-[480px]">
+                <div class="fade-up grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
+                    <div class="w-full max-w-[480px]">
                         <div class="aspect-square overflow-hidden rounded-3xl">
-                            <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy" />
+                            <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="eager" onerror="this.src='/public/images/placeholder.jpg'" />
                         </div>
-                        <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью</p>
+                        <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью</p>
                         <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">Костромина И.В.</p>
                     </div>
-                    <div>
-                        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ</p>
-                        <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$this->e($this->data['name'])}</h2>
-                        {$project_title_html}
-                        <p class="mt-6 text-[1rem] leading-relaxed text-[#0a293c] md:mt-8 md:text-[1.08rem]">Специализируюсь на сложных случаях. Более 30 лет клинической практики в области детской и взрослой медицины. {$hero_leadership}</p>
-                        {$hero_highlights_html}
-                        <a href="/doctors/kostromina-inna-viktorovna" class="mt-6 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
-                            Подробнее о враче
-                            <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
-                        </a>
-                    </div>
+                    {$summary_html}
                 </div>
             </div>
         </section>
@@ -1418,47 +1413,61 @@ class ChiefDoctorBlock extends Component {
 class SpecialOffer extends Component {
     public function render() {
         $callback_form = bioinmed_render_callback_form([
-            'source_label' => 'Главная — спецпредложение HABILECT',
+            'source_label' => 'Главная — спецпредложение «Хабилект»',
             'submit_label' => 'Перезвоните мне',
         ]);
         return <<<HTML
         <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-white px-6 py-6 md:px-8 md:py-7">
-                    <a href="/services/hobilect-diagnostics" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" aria-label="Перейти к услуге Хабилект">
-                        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Специальное предложение для пациентов</p>
-                        <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Первичная 3D диагностика на мультифункциональном комплексе Хабилект + консультация реабилитолога</h2>
-                        <div class="mt-4 border-l-4 border-[#1977b2] pl-4 md:pl-5">
-                            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#0a293c]">Специальная цена</p>
-                            <div class="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
-                                <span class="text-2xl font-bold leading-none text-[#0f2749] md:text-[1.9rem]">3000 руб.</span>
-                                <span class="text-sm text-[#5b81a8] md:text-[0.98rem]">вместо <span class="line-through">6000 руб.</span></span>
-                            </div>
-                            <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]">Экономия 3000 руб.</p>
+                <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-white">
+                    <div class="grid lg:grid-cols-[0.9fr_1.1fr]">
+                        <div class="relative min-h-[320px] lg:min-h-full">
+                            <img
+                                src="/public/images/habilect/habilect-woman-2.jpg"
+                                alt="Диагностика на мультифункциональном комплексе «Хабилект»"
+                                class="h-full w-full object-cover object-center"
+                                loading="lazy"
+                                decoding="async"
+                            />
                         </div>
-                        <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#0a293c]">
-                            Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика на мультифункциональном комплексе Хабилект даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.
-                        </p>
-                        <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#0a293c]">
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                <span>3D-диагностика на мультифункциональном комплексе Хабилект для точной оценки нарушений опорно-двигательного аппарата</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                <span>Консультация реабилитолога с подбором индивидуального комплекса ЛФК</span>
-                            </li>
-                            <li class="flex items-start gap-2.5">
-                                <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                <span>Диагностика стоп на подоскопе в подарок</span>
-                            </li>
-                        </ul>
-                    </a>
-                    <div class="mt-4">
-                        <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
-                            <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
-                            Перезвоните мне
-                        </button>
+
+                        <div class="px-6 py-6 md:px-8 md:py-7">
+                            <a href="/services/hobilect-diagnostics" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" aria-label="Перейти к услуге «Хабилект»">
+                                <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Специальное предложение для пациентов</p>
+                                <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Специальное предложение для пациентов + 3D-диагностика</h2>
+                                <div class="mt-4 border-l-4 border-[#1977b2] pl-4 md:pl-5">
+                                    <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#0a293c]">Специальная цена</p>
+                                    <div class="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
+                                        <span class="text-2xl font-bold leading-none text-[#0f2749] md:text-[1.9rem]">3000 руб.</span>
+                                        <span class="text-sm text-[#5b81a8] md:text-[0.98rem]">вместо <span class="line-through">6000 руб.</span></span>
+                                    </div>
+                                    <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]">Экономия 3000 руб.</p>
+                                </div>
+                                <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#0a293c]">
+                                    Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика на мультифункциональном комплексе «Хабилект» даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.
+                                </p>
+                                <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#0a293c]">
+                                    <li class="flex items-start gap-2.5">
+                                        <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
+                                        <span>3D-диагностика на мультифункциональном комплексе «Хабилект» для точной оценки нарушений опорно-двигательного аппарата</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
+                                        <span>Консультация реабилитолога с подбором индивидуального комплекса ЛФК</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
+                                        <span>Диагностика стоп на подоскопе в подарок</span>
+                                    </li>
+                                </ul>
+                            </a>
+                            <div class="mt-4">
+                                <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
+                                    <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
+                                    Перезвоните мне
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1469,7 +1478,7 @@ class SpecialOffer extends Component {
                     </button>
                     <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Специальное предложение</p>
                     <h3 id="special-offer-callback-title" class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">Перезвоним и запишем на консультацию</h3>
-                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#0a293c]">Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику на мультифункциональном комплексе Хабилект.</p>
+                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#0a293c]">Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику на мультифункциональном комплексе «Хабилект».</p>
                     <div class="mt-5">
                         {$callback_form}
                     </div>
@@ -1517,7 +1526,6 @@ class DoctorsGrid extends Component {
                         {$doctor_name_html}
                         <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c]">{$this->e($doctor['title'])}</p>
                         <p class="mt-2 text-sm font-semibold leading-snug text-[#0a293c]">{$this->e($doctor['experience'])}</p>
-                        <p class="mt-3 text-[0.96rem] text-[#0a293c]">{$this->e($doctor['specialty'])}</p>
                     </div>
                     {$card_action}
                 </div>
@@ -1528,7 +1536,7 @@ class DoctorsGrid extends Component {
         return <<<HTML
         <section id="doctors" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                {$this->sectionTitle('Наша команда', 'Профессиональная команда специалистов', 'Познакомьтесь с врачами команды и перейдите в карточку специалиста для подробной информации.')}
+                {$this->sectionTitle('Наша команда', 'Наша профессиональная команда', 'Познакомьтесь с врачами команды и перейдите в карточку специалиста для подробной информации.')}
                 <div class="mb-4 flex items-center justify-end gap-2">
                     <button type="button" class="doctor-slider-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#0a293c] hover:bg-[#ecf5ff]" aria-label="Прокрутить влево">
                         <i class="fa-solid fa-chevron-left text-[1rem]" aria-hidden="true"></i>
@@ -1575,7 +1583,9 @@ class FAQBlock extends Component {
         return <<<HTML
         <section id="faq" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                {$this->sectionTitle('Ответы на частые вопросы', 'Что важно знать перед записью', 'Коротко отвечаем на самые частые вопросы перед первым визитом.')}
+                <div class="mb-7">
+                    <h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">Ответы на частые вопросы</h2>
+                </div>
                 <div class="grid gap-3 md:gap-4">
                     {$items_html}
                 </div>
@@ -1676,7 +1686,7 @@ class ServicesGrid extends Component {
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <p class="text-[0.96rem] text-[#0a293c]">Хотите начать с комплексной диагностики?</p>
                     <a href="/services/hobilect-diagnostics" class="inline-flex rounded-lg bg-[#1977b2] px-5 py-2.5 text-[0.96rem] font-semibold text-white transition hover:bg-[#16658f] active:bg-[#13557f]">
-                        HABILECT диагностика →
+                        «Хабилект»-диагностика →
                     </a>
                 </div>
             </div>
@@ -1694,9 +1704,9 @@ class CasesSlider extends Component {
         return <<<HTML
         <section id="reviews" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                {$this->sectionTitle('Нам доверяют', 'Отзывы пациентов', 'Отзывы наших пациентов на Яндекс.Картах.')}
-                <div class="mx-auto overflow-hidden rounded-2xl border border-[#dce8f5] shadow-[0_8px_24px_rgba(10,43,80,0.07)]" style="max-width:700px;">
-                    <div style="width:100%;height:800px;overflow:hidden;position:relative;"><iframe style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" src="https://yandex.ru/maps-reviews-widget/20810337169?comments"></iframe><a href="https://yandex.com/maps/org/bioinmed/20810337169/" target="_blank" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:center;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">Биоинмед на карте Москвы — Яндекс Карты</a></div>
+                {$this->sectionTitle('Нам доверяют', 'Послушайте тех, кто уже был у нас', 'Отзывы наших пациентов на Яндекс.Картах.')}
+                <div class="overflow-hidden rounded-2xl border border-[#dce8f5] shadow-[0_8px_24px_rgba(10,43,80,0.07)]" style="max-width:700px;">
+                    <div style="width:100%;height:800px;overflow:hidden;position:relative;"><iframe style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" src="https://yandex.ru/maps-reviews-widget/20810337169?comments"></iframe><a href="https://yandex.com/maps/org/bioinmed/20810337169/" target="_blank" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:left;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">Биоинмед на карте Москвы — Яндекс Карты</a></div>
                 </div>
             </div>
         </section>
@@ -1715,11 +1725,20 @@ class AppointmentCTA extends Component {
         <section id="book-now" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9">
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Запишитесь на консультацию</p>
-                    <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Записаться на приём</h2>
-                    <p class="mt-2.5 max-w-2xl text-[0.94rem] leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
-                    <div class="mt-5 max-w-lg">
-                        {$callback_form}
+                    <div class="grid gap-7 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                        <div>
+                            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Запишитесь на консультацию</p>
+                            <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">Записаться на приём</h2>
+                            <p class="mt-2.5 max-w-xl text-[0.94rem] leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
+                            <ul class="mt-4 space-y-2 text-[0.92rem] leading-relaxed text-[#0a293c]">
+                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span>Подберём профильного специалиста под вашу ситуацию.</span></li>
+                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span>Согласуем удобное время визита без долгого ожидания.</span></li>
+                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span>Ответим на вопросы по маршруту и стоимости лечения.</span></li>
+                            </ul>
+                        </div>
+                        <div class="w-full max-w-lg lg:ml-auto">
+                            {$callback_form}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1748,25 +1767,7 @@ class ContactSection extends Component {
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$this->sectionTitle('Контакты', 'Адрес и связь с клиникой', 'Мы всегда на связи и готовы ответить на Ваши вопросы')}
 
-                <div class="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-                    <!-- Левая часть: Фото клиники -->
-                    <div class="flex items-start">
-                        <div class="mx-auto w-full max-w-[440px] lg:mx-0">
-                            <div class="relative aspect-square overflow-hidden rounded-2xl bg-[#eaf4fd]">
-                                <img
-                                    src="/public/images/bioinmed-contacts-pic.jpg"
-                                    alt="Клиника БИОИНМЕД - кабинеты и атмосфера"
-                                    class="h-full w-full object-cover object-center"
-                                    loading="lazy"
-                                    decoding="async"
-                                />
-                                <div class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0f2749]/30 to-transparent"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Правая часть: Информация -->
-                    <div class="space-y-5">
+                <div class="mx-auto max-w-5xl space-y-5">
                         <!-- Заголовок карточки -->
                         <div class="rounded-2xl border border-[#d7e4ef] bg-white p-6 shadow-[0_4px_16px_rgba(6,29,60,0.06)]">
                             <div class="flex items-start gap-3 mb-1">
@@ -1883,7 +1884,6 @@ class ContactSection extends Component {
                                 </a>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -1903,7 +1903,7 @@ class PartnersBlock extends Component {
                     <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                         <div>
                             <p class="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">Партнёры и технологии</p>
-                            <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.7rem]">Heel и HABILECT в основе нашего подхода</h2>
+                            <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.7rem]">Heel и «Хабилект» в основе нашего подхода</h2>
                         </div>
                         <p class="max-w-2xl text-[0.9rem] leading-relaxed text-[#0a293c] md:text-[0.95rem]">
                             Мы объединяем доказательные решения и современные технологии диагностики, чтобы путь пациента был точным, понятным и результативным.
@@ -1923,10 +1923,10 @@ class PartnersBlock extends Component {
                             </div>
                             <div class="flex flex-col items-center gap-4 border-t border-[#edf3f9] px-5 py-5 md:border-l md:border-t-0 md:px-8 md:py-7">
                                 <div class="flex h-16 w-28 shrink-0 items-center justify-center md:h-18 md:w-36">
-                                    <img src="{$habilect_logo}" alt="HABILECT" class="h-12 w-[120px] max-w-none object-contain md:h-14 md:w-[150px]" loading="lazy" decoding="async">
+                                    <img src="{$habilect_logo}" alt="«Хабилект»" class="h-12 w-[120px] max-w-none object-contain md:h-14 md:w-[150px]" loading="lazy" decoding="async">
                                 </div>
                                 <div class="min-w-0 text-center">
-                                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Habilect</p>
+                                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">«Хабилект»</p>
                                     <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]">Точная 3D-диагностика и персональный маршрут восстановления.</p>
                                 </div>
                             </div>
@@ -2070,7 +2070,7 @@ class Footer extends Component {
                             <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 mb-3" loading="lazy" decoding="async">
                         </div>
                         <p class="text-[0.96rem] text-[#0a293c] leading-relaxed">
-                            Интегративная и восстановительная медицина с персональным маршрутом лечения для каждого пациента.
+                            Восстановительная медицина с Вашим персональным маршрутом лечения.
                         </p>
                         <div class="mt-4 flex gap-3">
                             <a href="{$vk}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#2787f5] hover:text-[#1f6fd0] transition-colors" title="ВКонтакте" aria-label="ВКонтакте">
@@ -2089,7 +2089,7 @@ class Footer extends Component {
                     <div>
                         <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4">Услуги</h4>
                         <ul class="space-y-2">
-                            <li><a href="/services/hobilect-diagnostics" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Диагностика HABILECT</a></li>
+                            <li><a href="/services/hobilect-diagnostics" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Диагностика «Хабилект»</a></li>
                             <li><a href="/services/musculoskeletal-program" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Восстановление опорно-двигательного аппарата</a></li>
                             <li><a href="/services/osteopathy" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Остеопатия</a></li>
                             <li><a href="/services/reflexotherapy" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">Рефлексотерапия</a></li>

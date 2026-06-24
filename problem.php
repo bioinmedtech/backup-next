@@ -20,6 +20,7 @@ $iconPath = CLINIC_ICON_PATH;
 
 $slug = isset($_GET['slug']) ? trim((string)$_GET['slug']) : '';
 $problem = null;
+$isChildrenProblemsPage = ($slug === 'children');
 foreach ($problems as $item) {
     if (($item['slug'] ?? '') === $slug) {
         $problem = $item;
@@ -27,7 +28,7 @@ foreach ($problems as $item) {
     }
 }
 
-if ($problem === null) {
+if (!$isChildrenProblemsPage && $problem === null) {
     http_response_code(404);
 }
 
@@ -40,17 +41,25 @@ function problem_list_text(string $value): string {
     return preg_replace('/[.。]+$/u', '', $value) ?? $value;
 }
 
-$pageTitle = $problem ? ($problem['page_title'] ?? ($problem['title'] . ' — БИОИНМЕД')) : 'Проблема не найдена | БИОИНМЕД';
-$pageDescription = $problem ? ($problem['page_description'] ?? $problem['description']) : 'Страница не найдена';
-$canonicalUrl = $problem ? $siteUrl . '/problems/' . rawurlencode((string)$problem['slug']) : $siteUrl . '/problems';
-$robotsContent = $problem ? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' : 'noindex,follow';
+$pageTitle = $isChildrenProblemsPage
+    ? 'Детские проблемы — БИОИНМЕД'
+    : ($problem ? ($problem['page_title'] ?? ($problem['title'] . ' — БИОИНМЕД')) : 'Проблема не найдена | БИОИНМЕД');
+$pageDescription = $isChildrenProblemsPage
+    ? 'Отдельный раздел детских проблем: симптомы, ситуации и переход на подробные страницы с маршрутом восстановления.'
+    : ($problem ? ($problem['page_description'] ?? $problem['description']) : 'Страница не найдена');
+$canonicalUrl = $isChildrenProblemsPage
+    ? $siteUrl . '/problems/children'
+    : ($problem ? $siteUrl . '/problems/' . rawurlencode((string)$problem['slug']) : $siteUrl . '/problems');
+$robotsContent = ($isChildrenProblemsPage || $problem)
+    ? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'
+    : 'noindex,follow';
 $socialImageUrl = bioinmed_default_social_image_url();
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $problemDetailsStorageKey = $problem ? ('bioinmed-problem-details:' . (string)($problem['slug'] ?? 'problem')) : '';
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => '/'],
     ['name' => 'Найдите вашу ситуацию', 'url' => '/problems'],
-    ['name' => $problem['title'] ?? 'Проблема', 'url' => $canonicalUrl],
+    ['name' => $isChildrenProblemsPage ? 'Детские проблемы' : ($problem['title'] ?? 'Проблема'), 'url' => $canonicalUrl],
 ]);
 
 $services_map = [];
@@ -116,7 +125,28 @@ echo $header->render();
 ?>
 
 <main class="grow">
-<?php if (!$problem): ?>
+<?php if ($isChildrenProblemsPage): ?>
+    <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
+        <div class="mx-auto max-w-6xl px-6 md:px-10">
+            <div>
+                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">Детское направление</p>
+                <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]">Детские проблемы</h1>
+                <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]">Выберите ситуацию, которая ближе всего к состоянию ребёнка. Каждая карточка ведёт на отдельную страницу с этапами маршрута восстановления и релевантными услугами.</p>
+            </div>
+        </div>
+    </section>
+
+    <?php
+    $children_problems_section = new ProblemsGrid($children_problems, $brand_colors, [
+        'show_title' => false,
+        'show_cta' => true,
+        'cta_url' => '/#contact',
+        'cta_label' => 'Не нашли детскую ситуацию? Записаться на консультацию',
+    ]);
+    echo $children_problems_section->render();
+    ?>
+
+<?php elseif (!$problem): ?>
     <section class="mx-auto max-w-4xl px-6 py-20 md:px-10">
         <div class="rounded-3xl bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
             <i class="fa-solid fa-circle-question mb-4 text-5xl text-[#b0c8e0]" aria-hidden="true"></i>

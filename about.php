@@ -45,8 +45,8 @@ if (!empty($chief['image'])) {
 $aboutServiceShowcase = [
 	[
 		'image' => '/public/images/services/habilect.jpg',
-		'alt' => 'Диагностика HABILECT в БИОИНМЕД',
-		'title' => 'Диагностика HABILECT',
+		'alt' => 'Диагностика «Хабилект» в БИОИНМЕД',
+		'title' => 'Диагностика «Хабилект»',
 		'desc' => 'Флагманская диагностика клиники: помогает увидеть перегрузки и ограничения опорно-двигательного аппарата за один визит.',
 		'href' => '/services/hobilect-diagnostics',
 	],
@@ -110,7 +110,7 @@ echo $header->render();
 				<div class="mt-4 max-w-2xl space-y-2">
 					<p class="text-[0.74rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Ваша экосистема здоровья</p>
 					<p class="text-[1.08rem] font-semibold leading-[1.42] text-[#0a293c] md:text-[1.1rem]">
-						Клиника Биоинмед - ваша экосистема, где вы особенный.
+						Клиника Биоинмед - Ваша экосистема, где Вы особенный.
 					</p>
 					<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]">
 						Учитывая высокий уровень психологического стресса в условиях мегаполиса, при травмах, операциях, спортивных нагрузках и гиподинамии мы предлагаем ключевые решения для здорового образа жизни.

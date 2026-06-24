@@ -34,7 +34,6 @@ $phone2link  = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
 function e($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
 $doctorOrder = [
-    'fomichev-dmitriy-viktorovich',
     'kondratova-elena-aleksandrovna',
     'nehorosheva-lyudmila-sergeevna',
     'vertlib-valeriya-pavlovna',
@@ -158,11 +157,10 @@ echo $header->render();
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
                 <span class="text-[#0f2749]">Профессиональная команда</span>
             </nav>
-            <div class="max-w-2xl">
-                <p class="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]">Клиника БИОИНМЕД · Москва</p>
-                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]">Врачи клиники</h1>
+            <div>
+                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]">Наша профессиональная команда</h1>
                 <p class="mt-3 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.04rem]">
-                    Команда клиники БИОИНМЕД — врачи с многолетним опытом в области интегративной медицины, остеопатии, рефлексотерапии, гомеопатии и психотерапии. Каждый специалист строит индивидуальный план лечения.
+                    Команда клиники БИОИНМЕД — врачи с многолетним опытом в области восстановительной медицины, остеопатии, рефлексотерапии, гомеопатии и психотерапии. Каждый специалист строит индивидуальный план лечения.
                 </p>
             </div>
         </div>
@@ -210,7 +208,7 @@ echo $header->render();
                 <?php echo bioinmed_render_chief_doctor_summary($chief, [
                     'show_cta' => true,
                     'cta_url' => '/doctors/' . ($chief['slug'] ?? ''),
-                    'cta_label' => 'Подробнее о враче',
+                    'cta_label' => 'Подробнее',
                 ]); ?>
             </div>
         </div>

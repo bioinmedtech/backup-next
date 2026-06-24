@@ -25,7 +25,7 @@ $iconUrl = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/';
 $pageTitle = 'Клиника восстановительной медицины в Москве | БИОИНМЕД';
-$pageDescription = 'Диагностика HABILECT, остеопатия, рефлексотерапия, физиотерапия, опытные врачи и персональный план лечения.';
+$pageDescription = 'Диагностика «Хабилект», остеопатия, рефлексотерапия, физиотерапия, опытные врачи и персональный план лечения.';
 
 $structuredData = bioinmed_medical_organization_schema();
 
@@ -173,9 +173,19 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     echo $advantages_section->render();
     ?>
 
+    <!-- Special Offer -->
+    <?php
+    $offer_section = new SpecialOffer($brand_colors);
+    echo $offer_section->render();
+    ?>
+
     <!-- Problems Grid -->
     <?php
-    $problems_section = new ProblemsGrid($problems, $brand_colors);
+    $problems_section = new ProblemsGrid($problems, $brand_colors, [
+        'eyebrow' => '',
+        'title' => 'С какими проблемами работаем',
+        'subtitle' => '',
+    ]);
     echo $problems_section->render();
     ?>
 
@@ -249,12 +259,6 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
         </div>
     </section>
 
-    <!-- Special Offer -->
-    <?php
-    $offer_section = new SpecialOffer($brand_colors);
-    echo $offer_section->render();
-    ?>
-
     <!-- Chief Doctor -->
     <?php
     $chief_doctor_section = new ChiefDoctorBlock($doctors[0], $brand_colors);
@@ -263,7 +267,33 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     
     <!-- Doctors -->
     <?php
+    $doctorOrder = [
+        'kondratova-elena-aleksandrovna',
+        'nehorosheva-lyudmila-sergeevna',
+        'vertlib-valeriya-pavlovna',
+        'mayorova-darya-sergeevna',
+        'rozhkov-sergei-leonidovich',
+    ];
+    $doctorOrderMap = array_flip($doctorOrder);
     $doctors_without_chief = array_slice($doctors, 1);
+    foreach ($doctors_without_chief as $originalIndex => &$doctorItem) {
+        $doctorItem['__original_index'] = $originalIndex;
+    }
+    unset($doctorItem);
+    usort($doctors_without_chief, static function (array $left, array $right) use ($doctorOrderMap): int {
+        $leftOrder = $doctorOrderMap[$left['slug'] ?? ''] ?? 999;
+        $rightOrder = $doctorOrderMap[$right['slug'] ?? ''] ?? 999;
+        if ($leftOrder === $rightOrder) {
+            return ($left['__original_index'] ?? 0) <=> ($right['__original_index'] ?? 0);
+        }
+
+        return $leftOrder <=> $rightOrder;
+    });
+    foreach ($doctors_without_chief as &$doctorItem) {
+        unset($doctorItem['__original_index']);
+    }
+    unset($doctorItem);
+
     $doctors_section = new DoctorsGrid($doctors_without_chief, $brand_colors);
     echo $doctors_section->render();
     ?>
