@@ -64,17 +64,26 @@ echo $header->render();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
                 <div>
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"><?php echo e($problemsMeta['hero_eyebrow'] ?? ''); ?></p>
-                    <h1 class="mt-2 text-[1.9rem] font-bold leading-tight text-[#0f2749] md:text-[2.45rem]"><?php echo e($problemsMeta['hero_heading'] ?? ''); ?></h1>
-                    <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.05rem]">
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.hero_eyebrow'); ?>><?php echo e($problemsMeta['hero_eyebrow'] ?? ''); ?></p>
+                    <h1 class="mt-2 text-[1.9rem] font-bold leading-tight text-[#0f2749] md:text-[2.45rem]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.hero_heading'); ?>><?php echo e($problemsMeta['hero_heading'] ?? ''); ?></h1>
+                    <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.05rem]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.hero_text'); ?>>
                         <?php echo e($problemsMeta['hero_text'] ?? ''); ?>
                     </p>
                 </div>
                 <div class="rounded-[2rem] bg-white p-6 shadow-[0_14px_34px_rgba(10,43,80,0.08)]">
-                    <p class="text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"><?php echo e($problemsMeta['inside_title'] ?? ''); ?></p>
+                    <p class="text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.inside_title'); ?>><?php echo e($problemsMeta['inside_title'] ?? ''); ?></p>
                     <ul class="mt-4 space-y-3 text-[0.96rem] leading-relaxed text-[#0a293c]">
-                        <?php foreach ($problemsInsideItems as $item): ?>
-                            <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-[#1977b2]"></span><span><?php echo e($item); ?></span></li>
+                        <?php foreach ($problemsInsideItems as $itemIndex => $itemEntry): ?>
+                            <?php
+                            if (is_array($itemEntry)) {
+                                $itemText = (string)($itemEntry['text'] ?? '');
+                                $itemKey = trim((string)($itemEntry['id'] ?? ('item_' . $itemIndex)));
+                            } else {
+                                $itemText = (string)$itemEntry;
+                                $itemKey = 'item_' . $itemIndex;
+                            }
+                            ?>
+                            <li class="flex items-start gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-[#1977b2]"></span><span<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'inside_items.' . $itemKey); ?>><?php echo e($itemText); ?></span></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>

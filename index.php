@@ -31,6 +31,14 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
         'a' => $item['answer'] ?? '',
     ];
 }, is_array($faq_items) ? $faq_items : []));
+
+$indexPage = bioinmed_read_json_file('pages/index.json');
+$indexHealthRoute = is_array($indexPage['health_route'] ?? null) ? $indexPage['health_route'] : [];
+$indexHealthRouteSteps = is_array($indexHealthRoute['steps'] ?? null) ? $indexHealthRoute['steps'] : [];
+
+function e($value) {
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
 ?>
 <!doctype html>
 <html lang="ru">
@@ -170,7 +178,7 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
     <?php
     $problems_section = new ProblemsGrid($problems, $brand_colors, [
         'eyebrow' => '',
-        'title' => 'С какими проблемами работаем',
+        'title' => 'Найдите Вашу ситуацию',
         'subtitle' => '',
     ]);
     echo $problems_section->render();
@@ -181,9 +189,9 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
             <div class="rounded-[2rem] border border-[#dbe8f4] bg-white p-6 shadow-[0_16px_40px_rgba(8,36,70,0.07)] md:p-8">
                 <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                     <div>
-                        <h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]">Ваш маршрут здоровья в Биоинмед</h2>
+                        <h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.title'); ?>><?php echo e($indexHealthRoute['title'] ?? 'Ваш маршрут здоровья в Биоинмед'); ?></h2>
                     </div>
-                    <p class="max-w-2xl text-[0.92rem] leading-relaxed text-[#1977b2]">Маршрут построен так, чтобы пациент видел всю логику лечения целиком: от первого обращения до устойчивого результата.</p>
+                    <p class="max-w-2xl text-[0.92rem] leading-relaxed text-[#1977b2]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.subtitle'); ?>><?php echo e($indexHealthRoute['subtitle'] ?? 'Маршрут построен так, чтобы пациент видел всю логику лечения целиком: от первого обращения до устойчивого результата.'); ?></p>
                 </div>
 
                 <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -191,55 +199,55 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-user-doctor text-[1rem]"></i></span>
                             <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]">Консультация</p>
+                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.consultation.title'); ?>><?php echo e($indexHealthRouteSteps['consultation']['title'] ?? 'Консультация'); ?></p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Врач собирает жалобы, историю заболевания и формирует первичное понимание ситуации.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.consultation.text'); ?>><?php echo e($indexHealthRouteSteps['consultation']['text'] ?? 'Врач собирает жалобы, историю заболевания и формирует первичное понимание ситуации.'); ?></p>
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-magnifying-glass-chart text-[1rem]"></i></span>
                             <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]">Диагностика</p>
+                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.diagnostics.title'); ?>><?php echo e($indexHealthRouteSteps['diagnostics']['title'] ?? 'Диагностика'); ?></p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Подбираются нужные методы обследования, чтобы увидеть причину нарушений, а не только симптомы.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.diagnostics.text'); ?>><?php echo e($indexHealthRouteSteps['diagnostics']['text'] ?? 'Подбираются нужные методы обследования, чтобы увидеть причину нарушений, а не только симптомы.'); ?></p>
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-heart-pulse text-[1rem]"></i></span>
                             <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]">Лечение</p>
+                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.treatment.title'); ?>><?php echo e($indexHealthRouteSteps['treatment']['title'] ?? 'Лечение'); ?></p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Составляется персональный лечебный план с процедурами, рекомендациями и понятной последовательностью шагов.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.treatment.text'); ?>><?php echo e($indexHealthRouteSteps['treatment']['text'] ?? 'Составляется персональный лечебный план с процедурами, рекомендациями и понятной последовательностью шагов.'); ?></p>
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-kit-medical text-[1rem]"></i></span>
                             <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]">Восстановление</p>
+                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.recovery.title'); ?>><?php echo e($indexHealthRouteSteps['recovery']['title'] ?? 'Восстановление'); ?></p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Организм адаптируется к изменениям, а улучшения постепенно закрепляются без лишней перегрузки.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.recovery.text'); ?>><?php echo e($indexHealthRouteSteps['recovery']['text'] ?? 'Организм адаптируется к изменениям, а улучшения постепенно закрепляются без лишней перегрузки.'); ?></p>
                     </article>
                     <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-person-walking text-[1rem]"></i></span>
                             <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]">Лечебная физическая активность</p>
+                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.activity.title'); ?>><?php echo e($indexHealthRouteSteps['activity']['title'] ?? 'Лечебная физическая активность'); ?></p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Подключаются упражнения и безопасная физическая нагрузка, чтобы сохранить результат в повседневной жизни.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.activity.text'); ?>><?php echo e($indexHealthRouteSteps['activity']['text'] ?? 'Подключаются упражнения и безопасная физическая нагрузка, чтобы сохранить результат в повседневной жизни.'); ?></p>
                     </article>
                     <article class="rounded-2xl border border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f7ef] text-[#2f9b6a]"><i class="fa-solid fa-star text-[1rem]"></i></span>
                             <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]">Результат</p>
+                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.result.title'); ?>><?php echo e($indexHealthRouteSteps['result']['title'] ?? 'Результат'); ?></p>
                             </div>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]">Цель маршрута - не временный эффект, а более устойчивое самочувствие и понятное движение к восстановлению.</p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.result.text'); ?>><?php echo e($indexHealthRouteSteps['result']['text'] ?? 'Цель маршрута - не временный эффект, а более устойчивое самочувствие и понятное движение к восстановлению.'); ?></p>
                     </article>
                 </div>
             </div>

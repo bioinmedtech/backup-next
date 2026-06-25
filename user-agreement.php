@@ -52,17 +52,17 @@ echo $header->render();
 <main class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
     <section class="pb-8">
         <div class="max-w-4xl">
-            <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e($agreementMeta['eyebrow'] ?? 'Правовая информация'); ?></p>
-            <h1 class="mt-2 text-[1.8rem] font-bold leading-tight text-[#0f2749] md:text-[2.6rem]"><?php echo e($agreementMeta['title'] ?? 'Пользовательское соглашение'); ?></h1>
-            <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c]">
+            <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.eyebrow'); ?>><?php echo e($agreementMeta['eyebrow'] ?? 'Правовая информация'); ?></p>
+            <h1 class="mt-2 text-[1.8rem] font-bold leading-tight text-[#0f2749] md:text-[2.6rem]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.title'); ?>><?php echo e($agreementMeta['title'] ?? 'Пользовательское соглашение'); ?></h1>
+            <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.intro'); ?>>
                 <?php
                 $intro = str_replace('клиники', 'клиники ' . CLINIC_NAME, (string)($agreementMeta['intro'] ?? ''));
                 echo e($intro);
                 ?>
             </p>
             <div class="mt-4 flex flex-col gap-1 text-[0.82rem] text-[#0a293c] sm:flex-row sm:flex-wrap sm:gap-4">
-                <p><span class="font-semibold text-[#0a293c]"><?php echo e($agreementMeta['effective_date_label'] ?? 'Дата вступления в силу:'); ?></span> <?php echo e($agreementMeta['effective_date'] ?? '30.04.2026'); ?></p>
-                <p><span class="font-semibold text-[#0a293c]"><?php echo e($agreementMeta['updated_date_label'] ?? 'Дата последнего изменения:'); ?></span> <?php echo e($agreementMeta['updated_date'] ?? '30.04.2026'); ?></p>
+                <p<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.effective_date'); ?>><span class="font-semibold text-[#0a293c]"><?php echo e($agreementMeta['effective_date_label'] ?? 'Дата вступления в силу:'); ?></span> <?php echo e($agreementMeta['effective_date'] ?? '30.04.2026'); ?></p>
+                <p<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.updated_date'); ?>><span class="font-semibold text-[#0a293c]"><?php echo e($agreementMeta['updated_date_label'] ?? 'Дата последнего изменения:'); ?></span> <?php echo e($agreementMeta['updated_date'] ?? '30.04.2026'); ?></p>
             </div>
         </div>
 
@@ -70,17 +70,25 @@ echo $header->render();
             <?php foreach ($agreementSections as $index => $section): ?>
                 <?php
                 $isLast = ($index === count($agreementSections) - 1);
+                $sectionKey = trim((string)($section['id'] ?? ('section_' . $index)));
                 $title = trim((string)($section['title'] ?? ''));
-                $paragraphs = is_array($section['paragraphs'] ?? null) ? $section['paragraphs'] : [];
+                $paragraphEntries = is_array($section['paragraphs'] ?? null) ? $section['paragraphs'] : [];
                 ?>
                 <section class="<?php echo $isLast ? '' : 'border-b border-[#e2ecf5] pb-6'; ?>">
-                    <h2 class="text-[1.16rem] font-bold text-[#0f2749]"><?php echo e($title); ?></h2>
-                    <?php foreach ($paragraphs as $paragraph): ?>
+                    <h2 class="text-[1.16rem] font-bold text-[#0f2749]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'sections.' . $sectionKey . '.title'); ?>><?php echo e($title); ?></h2>
+                    <?php foreach ($paragraphEntries as $paragraphIndex => $paragraphEntry): ?>
                         <?php
-                        $line = str_replace('{{clinic_phone}}', CLINIC_PHONE, (string)$paragraph);
+                        if (is_array($paragraphEntry)) {
+                            $paragraphKey = trim((string)($paragraphEntry['id'] ?? ('p' . $paragraphIndex)));
+                            $paragraphText = (string)($paragraphEntry['text'] ?? '');
+                        } else {
+                            $paragraphKey = 'p' . $paragraphIndex;
+                            $paragraphText = (string)$paragraphEntry;
+                        }
+                        $line = str_replace('{{clinic_phone}}', CLINIC_PHONE, $paragraphText);
                         $line = str_replace('{{clinic_email}}', CLINIC_EMAIL, $line);
                         ?>
-                        <p class="mt-3"><?php echo e($line); ?></p>
+                        <p class="mt-3"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'sections.' . $sectionKey . '.paragraphs.' . $paragraphKey); ?>><?php echo e($line); ?></p>
                     <?php endforeach; ?>
                 </section>
             <?php endforeach; ?>

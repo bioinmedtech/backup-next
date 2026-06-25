@@ -8,6 +8,16 @@ bioinmed_pin_require_access();
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/components/Components.php';
 
+$seasonPage = bioinmed_read_json_file('pages/season.json');
+$seasonHeroText = is_array($seasonPage['hero'] ?? null) ? $seasonPage['hero'] : [];
+$seasonIntroText = is_array($seasonPage['intro'] ?? null) ? $seasonPage['intro'] : [];
+$seasonTipsText = is_array($seasonPage['tips'] ?? null) ? $seasonPage['tips'] : [];
+$seasonServicesText = is_array($seasonPage['services'] ?? null) ? $seasonPage['services'] : [];
+$seasonCtaText = is_array($seasonPage['cta'] ?? null) ? $seasonPage['cta'] : [];
+$seasonNavigationText = is_array($seasonPage['navigation'] ?? null) ? $seasonPage['navigation'] : [];
+$seasonPopupText = is_array($seasonPage['popup'] ?? null) ? $seasonPage['popup'] : [];
+$seasonTitlesPage = is_array($seasonPage['titles'] ?? null) ? $seasonPage['titles'] : [];
+
 $seasons = require __DIR__ . '/config/seasons.php';
 $services = require __DIR__ . '/config/services.php';
 
@@ -110,13 +120,14 @@ $season_titles = [
         'nav' => 'Другие времена года',
     ],
 ];
+$season_titles = array_replace_recursive($season_titles, $seasonTitlesPage);
 $titles = $season_titles[$slug] ?? [
-    'health' => 'Здоровье ' . $s['name_gen'],
+    'health' => ($seasonIntroText['health_default'] ?? 'Здоровье сезона') . ' ' . $s['name_gen'],
     'gallery' => 'Пейзажи ' . $s['name_gen'],
-    'tips' => 'Советы для Вашего здоровья',
-    'services' => 'Услуги для ' . $s['name_gen'],
-    'cta' => 'Запишитесь на консультацию',
-    'nav' => 'Другие сезоны',
+    'tips' => $seasonTipsText['title_default'] ?? 'Советы для Вашего здоровья',
+    'services' => $seasonServicesText['title_default'] ?? ('Услуги для ' . $s['name_gen']),
+    'cta' => $seasonCtaText['title_default'] ?? 'Запишитесь на консультацию',
+    'nav' => $seasonNavigationText['title_default'] ?? 'Другие времена года',
 ];
 
 $page_title  = $s['name'] . ' — Времена года | БИОИНМЕД';
@@ -593,13 +604,13 @@ $footer = new Footer();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
 
             <!-- Main hero text -->
-            <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>">
-                Времена года
+            <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.eyebrow') ?>>
+                <?= $e($seasonHeroText['eyebrow'] ?? 'Времена года') ?>
             </p>
-            <h1 class="text-4xl md:text-6xl font-black text-white leading-none mb-4">
+            <h1 class="text-4xl md:text-6xl font-black text-white leading-none mb-4"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.name') ?>>
                 <?= $e($s['name']) ?>
             </h1>
-            <p class="text-[1.16rem] md:text-[1.3rem] font-light mb-4 max-w-xl leading-relaxed" style="color:rgba(255,255,255,0.92)">
+            <p class="text-[1.16rem] md:text-[1.3rem] font-light mb-4 max-w-xl leading-relaxed" style="color:rgba(255,255,255,0.92)"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.slogan') ?>>
                 <?= $e($s['slogan']) ?>
             </p>
             <blockquote class="text-[1.06rem] md:text-[1.18rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.9);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.35rem,2.5vw,1.75rem);font-weight:600;">
@@ -616,10 +627,10 @@ $footer = new Footer();
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="mx-auto max-w-4xl text-center">
             <span class="text-4xl mb-5 block"><?= $s['icon'] ?></span>
-            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>">
+            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'intro.health_title') ?>>
                 <?= $e($titles['health']) ?>
             </h2>
-            <p class="text-[1.08rem] md:text-[1.16rem] text-gray-700 leading-relaxed max-w-3xl mx-auto">
+            <p class="text-[1.08rem] md:text-[1.16rem] text-gray-700 leading-relaxed max-w-3xl mx-auto"<?= bioinmed_page_text_attr($seasonPage, 'season', 'intro.text') ?>>
                 <?= $e($s['intro']) ?>
             </p>
         </div>
@@ -629,7 +640,7 @@ $footer = new Footer();
 <!-- ═══════════════ SEASONAL TIPS ═══════════════ -->
 <section class="py-14 md:py-20 bg-[#e4f1fa]">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#0a293c] mb-7 text-center">
+        <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#0a293c] mb-7 text-center"<?= bioinmed_page_text_attr($seasonPage, 'season', 'tips.title') ?>>
             <?= $e($titles['tips']) ?>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -654,11 +665,11 @@ $footer = new Footer();
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10">
             <div class="max-w-2xl">
-                <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase" style="color:<?= $e($s['color']) ?>">Практика сезона</p>
-                <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"><?= $e($titles['services']) ?></h2>
+                <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase" style="color:<?= $e($s['color']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.eyebrow') ?>><?= $e($seasonServicesText['eyebrow'] ?? 'Практика сезона') ?></p>
+                <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.title') ?>><?= $e($titles['services']) ?></h2>
             </div>
-            <a href="/services" class="inline-flex items-center gap-2 text-[1rem] md:text-[1.04rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors">
-                Все услуги клиники
+            <a href="/services" class="inline-flex items-center gap-2 text-[1rem] md:text-[1.04rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.all_services') ?>>
+                <?= $e($seasonServicesText['all_services'] ?? 'Все услуги клиники') ?>
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
         </div>
@@ -666,13 +677,13 @@ $footer = new Footer();
         <div class="season-practice-grid">
             <?php foreach ($season_services as $service): ?>
             <a href="/services/<?= $e($service['id']) ?>" class="season-practice-card" style="--season-accent:<?= $e($s['color']) ?>">
-                <span class="season-practice-card__kicker"><i class="fa-solid fa-stethoscope" aria-hidden="true"></i> Рекомендация сезона</span>
+                <span class="season-practice-card__kicker"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.recommendation_kicker') ?>><i class="fa-solid fa-stethoscope" aria-hidden="true"></i> <?= $e($seasonServicesText['recommendation_kicker'] ?? 'Рекомендация сезона') ?></span>
                 <h3 class="season-practice-card__title"><?= $e($service['label']) ?></h3>
                 <?php if ($service['subtitle'] !== ''): ?>
                 <p class="season-practice-card__subtitle"><?= $e($service['subtitle']) ?></p>
                 <?php endif ?>
                 <p class="season-practice-card__desc"><?= $e($service['desc']) ?></p>
-                <span class="season-practice-card__cta">Подробнее об услуге <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+                <span class="season-practice-card__cta"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.detail_cta') ?>><?= $e($seasonServicesText['detail_cta'] ?? 'Подробнее об услуге') ?> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
             </a>
             <?php endforeach ?>
         </div>
@@ -683,16 +694,16 @@ $footer = new Footer();
 <section class="py-14 md:py-18 text-white" style="background:<?= $e($s['color_dark']) ?>">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <div class="mx-auto max-w-4xl text-center">
-            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3"><?= $e($titles['cta']) ?></h2>
-            <p class="text-white/80 text-[1.04rem] md:text-[1.12rem] mb-7 max-w-xl mx-auto leading-relaxed">
-                Наши специалисты разработают индивидуальную программу с учётом сезона и Ваших особенностей.
+            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3"<?= bioinmed_page_text_attr($seasonPage, 'season', 'cta.title') ?>><?= $e($titles['cta']) ?></h2>
+            <p class="text-white/80 text-[1.04rem] md:text-[1.12rem] mb-7 max-w-xl mx-auto leading-relaxed"<?= bioinmed_page_text_attr($seasonPage, 'season', 'cta.text') ?>>
+                <?= $e($seasonCtaText['text'] ?? 'Наши специалисты разработают индивидуальную программу с учётом сезона и Ваших особенностей.') ?>
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                      <a href="javascript:void(0)"
                          class="jsClientix_openWidget inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-[1rem] font-semibold shadow-lg transition hover:-translate-y-0.5"
                    style="color:<?= $e($s['color_dark']) ?>">
                     <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
-                    Записаться онлайн
+                    <span<?= bioinmed_page_text_attr($seasonPage, 'season', 'cta.online_booking') ?>><?= $e($seasonCtaText['online_booking'] ?? 'Записаться онлайн') ?></span>
                 </a>
                 <a href="tel:<?= $e(preg_replace('/[^+\d]/', '', CLINIC_PHONE)) ?>"
                    class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-7 py-3.5 text-[1rem] font-medium text-white transition hover:bg-white/10">
@@ -707,7 +718,7 @@ $footer = new Footer();
 <!-- ═══════════════ SEASON NAVIGATION ═══════════════ -->
 <nav class="py-10 bg-gray-50 border-t border-gray-200" aria-label="Другие сезоны">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-center text-[0.88rem] md:text-[0.94rem] font-semibold tracking-[0.16em] uppercase text-gray-400 mb-6"><?= $e($titles['nav']) ?></h2>
+        <h2 class="text-center text-[0.88rem] md:text-[0.94rem] font-semibold tracking-[0.16em] uppercase text-gray-400 mb-6"<?= bioinmed_page_text_attr($seasonPage, 'season', 'navigation.title') ?>><?= $e($titles['nav']) ?></h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <?php foreach ($seasons as $key => $sv): ?>
             <?php $is_current = ($key === $slug); ?>
@@ -723,7 +734,7 @@ $footer = new Footer();
                 </div>
                 <?php if ($is_actual_now): ?>
                  <div class="absolute top-3 right-3 inline-flex text-xs font-bold text-white rounded-full px-2 py-0.5"
-                     style="background:<?= $e($sv['color']) ?>">сейчас</div>
+                     style="background:<?= $e($sv['color']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'navigation.current_badge') ?>><?= $e($seasonNavigationText['current_badge'] ?? 'сейчас') ?></div>
                 <?php endif ?>
             </a>
             <?php endforeach ?>
@@ -735,13 +746,13 @@ $footer = new Footer();
 <div id="season-art-popup-backdrop" class="season-art-popup-backdrop" onclick="closeSeasonArtPopup()"></div>
 <div id="season-art-popup" class="season-art-popup" role="dialog" aria-modal="true" aria-labelledby="season-art-popup-title">
     <div class="season-art-popup__card">
-        <button type="button" class="season-art-popup__close" onclick="closeSeasonArtPopup()" aria-label="Закрыть изображение">
+        <button type="button" class="season-art-popup__close" onclick="closeSeasonArtPopup()" aria-label="<?= $e($seasonPopupText['close_label'] ?? 'Закрыть изображение') ?>">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
-        <button type="button" class="season-art-popup__nav season-art-popup__nav--prev" onclick="showPrevSeasonArtPopup()" aria-label="Предыдущая картина">
+        <button type="button" class="season-art-popup__nav season-art-popup__nav--prev" onclick="showPrevSeasonArtPopup()" aria-label="<?= $e($seasonPopupText['prev_label'] ?? 'Предыдущая картина') ?>">
             <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
         </button>
-        <button type="button" class="season-art-popup__nav season-art-popup__nav--next" onclick="showNextSeasonArtPopup()" aria-label="Следующая картина">
+        <button type="button" class="season-art-popup__nav season-art-popup__nav--next" onclick="showNextSeasonArtPopup()" aria-label="<?= $e($seasonPopupText['next_label'] ?? 'Следующая картина') ?>">
             <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
         </button>
         <div class="season-art-popup__image-wrap">

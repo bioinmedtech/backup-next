@@ -212,6 +212,34 @@ function bioinmed_link($key_path, array $fallback = []) {
     ];
 }
 
+function bioinmed_data_text_id($value) {
+    return ' data-text-id="' . htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"';
+}
+
+function bioinmed_page_text_node($page_data, $page_name, $path, $default = '') {
+    $safe_page = preg_replace('/[^a-z0-9_]+/i', '', (string)$page_name);
+    $safe_path = trim((string)$path, '.');
+    $key = $safe_page !== ''
+        ? 'pages.' . $safe_page . ($safe_path !== '' ? '.' . $safe_path : '')
+        : $safe_path;
+
+    $value = bioinmed_json_get($page_data, $safe_path, $default);
+    if (!is_scalar($value)) {
+        $value = $default;
+    }
+
+    return [
+        'key' => $key,
+        'value' => (string)$value,
+        'attr' => bioinmed_data_text_id($key),
+    ];
+}
+
+function bioinmed_page_text_attr($page_data, $page_name, $path, $default = '') {
+    $node = bioinmed_page_text_node($page_data, $page_name, $path, $default);
+    return $node['attr'];
+}
+
 function bioinmed_uis_counter_head() {
     return <<<HTML
     <!-- UIS -->
@@ -516,11 +544,50 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
 
     $specializationIntro = '';
     $intro = '';
+    $introClass = 'mt-4 text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]';
+    $leadershipIntro = '';
+    $educationalRoleHtml = '';
     if ($slug === 'kostromina-inna-viktorovna') {
-        $specializationIntro = 'Специализируюсь на сложных случаях';
-        $intro = 'Более 30 лет клинической практики в области детской и взрослой медицины.';
+        $specializationIntro = 'СПЕЦИАЛИЗИРУЮСЬ НА СЛОЖНЫХ СЛУЧАЯХ';
+        $intro = 'Более 30 лет клинической практики в детской и взрослой медицины';
+        $introClass = 'mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]';
         if ($leadership !== '') {
-            $intro .= ' ' . $leadership;
+            $leadershipIntro = $leadership;
+        }
+
+        $doctorPageData = bioinmed_read_json_file('pages/doctor.json');
+        $educationalRole = is_array($doctorPageData['sections']['educational_role'] ?? null)
+            ? $doctorPageData['sections']['educational_role']
+            : [];
+        $educationalRoleTitle = trim((string)($educationalRole['title'] ?? ''));
+        $educationalRoleItems = is_array($educationalRole['items'] ?? null)
+            ? $educationalRole['items']
+            : [];
+
+        if (!empty($educationalRoleItems)) {
+            $educationalRoleItemsHtml = '';
+            foreach ($educationalRoleItems as $roleItem) {
+                if (is_array($roleItem)) {
+                    $roleText = trim((string)($roleItem['text'] ?? ''));
+                } else {
+                    $roleText = trim((string)$roleItem);
+                }
+
+                if ($roleText === '') {
+                    continue;
+                }
+
+                $educationalRoleItemsHtml .= '<li class="rounded-xl border border-[#dbe9f5] bg-white p-3.5 text-[0.9rem] leading-relaxed text-[#0a293c]"><span class="flex items-start gap-2.5"><span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#a8cde9] bg-[#eef7ff] text-[#1977b2]"><i class="fa-solid fa-check text-[0.62rem]" aria-hidden="true"></i></span><span>' . $escape($roleText) . '</span></span></li>';
+            }
+
+            if ($educationalRoleItemsHtml !== '') {
+                $educationalRoleHtml = '<div class="mt-5 rounded-2xl border border-[#d6e6f4] bg-[#f6fbff] p-4 md:p-5">'
+                    . ($educationalRoleTitle !== ''
+                        ? '<p class="text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]">' . $escape($educationalRoleTitle) . '</p>'
+                        : '')
+                    . '<ul class="mt-3 space-y-2.5">' . $educationalRoleItemsHtml . '</ul>'
+                    . '</div>';
+            }
         }
     } elseif ($leadership !== '') {
         $intro = $leadership;
@@ -559,9 +626,11 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
                     <div>
                         <p class="mb-2 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">' . $escape($title) . '</p>
                         <h2 class="mt-0 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem]">' . $escape($name) . '</h2>
-                        ' . ($projectTitle !== '' ? '<p class="mt-4 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">' . $escape($projectTitle) . '</p>' : '') . '
-                        ' . ($specializationIntro !== '' ? '<p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]">' . $escape($specializationIntro) . '</p>' : '') . '
-                        ' . ($intro !== '' ? '<p class="mt-4 text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]">' . $escape($intro) . '</p>' : '') . '
+                        ' . ($projectTitle !== '' ? '<p class="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]">' . $escape($projectTitle) . '</p>' : '') . '
+                        ' . ($intro !== '' ? '<p class="' . $escape($introClass) . '">' . $escape($intro) . '</p>' : '') . '
+                        ' . ($specializationIntro !== '' ? '<p class="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]">' . $escape($specializationIntro) . '</p>' : '') . '
+                        ' . ($leadershipIntro !== '' ? '<p class="mt-4 text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]">' . $escape($leadershipIntro) . '</p>' : '') . '
+                        ' . $educationalRoleHtml . '
                         ' . $bioHtml . '
                         ' . $highlightHtml . '
                     </div>
@@ -934,31 +1003,86 @@ foreach ($problems as &$problem) {
 
     $problem['details_sections'] = [
         [
+            'key' => 'consultation_diagnostics',
             'title' => '1. Консультация и диагностика врача/специалиста',
             'intro' => 'Сначала врач собирает жалобы, историю состояния и намечает клиническую гипотезу.',
             'items' => $problem_common_consultation,
         ],
         [
+            'key' => 'functional_diagnostics',
             'title' => '2. Функциональная диагностика',
             'intro' => 'На этом этапе уточняем, как работает опорно-двигательный аппарат и где именно есть перегрузка.',
             'items' => $problem_common_diagnostics,
         ],
         [
+            'key' => 'treatment_plan',
             'title' => '3. Составление плана лечения',
             'intro' => 'После диагностики формируется персональный маршрут с последовательностью методов и сроками контроля.',
             'items' => $problem_common_plan,
         ],
         [
+            'key' => 'rehabilitation',
             'title' => '4. Реабилитация',
             'intro' => 'Подключаем методы, которые помогают безопасно восстановить движение, снизить боль и закрепить результат.',
             'items' => isset($rehab_tracks[$rehab_key]) && is_array($rehab_tracks[$rehab_key]) ? $rehab_tracks[$rehab_key] : ($rehab_tracks['broad'] ?? []),
         ],
         [
+            'key' => 'result',
             'title' => '5. Результат',
             'intro' => 'Цель этапа - устойчивое улучшение самочувствия, подвижности и качества жизни.',
             'items' => isset($result_tracks[$result_key]) && is_array($result_tracks[$result_key]) ? $result_tracks[$result_key] : ($result_tracks['pain'] ?? []),
         ],
     ];
+
+    foreach ($problem['details_sections'] as $section_index => &$details_section) {
+        if (!is_array($details_section)) {
+            continue;
+        }
+
+        $section_key = trim((string)($details_section['key'] ?? ''));
+        if ($section_key === '') {
+            $section_key = 'section_' . $section_index;
+        }
+        $details_section['key'] = $section_key;
+
+        $items = is_array($details_section['items'] ?? null) ? $details_section['items'] : [];
+        $normalized_items = [];
+        $used_item_ids = [];
+        foreach ($items as $item_index => $item_entry) {
+            if (is_array($item_entry)) {
+                $item_text = trim((string)($item_entry['text'] ?? ''));
+                $item_id = trim((string)($item_entry['id'] ?? ''));
+            } else {
+                $item_text = trim((string)$item_entry);
+                $item_id = '';
+            }
+
+            if ($item_text === '') {
+                continue;
+            }
+
+            if ($item_id === '') {
+                $item_id = bioinmed_slugify_problem_name($item_text);
+                if ($item_id === '') {
+                    $item_id = 'item_' . $item_index;
+                }
+            }
+
+            if (isset($used_item_ids[$item_id])) {
+                $used_item_ids[$item_id]++;
+                $item_id .= '_' . $used_item_ids[$item_id];
+            } else {
+                $used_item_ids[$item_id] = 1;
+            }
+
+            $normalized_items[] = [
+                'id' => $item_id,
+                'text' => $item_text,
+            ];
+        }
+        $details_section['items'] = $normalized_items;
+    }
+    unset($details_section);
 }
 unset($problem);
 

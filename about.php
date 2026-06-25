@@ -12,6 +12,7 @@ $aboutHero = is_array($aboutPage['hero'] ?? null) ? $aboutPage['hero'] : [];
 $aboutAddress = is_array($aboutPage['address'] ?? null) ? $aboutPage['address'] : [];
 $aboutTasks = is_array($aboutPage['tasks'] ?? null) ? $aboutPage['tasks'] : [];
 $aboutTaskItems = is_array($aboutTasks['items'] ?? null) ? $aboutTasks['items'] : [];
+$aboutHeroParagraphEntries = is_array($aboutHero['paragraphs'] ?? null) ? $aboutHero['paragraphs'] : [];
 $aboutChiefQuote = is_array($aboutPage['chief_quote'] ?? null) ? $aboutPage['chief_quote'] : [];
 $aboutCta = is_array($aboutPage['cta'] ?? null) ? $aboutPage['cta'] : [];
 
@@ -33,6 +34,9 @@ $chief = $doctors[0] ?? [];
 $chiefName = trim((string)($chief['name'] ?? 'Инна Викторовна Костромина'));
 $chiefImage = '/public/images/team/kostromina-default.jpg';
 $mapUrl = 'https://yandex.com/maps/-/CPGGyEzo';
+$aboutHabilectLink = bioinmed_link('services.habilect_diagnostics');
+$aboutPhysioLink = bioinmed_link('services.fizioterapiya');
+$aboutAcupunctureLink = bioinmed_link('services.acupuncture');
 if (!empty($chief['image'])) {
 	$chiefImage = '/public/images/team/' . ltrim((string)$chief['image'], '/');
 }
@@ -44,21 +48,21 @@ $aboutServiceShowcase = [
 		'alt' => 'Диагностика «Хабилект» в БИОИНМЕД',
 		'title' => 'Диагностика «Хабилект»',
 		'desc' => 'Флагманская диагностика клиники: помогает увидеть перегрузки и ограничения опорно-двигательного аппарата за один визит.',
-		'href' => '/services/hobilect-diagnostics',
+		'href' => $aboutHabilectLink['url'],
 	],
 	[
 		'image' => '/public/images/services/physiotherapy-treatment.jpg',
 		'alt' => 'Физиотерапия в БИОИНМЕД',
 		'title' => 'Физиотерапия',
 		'desc' => 'Аппаратные методики для снятия боли, улучшения микроциркуляции и ускорения восстановления после перегрузок.',
-		'href' => '/services/fizioterapiya',
+		'href' => $aboutPhysioLink['url'],
 	],
 	[
 		'image' => '/public/images/services/acupuncture-therapy-6.jpg',
 		'alt' => 'Рефлексотерапия и иглоукалывание в БИОИНМЕД',
 		'title' => 'Рефлексотерапия и иглоукалывание',
 		'desc' => 'Точечная работа с болью, вегетативной нервной системой и стрессовой нагрузкой для более устойчивого самочувствия.',
-		'href' => '/services/acupuncture',
+		'href' => $aboutAcupunctureLink['url'],
 	],
 ];
 
@@ -101,27 +105,36 @@ echo $header->render();
 		<div class="pointer-events-none absolute -left-10 bottom-0 h-36 w-36 rounded-full bg-[#0f274914] blur-3xl"></div>
 		<div class="relative grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
 			<div>
-				<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e($aboutHero['eyebrow'] ?? ''); ?></p>
-				<h1 class="mt-2 text-[1.65rem] font-bold leading-[1.08] text-[#0f2749] md:text-[2.2rem]"><?php echo e(($aboutHero['heading'] ?? 'Клиника') . ' ' . CLINIC_NAME); ?></h1>
+				<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.eyebrow'); ?>><?php echo e($aboutHero['eyebrow'] ?? ''); ?></p>
+				<h1 class="mt-2 text-[1.65rem] font-bold leading-[1.08] text-[#0f2749] md:text-[2.2rem]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.heading'); ?>><?php echo e(($aboutHero['heading'] ?? 'Клиника') . ' ' . CLINIC_NAME); ?></h1>
 				<div class="mt-4 max-w-2xl space-y-2">
-					<p class="text-[0.74rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"><?php echo e($aboutHero['ecosystem_label'] ?? ''); ?></p>
-					<p class="text-[1.08rem] font-semibold leading-[1.42] text-[#0a293c] md:text-[1.1rem]">
+					<p class="text-[0.74rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.ecosystem_label'); ?>><?php echo e($aboutHero['ecosystem_label'] ?? ''); ?></p>
+					<p class="text-[1.08rem] font-semibold leading-[1.42] text-[#0a293c] md:text-[1.1rem]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.ecosystem_title'); ?>>
 						<?php echo e($aboutHero['ecosystem_title'] ?? ''); ?>
 					</p>
-					<?php foreach ((is_array($aboutHero['paragraphs'] ?? null) ? $aboutHero['paragraphs'] : []) as $heroParagraph): ?>
-						<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]"><?php echo e($heroParagraph); ?></p>
+					<?php foreach ($aboutHeroParagraphEntries as $heroParagraphIndex => $heroParagraphEntry): ?>
+						<?php
+						if (is_array($heroParagraphEntry)) {
+							$heroParagraph = (string)($heroParagraphEntry['text'] ?? '');
+							$heroParagraphKey = trim((string)($heroParagraphEntry['id'] ?? ('paragraph_' . $heroParagraphIndex)));
+						} else {
+							$heroParagraph = (string)$heroParagraphEntry;
+							$heroParagraphKey = 'paragraph_' . $heroParagraphIndex;
+						}
+						?>
+						<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.paragraphs.' . $heroParagraphKey); ?>><?php echo e($heroParagraph); ?></p>
 					<?php endforeach; ?>
 				</div>
 			</div>
 			<aside class="rounded-3xl border border-[#d6e4f1] bg-white p-5 shadow-[0_16px_38px_rgba(8,36,70,0.13)]">
-				<p class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"><?php echo e($aboutAddress['title'] ?? 'Адрес клиники'); ?></p>
+				<p class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'address.title'); ?>><?php echo e($aboutAddress['title'] ?? 'Адрес клиники'); ?></p>
 				<h2 class="mt-2 text-[1.25rem] font-bold leading-tight text-[#0f2749]"><?php echo e(CLINIC_ADDRESS); ?></h2>
 				<p class="mt-1 text-[0.9rem] font-medium text-[#0a293c]"><?php echo e(CLINIC_METRO); ?></p>
 
 				<div class="mt-4 space-y-3 rounded-2xl border border-[#dce8f4] bg-[#e4f1fa] p-4">
 					<div class="flex items-start gap-2 text-[0.86rem] text-[#0a293c]">
 						<i class="fa-solid fa-location-dot mt-0.5 text-[#1977b2]"></i>
-						<span><?php echo e($aboutAddress['transport_text'] ?? ''); ?></span>
+						<span<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'address.transport_text'); ?>><?php echo e($aboutAddress['transport_text'] ?? ''); ?></span>
 					</div>
 					<div class="flex items-start gap-2 text-[0.86rem] text-[#0a293c]">
 						<i class="fa-solid fa-clock mt-0.5 text-[#1977b2]"></i>
@@ -136,11 +149,11 @@ echo $header->render();
 				<div class="mt-4 grid gap-2 sm:grid-cols-2">
 					<a href="<?php echo e($mapUrl); ?>" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center gap-2 rounded-full border border-[#c7dbed] bg-white px-3.5 py-2 text-[0.78rem] font-semibold text-[#0a293c] transition hover:border-[#8fbde0] hover:text-[#1977b2]">
 						<i class="fa-solid fa-map-location-dot"></i>
-						<?php echo e($aboutAddress['open_map'] ?? 'Открыть карту'); ?>
+						<span<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'address.open_map'); ?>><?php echo e($aboutAddress['open_map'] ?? 'Открыть карту'); ?></span>
 					</a>
 					<a href="tel:<?php echo e(preg_replace('/\D/', '', CLINIC_PHONE)); ?>" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#1977b2] px-3.5 py-2 text-[0.78rem] font-semibold text-white transition hover:bg-[#16658f]">
 						<i class="fa-solid fa-phone-volume"></i>
-						<?php echo e($aboutAddress['call'] ?? 'Позвонить'); ?>
+						<span<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'address.call'); ?>><?php echo e($aboutAddress['call'] ?? 'Позвонить'); ?></span>
 					</a>
 				</div>
 			</p>
@@ -149,15 +162,16 @@ echo $header->render();
 
 	<section>
 		<div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-			<h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]"><?php echo e($aboutTasks['title'] ?? 'Ключевые задачи клиники'); ?></h2>
-			<p class="text-[0.84rem] text-[#0a293c]"><?php echo e($aboutTasks['subtitle'] ?? ''); ?></p>
+			<h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'tasks.title'); ?>><?php echo e($aboutTasks['title'] ?? 'Ключевые задачи клиники'); ?></h2>
+			<p class="text-[0.84rem] text-[#0a293c]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'tasks.subtitle'); ?>><?php echo e($aboutTasks['subtitle'] ?? ''); ?></p>
 		</div>
 		<div class="mt-5 rounded-3xl border border-[#d9e7f3] bg-white p-5 shadow-[0_10px_24px_rgba(8,36,70,0.08)] md:p-6">
 			<div class="grid gap-4 md:grid-cols-2">
-				<?php foreach ($aboutTaskItems as $task): ?>
+				<?php foreach ($aboutTaskItems as $taskIndex => $task): ?>
+					<?php $taskKey = trim((string)($task['id'] ?? ('task_' . $taskIndex))); ?>
 					<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4">
-						<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"><?php echo e($task['title'] ?? ''); ?></p>
-						<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]"><?php echo e($task['text'] ?? ''); ?></p>
+						<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'tasks.items.' . $taskKey . '.title'); ?>><?php echo e($task['title'] ?? ''); ?></p>
+						<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'tasks.items.' . $taskKey . '.text'); ?>><?php echo e($task['text'] ?? ''); ?></p>
 					</div>
 				<?php endforeach; ?>
 			</div>
@@ -170,10 +184,10 @@ echo $header->render();
 			<div class="aspect-square overflow-hidden rounded-3xl">
 				<img src="<?php echo e($chiefImage); ?>" alt="<?php echo e($chiefName); ?>" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy">
 			</div>
-			<p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
+			<p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'chief_quote.text'); ?>>
 				<?php echo e($aboutChiefQuote['text'] ?? ''); ?>
 			</p>
-			<p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"><?php echo e($aboutChiefQuote['sign'] ?? ''); ?></p>
+			<p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'chief_quote.sign'); ?>><?php echo e($aboutChiefQuote['sign'] ?? ''); ?></p>
 		</div>
 		<article class="p-5 md:p-7">
 			<?php echo bioinmed_render_chief_doctor_summary($chief, ['show_cta' => false]); ?>
@@ -183,11 +197,11 @@ echo $header->render();
 	<section class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
 		<div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
 			<div class="bg-white p-5 md:p-7">
-				<h2 class="text-[1.26rem] font-bold leading-tight text-[#0f2749] md:text-[1.65rem]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h2>
+				<h2 class="text-[1.26rem] font-bold leading-tight text-[#0f2749] md:text-[1.65rem]"<?php echo bioinmed_data_text_id('common.book_appointment'); ?>><?php echo e(bioinmed_text('common.book_appointment')); ?></h2>
 				<div class="mt-4 space-y-2 text-[0.8rem] text-[#0a293c]">
-					<p class="flex items-center gap-2"><i class="fa-solid fa-phone-volume text-[#1977b2]"></i> <?php echo e($aboutCta['help_soon'] ?? ''); ?></p>
-					<p class="flex items-center gap-2"><i class="fa-solid fa-user-doctor text-[#1977b2]"></i> <?php echo e($aboutCta['select_doctor'] ?? ''); ?></p>
-					<p class="flex items-center gap-2"><i class="fa-solid fa-calendar-check text-[#1977b2]"></i> <?php echo e($aboutCta['pick_time'] ?? ''); ?></p>
+					<p class="flex items-center gap-2"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'cta.help_soon'); ?>><i class="fa-solid fa-phone-volume text-[#1977b2]"></i> <?php echo e($aboutCta['help_soon'] ?? ''); ?></p>
+					<p class="flex items-center gap-2"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'cta.select_doctor'); ?>><i class="fa-solid fa-user-doctor text-[#1977b2]"></i> <?php echo e($aboutCta['select_doctor'] ?? ''); ?></p>
+					<p class="flex items-center gap-2"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'cta.pick_time'); ?>><i class="fa-solid fa-calendar-check text-[#1977b2]"></i> <?php echo e($aboutCta['pick_time'] ?? ''); ?></p>
 				</div>
 			</div>
 			<div class="p-5 md:p-7">

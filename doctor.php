@@ -127,9 +127,9 @@ echo $header->render();
 <main class="mx-auto max-w-4xl grow px-6 py-20 md:px-10">
     <div class="rounded-3xl border border-[#dbe8f3] bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
         <i class="fa-solid fa-user-slash mb-4 text-5xl text-[#b0c8e0]"></i>
-        <h1 class="text-3xl font-bold text-[#0a293c]"><?php echo e($doctorNotFound['title'] ?? ''); ?></h1>
-        <p class="mt-3 text-[#0a293c]"><?php echo e($doctorNotFound['text'] ?? ''); ?></p>
-        <a href="/" class="mt-7 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#16658f]">
+        <h1 class="text-3xl font-bold text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'not_found.title'); ?>><?php echo e($doctorNotFound['title'] ?? ''); ?></h1>
+        <p class="mt-3 text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'not_found.text'); ?>><?php echo e($doctorNotFound['text'] ?? ''); ?></p>
+        <a href="/" class="mt-7 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#16658f]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'not_found.home_button'); ?>>
             <i class="fa-solid fa-house"></i> <?php echo e($doctorNotFound['home_button'] ?? ''); ?>
         </a>
     </div>
@@ -144,9 +144,9 @@ echo $header->render();
 
             <!-- breadcrumb -->
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
-                <a href="/" class="hover:text-[#1977b2]"><?php echo e($doctorBreadcrumbs['home'] ?? ''); ?></a>
+                <a href="/" class="hover:text-[#1977b2]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'breadcrumbs.home'); ?>><?php echo e($doctorBreadcrumbs['home'] ?? ''); ?></a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <a href="/doctors" class="hover:text-[#1977b2]"><?php echo e($doctorBreadcrumbs['team'] ?? ''); ?></a>
+                <a href="/doctors" class="hover:text-[#1977b2]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'breadcrumbs.team'); ?>><?php echo e($doctorBreadcrumbs['team'] ?? ''); ?></a>
             </nav>
 
             <div class="grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
@@ -164,7 +164,7 @@ echo $header->render();
                     <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
                         <?php echo e($doctor['hero_tagline']); ?>
                     </p>
-                    <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"><?php echo e($doctorHero['sign'] ?? ''); ?></p>
+                    <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'hero.sign'); ?>><?php echo e($doctorHero['sign'] ?? ''); ?></p>
                     <?php endif; ?>
                 </div>
 
@@ -179,8 +179,8 @@ echo $header->render();
 
                     <div class="mt-6 lg:hidden">
                         <div id="book-mobile" class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
-                            <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
-                            <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]">
+                            <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"<?php echo bioinmed_data_text_id('common.book_appointment'); ?>><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
+                            <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_data_text_id('common.callback_15_min'); ?>>
                                 <?php echo e(bioinmed_text('common.callback_15_min')); ?>
                             </p>
 
@@ -194,7 +194,7 @@ echo $header->render();
 
                             <div class="my-5 flex items-center gap-3">
                                 <div class="h-px grow bg-[#e2ecf5]"></div>
-                                <span class="text-xs text-[#0a293c]"><?php echo e($doctorCta['call_direct'] ?? ''); ?></span>
+                                <span class="text-xs text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'cta.call_direct'); ?>><?php echo e($doctorCta['call_direct'] ?? ''); ?></span>
                                 <div class="h-px grow bg-[#e2ecf5]"></div>
                             </div>
 
@@ -259,38 +259,12 @@ echo $header->render();
             }, $customSections))) : []; ?>
             <div class="space-y-6">
 
-                <?php if (($doctor['slug'] ?? '') === 'kostromina-inna-viktorovna'): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="educational-role">
-                    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
-                        <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
-                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
-                                <i class="fa-solid fa-clipboard-list text-sm" aria-hidden="true"></i>
-                            </span>
-                            <span><?php echo e($doctorEducationalRole['title'] ?? ''); ?></span>
-                        </span>
-                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
-                            <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
-                        </span>
-                    </summary>
-                    <div class="px-7 pb-7">
-                        <ul class="space-y-3 text-[0.96rem] leading-relaxed text-[#0a293c]">
-                            <?php foreach ((is_array($doctorEducationalRole['items'] ?? null) ? $doctorEducationalRole['items'] : []) as $eduItem): ?>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                <span><?php echo e($eduItem); ?></span>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </details>
-                <?php endif; ?>
-
                 <?php if (!$hideStandardSections && !empty($doctor['specializations']) && is_array($doctor['specializations'])): ?>
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-list-check text-sm"></i></span>
-                            <span><?php echo e($doctorSectionsText['specializations_title'] ?? ''); ?></span>
+                            <span<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'sections.specializations_title'); ?>><?php echo e($doctorSectionsText['specializations_title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -314,7 +288,7 @@ echo $header->render();
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-bullseye text-sm"></i></span>
-                            <span><?php echo e($doctorSectionsText['focus_title'] ?? ''); ?></span>
+                            <span<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'sections.focus_title'); ?>><?php echo e($doctorSectionsText['focus_title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -426,7 +400,7 @@ echo $header->render();
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-university text-sm"></i></span>
-                            <span><?php echo e($doctorSectionsText['education_title'] ?? ''); ?></span>
+                            <span<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'sections.education_title'); ?>><?php echo e($doctorSectionsText['education_title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -443,7 +417,7 @@ echo $header->render();
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-shield-halved text-sm"></i></span>
-                            <span><?php echo e($doctorTrustSection['title'] ?? ''); ?></span>
+                            <span<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'sections.trust.title'); ?>><?php echo e($doctorTrustSection['title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -451,8 +425,17 @@ echo $header->render();
                     </summary>
                     <div class="px-7 pb-7">
                         <ul class="space-y-3 text-[0.96rem] text-[#0a293c]">
-                            <?php foreach ((is_array($doctorTrustSection['items'] ?? null) ? $doctorTrustSection['items'] : []) as $trustItem): ?>
-                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($trustItem); ?></span></li>
+                            <?php foreach ((is_array($doctorTrustSection['items'] ?? null) ? $doctorTrustSection['items'] : []) as $trustIndex => $trustItemEntry): ?>
+                            <?php
+                            if (is_array($trustItemEntry)) {
+                                $trustItem = (string)($trustItemEntry['text'] ?? '');
+                                $trustItemKey = trim((string)($trustItemEntry['id'] ?? ('item_' . $trustIndex)));
+                            } else {
+                                $trustItem = (string)$trustItemEntry;
+                                $trustItemKey = 'item_' . $trustIndex;
+                            }
+                            ?>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'sections.trust.items.' . $trustItemKey); ?>><?php echo e($trustItem); ?></span></li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
@@ -479,7 +462,7 @@ echo $header->render();
                     <!-- divider -->
                     <div class="my-5 flex items-center gap-3">
                         <div class="h-px grow bg-[#e2ecf5]"></div>
-                        <span class="text-xs text-[#0a293c]"><?php echo e($doctorCta['call_direct'] ?? ''); ?></span>
+                        <span class="text-xs text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'cta.call_direct'); ?>><?php echo e($doctorCta['call_direct'] ?? ''); ?></span>
                         <div class="h-px grow bg-[#e2ecf5]"></div>
                     </div>
 
@@ -588,13 +571,33 @@ echo $header->render();
     }
 
     $doctorServices = array_values($doctorServices);
+
+    // Prioritize diagnostics-related services first on doctor profile pages.
+    $diagnosticServices = [];
+    $otherServices = [];
+    foreach ($doctorServices as $serviceItem) {
+        $serviceCategory = trim((string)($serviceItem['category'] ?? ''));
+        $serviceName = mb_strtolower(trim((string)($serviceItem['name'] ?? '')), 'UTF-8');
+        $serviceId = trim((string)($serviceItem['id'] ?? ''));
+
+        $isDiagnostics = $serviceCategory === 'diagnostics'
+            || $serviceId === 'hobilect-diagnostics'
+            || mb_strpos($serviceName, 'диагност') !== false;
+
+        if ($isDiagnostics) {
+            $diagnosticServices[] = $serviceItem;
+        } else {
+            $otherServices[] = $serviceItem;
+        }
+    }
+    $doctorServices = array_merge($diagnosticServices, $otherServices);
     ?>
     <?php if (!empty($doctorServices)): ?>
     <section class="border-t border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]"><?php echo e(($doctorServicesText['eyebrow'] ?? '') . ' ' . CLINIC_NAME); ?></p>
-            <h2 class="mt-2 text-xl font-bold text-[#0a293c] md:text-2xl"><?php echo e($doctorServicesText['title'] ?? ''); ?></h2>
-            <p class="mt-2 text-sm text-[#0a293c]"><?php echo e($doctorServicesText['description'] ?? ''); ?></p>
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.eyebrow'); ?>><?php echo e(($doctorServicesText['eyebrow'] ?? '') . ' ' . CLINIC_NAME); ?></p>
+            <h2 class="mt-2 text-xl font-bold text-[#0a293c] md:text-2xl"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.title'); ?>><?php echo e($doctorServicesText['title'] ?? ''); ?></h2>
+            <p class="mt-2 text-sm text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.description'); ?>><?php echo e($doctorServicesText['description'] ?? ''); ?></p>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach ($doctorServices as $srv): ?>
@@ -609,7 +612,7 @@ echo $header->render();
                     </p>
                     <?php endif; ?>
                     <div class="mt-auto flex items-center justify-between pt-4">
-                        <span class="text-xs font-semibold text-[#1977b2]"><?php echo e($srv['price'] ?? ($doctorServicesText['price_fallback'] ?? '')); ?></span>
+                        <span class="text-xs font-semibold text-[#1977b2]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.price_fallback'); ?>><?php echo e($srv['price'] ?? ($doctorServicesText['price_fallback'] ?? '')); ?></span>
                         <span class="inline-flex items-center gap-1 rounded-full bg-[#1977b2] px-3 py-1.5 text-[0.72rem] font-semibold text-white shadow-[0_8px_18px_rgba(25,119,178,0.18)] transition group-hover:bg-[#16658f]">
                             <?php echo e(bioinmed_text('common.more_details')); ?>
                             <i class="fa-solid fa-arrow-right text-[0.62rem]"></i>
@@ -625,8 +628,8 @@ echo $header->render();
     <!-- ===== CTA STRIP ===== -->
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e(($doctorFinalCta['eyebrow'] ?? '') . ' ' . CLINIC_NAME . ' · ' . ($doctorFinalCta['city'] ?? '')); ?></p>
-            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl"><?php echo e($doctorFinalCta['title'] ?? ''); ?></h2>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'final_cta.eyebrow'); ?>><?php echo e(($doctorFinalCta['eyebrow'] ?? '') . ' ' . CLINIC_NAME . ' · ' . ($doctorFinalCta['city'] ?? '')); ?></p>
+            <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'final_cta.title'); ?>><?php echo e($doctorFinalCta['title'] ?? ''); ?></h2>
             <p class="mx-auto mt-3 max-w-2xl text-sm text-[#0a293c]">
                 <?php
                 $finalDescription = (string)($doctorFinalCta['description_template'] ?? '');

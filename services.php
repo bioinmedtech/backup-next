@@ -8,6 +8,7 @@ require_once 'includes/components/Components.php';
 
 $servicesPage = bioinmed_read_json_file('pages/services.json');
 $servicesMeta = is_array($servicesPage['meta'] ?? null) ? $servicesPage['meta'] : [];
+$servicesPageLink = bioinmed_link('pages.services');
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
@@ -102,7 +103,7 @@ $structuredData = [
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => (string)($servicesPage['breadcrumbs']['home'] ?? ''), 'url' => '/'],
-    ['name' => (string)($servicesPage['breadcrumbs']['services'] ?? ''), 'url' => '/services'],
+    ['name' => (string)($servicesPage['breadcrumbs']['services'] ?? ''), 'url' => $servicesPageLink['url']],
 ]);
 ?>
 <!doctype html>
@@ -179,12 +180,12 @@ echo $header->render();
         <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#1977b21f] blur-3xl"></div>
         <div class="pointer-events-none absolute -left-14 bottom-0 h-32 w-32 rounded-full bg-[#1977b214] blur-3xl"></div>
         <div class="relative">
-            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"><?php echo e($servicesMeta['catalog_eyebrow'] ?? ''); ?></p>
-            <h1 class="mt-2 text-[1.68rem] font-bold leading-tight text-[#0f2749] md:text-[2.15rem]"><?php echo e(($servicesMeta['catalog_heading'] ?? '') . ' ' . CLINIC_NAME); ?></h1>
-            <p class="mt-2 max-w-3xl text-[0.97rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]">
+            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.catalog_eyebrow'); ?>><?php echo e($servicesMeta['catalog_eyebrow'] ?? ''); ?></p>
+            <h1 class="mt-2 text-[1.68rem] font-bold leading-tight text-[#0f2749] md:text-[2.15rem]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.catalog_heading'); ?>><?php echo e(($servicesMeta['catalog_heading'] ?? '') . ' ' . CLINIC_NAME); ?></h1>
+            <p class="mt-2 max-w-3xl text-[0.97rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.catalog_text'); ?>>
                 <?php echo e($servicesMeta['catalog_text'] ?? ''); ?>
             </p>
-            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.82rem] font-semibold text-[#0a293c]">
+            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.82rem] font-semibold text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.total_services_label'); ?>>
                 <i class="fa-solid fa-list-check text-[#1977b2]" aria-hidden="true"></i>
                 <?php echo e($servicesMeta['total_services_label'] ?? ''); ?> <?php echo intval($totalServices); ?>
             </div>
@@ -193,7 +194,7 @@ echo $header->render();
 
     <?php if (!empty($servicesByCategory)): ?>
         <section class="mt-5 px-0 py-2">
-            <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"><?php echo e($servicesMeta['quick_nav_label'] ?? ''); ?></p>
+            <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.quick_nav_label'); ?>><?php echo e($servicesMeta['quick_nav_label'] ?? ''); ?></p>
             <div class="flex flex-wrap gap-2">
                 <?php foreach ($servicesByCategory as $categoryKey => $categoryItems): ?>
                     <?php
@@ -255,9 +256,9 @@ echo $header->render();
         </div>
     <?php else: ?>
         <section class="mt-6 rounded-2xl border border-[#dce8f5] bg-[#e4f1fa] p-6 text-center">
-            <h2 class="text-[1.15rem] font-bold text-[#0f2749]"><?php echo e($servicesMeta['empty_title'] ?? ''); ?></h2>
-            <p class="mt-2 text-[0.9rem] text-[#0a293c]"><?php echo e($servicesMeta['empty_text'] ?? ''); ?></p>
-            <a href="<?php echo e(bioinmed_link('nav.prices')['url']); ?>" class="mt-4 inline-flex items-center rounded-lg bg-[#1977b2] px-4 py-2 text-[0.82rem] font-semibold text-white hover:bg-[#16658f]"><?php echo e($servicesMeta['empty_button'] ?? ''); ?></a>
+            <h2 class="text-[1.15rem] font-bold text-[#0f2749]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.empty_title'); ?>><?php echo e($servicesMeta['empty_title'] ?? ''); ?></h2>
+            <p class="mt-2 text-[0.9rem] text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.empty_text'); ?>><?php echo e($servicesMeta['empty_text'] ?? ''); ?></p>
+            <a href="<?php echo e(bioinmed_link('nav.prices')['url']); ?>" class="mt-4 inline-flex items-center rounded-lg bg-[#1977b2] px-4 py-2 text-[0.82rem] font-semibold text-white hover:bg-[#16658f]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.empty_button'); ?>><?php echo e($servicesMeta['empty_button'] ?? ''); ?></a>
         </section>
     <?php endif; ?>
 </main>

@@ -6,13 +6,17 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 
+$pricesPage = bioinmed_read_json_file('pages/prices.json');
+$pricesMeta = is_array($pricesPage['meta'] ?? null) ? $pricesPage['meta'] : [];
+
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/prices';
-$pageTitle = 'Прайс-лист услуг и цены | ' . CLINIC_NAME;
-$pageDescription = 'Полный прайс-лист с ценами на все услуги клиники БИОИНМЕД. Диагностика, остеопатия, рефлексотерапия, физиотерапия и другие методики.';
+$pricesPageLink = bioinmed_link('pages.prices');
+$pageTitle = (string)($pricesMeta['title'] ?? 'Прайс-лист услуг и цены') . ' | ' . CLINIC_NAME;
+$pageDescription = (string)($pricesMeta['description'] ?? 'Полный прайс-лист с ценами на все услуги клиники БИОИНМЕД. Диагностика, остеопатия, рефлексотерапия, физиотерапия и другие методики.');
 $serviceIds = [];
 foreach ($services as $serviceItem) {
     $id = trim((string)($serviceItem['id'] ?? ''));
@@ -56,7 +60,7 @@ $structuredData = [
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => '/'],
-    ['name' => 'Прайс-лист', 'url' => '/prices'],
+    ['name' => 'Прайс-лист', 'url' => $pricesPageLink['url']],
 ]);
 ?>
 <!DOCTYPE html>
@@ -256,8 +260,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             <div class="absolute -right-14 -top-14 h-36 w-36 rounded-full bg-[#1977b21f] blur-2xl"></div>
             <div class="absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[#1977b214] blur-2xl"></div>
             <div class="relative">
-                <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Прайс-лист</p>
-                <h1 class="mt-2 font-bold text-[#0f2749]">Стоимость услуг</h1>
+                <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($pricesPage, 'prices', 'meta.hero_eyebrow'); ?>><?php echo htmlspecialchars((string)($pricesMeta['hero_eyebrow'] ?? 'Прайс-лист'), ENT_QUOTES, 'UTF-8'); ?></p>
+                <h1 class="mt-2 font-bold text-[#0f2749]"<?php echo bioinmed_page_text_attr($pricesPage, 'prices', 'meta.hero_title'); ?>><?php echo htmlspecialchars((string)($pricesMeta['hero_title'] ?? 'Стоимость услуг'), ENT_QUOTES, 'UTF-8'); ?></h1>
                 <p class="mt-2 max-w-3xl text-[0.95rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]">
                     Актуальные цены по направлениям лечения: от первичной консультации до комплексных программ восстановления. Поможем подобрать специалиста и оптимальный формат терапии.
                 </p>

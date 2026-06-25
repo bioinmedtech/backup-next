@@ -21,15 +21,26 @@ class Component {
         return preg_replace('/[^\d+]/', '', (string)$phone);
     }
 
-    protected function sectionTitle($eyebrow, $title, $subtitle = '') {
+    protected function dataTextId($value) {
+        return ' data-text-id="' . $this->e($value) . '"';
+    }
+
+    protected function jsString($value) {
+        return json_encode((string)$value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    }
+
+    protected function sectionTitle($eyebrow, $title, $subtitle = '', $baseId = '') {
+        $eyebrow_attr = $baseId !== '' ? $this->dataTextId($baseId . '.eyebrow') : '';
+        $title_attr = $baseId !== '' ? $this->dataTextId($baseId . '.title') : '';
+        $subtitle_attr = $baseId !== '' ? $this->dataTextId($baseId . '.subtitle') : '';
         $subtitle_html = $subtitle !== ''
-            ? '<p class="mt-2.5 max-w-2xl text-[1rem] leading-relaxed text-[#0a293c]">' . $this->e($subtitle) . '</p>'
+            ? '<p class="mt-2.5 max-w-2xl text-[1rem] leading-relaxed text-[#0a293c]"' . $subtitle_attr . '>' . $this->e($subtitle) . '</p>'
             : '';
 
         return <<<HTML
         <div class="mb-7">
-            <p class="text-[0.8rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">{$this->e($eyebrow)}</p>
-            <h2 class="mt-1.5 text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">{$this->e($title)}</h2>
+            <p class="text-[0.8rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"{$eyebrow_attr}>{$this->e($eyebrow)}</p>
+            <h2 class="mt-1.5 text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"{$title_attr}>{$this->e($title)}</h2>
             {$subtitle_html}
         </div>
         HTML;
@@ -39,6 +50,11 @@ class Component {
 class Header extends Component {
     public function render() {
         global $services;
+
+        $phone_required_error_js = $this->jsString(bioinmed_text('forms.phone.required_error', 'Введите номер телефона'));
+        $phone_min_prefix_js = $this->jsString(bioinmed_text('forms.phone.min_error_prefix', 'Минимум'));
+        $phone_max_prefix_js = $this->jsString(bioinmed_text('forms.phone.max_error_prefix', 'Максимум'));
+        $phone_digits_suffix_js = $this->jsString(bioinmed_text('forms.phone.digits_suffix', 'цифр'));
 
         $nav_about = bioinmed_link('nav.about');
         $nav_doctors = bioinmed_link('nav.doctors');
@@ -250,12 +266,12 @@ class Header extends Component {
             }
 
             // Десктоп: простая ссылка на услуги
-            $desktop_services_dropdown = '<a href="/services" class="' . $desktop_services_class . '"' . $desktop_services_aria . '>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</a>';
+            $desktop_services_dropdown = '<a href="/services" class="' . $desktop_services_class . '"' . $desktop_services_aria . $this->dataTextId('nav.services') . '>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</a>';
             // Мобильный: подменю с категориями
-            $mobile_services_dropdown = '<details class="mob-nav-group"' . $mobile_services_details_open . '><summary' . $mobile_services_summary_attr . '><span>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="mob-subnav"><a href="/services" onclick="closeMobMenu()"' . $mobile_services_attr . '>' . $this->e(bioinmed_text('nav.services_all', 'Все услуги')) . '</a>' . $mobile_groups . '</div></details>';
+            $mobile_services_dropdown = '<details class="mob-nav-group"' . $mobile_services_details_open . '><summary' . $mobile_services_summary_attr . '><span' . $this->dataTextId('nav.services') . '>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="mob-subnav"><a href="/services" onclick="closeMobMenu()"' . $mobile_services_attr . $this->dataTextId('nav.services_all') . '>' . $this->e(bioinmed_text('nav.services_all', 'Все услуги')) . '</a>' . $mobile_groups . '</div></details>';
         } else {
-            $desktop_services_dropdown = '<a href="/services" class="' . $desktop_services_class . '"' . $desktop_services_aria . '>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</a>';
-            $mobile_services_dropdown = '<a href="/services" onclick="closeMobMenu()"' . $mobile_services_attr . '>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</a>';
+            $desktop_services_dropdown = '<a href="/services" class="' . $desktop_services_class . '"' . $desktop_services_aria . $this->dataTextId('nav.services') . '>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</a>';
+            $mobile_services_dropdown = '<a href="/services" onclick="closeMobMenu()"' . $mobile_services_attr . $this->dataTextId('nav.services') . '>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</a>';
         }
 
         // Seasons link (current season by date)
@@ -280,11 +296,11 @@ class Header extends Component {
 
         $current_season_name = $seasons_data[$actual_season_slug]['name'];
         $seasons_btn_class = $is_seasons
-            ? 'is-active text-[#1977b2] border-b-2 border-[#1977b2]'
-            : 'text-[#0a293c] border-b-2 border-transparent hover:text-[#1977b2]';
-        $desktop_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" class="' . $seasons_btn_class . ' inline-flex items-center gap-1 text-[0.86rem] font-semibold"' . $desktop_seasons_aria . '>'
-            . $this->e(bioinmed_text('nav.seasons', 'Сезоны')) . '</a>';
-        $mobile_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" onclick="closeMobMenu()"' . $mobile_seasons_summary_attr . '>' . $this->e(bioinmed_text('nav.seasons', 'Сезоны')) . '</a>';
+            ? 'season-menu-link is-active rounded-full bg-[#0f79c4] px-3.5 text-white shadow-[0_10px_24px_rgba(15,121,196,0.32)]'
+            : 'season-menu-link rounded-full border border-[#82bee4] bg-[#eef8ff] px-3.5 text-[#0f79c4] shadow-[0_6px_16px_rgba(15,121,196,0.16)] hover:border-[#4ea6da] hover:bg-[#e3f3ff] hover:text-[#0b6aa8]';
+        $desktop_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" class="' . $seasons_btn_class . ' inline-flex items-center gap-1.5 font-semibold"' . $desktop_seasons_aria . $this->dataTextId('nav.seasons') . '>'
+            . $this->e(bioinmed_text('nav.seasons', 'Наши сезоны')) . '</a>';
+        $mobile_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" onclick="closeMobMenu()"' . $mobile_seasons_summary_attr . $this->dataTextId('nav.seasons') . '>' . $this->e(bioinmed_text('nav.seasons', 'Наши сезоны')) . '</a>';
 
         return <<<HTML
         <style>
@@ -334,7 +350,7 @@ class Header extends Component {
                             <p class="text-[0.88rem] font-semibold">{$this->e(CLINIC_ADDRESS)}</p>
                             <p class="mt-0.5 text-[0.8rem] font-medium text-[#2a5894]">{$this->e(CLINIC_METRO)}</p>
                         </div>
-                        <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.74rem] font-medium text-[#1977b2] hover:text-[#16658f]">
+                        <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="shrink-0 inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.74rem] font-medium text-[#1977b2] hover:text-[#16658f]"{$this->dataTextId('header.map_label.mobile')}>
                             <i class="fa-solid fa-location-dot text-[0.66rem] text-[#1977b2]" aria-hidden="true"></i>
                             {$header_map_label}
                         </a>
@@ -354,7 +370,7 @@ class Header extends Component {
                             <p class="text-[0.92rem] font-medium md:text-[0.96rem]">{$this->e(CLINIC_ADDRESS)}</p>
                             <p class="mt-0.5 text-[0.88rem] font-medium text-[#24588d] md:text-[0.9rem]">{$this->e(CLINIC_METRO)}</p>
                             <div class="mt-1.5">
-                                <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.76rem] font-medium text-[#1977b2] hover:border-[#a8cbe6] hover:text-[#16658f]">
+                                <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.76rem] font-medium text-[#1977b2] hover:border-[#a8cbe6] hover:text-[#16658f]"{$this->dataTextId('header.map_label.desktop')}>
                                     <i class="fa-solid fa-location-dot text-[0.66rem] text-[#1977b2]" aria-hidden="true"></i>
                                     {$header_map_label}
                                 </a>
@@ -363,7 +379,7 @@ class Header extends Component {
 
                         <div class="pt-1 leading-tight text-[#0a293c]">
                             <p class="text-[0.92rem] font-medium">{$this->e(CLINIC_HOURS)}</p>
-                            <p class="mt-0.5 text-[0.78rem] font-medium text-[#1977b2]">{$header_appointment_note}</p>
+                            <p class="mt-0.5 text-[0.78rem] font-medium text-[#1977b2]"{$this->dataTextId('header.appointment_note')}>{$header_appointment_note}</p>
                         </div>
 
                         <div class="flex items-start gap-2.5 pt-1 text-[#0a293c]">
@@ -373,11 +389,11 @@ class Header extends Component {
                             <div class="pt-[1px]">
                                 <a href="tel:{$phone_1_link}" class="block whitespace-nowrap text-[0.88rem] font-medium leading-tight text-[#0a293c] hover:text-[#1977b2] md:text-[0.92rem]">{$phone_1}</a>
                                 {$second_phone}
-                                <p class="mt-0.5 text-[0.76rem] font-medium text-[#1977b2]">{$header_phone_note}</p>
+                                <p class="mt-0.5 text-[0.76rem] font-medium text-[#1977b2]"{$this->dataTextId('header.phone_note')}>{$header_phone_note}</p>
                             </div>
                         </div>
                         <div class="justify-self-end pt-1 text-right">
-                            <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-full min-w-[200px] items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
+                            <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-full min-w-[200px] items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]"{$this->dataTextId('header.online_booking_button.desktop')}>
                                 {$online_booking_desktop_text}
                             </a>
                         </div>
@@ -443,7 +459,7 @@ class Header extends Component {
                     <i class="fa-solid fa-phone-volume" style="color:#1977b2;" aria-hidden="true"></i>
                     {$phone_1}
                 </a>
-                <a href="javascript:void(0)" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
+                <a href="javascript:void(0)" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;"{$this->dataTextId('header.online_booking_button.mobile_menu')}>
                     {$online_booking_text}
                 </a>
                 <div style="display:flex;gap:12px;">
@@ -487,7 +503,8 @@ class Header extends Component {
             .desktop-menu-row{position:relative;background:#e4f1fa}
             .menu-strip{scrollbar-width:none}
             .menu-strip::-webkit-scrollbar{display:none}
-            .menu-strip a{display:inline-flex;align-items:center;padding-bottom:2px;transition:color .2s ease,border-color .2s ease}
+            .menu-strip a{display:inline-flex;align-items:center;padding-bottom:2px;transition:color .2s ease,border-color .2s ease,background-color .2s ease,box-shadow .2s ease}
+            .menu-strip a.season-menu-link{padding-top:0;padding-bottom:2px;line-height:1.72}
             .menu-strip a.is-active{}
             #mob-nav a.is-active{color:#1977b2}
             #mob-nav details>summary.is-active{color:#1977b2}
@@ -675,7 +692,7 @@ class Header extends Component {
                             
                             // Если пусто или только +, не отправляем
                             if(digits.length===0){
-                                input.setCustomValidity({$this->e(json_encode((string)bioinmed_text('forms.phone.required_error', 'Введите номер телефона'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))});
+                                input.setCustomValidity({$phone_required_error_js});
                                 e.preventDefault();
                                 return false;
                             }
@@ -686,13 +703,13 @@ class Header extends Component {
                             
                             // Допускаем диапазон от minDigits до maxDigits
                             if(digits.length<minLen){
-                                var msg={$this->e(json_encode((string)bioinmed_text('forms.phone.min_error_prefix', 'Минимум'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))}+' '+minLen+' '+{$this->e(json_encode((string)bioinmed_text('forms.phone.digits_suffix', 'цифр'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))}+' ('+config.countryName+')';
+                                var msg={$phone_min_prefix_js}+' '+minLen+' '+{$phone_digits_suffix_js}+' ('+config.countryName+')';
                                 input.setCustomValidity(msg);
                                 e.preventDefault();
                                 return false;
                             }
                             if(digits.length>maxLen){
-                                var msg={$this->e(json_encode((string)bioinmed_text('forms.phone.max_error_prefix', 'Максимум'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))}+' '+maxLen+' '+{$this->e(json_encode((string)bioinmed_text('forms.phone.digits_suffix', 'цифр'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))}+' ('+config.countryName+')';
+                                var msg={$phone_max_prefix_js}+' '+maxLen+' '+{$phone_digits_suffix_js}+' ('+config.countryName+')';
                                 input.setCustomValidity(msg);
                                 e.preventDefault();
                                 return false;
@@ -728,6 +745,7 @@ class HeroSection extends Component {
         $hero_modal_prev = $this->e(bioinmed_text('hero.modal.prev', 'Предыдущее фото'));
         $hero_modal_next = $this->e(bioinmed_text('hero.modal.next', 'Следующее фото'));
         $hero_modal_image_alt = $this->e(bioinmed_text('hero.modal.image_alt', 'Фото клиники'));
+        $hero_modal_image_alt_js = $this->jsString(bioinmed_text('hero.modal.image_alt', 'Фото клиники'));
         $hero_slide_alt_prefix = (string)bioinmed_text('hero.slider.slide_alt_prefix', 'Интерьер клиники БИОИНМЕД');
         $hero_open_photo_prefix = (string)bioinmed_text('hero.slider.open_photo_prefix', 'Открыть фото');
         $hero_slide_prefix = (string)bioinmed_text('hero.slider.slide_prefix', 'Слайд');
@@ -738,7 +756,9 @@ class HeroSection extends Component {
         $hero_habilect_route = $this->e(bioinmed_text('hero.habilect.lines.route', 'Ваш эффективный маршрут здоровья'));
         $hero_habilect_unique = $this->e(bioinmed_text('hero.habilect.lines.unique', 'Где Вы особенный'));
         $hero_habilect_label = $this->e(bioinmed_text('hero.habilect.label', '«Хабилект»'));
-        $hero_habilect_subtitle = $this->e(bioinmed_text('hero.habilect.subtitle', 'Инновационные медицинские системы'));
+        $hero_habilect_subtitle = $this->e(bioinmed_text('hero.habilect.subtitle', 'Инновационные диагностические системы'));
+        $hero_habilect_link = bioinmed_link('hero.habilect', ['url' => '/services/hobilect-diagnostics']);
+        $hero_habilect_href = $this->e($hero_habilect_link['url']);
 
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
         $habilect_logo = $this->e(bioinmed_versioned_asset_path('/public/images/habilect.png'));
@@ -802,13 +822,13 @@ class HeroSection extends Component {
 
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
                 <div class="mb-6 flex justify-start lg:hidden">
-                    <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-auto items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
+                        <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-auto items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]"{$this->dataTextId('hero.mobile.online_booking_button')}>
                         {$online_booking_text}
                     </a>
                 </div>
                 <div class="relative -top-2 flex w-full flex-col md:-top-3 lg:-top-5 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
                     <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
-                        <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.1em] text-white shadow-[0_10px_24px_rgba(10,43,80,0.10)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(10,43,80,0.14)]" style="background:{$actual_season_color};">
+                        <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.1em] text-white shadow-[0_10px_24px_rgba(10,43,80,0.10)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(10,43,80,0.14)]" style="background:{$actual_season_color};"{$this->dataTextId('hero.season_badge')}>
                             <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
                             {$hero_season_prefix}: {$actual_season_name}
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
@@ -816,44 +836,44 @@ class HeroSection extends Component {
                         <link rel="preconnect" href="https://fonts.googleapis.com">
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                         <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-                        <h1 class="mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;">
+                        <h1 class="mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;"{$this->dataTextId('hero.heading')}>
                             {$hero_heading}
                         </h1>
-                        <p class="mt-4 inline-flex w-fit items-center bg-transparent px-0 py-0 leading-[1.16] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;">
+                        <p class="mt-4 inline-flex w-fit items-center bg-transparent px-0 py-0 leading-[1.16] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;"{$this->dataTextId('hero.signature')}>
                             {$hero_signature}
                         </p>
                         <div class="mt-4 flex max-w-3xl flex-col gap-2.5 md:mt-5 md:gap-3">
-                            <a href="/services/hobilect-diagnostics" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
+                            <a href="{$hero_habilect_href}" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
                                 <span class="flex items-start gap-2 text-[#17446f]">
                                     <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
-                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]">{$hero_habilect_ecosystem}</span>
+                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]"{$this->dataTextId('hero.habilect.lines.ecosystem')}>{$hero_habilect_ecosystem}</span>
                                 </span>
                             </a>
-                            <a href="/services/hobilect-diagnostics" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
+                            <a href="{$hero_habilect_href}" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
                                 <span class="flex items-start gap-2 text-[#17446f]">
                                     <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
-                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]">{$hero_habilect_route}</span>
+                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]"{$this->dataTextId('hero.habilect.lines.route')}>{$hero_habilect_route}</span>
                                 </span>
                             </a>
-                            <a href="/services/hobilect-diagnostics" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
+                            <a href="{$hero_habilect_href}" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
                                 <span class="flex items-start gap-2 text-[#17446f]">
                                     <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
-                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]">{$hero_habilect_unique}</span>
+                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]"{$this->dataTextId('hero.habilect.lines.unique')}>{$hero_habilect_unique}</span>
                                 </span>
                             </a>
                         </div>
-                        <a href="/services/hobilect-diagnostics" class="mt-5 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff] hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:mt-6 md:gap-3 md:px-4 md:py-2.5">
+                        <a href="{$hero_habilect_href}" class="group mt-5 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff] hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:mt-6 md:gap-3 md:px-4 md:py-2.5">
                             <img src="{$habilect_logo}" alt="«Хабилект»" class="h-9 w-auto shrink-0 md:h-10" loading="eager" decoding="async">
                             <div class="min-w-0">
-                                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2] md:text-[0.82rem]">{$hero_habilect_label}</p>
-                                <p class="hidden text-[0.8rem] font-medium leading-tight text-[#0a293c] sm:block md:text-[0.88rem]">{$hero_habilect_subtitle}</p>
+                                <p class="inline-flex items-center gap-1 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2] md:text-[0.82rem]"{$this->dataTextId('hero.habilect.label')}><span>{$hero_habilect_label}</span><span aria-hidden="true" class="text-[0.66rem] transition-transform duration-200 group-hover:translate-x-0.5">→</span></p>
+                                <p class="hidden text-[0.8rem] font-medium leading-tight text-[#0a293c] sm:block md:text-[0.88rem]"{$this->dataTextId('hero.habilect.subtitle')}>{$hero_habilect_subtitle}</p>
                             </div>
                         </a>
 
                         <div class="mt-6 hidden w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-7 md:p-4 lg:block">
                             <div>
-                                <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]">{$book_appointment_text}</h2>
-                                <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]">{$callback_15_min_text}</p>
+                                <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]"{$this->dataTextId('hero.desktop.book_appointment_title')}>{$book_appointment_text}</h2>
+                                <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('hero.desktop.callback_note')}>{$callback_15_min_text}</p>
                             </div>
 
                             <div class="mt-3">
@@ -867,7 +887,7 @@ class HeroSection extends Component {
                             <div class="hero-clinic-mobile-strip flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1">
                                 {$mobile_strip_html}
                             </div>
-                            <p class="mt-2 flex items-center gap-1.5 text-[0.78rem] font-medium text-[#0a293c]">
+                            <p class="mt-2 flex items-center gap-1.5 text-[0.78rem] font-medium text-[#0a293c]"{$this->dataTextId('hero.mobile.track_prompt')}>
                                 <i class="fa-solid fa-hand-pointer text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
                                 {$hero_track_prompt}
                             </p>
@@ -900,8 +920,8 @@ class HeroSection extends Component {
         <section class="-mt-3 border-b border-[#dbe7f2] bg-[#e4f1fa] pt-0 pb-8 lg:hidden">
             <div class="mx-auto w-full max-w-6xl px-6">
                 <div class="rounded-[1.2rem] border border-[#d6e4f0] bg-white p-6 shadow-[0_18px_38px_rgba(10,43,80,0.09)]">
-                    <h2 class="text-[1rem] font-bold text-[#0f2749]">{$book_appointment_text}</h2>
-                    <p class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]">{$callback_15_min_text}</p>
+                    <h2 class="text-[1rem] font-bold text-[#0f2749]"{$this->dataTextId('hero.mobile.book_appointment_title')}>{$book_appointment_text}</h2>
+                    <p class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('hero.mobile.callback_note')}>{$callback_15_min_text}</p>
                     <div class="mt-4">
                         {$hero_callback_form}
                     </div>
@@ -1002,7 +1022,7 @@ class HeroSection extends Component {
                 var gallery = [];
                 openers.forEach(function(opener) {
                     var src = opener.getAttribute('data-hero-image-src') || '';
-                    var alt = opener.getAttribute('data-hero-image-alt') || {$this->e(json_encode((string)bioinmed_text('hero.modal.image_alt', 'Фото клиники'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))};
+                    var alt = opener.getAttribute('data-hero-image-alt') || {$hero_modal_image_alt_js};
                     if (!src || seen[src]) return;
                     seen[src] = true;
                     gallery.push({ src: src, alt: alt });
@@ -1211,7 +1231,7 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[2rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[2.25rem]">{$experience}</div>
-                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]">{$experience_desc}</p>
+                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]"{$this->dataTextId('stats.experience_desc')}>{$experience_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 2: Rehabilitation methods -->
@@ -1223,7 +1243,7 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[2rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[2.25rem]">{$patients}</div>
-                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]">{$patients_desc}</p>
+                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]"{$this->dataTextId('stats.patients_desc')}>{$patients_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 3: Rating -->
@@ -1235,7 +1255,7 @@ class StatsBlock extends Component {
                         </span>
                         <div>
                             <div class="text-[2rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[2.25rem]">{$rating}</div>
-                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]">{$rating_desc}</p>
+                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]"{$this->dataTextId('stats.rating_desc')}>{$rating_desc}</p>
                         </div>
                     </li>
                     <!-- Stat 4: License -->
@@ -1246,8 +1266,8 @@ class StatsBlock extends Component {
                             </svg>
                         </span>
                         <div>
-                            <div class="text-[1.7rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[1.9rem]">{$license_text}</div>
-                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]">{$license_desc}</p>
+                            <div class="text-[1.7rem] font-bold leading-none text-white [font-variant-numeric:tabular-nums] md:text-[1.9rem]"{$this->dataTextId('stats.license_text')}>{$license_text}</div>
+                            <p class="mt-1.5 text-[0.8rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white/92 md:text-[0.88rem]"{$this->dataTextId('stats.license_desc')}>{$license_desc}</p>
                         </div>
                     </li>
                 </ul>
@@ -1269,16 +1289,16 @@ class VisualGallery extends Component {
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="grid gap-4 md:grid-cols-4">
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/content/about-company.jpg" alt="{$about_alt}" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/content/about-company.jpg" alt="{$about_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.about_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/kostromina-default.jpg" alt="{$kostromina_alt}" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/team/kostromina-default.jpg" alt="{$kostromina_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.kostromina_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/navrozov.jpg" alt="{$navrozov_alt}" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/team/navrozov.jpg" alt="{$navrozov_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.navrozov_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/nehorosheva.jpg" alt="{$nehorosheva_alt}" class="h-56 w-full object-cover" loading="lazy" />
+                        <img src="/public/images/team/nehorosheva.jpg" alt="{$nehorosheva_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.nehorosheva_alt')} />
                     </div>
                 </div>
             </div>
@@ -1331,10 +1351,10 @@ class ProblemsGrid extends Component {
             $items_html .= <<<HTML
             <a href="/problems/{$this->e($slug)}" class="group flex h-full min-h-[210px] flex-col rounded-[1rem] bg-[#c8dbe8] p-6 text-[#0f2749] transition hover:bg-[#bfd5e4]">
                 <div class="min-w-0 flex-1">
-                    <h3 class="text-[1.18rem] font-bold leading-[1.08] text-[#0f2749] md:text-[1.32rem]">{$this->e($title)}</h3>
-                    <p class="mt-4 max-w-[22rem] text-[0.92rem] leading-relaxed text-[#0f2749] md:text-[0.98rem]">{$this->e($description)}</p>
+                    <h3 class="text-[1.18rem] font-semibold leading-[1.08] text-[#0f2749] md:text-[1.32rem]"{$this->dataTextId('home.problems.items.' . $slug . '.title')}>{$this->e($title)}</h3>
+                    <p class="mt-4 max-w-[22rem] text-[0.92rem] leading-relaxed text-[#0f2749] md:text-[0.98rem]"{$this->dataTextId('home.problems.items.' . $slug . '.description')}>{$this->e($description)}</p>
                 </div>
-                <div class="mt-5 inline-flex self-start items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white shadow-[0_8px_18px_rgba(10,43,80,0.08)] transition group-hover:bg-[#16658f] group-hover:text-white">
+                <div class="mt-5 inline-flex self-start items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white shadow-[0_8px_18px_rgba(10,43,80,0.08)] transition group-hover:bg-[#16658f] group-hover:text-white"{$this->dataTextId('home.problems.items.' . $slug . '.cta')}>
                     {$this->e(bioinmed_text('common.more_details'))}
                     <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i>
                 </div>
@@ -1347,11 +1367,11 @@ class ProblemsGrid extends Component {
             if ($this->sectionEyebrow === '' && $this->sectionSubtitle === '') {
                 $section_title_html = '<div class="mb-7"><h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">' . $this->e($this->sectionHeading) . '</h2></div>';
             } else {
-                $section_title_html = $this->sectionTitle($this->sectionEyebrow, $this->sectionHeading, $this->sectionSubtitle);
+                $section_title_html = $this->sectionTitle($this->sectionEyebrow, $this->sectionHeading, $this->sectionSubtitle, 'home.problems.section');
             }
         }
         $section_cta_html = ($this->showCta && $this->ctaLabel !== '')
-            ? '<div class="mt-6 flex justify-start"><a href="' . $this->e($this->ctaUrl) . '" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-3 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">' . $this->e($this->ctaLabel) . '</a></div>'
+            ? '<div class="mt-6 flex justify-start"><a href="' . $this->e($this->ctaUrl) . '" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-3 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]"' . $this->dataTextId('home.problems.section.cta') . '>' . $this->e($this->ctaLabel) . '</a></div>'
             : '';
 
         return <<<HTML
@@ -1396,8 +1416,8 @@ class AdvantagesBlock extends Component {
                     <i class="fa-solid {$icon} text-[1rem]"></i>
                 </span>
                 <div>
-                    <h3 class="text-[1rem] font-bold leading-tight text-[#0f2749]">{$this->e($advantage['title'])}</h3>
-                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#0a293c]">{$this->e($advantage['description'])}</p>
+                    <h3 class="text-[1rem] font-bold leading-tight text-[#0f2749]"{$this->dataTextId('home.advantages.items.' . $index . '.title')}>{$this->e($advantage['title'])}</h3>
+                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.advantages.items.' . $index . '.description')}>{$this->e($advantage['description'])}</p>
                 </div>
             </li>
             HTML;
@@ -1408,7 +1428,7 @@ class AdvantagesBlock extends Component {
         <section id="advantages" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="mb-6">
-                    <h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">{$this->e(bioinmed_text('home.advantages.title', 'Почему выбирают нас'))}</h2>
+                    <h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"{$this->dataTextId('home.advantages.title')}>{$this->e(bioinmed_text('home.advantages.title', 'Почему выбирают нас'))}</h2>
                 </div>
                 <ul class="grid gap-3 sm:grid-cols-2">
                     {$items_html}
@@ -1445,8 +1465,8 @@ class ChiefDoctorBlock extends Component {
                         <div class="aspect-square overflow-hidden rounded-3xl">
                             <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="eager" onerror="this.src='/public/images/placeholder.jpg'" />
                         </div>
-                        <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью'))}</p>
-                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;">{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
+                        <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью'))}</p>
+                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
                     </div>
                     {$summary_html}
                 </div>
@@ -1488,6 +1508,7 @@ class SpecialOffer extends Component {
                             <img
                                 src="/public/images/habilect/habilect-woman-2.jpg"
                                 alt="{$offer_image_alt}"
+                                {$this->dataTextId('home.special_offer.image_alt')}
                                 class="h-full w-full object-cover object-center"
                                 loading="lazy"
                                 decoding="async"
@@ -1495,35 +1516,35 @@ class SpecialOffer extends Component {
                         </div>
 
                         <div class="px-6 py-6 md:px-8 md:py-7">
-                            <a href="/services/hobilect-diagnostics" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" aria-label="{$offer_service_aria}">
-                                <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]">{$offer_eyebrow}</p>
-                                <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">{$offer_title}</h2>
+                            <a href="/services/hobilect-diagnostics" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" aria-label="{$offer_service_aria}"{$this->dataTextId('home.special_offer.service_aria')}>
+                                <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"{$this->dataTextId('home.special_offer.eyebrow')}>{$offer_eyebrow}</p>
+                                <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]"{$this->dataTextId('home.special_offer.title')}>{$offer_title}</h2>
                                 <div class="mt-4 border-l-4 border-[#1977b2] pl-4 md:pl-5">
-                                    <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#0a293c]">{$offer_price_label}</p>
+                                    <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#0a293c]"{$this->dataTextId('home.special_offer.price_label')}>{$offer_price_label}</p>
                                     <div class="mt-1 flex flex-wrap items-end gap-x-3 gap-y-1">
-                                        <span class="text-2xl font-bold leading-none text-[#0f2749] md:text-[1.9rem]">{$offer_price_current}</span>
-                                        <span class="text-sm text-[#5b81a8] md:text-[0.98rem]">{$offer_price_before_prefix} <span class="line-through">{$offer_price_before}</span></span>
+                                        <span class="text-2xl font-bold leading-none text-[#0f2749] md:text-[1.9rem]"{$this->dataTextId('home.special_offer.price_current')}>{$offer_price_current}</span>
+                                        <span class="text-sm text-[#5b81a8] md:text-[0.98rem]"{$this->dataTextId('home.special_offer.price_before_prefix')}>{$offer_price_before_prefix} <span class="line-through"{$this->dataTextId('home.special_offer.price_before')}>{$offer_price_before}</span></span>
                                     </div>
-                                    <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]">{$offer_price_saving}</p>
+                                    <p class="mt-1 text-[0.92rem] font-medium text-[#2a7b58]"{$this->dataTextId('home.special_offer.price_saving')}>{$offer_price_saving}</p>
                                 </div>
-                                <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#0a293c]">{$offer_description}</p>
+                                <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.special_offer.description')}>{$offer_description}</p>
                                 <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#0a293c]">
                                     <li class="flex items-start gap-2.5">
                                         <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                        <span>{$offer_bullet_1}</span>
+                                        <span{$this->dataTextId('home.special_offer.bullets.1')}>{$offer_bullet_1}</span>
                                     </li>
                                     <li class="flex items-start gap-2.5">
                                         <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                        <span>{$offer_bullet_2}</span>
+                                        <span{$this->dataTextId('home.special_offer.bullets.2')}>{$offer_bullet_2}</span>
                                     </li>
                                     <li class="flex items-start gap-2.5">
                                         <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                        <span>{$offer_bullet_3}</span>
+                                        <span{$this->dataTextId('home.special_offer.bullets.3')}>{$offer_bullet_3}</span>
                                     </li>
                                 </ul>
                             </a>
                             <div class="mt-4">
-                                <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
+                                <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]"{$this->dataTextId('home.special_offer.callback_button')}>
                                     <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
                                     {$this->e(bioinmed_text('common.request_callback'))}
                                 </button>
@@ -1534,12 +1555,12 @@ class SpecialOffer extends Component {
             </div>
             <div id="special-offer-callback-modal" class="fixed inset-0 z-[120] hidden items-center justify-center bg-[rgba(7,21,40,0.72)] px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="special-offer-callback-title">
                 <div class="relative w-full max-w-md rounded-[1.75rem] border border-[#d8e7f5] bg-white p-6 shadow-[0_24px_60px_rgba(7,21,40,0.24)] md:p-7">
-                    <button type="button" data-special-offer-close class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#d7e6f3] bg-white text-[#0a293c] transition hover:border-[#1977b2] hover:text-[#1977b2]" aria-label="{$offer_modal_close_aria}">
+                    <button type="button" data-special-offer-close class="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#d7e6f3] bg-white text-[#0a293c] transition hover:border-[#1977b2] hover:text-[#1977b2]" aria-label="{$offer_modal_close_aria}"{$this->dataTextId('home.special_offer.modal.close_aria')}>
                         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                     </button>
-                    <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">{$offer_modal_eyebrow}</p>
-                    <h3 id="special-offer-callback-title" class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]">{$offer_modal_title}</h3>
-                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#0a293c]">{$offer_modal_text}</p>
+                    <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"{$this->dataTextId('home.special_offer.modal.eyebrow')}>{$offer_modal_eyebrow}</p>
+                    <h3 id="special-offer-callback-title" class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]"{$this->dataTextId('home.special_offer.modal.title')}>{$offer_modal_title}</h3>
+                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.special_offer.modal.text')}>{$offer_modal_text}</p>
                     <div class="mt-5">
                         {$callback_form}
                     </div>
@@ -1575,9 +1596,9 @@ class DoctorsGrid extends Component {
                 ? '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"><a href="' . $doctor_link . '" class="transition hover:text-[#1977b2]">' . $this->e($doctor['name']) . '</a></h3>'
                 : '<h3 class="text-lg font-bold leading-tight text-[#0a293c]">' . $this->e($doctor['name']) . '</h3>';
             $card_action = $has_profile
-                ? '<a href="' . $doctor_link . '" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">' . $this->e(bioinmed_text('common.more_details')) . ' <i class="fa-solid fa-arrow-right text-[0.72rem]"></i></a>'
+                ? '<a href="' . $doctor_link . '" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]"' . $this->dataTextId('home.doctors.items.' . $slug . '.cta') . '>' . $this->e(bioinmed_text('common.more_details')) . ' <i class="fa-solid fa-arrow-right text-[0.72rem]"></i></a>'
                 : ($card_action_text !== ''
-                    ? '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-white py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]">' . $this->e($card_action_text) . '</div>'
+                    ? '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-white py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]"' . $this->dataTextId('home.doctors.items.' . $slug . '.card_action_text') . '>' . $this->e($card_action_text) . '</div>'
                     : '');
             $cards_html .= <<<HTML
             <article class="min-w-[320px] max-w-[320px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[350px] sm:max-w-[350px] lg:min-w-[380px] lg:max-w-[380px] flex flex-col self-stretch">
@@ -1585,8 +1606,8 @@ class DoctorsGrid extends Component {
                 <div class="flex flex-1 flex-col p-6">
                     <div class="flex-1">
                         {$doctor_name_html}
-                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c]">{$this->e($doctor['title'])}</p>
-                        <p class="mt-2 text-sm font-semibold leading-snug text-[#0a293c]">{$this->e($doctor['experience'])}</p>
+                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c]"{$this->dataTextId('home.doctors.items.' . $slug . '.title')}>{$this->e($doctor['title'])}</p>
+                        <p class="mt-2 text-sm font-semibold leading-snug text-[#0a293c]"{$this->dataTextId('home.doctors.items.' . $slug . '.experience')}>{$this->e($doctor['experience'])}</p>
                     </div>
                     {$card_action}
                 </div>
@@ -1600,7 +1621,8 @@ class DoctorsGrid extends Component {
                 {$this->sectionTitle(
                     bioinmed_text('home.doctors.eyebrow', 'Наша команда'),
                     bioinmed_text('home.doctors.heading', 'Наша профессиональная команда'),
-                    bioinmed_text('home.doctors.subtitle', 'Познакомьтесь с врачами команды и перейдите в карточку специалиста для подробной информации.')
+                    bioinmed_text('home.doctors.subtitle', 'Познакомьтесь с врачами команды и перейдите в карточку специалиста для подробной информации.'),
+                    'home.doctors.section'
                 )}
                 <div class="mb-4 flex items-center justify-end gap-2">
                     <button type="button" class="doctor-slider-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c5d9eb] bg-white text-[#0a293c] hover:bg-[#ecf5ff]" aria-label="{$this->e(bioinmed_text('home.doctors.slider_prev', 'Прокрутить влево'))}">
@@ -1649,7 +1671,7 @@ class FAQBlock extends Component {
         <section id="faq" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="mb-7">
-                    <h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">{$this->e(bioinmed_text('home.faq.heading', 'Ответы на частые вопросы'))}</h2>
+                    <h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"{$this->dataTextId('home.faq.heading')}>{$this->e(bioinmed_text('home.faq.heading', 'Ответы на частые вопросы'))}</h2>
                 </div>
                 <div class="grid gap-3 md:gap-4">
                     {$items_html}
@@ -1723,16 +1745,16 @@ class ServicesGrid extends Component {
                     <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#1977b2]">
                         <i class="fa-solid {$icon} text-[1rem]" aria-hidden="true"></i>
                     </div>
-                    <p class="mb-1 text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#0a293c]">{$this->e($service['subtitle'] ?? bioinmed_text('service.default_label', 'Услуга'))}</p>
+                    <p class="mb-1 text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#0a293c]"{$this->dataTextId('home.services.items.' . $service_id . '.subtitle')}>{$this->e($service['subtitle'] ?? bioinmed_text('service.default_label', 'Услуга'))}</p>
                     <h3 class="mb-2 text-[1.2rem] font-bold leading-[1.2]">
                         <a href="{$service_link}" class="text-[#0f2749] transition hover:text-[#1977b2] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-white">
                             {$this->e($service['name'])}
                         </a>
                     </h3>
-                    <p class="text-[0.96rem] leading-relaxed text-[#0a293c]">{$this->e($card_description)}</p>
+                    <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.services.items.' . $service_id . '.description')}>{$this->e($card_description)}</p>
                     {$price_display}
                 </div>
-                <a href="{$service_link}" class="mt-4 inline-flex items-center gap-2 self-start rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
+                <a href="{$service_link}" class="mt-4 inline-flex items-center gap-2 self-start rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]"{$this->dataTextId('home.services.items.' . $service_id . '.cta')}>
                     {$this->e(bioinmed_text('common.more_details'))}
                     <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
                 </a>
@@ -1747,14 +1769,15 @@ class ServicesGrid extends Component {
                 {$this->sectionTitle(
                     bioinmed_text('home.services.eyebrow', 'Популярные услуги'),
                     bioinmed_text('home.services.heading', 'Основные направления лечения'),
-                    bioinmed_text('home.services.subtitle', 'Выберите интересующее Вас направление, чтобы узнать подробнее о методах, показаниях и ценах')
+                    bioinmed_text('home.services.subtitle', 'Выберите интересующее Вас направление, чтобы узнать подробнее о методах, показаниях и ценах'),
+                    'home.services.section'
                 )}
                 <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {$items_html}
                 </div>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <p class="text-[0.96rem] text-[#0a293c]">{$this->e(bioinmed_text('home.services.habilect_prompt', 'Хотите начать с комплексной диагностики?'))}</p>
-                    <a href="/services/hobilect-diagnostics" class="inline-flex rounded-lg bg-[#1977b2] px-5 py-2.5 text-[0.96rem] font-semibold text-white transition hover:bg-[#16658f] active:bg-[#13557f]">
+                    <p class="text-[0.96rem] text-[#0a293c]"{$this->dataTextId('home.services.habilect_prompt')}>{$this->e(bioinmed_text('home.services.habilect_prompt', 'Хотите начать с комплексной диагностики?'))}</p>
+                    <a href="/services/hobilect-diagnostics" class="inline-flex rounded-lg bg-[#1977b2] px-5 py-2.5 text-[0.96rem] font-semibold text-white transition hover:bg-[#16658f] active:bg-[#13557f]"{$this->dataTextId('home.services.habilect_link')}>
                         {$this->e(bioinmed_text('home.services.habilect_link', '«Хабилект»-диагностика →'))}
                     </a>
                 </div>
@@ -1776,7 +1799,8 @@ class CasesSlider extends Component {
                 {$this->sectionTitle(
                     bioinmed_text('home.reviews.eyebrow', 'Нам доверяют'),
                     bioinmed_text('home.reviews.heading', 'Послушайте тех, кто уже был у нас'),
-                    bioinmed_text('home.reviews.subtitle', 'Отзывы наших пациентов на Яндекс.Картах.')
+                    bioinmed_text('home.reviews.subtitle', 'Отзывы наших пациентов на Яндекс.Картах.'),
+                    'home.reviews.section'
                 )}
                 <div class="overflow-hidden rounded-2xl border border-[#dce8f5] shadow-[0_8px_24px_rgba(10,43,80,0.07)]" style="max-width:700px;">
                     <div style="width:100%;height:800px;overflow:hidden;position:relative;"><iframe style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" src="https://yandex.ru/maps-reviews-widget/20810337169?comments"></iframe><a href="https://yandex.com/maps/org/bioinmed/20810337169/" target="_blank" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:left;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">Биоинмед на карте Москвы — Яндекс Карты</a></div>
@@ -1803,13 +1827,13 @@ class AppointmentCTA extends Component {
                 <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9">
                     <div class="grid gap-7 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
                         <div>
-                            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">{$this->e(bioinmed_text('home.appointment.eyebrow', 'Запишитесь на консультацию'))}</p>
-                            <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]">{$book_appointment_text}</h2>
-                            <p class="mt-2.5 max-w-xl text-[0.94rem] leading-relaxed text-[#0a293c]">{$callback_15_min_text}</p>
+                            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"{$this->dataTextId('home.appointment.eyebrow')}>{$this->e(bioinmed_text('home.appointment.eyebrow', 'Запишитесь на консультацию'))}</p>
+                            <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]"{$this->dataTextId('home.appointment.title')}>{$book_appointment_text}</h2>
+                            <p class="mt-2.5 max-w-xl text-[0.94rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.appointment.callback_note')}>{$callback_15_min_text}</p>
                             <ul class="mt-4 space-y-2 text-[0.92rem] leading-relaxed text-[#0a293c]">
-                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span>{$this->e(bioinmed_text('home.appointment.bullets.1', 'Подберём профильного специалиста под вашу ситуацию.'))}</span></li>
-                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span>{$this->e(bioinmed_text('home.appointment.bullets.2', 'Согласуем удобное время визита без долгого ожидания.'))}</span></li>
-                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span>{$this->e(bioinmed_text('home.appointment.bullets.3', 'Ответим на вопросы по маршруту и стоимости лечения.'))}</span></li>
+                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span{$this->dataTextId('home.appointment.bullets.1')}>{$this->e(bioinmed_text('home.appointment.bullets.1', 'Подберём профильного специалиста под вашу ситуацию.'))}</span></li>
+                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span{$this->dataTextId('home.appointment.bullets.2')}>{$this->e(bioinmed_text('home.appointment.bullets.2', 'Согласуем удобное время визита без долгого ожидания.'))}</span></li>
+                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span{$this->dataTextId('home.appointment.bullets.3')}>{$this->e(bioinmed_text('home.appointment.bullets.3', 'Ответим на вопросы по маршруту и стоимости лечения.'))}</span></li>
                             </ul>
                         </div>
                         <div class="w-full max-w-lg lg:ml-auto">
@@ -1844,7 +1868,8 @@ class ContactSection extends Component {
                 {$this->sectionTitle(
                     bioinmed_text('home.contact.eyebrow', 'Контакты'),
                     bioinmed_text('home.contact.heading', 'Адрес и связь с клиникой'),
-                    bioinmed_text('home.contact.subtitle', 'Мы всегда на связи и готовы ответить на Ваши вопросы')
+                    bioinmed_text('home.contact.subtitle', 'Мы всегда на связи и готовы ответить на Ваши вопросы'),
+                    'home.contact.section'
                 )}
 
                 <div class="mx-auto max-w-5xl space-y-5">
@@ -1854,9 +1879,9 @@ class ContactSection extends Component {
                                 <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#1977b2] shrink-0">
                                     <i class="fa-solid fa-hospital text-[0.9rem]" aria-hidden="true"></i>
                                 </span>
-                                <h3 class="text-[1.25rem] font-bold text-[#0f2749]">{$this->e(bioinmed_text('home.contact.card_title', 'Клиника «БИОИНМЕД»'))}</h3>
+                                <h3 class="text-[1.25rem] font-bold text-[#0f2749]"{$this->dataTextId('home.contact.card_title')}>{$this->e(bioinmed_text('home.contact.card_title', 'Клиника «БИОИНМЕД»'))}</h3>
                             </div>
-                            <p class="text-[0.96rem] text-[#0a293c] leading-relaxed ml-11">
+                            <p class="text-[0.96rem] text-[#0a293c] leading-relaxed ml-11"{$this->dataTextId('home.contact.card_subtitle')}>
                                 {$this->e(bioinmed_text('home.contact.card_subtitle', 'Свяжитесь с нами удобным способом или посетите клинику по указанному адресу'))}
                             </p>
                         </div>
@@ -1869,7 +1894,7 @@ class ContactSection extends Component {
                                     <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
                                         <i class="fa-solid fa-phone text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]">{$this->e(bioinmed_text('home.contact.labels.phone', 'Телефон'))}</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.phone')}>{$this->e(bioinmed_text('home.contact.labels.phone', 'Телефон'))}</p>
                                 </div>
                                 <a href="tel:{$phone_link_1}" class="block text-[1rem] font-bold text-[#1977b2] hover:text-[#0f2749] transition leading-snug">
                                     {$phone_1}
@@ -1883,7 +1908,7 @@ class ContactSection extends Component {
                                     <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
                                         <i class="fa-solid fa-map-pin text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]">{$this->e(bioinmed_text('home.contact.labels.address', 'Адрес'))}</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.address')}>{$this->e(bioinmed_text('home.contact.labels.address', 'Адрес'))}</p>
                                 </div>
                                 <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug">
                                     {$address}
@@ -1891,7 +1916,7 @@ class ContactSection extends Component {
                                 <p class="text-[0.92rem] text-[#0a293c] mt-1">
                                     {$metro}
                                 </p>
-                                <a href="javascript:void(0)" class="jsClientix_openWidget mt-4 inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden">
+                                <a href="javascript:void(0)" class="jsClientix_openWidget mt-4 inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden"{$this->dataTextId('home.contact.online_booking_button_mobile')}>
                                     {$this->e(bioinmed_text('common.online_booking_desktop'))}
                                 </a>
                             </div>
@@ -1902,7 +1927,7 @@ class ContactSection extends Component {
                                     <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
                                         <i class="fa-solid fa-clock text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]">{$this->e(bioinmed_text('home.contact.labels.hours', 'Режим'))}</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.hours')}>{$this->e(bioinmed_text('home.contact.labels.hours', 'Режим'))}</p>
                                 </div>
                                 <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug">
                                     {$hours}
@@ -1915,7 +1940,7 @@ class ContactSection extends Component {
                                     <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
                                         <i class="fa-solid fa-envelope text-[0.75rem]" aria-hidden="true"></i>
                                     </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]">{$this->e(bioinmed_text('home.contact.labels.email', 'Email'))}</p>
+                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.email')}>{$this->e(bioinmed_text('home.contact.labels.email', 'Email'))}</p>
                                 </div>
                                 <a href="mailto:{$email}" class="text-[1rem] font-semibold text-[#1977b2] hover:text-[#0f2749] transition break-all">
                                     {$email}
@@ -1930,11 +1955,11 @@ class ContactSection extends Component {
                                     <i class="fa-solid fa-directions text-[0.9rem]" aria-hidden="true"></i>
                                 </span>
                                 <div>
-                                    <h4 class="font-bold text-[#0f2749] mb-2">{$this->e(bioinmed_text('home.contact.route.title', 'Как добраться'))}</h4>
-                                    <p class="text-[0.92rem] text-[#0a293c] leading-relaxed mb-3">
+                                    <h4 class="font-bold text-[#0f2749] mb-2"{$this->dataTextId('home.contact.route.title')}>{$this->e(bioinmed_text('home.contact.route.title', 'Как добраться'))}</h4>
+                                    <p class="text-[0.92rem] text-[#0a293c] leading-relaxed mb-3"{$this->dataTextId('home.contact.route.text')}>
                                         {$this->e(bioinmed_text('home.contact.route.text', 'Станция метро Фрунзенская. Выход из стеклянных дверей налево, затем прямо по переулку Хользунова до первого перекрёстка со светофором. Перейдите дорогу (ориентир — кафе «Брусника») и пройдите ещё около 50 метров до вывески «БИОИНМЕД».'))}
                                     </p>
-                                    <a href="https://yandex.com/maps/-/CPGGyEzo" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]">
+                                    <a href="https://yandex.com/maps/-/CPGGyEzo" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]"{$this->dataTextId('home.contact.route.button')}>
                                         <i class="fa-solid fa-map text-[0.82rem]" aria-hidden="true"></i>
                                         {$this->e(bioinmed_text('home.contact.route.button', 'Открыть в Яндекс.Картах'))}
                                     </a>
@@ -1944,15 +1969,15 @@ class ContactSection extends Component {
 
                         <!-- Оставить отзыв -->
                         <div class="rounded-xl border border-[#dce8f5] bg-white p-5">
-                            <h4 class="font-bold text-[#0f2749] mb-3">{$this->e(bioinmed_text('home.contact.reviews.title', 'Оставить отзыв о центре'))}</h4>
+                            <h4 class="font-bold text-[#0f2749] mb-3"{$this->dataTextId('home.contact.reviews.title')}>{$this->e(bioinmed_text('home.contact.reviews.title', 'Оставить отзыв о центре'))}</h4>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                 <a href="https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">
                                     <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
-                                    {$this->e(bioinmed_text('home.contact.reviews.yandex', 'Яндекс'))}
+                                    <span{$this->dataTextId('home.contact.reviews.yandex')}>{$this->e(bioinmed_text('home.contact.reviews.yandex', 'Яндекс'))}</span>
                                 </a>
                                 <a href="https://2gis.ru/moscow/firm/70000001085756150/tab/reviews" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">
                                     <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
-                                    {$this->e(bioinmed_text('home.contact.reviews.2gis', '2ГИС'))}
+                                    <span{$this->dataTextId('home.contact.reviews.2gis')}>{$this->e(bioinmed_text('home.contact.reviews.2gis', '2ГИС'))}</span>
                                 </a>
                                 <a href="https://doctu.ru/msk/clinic/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">
                                     <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
@@ -1960,7 +1985,7 @@ class ContactSection extends Component {
                                 </a>
                                 <a href="https://vk.com/bioinmed" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]">
                                     <i class="fa-brands fa-vk text-[0.88rem] mr-1"></i>
-                                    {$this->e(bioinmed_text('home.contact.reviews.vk', 'ВКонтакте'))}
+                                    <span{$this->dataTextId('home.contact.reviews.vk')}>{$this->e(bioinmed_text('home.contact.reviews.vk', 'ВКонтакте'))}</span>
                                 </a>
                             </div>
                         </div>
@@ -1982,10 +2007,10 @@ class PartnersBlock extends Component {
                 <div class="rounded-[2rem] bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_100%)] p-6 shadow-[0_10px_24px_rgba(6,29,60,0.04)] md:p-8">
                     <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                         <div>
-                            <p class="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">{$this->e(bioinmed_text('home.partners.eyebrow', 'Партнёры и технологии'))}</p>
-                            <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.7rem]">{$this->e(bioinmed_text('home.partners.heading', 'Heel и «Хабилект» в основе нашего подхода'))}</h2>
+                            <p class="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"{$this->dataTextId('home.partners.eyebrow')}>{$this->e(bioinmed_text('home.partners.eyebrow', 'Партнёры и технологии'))}</p>
+                            <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.7rem]"{$this->dataTextId('home.partners.heading')}>{$this->e(bioinmed_text('home.partners.heading', 'Heel и «Хабилект» в основе нашего подхода'))}</h2>
                         </div>
-                        <p class="max-w-2xl text-[0.9rem] leading-relaxed text-[#0a293c] md:text-[0.95rem]">
+                        <p class="max-w-2xl text-[0.9rem] leading-relaxed text-[#0a293c] md:text-[0.95rem]"{$this->dataTextId('home.partners.subtitle')}>
                             {$this->e(bioinmed_text('home.partners.subtitle', 'Мы объединяем доказательные решения и современные технологии диагностики, чтобы путь пациента был точным, понятным и результативным.'))}
                         </p>
                     </div>
@@ -1998,7 +2023,7 @@ class PartnersBlock extends Component {
                                 </div>
                                 <div class="min-w-0 text-center">
                                     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Heel</p>
-                                    <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]">{$this->e(bioinmed_text('home.partners.heel_description', 'Надёжный партнёр в интегративной терапии и мягких лечебных программах.'))}</p>
+                                    <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.partners.heel_description')}>{$this->e(bioinmed_text('home.partners.heel_description', 'Надёжный партнёр в интегративной терапии и мягких лечебных программах.'))}</p>
                                 </div>
                             </div>
                             <div class="flex flex-col items-center gap-4 border-t border-[#edf3f9] px-5 py-5 md:border-l md:border-t-0 md:px-8 md:py-7">
@@ -2006,8 +2031,8 @@ class PartnersBlock extends Component {
                                     <img src="{$habilect_logo}" alt="«Хабилект»" class="h-12 w-[120px] max-w-none object-contain md:h-14 md:w-[150px]" loading="lazy" decoding="async">
                                 </div>
                                 <div class="min-w-0 text-center">
-                                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">{$this->e(bioinmed_text('hero.habilect.label', '«Хабилект»'))}</p>
-                                    <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]">{$this->e(bioinmed_text('home.partners.habilect_description', 'Точная 3D-диагностика и персональный маршрут восстановления.'))}</p>
+                                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"{$this->dataTextId('hero.habilect.label')}>{$this->e(bioinmed_text('hero.habilect.label', '«Хабилект»'))}</p>
+                                    <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.partners.habilect_description')}>{$this->e(bioinmed_text('home.partners.habilect_description', 'Точная 3D-диагностика и персональный маршрут восстановления.'))}</p>
                                 </div>
                             </div>
                         </div>
@@ -2027,16 +2052,16 @@ class SolidarityMedicineBlock extends Component {
                 <div class="overflow-hidden rounded-[2rem] border border-[#d7e6f3] bg-white shadow-[0_18px_42px_rgba(6,29,60,0.08)]">
                     <div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
                         <div class="p-6 md:p-8 lg:p-10">
-                            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]">{$this->e(bioinmed_text('home.solidarity.eyebrow', 'Профессиональное объединение'))}</p>
-                            <h2 class="mt-2 text-[1.4rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]">{$this->e(bioinmed_text('home.solidarity.heading', 'Солидарная авторская медицина'))}</h2>
-                            <p class="mt-3 text-[1.05rem] font-semibold text-[#0a293c]">{$this->e(bioinmed_text('home.solidarity.project_title', 'Проект «Солидарная авторская медицина»'))}</p>
-                            <p class="mt-5 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]">
+                            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"{$this->dataTextId('home.solidarity.eyebrow')}>{$this->e(bioinmed_text('home.solidarity.eyebrow', 'Профессиональное объединение'))}</p>
+                            <h2 class="mt-2 text-[1.4rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"{$this->dataTextId('home.solidarity.heading')}>{$this->e(bioinmed_text('home.solidarity.heading', 'Солидарная авторская медицина'))}</h2>
+                            <p class="mt-3 text-[1.05rem] font-semibold text-[#0a293c]"{$this->dataTextId('home.solidarity.project_title')}>{$this->e(bioinmed_text('home.solidarity.project_title', 'Проект «Солидарная авторская медицина»'))}</p>
+                            <p class="mt-5 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_1')}>
                                 {$this->e(bioinmed_text('home.solidarity.text_1', 'Это профессиональное объединение опытных врачей, работающих на единой научно-практической площадке.'))}
                             </p>
-                            <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]">
+                            <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_2')}>
                                 {$this->e(bioinmed_text('home.solidarity.text_2', 'Проект объединяет специалистов с большим клиническим опытом, авторскими методиками, собственными программами восстановления здоровья и индивидуальным подходом к пациенту.'))}
                             </p>
-                            <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]">
+                            <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_3')}>
                                 {$this->e(bioinmed_text('home.solidarity.text_3', 'В основе проекта - обмен профессиональным опытом, медицинские консилиумы, научные дискуссии, разработка новых подходов, подготовка статей и докладов.'))}
                             </p>
                         </div>
@@ -2044,27 +2069,27 @@ class SolidarityMedicineBlock extends Component {
                         <div class="border-t border-[#e6eef7] bg-[#f8fbff] p-6 md:p-8 lg:border-l lg:border-t-0 lg:p-10">
                             <div class="flex h-full flex-col justify-between">
                                 <div>
-                                    <div class="inline-flex items-center gap-2 rounded-full bg-[#e8f3fc] px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]">
+                                    <div class="inline-flex items-center gap-2 rounded-full bg-[#e8f3fc] px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"{$this->dataTextId('home.solidarity.shared_platform')}>
                                         <i class="fa-solid fa-diagram-project text-[0.75rem]" aria-hidden="true"></i>
                                         {$this->e(bioinmed_text('home.solidarity.shared_platform', 'Общая площадка'))}
                                     </div>
-                                    <blockquote class="mt-5 text-[1.02rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]">
+                                    <blockquote class="mt-5 text-[1.02rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]"{$this->dataTextId('home.solidarity.quote')}>
                                         {$this->e(bioinmed_text('home.solidarity.quote', '«Солидарная авторская медицина» - это пространство для профессионального роста врачей, развития медицинской практики и формирования эффективных решений на стыке опыта, науки и доказательной медицины.'))}
                                     </blockquote>
                                 </div>
 
                                 <div class="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
                                     <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
-                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">{$this->e(bioinmed_text('home.solidarity.cards.consiliums.title', 'Консилиумы'))}</p>
-                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]">{$this->e(bioinmed_text('home.solidarity.cards.consiliums.text', 'Совместный разбор сложных клинических случаев'))}</p>
+                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.consiliums.title')}>{$this->e(bioinmed_text('home.solidarity.cards.consiliums.title', 'Консилиумы'))}</p>
+                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.consiliums.text')}>{$this->e(bioinmed_text('home.solidarity.cards.consiliums.text', 'Совместный разбор сложных клинических случаев'))}</p>
                                     </div>
                                     <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
-                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">{$this->e(bioinmed_text('home.solidarity.cards.science.title', 'Наука'))}</p>
-                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]">{$this->e(bioinmed_text('home.solidarity.cards.science.text', 'Исследования, статьи, доклады и профессиональная дискуссия'))}</p>
+                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.science.title')}>{$this->e(bioinmed_text('home.solidarity.cards.science.title', 'Наука'))}</p>
+                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.science.text')}>{$this->e(bioinmed_text('home.solidarity.cards.science.text', 'Исследования, статьи, доклады и профессиональная дискуссия'))}</p>
                                     </div>
                                     <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
-                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]">{$this->e(bioinmed_text('home.solidarity.cards.practice.title', 'Практика'))}</p>
-                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]">{$this->e(bioinmed_text('home.solidarity.cards.practice.text', 'Авторские методики и индивидуальные программы восстановления'))}</p>
+                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.practice.title')}>{$this->e(bioinmed_text('home.solidarity.cards.practice.title', 'Практика'))}</p>
+                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.practice.text')}>{$this->e(bioinmed_text('home.solidarity.cards.practice.text', 'Авторские методики и индивидуальные программы восстановления'))}</p>
                                     </div>
                                 </div>
                             </div>
@@ -2107,11 +2132,11 @@ class SeasonsBlock extends Component {
                 <div class="relative z-[1] flex min-h-[500px] flex-col justify-end pb-10 pt-14 md:min-h-[640px] md:pb-12 md:pt-16">
                     <div class="mx-auto max-w-6xl px-6 md:px-10">
                         <div class="max-w-2xl">
-                            <p class="mb-2.5 text-[0.74rem] font-semibold uppercase tracking-[0.2em]" style="color:{$color}">{$this->e(bioinmed_text('seasons.eyebrow', 'Времена года'))}</p>
+                            <p class="mb-2.5 text-[0.74rem] font-semibold uppercase tracking-[0.2em]" style="color:{$color}"{$this->dataTextId('seasons.eyebrow')}>{$this->e(bioinmed_text('seasons.eyebrow', 'Времена года'))}</p>
                             <h2 id="seasons-heading" class="mb-4 text-4xl font-black leading-none text-white md:text-6xl">{$name}</h2>
                             <p class="mb-4 max-w-xl text-[0.96rem] font-light text-white/92 md:text-[1.1rem]">{$slogan}</p>
                             <blockquote class="max-w-2xl border-l-4 pl-3.5 text-[0.86rem] italic leading-relaxed text-white/86 md:text-[0.94rem]" style="border-color:{$color}">{$quote}</blockquote>
-                            <a href="{$href}" class="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.82rem] font-semibold text-[#123a63] shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:bg-[#f2fbff]">
+                            <a href="{$href}" class="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.82rem] font-semibold text-[#123a63] shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition hover:bg-[#f2fbff]"{$this->dataTextId('seasons.more_details') }>
                                 {$this->e(bioinmed_text('common.more_details'))}
                                 <i class="fa-solid fa-arrow-right text-[0.76rem]" aria-hidden="true"></i>
                             </a>
@@ -2146,6 +2171,11 @@ class Footer extends Component {
             (string)bioinmed_text('common.online_booking'),
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
         );
+        $phone_placeholder_default_js = $this->jsString(bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон'));
+        $form_sending_js = $this->jsString(bioinmed_text('forms.status.sending', 'Отправляем...'));
+        $form_server_response_error_js = $this->jsString(bioinmed_text('forms.status.server_response_error', 'Не удалось обработать ответ сервера.'));
+        $form_send_error_js = $this->jsString(bioinmed_text('forms.status.send_error', 'Не удалось отправить заявку.'));
+        $form_send_success_js = $this->jsString(bioinmed_text('forms.status.send_success', 'Заявка отправлена.'));
 
         $vk = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
@@ -2170,7 +2200,7 @@ class Footer extends Component {
                         <div class="mb-4">
                             <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 mb-3" loading="lazy" decoding="async">
                         </div>
-                        <p class="text-[0.96rem] text-[#0a293c] leading-relaxed">{$footer_description}</p>
+                        <p class="text-[0.96rem] text-[#0a293c] leading-relaxed"{$this->dataTextId('footer.clinic_description')}>{$footer_description}</p>
                         <div class="mt-4 flex gap-3">
                             <a href="{$vk}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#2787f5] hover:text-[#1f6fd0] transition-colors" title="ВКонтакте" aria-label="ВКонтакте">
                                 <i class="fa-brands fa-vk translate-x-[1px] text-[1.82rem] leading-none" aria-hidden="true"></i>
@@ -2186,7 +2216,7 @@ class Footer extends Component {
 
                     <!-- Услуги -->
                     <div>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4">{$this->e(bioinmed_text('footer.sections.services', 'Услуги'))}</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.services')}>{$this->e(bioinmed_text('footer.sections.services', 'Услуги'))}</h4>
                         <ul class="space-y-2">
                             <li><a href="{$this->e($service_habilect['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">{$this->e($service_habilect['text'])}</a></li>
                             <li><a href="{$this->e($service_musculoskeletal['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">{$this->e($service_musculoskeletal['text'])}</a></li>
@@ -2198,7 +2228,7 @@ class Footer extends Component {
 
                     <!-- Компания -->
                     <div>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4">{$this->e(bioinmed_text('footer.sections.company', 'Компания'))}</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.company')}>{$this->e(bioinmed_text('footer.sections.company', 'Компания'))}</h4>
                         <ul class="space-y-2">
                             <li><a href="{$this->e($company_about['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">{$this->e($company_about['text'])}</a></li>
                             <li><a href="{$this->e($company_doctors['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors">{$this->e($company_doctors['text'])}</a></li>
@@ -2211,7 +2241,7 @@ class Footer extends Component {
 
                     <!-- Контакты -->
                     <div>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4">{$this->e(bioinmed_text('footer.sections.contacts', 'Контакты'))}</h4>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.contacts')}>{$this->e(bioinmed_text('footer.sections.contacts', 'Контакты'))}</h4>
                         <div class="space-y-3">
                             <div class="flex items-start gap-2">
                                 <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2256,7 +2286,7 @@ class Footer extends Component {
 
                 <!-- Нижняя часть подвала -->
                 <div class="border-t border-[#dce8f5] pt-5">
-                    <p class="text-[0.84rem] leading-relaxed text-[#0a293c]">{$footer_copyright}</p>
+                    <p class="text-[0.84rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('footer.copyright')}>{$footer_copyright}</p>
                 </div>
             </div>
         </footer>
@@ -2324,7 +2354,7 @@ class Footer extends Component {
                     if (!input) {
                         return;
                     }
-                    var defaultPlaceholder = input.getAttribute('data-placeholder-default') || {$this->e(json_encode((string)bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))};
+                    var defaultPlaceholder = input.getAttribute('data-placeholder-default') || {$phone_placeholder_default_js};
                     var activePlaceholder = input.getAttribute('data-placeholder-active') || '+7 (___) ___-__-__';
                     input.placeholder = input.value ? activePlaceholder : defaultPlaceholder;
                 }
@@ -2415,7 +2445,7 @@ class Footer extends Component {
                         if (submit) {
                             submit.disabled = true;
                             submit.dataset.loadingText = submit.textContent || '';
-                            submit.textContent = {$this->e(json_encode((string)bioinmed_text('forms.status.sending', 'Отправляем...'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))};
+                            submit.textContent = {$form_sending_js};
                         }
 
                         fetch(form.getAttribute('action') || '/callback-request.php', {
@@ -2429,22 +2459,22 @@ class Footer extends Component {
                                 return response.json().catch(function() {
                                     return {
                                         success: false,
-                                        message: {$this->e(json_encode((string)bioinmed_text('forms.status.server_response_error', 'Не удалось обработать ответ сервера.'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))}
+                                        message: {$form_server_response_error_js}
                                     };
                                 });
                             })
                             .then(function(payload) {
                                 if (!payload || payload.success !== true) {
-                                    throw new Error(payload && payload.message ? payload.message : {$this->e(json_encode((string)bioinmed_text('forms.status.send_error', 'Не удалось отправить заявку.'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))});
+                                    throw new Error(payload && payload.message ? payload.message : {$form_send_error_js});
                                 }
-                                setStatus(form, 'success', payload.message || {$this->e(json_encode((string)bioinmed_text('forms.status.send_success', 'Заявка отправлена.'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))});
+                                setStatus(form, 'success', payload.message || {$form_send_success_js});
                                 form.reset();
                                 if (phoneInput) {
                                     syncPhonePlaceholder(phoneInput);
                                 }
                             })
                             .catch(function(error) {
-                                setStatus(form, 'error', error && error.message ? error.message : {$this->e(json_encode((string)bioinmed_text('forms.status.send_error', 'Не удалось отправить заявку.'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT))});
+                                setStatus(form, 'error', error && error.message ? error.message : {$form_send_error_js});
                             })
                             .finally(function() {
                                 if (submit) {

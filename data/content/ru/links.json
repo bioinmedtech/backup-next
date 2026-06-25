@@ -42,6 +42,18 @@
       "text": "Профессиональная команда",
       "url": "/doctors"
     },
+    "services_root": {
+      "text": "Услуги",
+      "url": "/services"
+    },
+    "problems": {
+      "text": "Проблемы",
+      "url": "/problems"
+    },
+    "seasons_root": {
+      "text": "Наши сезоны",
+      "url": "/seasons/spring"
+    },
     "all_services_and_prices": {
       "text": "Все услуги и цены →",
       "url": "/prices"
@@ -63,6 +75,72 @@
     "reflexotherapy": {
       "text": "Рефлексотерапия",
       "url": "/services/reflexotherapy"
+    },
+    "fizioterapiya": {
+      "text": "Физиотерапия",
+      "url": "/services/fizioterapiya"
+    },
+    "acupuncture": {
+      "text": "Рефлексотерапия и иглоукалывание",
+      "url": "/services/acupuncture"
+    }
+  },
+  "pages": {
+    "home": {
+      "text": "Главная",
+      "url": "/"
+    },
+    "about": {
+      "text": "О клинике",
+      "url": "/about"
+    },
+    "services": {
+      "text": "Услуги",
+      "url": "/services"
+    },
+    "prices": {
+      "text": "Прайс-лист",
+      "url": "/prices"
+    },
+    "doctors": {
+      "text": "Врачи",
+      "url": "/doctors"
+    },
+    "problems": {
+      "text": "Проблемы",
+      "url": "/problems"
+    },
+    "privacy": {
+      "text": "Политика конфиденциальности",
+      "url": "/privacy"
+    },
+    "user_agreement": {
+      "text": "Пользовательское соглашение",
+      "url": "/user-agreement"
+    }
+  },
+  "hero": {
+    "habilect": {
+      "text": "Хабилект",
+      "url": "/services/hobilect-diagnostics"
+    }
+  },
+  "seasonal": {
+    "spring": {
+      "text": "Весна",
+      "url": "/seasons/spring"
+    },
+    "summer": {
+      "text": "Лето",
+      "url": "/seasons/summer"
+    },
+    "autumn": {
+      "text": "Осень",
+      "url": "/seasons/autumn"
+    },
+    "winter": {
+      "text": "Зима",
+      "url": "/seasons/winter"
     }
   }
 }

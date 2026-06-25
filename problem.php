@@ -129,9 +129,9 @@ echo $header->render();
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div>
-                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"><?php echo e($problemChildrenText['eyebrow'] ?? ''); ?></p>
-                <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"><?php echo e($problemChildrenText['heading'] ?? ''); ?></h1>
-                <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"><?php echo e($problemChildrenText['description'] ?? ''); ?></p>
+                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'children.eyebrow'); ?>><?php echo e($problemChildrenText['eyebrow'] ?? ''); ?></p>
+                <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'children.heading'); ?>><?php echo e($problemChildrenText['heading'] ?? ''); ?></h1>
+                <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'children.description'); ?>><?php echo e($problemChildrenText['description'] ?? ''); ?></p>
             </div>
         </div>
     </section>
@@ -150,10 +150,10 @@ echo $header->render();
     <section class="mx-auto max-w-4xl px-6 py-20 md:px-10">
         <div class="rounded-3xl bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
             <i class="fa-solid fa-circle-question mb-4 text-5xl text-[#b0c8e0]" aria-hidden="true"></i>
-            <h1 class="text-3xl font-bold text-[#0a293c]"><?php echo e($problemNotFoundText['title'] ?? ''); ?></h1>
-            <p class="mt-3 text-[#0a293c]"><?php echo e($problemNotFoundText['text'] ?? ''); ?></p>
+            <h1 class="text-3xl font-bold text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'not_found.title'); ?>><?php echo e($problemNotFoundText['title'] ?? ''); ?></h1>
+            <p class="mt-3 text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'not_found.text'); ?>><?php echo e($problemNotFoundText['text'] ?? ''); ?></p>
             <a href="/problems" class="mt-7 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-6 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-white hover:bg-[#16658f]">
-                <i class="fa-solid fa-list" aria-hidden="true"></i> <?php echo e($problemNotFoundText['button'] ?? ''); ?>
+                <i class="fa-solid fa-list" aria-hidden="true"></i> <span<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'not_found.button'); ?>><?php echo e($problemNotFoundText['button'] ?? ''); ?></span>
             </a>
         </div>
     </section>
@@ -161,10 +161,10 @@ echo $header->render();
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div>
-                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"><?php echo e($problemDetailText['eyebrow'] ?? ''); ?></p>
+                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'problem.eyebrow'); ?>><?php echo e($problemDetailText['eyebrow'] ?? ''); ?></p>
                 <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"><?php echo e($problem['title']); ?></h1>
                 <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"><?php echo e($problem['description']); ?></p>
-                <p class="mt-4 max-w-3xl text-[0.96rem] leading-relaxed text-[#0a293c]">
+                <p class="mt-4 max-w-3xl text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'problem.intro'); ?>>
                     <?php echo e($problemDetailText['intro'] ?? ''); ?>
                 </p>
             </div>
@@ -182,6 +182,7 @@ echo $header->render();
                     $sectionItems = $section['items'] ?? [];
                     if ($sectionTitle === '' && (empty($sectionItems) || !is_array($sectionItems))) continue;
                     $sectionIcon = ['fa-user-doctor', 'fa-magnifying-glass', 'fa-clipboard-check', 'fa-kit-medical', 'fa-star'][$index] ?? 'fa-circle-info';
+                    $sectionKey = trim((string)($section['key'] ?? ('section_' . $index)));
                     ?>
                     <details class="group rounded-[1.4rem] bg-white p-5 shadow-[0_12px_28px_rgba(10,43,80,0.06)]" data-problem-step="<?php echo e((string)$index); ?>"<?php echo $index < 5 ? ' open' : ''; ?>>
                         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
@@ -190,9 +191,9 @@ echo $header->render();
                                     <i class="fa-solid <?php echo e($sectionIcon); ?> text-[0.95rem]" aria-hidden="true"></i>
                                 </span>
                                 <div>
-                                    <span class="block text-[0.98rem] font-bold text-[#0f2749] md:text-[1.05rem]"><?php echo e($sectionTitle); ?></span>
+                                    <span class="block text-[0.98rem] font-bold text-[#0f2749] md:text-[1.05rem]"<?php echo bioinmed_data_text_id('problem.details_sections.' . $sectionKey . '.title'); ?>><?php echo e($sectionTitle); ?></span>
                                     <?php if ($sectionIntro !== ''): ?>
-                                        <span class="mt-1 block max-w-3xl text-[0.9rem] leading-relaxed text-[#0a293c]"><?php echo e($sectionIntro); ?></span>
+                                        <span class="mt-1 block max-w-3xl text-[0.9rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_data_text_id('problem.details_sections.' . $sectionKey . '.intro'); ?>><?php echo e($sectionIntro); ?></span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -202,10 +203,19 @@ echo $header->render();
                         </summary>
                         <?php if (!empty($sectionItems) && is_array($sectionItems)): ?>
                             <ul class="mt-4 space-y-2.5">
-                                <?php foreach ($sectionItems as $sectionItem): ?>
+                                <?php foreach ($sectionItems as $itemIndex => $sectionItemEntry): ?>
+                                    <?php
+                                    if (is_array($sectionItemEntry)) {
+                                        $sectionItemText = (string)($sectionItemEntry['text'] ?? '');
+                                        $sectionItemKey = trim((string)($sectionItemEntry['id'] ?? ('item_' . $itemIndex)));
+                                    } else {
+                                        $sectionItemText = (string)$sectionItemEntry;
+                                        $sectionItemKey = 'item_' . $itemIndex;
+                                    }
+                                    ?>
                                     <li class="flex items-start gap-3 border-l-2 border-[#dbe8f3] pl-3 text-[0.95rem] leading-relaxed text-[#0a293c]">
                                         <i class="fa-solid fa-check mt-1 text-[0.75rem] text-[#1977b2]" aria-hidden="true"></i>
-                                        <span><?php echo e(problem_list_text((string)$sectionItem)); ?></span>
+                                        <span<?php echo bioinmed_data_text_id('problem.details_sections.' . $sectionKey . '.items.' . $sectionItemKey); ?>><?php echo e(problem_list_text((string)$sectionItemText)); ?></span>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -219,13 +229,13 @@ echo $header->render();
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="rounded-[2rem] bg-transparent p-0">
-                <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"><?php echo e($problemAppointmentText['eyebrow'] ?? ''); ?></p>
+                <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'appointment.eyebrow'); ?>><?php echo e($problemAppointmentText['eyebrow'] ?? ''); ?></p>
                 <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h2>
-                <p class="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"><?php echo e($problemAppointmentText['text'] ?? ''); ?></p>
+                <p class="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'appointment.text'); ?>><?php echo e($problemAppointmentText['text'] ?? ''); ?></p>
                 <div class="mt-5 max-w-xl">
                     <?php echo bioinmed_render_callback_form([
                         'source_label' => (string)($problemAppointmentText['source_label'] ?? ''),
-                        'submit_label' => bioinmed_text('common.book_appointment'),
+                        'submit_label' => (string)($problemAppointmentText['submit_label'] ?? bioinmed_text('common.book_appointment')),
                     ]); ?>
                 </div>
             </div>
@@ -236,10 +246,10 @@ echo $header->render();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <div>
-                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"><?php echo e($problemServicesText['eyebrow'] ?? ''); ?></p>
-                    <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"><?php echo e($problemServicesText['title'] ?? ''); ?></h2>
+                    <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'services.eyebrow'); ?>><?php echo e($problemServicesText['eyebrow'] ?? ''); ?></p>
+                    <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'services.title'); ?>><?php echo e($problemServicesText['title'] ?? ''); ?></h2>
                 </div>
-                <p class="max-w-2xl text-[0.94rem] leading-relaxed text-[#0a293c]"><?php echo e($problemServicesText['description'] ?? ''); ?></p>
+                <p class="max-w-2xl text-[0.94rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'services.description'); ?>><?php echo e($problemServicesText['description'] ?? ''); ?></p>
             </div>
 
             <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -253,7 +263,7 @@ echo $header->render();
                     $servicePrice = trim((string)($service['price'] ?? ''));
                     ?>
                     <a href="<?php echo e($serviceLink); ?>" class="group block rounded-[1.6rem] bg-white p-5 shadow-[0_10px_26px_rgba(10,43,80,0.06)] ring-1 ring-[#d9e7f2] transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(10,43,80,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]">
-                        <p class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"><?php echo e($service['display_label'] ?? ($problemServicesText['display_label_fallback'] ?? '')); ?></p>
+                        <p class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'services.display_label_fallback'); ?>><?php echo e($service['display_label'] ?? ($problemServicesText['display_label_fallback'] ?? '')); ?></p>
                         <h3 class="mt-2 text-[1.08rem] font-bold leading-tight text-[#0f2749]"><?php echo e($serviceName); ?></h3>
                         <?php if ($serviceSubtitle !== ''): ?>
                             <p class="mt-1 text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#0a293c]"><?php echo e($serviceSubtitle); ?></p>

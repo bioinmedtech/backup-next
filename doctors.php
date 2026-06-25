@@ -147,13 +147,13 @@ echo $header->render();
     <section class="border-b border-[#e4edf6] bg-[#e4f1fa]">
         <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
-                <a href="/" class="hover:text-[#1977b2]"><?php echo e($doctorsHero['breadcrumb_home'] ?? ''); ?></a>
+                <a href="/" class="hover:text-[#1977b2]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.breadcrumb_home'); ?>><?php echo e($doctorsHero['breadcrumb_home'] ?? ''); ?></a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
-                <span class="text-[#0f2749]"><?php echo e($doctorsHero['breadcrumb_current'] ?? ''); ?></span>
+                <span class="text-[#0f2749]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.breadcrumb_current'); ?>><?php echo e($doctorsHero['breadcrumb_current'] ?? ''); ?></span>
             </nav>
             <div>
-                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]"><?php echo e($doctorsHero['heading'] ?? ''); ?></h1>
-                <p class="mt-3 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.04rem]">
+                <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.heading'); ?>><?php echo e($doctorsHero['heading'] ?? ''); ?></h1>
+                <p class="mt-3 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.04rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.text'); ?>>
                     <?php echo e($doctorsHero['text'] ?? ''); ?>
                 </p>
             </div>
@@ -164,7 +164,7 @@ echo $header->render();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="fade-up overflow-hidden rounded-3xl">
                 <img src="<?php echo e(bioinmed_versioned_asset_path('/public/images/team/team-photo.jpg')); ?>"
-                     alt="<?php echo e($doctorsHero['team_image_alt'] ?? ''); ?>"
+                     alt="<?php echo e($doctorsHero['team_image_alt'] ?? ''); ?>"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.team_image_alt'); ?>
                      class="h-auto max-h-[520px] w-full rounded-3xl object-contain"
                      loading="eager"
                      onerror="this.src='/public/images/placeholder.jpg'">
@@ -194,9 +194,9 @@ echo $header->render();
                         </div>
                         <?php if (!empty($chief['hero_tagline'])): ?>
                         <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
-                            <?php echo e($doctorsChiefQuote['text'] ?? ''); ?>
+                            <span<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.text'); ?>><?php echo e($doctorsChiefQuote['text'] ?? ''); ?></span>
                         </p>
-                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"><?php echo e($doctorsChiefQuote['sign'] ?? ''); ?></p>
+                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.sign'); ?>><?php echo e($doctorsChiefQuote['sign'] ?? ''); ?></p>
                     <?php endif; ?>
                     </div>
                 <?php echo bioinmed_render_chief_doctor_summary($chief, [
@@ -212,9 +212,9 @@ echo $header->render();
     <!-- ALL DOCTORS GRID -->
     <section class="bg-[#e4f1fa] py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="text-[0.92rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e($doctorsTeam['eyebrow'] ?? ''); ?></p>
-            <h2 class="mt-2 text-[2rem] font-bold text-[#0a293c] md:text-[2.35rem]"><?php echo e($doctorsTeam['title'] ?? ''); ?></h2>
-            <p class="mt-2 text-[1.02rem] text-[#0a293c]"><?php echo e($doctorsTeam['description'] ?? ''); ?></p>
+            <p class="text-[0.92rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.eyebrow'); ?>><?php echo e($doctorsTeam['eyebrow'] ?? ''); ?></p>
+            <h2 class="mt-2 text-[2rem] font-bold text-[#0a293c] md:text-[2.35rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.title'); ?>><?php echo e($doctorsTeam['title'] ?? ''); ?></h2>
+            <p class="mt-2 text-[1.02rem] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.description'); ?>><?php echo e($doctorsTeam['description'] ?? ''); ?></p>
 
             <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-2">
                 <?php foreach ($teamDoctors as $index => $doc):
@@ -276,9 +276,9 @@ echo $header->render();
     <!-- CTA -->
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"><?php echo e(($doctorsCta['eyebrow'] ?? '') . ' ' . CLINIC_NAME . ' · ' . CLINIC_METRO); ?></p>
-            <h2 class="mt-3 text-[1.32rem] font-bold text-[#0a293c] md:text-[1.58rem]"><?php echo e($doctorsCta['title'] ?? ''); ?></h2>
-            <p class="mx-auto mt-3 max-w-xl text-[0.98rem] text-[#0a293c]">
+            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'cta.eyebrow'); ?>><?php echo e(($doctorsCta['eyebrow'] ?? '') . ' ' . CLINIC_NAME . ' · ' . CLINIC_METRO); ?></p>
+            <h2 class="mt-3 text-[1.32rem] font-bold text-[#0a293c] md:text-[1.58rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'cta.title'); ?>><?php echo e($doctorsCta['title'] ?? ''); ?></h2>
+            <p class="mx-auto mt-3 max-w-xl text-[0.98rem] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'cta.text'); ?>>
                 <?php echo e($doctorsCta['text'] ?? ''); ?>
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-3">
