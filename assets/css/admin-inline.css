@@ -36,7 +36,7 @@
 }
 
 .bioinmed-admin-modal {
-    width: min(420px, 95vw);
+    width: min(620px, 95vw);
     background: #ffffff;
     border-radius: 20px;
     border: 1px solid #dbe8f4;
@@ -81,6 +81,18 @@
         width: min(95vw, 560px);
         border-radius: 20px;
     }
+}
+
+@media (max-width: 640px) {
+    /* On small screens show only the logout icon (no text) in the top toolbar */
+    .bioinmed-admin-toolbar-logout .bioinmed-admin-label-full,
+    .bioinmed-admin-toolbar-logout .bioinmed-admin-label-short {
+        display: none;
+    }
+    .bioinmed-admin-toolbar-logout { padding-left: 10px; padding-right: 10px; }
+    /* make mobile menu toggle icon-only and smaller */
+    .bioinmed-admin-mobile-menu-toggle { padding: 8px; width: 40px; height: 40px; }
+    .bioinmed-admin-mobile-menu-toggle i { font-size: 14px; }
 }
 
 .bioinmed-admin-toolbar {
@@ -169,12 +181,22 @@
     white-space: nowrap;
 }
 
-.bioinmed-admin-mobile-switch-row {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 12px;
-}
+    .bioinmed-admin-mobile-switch-row {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .bioinmed-admin-mobile-switch-row .bioinmed-ios-switch {
+        width: 46px;
+        height: 28px;
+    }
+
+    .bioinmed-admin-mobile-switch-row .bioinmed-ios-switch-thumb {
+        width: 22px;
+        height: 22px;
+    }
 
 .bioinmed-admin-mobile-switch-icon {
     display: inline-flex;
@@ -198,7 +220,7 @@
 }
 
 .bioinmed-admin-mobile-menu-toggle {
-    display: none;
+    display: none; /* kept for compatibility, but toggle removed from markup */
 }
 
 .bioinmed-admin-mobile-menu {
@@ -311,21 +333,15 @@
     .bioinmed-admin-toolbar-user,
     #bioinmed-edit-toggle-label,
     .bioinmed-admin-desktop-action {
-        display: none;
+        display: inline-flex;
+        align-items: center;
     }
 
     .bioinmed-admin-toolbar-toggle-group {
         display: none;
     }
 
-    .bioinmed-admin-mobile-menu-toggle {
-        display: inline-flex;
-        width: 40px;
-        min-width: 40px;
-        min-height: 38px;
-        padding: 8px 10px;
-        justify-content: center;
-    }
+    /* mobile menu toggle styles intentionally left in CSS for backwards compatibility */
 
     .bioinmed-admin-toolbar button,
     .bioinmed-admin-toolbar a,
@@ -339,6 +355,13 @@
         flex: 0 0 auto;
         min-height: 38px;
         border-radius: 10px;
+    }
+    .bioinmed-admin-desktop-action {
+        min-height: 38px;
+        padding: 8px 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .bioinmed-admin-toolbar-actions .bioinmed-ios-switch,
@@ -363,7 +386,7 @@
     }
 
     .bioinmed-admin-label-full {
-        display: none;
+        display: inline-block;
     }
 
     .bioinmed-admin-label-short {
@@ -418,6 +441,9 @@
 
 .bioinmed-ios-switch {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 46px;
     height: 28px;
     border: 0;
@@ -427,18 +453,20 @@
 }
 
 .bioinmed-ios-switch-track {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    width: 46px;
+    height: 28px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    transition: all 0.2s ease;
+    background: #ebedf0;
+    border: 0;
+    transition: all 0.18s ease;
 }
 
 .bioinmed-ios-switch-thumb {
     position: absolute;
-    top: 3px;
     left: 3px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 22px;
     height: 22px;
     border-radius: 50%;
@@ -449,11 +477,10 @@
 
 .bioinmed-ios-switch.is-on .bioinmed-ios-switch-track {
     background: #34c759;
-    border-color: #34c759;
 }
 
 .bioinmed-ios-switch.is-on .bioinmed-ios-switch-thumb {
-    transform: translateX(18px);
+    transform: translate(18px, -50%);
 }
 
 body.bioinmed-admin-authenticated {
@@ -697,6 +724,47 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
     border-radius: 12px;
     box-shadow: 0 16px 34px rgba(8, 32, 56, 0.2);
     padding: 6px;
+    right: 12px;
+    top: 56px;
+}
+
+.bioinmed-admin-switch-desc {
+    color: #4a6f9c;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.bioinmed-admin-modal .bioinmed-admin-mobile-switch-row {
+    background: transparent;
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+
+.bioinmed-admin-mobile-switch-row .font-semibold {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f2749;
+}
+
+@media (max-width: 640px) {
+    .bioinmed-admin-modal {
+        width: min(95vw, 560px);
+        padding: 16px;
+    }
+}
+
+.bioinmed-admin-desktop-panel {
+    position: fixed;
+    right: 24px;
+    top: 64px;
+    z-index: 9999;
+}
+
+.bioinmed-admin-overlay .bioinmed-admin-modal,
+.bioinmed-admin-modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
 }
 
 .bioinmed-context-menu button {
@@ -776,6 +844,16 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
 .bioinmed-admin-modal textarea,
 .bioinmed-admin-modal select {
     font-size: 16px;
+}
+
+/* helper/description text inside modals should be smaller and muted */
+.bioinmed-admin-modal .bioinmed-admin-switch-desc {
+    font-size: 13px;
+    color: #4a6f9c;
+    font-weight: 400;
+    line-height: 1.45;
+    text-transform: none;
+    margin-top: 6px;
 }
 
 .bioinmed-admin-modal input,

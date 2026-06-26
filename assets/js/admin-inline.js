@@ -112,6 +112,18 @@
         var overlay = byId('bioinmed-admin-user-edit-overlay');
         if (!overlay) return;
         overlay.classList.toggle('is-open', !!open);
+        if (open) {
+            // ensure visual switch reflects hidden value after overlay is shown
+            setTimeout(function () {
+                var hidden = byId('bioinmed-admin-edit-active');
+                var aSwitch = byId('bioinmed-admin-edit-active-switch');
+                if (hidden && aSwitch) {
+                    var isOn = hidden.value === '1';
+                    aSwitch.classList.toggle('is-on', isOn);
+                    aSwitch.setAttribute('aria-checked', isOn ? 'true' : 'false');
+                }
+            }, 0);
+        }
     }
 
     function showTextEdit(open) {
@@ -122,16 +134,13 @@
 
     function showMobileAdminMenu(open) {
         var menu = byId('bioinmed-admin-mobile-menu');
-        var toggle = byId('bioinmed-admin-mobile-menu-toggle');
         if (!menu) {
             return;
         }
 
+        // keep functionality in case other code triggers mobile menu
         menu.hidden = !open;
         menu.classList.toggle('is-open', !!open);
-        if (toggle) {
-            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        }
     }
 
     function focusEditableElement(el) {
@@ -985,8 +994,10 @@
         }
 
         document.body.classList.toggle('bioinmed-admin-authenticated', auth);
-        setText(byId('bioinmed-admin-user-badge'), auth && state.config.user ? (state.config.user.name + ' (' + state.config.user.role_label + ')') : '');
-        setText(byId('bioinmed-admin-mobile-user-badge'), auth && state.config.user ? (state.config.user.name + ' (' + state.config.user.role_label + ')') : '');
+        var userText = auth && state.config.user ? (state.config.user.name + ' (' + state.config.user.role_label + ')') : '';
+        setText(byId('bioinmed-admin-user-badge'), '');
+        setText(byId('bioinmed-admin-mobile-user-badge'), userText);
+        setContextUserLabel(auth && state.config.user ? state.config.user.name : '');
 
         var usersBtn = byId('bioinmed-admin-users-open');
         if (usersBtn) {
@@ -1192,19 +1203,22 @@
                     return;
                 }
 
+                // cache users by id for reliable access when opening edit
+                state.userCache = {};
                 list.innerHTML = payload.users.map(function (u) {
+                    try { state.userCache[String(u.id)] = u; } catch (e) { /* ignore */ }
                     return [
                         '<div class="bioinmed-admin-user-card">',
                         '<div class="flex items-start justify-between gap-3">',
                         '<div>',
                         '<p class="text-[14px] font-semibold text-[#0f2749]">' + esc(u.name) + '</p>',
                         '<p class="text-[12px] text-[#355b89]">' + esc(u.email) + '</p>',
-                        '<p class="bioinmed-admin-user-meta">Роль: ' + esc(u.role) + ' | Активен: ' + (u.is_active ? 'да' : 'нет') + '</p>',
+                        '<p class="bioinmed-admin-user-meta">Роль: ' + esc(u.role) + ' | Активен: ' + ((u.is_active || u.active) ? 'да' : 'нет') + '</p>',
                         '</div>',
                         '<span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#eef6ff] text-[#1977b2]"><i class="fa-solid fa-user"></i></span>',
                         '</div>',
                         '<div class="bioinmed-admin-user-actions">',
-                        '<button type="button" data-user-act="edit" data-user-id="' + esc(u.id) + '" data-user-name="' + esc(u.name) + '" data-user-email="' + esc(u.email) + '" data-user-role="' + esc(u.role) + '" data-user-active="' + (u.is_active ? '1' : '0') + '"><i class="fa-solid fa-pen"></i> Редактировать</button>',
+                        '<button type="button" data-user-act="edit" data-user-id="' + esc(u.id) + '" data-user-name="' + esc(u.name) + '" data-user-email="' + esc(u.email) + '" data-user-role="' + esc(u.role) + '" data-user-active="' + ((u.is_active || u.active) ? '1' : '0') + '"><i class="fa-solid fa-pen"></i> Редактировать</button>',
                         '</div>',
                         '</div>'
                     ].join('');
@@ -1218,12 +1232,37 @@
 
                         if (act === 'edit') {
                             state.editingUserId = userId;
+                            // prefer authoritative data from cached payload
+                            var uObj = (state.userCache && state.userCache[String(userId)]) ? state.userCache[String(userId)] : null;
                             byId('bioinmed-admin-edit-id').value = userId;
-                            byId('bioinmed-admin-edit-name').value = btn.getAttribute('data-user-name') || '';
-                            byId('bioinmed-admin-edit-email').value = btn.getAttribute('data-user-email') || '';
-                            byId('bioinmed-admin-edit-role').value = btn.getAttribute('data-user-role') || 'editor';
-                            byId('bioinmed-admin-edit-active').value = btn.getAttribute('data-user-active') === '1' ? '1' : '0';
+                            byId('bioinmed-admin-edit-name').value = (uObj && uObj.name) ? uObj.name : (btn.getAttribute('data-user-name') || '');
+                            byId('bioinmed-admin-edit-email').value = (uObj && uObj.email) ? uObj.email : (btn.getAttribute('data-user-email') || '');
+                            byId('bioinmed-admin-edit-role').value = (uObj && uObj.role) ? uObj.role : (btn.getAttribute('data-user-role') || 'editor');
+                            var activeVal = (uObj && (uObj.is_active || uObj.active)) ? '1' : (btn.getAttribute('data-user-active') === '1' ? '1' : '0');
+                            // ensure correct hidden field is updated
+                            var hiddenActive = byId('bioinmed-admin-edit-active');
+                            if (hiddenActive) {
+                                hiddenActive.value = activeVal;
+                                console.debug('[users] set hidden active =', hiddenActive.value, 'for user', userId);
+                            }
+                            // sync visual active switch
+                            var aSwitch = byId('bioinmed-admin-edit-active-switch');
+                            if (aSwitch) {
+                                var isOn = activeVal === '1';
+                                aSwitch.classList.toggle('is-on', isOn);
+                                aSwitch.setAttribute('aria-checked', isOn ? 'true' : 'false');
+                                console.debug('[users] set visual switch is-on =', isOn, 'for user', userId);
+                            }
                             byId('bioinmed-admin-edit-password').value = '';
+                            // hide delete button when editing self
+                            var deleteBtn = byId('bioinmed-admin-user-edit-delete');
+                            if (deleteBtn) {
+                                if (state.config && state.config.user && String(state.config.user.id) === String(userId)) {
+                                    deleteBtn.style.display = 'none';
+                                } else {
+                                    deleteBtn.style.display = '';
+                                }
+                            }
                             showUserEdit(true);
                         }
                     });
@@ -1244,6 +1283,10 @@
         }).then(function (resp) {
             var msg = (resp && (resp.message || resp.error)) || 'Действие выполнено';
             showToast(msg, (resp && !resp.ok) ? 'error' : 'info');
+            // invalidate user cache on any successful mutation so subsequent opens fetch fresh data
+            if (resp && resp.ok) {
+                try { state.userCache = {}; } catch (e) { state.userCache = null; }
+            }
             if (resp && resp.ok && typeof onDone === 'function') {
                 onDone();
             }
@@ -1366,13 +1409,7 @@
             });
         }
 
-        var mobileMenuToggle = byId('bioinmed-admin-mobile-menu-toggle');
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', function () {
-                var menu = byId('bioinmed-admin-mobile-menu');
-                showMobileAdminMenu(!(menu && menu.classList.contains('is-open')));
-            });
-        }
+        // mobile menu toggle removed — mobile access via settings button
 
         var mobileMenuClose = byId('bioinmed-admin-mobile-menu-close');
         if (mobileMenuClose) {
@@ -1555,7 +1592,262 @@
         syncEditableBlocks();
     }
 
+    // Context menu handling for desktop
+    function openAdminSettingsPanel() {
+        var panel = byId('bioinmed-admin-settings-overlay');
+        if (!panel) return;
+        panel.classList.add('is-open');
+        panel.style.display = '';
+        var btn = byId('bioinmed-admin-settings-open');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeAdminSettingsPanel() {
+        var panel = byId('bioinmed-admin-settings-overlay');
+        if (!panel) return;
+        panel.classList.remove('is-open');
+        panel.style.display = 'none';
+        var btn = byId('bioinmed-admin-settings-open');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+
+    // Wire context menu buttons
+    var settingsOpenBtn = byId('bioinmed-admin-settings-open');
+    if (settingsOpenBtn) {
+        settingsOpenBtn.addEventListener('click', function (ev) {
+            var open = document.querySelector('#bioinmed-admin-settings-overlay.is-open');
+            if (open) {
+                closeAdminSettingsPanel();
+            } else {
+                openAdminSettingsPanel();
+            }
+        });
+    }
+
+    var settingsClose = byId('bioinmed-admin-settings-close');
+    if (settingsClose) settingsClose.addEventListener('click', function () { closeAdminSettingsPanel(); });
+
+    // Desktop switches wiring
+    var desktopEditToggle = byId('bioinmed-edit-toggle-desktop');
+    if (desktopEditToggle) desktopEditToggle.addEventListener('click', function () { setEditMode(!state.editMode); });
+    var desktopShowAllToggle = byId('bioinmed-show-all-toggle-desktop');
+    if (desktopShowAllToggle) desktopShowAllToggle.addEventListener('click', function () { setShowAllEditableZones(!state.showAllEditableZones); });
+
+    // sync desktop toggle UI states
+    function syncDesktopToggles() {
+        var dEdit = byId('bioinmed-edit-toggle-desktop');
+        var dShow = byId('bioinmed-show-all-toggle-desktop');
+        var onEdit = !!state.editMode;
+        var onShow = !!state.showAllEditableZones;
+        if (dEdit) {
+            dEdit.classList.toggle('is-on', onEdit);
+            dEdit.setAttribute('aria-checked', onEdit ? 'true' : 'false');
+        }
+        if (dShow) {
+            dShow.classList.toggle('is-on', onShow);
+            dShow.setAttribute('aria-checked', onShow ? 'true' : 'false');
+        }
+    }
+
+    // call sync when toggles change
+    var origSyncEdit = syncEditToggleUi;
+    syncEditToggleUi = function () {
+        origSyncEdit();
+        syncDesktopToggles();
+    };
+    var origSyncShowAll = syncShowAllToggleUi;
+    syncShowAllToggleUi = function () {
+        origSyncShowAll();
+        syncDesktopToggles();
+    };
+
+    var usersOpenDesktop = byId('bioinmed-admin-users-open-desktop');
+    if (usersOpenDesktop) usersOpenDesktop.addEventListener('click', function () { closeAdminSettingsPanel(); openUsersPanel(); });
+
+    // user badge menu
+    var userBadge = byId('bioinmed-admin-user-badge');
+    function openUserEditFromBadge() {
+        // prefill user edit form with current user data from state.config.user
+        var u = (state.config && state.config.user) ? state.config.user : null;
+        if (!u) return;
+
+        function populateFrom(uObj) {
+            try {
+                var editId = byId('bioinmed-admin-edit-id');
+                var editName = byId('bioinmed-admin-edit-name');
+                var editEmail = byId('bioinmed-admin-edit-email');
+                var editRole = byId('bioinmed-admin-edit-role');
+                var editActive = byId('bioinmed-admin-edit-active');
+                if (editId) editId.value = uObj.id || (u.id || '');
+                if (editName) editName.value = uObj.name || (u.name || '');
+                if (editEmail) editEmail.value = uObj.email || (u.email || '');
+                if (editRole) editRole.value = uObj.role || (u.role || 'editor');
+                var activeFlag = !!(uObj && (uObj.is_active || uObj.active || (uObj.status && (uObj.status === 'active' || uObj.status === '1')) || uObj.is_active === 1 || uObj.active === 1 || uObj.is_active === '1' || uObj.active === '1'));
+                if (editActive) editActive.value = activeFlag ? '1' : '0';
+                var activeSwitch = byId('bioinmed-admin-edit-active-switch');
+                if (activeSwitch) {
+                    var isOn = (editActive.value === '1');
+                    activeSwitch.classList.toggle('is-on', isOn);
+                    activeSwitch.setAttribute('aria-checked', isOn ? 'true' : 'false');
+                    console.debug('[badge] populateFrom: hidden=', editActive.value, 'visual is-on=', isOn, 'user', uObj && (uObj.id || uObj.email || uObj.name));
+                }
+            } catch (e) { /* ignore */ }
+            var deleteBtn = byId('bioinmed-admin-user-edit-delete');
+            if (deleteBtn) {
+                if (state.config && state.config.user && String(state.config.user.id) === String(u.id)) {
+                    deleteBtn.style.display = 'none';
+                } else {
+                    deleteBtn.style.display = '';
+                }
+            }
+            showUserEdit(true);
+        }
+
+        // try cache first
+        var cached = (state.userCache && state.userCache[String(u.id)]) ? state.userCache[String(u.id)] : null;
+        if (cached) {
+            populateFrom(cached);
+            return;
+        }
+
+        // attempt to fetch authoritative user data
+        var uid = encodeURIComponent(u.id || u.user_id || u.uid || '');
+        if (!uid) {
+            populateFrom(u);
+            return;
+        }
+
+        fetch((state.config.apiBase || '/api/admin') + '/users.php?id=' + uid, { credentials: 'same-origin' })
+            .then(function (resp) { return resp.json().catch(function () { return null; }); })
+            .then(function (payload) {
+                if (payload && payload.user) {
+                    try { state.userCache = state.userCache || {}; state.userCache[String(payload.user.id)] = payload.user; } catch (e) { }
+                    populateFrom(payload.user);
+                    return;
+                }
+                if (payload && payload.users && Array.isArray(payload.users)) {
+                    var found = payload.users.find(function (x) { return String(x.id) === String(u.id); });
+                    if (found) {
+                        try { state.userCache = state.userCache || {}; state.userCache[String(found.id)] = found; } catch (e) { }
+                        populateFrom(found);
+                        return;
+                    }
+                }
+                console.debug('[badge] could not fetch user details, falling back to state.config.user');
+                populateFrom(u);
+            })
+            .catch(function () {
+                console.debug('[badge] fetch failed, falling back to state.config.user');
+                populateFrom(u);
+            });
+    }
+    if (userBadge) {
+        userBadge.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            openUserEditFromBadge();
+        });
+    }
+
+    // populate user menu actions
+    var userProfileBtn = byId('bioinmed-user-menu-profile');
+    if (userProfileBtn) userProfileBtn.addEventListener('click', function () { closeUserMenu(); alert('Открыть профиль администратора'); });
+    var userSettingsBtn = byId('bioinmed-user-menu-settings');
+    if (userSettingsBtn) userSettingsBtn.addEventListener('click', function () { closeUserMenu(); openAdminSettingsPanel(); });
+
+    // expose context user label update for applyAuthUi
+    function setContextUserLabel(text) {
+        var el = byId('bioinmed-admin-settings-user');
+        var mobile = byId('bioinmed-admin-mobile-user-badge');
+        var badge = byId('bioinmed-admin-user-badge');
+        if (el) el.textContent = text || '';
+        if (mobile) mobile.textContent = text || '';
+        if (badge) badge.textContent = text || '';
+    }
+
+    // handle user edit form submit (update own profile)
+    var userEditForm = byId('bioinmed-admin-user-edit-form');
+    if (userEditForm) {
+        userEditForm.addEventListener('submit', function (ev) {
+            ev.preventDefault();
+            var id = byId('bioinmed-admin-edit-id').value || '';
+            var name = byId('bioinmed-admin-edit-name').value || '';
+            var email = byId('bioinmed-admin-edit-email').value || '';
+            var password = byId('bioinmed-admin-edit-password').value || '';
+            var activeVal = byId('bioinmed-admin-edit-active') ? byId('bioinmed-admin-edit-active').value : '1';
+            callApi('/users/save.php', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                body: JSON.stringify({ id: id, name: name, email: email, password: password, active: activeVal, csrf: state.config.csrf })
+            }).then(function (resp) {
+                if (!resp || !resp.ok) {
+                    showToast((resp && resp.error) || 'Ошибка сохранения', 'error');
+                    return;
+                }
+                showToast('Профиль сохранён');
+                showUserEdit(false);
+                // refresh session info
+                loadSession();
+            });
+        });
+    }
+
+    var userEditDelete = byId('bioinmed-admin-user-edit-delete');
+    if (userEditDelete) {
+        userEditDelete.addEventListener('click', function () {
+            if (!confirm('Вы уверены, что хотите удалить этого пользователя?')) return;
+            var id = byId('bioinmed-admin-edit-id').value || '';
+            callApi('/users/delete.php', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                body: JSON.stringify({ id: id, csrf: state.config.csrf })
+            }).then(function (resp) {
+                if (!resp || !resp.ok) {
+                    showToast((resp && resp.error) || 'Ошибка удаления', 'error');
+                    return;
+                }
+                showToast('Пользователь удалён');
+                showUserEdit(false);
+                loadSession();
+            });
+        });
+    }
+
+    var userEditLogout = byId('bioinmed-admin-user-edit-logout');
+    if (userEditLogout) {
+        userEditLogout.addEventListener('click', function () {
+            if (!confirm('Выйти из панели администратора?')) return;
+            callApi('/auth-logout.php', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                body: JSON.stringify({ csrf: state.config.csrf })
+            }).then(function () {
+                showUserEdit(false);
+                loadSession();
+            });
+        });
+    }
+
+    // active switch toggle in edit form
+    var activeSwitchBtn = byId('bioinmed-admin-edit-active-switch');
+    if (activeSwitchBtn) {
+        activeSwitchBtn.addEventListener('click', function () {
+            var cur = activeSwitchBtn.classList.contains('is-on');
+            activeSwitchBtn.classList.toggle('is-on', !cur);
+            activeSwitchBtn.setAttribute('aria-checked', !cur ? 'true' : 'false');
+            var hidden = byId('bioinmed-admin-edit-active');
+            if (hidden) hidden.value = !cur ? '1' : '0';
+        });
+    }
+
     initEvents();
     ensureLinkIds();
     loadSession();
+    // keepalive: ping server periodically to keep session alive while admin is active
+    setInterval(function () {
+        if (!state.config || !state.config.isAuthenticated) return;
+        fetch('/api/admin/session.php', { credentials: 'same-origin' }).catch(function () { /* ignore */ });
+    }, 1000 * 60 * 5); // every 5 minutes
 })();

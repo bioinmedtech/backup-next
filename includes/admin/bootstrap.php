@@ -7,7 +7,7 @@ if (defined('BIOINMED_ADMIN_BOOTSTRAPPED')) {
 }
 define('BIOINMED_ADMIN_BOOTSTRAPPED', true);
 
-$bioinmedAdminSessionLifetime = 60 * 60 * 24 * 30;
+$bioinmedAdminSessionLifetime = 60 * 60 * 24 * 60; // 60 days
 $bioinmedAdminRememberCookie = 'bioinmed_admin_remember';
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -299,6 +299,12 @@ function bioinmed_admin_current_user(): ?array {
 }
 
 bioinmed_admin_restore_user_from_remember_cookie();
+
+// Refresh session cookie expiry on each request when user is present (keeps session alive on activity)
+if (isset($_SESSION['bioinmed_admin_user']) && is_array($_SESSION['bioinmed_admin_user'])) {
+    // Send a Set-Cookie for the session cookie with renewed expiration
+    setcookie(session_name(), session_id(), bioinmed_admin_cookie_params($bioinmedAdminSessionLifetime));
+}
 
 function bioinmed_admin_require_auth(?array $requiredRoles = null): array {
     $user = bioinmed_admin_current_user();

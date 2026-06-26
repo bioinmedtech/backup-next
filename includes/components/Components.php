@@ -2445,34 +2445,13 @@ class Footer extends Component {
                     </div>
                     <div class="leading-tight">
                         <p class="bioinmed-admin-toolbar-title font-semibold uppercase tracking-[0.1em] text-white/70">Панель администратора</p>
-                        <span id="bioinmed-admin-user-badge" class="bioinmed-admin-toolbar-user text-white"></span>
+                        <button id="bioinmed-admin-user-badge" type="button" class="bioinmed-admin-toolbar-user text-white inline-flex items-center gap-2" aria-haspopup="true" aria-expanded="false" aria-controls="bioinmed-admin-user-menu"></button>
                     </div>
                 </div>
                 <div class="bioinmed-admin-toolbar-actions inline-flex flex-wrap items-center gap-3">
-                    <div class="bioinmed-admin-toolbar-toggle-group" aria-label="Режим редактирования">
-                        <span class="bioinmed-admin-toolbar-toggle-icon" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
-                        <span id="bioinmed-edit-toggle-label" class="bioinmed-admin-toolbar-toggle-label">Режим редактирования</span>
-                        <button id="bioinmed-edit-toggle" type="button" class="bioinmed-ios-switch" role="switch" aria-checked="false" aria-label="Режим редактирования">
-                            <span class="bioinmed-ios-switch-track"></span>
-                            <span class="bioinmed-ios-switch-thumb"></span>
-                        </button>
-                    </div>
-
-                    <div class="bioinmed-admin-toolbar-toggle-group" aria-label="Зоны редактирования">
-                        <span class="bioinmed-admin-toolbar-toggle-icon" aria-hidden="true"><i class="fa-solid fa-pen-to-square"></i></span>
-                        <span id="bioinmed-show-all-toggle-label" class="bioinmed-admin-toolbar-toggle-label">Зоны редактирования</span>
-                        <button id="bioinmed-show-all-toggle" type="button" class="bioinmed-ios-switch" role="switch" aria-checked="false" aria-label="Показать все редактируемые зоны">
-                            <span class="bioinmed-ios-switch-track"></span>
-                            <span class="bioinmed-ios-switch-thumb"></span>
-                        </button>
-                    </div>
-
-                    <button id="bioinmed-admin-mobile-menu-toggle" type="button" class="bioinmed-admin-mobile-menu-toggle inline-flex items-center justify-center rounded-lg bg-white/15 px-3 py-2 font-semibold text-white hover:bg-white/25" aria-label="Меню админки" aria-expanded="false" aria-controls="bioinmed-admin-mobile-menu">
-                        <i class="fa-solid fa-ellipsis" aria-hidden="true"></i>
-                    </button>
-
-                    <button id="bioinmed-admin-users-open" type="button" class="bioinmed-admin-desktop-action inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3.5 py-2 font-semibold text-white hover:bg-white/25"><i class="fa-solid fa-users" aria-hidden="true"></i><span>Пользователи</span></button>
+                    <!-- mobile menu toggle removed: settings button provides mobile access -->
                 </div>
+                <button id="bioinmed-admin-settings-open" type="button" class="bioinmed-admin-desktop-action inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3.5 py-2 font-semibold text-white hover:bg-white/25" aria-haspopup="true" aria-expanded="false" aria-controls="bioinmed-admin-settings-overlay"><i class="fa-solid fa-gear" aria-hidden="true"></i><span class="bioinmed-admin-label-full">Настройки</span><span class="bioinmed-admin-label-short">Настр.</span></button>
                 <button id="bioinmed-admin-logout" type="button" class="bioinmed-admin-toolbar-logout inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3.5 py-2 font-semibold text-white hover:bg-white/25"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span class="bioinmed-admin-label-full">Выйти</span><span class="bioinmed-admin-label-short">Выход</span></button>
             </div>
         </div>
@@ -2496,6 +2475,7 @@ class Footer extends Component {
                             <span class="bioinmed-ios-switch-thumb"></span>
                         </button>
                     </div>
+                    <p class="text-[13px] text-[#4a6f9c] mt-2">Включает интерактивное редактирование контента прямо на странице.</p>
 
                     <div class="bioinmed-admin-mobile-switch-row rounded-lg bg-[#f4f9ff] px-4 py-3 text-[#0f2749]">
                         <span class="bioinmed-admin-mobile-switch-icon" aria-hidden="true"><i class="fa-solid fa-pen-to-square"></i></span>
@@ -2505,9 +2485,59 @@ class Footer extends Component {
                             <span class="bioinmed-ios-switch-thumb"></span>
                         </button>
                     </div>
+                    <p class="text-[13px] text-[#4a6f9c] mt-2">Отображает все доступные для редактирования блоки на странице (только когда включён Режим редактирования).</p>
                     <button id="bioinmed-admin-users-open-mobile" type="button" class="inline-flex items-center gap-2 rounded-lg bg-[#f4f9ff] px-4 py-3 font-semibold text-[#0f2749] hover:bg-[#eaf4ff]"><i class="fa-solid fa-users" aria-hidden="true"></i><span>Пользователи</span></button>
                 </div>
             </div>
+            </div>
+        </div>
+
+        <div id="bioinmed-admin-settings-overlay" class="bioinmed-admin-overlay" role="dialog" aria-modal="true" aria-label="Настройки администратора">
+            <div class="bioinmed-admin-modal" style="width:min(760px,95vw)">
+                <div class="bioinmed-admin-mobile-menu-header">
+                    <div>
+                        <h3 class="text-[20px] font-semibold text-[#0f2749]">Настройки</h3>
+                        <p class="bioinmed-admin-user-meta">Здесь собраны параметры редактора и поведение отображения зон редактирования.</p>
+                    </div>
+                    <button id="bioinmed-admin-settings-close" type="button" class="bioinmed-admin-icon-close" aria-label="Закрыть меню">
+                        <i class="fa-solid fa-xmark text-[0.92rem]" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="bioinmed-admin-mobile-menu-actions space-y-3">
+                    <div class="bioinmed-admin-mobile-switch-row rounded-lg bg-[#f4f9ff] px-4 py-3 text-[#0f2749]">
+                        <span class="bioinmed-admin-mobile-switch-icon" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                        <div>
+                            <div class="font-semibold" id="bioinmed-edit-toggle-desktop-label">Режим редактирования</div>
+                            <p class="bioinmed-admin-switch-desc text-[13px] text-[#4a6f9c] mt-1">Включает редактирование контента прямо на странице.</p>
+                        </div>
+                        <button id="bioinmed-edit-toggle-desktop" type="button" class="bioinmed-ios-switch" role="switch" aria-checked="false" aria-label="Режим редактирования">
+                            <span class="bioinmed-ios-switch-track"></span>
+                            <span class="bioinmed-ios-switch-thumb"></span>
+                        </button>
+                    </div>
+
+                    <div class="bioinmed-admin-mobile-switch-row rounded-lg bg-[#f4f9ff] px-4 py-3 text-[#0f2749]">
+                        <span class="bioinmed-admin-mobile-switch-icon" aria-hidden="true"><i class="fa-solid fa-pen-to-square"></i></span>
+                        <div>
+                            <div class="font-semibold" id="bioinmed-show-all-toggle-desktop-label">Зоны редактирования</div>
+                            <p class="bioinmed-admin-switch-desc text-[13px] text-[#4a6f9c] mt-1">Показывает все редактируемые блоки (требуется включён Режим редактирования).</p>
+                        </div>
+                        <button id="bioinmed-show-all-toggle-desktop" type="button" class="bioinmed-ios-switch" role="switch" aria-checked="false" aria-label="Показать все редактируемые зоны">
+                            <span class="bioinmed-ios-switch-track"></span>
+                            <span class="bioinmed-ios-switch-thumb"></span>
+                        </button>
+                    </div>
+
+                    <button id="bioinmed-admin-users-open-desktop" type="button" class="inline-flex items-center gap-2 rounded-lg bg-[#f4f9ff] px-4 py-3 font-semibold text-[#0f2749] hover:bg-[#eaf4ff]"><i class="fa-solid fa-users" aria-hidden="true"></i><span>Пользователи</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legacy small context menu removed in favor of full edit overlay. Keep markup for backwards compatibility but hidden. -->
+        <div id="bioinmed-admin-user-menu" class="bioinmed-context-menu" style="display:none;" role="menu" aria-hidden="true">
+            <button id="bioinmed-user-menu-profile" type="button" role="menuitem" style="display:none;">Профиль</button>
+            <button id="bioinmed-user-menu-settings" type="button" role="menuitem" style="display:none;">Настройки пользователя</button>
+        </div>
         </div>
         <div id="bioinmed-admin-toast-root" class="bioinmed-admin-toast-root" aria-live="polite" aria-atomic="true"></div>
 
@@ -2612,23 +2642,40 @@ class Footer extends Component {
                     <div class="grid gap-2 md:grid-cols-2">
                         <label class="block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#17446f]">Роль
                             <select id="bioinmed-admin-edit-role" class="mt-1.5 w-full rounded-lg border border-[#c8dcf0] bg-white px-3 py-2 text-[14px] text-[#0f2749]">
-                                <option value="editor">editor</option>
-                                <option value="admin">admin</option>
+                                <option value="editor">Редактор</option>
+                                <option value="admin">Администратор</option>
                             </select>
                         </label>
-                        <label class="block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#17446f]">Статус
-                            <select id="bioinmed-admin-edit-active" class="mt-1.5 w-full rounded-lg border border-[#c8dcf0] bg-white px-3 py-2 text-[14px] text-[#0f2749]">
-                                <option value="1">Активен</option>
-                                <option value="0">Отключен</option>
-                            </select>
-                        </label>
+                        <div class="mt-2">
+                            <p class="bioinmed-admin-switch-desc"><strong>Редактор:</strong> редактирует тексты прямо на странице.</p>
+                            <p class="bioinmed-admin-switch-desc mt-1"><strong>Администратор:</strong> управляет пользователями и настройками панели.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <label class="block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#17446f]">Статус</label>
+                        <div class="bioinmed-admin-mobile-switch-row items-center mt-2">
+                            <span class="bioinmed-admin-mobile-switch-icon" aria-hidden="true"><i class="fa-solid fa-user-check"></i></span>
+                            <div>
+                                <div class="font-semibold">Активен</div>
+                                <p class="bioinmed-admin-switch-desc">Пользователь сможет входить в панель (включите/выключите).</p>
+                            </div>
+                            <div>
+                                <input type="hidden" id="bioinmed-admin-edit-active" value="1">
+                                <button id="bioinmed-admin-edit-active-switch" type="button" class="bioinmed-ios-switch" role="switch" aria-checked="true">
+                                    <span class="bioinmed-ios-switch-track"></span>
+                                    <span class="bioinmed-ios-switch-thumb"></span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <label class="block text-[12px] font-semibold uppercase tracking-[0.08em] text-[#17446f]">Новый пароль (необязательно)
                         <input id="bioinmed-admin-edit-password" type="text" placeholder="Оставьте пустым, чтобы не менять" class="mt-1.5 w-full rounded-lg border border-[#c8dcf0] bg-white px-3 py-2 text-[14px] text-[#0f2749]">
                     </label>
-                    <div class="grid gap-2 md:grid-cols-2">
-                        <button id="bioinmed-admin-user-edit-save" type="submit" class="rounded-lg bg-[#1977b2] px-3 py-2 text-sm font-semibold text-white hover:bg-[#16658f]">Сохранить</button>
-                        <button id="bioinmed-admin-user-edit-delete" type="button" class="rounded-lg border border-[#fca5a5] bg-[#fff5f5] px-3 py-2 text-sm font-semibold text-[#991b1b] hover:bg-[#ffe8e8]">Удалить пользователя</button>
+                    <div class="flex flex-col gap-2">
+                        <button id="bioinmed-admin-user-edit-save" type="submit" class="w-full rounded-lg bg-[#1977b2] px-3 py-2 text-sm font-semibold text-white hover:bg-[#16658f]">Сохранить</button>
+                        <button id="bioinmed-admin-user-edit-delete" type="button" class="w-full rounded-lg border border-[#fca5a5] bg-[#fff5f5] px-3 py-2 text-sm font-semibold text-[#991b1b] hover:bg-[#ffe8e8]">Удалить пользователя</button>
+                        <button id="bioinmed-admin-user-edit-logout" type="button" class="w-full rounded-lg border border-[#c8dcf0] bg-white px-3 py-2 text-sm font-semibold text-[#0f2749] hover:bg-[#f5faff]">Выйти</button>
                     </div>
                 </form>
             </div>

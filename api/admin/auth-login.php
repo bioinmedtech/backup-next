@@ -54,7 +54,9 @@ $_SESSION['bioinmed_admin_user'] = [
     'role' => (string)($found['role'] ?? ''),
 ];
 
+// Set/refresh remember cookie and renew session cookie expiry
 bioinmed_admin_set_remember_cookie($_SESSION['bioinmed_admin_user']);
+setcookie(session_name(), session_id(), bioinmed_admin_cookie_params((int)($GLOBALS['bioinmedAdminSessionLifetime'] ?? 60*60*24*60)));
 
 bioinmed_admin_json_response([
     'ok' => true,

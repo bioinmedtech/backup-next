@@ -21,6 +21,17 @@
             "created_at": "2026-06-25T19:51:56+00:00",
             "updated_at": "2026-06-25T23:18:49+00:00",
             "last_login_at": null
+        },
+        {
+            "id": "u_af81543502",
+            "email": "rozhkov@bioinmed.ru",
+            "name": "Сергей Рожков",
+            "role": "editor",
+            "is_active": true,
+            "password_hash": "$2y$10$T6GWHHPpyfqo5stNsgFsX.kPiRmDts4L7X4xtcDdtYbGrzaM/.0YK",
+            "created_at": "2026-06-26T14:26:40+00:00",
+            "updated_at": "2026-06-26T14:26:40+00:00",
+            "last_login_at": null
         }
     ]
 }
