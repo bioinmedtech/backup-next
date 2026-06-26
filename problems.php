@@ -63,14 +63,14 @@ echo $header->render();
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-                <div>
+                <div data-admin-block-root>
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.hero_eyebrow'); ?>><?php echo e($problemsMeta['hero_eyebrow'] ?? ''); ?></p>
                     <h1 class="mt-2 text-[1.9rem] font-bold leading-tight text-[#0f2749] md:text-[2.45rem]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.hero_heading'); ?>><?php echo e($problemsMeta['hero_heading'] ?? ''); ?></h1>
                     <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.05rem]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.hero_text'); ?>>
                         <?php echo e($problemsMeta['hero_text'] ?? ''); ?>
                     </p>
                 </div>
-                <div class="rounded-[2rem] bg-white p-6 shadow-[0_14px_34px_rgba(10,43,80,0.08)]">
+                <div class="rounded-[2rem] bg-white p-6 shadow-[0_14px_34px_rgba(10,43,80,0.08)]" data-admin-block-root>
                     <p class="text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.inside_title'); ?>><?php echo e($problemsMeta['inside_title'] ?? ''); ?></p>
                     <ul class="mt-4 space-y-3 text-[0.96rem] leading-relaxed text-[#0a293c]">
                         <?php foreach ($problemsInsideItems as $itemIndex => $itemEntry): ?>
@@ -92,7 +92,7 @@ echo $header->render();
     </section>
 
     <?php
-    $problems_section = new ProblemsGrid($problems, $brand_colors, ['show_title' => false, 'show_cta' => false]);
+    $problems_section = new ProblemsGrid($problems, $brand_colors, ['show_title' => false, 'show_cta' => false, 'text_prefix' => 'problems.grid']);
     echo $problems_section->render();
     ?>
 </main>

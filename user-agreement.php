@@ -51,7 +51,7 @@ echo $header->render();
 
 <main class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
     <section class="pb-8">
-        <div class="max-w-4xl">
+        <div class="max-w-4xl" data-admin-block-root>
             <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.eyebrow'); ?>><?php echo e($agreementMeta['eyebrow'] ?? 'Правовая информация'); ?></p>
             <h1 class="mt-2 text-[1.8rem] font-bold leading-tight text-[#0f2749] md:text-[2.6rem]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.title'); ?>><?php echo e($agreementMeta['title'] ?? 'Пользовательское соглашение'); ?></h1>
             <p class="mt-4 text-[0.98rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.intro'); ?>>
@@ -74,7 +74,7 @@ echo $header->render();
                 $title = trim((string)($section['title'] ?? ''));
                 $paragraphEntries = is_array($section['paragraphs'] ?? null) ? $section['paragraphs'] : [];
                 ?>
-                <section class="<?php echo $isLast ? '' : 'border-b border-[#e2ecf5] pb-6'; ?>">
+                <section class="<?php echo $isLast ? '' : 'border-b border-[#e2ecf5] pb-6'; ?>" data-admin-block-root>
                     <h2 class="text-[1.16rem] font-bold text-[#0f2749]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'sections.' . $sectionKey . '.title'); ?>><?php echo e($title); ?></h2>
                     <?php foreach ($paragraphEntries as $paragraphIndex => $paragraphEntry): ?>
                         <?php

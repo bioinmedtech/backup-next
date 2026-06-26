@@ -39,8 +39,14 @@ define('CLINIC_EMAIL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clin
 define('CLINIC_HOURS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hours', 'Ежедневно с 9:00 до 21:00 (без выходных)'));
 define('CLINIC_TAGLINE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.tagline', 'Интегративная и восстановительная медицина. Индивидуальный подход к каждому пациенту.'));
 define('ONLINE_BOOKING_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.online_booking_url', '#contact'));
+define('CLINIC_MAP_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.map_url', 'https://yandex.com/maps/-/CPGGyEzo'));
 define('CLINIC_VK', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.vk', 'https://vk.com/bioinmed'));
+define('CLINIC_MAX_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.max', 'https://max.ru/id9704215369_bot'));
 define('CLINIC_TELEGRAM', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.telegram', 'https://t.me/bioinmed'));
+define('CLINIC_REVIEW_YANDEX', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.review_yandex', 'https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15'));
+define('CLINIC_REVIEW_2GIS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.review_2gis', 'https://2gis.ru/moscow/firm/70000001085756150/tab/reviews'));
+define('CLINIC_REVIEW_DOCTU', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.review_doctu', 'https://doctu.ru/msk/clinic/bioinmed'));
+define('CLINIC_YANDEX_ORG_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.yandex_org_url', 'https://yandex.com/maps/org/bioinmed/20810337169/'));
 define('HERO_TITLE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hero_title', 'Восстановление здоровья через интегративную медицину'));
 define('HERO_IMAGE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hero_image', '/public/images/team/kostromina.jpg'));
 define('RECAPTCHA_SITE_KEY', getenv('BIOINMED_RECAPTCHA_SITE_KEY') ?: '6LfmOs0sAAAAAKHWO2jG24uuWIL7UBy3x7gG8awh');
@@ -260,12 +266,24 @@ function bioinmed_render_callback_form(array $options = []) {
     $submit_label = trim((string)($options['submit_label'] ?? bioinmed_text('common.request_callback')));
     $form_class = trim((string)($options['form_class'] ?? ''));
     $button_class = trim((string)($options['button_class'] ?? ''));
+    $submit_label_attr = trim((string)($options['submit_label_attr'] ?? ''));
+    $phone_placeholder = trim((string)($options['phone_placeholder'] ?? bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон')));
+    $phone_placeholder_attr = trim((string)($options['phone_placeholder_attr'] ?? ''));
+    $consent_text = trim((string)($options['consent_text'] ?? 'Я соглашаюсь с условиями'));
+    $consent_text_attr = trim((string)($options['consent_text_attr'] ?? ''));
+    $show_legal_links = array_key_exists('show_legal_links', $options) ? (bool)$options['show_legal_links'] : true;
 
     $privacy_link = bioinmed_link('legal.privacy_genitive');
     $agreement_link = bioinmed_link('legal.user_agreement_genitive');
 
     if ($submit_label === '') {
         $submit_label = bioinmed_text('common.request_callback');
+    }
+    if ($phone_placeholder === '') {
+        $phone_placeholder = bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон');
+    }
+    if ($consent_text === '') {
+        $consent_text = 'Я соглашаюсь с условиями';
     }
 
     if ($button_class === '') {
@@ -274,6 +292,10 @@ function bioinmed_render_callback_form(array $options = []) {
 
     $phone_id = 'callback-phone-' . $instance;
     $consent_id = 'callback-consent-' . $instance;
+
+    $consent_html = $show_legal_links
+        ? '<span><span' . $consent_text_attr . '>' . $escape($consent_text) . ' </span><a href="' . $escape($privacy_link['url']) . '" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">' . $escape($privacy_link['text']) . '</a> и <a href="' . $escape($agreement_link['url']) . '" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">' . $escape($agreement_link['text']) . '</a>.</span>'
+        : '<span><span' . $consent_text_attr . '>' . $escape($consent_text) . '.</span></span>';
 
     return <<<HTML
     <form action="/callback-request.php" method="post" class="js-callback-form {$escape($form_class)}" novalidate>
@@ -288,10 +310,11 @@ function bioinmed_render_callback_form(array $options = []) {
                     name="phone"
                     inputmode="tel"
                     autocomplete="tel"
-                    aria-label="Ваш телефон"
-                    data-placeholder-default="Ваш телефон"
+                    aria-label="{$escape($phone_placeholder)}"
+                    data-placeholder-default="{$escape($phone_placeholder)}"
                     data-placeholder-active="+7 (___) ___-__-__"
-                    placeholder="Ваш телефон"
+                    placeholder="{$escape($phone_placeholder)}"
+                    {$phone_placeholder_attr}
                     class="js-callback-phone w-full rounded-2xl border border-[#d4e3f0] bg-[#f9fcff] px-4 py-3 text-[1rem] text-[#0f2749] outline-none transition placeholder:text-[#0a293c] focus:border-[#1977b2] focus:bg-white"
                     required
                 >
@@ -305,14 +328,9 @@ function bioinmed_render_callback_form(array $options = []) {
                     class="js-callback-consent mt-0.5 h-4 w-4 shrink-0 rounded border-[#b8d2e7] text-[#1977b2] focus:ring-[#1977b2]"
                     required
                 >
-                <span>
-                    Я соглашаюсь с условиями
-                    <a href="{$escape($privacy_link['url'])}" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">{$escape($privacy_link['text'])}</a>
-                    и
-                    <a href="{$escape($agreement_link['url'])}" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">{$escape($agreement_link['text'])}</a>.
-                </span>
+                {$consent_html}
             </label>
-            <button type="submit" class="js-callback-submit {$escape($button_class)}">{$escape($submit_label)}</button>
+            <button type="submit" class="js-callback-submit {$escape($button_class)}"{$submit_label_attr}>{$escape($submit_label)}</button>
             <p class="js-callback-status hidden rounded-2xl px-3 py-2 text-[0.82rem] leading-relaxed"></p>
         </div>
     </form>
@@ -541,6 +559,12 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
     $showBioIfTaglineMissing = array_key_exists('show_bio_if_tagline_missing', $options)
         ? (bool)$options['show_bio_if_tagline_missing']
         : true;
+    $textPrefix = trim((string)($options['text_prefix'] ?? 'home.chief_doctor.summary'));
+
+    $textAttr = static function (string $suffix) use ($escape, $textPrefix): string {
+        $key = $textPrefix !== '' ? ($textPrefix . '.' . $suffix) : $suffix;
+        return ' data-text-id="' . $escape($key) . '"';
+    };
 
     $specializationIntro = '';
     $intro = '';
@@ -566,7 +590,7 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
 
         if (!empty($educationalRoleItems)) {
             $educationalRoleItemsHtml = '';
-            foreach ($educationalRoleItems as $roleItem) {
+            foreach ($educationalRoleItems as $roleIndex => $roleItem) {
                 if (is_array($roleItem)) {
                     $roleText = trim((string)($roleItem['text'] ?? ''));
                 } else {
@@ -577,13 +601,13 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
                     continue;
                 }
 
-                $educationalRoleItemsHtml .= '<li class="rounded-xl border border-[#dbe9f5] bg-white p-3.5 text-[0.9rem] leading-relaxed text-[#0a293c]"><span class="flex items-start gap-2.5"><span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#a8cde9] bg-[#eef7ff] text-[#1977b2]"><i class="fa-solid fa-check text-[0.62rem]" aria-hidden="true"></i></span><span>' . $escape($roleText) . '</span></span></li>';
+                $educationalRoleItemsHtml .= '<li class="rounded-xl border border-[#dbe9f5] bg-white p-3.5 text-[0.9rem] leading-relaxed text-[#0a293c]"><span class="flex items-start gap-2.5"><span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#a8cde9] bg-[#eef7ff] text-[#1977b2]"><i class="fa-solid fa-check text-[0.62rem]" aria-hidden="true"></i></span><span data-text-id="' . $escape($textPrefix . '.educational_role.items.' . $roleIndex) . '">' . $escape($roleText) . '</span></span></li>';
             }
 
             if ($educationalRoleItemsHtml !== '') {
                 $educationalRoleHtml = '<div class="mt-5 rounded-2xl border border-[#d6e6f4] bg-[#f6fbff] p-4 md:p-5">'
                     . ($educationalRoleTitle !== ''
-                        ? '<p class="text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]">' . $escape($educationalRoleTitle) . '</p>'
+                        ? '<p class="text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]" data-text-id="' . $escape($textPrefix . '.educational_role.title') . '">' . $escape($educationalRoleTitle) . '</p>'
                         : '')
                     . '<ul class="mt-3 space-y-2.5">' . $educationalRoleItemsHtml . '</ul>'
                     . '</div>';
@@ -622,14 +646,14 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
     }
 
     return '
-                <div class="' . $escape($surfaceClass) . '">
+                <div class="' . $escape($surfaceClass) . '" data-admin-block-root>
                     <div>
-                        <p class="mb-2 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]">' . $escape($title) . '</p>
-                        <h2 class="mt-0 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem]">' . $escape($name) . '</h2>
-                        ' . ($projectTitle !== '' ? '<p class="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]">' . $escape($projectTitle) . '</p>' : '') . '
-                        ' . ($intro !== '' ? '<p class="' . $escape($introClass) . '">' . $escape($intro) . '</p>' : '') . '
-                        ' . ($specializationIntro !== '' ? '<p class="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]">' . $escape($specializationIntro) . '</p>' : '') . '
-                        ' . ($leadershipIntro !== '' ? '<p class="mt-4 text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]">' . $escape($leadershipIntro) . '</p>' : '') . '
+                        <p class="mb-2 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"' . $textAttr('title') . '>' . $escape($title) . '</p>
+                        <h2 class="mt-0 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem]"' . $textAttr('name') . '>' . $escape($name) . '</h2>
+                        ' . ($projectTitle !== '' ? '<p class="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]"' . $textAttr('project_title') . '>' . $escape($projectTitle) . '</p>' : '') . '
+                        ' . ($intro !== '' ? '<p class="' . $escape($introClass) . '"' . $textAttr('intro') . '>' . $escape($intro) . '</p>' : '') . '
+                        ' . ($specializationIntro !== '' ? '<p class="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]"' . $textAttr('specialization_intro') . '>' . $escape($specializationIntro) . '</p>' : '') . '
+                        ' . ($leadershipIntro !== '' ? '<p class="mt-4 text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]"' . $textAttr('leadership_intro') . '>' . $escape($leadershipIntro) . '</p>' : '') . '
                         ' . $educationalRoleHtml . '
                         ' . $bioHtml . '
                         ' . $highlightHtml . '

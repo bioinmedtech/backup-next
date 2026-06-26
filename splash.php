@@ -153,7 +153,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
         }
 
         .form-card {
-            background: #e4f1fa;
+            background: #ffffff;
             border-radius: 24px;
             padding: 40px 36px;
             width: 100%;

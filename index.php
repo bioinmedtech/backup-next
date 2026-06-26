@@ -187,7 +187,7 @@ function e($value) {
     <section class="border-b border-[#e6eef7] bg-[linear-gradient(180deg,#eef7ff_0%,#e4f1fa_100%)] py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="rounded-[2rem] border border-[#dbe8f4] bg-white p-6 shadow-[0_16px_40px_rgba(8,36,70,0.07)] md:p-8">
-                <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between" data-admin-block-root>
                     <div>
                         <h2 class="text-[1.4rem] font-bold text-[#0f2749] md:text-[1.75rem]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.title'); ?>><?php echo e($indexHealthRoute['title'] ?? 'Ваш маршрут здоровья в Биоинмед'); ?></h2>
                     </div>
@@ -195,7 +195,7 @@ function e($value) {
                 </div>
 
                 <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-user-doctor text-[1rem]"></i></span>
                             <div>
@@ -204,7 +204,7 @@ function e($value) {
                         </div>
                         <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.consultation.text'); ?>><?php echo e($indexHealthRouteSteps['consultation']['text'] ?? 'Врач собирает жалобы, историю заболевания и формирует первичное понимание ситуации.'); ?></p>
                     </article>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-magnifying-glass-chart text-[1rem]"></i></span>
                             <div>
@@ -213,7 +213,7 @@ function e($value) {
                         </div>
                         <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.diagnostics.text'); ?>><?php echo e($indexHealthRouteSteps['diagnostics']['text'] ?? 'Подбираются нужные методы обследования, чтобы увидеть причину нарушений, а не только симптомы.'); ?></p>
                     </article>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-heart-pulse text-[1rem]"></i></span>
                             <div>
@@ -222,7 +222,7 @@ function e($value) {
                         </div>
                         <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.treatment.text'); ?>><?php echo e($indexHealthRouteSteps['treatment']['text'] ?? 'Составляется персональный лечебный план с процедурами, рекомендациями и понятной последовательностью шагов.'); ?></p>
                     </article>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-kit-medical text-[1rem]"></i></span>
                             <div>
@@ -231,7 +231,7 @@ function e($value) {
                         </div>
                         <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.recovery.text'); ?>><?php echo e($indexHealthRouteSteps['recovery']['text'] ?? 'Организм адаптируется к изменениям, а улучшения постепенно закрепляются без лишней перегрузки.'); ?></p>
                     </article>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-person-walking text-[1rem]"></i></span>
                             <div>
@@ -240,7 +240,7 @@ function e($value) {
                         </div>
                         <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.activity.text'); ?>><?php echo e($indexHealthRouteSteps['activity']['text'] ?? 'Подключаются упражнения и безопасная физическая нагрузка, чтобы сохранить результат в повседневной жизни.'); ?></p>
                     </article>
-                    <article class="rounded-2xl border border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]">
+                    <article class="rounded-2xl border border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
                         <div class="flex items-center gap-3">
                             <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f7ef] text-[#2f9b6a]"><i class="fa-solid fa-star text-[1rem]"></i></span>
                             <div>

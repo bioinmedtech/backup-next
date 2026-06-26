@@ -125,7 +125,7 @@ echo $header->render();
 
 <?php if (!$doctor): ?>
 <main class="mx-auto max-w-4xl grow px-6 py-20 md:px-10">
-    <div class="rounded-3xl border border-[#dbe8f3] bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
+    <div class="rounded-3xl border border-[#dbe8f3] bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]" data-admin-block-root>
         <i class="fa-solid fa-user-slash mb-4 text-5xl text-[#b0c8e0]"></i>
         <h1 class="text-3xl font-bold text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'not_found.title'); ?>><?php echo e($doctorNotFound['title'] ?? ''); ?></h1>
         <p class="mt-3 text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'not_found.text'); ?>><?php echo e($doctorNotFound['text'] ?? ''); ?></p>
@@ -152,7 +152,7 @@ echo $header->render();
             <div class="grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
 
                 <!-- photo -->
-                <div class="fade-up w-full max-w-[480px]">
+                <div class="fade-up w-full max-w-[480px]" data-admin-block-root>
                     <div class="aspect-square overflow-hidden rounded-3xl">
                             <img src="<?php echo e($doctorImagePath); ?>"
                              alt="<?php echo e($doctor['name']); ?>"
@@ -174,11 +174,12 @@ echo $header->render();
                         <?php echo bioinmed_render_chief_doctor_summary($doctor, [
                             'show_cta' => false,
                             'surface_class' => 'space-y-4',
+                            'text_prefix' => 'pages.doctor.doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.summary',
                         ]); ?>
                     </div>
 
                     <div class="mt-6 lg:hidden">
-                        <div id="book-mobile" class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
+                        <div id="book-mobile" class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
                             <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"<?php echo bioinmed_data_text_id('common.book_appointment'); ?>><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
                             <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_data_text_id('common.callback_15_min'); ?>>
                                 <?php echo e(bioinmed_text('common.callback_15_min')); ?>
@@ -260,7 +261,7 @@ echo $header->render();
             <div class="space-y-6">
 
                 <?php if (!$hideStandardSections && !empty($doctor['specializations']) && is_array($doctor['specializations'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="specializations">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root data-doctor-toggle="specializations">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-list-check text-sm"></i></span>
@@ -272,10 +273,11 @@ echo $header->render();
                     </summary>
                     <div class="px-7 pb-7">
                         <ul class="space-y-3">
-                            <?php foreach ($doctor['specializations'] as $spec): ?>
+                            <?php foreach ($doctor['specializations'] as $specIndex => $spec): ?>
+                            <?php $specNode = bioinmed_page_text_node($doctorPage, 'doctor', 'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.specializations.' . $specIndex, (string)$spec); ?>
                             <li class="flex items-start gap-3 text-sm leading-snug text-[#0a293c]">
                                 <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                <span><?php echo e($spec); ?></span>
+                                <span<?php echo $specNode['attr']; ?>><?php echo e($specNode['value']); ?></span>
                             </li>
                             <?php endforeach; ?>
                         </ul>
@@ -284,7 +286,7 @@ echo $header->render();
                 <?php endif; ?>
 
                 <?php if (!$hideStandardSections && !empty($doctor['focus']) && is_array($doctor['focus'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="focus">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root data-doctor-toggle="focus">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-bullseye text-sm"></i></span>
@@ -296,10 +298,11 @@ echo $header->render();
                     </summary>
                     <div class="px-7 pb-7">
                         <ul class="grid gap-3 sm:grid-cols-2">
-                            <?php foreach ($doctor['focus'] as $item): ?>
+                            <?php foreach ($doctor['focus'] as $focusIndex => $item): ?>
+                            <?php $focusNode = bioinmed_page_text_node($doctorPage, 'doctor', 'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.focus.' . $focusIndex, (string)$item); ?>
                             <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.96rem] leading-snug text-[#0a293c]">
                                 <i class="fa-solid fa-check mt-0.5 shrink-0 text-[#1977b2]"></i>
-                                <span><?php echo e($item); ?></span>
+                                <span<?php echo $focusNode['attr']; ?>><?php echo e($focusNode['value']); ?></span>
                             </li>
                             <?php endforeach; ?>
                         </ul>
@@ -323,12 +326,17 @@ echo $header->render();
                     if ($sectionKey === '' || $sectionTitle === '') {
                         continue;
                     }
+                    $sectionBase = 'custom_sections.' . ($doctor['slug'] ?? 'doctor') . '.' . $sectionKey;
+                    $sectionTitleNode = bioinmed_page_text_node($doctorPage, 'doctor', $sectionBase . '.title', $sectionTitle);
+                    $sectionIntroNode = bioinmed_page_text_node($doctorPage, 'doctor', $sectionBase . '.intro', $sectionIntro);
+                    $sectionTextNode = bioinmed_page_text_node($doctorPage, 'doctor', $sectionBase . '.text', $sectionText);
+                    $sectionLinkLabelNode = bioinmed_page_text_node($doctorPage, 'doctor', $sectionBase . '.link_label', $sectionLinkLabel);
                 ?>
-                <details id="doctor-section-<?php echo e($sectionKey); ?>" class="doctor-section-toggle fade-up group <?php echo e($sectionCardClasses); ?>" data-doctor-toggle="<?php echo e($sectionKey); ?>">
+                <details id="doctor-section-<?php echo e($sectionKey); ?>" class="doctor-section-toggle fade-up group <?php echo e($sectionCardClasses); ?>" data-admin-block-root data-doctor-toggle="<?php echo e($sectionKey); ?>">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full <?php echo e($sectionIconBgClasses); ?>"><i class="<?php echo e($sectionIcon); ?> text-sm"></i></span>
-                            <span><?php echo e($sectionTitle); ?></span>
+                            <span<?php echo $sectionTitleNode['attr']; ?>><?php echo e($sectionTitleNode['value']); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -336,17 +344,17 @@ echo $header->render();
                     </summary>
                     <div class="space-y-5 px-7 pb-7">
                         <?php if ($sectionIntro !== ''): ?>
-                        <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($sectionIntro); ?></p>
+                        <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo $sectionIntroNode['attr']; ?>><?php echo e($sectionIntroNode['value']); ?></p>
                         <?php endif; ?>
 
                         <?php if ($sectionText !== ''): ?>
-                        <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($sectionText); ?></p>
+                        <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo $sectionTextNode['attr']; ?>><?php echo e($sectionTextNode['value']); ?></p>
                         <?php endif; ?>
 
                         <?php if ($sectionLinkLabel !== '' && $sectionLinkHref !== ''): ?>
                         <div>
                             <a href="<?php echo e($sectionLinkHref); ?>" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.88rem] font-semibold text-white transition hover:bg-[#16658f]">
-                                <span><?php echo e($sectionLinkLabel); ?></span>
+                                <span<?php echo $sectionLinkLabelNode['attr']; ?>><?php echo e($sectionLinkLabelNode['value']); ?></span>
                                 <i class="fa-solid fa-arrow-right text-[0.74rem]" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -354,10 +362,18 @@ echo $header->render();
 
                         <?php if (!empty($sectionItems) && is_array($sectionItems)): ?>
                         <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                            <?php foreach ($sectionItems as $item): ?>
+                            <?php foreach ($sectionItems as $itemIndex => $item): ?>
+                            <?php
+                                $sectionItemNode = bioinmed_page_text_node(
+                                    $doctorPage,
+                                    'doctor',
+                                    $sectionBase . '.items.' . $itemIndex,
+                                    (string)$item
+                                );
+                            ?>
                             <li class="flex items-start gap-3">
                                 <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                <span><?php echo e($item); ?></span>
+                                <span<?php echo $sectionItemNode['attr']; ?>><?php echo e($sectionItemNode['value']); ?></span>
                             </li>
                             <?php endforeach; ?>
                         </ul>
@@ -365,23 +381,26 @@ echo $header->render();
 
                         <?php if (!empty($sectionSubsections) && is_array($sectionSubsections)): ?>
                         <div class="space-y-5">
-                            <?php foreach ($sectionSubsections as $subsection):
+                            <?php foreach ($sectionSubsections as $subIndex => $subsection):
                                 $subTitle = trim((string)($subsection['title'] ?? ''));
                                 $subItems = $subsection['items'] ?? [];
                                 if ($subTitle === '' && empty($subItems)) {
                                     continue;
                                 }
+                                $subBase = $sectionBase . '.subsections.' . $subIndex;
+                                $subTitleNode = bioinmed_page_text_node($doctorPage, 'doctor', $subBase . '.title', $subTitle);
                             ?>
                             <div class="rounded-2xl border border-[#e4edf6] bg-white p-4 md:p-5">
                                 <?php if ($subTitle !== ''): ?>
-                                <h3 class="text-[0.98rem] font-semibold text-[#0a293c] md:text-[1.03rem]"><?php echo e($subTitle); ?></h3>
+                                <h3 class="text-[0.98rem] font-semibold text-[#0a293c] md:text-[1.03rem]"<?php echo $subTitleNode['attr']; ?>><?php echo e($subTitleNode['value']); ?></h3>
                                 <?php endif; ?>
                                 <?php if (!empty($subItems) && is_array($subItems)): ?>
                                 <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                    <?php foreach ($subItems as $subItem): ?>
+                                    <?php foreach ($subItems as $subItemIndex => $subItem): ?>
+                                    <?php $subItemNode = bioinmed_page_text_node($doctorPage, 'doctor', $subBase . '.items.' . $subItemIndex, (string)$subItem); ?>
                                     <li class="flex items-start gap-3">
                                         <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                        <span><?php echo e($subItem); ?></span>
+                                        <span<?php echo $subItemNode['attr']; ?>><?php echo e($subItemNode['value']); ?></span>
                                     </li>
                                     <?php endforeach; ?>
                                 </ul>
@@ -396,7 +415,7 @@ echo $header->render();
                 <?php endif; ?>
 
                 <?php if (!in_array('education', $customSectionKeys, true) && !empty($doctor['education'])): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="education">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root data-doctor-toggle="education">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-university text-sm"></i></span>
@@ -407,13 +426,14 @@ echo $header->render();
                         </span>
                     </summary>
                     <div class="px-7 pb-7">
-                        <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"><?php echo e($doctor['education']); ?></p>
+                        <?php $educationNode = bioinmed_page_text_node($doctorPage, 'doctor', 'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.education', (string)($doctor['education'] ?? '')); ?>
+                        <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo $educationNode['attr']; ?>><?php echo e($educationNode['value']); ?></p>
                     </div>
                 </details>
                 <?php endif; ?>
 
                 <?php if (!in_array('trust', $customSectionKeys, true)): ?>
-                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-doctor-toggle="trust">
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root data-doctor-toggle="trust">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-shield-halved text-sm"></i></span>
@@ -445,7 +465,7 @@ echo $header->render();
 
             <!-- right column: sticky CTA -->
             <div class="hidden lg:block">
-                <div id="book" class="fade-up sticky top-24 rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
+                <div id="book" class="fade-up sticky top-24 rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
                     <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
                     <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]">
                         <?php echo e(bioinmed_text('common.callback_15_min')); ?>
@@ -594,27 +614,35 @@ echo $header->render();
     ?>
     <?php if (!empty($doctorServices)): ?>
     <section class="border-t border-[#e4edf6] bg-[#e4f1fa] py-12">
-        <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.eyebrow'); ?>><?php echo e(($doctorServicesText['eyebrow'] ?? '') . ' ' . CLINIC_NAME); ?></p>
+        <div class="mx-auto max-w-6xl px-6 md:px-10" data-admin-block-root>
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.eyebrow'); ?>><?php echo e($doctorServicesText['eyebrow'] ?? ''); ?></p>
             <h2 class="mt-2 text-xl font-bold text-[#0a293c] md:text-2xl"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.title'); ?>><?php echo e($doctorServicesText['title'] ?? ''); ?></h2>
             <p class="mt-2 text-sm text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.description'); ?>><?php echo e($doctorServicesText['description'] ?? ''); ?></p>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <?php foreach ($doctorServices as $srv): ?>
+                <?php
+                    $doctorServiceId = (string)($srv['id'] ?? '');
+                    $doctorServiceNameNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.name', (string)($srv['name'] ?? ''));
+                    $doctorServiceDescriptionNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.description', (string)($srv['description'] ?? ''));
+                    $doctorServicePriceNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.price', (string)($srv['price'] ?? ($doctorServicesText['price_fallback'] ?? '')));
+                    $doctorServiceCtaNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.cta', bioinmed_text('common.more_details'));
+                ?>
                 <a href="/services/<?php echo e($srv['id']); ?>"
-                   class="fade-up group flex flex-col rounded-2xl border border-[#dce8f5] bg-white p-5 transition hover:border-[#1977b2] hover:shadow-[0_6px_20px_rgba(25,119,178,0.12)]">
-                    <p class="text-sm font-semibold leading-snug text-[#0a293c] group-hover:text-[#1977b2]">
-                        <?php echo e($srv['name']); ?>
+                   class="fade-up group flex flex-col rounded-2xl border border-[#dce8f5] bg-white p-5 transition hover:border-[#1977b2] hover:shadow-[0_6px_20px_rgba(25,119,178,0.12)]"
+                   data-admin-block-root>
+                    <p class="text-sm font-semibold leading-snug text-[#0a293c] group-hover:text-[#1977b2]"<?php echo $doctorServiceNameNode['attr']; ?>>
+                        <?php echo e($doctorServiceNameNode['value']); ?>
                     </p>
                     <?php if (!empty($srv['description'])): ?>
-                    <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-[#0a293c]">
-                        <?php echo e(mb_substr($srv['description'], 0, 110, 'UTF-8')); ?>…
+                    <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-[#0a293c]"<?php echo $doctorServiceDescriptionNode['attr']; ?>>
+                        <?php echo e(mb_substr($doctorServiceDescriptionNode['value'], 0, 110, 'UTF-8')); ?>…
                     </p>
                     <?php endif; ?>
                     <div class="mt-auto flex items-center justify-between pt-4">
-                        <span class="text-xs font-semibold text-[#1977b2]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.price_fallback'); ?>><?php echo e($srv['price'] ?? ($doctorServicesText['price_fallback'] ?? '')); ?></span>
+                        <span class="text-xs font-semibold text-[#1977b2]"<?php echo $doctorServicePriceNode['attr']; ?>><?php echo e($doctorServicePriceNode['value']); ?></span>
                         <span class="inline-flex items-center gap-1 rounded-full bg-[#1977b2] px-3 py-1.5 text-[0.72rem] font-semibold text-white shadow-[0_8px_18px_rgba(25,119,178,0.18)] transition group-hover:bg-[#16658f]">
-                            <?php echo e(bioinmed_text('common.more_details')); ?>
+                            <span<?php echo $doctorServiceCtaNode['attr']; ?>><?php echo e($doctorServiceCtaNode['value']); ?></span>
                             <i class="fa-solid fa-arrow-right text-[0.62rem]"></i>
                         </span>
                     </div>
@@ -627,8 +655,8 @@ echo $header->render();
 
     <!-- ===== CTA STRIP ===== -->
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
-        <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'final_cta.eyebrow'); ?>><?php echo e(($doctorFinalCta['eyebrow'] ?? '') . ' ' . CLINIC_NAME . ' · ' . ($doctorFinalCta['city'] ?? '')); ?></p>
+        <div class="mx-auto max-w-6xl px-6 text-center md:px-10" data-admin-block-root>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'final_cta.eyebrow'); ?>><?php echo e($doctorFinalCta['eyebrow'] ?? ''); ?></p>
             <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'final_cta.title'); ?>><?php echo e($doctorFinalCta['title'] ?? ''); ?></h2>
             <p class="mx-auto mt-3 max-w-2xl text-sm text-[#0a293c]">
                 <?php

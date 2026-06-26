@@ -28,7 +28,6 @@ $serviceNotFoundHomeButtonNode = bioinmed_page_text_node($servicePage, 'service'
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
-$iconUrl = $siteUrl . $iconPath;
 
 $serviceSlug = isset($_GET['slug']) ? trim((string)$_GET['slug']) : '';
 $serviceId   = isset($_GET['id'])   ? trim((string)$_GET['id'])   : '';
@@ -115,6 +114,83 @@ function service_card_excerpt(string $value, int $limit = 88): string {
     return $value;
 }
 
+function bioinmed_render_hobilect_two_column_section(
+    array $servicePage,
+    array $serviceHobilectSections,
+    string $sectionKey,
+    string $detailsId,
+    string $iconClass
+): void {
+    $section = is_array($serviceHobilectSections[$sectionKey] ?? null) ? $serviceHobilectSections[$sectionKey] : [];
+    ?>
+    <details id="<?php echo e($detailsId); ?>" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
+            <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="<?php echo e($iconClass); ?> text-xs"></i></span>
+                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.title'); ?>><?php echo e($section['title'] ?? ''); ?></span>
+            </span>
+            <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+            </span>
+        </summary>
+        <div class="space-y-5 px-7 pb-7">
+            <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.intro'); ?>><?php echo e($section['intro'] ?? ''); ?></p>
+            <div class="mt-4 grid gap-3 md:grid-cols-2">
+                <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
+                    <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
+                        <?php foreach ((is_array($section['left_items'] ?? null) ? $section['left_items'] : []) as $leftIndex => $leftItem): ?>
+                        <?php $leftNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.left_items.' . $leftIndex, (string)$leftItem); ?>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $leftNode['attr']; ?>><?php echo e($leftNode['value']); ?></span></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
+                    <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
+                        <?php foreach ((is_array($section['right_items'] ?? null) ? $section['right_items'] : []) as $rightIndex => $rightItem): ?>
+                        <?php $rightNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.right_items.' . $rightIndex, (string)$rightItem); ?>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $rightNode['attr']; ?>><?php echo e($rightNode['value']); ?></span></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </details>
+    <?php
+}
+
+function bioinmed_render_hobilect_grid_items_section(
+    array $servicePage,
+    array $serviceHobilectSections,
+    string $sectionKey,
+    string $detailsId,
+    string $iconClass,
+    string $columnsClass
+): void {
+    $section = is_array($serviceHobilectSections[$sectionKey] ?? null) ? $serviceHobilectSections[$sectionKey] : [];
+    ?>
+    <details id="<?php echo e($detailsId); ?>" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
+            <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="<?php echo e($iconClass); ?> text-xs"></i></span>
+                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.title'); ?>><?php echo e($section['title'] ?? ''); ?></span>
+            </span>
+            <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
+                <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
+            </span>
+        </summary>
+        <div class="space-y-5 px-7 pb-7">
+            <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.intro'); ?>><?php echo e($section['intro'] ?? ''); ?></p>
+            <ul class="mt-4 grid gap-3 <?php echo e($columnsClass); ?> text-[0.96rem] leading-snug text-[#0a293c]">
+                <?php foreach ((is_array($section['items'] ?? null) ? $section['items'] : []) as $itemIndex => $item): ?>
+                <?php $itemNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.items.' . $itemIndex, (string)$item); ?>
+                <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $itemNode['attr']; ?>><?php echo e($itemNode['value']); ?></span></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </details>
+    <?php
+}
+
 $pageTitle = $service
     ? e($service['name']) . ' — ' . (string)($serviceMeta['title_suffix'] ?? '') . ' | ' . CLINIC_NAME
     : ((string)($serviceMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
@@ -157,8 +233,6 @@ $serviceGallery = $service ? bioinmed_service_gallery_urls($service, 4) : [];
 $servicePrimaryImage = $serviceGallery[0] ?? null;
 $socialImageUrl = $servicePrimaryImage ? ($siteUrl . $servicePrimaryImage) : bioinmed_default_social_image_url();
 $serviceDoctorTitle = trim((string)($service['doctor_title'] ?? ''));
-$serviceDoctorName = trim((string)($service['doctor_name'] ?? ''));
-$serviceDoctorProjectTitle = trim((string)($service['doctor_project_title'] ?? ''));
 $isHobilect = (($service['id'] ?? '') === 'hobilect-diagnostics');
 $serviceGalleryJson = json_encode(array_values($serviceGallery), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 $faqs_on_page = is_array($serviceFaqText['items'] ?? null) ? $serviceFaqText['items'] : [];
@@ -285,7 +359,7 @@ echo $header->render();
 
 <?php if (!$service): ?>
 <main class="mx-auto max-w-4xl grow px-6 py-20 md:px-10">
-    <div class="rounded-3xl border border-[#dbe8f3] bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
+    <div class="rounded-3xl border border-[#dbe8f3] bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]" data-admin-block-root>
         <i class="fa-solid fa-triangle-exclamation mb-4 text-5xl text-[#b0c8e0]"></i>
         <h1 class="text-3xl font-bold text-[#0a293c]"<?php echo $serviceNotFoundTitleNode['attr']; ?>><?php echo e($serviceNotFoundTitleNode['value']); ?></h1>
         <p class="mt-3 text-[#0a293c]"<?php echo $serviceNotFoundTextNode['attr']; ?>><?php echo e($serviceNotFoundTextNode['value']); ?></p>
@@ -314,24 +388,10 @@ echo $header->render();
                 <a href="/services" class="hover:text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'breadcrumbs.services'); ?>><?php echo e($serviceBreadcrumbs['services'] ?? ''); ?></a>
             </nav>
 
-            <div class="fade-up">
-                    <?php if ($serviceDoctorTitle !== '' || $serviceDoctorName !== '' || $serviceDoctorProjectTitle !== ''): ?>
+            <div class="fade-up" data-admin-block-root>
+                    <h1 class="mt-4 text-xl font-bold leading-tight text-[#0a293c] sm:text-2xl md:text-3xl lg:text-4xl"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.service_name'); ?>><?php echo e($service['name']); ?></h1>
                     <?php if ($serviceDoctorTitle !== ''): ?>
-                    <p class="text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.doctor_title'); ?>><?php echo e($serviceDoctorTitle); ?></p>
-                    <?php endif; ?>
-                    <?php if ($serviceDoctorName !== ''): ?>
-                    <h1 class="mt-2 text-2xl font-bold leading-tight text-[#0a293c] md:text-3xl lg:text-4xl"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.doctor_name'); ?>><?php echo e($serviceDoctorName); ?></h1>
-                    <?php else: ?>
-                    <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0a293c] md:text-3xl lg:text-4xl"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.service_name'); ?>><?php echo e($service['name']); ?></h1>
-                    <?php endif; ?>
-                    <?php if ($serviceDoctorProjectTitle !== ''): ?>
-                    <p class="mt-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.doctor_project_title'); ?>><?php echo e($serviceDoctorProjectTitle); ?></p>
-                    <?php endif; ?>
-                    <?php else: ?>
-                    <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0a293c] md:text-3xl lg:text-4xl"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.service_name'); ?>><?php echo e($service['name']); ?></h1>
-                    <?php if (!empty($service['subtitle'])): ?>
-                    <p class="mt-2 text-lg font-semibold text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.subtitle'); ?>><?php echo e($service['subtitle']); ?></p>
-                    <?php endif; ?>
+                    <p class="mt-2 text-[0.95rem] font-semibold text-[#355b89]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.doctor_title'); ?>><?php echo e($serviceDoctorTitle); ?></p>
                     <?php endif; ?>
 
                     <?php if (!$isHobilect && !empty($service['description'])): ?>
@@ -350,6 +410,7 @@ echo $header->render();
                 <!-- Реабилитация «Хабилект» -->
                 <?php if ($isHobilect): ?>
                 <div class="fade-up">
+                    <div data-admin-block-root>
                     <?php foreach ((is_array($serviceHobilect['intro_paragraphs'] ?? null) ? $serviceHobilect['intro_paragraphs'] : []) as $hobilectIntroIndex => $hobilectIntroEntry): ?>
                     <?php
                     if (is_array($hobilectIntroEntry)) {
@@ -364,99 +425,44 @@ echo $header->render();
                         <?php echo e($hobilectIntro); ?>
                     </p>
                     <?php endforeach; ?>
+                    </div>
                     <div class="mt-6">
                         <ul class="mt-4 grid gap-3 md:grid-cols-2">
-                            <?php foreach ((is_array($serviceHobilect['top_points'] ?? null) ? $serviceHobilect['top_points'] : []) as $hobilectPoint): ?>
-                            <li class="flex items-start gap-3 rounded-2xl border border-[#e4edf6] bg-white p-3.5 text-[0.92rem] leading-relaxed text-[#0a293c] md:p-4">
+                            <?php foreach ((is_array($serviceHobilect['top_points'] ?? null) ? $serviceHobilect['top_points'] : []) as $hobilectPointIndex => $hobilectPoint): ?>
+                            <?php $hobilectPointNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.top_points.' . $hobilectPointIndex, (string)$hobilectPoint); ?>
+                            <li class="flex items-start gap-3 rounded-2xl border border-[#e4edf6] bg-white p-3.5 text-[0.92rem] leading-relaxed text-[#0a293c] md:p-4" data-admin-block-root>
                                 <i class="fa-solid fa-check mt-0.5 text-[#1977b2]" aria-hidden="true"></i>
-                                <span><?php echo e($hobilectPoint); ?></span>
+                                <span<?php echo $hobilectPointNode['attr']; ?>><?php echo e($hobilectPointNode['value']); ?></span>
                             </li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
                     <div class="mt-6 grid gap-4 md:grid-cols-2">
-                        <div class="rounded-2xl border border-[#e4edf6] bg-transparent p-4 md:p-5">
+                        <div class="rounded-2xl border border-[#e4edf6] bg-transparent p-4 md:p-5" data-admin-block-root>
                             <p class="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.module_short.hclinic_title'); ?>><?php echo e($serviceHobilect['module_short']['hclinic_title'] ?? 'H.Clinic'); ?></p>
                             <ul class="mt-3 space-y-2.5 text-[0.92rem] leading-relaxed text-[#0a293c]">
-                                <?php foreach ((is_array($serviceHobilect['module_short']['hclinic_items'] ?? null) ? $serviceHobilect['module_short']['hclinic_items'] : []) as $moduleShortItem): ?>
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($moduleShortItem); ?></span></li>
+                                <?php foreach ((is_array($serviceHobilect['module_short']['hclinic_items'] ?? null) ? $serviceHobilect['module_short']['hclinic_items'] : []) as $moduleShortIndex => $moduleShortItem): ?>
+                                <?php $moduleShortNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.module_short.hclinic_items.' . $moduleShortIndex, (string)$moduleShortItem); ?>
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $moduleShortNode['attr']; ?>><?php echo e($moduleShortNode['value']); ?></span></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
-                        <div class="rounded-2xl border border-[#e4edf6] bg-transparent p-4 md:p-5">
+                        <div class="rounded-2xl border border-[#e4edf6] bg-transparent p-4 md:p-5" data-admin-block-root>
                             <p class="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.module_short.motionlab_title'); ?>><?php echo e($serviceHobilect['module_short']['motionlab_title'] ?? 'H.MotionLAB'); ?></p>
                             <p class="mt-3 text-[0.92rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.module_short.motionlab_text'); ?>><?php echo e($serviceHobilect['module_short']['motionlab_text'] ?? ''); ?></p>
                         </div>
                     </div>
 
                     <div class="mt-6 space-y-4">
-                        <details id="hobilect-for-who" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
-                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
-                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-user-group text-xs"></i></span>
-                                    <?php echo e($serviceHobilectSections['for_who']['title'] ?? ''); ?>
-                                </span>
-                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
-                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
-                                </span>
-                            </summary>
-                            <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.for_who.intro'); ?>><?php echo e($serviceHobilectSections['for_who']['intro'] ?? ''); ?></p>
-                                <div class="mt-4 grid gap-3 md:grid-cols-2">
-                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['for_who']['left_items'] ?? null) ? $serviceHobilectSections['for_who']['left_items'] : []) as $forWhoLeftItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($forWhoLeftItem); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['for_who']['right_items'] ?? null) ? $serviceHobilectSections['for_who']['right_items'] : []) as $forWhoRightItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($forWhoRightItem); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </details>
+                        <?php bioinmed_render_hobilect_two_column_section($servicePage, $serviceHobilectSections, 'for_who', 'hobilect-for-who', 'fa-solid fa-user-group'); ?>
 
-                        <details id="hobilect-assessment" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
-                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
-                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-chart-column text-xs"></i></span>
-                                    <?php echo e($serviceHobilectSections['assessment']['title'] ?? ''); ?>
-                                </span>
-                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
-                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
-                                </span>
-                            </summary>
-                            <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.assessment.intro'); ?>><?php echo e($serviceHobilectSections['assessment']['intro'] ?? ''); ?></p>
-                                <div class="mt-4 grid gap-3 md:grid-cols-2">
-                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['assessment']['left_items'] ?? null) ? $serviceHobilectSections['assessment']['left_items'] : []) as $assessmentLeftItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($assessmentLeftItem); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['assessment']['right_items'] ?? null) ? $serviceHobilectSections['assessment']['right_items'] : []) as $assessmentRightItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($assessmentRightItem); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </details>
+                        <?php bioinmed_render_hobilect_two_column_section($servicePage, $serviceHobilectSections, 'assessment', 'hobilect-assessment', 'fa-solid fa-chart-column'); ?>
 
-                        <details id="hobilect-process" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
+                        <details id="hobilect-process" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-person-walking text-xs"></i></span>
-                                    <?php echo e($serviceHobilectSections['modules']['title'] ?? ''); ?>
+                                    <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.modules.title'); ?>><?php echo e($serviceHobilectSections['modules']['title'] ?? ''); ?></span>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
@@ -468,16 +474,18 @@ echo $header->render();
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.modules.hclinic_title'); ?>><?php echo e($serviceHobilectSections['modules']['hclinic_title'] ?? 'H.Clinic'); ?></p>
                                         <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['modules']['hclinic_items'] ?? null) ? $serviceHobilectSections['modules']['hclinic_items'] : []) as $modulesHclinicItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($modulesHclinicItem); ?></span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['modules']['hclinic_items'] ?? null) ? $serviceHobilectSections['modules']['hclinic_items'] : []) as $modulesHclinicIndex => $modulesHclinicItem): ?>
+                                            <?php $modulesHclinicNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.modules.hclinic_items.' . $modulesHclinicIndex, (string)$modulesHclinicItem); ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $modulesHclinicNode['attr']; ?>><?php echo e($modulesHclinicNode['value']); ?></span></li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.modules.motionlab_title'); ?>><?php echo e($serviceHobilectSections['modules']['motionlab_title'] ?? 'H.MotionLAB'); ?></p>
                                         <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['modules']['motionlab_items'] ?? null) ? $serviceHobilectSections['modules']['motionlab_items'] : []) as $modulesMotionlabItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($modulesMotionlabItem); ?></span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['modules']['motionlab_items'] ?? null) ? $serviceHobilectSections['modules']['motionlab_items'] : []) as $modulesMotionlabIndex => $modulesMotionlabItem): ?>
+                                            <?php $modulesMotionlabNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.modules.motionlab_items.' . $modulesMotionlabIndex, (string)$modulesMotionlabItem); ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $modulesMotionlabNode['attr']; ?>><?php echo e($modulesMotionlabNode['value']); ?></span></li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
@@ -485,82 +493,17 @@ echo $header->render();
                             </div>
                         </details>
 
-                        <details id="hobilect-biofeedback" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
-                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
-                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-circle-nodes text-xs"></i></span>
-                                    <?php echo e($serviceHobilectSections['biofeedback']['title'] ?? ''); ?>
-                                </span>
-                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
-                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
-                                </span>
-                            </summary>
-                            <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.biofeedback.intro'); ?>><?php echo e($serviceHobilectSections['biofeedback']['intro'] ?? ''); ?></p>
-                                <ul class="mt-4 grid gap-3 md:grid-cols-2 text-[0.96rem] leading-snug text-[#0a293c]">
-                                    <?php foreach ((is_array($serviceHobilectSections['biofeedback']['items'] ?? null) ? $serviceHobilectSections['biofeedback']['items'] : []) as $biofeedbackItem): ?>
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($biofeedbackItem); ?></span></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        </details>
+                        <?php bioinmed_render_hobilect_grid_items_section($servicePage, $serviceHobilectSections, 'biofeedback', 'hobilect-biofeedback', 'fa-solid fa-circle-nodes', 'md:grid-cols-2'); ?>
 
-                        <details id="hobilect-games" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
-                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
-                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-gamepad text-xs"></i></span>
-                                    <?php echo e($serviceHobilectSections['games']['title'] ?? ''); ?>
-                                </span>
-                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
-                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
-                                </span>
-                            </summary>
-                            <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.games.intro'); ?>><?php echo e($serviceHobilectSections['games']['intro'] ?? ''); ?></p>
-                                <ul class="mt-4 grid gap-3 md:grid-cols-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                    <?php foreach ((is_array($serviceHobilectSections['games']['items'] ?? null) ? $serviceHobilectSections['games']['items'] : []) as $gamesItem): ?>
-                                    <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($gamesItem); ?></span></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        </details>
+                        <?php bioinmed_render_hobilect_grid_items_section($servicePage, $serviceHobilectSections, 'games', 'hobilect-games', 'fa-solid fa-gamepad', 'md:grid-cols-3'); ?>
 
-                        <details id="hobilect-reports" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
-                            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
-                                <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
-                                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-file-waveform text-xs"></i></span>
-                                    <?php echo e($serviceHobilectSections['reports']['title'] ?? ''); ?>
-                                </span>
-                                <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
-                                    <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
-                                </span>
-                            </summary>
-                            <div class="space-y-5 px-7 pb-7">
-                                <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.reports.intro'); ?>><?php echo e($serviceHobilectSections['reports']['intro'] ?? ''); ?></p>
-                                <div class="mt-4 grid gap-3 md:grid-cols-2">
-                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['reports']['left_items'] ?? null) ? $serviceHobilectSections['reports']['left_items'] : []) as $reportsLeftItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($reportsLeftItem); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                    <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                                        <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['reports']['right_items'] ?? null) ? $serviceHobilectSections['reports']['right_items'] : []) as $reportsRightItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($reportsRightItem); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </details>
+                        <?php bioinmed_render_hobilect_two_column_section($servicePage, $serviceHobilectSections, 'reports', 'hobilect-reports', 'fa-solid fa-file-waveform'); ?>
 
-                        <details id="hobilect-benefits" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
+                        <details id="hobilect-benefits" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-award text-xs"></i></span>
-                                    <?php echo e($serviceHobilectSections['regulations']['title'] ?? ''); ?>
+                                    <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.regulations.title'); ?>><?php echo e($serviceHobilectSections['regulations']['title'] ?? ''); ?></span>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
@@ -572,16 +515,18 @@ echo $header->render();
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.regulations.orders_title'); ?>><?php echo e($serviceHobilectSections['regulations']['orders_title'] ?? ''); ?></p>
                                         <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['regulations']['orders_items'] ?? null) ? $serviceHobilectSections['regulations']['orders_items'] : []) as $ordersItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($ordersItem); ?></span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['regulations']['orders_items'] ?? null) ? $serviceHobilectSections['regulations']['orders_items'] : []) as $ordersItemIdx => $ordersItem): ?>
+                                            <?php $ordersItemNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.regulations.orders_items.' . $ordersItemIdx, (string)$ordersItem); ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $ordersItemNode['attr']; ?>><?php echo e($ordersItemNode['value']); ?></span></li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.regulations.clinical_title'); ?>><?php echo e($serviceHobilectSections['regulations']['clinical_title'] ?? ''); ?></p>
                                         <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['regulations']['clinical_items'] ?? null) ? $serviceHobilectSections['regulations']['clinical_items'] : []) as $clinicalItem): ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span><?php echo e($clinicalItem); ?></span></li>
+                                            <?php foreach ((is_array($serviceHobilectSections['regulations']['clinical_items'] ?? null) ? $serviceHobilectSections['regulations']['clinical_items'] : []) as $clinicalItemIdx => $clinicalItem): ?>
+                                            <?php $clinicalItemNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.regulations.clinical_items.' . $clinicalItemIdx, (string)$clinicalItem); ?>
+                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $clinicalItemNode['attr']; ?>><?php echo e($clinicalItemNode['value']); ?></span></li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
@@ -589,11 +534,11 @@ echo $header->render();
                             </div>
                         </details>
 
-                        <details id="hobilect-patient-result" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
+                        <details id="hobilect-patient-result" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                                 <span class="flex items-center gap-2.5 text-[1.05rem] font-bold text-[#0a293c] md:text-[1.12rem]">
                                     <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-clipboard-check text-xs"></i></span>
-                                    <?php echo e($serviceHobilectSections['metrics']['title'] ?? ''); ?>
+                                    <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.metrics.title'); ?>><?php echo e($serviceHobilectSections['metrics']['title'] ?? ''); ?></span>
                                 </span>
                                 <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#cfe0ef] bg-white text-[#0a293c]">
                                     <i class="fa-solid fa-chevron-down text-[0.72rem] transition group-open:rotate-180"></i>
@@ -617,13 +562,13 @@ echo $header->render();
                 </div>
                 <?php else: ?>
                 <!-- Как проходит приём и кому показана услуга -->
-                <details class="fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
+                <details class="fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                 <i class="fa-solid fa-circle-play text-sm"></i>
                             </span>
-                            <span><?php echo e($serviceFlowText['title'] ?? ''); ?></span>
+                            <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.title'); ?>><?php echo e($serviceFlowText['title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -636,19 +581,19 @@ echo $header->render();
                         <ol class="space-y-3">
                             <li class="flex items-start gap-3">
                                 <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">1</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5"><?php echo e($flowSteps[0] ?? ''); ?></span>
+                                <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.0'); ?>><?php echo e($flowSteps[0] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">2</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5"><?php echo e($flowSteps[1] ?? ''); ?></span>
+                                <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.1'); ?>><?php echo e($flowSteps[1] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">3</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5"><?php echo e($flowSteps[2] ?? ''); ?></span>
+                                <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.2'); ?>><?php echo e($flowSteps[2] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">4</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5"><?php echo e($flowSteps[3] ?? ''); ?></span>
+                                <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.3'); ?>><?php echo e($flowSteps[3] ?? ''); ?></span>
                             </li>
                         </ol>
                         <?php if (!empty($service['target'])): ?>
@@ -666,13 +611,13 @@ echo $header->render();
                 <?php endif; ?>
 
                 <!-- Why BIOINMED -->
-                <details class="fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
+                <details class="fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-left marker:hidden md:p-6">
                         <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c] md:text-[1.22rem]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#dceefb] text-[#1977b2]">
                                 <i class="fa-solid fa-award text-sm"></i>
                             </span>
-                            <span><?php echo e(($serviceAboutText['title'] ?? '') . ' ' . CLINIC_NAME); ?></span>
+                            <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'about.title'); ?>><?php echo e($serviceAboutText['title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -680,9 +625,9 @@ echo $header->render();
                     </summary>
                     <div class="px-5 pb-5 md:px-6 md:pb-6">
                         <ul class="grid gap-3 sm:grid-cols-2">
-                            <?php foreach ($aboutItems as $aboutItem): ?>
+                            <?php foreach ($aboutItems as $aboutIndex => $aboutItem): ?>
                             <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><?php echo e($aboutItem); ?>
+                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'about.items.' . $aboutIndex); ?>><?php echo e($aboutItem); ?></span>
                             </li>
                             <?php endforeach; ?>
                         </ul>
@@ -690,13 +635,13 @@ echo $header->render();
                 </details>
 
                 <!-- FAQ mini -->
-                <details class="fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]">
+                <details class="fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-left marker:hidden md:p-6">
                         <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c] md:text-[1.22rem]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                 <i class="fa-solid fa-circle-question text-sm"></i>
                             </span>
-                            <span><?php echo e($serviceFaqText['title'] ?? ''); ?></span>
+                            <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'faq.title'); ?>><?php echo e($serviceFaqText['title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
@@ -704,12 +649,12 @@ echo $header->render();
                     </summary>
                     <div class="space-y-4 px-5 pb-5 md:px-6 md:pb-6" id="faq-list">
                         <?php foreach ($faqs_on_page as $i => $faq): ?>
-                        <details class="group rounded-2xl border border-[#e4edf6] bg-white">
+                        <details class="group rounded-2xl border border-[#e4edf6] bg-white" data-admin-block-root>
                             <summary class="flex cursor-pointer items-center justify-between gap-4 p-4 text-[0.98rem] font-semibold text-[#0a293c] marker:hidden list-none md:p-5 md:text-[1.04rem]">
-                                <?php echo e($faq['q']); ?>
+                                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'faq.items.' . $i . '.q'); ?>><?php echo e($faq['q']); ?></span>
                                 <i class="fa-solid fa-chevron-down shrink-0 text-xs text-[#1977b2] transition-transform group-open:rotate-180"></i>
                             </summary>
-                            <p class="px-4 pb-4 text-[0.92rem] leading-relaxed text-[#0a293c] md:px-5 md:pb-5 md:text-[0.96rem]"><?php echo e($faq['a']); ?></p>
+                            <p class="px-4 pb-4 text-[0.92rem] leading-relaxed text-[#0a293c] md:px-5 md:pb-5 md:text-[0.96rem]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'faq.items.' . $i . '.a'); ?>><?php echo e($faq['a']); ?></p>
                         </details>
                         <?php endforeach; ?>
                     </div>
@@ -717,19 +662,27 @@ echo $header->render();
 
                 <!-- Related services -->
                 <?php if (!empty($related)): ?>
-                <div class="fade-up">
+                <div class="fade-up" data-admin-block-root>
                     <h2 class="text-xl font-bold text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'related.title'); ?>><?php echo e($serviceRelatedText['title'] ?? ''); ?></h2>
                     <div class="mt-4 grid gap-4 sm:grid-cols-2">
                         <?php foreach (array_slice($related, 0, 4) as $rel): ?>
+                        <?php
+                            $relId = (string)($rel['id'] ?? '');
+                            $relNameNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.name', (string)($rel['name'] ?? ''));
+                            $relDescNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.description', service_card_excerpt((string)($rel['card_description'] ?? $rel['description'] ?? ''), 72));
+                            $relPriceNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.price', (string)($rel['price'] ?? ''));
+                            $relCtaNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.cta', bioinmed_text('common.more_details'));
+                        ?>
                         <a href="/services/<?php echo e($rel['id']); ?>"
-                           class="flex flex-col justify-between rounded-2xl border border-[#dce8f5] bg-white p-5 hover:border-[#1977b2] hover:shadow-md transition-all">
+                           class="flex flex-col justify-between rounded-2xl border border-[#dce8f5] bg-white p-5 hover:border-[#1977b2] hover:shadow-md transition-all"
+                           data-admin-block-root>
                             <div>
-                                <p class="text-sm font-semibold leading-snug text-[#0a293c]"><?php echo e($rel['name']); ?></p>
-                                <p class="mt-1 text-xs text-[#0a293c]"><?php echo e(service_card_excerpt((string)($rel['card_description'] ?? $rel['description'] ?? ''), 72)); ?></p>
+                                <p class="text-sm font-semibold leading-snug text-[#0a293c]"<?php echo $relNameNode['attr']; ?>><?php echo e($relNameNode['value']); ?></p>
+                                <p class="mt-1 text-xs text-[#0a293c]"<?php echo $relDescNode['attr']; ?>><?php echo e($relDescNode['value']); ?></p>
                             </div>
                             <div class="mt-4 flex items-center justify-between">
-                                <span class="text-sm font-bold text-[#1977b2]"><?php echo e($rel['price'] ?? ''); ?></span>
-                                <span class="text-xs font-semibold text-[#1977b2]"><?php echo e(bioinmed_text('common.more_details')); ?> <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></span>
+                                <span class="text-sm font-bold text-[#1977b2]"<?php echo $relPriceNode['attr']; ?>><?php echo e($relPriceNode['value']); ?></span>
+                                <span class="text-xs font-semibold text-[#1977b2]"><span<?php echo $relCtaNode['attr']; ?>><?php echo e($relCtaNode['value']); ?></span> <i class="fa-solid fa-arrow-right text-[0.65rem]"></i></span>
                             </div>
                         </a>
                         <?php endforeach; ?>
@@ -741,7 +694,7 @@ echo $header->render();
                 <!-- right: media + booking -->
                 <div class="order-first fade-up space-y-4 lg:order-2" style="transition-delay:.07s">
                     <?php if ($servicePrimaryImage): ?>
-                    <div class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
+                    <div class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
                         <div class="service-main-image-frame relative aspect-[5/4] overflow-hidden bg-[#edf7ff]">
                             <img src="<?php echo e($servicePrimaryImage); ?>"
                                  alt="<?php echo e($service['name']); ?>"
@@ -773,13 +726,13 @@ echo $header->render();
                     </div>
                     <?php endif; ?>
 
-                    <div id="book" class="rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
+                    <div id="book" class="rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
                         <div class="flex items-end gap-2 border-b border-[#eaf1f8] pb-5">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.price_title'); ?>><?php echo e($serviceSidebarText['price_title'] ?? ''); ?></p>
-                                <p class="mt-1 text-3xl font-bold text-[#0a293c]"><?php echo e($service['price'] ?? ($serviceDefault['price_on_request'] ?? '')); ?></p>
+                                <p class="mt-1 text-3xl font-bold text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.price', (string)($service['price'] ?? ($serviceDefault['price_on_request'] ?? ''))); ?>><?php echo e($service['price'] ?? ($serviceDefault['price_on_request'] ?? '')); ?></p>
                                 <?php if (!empty($service['price_note'])): ?>
-                                <p class="mt-0.5 text-sm text-[#0a293c]"><?php echo e($service['price_note']); ?></p>
+                                <p class="mt-0.5 text-sm text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.price_note', (string)$service['price_note']); ?>><?php echo e($service['price_note']); ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -806,32 +759,32 @@ echo $header->render();
                         </a>
                     </div>
 
-                    <div class="rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
+                    <div class="rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
                         <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.visit_prep_title'); ?>><?php echo e($serviceSidebarText['visit_prep_title'] ?? ''); ?></p>
                         <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]">
                             <li class="flex items-start gap-3">
                                 <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                     <i class="fa-solid fa-file-medical text-[0.68rem]"></i>
                                 </span>
-                                <span><?php echo e($visitPrepItems[0] ?? ''); ?></span>
+                                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.visit_prep_items.0'); ?>><?php echo e($visitPrepItems[0] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                     <i class="fa-solid fa-clock text-[0.68rem]"></i>
                                 </span>
-                                <span><?php echo e($visitPrepItems[1] ?? ''); ?></span>
+                                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.visit_prep_items.1'); ?>><?php echo e($visitPrepItems[1] ?? ''); ?></span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
                                     <i class="fa-solid fa-list-check text-[0.68rem]"></i>
                                 </span>
-                                <span><?php echo e($visitPrepItems[2] ?? ''); ?></span>
+                                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.visit_prep_items.2'); ?>><?php echo e($visitPrepItems[2] ?? ''); ?></span>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="rounded-3xl border border-[#d9e7f3] bg-white p-5">
-                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.clinic_title'); ?>><?php echo e(($serviceSidebarText['clinic_title'] ?? '') . ' ' . CLINIC_NAME); ?></p>
+                    <div class="rounded-3xl border border-[#d9e7f3] bg-white p-5" data-admin-block-root>
+                        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.clinic_title'); ?>><?php echo e($serviceSidebarText['clinic_title'] ?? ''); ?></p>
                         <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]">
                             <li class="flex items-start gap-2.5">
                                 <i class="fa-solid fa-location-dot mt-0.5 shrink-0 text-[#1977b2]"></i>
@@ -850,8 +803,8 @@ echo $header->render();
 
     <!-- ===== FINAL CTA STRIP ===== -->
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
-        <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'final_cta.eyebrow'); ?>><?php echo e(($serviceFinalCta['eyebrow_prefix'] ?? '') . ' ' . CLINIC_NAME . ' · ' . CLINIC_ADDRESS); ?></p>
+        <div class="mx-auto max-w-6xl px-6 text-center md:px-10" data-admin-block-root>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'final_cta.eyebrow'); ?>><?php echo e($serviceFinalCta['eyebrow'] ?? ''); ?></p>
             <h2 class="mt-3 text-xl font-bold text-[#0a293c] md:text-2xl"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'final_cta.title'); ?>><?php echo e($serviceFinalCta['title'] ?? ''); ?></h2>
             <p class="mx-auto mt-3 max-w-xl text-sm text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'final_cta.text'); ?>>
                 <?php echo e($serviceFinalCta['text'] ?? ''); ?>

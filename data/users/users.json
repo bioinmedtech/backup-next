@@ -1,0 +1,26 @@
+{
+    "users": [
+        {
+            "id": "u_admin",
+            "email": "admin@bioinmed.ru",
+            "name": "Главный администратор",
+            "role": "admin",
+            "is_active": true,
+            "password_hash": "$2y$10$.vHJkTI3GFG7aiwwG6cgcegxLelU3gQmP9kLDklAS0Wx2BS5EL7r6",
+            "created_at": "2026-06-25T19:51:56+00:00",
+            "updated_at": "2026-06-25T19:51:56+00:00",
+            "last_login_at": null
+        },
+        {
+            "id": "u_editor",
+            "email": "editor@bioinmed.ru",
+            "name": "Контент-редактор",
+            "role": "editor",
+            "is_active": true,
+            "password_hash": "$2y$10$d33.m/2zbEMxShah9.Hkl.HIy9aZlldZjtmhgwOuWjR5l...sEjNq",
+            "created_at": "2026-06-25T19:51:56+00:00",
+            "updated_at": "2026-06-25T23:18:49+00:00",
+            "last_login_at": null
+        }
+    ]
+}

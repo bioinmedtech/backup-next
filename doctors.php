@@ -151,7 +151,7 @@ echo $header->render();
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
                 <span class="text-[#0f2749]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.breadcrumb_current'); ?>><?php echo e($doctorsHero['breadcrumb_current'] ?? ''); ?></span>
             </nav>
-            <div>
+            <div data-admin-block-root>
                 <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.heading'); ?>><?php echo e($doctorsHero['heading'] ?? ''); ?></h1>
                 <p class="mt-3 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.04rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.text'); ?>>
                     <?php echo e($doctorsHero['text'] ?? ''); ?>
@@ -162,7 +162,7 @@ echo $header->render();
 
     <section class="border-b border-[#e4edf6] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div class="fade-up overflow-hidden rounded-3xl">
+            <div class="fade-up overflow-hidden rounded-3xl" data-admin-block-root>
                 <img src="<?php echo e(bioinmed_versioned_asset_path('/public/images/team/team-photo.jpg')); ?>"
                      alt="<?php echo e($doctorsHero['team_image_alt'] ?? ''); ?>"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.team_image_alt'); ?>
                      class="h-auto max-h-[520px] w-full rounded-3xl object-contain"
@@ -184,7 +184,7 @@ echo $header->render();
     <section class="bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="fade-up grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
-                    <div class="w-full max-w-[480px]">
+                    <div class="w-full max-w-[480px]" data-admin-block-root>
                         <div class="aspect-square overflow-hidden rounded-3xl">
                             <img src="<?php echo e($chiefImage); ?>"
                                  alt="<?php echo e($chief['name']); ?>"
@@ -211,7 +211,7 @@ echo $header->render();
 
     <!-- ALL DOCTORS GRID -->
     <section class="bg-[#e4f1fa] py-12 md:py-16">
-        <div class="mx-auto max-w-6xl px-6 md:px-10">
+        <div class="mx-auto max-w-6xl px-6 md:px-10" data-admin-block-root>
             <p class="text-[0.92rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.eyebrow'); ?>><?php echo e($doctorsTeam['eyebrow'] ?? ''); ?></p>
             <h2 class="mt-2 text-[2rem] font-bold text-[#0a293c] md:text-[2.35rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.title'); ?>><?php echo e($doctorsTeam['title'] ?? ''); ?></h2>
             <p class="mt-2 text-[1.02rem] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.description'); ?>><?php echo e($doctorsTeam['description'] ?? ''); ?></p>
@@ -223,18 +223,26 @@ echo $header->render();
                           $docHasProfile = !array_key_exists('has_profile', $doc) || $doc['has_profile'] !== false;
                     $docActionText = trim((string)($doc['card_action_text'] ?? ($doctorsTeam['card_action_fallback'] ?? '')));
                     $docLink = '/doctors/' . ($doc['slug'] ?? '');
+                    $docKey = trim((string)($doc['slug'] ?? ('item_' . $index)));
+                    $docNameNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.name', (string)($doc['name'] ?? ''));
+                    $docTitleNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.title', (string)($doc['title'] ?? ''));
+                    $docExpNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.experience', $docExp);
+                    $docActionNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.action_text', $docActionText);
+                    $docImageAltNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.image_alt', (string)($doc['name'] ?? ''));
                     $docYears = null;
                     if (preg_match('/(\d+)\s*(?:лет|год)/ui', $docExp, $m)) $docYears = $m[1];
                 ?>
                     <article
                         class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition md:flex-row md:items-stretch <?php echo $docHasProfile ? 'hover:border-[#1977b2] hover:shadow-[0_12px_30px_rgba(25,119,178,0.13)]' : ''; ?>"
+                        data-admin-block-root
                         style="transition-delay:<?php echo $index * 60; ?>ms">
                     <div class="overflow-hidden md:w-[260px] lg:w-[320px] md:self-stretch md:shrink-0">
                         <?php if ($docHasProfile): ?>
                         <a href="<?php echo e($docLink); ?>" class="block h-full overflow-hidden">
                         <?php endif; ?>
                                           <img src="<?php echo e($docImage); ?>"
-                                      alt="<?php echo e($doc['name']); ?>"
+                                      alt="<?php echo e($docImageAltNode['value']); ?>"
+                                                        <?php echo $docImageAltNode['attr']; ?>
                                                         class="block aspect-[4/5] w-full object-cover object-top transition duration-300 md:h-full md:min-h-full md:aspect-auto <?php echo $docHasProfile ? 'group-hover:scale-[1.03]' : ''; ?>"
                              loading="lazy"
                                       onerror="this.src='/public/images/placeholder.jpg'">
@@ -245,14 +253,14 @@ echo $header->render();
                     <div class="flex flex-1 flex-col p-5 md:p-6">
                         <h3 class="text-[1.02rem] font-bold leading-tight text-[#0a293c] md:text-[1.08rem]">
                             <?php if ($docHasProfile): ?>
-                            <a href="<?php echo e($docLink); ?>" class="transition hover:text-[#1977b2]"><?php echo e($doc['name']); ?></a>
+                            <a href="<?php echo e($docLink); ?>" class="transition hover:text-[#1977b2]"<?php echo $docNameNode['attr']; ?>><?php echo e($docNameNode['value']); ?></a>
                             <?php else: ?>
-                            <?php echo e($doc['name']); ?>
+                            <span<?php echo $docNameNode['attr']; ?>><?php echo e($docNameNode['value']); ?></span>
                             <?php endif; ?>
                         </h3>
-                        <p class="mt-2 text-[0.88rem] font-semibold uppercase tracking-[0.08em] text-[#0a293c] md:mt-2.5 md:text-[0.92rem]"><?php echo e($doc['title']); ?></p>
+                        <p class="mt-2 text-[0.88rem] font-semibold uppercase tracking-[0.08em] text-[#0a293c] md:mt-2.5 md:text-[0.92rem]"<?php echo $docTitleNode['attr']; ?>><?php echo e($docTitleNode['value']); ?></p>
                         <?php if ($docExp !== ''): ?>
-                        <p class="mt-2.5 text-[0.95rem] font-medium leading-relaxed text-[#0a293c] md:mt-3 md:text-[0.98rem]"><?php echo e($docExp); ?></p>
+                        <p class="mt-2.5 text-[0.95rem] font-medium leading-relaxed text-[#0a293c] md:mt-3 md:text-[0.98rem]"<?php echo $docExpNode['attr']; ?>><?php echo e($docExpNode['value']); ?></p>
                         <?php endif; ?>
                         <?php if ($docHasProfile || $docActionText !== ''): ?>
                         <div class="mt-auto flex items-center justify-end pt-3">
@@ -262,7 +270,7 @@ echo $header->render();
                                 <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
                             </a>
                             <?php else: ?>
-                            <span class="text-[0.96rem] font-semibold text-[#6d8db2]"><?php echo e($docActionText); ?></span>
+                            <span class="text-[0.96rem] font-semibold text-[#6d8db2]"<?php echo $docActionNode['attr']; ?>><?php echo e($docActionNode['value']); ?></span>
                             <?php endif; ?>
                         </div>
                         <?php endif; ?>
@@ -275,8 +283,8 @@ echo $header->render();
 
     <!-- CTA -->
     <section class="border-y border-[#e4edf6] bg-[#e4f1fa] py-12">
-        <div class="mx-auto max-w-6xl px-6 text-center md:px-10">
-            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'cta.eyebrow'); ?>><?php echo e(($doctorsCta['eyebrow'] ?? '') . ' ' . CLINIC_NAME . ' · ' . CLINIC_METRO); ?></p>
+        <div class="mx-auto max-w-6xl px-6 text-center md:px-10" data-admin-block-root>
+            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'cta.eyebrow'); ?>><?php echo e($doctorsCta['eyebrow'] ?? ''); ?></p>
             <h2 class="mt-3 text-[1.32rem] font-bold text-[#0a293c] md:text-[1.58rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'cta.title'); ?>><?php echo e($doctorsCta['title'] ?? ''); ?></h2>
             <p class="mx-auto mt-3 max-w-xl text-[0.98rem] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'cta.text'); ?>>
                 <?php echo e($doctorsCta['text'] ?? ''); ?>

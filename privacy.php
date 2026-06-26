@@ -52,7 +52,7 @@ echo $header->render();
 
 <main class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
     <section class="pb-8">
-        <div class="max-w-4xl">
+        <div class="max-w-4xl" data-admin-block-root>
             <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#2a5a94]"<?php echo bioinmed_page_text_attr($privacyPage, 'privacy', 'meta.eyebrow'); ?>><?php echo e($privacyMeta['eyebrow'] ?? 'Правовая информация'); ?></p>
             <h1 class="mt-2 text-[1.8rem] font-bold leading-tight text-[#0f2749] md:text-[2.6rem]"<?php echo bioinmed_page_text_attr($privacyPage, 'privacy', 'meta.title'); ?>><?php echo e($privacyMeta['title'] ?? 'Политика конфиденциальности'); ?></h1>
             <p class="mt-4 text-[0.98rem] leading-relaxed text-[#355b89]"<?php echo bioinmed_page_text_attr($privacyPage, 'privacy', 'meta.intro'); ?>>
@@ -65,15 +65,15 @@ echo $header->render();
         </div>
 
         <div class="mt-8 grid gap-5 border-y border-[#d8e6f3] py-6 md:grid-cols-3">
-            <div>
+            <div data-admin-block-root>
                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#2a5a94]"<?php echo bioinmed_page_text_attr($privacyPage, 'privacy', 'cards.operator.title'); ?>><?php echo e($privacyCards['operator']['title'] ?? 'Оператор данных'); ?></p>
                 <p class="mt-2 text-[0.95rem] leading-relaxed text-[#355b89]"><?php echo e(CLINIC_NAME); ?><br><?php echo e(CLINIC_ADDRESS); ?></p>
             </div>
-            <div>
+            <div data-admin-block-root>
                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#2a5a94]"<?php echo bioinmed_page_text_attr($privacyPage, 'privacy', 'cards.contacts.title'); ?>><?php echo e($privacyCards['contacts']['title'] ?? 'Контакты'); ?></p>
                 <p class="mt-2 text-[0.95rem] leading-relaxed text-[#355b89]"><?php echo e(CLINIC_PHONE); ?><br><?php echo e(CLINIC_EMAIL); ?></p>
             </div>
-            <div>
+            <div data-admin-block-root>
                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[#2a5a94]"<?php echo bioinmed_page_text_attr($privacyPage, 'privacy', 'cards.purpose.title'); ?>><?php echo e($privacyCards['purpose']['title'] ?? 'Назначение обработки'); ?></p>
                 <p class="mt-2 text-[0.95rem] leading-relaxed text-[#355b89]"<?php echo bioinmed_page_text_attr($privacyPage, 'privacy', 'cards.purpose.text'); ?>><?php echo e($privacyCards['purpose']['text'] ?? ''); ?></p>
             </div>
@@ -87,7 +87,7 @@ echo $header->render();
                 $title = trim((string)($section['title'] ?? ''));
                 $paragraphEntries = is_array($section['paragraphs'] ?? null) ? $section['paragraphs'] : [];
                 ?>
-                <section class="<?php echo $isLast ? '' : 'border-b border-[#e2ecf5] pb-6'; ?>">
+                <section class="<?php echo $isLast ? '' : 'border-b border-[#e2ecf5] pb-6'; ?>" data-admin-block-root>
                     <h2 class="text-[1.16rem] font-bold text-[#0f2749]"<?php echo bioinmed_page_text_attr($privacyPage, 'privacy', 'sections.' . $sectionKey . '.title'); ?>><?php echo e($title); ?></h2>
                     <?php foreach ($paragraphEntries as $paragraphIndex => $paragraphEntry): ?>
                         <?php

@@ -128,7 +128,7 @@ echo $header->render();
 <?php if ($isChildrenProblemsPage): ?>
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div>
+            <div data-admin-block-root>
                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'children.eyebrow'); ?>><?php echo e($problemChildrenText['eyebrow'] ?? ''); ?></p>
                 <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'children.heading'); ?>><?php echo e($problemChildrenText['heading'] ?? ''); ?></h1>
                 <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'children.description'); ?>><?php echo e($problemChildrenText['description'] ?? ''); ?></p>
@@ -148,7 +148,7 @@ echo $header->render();
 
 <?php elseif (!$problem): ?>
     <section class="mx-auto max-w-4xl px-6 py-20 md:px-10">
-        <div class="rounded-3xl bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]">
+        <div class="rounded-3xl bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]" data-admin-block-root>
             <i class="fa-solid fa-circle-question mb-4 text-5xl text-[#b0c8e0]" aria-hidden="true"></i>
             <h1 class="text-3xl font-bold text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'not_found.title'); ?>><?php echo e($problemNotFoundText['title'] ?? ''); ?></h1>
             <p class="mt-3 text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'not_found.text'); ?>><?php echo e($problemNotFoundText['text'] ?? ''); ?></p>
@@ -158,12 +158,19 @@ echo $header->render();
         </div>
     </section>
 <?php else: ?>
+    <?php
+    $problemSlug = trim((string)($problem['slug'] ?? ''));
+    $problemTitleKey = 'problem.items.' . $problemSlug . '.title';
+    $problemDescriptionKey = 'problem.items.' . $problemSlug . '.description';
+    $problemTitleText = bioinmed_text($problemTitleKey, (string)($problem['title'] ?? ''));
+    $problemDescriptionText = bioinmed_text($problemDescriptionKey, (string)($problem['description'] ?? ''));
+    ?>
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div>
+            <div data-admin-block-root>
                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'problem.eyebrow'); ?>><?php echo e($problemDetailText['eyebrow'] ?? ''); ?></p>
-                <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"><?php echo e($problem['title']); ?></h1>
-                <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"><?php echo e($problem['description']); ?></p>
+                <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"<?php echo bioinmed_data_text_id($problemTitleKey); ?>><?php echo e($problemTitleText); ?></h1>
+                <p class="mt-4 max-w-3xl text-[1rem] leading-relaxed text-[#0a293c] md:text-[1.06rem]"<?php echo bioinmed_data_text_id($problemDescriptionKey); ?>><?php echo e($problemDescriptionText); ?></p>
                 <p class="mt-4 max-w-3xl text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'problem.intro'); ?>>
                     <?php echo e($problemDetailText['intro'] ?? ''); ?>
                 </p>
@@ -184,7 +191,7 @@ echo $header->render();
                     $sectionIcon = ['fa-user-doctor', 'fa-magnifying-glass', 'fa-clipboard-check', 'fa-kit-medical', 'fa-star'][$index] ?? 'fa-circle-info';
                     $sectionKey = trim((string)($section['key'] ?? ('section_' . $index)));
                     ?>
-                    <details class="group rounded-[1.4rem] bg-white p-5 shadow-[0_12px_28px_rgba(10,43,80,0.06)]" data-problem-step="<?php echo e((string)$index); ?>"<?php echo $index < 5 ? ' open' : ''; ?>>
+                    <details class="group rounded-[1.4rem] bg-white p-5 shadow-[0_12px_28px_rgba(10,43,80,0.06)]" data-admin-block-root data-problem-step="<?php echo e((string)$index); ?>"<?php echo $index < 5 ? ' open' : ''; ?>>
                         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
                             <div class="flex items-center gap-3">
                                 <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#e8f3fc] text-[#1977b2]">
@@ -228,15 +235,27 @@ echo $header->render();
 
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div class="rounded-[2rem] bg-transparent p-0">
-                <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'appointment.eyebrow'); ?>><?php echo e($problemAppointmentText['eyebrow'] ?? ''); ?></p>
-                <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h2>
-                <p class="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'appointment.text'); ?>><?php echo e($problemAppointmentText['text'] ?? ''); ?></p>
-                <div class="mt-5 max-w-xl">
-                    <?php echo bioinmed_render_callback_form([
-                        'source_label' => (string)($problemAppointmentText['source_label'] ?? ''),
-                        'submit_label' => (string)($problemAppointmentText['submit_label'] ?? bioinmed_text('common.book_appointment')),
-                    ]); ?>
+            <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9" data-admin-block-root>
+                <?php
+                $appointmentHeadingNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.heading', bioinmed_text('common.book_appointment'));
+                $appointmentTextNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.text', (string)($problemAppointmentText['text'] ?? ''));
+                $appointmentSubmitNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.submit_label', (string)($problemAppointmentText['submit_label'] ?? bioinmed_text('common.book_appointment')));
+                $appointmentPhonePlaceholderNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.phone_placeholder', bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон'));
+                ?>
+                <div class="grid gap-7 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                    <div>
+                        <h2 class="text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]"<?php echo $appointmentHeadingNode['attr']; ?>><?php echo e($appointmentHeadingNode['value']); ?></h2>
+                        <p class="mt-2.5 max-w-xl text-[0.94rem] leading-relaxed text-[#0a293c]"<?php echo $appointmentTextNode['attr']; ?>><?php echo e($appointmentTextNode['value']); ?></p>
+                    </div>
+                    <div class="w-full max-w-lg lg:ml-auto">
+                        <?php echo bioinmed_render_callback_form([
+                            'source_label' => (string)($problemAppointmentText['source_label'] ?? ''),
+                            'submit_label' => $appointmentSubmitNode['value'],
+                            'submit_label_attr' => $appointmentSubmitNode['attr'],
+                            'phone_placeholder' => $appointmentPhonePlaceholderNode['value'],
+                            'phone_placeholder_attr' => $appointmentPhonePlaceholderNode['attr'],
+                        ]); ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -244,7 +263,7 @@ echo $header->render();
 
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between" data-admin-block-root>
                 <div>
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'services.eyebrow'); ?>><?php echo e($problemServicesText['eyebrow'] ?? ''); ?></p>
                     <h2 class="mt-2 text-[1.45rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'services.title'); ?>><?php echo e($problemServicesText['title'] ?? ''); ?></h2>
@@ -256,22 +275,21 @@ echo $header->render();
                 <?php foreach ($resolved_services as $service): ?>
                     <?php
                     $serviceId = (string)($service['id'] ?? '');
+                    $serviceNodeBase = 'services.items.' . $serviceId;
                     $serviceLink = '/services/' . rawurlencode($serviceId);
                     $serviceName = trim((string)($service['name'] ?? ''));
-                    $serviceSubtitle = trim((string)($service['subtitle'] ?? ''));
                     $serviceDescription = trim((string)($service['card_description'] ?? $service['description'] ?? ''));
                     $servicePrice = trim((string)($service['price'] ?? ''));
+                    $serviceNameNode = bioinmed_page_text_node($problemPage, 'problem', $serviceNodeBase . '.name', $serviceName);
+                    $serviceDescriptionNode = bioinmed_page_text_node($problemPage, 'problem', $serviceNodeBase . '.description', $serviceDescription);
+                    $servicePriceNode = bioinmed_page_text_node($problemPage, 'problem', $serviceNodeBase . '.price', $servicePrice);
                     ?>
-                    <a href="<?php echo e($serviceLink); ?>" class="group block rounded-[1.6rem] bg-white p-5 shadow-[0_10px_26px_rgba(10,43,80,0.06)] ring-1 ring-[#d9e7f2] transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(10,43,80,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]">
-                        <p class="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'services.display_label_fallback'); ?>><?php echo e($service['display_label'] ?? ($problemServicesText['display_label_fallback'] ?? '')); ?></p>
-                        <h3 class="mt-2 text-[1.08rem] font-bold leading-tight text-[#0f2749]"><?php echo e($serviceName); ?></h3>
-                        <?php if ($serviceSubtitle !== ''): ?>
-                            <p class="mt-1 text-[0.84rem] font-semibold uppercase tracking-[0.08em] text-[#0a293c]"><?php echo e($serviceSubtitle); ?></p>
-                        <?php endif; ?>
-                        <p class="mt-3 text-[0.94rem] leading-relaxed text-[#0a293c]"><?php echo e($serviceDescription); ?></p>
-                        <div class="mt-4 flex items-center justify-between gap-3">
-                            <?php if ($servicePrice !== ''): ?>
-                                <span class="text-[0.92rem] font-semibold text-[#1977b2]"><?php echo e($servicePrice); ?></span>
+                    <a href="<?php echo e($serviceLink); ?>" class="group flex h-full flex-col rounded-[1.6rem] bg-white p-5 shadow-[0_10px_26px_rgba(10,43,80,0.06)] ring-1 ring-[#d9e7f2] transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(10,43,80,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" data-admin-block-root>
+                        <h3 class="text-[1.08rem] font-bold leading-tight text-[#0f2749]"<?php echo $serviceNameNode['attr']; ?>><?php echo e($serviceNameNode['value']); ?></h3>
+                        <p class="mt-3 text-[0.94rem] leading-relaxed text-[#0a293c]"<?php echo $serviceDescriptionNode['attr']; ?>><?php echo e($serviceDescriptionNode['value']); ?></p>
+                        <div class="mt-auto flex items-center justify-between gap-3 pt-4">
+                            <?php if ($servicePriceNode['value'] !== ''): ?>
+                                <span class="text-[1.02rem] font-semibold leading-none text-[#1977b2]"<?php echo $servicePriceNode['attr']; ?>><?php echo e($servicePriceNode['value']); ?></span>
                             <?php endif; ?>
                             <span class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition group-hover:bg-[#16658f] group-hover:gap-2.5">
                                 <?php echo e(bioinmed_text('common.more_details')); ?>

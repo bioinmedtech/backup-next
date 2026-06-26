@@ -176,33 +176,34 @@ echo $header->render();
 ?>
 
     <main class="mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
-    <section class="relative overflow-hidden rounded-2xl border border-[#d7e4ef] bg-[linear-gradient(120deg,#eef6fd_0%,#e4f1fb_45%,#dff0fb_100%)] p-5 shadow-[0_10px_24px_rgba(6,29,60,0.07)] md:p-7">
+    <section class="relative overflow-hidden rounded-2xl border border-[#d7e4ef] bg-[linear-gradient(120deg,#eef6fd_0%,#e4f1fb_45%,#dff0fb_100%)] p-5 shadow-[0_10px_24px_rgba(6,29,60,0.07)] md:p-7" data-admin-block-root>
         <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#1977b21f] blur-3xl"></div>
         <div class="pointer-events-none absolute -left-14 bottom-0 h-32 w-32 rounded-full bg-[#1977b214] blur-3xl"></div>
         <div class="relative">
             <p class="text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.catalog_eyebrow'); ?>><?php echo e($servicesMeta['catalog_eyebrow'] ?? ''); ?></p>
-            <h1 class="mt-2 text-[1.68rem] font-bold leading-tight text-[#0f2749] md:text-[2.15rem]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.catalog_heading'); ?>><?php echo e(($servicesMeta['catalog_heading'] ?? '') . ' ' . CLINIC_NAME); ?></h1>
+            <h1 class="mt-2 text-[1.68rem] font-bold leading-tight text-[#0f2749] md:text-[2.15rem]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.catalog_heading'); ?>><?php echo e($servicesMeta['catalog_heading'] ?? ''); ?></h1>
             <p class="mt-2 max-w-3xl text-[0.97rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.catalog_text'); ?>>
                 <?php echo e($servicesMeta['catalog_text'] ?? ''); ?>
             </p>
-            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.82rem] font-semibold text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.total_services_label'); ?>>
+            <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#c7ddf0] bg-white/80 px-3 py-1.5 text-[0.82rem] font-semibold text-[#0a293c]">
                 <i class="fa-solid fa-list-check text-[#1977b2]" aria-hidden="true"></i>
-                <?php echo e($servicesMeta['total_services_label'] ?? ''); ?> <?php echo intval($totalServices); ?>
+                <span<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.total_services_label'); ?>><?php echo e($servicesMeta['total_services_label'] ?? ''); ?></span> <?php echo intval($totalServices); ?>
             </div>
         </div>
     </section>
 
     <?php if (!empty($servicesByCategory)): ?>
-        <section class="mt-5 px-0 py-2">
+        <section class="mt-5 px-0 py-2" data-admin-block-root>
             <p class="mb-3 text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicesPage, 'services', 'meta.quick_nav_label'); ?>><?php echo e($servicesMeta['quick_nav_label'] ?? ''); ?></p>
             <div class="flex flex-wrap gap-2">
                 <?php foreach ($servicesByCategory as $categoryKey => $categoryItems): ?>
                     <?php
                     $categoryTitle = $categoryLabels[$categoryKey] ?? ucfirst(str_replace(['_', '-'], ' ', $categoryKey));
                     $count = count($categoryItems);
+                    $categoryTitleNode = bioinmed_page_text_node($servicesPage, 'services', 'categories.' . $categoryKey, $categoryTitle);
                     ?>
                     <a href="#cat-<?php echo e($categoryKey); ?>" class="inline-flex items-center gap-2 rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-[0.8rem] font-semibold text-[#0a293c] transition hover:border-[#8bb7dc] hover:text-[#1977b2]">
-                        <span><?php echo e($categoryTitle); ?></span>
+                        <span<?php echo $categoryTitleNode['attr']; ?>><?php echo e($categoryTitleNode['value']); ?></span>
                         <span class="rounded-full bg-white px-1.5 py-0.5 text-[0.72rem] text-[#1977b2]"><?php echo intval($count); ?></span>
                     </a>
                 <?php endforeach; ?>
@@ -214,13 +215,14 @@ echo $header->render();
                 <?php
                 $categoryTitle = $categoryLabels[$categoryKey] ?? ucfirst(str_replace(['_', '-'], ' ', $categoryKey));
                 $categoryIcon = $categoryIcons[$categoryKey] ?? 'fa-stethoscope';
+                $categoryHeaderNode = bioinmed_page_text_node($servicesPage, 'services', 'categories.' . $categoryKey, $categoryTitle);
                 ?>
                 <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor pt-2 md:pt-3">
-                    <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3">
+                    <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3" data-admin-block-root>
                         <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e8f4fd] text-[#1977b2]">
                             <i class="fa-solid <?php echo e($categoryIcon); ?> text-[0.82rem]" aria-hidden="true"></i>
                         </span>
-                        <h2 class="text-[1.18rem] font-bold leading-tight text-[#0f2749] md:text-[1.42rem]"><?php echo e($categoryTitle); ?></h2>
+                        <h2 class="text-[1.18rem] font-bold leading-tight text-[#0f2749] md:text-[1.42rem]"<?php echo $categoryHeaderNode['attr']; ?>><?php echo e($categoryHeaderNode['value']); ?></h2>
                     </div>
 
                     <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -233,19 +235,22 @@ echo $header->render();
                             $priceLabel = $servicePrice !== '' && $servicePrice !== 'По запросу'
                                 ? trim($servicePrice . ($servicePriceNote !== '' ? ' ' . $servicePriceNote : ''))
                                 : '';
+                            $serviceNameNode = bioinmed_page_text_node($servicesPage, 'services', 'catalog.items.' . $serviceId . '.name', $serviceName);
+                            $servicePriceLabelNode = bioinmed_page_text_node($servicesPage, 'services', 'catalog.items.' . $serviceId . '.price_label', $priceLabel);
+                            $servicePriceOnRequestNode = bioinmed_page_text_node($servicesPage, 'services', 'meta.price_on_request', (string)($servicesMeta['price_on_request'] ?? ''));
                             ?>
-                            <a href="/services/<?php echo e($serviceId); ?>"
-                               class="service-card group flex flex-col rounded-xl border border-[#deebf6] bg-white p-4 no-underline cursor-pointer">
+                                     <a href="/services/<?php echo e($serviceId); ?>"
+                                         class="service-card group flex flex-col rounded-xl border border-[#deebf6] bg-white p-4 no-underline cursor-pointer" data-admin-block-root>
                                 <div class="flex items-start justify-between gap-2">
                                     <h3 class="text-[0.93rem] font-semibold leading-snug text-[#0a293c] group-hover:text-[#1977b2]"
-                                        style="transition:color 0.15s"><?php echo e($serviceName); ?></h3>
+                                        style="transition:color 0.15s"<?php echo $serviceNameNode['attr']; ?>><?php echo e($serviceNameNode['value']); ?></h3>
                                     <i class="service-card-arrow fa-solid fa-arrow-right mt-0.5 shrink-0 text-[0.65rem] text-[#9bbdd8]" aria-hidden="true"></i>
                                 </div>
                                 <div class="mt-auto pt-3">
                                     <?php if ($priceLabel !== ''): ?>
-                                        <span class="inline-block rounded-full bg-[#e9f6ff] px-2.5 py-0.5 text-[0.78rem] font-semibold text-[#1a7dbf]"><?php echo e($priceLabel); ?></span>
+                                        <span class="inline-block rounded-full bg-[#e9f6ff] px-2.5 py-0.5 text-[0.78rem] font-semibold text-[#1a7dbf]"<?php echo $servicePriceLabelNode['attr']; ?>><?php echo e($servicePriceLabelNode['value']); ?></span>
                                     <?php else: ?>
-                                        <span class="inline-block rounded-full bg-[#f3f6fb] px-2.5 py-0.5 text-[0.78rem] font-medium text-[#7093b8]"><?php echo e($servicesMeta['price_on_request'] ?? ''); ?></span>
+                                        <span class="inline-block rounded-full bg-[#f3f6fb] px-2.5 py-0.5 text-[0.78rem] font-medium text-[#7093b8]"<?php echo $servicePriceOnRequestNode['attr']; ?>><?php echo e($servicePriceOnRequestNode['value']); ?></span>
                                     <?php endif; ?>
                                 </div>
                             </a>

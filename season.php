@@ -130,6 +130,12 @@ $titles = $season_titles[$slug] ?? [
     'nav' => $seasonNavigationText['title_default'] ?? 'Другие времена года',
 ];
 
+$seasonHealthTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.health', $titles['health']);
+$seasonTipsTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.tips', $titles['tips']);
+$seasonServicesTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.services', $titles['services']);
+$seasonCtaTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.cta', $titles['cta']);
+$seasonNavTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.nav', $titles['nav']);
+
 $page_title  = $s['name'] . ' — Времена года | БИОИНМЕД';
 $page_desc   = $s['intro'];
 $canonical   = rtrim((string)CLINIC_SITE_URL, '/') . '/seasons/' . $slug;
@@ -601,7 +607,7 @@ $footer = new Footer();
     </div>
 
     <div class="season-hero__content">
-        <div class="mx-auto max-w-6xl px-6 md:px-10">
+        <div class="mx-auto max-w-6xl px-6 md:px-10" data-admin-block-root>
 
             <!-- Main hero text -->
             <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.eyebrow') ?>>
@@ -625,10 +631,10 @@ $footer = new Footer();
 <!-- ═══════════════ INTRO ═══════════════ -->
 <section class="py-14 md:py-20" style="background:<?= $e($s['color_light']) ?>">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <div class="mx-auto max-w-4xl text-center">
+        <div class="mx-auto max-w-4xl text-center" data-admin-block-root>
             <span class="text-4xl mb-5 block"><?= $s['icon'] ?></span>
-            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'intro.health_title') ?>>
-                <?= $e($titles['health']) ?>
+            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>"<?= $seasonHealthTitleNode['attr'] ?>>
+                <?= $e($seasonHealthTitleNode['value']) ?>
             </h2>
             <p class="text-[1.08rem] md:text-[1.16rem] text-gray-700 leading-relaxed max-w-3xl mx-auto"<?= bioinmed_page_text_attr($seasonPage, 'season', 'intro.text') ?>>
                 <?= $e($s['intro']) ?>
@@ -640,19 +646,23 @@ $footer = new Footer();
 <!-- ═══════════════ SEASONAL TIPS ═══════════════ -->
 <section class="py-14 md:py-20 bg-[#e4f1fa]">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#0a293c] mb-7 text-center"<?= bioinmed_page_text_attr($seasonPage, 'season', 'tips.title') ?>>
-            <?= $e($titles['tips']) ?>
+        <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#0a293c] mb-7 text-center"<?= $seasonTipsTitleNode['attr'] ?>>
+            <?= $e($seasonTipsTitleNode['value']) ?>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <?php foreach ($s['tips'] as $tip): ?>
-            <div class="flex gap-4 p-5 rounded-2xl border border-[#dce8f5] bg-white shadow-sm hover:shadow-md transition-shadow">
+            <?php foreach ($s['tips'] as $tipIndex => $tip): ?>
+            <?php
+                $tipTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'tips.items.' . $slug . '.' . $tipIndex . '.title', (string)($tip['title'] ?? ''));
+                $tipTextNode = bioinmed_page_text_node($seasonPage, 'season', 'tips.items.' . $slug . '.' . $tipIndex . '.text', (string)($tip['text'] ?? ''));
+            ?>
+            <div class="flex gap-4 p-5 rounded-2xl border border-[#dce8f5] bg-white shadow-sm hover:shadow-md transition-shadow" data-admin-block-root>
                 <div class="flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center text-white text-base"
                      style="background:<?= $e($s['color']) ?>">
                     <i class="fa-solid <?= $e($tip['icon']) ?>" aria-hidden="true"></i>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-[1.1rem] md:text-[1.16rem] text-[#0a293c] mb-1.5"><?= $e($tip['title']) ?></h3>
-                    <p class="text-gray-600 text-[1rem] md:text-[1.06rem] leading-relaxed"><?= $e($tip['text']) ?></p>
+                    <h3 class="font-semibold text-[1.1rem] md:text-[1.16rem] text-[#0a293c] mb-1.5"<?= $tipTitleNode['attr'] ?>><?= $e($tipTitleNode['value']) ?></h3>
+                    <p class="text-gray-600 text-[1rem] md:text-[1.06rem] leading-relaxed"<?= $tipTextNode['attr'] ?>><?= $e($tipTextNode['value']) ?></p>
                 </div>
             </div>
             <?php endforeach ?>
@@ -663,10 +673,10 @@ $footer = new Footer();
 <!-- ═══════════════ SEASON SERVICES ═══════════════ -->
 <section class="py-14 md:py-20" style="background:<?= $e($s['color_light']) ?>">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10" data-admin-block-root>
             <div class="max-w-2xl">
                 <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase" style="color:<?= $e($s['color']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.eyebrow') ?>><?= $e($seasonServicesText['eyebrow'] ?? 'Практика сезона') ?></p>
-                <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.title') ?>><?= $e($titles['services']) ?></h2>
+                <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mt-2.5" style="color:<?= $e($s['color_dark']) ?>"<?= $seasonServicesTitleNode['attr'] ?>><?= $e($seasonServicesTitleNode['value']) ?></h2>
             </div>
             <a href="/services" class="inline-flex items-center gap-2 text-[1rem] md:text-[1.04rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.all_services') ?>>
                 <?= $e($seasonServicesText['all_services'] ?? 'Все услуги клиники') ?>
@@ -676,13 +686,19 @@ $footer = new Footer();
 
         <div class="season-practice-grid">
             <?php foreach ($season_services as $service): ?>
-            <a href="/services/<?= $e($service['id']) ?>" class="season-practice-card" style="--season-accent:<?= $e($s['color']) ?>">
+            <?php
+                $serviceId = (string)($service['id'] ?? '');
+                $serviceLabelNode = bioinmed_page_text_node($seasonPage, 'season', 'services.items.' . $slug . '.' . $serviceId . '.label', (string)($service['label'] ?? ''));
+                $serviceSubtitleNode = bioinmed_page_text_node($seasonPage, 'season', 'services.items.' . $slug . '.' . $serviceId . '.subtitle', (string)($service['subtitle'] ?? ''));
+                $serviceDescNode = bioinmed_page_text_node($seasonPage, 'season', 'services.items.' . $slug . '.' . $serviceId . '.desc', (string)($service['desc'] ?? ''));
+            ?>
+            <a href="/services/<?= $e($service['id']) ?>" class="season-practice-card" style="--season-accent:<?= $e($s['color']) ?>" data-admin-block-root>
                 <span class="season-practice-card__kicker"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.recommendation_kicker') ?>><i class="fa-solid fa-stethoscope" aria-hidden="true"></i> <?= $e($seasonServicesText['recommendation_kicker'] ?? 'Рекомендация сезона') ?></span>
-                <h3 class="season-practice-card__title"><?= $e($service['label']) ?></h3>
-                <?php if ($service['subtitle'] !== ''): ?>
-                <p class="season-practice-card__subtitle"><?= $e($service['subtitle']) ?></p>
+                <h3 class="season-practice-card__title"<?= $serviceLabelNode['attr'] ?>><?= $e($serviceLabelNode['value']) ?></h3>
+                <?php if ($serviceSubtitleNode['value'] !== ''): ?>
+                <p class="season-practice-card__subtitle"<?= $serviceSubtitleNode['attr'] ?>><?= $e($serviceSubtitleNode['value']) ?></p>
                 <?php endif ?>
-                <p class="season-practice-card__desc"><?= $e($service['desc']) ?></p>
+                <p class="season-practice-card__desc"<?= $serviceDescNode['attr'] ?>><?= $e($serviceDescNode['value']) ?></p>
                 <span class="season-practice-card__cta"<?= bioinmed_page_text_attr($seasonPage, 'season', 'services.detail_cta') ?>><?= $e($seasonServicesText['detail_cta'] ?? 'Подробнее об услуге') ?> <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
             </a>
             <?php endforeach ?>
@@ -693,8 +709,8 @@ $footer = new Footer();
 <!-- ═══════════════ CTA ═══════════════ -->
 <section class="py-14 md:py-18 text-white" style="background:<?= $e($s['color_dark']) ?>">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <div class="mx-auto max-w-4xl text-center">
-            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3"<?= bioinmed_page_text_attr($seasonPage, 'season', 'cta.title') ?>><?= $e($titles['cta']) ?></h2>
+        <div class="mx-auto max-w-4xl text-center" data-admin-block-root>
+            <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3"<?= $seasonCtaTitleNode['attr'] ?>><?= $e($seasonCtaTitleNode['value']) ?></h2>
             <p class="text-white/80 text-[1.04rem] md:text-[1.12rem] mb-7 max-w-xl mx-auto leading-relaxed"<?= bioinmed_page_text_attr($seasonPage, 'season', 'cta.text') ?>>
                 <?= $e($seasonCtaText['text'] ?? 'Наши специалисты разработают индивидуальную программу с учётом сезона и Ваших особенностей.') ?>
             </p>
@@ -718,19 +734,20 @@ $footer = new Footer();
 <!-- ═══════════════ SEASON NAVIGATION ═══════════════ -->
 <nav class="py-10 bg-gray-50 border-t border-gray-200" aria-label="Другие сезоны">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-center text-[0.88rem] md:text-[0.94rem] font-semibold tracking-[0.16em] uppercase text-gray-400 mb-6"<?= bioinmed_page_text_attr($seasonPage, 'season', 'navigation.title') ?>><?= $e($titles['nav']) ?></h2>
+        <h2 class="text-center text-[0.88rem] md:text-[0.94rem] font-semibold tracking-[0.16em] uppercase text-gray-400 mb-6"<?= $seasonNavTitleNode['attr'] ?>><?= $e($seasonNavTitleNode['value']) ?></h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <?php foreach ($seasons as $key => $sv): ?>
             <?php $is_current = ($key === $slug); ?>
             <?php $is_actual_now = ($key === $actual_season_slug); ?>
-            <a href="/seasons/<?= $e($key) ?>"
+            <?php $seasonNavNameNode = bioinmed_page_text_node($seasonPage, 'season', 'navigation.items.' . $key . '.name', (string)($sv['name'] ?? '')); ?>
+                <a href="/seasons/<?= $e($key) ?>"
                 class="group relative overflow-hidden rounded-2xl border border-[#dbe8f4] bg-white aspect-[4/3] <?= $is_current ? 'ring-4 ring-offset-2' : '' ?> transition-all hover:scale-[1.02]"
                style="<?= $is_current ? 'ring-color:' . $e($sv['color']) : '' ?>"
-               <?= $is_current ? 'aria-current="page"' : '' ?>>
+                    <?= $is_current ? 'aria-current="page"' : '' ?> data-admin-block-root>
                 <img src="<?= $e($sv['image']) ?>" alt="<?= $e($sv['name']) ?>" class="absolute inset-0 h-full w-full object-cover">
                 <div class="absolute inset-0 transition-opacity" style="background:linear-gradient(to top, rgba(8,22,38,0.72) 0%, rgba(8,22,38,0.08) 58%)"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <div class="font-semibold text-[1rem] md:text-[1.06rem] text-white"><?= $e($sv['name']) ?></div>
+                    <div class="font-semibold text-[1rem] md:text-[1.06rem] text-white"<?= $seasonNavNameNode['attr'] ?>><?= $e($seasonNavNameNode['value']) ?></div>
                 </div>
                 <?php if ($is_actual_now): ?>
                  <div class="absolute top-3 right-3 inline-flex text-xs font-bold text-white rounded-full px-2 py-0.5"
