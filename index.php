@@ -114,8 +114,6 @@ function e($value) {
             }
         }
 
-        /* ── Hero keeps natural height so it doesn't fight the header layout ── */
-
         @media (prefers-reduced-motion: reduce) {
             * {
                 scroll-behavior: auto !important;
