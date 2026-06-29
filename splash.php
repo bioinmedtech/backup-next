@@ -62,8 +62,8 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.web
     <meta name="theme-color" content="#1977b2">
     <!-- Tailwind CSS CDN -->
     <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
-    <link rel="preload" href="/public/vendor/fontawesome/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"></noscript>
+    <link rel="preload" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>"></noscript>
     <style>
         :root {
             --background: #f3f8fd;

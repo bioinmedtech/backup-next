@@ -1,0 +1,205 @@
+/*
+ * Minimal Font Awesome subset for the public site.
+ * Generated from Font Awesome Free 6.5.2 bundle and limited to icons used in public PHP templates.
+ */
+
+.fa {
+  font-family: var(--fa-style-family, "Font Awesome 6 Free");
+  font-weight: var(--fa-style, 900);
+}
+
+.fa,
+.fa-brands,
+.fa-classic,
+.fa-regular,
+.fa-sharp,
+.fa-solid,
+.fab,
+.far,
+.fas {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: var(--fa-display, inline-block);
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+}
+
+.fa-classic,
+.fa-regular,
+.fa-solid,
+.far,
+.fas {
+  font-family: "Font Awesome 6 Free";
+}
+
+.fa-brands,
+.fab {
+  font-family: "Font Awesome 6 Brands";
+}
+
+.fa-sr-only,
+.fa-sr-only-focusable:not(:focus),
+.sr-only,
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:root {
+  --fa-style-family-brands: "Font Awesome 6 Brands";
+  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url(/public/vendor/fontawesome/webfonts/fa-solid-900.woff2) format("woff2"),
+    url(/public/vendor/fontawesome/webfonts/fa-solid-900.ttf) format("truetype");
+}
+
+.fa-solid,
+.fas {
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(/public/vendor/fontawesome/webfonts/fa-regular-400.woff2) format("woff2"),
+    url(/public/vendor/fontawesome/webfonts/fa-regular-400.ttf) format("truetype");
+}
+
+.fa-regular,
+.far {
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(/public/vendor/fontawesome/webfonts/fa-brands-400.woff2) format("woff2"),
+    url(/public/vendor/fontawesome/webfonts/fa-brands-400.ttf) format("truetype");
+}
+
+.fa-bars:before,
+.fa-navicon:before { content: "\f0c9"; }
+.fa-chevron-down:before { content: "\f078"; }
+.fa-chevron-left:before { content: "\f053"; }
+.fa-chevron-right:before { content: "\f054"; }
+.fa-xmark:before { content: "\f00d"; }
+.fa-phone:before { content: "\f095"; }
+.fa-phone-volume:before,
+.fa-volume-control-phone:before { content: "\f2a0"; }
+.fa-user-doctor:before,
+.fa-user-md:before { content: "\f0f0"; }
+.fa-map-location-dot:before,
+.fa-map-marked-alt:before { content: "\f5a0"; }
+.fa-location-dot:before,
+.fa-map-marker-alt:before { content: "\f3c5"; }
+.fa-calendar-check:before { content: "\f274"; }
+.fa-calendar:before { content: "\f133"; }
+.fa-circle-info:before,
+.fa-info-circle:before { content: "\f05a"; }
+.fa-circle-play:before,
+.fa-play-circle:before { content: "\f144"; }
+.fa-comments:before { content: "\f086"; }
+.fa-diagram-project:before,
+.fa-project-diagram:before { content: "\f542"; }
+.fa-directions:before { content: "\f5eb"; }
+.fa-triangle-exclamation:before,
+.fa-warning:before { content: "\f071"; }
+.fa-gear:before { content: "\f013"; }
+.fa-users:before { content: "\f0c0"; }
+.fa-file-waveform:before { content: "\f478"; }
+.fa-file-medical:before { content: "\f477"; }
+.fa-magnifying-glass-plus:before,
+.fa-search-plus:before { content: "\f00e"; }
+.fa-magnifying-glass-chart:before { content: "\e522"; }
+.fa-magnifying-glass:before,
+.fa-search:before { content: "\f002"; }
+.fa-check:before { content: "\f00c"; }
+.fa-arrow-right:before { content: "\f061"; }
+.fa-arrow-right-from-bracket:before,
+.fa-sign-out-alt:before { content: "\f08b"; }
+.fa-award:before { content: "\f559"; }
+.fa-bullseye:before { content: "\f140"; }
+.fa-bandage:before { content: "\f462"; }
+.fa-bone:before { content: "\f5d7"; }
+.fa-brain:before { content: "\f5dc"; }
+.fa-droplet:before,
+.fa-tint:before { content: "\f043"; }
+.fa-hand-holding-heart:before { content: "\f4be"; }
+.fa-hand-holding-medical:before { content: "\e05c"; }
+.fa-hand-sparkles:before { content: "\e05d"; }
+.fa-hands:before,
+.fa-sign-language:before,
+.fa-signing:before { content: "\f2a7"; }
+.fa-chart-column:before { content: "\e0e3"; }
+.fa-circle-nodes:before { content: "\e4e2"; }
+.fa-circle-question:before,
+.fa-question-circle:before { content: "\f059"; }
+.fa-clipboard-check:before { content: "\f46c"; }
+.fa-clock:before { content: "\f017"; }
+.fa-envelope:before { content: "\f0e0"; }
+.fa-gamepad:before { content: "\f11b"; }
+.fa-hand-pointer:before { content: "\f25a"; }
+.fa-heart-pulse:before,
+.fa-heartbeat:before { content: "\f21e"; }
+.fa-hospital:before { content: "\f0f8"; }
+.fa-house:before { content: "\f015"; }
+.fa-kit-medical:before,
+.fa-first-aid:before { content: "\f479"; }
+.fa-leaf:before { content: "\f06c"; }
+.fa-lightbulb:before { content: "\f0eb"; }
+.fa-list:before { content: "\f03a"; }
+.fa-list-check:before,
+.fa-tasks:before { content: "\f0ae"; }
+.fa-map:before { content: "\f279"; }
+.fa-map-pin:before { content: "\f276"; }
+.fa-pen-to-square:before,
+.fa-edit:before { content: "\f044"; }
+.fa-person-walking:before,
+.fa-walking:before { content: "\f554"; }
+.fa-microscope:before { content: "\f610"; }
+.fa-pills:before { content: "\f484"; }
+.fa-seedling:before,
+.fa-sprout:before { content: "\f4d8"; }
+.fa-shield-halved:before,
+.fa-shield-alt:before { content: "\f3ed"; }
+.fa-snowflake:before { content: "\f2dc"; }
+.fa-staff-snake:before { content: "\e579"; }
+.fa-star:before { content: "\f005"; }
+.fa-stethoscope:before { content: "\f0f1"; }
+.fa-sun:before { content: "\f185"; }
+.fa-syringe:before { content: "\f48e"; }
+.fa-university:before,
+.fa-building-columns:before,
+.fa-bank:before { content: "\f19c"; }
+.fa-user-check:before { content: "\f4fc"; }
+.fa-user-group:before,
+.fa-users-rectangle:before { content: "\f500"; }
+.fa-user-plus:before { content: "\f234"; }
+.fa-user-shield:before { content: "\f505"; }
+.fa-user-slash:before { content: "\f506"; }
+.fa-wand-magic-sparkles:before,
+.fa-magic-wand-sparkles:before { content: "\e2ca"; }
+.fa-wave-square:before { content: "\f83e"; }
+.fa-wind:before { content: "\f72e"; }
+.fa-vk:before { content: "\f189"; }
+.fa-telegram:before,
+.fa-telegram-plane:before { content: "\f2c6"; }

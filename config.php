@@ -273,7 +273,34 @@ function bioinmed_page_text_attr($page_data, $page_name, $path, $default = '') {
 function bioinmed_uis_counter_head() {
     return <<<HTML
     <!-- UIS -->
-    <script type="text/javascript" async src="https://app.uiscom.ru/static/cs.min.js?k=if02ewgEvY95V_mhIKLExPfM0ipC6i1u"></script>
+    <script>
+        (function() {
+            var src = 'https://app.uiscom.ru/static/cs.min.js?k=if02ewgEvY95V_mhIKLExPfM0ipC6i1u';
+
+            function loadUisCounter() {
+                if (document.querySelector('script[data-bioinmed-uis-counter]')) return;
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.async = true;
+                script.src = src;
+                script.setAttribute('data-bioinmed-uis-counter', '1');
+                document.head.appendChild(script);
+            }
+
+            if (document.readyState === 'complete') {
+                setTimeout(loadUisCounter, 0);
+                return;
+            }
+
+            window.addEventListener('load', function() {
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(loadUisCounter, { timeout: 2000 });
+                } else {
+                    setTimeout(loadUisCounter, 0);
+                }
+            }, { once: true });
+        })();
+    </script>
     <!-- UIS -->
     HTML;
 }
