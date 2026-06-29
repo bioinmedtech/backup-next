@@ -9,6 +9,7 @@ define('BIOINMED_ADMIN_BOOTSTRAPPED', true);
 
 $bioinmedAdminSessionLifetime = 60 * 60 * 24 * 60; // 60 days
 $bioinmedAdminRememberCookie = 'bioinmed_admin_remember';
+$bioinmedAdminCsrfCookie = 'bioinmed_admin_csrf';
 
 if (session_status() === PHP_SESSION_NONE) {
     ini_set('session.gc_maxlifetime', (string)$bioinmedAdminSessionLifetime);
@@ -45,6 +46,16 @@ function bioinmed_admin_cookie_params(int $lifetime): array {
         'path' => '/',
         'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
         'httponly' => true,
+        'samesite' => 'Lax',
+    ];
+}
+
+function bioinmed_admin_csrf_cookie_params(int $lifetime): array {
+    return [
+        'expires' => time() + $lifetime,
+        'path' => '/',
+        'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => false,
         'samesite' => 'Lax',
     ];
 }
@@ -86,6 +97,14 @@ function bioinmed_admin_clear_remember_cookie(): void {
         'httponly' => true,
         'samesite' => 'Lax',
     ]);
+}
+
+function bioinmed_admin_set_csrf_cookie(string $token): void {
+    if ($token === '') {
+        return;
+    }
+
+    setcookie('bioinmed_admin_csrf', $token, bioinmed_admin_csrf_cookie_params(60 * 60 * 24 * 60));
 }
 
 function bioinmed_admin_restore_user_from_remember_cookie(): void {
@@ -185,16 +204,33 @@ function bioinmed_admin_request_json(): array {
 }
 
 function bioinmed_admin_csrf_token(): string {
-    if (!isset($_SESSION['bioinmed_admin_csrf']) || !is_string($_SESSION['bioinmed_admin_csrf'])) {
+    global $bioinmedAdminCsrfCookie;
+
+    $cookieToken = $_COOKIE[$bioinmedAdminCsrfCookie] ?? '';
+    if (is_string($cookieToken) && preg_match('/^[a-f0-9]{48}$/', $cookieToken)) {
+        $_SESSION['bioinmed_admin_csrf'] = $cookieToken;
+        bioinmed_admin_set_csrf_cookie($cookieToken);
+        return $cookieToken;
+    }
+
+    if (!isset($_SESSION['bioinmed_admin_csrf']) || !is_string($_SESSION['bioinmed_admin_csrf']) || !preg_match('/^[a-f0-9]{48}$/', $_SESSION['bioinmed_admin_csrf'])) {
         $_SESSION['bioinmed_admin_csrf'] = bin2hex(random_bytes(24));
     }
 
+    bioinmed_admin_set_csrf_cookie($_SESSION['bioinmed_admin_csrf']);
     return $_SESSION['bioinmed_admin_csrf'];
 }
 
 function bioinmed_admin_verify_csrf(?string $token): bool {
     if (!is_string($token) || $token === '') {
         return false;
+    }
+
+    global $bioinmedAdminCsrfCookie;
+
+    $cookieToken = $_COOKIE[$bioinmedAdminCsrfCookie] ?? '';
+    if (is_string($cookieToken) && $cookieToken !== '') {
+        return hash_equals($cookieToken, $token);
     }
 
     $stored = $_SESSION['bioinmed_admin_csrf'] ?? '';
@@ -654,7 +690,6 @@ function bioinmed_admin_sync_service_price_from_prices_key(string $textKey, stri
 
 function bioinmed_admin_client_config(): array {
     $user = bioinmed_admin_current_user();
-    $pinSettings = bioinmed_admin_load_pin_settings();
     return [
         'isAuthenticated' => (bool)$user,
         'user' => $user ? [
@@ -666,12 +701,6 @@ function bioinmed_admin_client_config(): array {
         ] : null,
         'csrf' => bioinmed_admin_csrf_token(),
         'canManageUsers' => $user && ($user['role'] ?? '') === 'admin',
-        'pinSettings' => [
-            'enabled' => bioinmed_admin_normalize_bool($pinSettings['enabled'] ?? true),
-            'pin' => (string)($pinSettings['pin'] ?? ''),
-            'updatedAt' => (string)($pinSettings['updated_at'] ?? ''),
-            'updatedBy' => $pinSettings['updated_by'] ?? null,
-        ],
         'apiBase' => '/api/admin',
     ];
 }

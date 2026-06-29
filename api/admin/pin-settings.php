@@ -33,11 +33,19 @@ $enabled = bioinmed_admin_normalize_bool($body['enabled'] ?? true);
 $pin = trim((string)($body['pin'] ?? ''));
 $existing = bioinmed_admin_load_pin_settings();
 
+if ($enabled && $pin === '') {
+    $pin = '1290';
+}
+
 if ($enabled && !preg_match('/^[0-9]{4,12}$/', $pin)) {
     bioinmed_admin_json_response([
         'ok' => false,
         'error' => 'PIN должен содержать от 4 до 12 цифр.',
     ], 422);
+}
+
+if (!$enabled) {
+    $pin = $pin !== '' ? $pin : (string)($existing['pin'] ?? '');
 }
 
 $payload = [

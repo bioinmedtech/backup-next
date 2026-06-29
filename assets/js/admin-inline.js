@@ -76,6 +76,21 @@
             });
     }
 
+    function normalizePinSettings(settings) {
+        var normalized = settings && typeof settings === 'object' ? settings : { enabled: true, pin: '' };
+        var defaultPinValue = '1290';
+
+        if (typeof normalized.enabled === 'undefined') {
+            normalized.enabled = true;
+        }
+
+        if (normalized.enabled && !normalized.pin) {
+            normalized.pin = defaultPinValue;
+        }
+
+        return normalized;
+    }
+
     function hashString(str) {
         var h = 0;
         var i;
@@ -133,24 +148,68 @@
     }
 
     function syncPinSettingsUi() {
-        var settings = state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' };
+        var settings = normalizePinSettings(state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' });
         var toggle = byId('bioinmed-pin-enabled-switch');
         var input = byId('bioinmed-pin-input');
         var status = byId('bioinmed-pin-status');
         var enabled = !!settings.enabled;
+        var defaultPinValue = '1290';
 
         if (toggle) {
             toggle.classList.toggle('is-on', enabled);
             toggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
         }
         if (input) {
-            input.value = settings.pin || '';
+            input.value = settings.pin || defaultPinValue;
         }
         if (status) {
             status.textContent = enabled
-                ? ('PIN-защита включена. Текущий PIN: ' + (settings.pin || 'не задан'))
+                ? ('PIN-защита включена. Текущий PIN: ' + (settings.pin || defaultPinValue))
                 : 'PIN-защита выключена. Сайт открыт без PIN-кода.';
         }
+    }
+
+    function isValidPinValue(value) {
+        return /^[0-9]{4,12}$/.test((value || '').trim());
+    }
+
+    function savePinSettings(nextPin, nextEnabled) {
+        var currentSettings = normalizePinSettings(state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' });
+        var enabled = typeof nextEnabled === 'boolean' ? nextEnabled : !!currentSettings.enabled;
+        var pinValue = typeof nextPin === 'string' ? nextPin.trim() : '';
+        var defaultPinValue = '1290';
+
+        if (enabled && pinValue === '') {
+            pinValue = defaultPinValue;
+        }
+
+        if (enabled && pinValue !== '' && !isValidPinValue(pinValue)) {
+            return Promise.resolve({ ok: false, error: 'PIN должен содержать от 4 до 12 цифр.' });
+        }
+
+        if (!enabled && pinValue === '') {
+            pinValue = currentSettings.pin || '';
+        }
+
+        return callApi('/pin-settings.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify({
+                csrf: state.config.csrf,
+                enabled: enabled,
+                pin: pinValue
+            })
+        }).then(function (resp) {
+            if (resp && resp.ok && resp.pinSettings) {
+                state.config.pinSettings = resp.pinSettings;
+                state.config.pinSettings = normalizePinSettings(state.config.pinSettings);
+                syncPinSettingsUi();
+                return resp;
+            }
+
+            return resp || { ok: false, error: 'Не удалось сохранить PIN' };
+        });
     }
 
     function showMobileAdminMenu(open) {
@@ -1063,14 +1122,16 @@
     }
 
     function loadSession() {
-        return fetch('/api/admin/session.php', { credentials: 'same-origin' })
+        return fetch('/api/admin/session.php', {
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
             .then(function (resp) { return resp.json(); })
             .then(function (payload) {
                 if (payload && payload.ok && payload.config) {
-                    state.config = payload.config;
-                    window.BioinmedAdminConfig = payload.config;
+                    state.config = Object.assign({}, state.config || {}, payload.config);
+                    window.BioinmedAdminConfig = state.config;
                     applyAuthUi();
-                    syncPinSettingsUi();
                     if (state.config.isAuthenticated) {
                         ensureLinkIds();
                     }
@@ -1079,6 +1140,21 @@
             .catch(function () {
                 showToast('Нет соединения с админ API', 'error');
             });
+    }
+
+    function loadPinSettings() {
+        return callApi('/pin-settings.php', {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        }).then(function (resp) {
+            if (resp && resp.ok && resp.pinSettings) {
+                state.config.pinSettings = normalizePinSettings(resp.pinSettings);
+                syncPinSettingsUi();
+            }
+
+            return resp;
+        });
     }
 
     function saveContentChange(textKey, value) {
@@ -1216,7 +1292,10 @@
         var list = byId('bioinmed-admin-users-list');
         if (list) list.innerHTML = '<p>Загрузка...</p>';
 
-        fetch('/api/admin/users.php', { credentials: 'same-origin' })
+        fetch('/api/admin/users.php', {
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
             .then(function (resp) { return resp.json(); })
             .then(function (payload) {
                 if (!list) return;
@@ -1689,7 +1768,8 @@
     var pinToggle = byId('bioinmed-pin-enabled-switch');
     if (pinToggle) {
         pinToggle.addEventListener('click', function () {
-            var current = !!(state.config && state.config.pinSettings && state.config.pinSettings.enabled);
+            var currentSettings = normalizePinSettings(state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' });
+            var current = !!currentSettings.enabled;
             var nextEnabled = !current;
             var pinInput = byId('bioinmed-pin-input');
             if (!state.config.pinSettings) state.config.pinSettings = {};
@@ -1697,16 +1777,7 @@
             state.config.pinSettings.enabled = nextEnabled;
             syncPinSettingsUi();
 
-            callApi('/pin-settings.php', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-                body: JSON.stringify({
-                    csrf: state.config.csrf,
-                    enabled: nextEnabled,
-                    pin: pinInput ? (pinInput.value || '').trim() : (state.config.pinSettings.pin || '')
-                })
-            }).then(function (resp) {
+            savePinSettings(pinInput ? (pinInput.value || '').trim() : (state.config.pinSettings.pin || ''), nextEnabled).then(function (resp) {
                 if (!resp || !resp.ok) {
                     state.config.pinSettings.enabled = current;
                     syncPinSettingsUi();
@@ -1726,35 +1797,50 @@
         });
     }
 
-    var pinSave = byId('bioinmed-pin-save');
-    if (pinSave) {
-        pinSave.addEventListener('click', function () {
-            var pinInput = byId('bioinmed-pin-input');
-            var enabled = !!(state.config && state.config.pinSettings && state.config.pinSettings.enabled);
-            var pinValue = pinInput ? (pinInput.value || '').trim() : '';
+    var pinInput = byId('bioinmed-pin-input');
+    var pinAutosaveTimer = null;
+    function schedulePinAutosave() {
+        if (!pinInput) {
+            return;
+        }
 
-            callApi('/pin-settings.php', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-                body: JSON.stringify({
-                    csrf: state.config.csrf,
-                    enabled: enabled,
-                    pin: pinValue
-                })
-            }).then(function (resp) {
+        if (pinAutosaveTimer) {
+            clearTimeout(pinAutosaveTimer);
+        }
+
+        pinAutosaveTimer = setTimeout(function () {
+            pinAutosaveTimer = null;
+            var enabled = !!normalizePinSettings(state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' }).enabled;
+            var pinValue = (pinInput.value || '').trim();
+            var defaultPinValue = '1290';
+
+            if (enabled && pinValue === '') {
+                pinValue = defaultPinValue;
+            }
+
+            if (enabled && pinValue !== '' && !isValidPinValue(pinValue)) {
+                return;
+            }
+
+            savePinSettings(pinValue, enabled).then(function (resp) {
                 if (!resp || !resp.ok) {
                     showToast((resp && resp.error) || 'Не удалось сохранить PIN', 'error');
                     return;
                 }
-                if (resp.pinSettings) {
-                    state.config.pinSettings = resp.pinSettings;
-                }
-                return loadSession().then(function () {
-                    syncPinSettingsUi();
-                    showToast('PIN-настройки сохранены');
-                });
+
+                showToast('PIN-настройки сохранены');
             });
+        }, 450);
+    }
+
+    if (pinInput) {
+        pinInput.addEventListener('input', schedulePinAutosave);
+        pinInput.addEventListener('blur', function () {
+            if (pinAutosaveTimer) {
+                clearTimeout(pinAutosaveTimer);
+                pinAutosaveTimer = null;
+            }
+            schedulePinAutosave();
         });
     }
 
@@ -1811,7 +1897,10 @@
             return;
         }
 
-        fetch((state.config.apiBase || '/api/admin') + '/users.php?id=' + uid, { credentials: 'same-origin' })
+        fetch((state.config.apiBase || '/api/admin') + '/users.php?id=' + uid, {
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
             .then(function (resp) { return resp.json().catch(function () { return null; }); })
             .then(function (payload) {
                 if (payload && payload.user) {
@@ -1938,10 +2027,19 @@
 
     initEvents();
     ensureLinkIds();
-    loadSession();
+    loadSession().then(function () {
+        if (state.config && state.config.isAuthenticated) {
+            return loadPinSettings();
+        }
+        syncPinSettingsUi();
+        return null;
+    });
     // keepalive: ping server periodically to keep session alive while admin is active
     setInterval(function () {
         if (!state.config || !state.config.isAuthenticated) return;
-        fetch('/api/admin/session.php', { credentials: 'same-origin' }).catch(function () { /* ignore */ });
+        fetch('/api/admin/session.php', {
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        }).catch(function () { /* ignore */ });
     }, 1000 * 60 * 5); // every 5 minutes
 })();

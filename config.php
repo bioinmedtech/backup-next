@@ -287,10 +287,18 @@ function bioinmed_uis_counter_head() {
                 document.head.appendChild(script);
             }
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', loadUisCounter, { once: true });
+            function scheduleLoad() {
+                if (window.requestIdleCallback) {
+                    window.requestIdleCallback(loadUisCounter, { timeout: 2500 });
+                    return;
+                }
+                setTimeout(loadUisCounter, 1);
+            }
+
+            if (document.readyState === 'complete') {
+                scheduleLoad();
             } else {
-                loadUisCounter();
+                window.addEventListener('load', scheduleLoad, { once: true });
             }
         })();
     </script>

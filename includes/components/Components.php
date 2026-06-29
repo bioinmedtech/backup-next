@@ -527,7 +527,7 @@ class Header extends Component {
                     <span{$this->dataTextId('header.contact.phone_primary')}>{$phone_1}</span>
                 </a>
                 <a href="javascript:void(0)" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
-                    <span{$this->dataTextId('header.online_booking_button.mobile_menu')}>{$online_booking_text}</span>
+                    <span{$this->dataTextId('header.online_booking_button.mobile_menu')}>{$this->e(bioinmed_text('common.online_booking_desktop'))}</span>
                 </a>
                 <div style="display:flex;gap:12px;">
                     <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" style="display:flex;align-items:center;justify-content:center;color:#2787f5;text-decoration:none;">
@@ -2490,7 +2490,6 @@ class Footer extends Component {
         <style>
             #clientixAppointmentButton { display:none !important; }
         </style>
-        <script type="text/javascript" src="https://klientiks.ru/js/online/clientixWidget.js"></script>
         <link rel="stylesheet" href="{$this->e(bioinmed_versioned_asset_path('/assets/css/admin-inline.css'))}">
         <div id="bioinmed-admin-toolbar" class="bioinmed-admin-toolbar" aria-label="Панель администратора">
             <div class="bioinmed-admin-toolbar-inner">
@@ -2601,7 +2600,6 @@ class Footer extends Component {
                                 <span class="block text-[0.8rem] font-semibold text-[#17446f]">Новый PIN-код</span>
                                 <input id="bioinmed-pin-input" type="text" inputmode="numeric" autocomplete="off" placeholder="1290" class="mt-1.5 w-full rounded-[12px] border border-[#c8dcf0] bg-[#f9fcff] px-3.5 py-2.5 text-[0.93rem] text-[#0f2749] outline-none transition focus:border-[#1977b2] focus:bg-white focus:shadow-[0_0_0_4px_rgba(25,119,178,0.12)]">
                             </label>
-                            <button id="bioinmed-pin-save" type="button" class="inline-flex items-center justify-center rounded-[12px] bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white hover:bg-[#16658f]">Сохранить PIN</button>
                         </div>
                         <p id="bioinmed-pin-status" class="mt-3 text-[13px] text-[#4a6f9c]"></p>
                     </div>
@@ -2786,6 +2784,8 @@ class Footer extends Component {
                 }
                 window.__bioinmedBookingUiReady = true;
 
+                var clientixScriptPromise = null;
+
                 function initQuickBookingWidget() {
                     if (window.__clientixWidgetBooted || !window.clientixWidget || typeof window.clientixWidget.load !== 'function') {
                         return;
@@ -2799,10 +2799,87 @@ class Footer extends Component {
                     });
                 }
 
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', initQuickBookingWidget, { once: true });
+                function loadClientixScript() {
+                    if (window.clientixWidget || clientixScriptPromise) {
+                        return clientixScriptPromise || Promise.resolve();
+                    }
+
+                    clientixScriptPromise = new Promise(function(resolve, reject) {
+                        var script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.async = true;
+                        script.src = 'https://klientiks.ru/js/online/clientixWidget.js';
+                        script.onload = function() {
+                            resolve();
+                        };
+                        script.onerror = function() {
+                            reject(new Error('Не удалось загрузить виджет записи.'));
+                        };
+                        document.head.appendChild(script);
+                    });
+
+                    return clientixScriptPromise;
+                }
+
+                function bootClientixWidget() {
+                    if (window.__clientixWidgetBooted) {
+                        return Promise.resolve();
+                    }
+
+                    return loadClientixScript().then(function() {
+                        initQuickBookingWidget();
+                    }).catch(function() {
+                        // Silent failure: booking buttons remain standard links/controls.
+                    });
+                }
+
+                function armClientixTriggers() {
+                    var trigger = function(event) {
+                        var button = event.currentTarget;
+
+                        if (window.__clientixWidgetBooted) {
+                            return;
+                        }
+
+                        if (event.type === 'click') {
+                            event.preventDefault();
+                            button.dataset.clientixReplay = '1';
+                        }
+
+                        bootClientixWidget().then(function() {
+                            if (button.dataset.clientixReplay === '1') {
+                                delete button.dataset.clientixReplay;
+                                button.click();
+                            }
+                        });
+                    };
+
+                    document.querySelectorAll('.jsClientix_openWidget').forEach(function(button) {
+                        button.addEventListener('pointerenter', trigger, { once: true, passive: true });
+                        button.addEventListener('focus', trigger, { once: true, passive: true });
+                        button.addEventListener('click', trigger);
+                    });
+                }
+
+                function scheduleClientixBootstrap() {
+                    if (window.requestIdleCallback) {
+                        window.requestIdleCallback(function() {
+                            bootClientixWidget();
+                        }, { timeout: 4000 });
+                        return;
+                    }
+
+                    setTimeout(function() {
+                        bootClientixWidget();
+                    }, 1);
+                }
+
+                armClientixTriggers();
+
+                if (document.readyState === 'complete') {
+                    scheduleClientixBootstrap();
                 } else {
-                    initQuickBookingWidget();
+                    window.addEventListener('load', scheduleClientixBootstrap, { once: true });
                 }
 
                 function setStatus(form, type, message) {
