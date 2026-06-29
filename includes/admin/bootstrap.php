@@ -25,6 +25,8 @@ if (session_status() === PHP_SESSION_NONE) {
 define('BIOINMED_ADMIN_DATA_DIR', __DIR__ . '/../../data');
 define('BIOINMED_ADMIN_USERS_FILE', BIOINMED_ADMIN_DATA_DIR . '/users/users.json');
 define('BIOINMED_ADMIN_CONTENT_DIR', BIOINMED_ADMIN_DATA_DIR . '/content/ru');
+define('BIOINMED_ADMIN_SETTINGS_DIR', BIOINMED_ADMIN_DATA_DIR . '/admin');
+define('BIOINMED_ADMIN_PIN_SETTINGS_FILE', BIOINMED_ADMIN_SETTINGS_DIR . '/pin-settings.json');
 define('BIOINMED_ADMIN_SERVICES_FILE', __DIR__ . '/../../config/services.php');
 
 function bioinmed_admin_cookie_secret(): string {
@@ -155,6 +157,7 @@ function bioinmed_admin_restore_user_from_remember_cookie(): void {
 function bioinmed_admin_ensure_directories(): void {
     $dirs = [
         dirname(BIOINMED_ADMIN_USERS_FILE),
+        BIOINMED_ADMIN_SETTINGS_DIR,
     ];
 
     foreach ($dirs as $dir) {
@@ -516,6 +519,36 @@ function bioinmed_admin_write_services_config(array $services): bool {
     return @rename($tmp, BIOINMED_ADMIN_SERVICES_FILE);
 }
 
+function bioinmed_admin_default_pin_settings(): array {
+    return [
+        'enabled' => true,
+        'pin' => '1290',
+        'updated_at' => gmdate('c'),
+        'updated_by' => null,
+    ];
+}
+
+function bioinmed_admin_load_pin_settings(): array {
+    bioinmed_admin_ensure_directories();
+
+    if (!is_file(BIOINMED_ADMIN_PIN_SETTINGS_FILE)) {
+        $seed = bioinmed_admin_default_pin_settings();
+        bioinmed_admin_write_json(BIOINMED_ADMIN_PIN_SETTINGS_FILE, $seed);
+        return $seed;
+    }
+
+    $payload = bioinmed_admin_read_json(BIOINMED_ADMIN_PIN_SETTINGS_FILE, []);
+    if (!is_array($payload)) {
+        return bioinmed_admin_default_pin_settings();
+    }
+
+    return array_merge(bioinmed_admin_default_pin_settings(), $payload);
+}
+
+function bioinmed_admin_save_pin_settings(array $payload): bool {
+    return bioinmed_admin_write_json(BIOINMED_ADMIN_PIN_SETTINGS_FILE, $payload);
+}
+
 function bioinmed_admin_split_price_and_note(string $value): array {
     $value = trim($value);
     if ($value === '') {
@@ -596,6 +629,7 @@ function bioinmed_admin_sync_service_price_from_prices_key(string $textKey, stri
 
 function bioinmed_admin_client_config(): array {
     $user = bioinmed_admin_current_user();
+    $pinSettings = bioinmed_admin_load_pin_settings();
     return [
         'isAuthenticated' => (bool)$user,
         'user' => $user ? [
@@ -607,6 +641,12 @@ function bioinmed_admin_client_config(): array {
         ] : null,
         'csrf' => bioinmed_admin_csrf_token(),
         'canManageUsers' => $user && ($user['role'] ?? '') === 'admin',
+        'pinSettings' => [
+            'enabled' => bioinmed_admin_normalize_bool($pinSettings['enabled'] ?? true),
+            'pin' => (string)($pinSettings['pin'] ?? ''),
+            'updatedAt' => (string)($pinSettings['updated_at'] ?? ''),
+            'updatedBy' => $pinSettings['updated_by'] ?? null,
+        ],
         'apiBase' => '/api/admin',
     ];
 }

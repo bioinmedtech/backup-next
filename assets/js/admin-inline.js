@@ -132,6 +132,28 @@
         overlay.classList.toggle('is-open', !!open);
     }
 
+    function syncPinSettingsUi() {
+        var settings = state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' };
+        var toggle = byId('bioinmed-pin-enabled-switch');
+        var input = byId('bioinmed-pin-input');
+        var status = byId('bioinmed-pin-status');
+        var enabled = !!settings.enabled;
+
+        if (toggle) {
+            toggle.classList.toggle('is-on', enabled);
+            toggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+        }
+        if (input) {
+            input.value = settings.pin || '';
+            input.disabled = !enabled;
+        }
+        if (status) {
+            status.textContent = enabled
+                ? ('PIN-защита включена. Текущий PIN: ' + (settings.pin || 'не задан'))
+                : 'PIN-защита выключена. Сайт открыт без PIN-кода.';
+        }
+    }
+
     function showMobileAdminMenu(open) {
         var menu = byId('bioinmed-admin-mobile-menu');
         if (!menu) {
@@ -1049,6 +1071,7 @@
                     state.config = payload.config;
                     window.BioinmedAdminConfig = payload.config;
                     applyAuthUi();
+                    syncPinSettingsUi();
                     if (state.config.isAuthenticated) {
                         ensureLinkIds();
                     }
@@ -1663,6 +1686,51 @@
 
     var usersOpenDesktop = byId('bioinmed-admin-users-open-desktop');
     if (usersOpenDesktop) usersOpenDesktop.addEventListener('click', function () { closeAdminSettingsPanel(); openUsersPanel(); });
+
+    var pinToggle = byId('bioinmed-pin-enabled-switch');
+    if (pinToggle) {
+        pinToggle.addEventListener('click', function () {
+            var current = !!(state.config && state.config.pinSettings && state.config.pinSettings.enabled);
+            var nextEnabled = !current;
+            var pinInput = byId('bioinmed-pin-input');
+            if (pinInput) {
+                pinInput.disabled = !nextEnabled;
+            }
+            if (!state.config.pinSettings) state.config.pinSettings = {};
+            state.config.pinSettings.enabled = nextEnabled;
+            syncPinSettingsUi();
+        });
+    }
+
+    var pinSave = byId('bioinmed-pin-save');
+    if (pinSave) {
+        pinSave.addEventListener('click', function () {
+            var pinInput = byId('bioinmed-pin-input');
+            var enabled = !!(state.config && state.config.pinSettings && state.config.pinSettings.enabled);
+            var pinValue = pinInput ? (pinInput.value || '').trim() : '';
+
+            callApi('/pin-settings.php', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                body: JSON.stringify({
+                    csrf: state.config.csrf,
+                    enabled: enabled,
+                    pin: pinValue
+                })
+            }).then(function (resp) {
+                if (!resp || !resp.ok) {
+                    showToast((resp && resp.error) || 'Не удалось сохранить PIN', 'error');
+                    return;
+                }
+                if (resp.pinSettings) {
+                    state.config.pinSettings = resp.pinSettings;
+                }
+                syncPinSettingsUi();
+                showToast('PIN-настройки сохранены');
+            });
+        });
+    }
 
     // user badge menu
     var userBadge = byId('bioinmed-admin-user-badge');

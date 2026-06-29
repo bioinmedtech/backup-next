@@ -153,21 +153,9 @@ echo $header->render();
             </nav>
             <div data-admin-block-root>
                 <h1 class="mt-2 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem] lg:text-[2.8rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.heading'); ?>><?php echo e($doctorsHero['heading'] ?? ''); ?></h1>
-                <p class="mt-3 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.04rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.text'); ?>>
+                <p class="mt-3 max-w-4xl text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.04rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.text'); ?>>
                     <?php echo e($doctorsHero['text'] ?? ''); ?>
                 </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="border-b border-[#e4edf6] bg-[#e4f1fa] py-10 md:py-14">
-        <div class="mx-auto max-w-6xl px-6 md:px-10">
-            <div class="fade-up overflow-hidden rounded-3xl" data-admin-block-root>
-                <img src="<?php echo e(bioinmed_versioned_asset_path('/public/images/team/team-photo.jpg')); ?>"
-                     alt="<?php echo e($doctorsHero['team_image_alt'] ?? ''); ?>"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.team_image_alt'); ?>
-                     class="h-auto max-h-[520px] w-full rounded-3xl object-contain"
-                     loading="eager"
-                     onerror="this.src='/public/images/placeholder.jpg'">
             </div>
         </div>
     </section>
@@ -181,7 +169,7 @@ echo $header->render();
         $chiefYears = null;
         if (preg_match('/(\d+)\s*(?:лет|год)/ui', $chiefExp, $m)) $chiefYears = $m[1];
     ?>
-    <section class="bg-[#e4f1fa] py-10 md:py-14">
+    <section class="mt-2 bg-[#e4f1fa] py-6 md:mt-3 md:py-8">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="fade-up grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
                     <div class="w-full max-w-[480px]" data-admin-block-root>
@@ -194,7 +182,7 @@ echo $header->render();
                         </div>
                         <?php if (!empty($chief['hero_tagline'])): ?>
                         <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
-                            <span<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.text'); ?>><?php echo e($doctorsChiefQuote['text'] ?? ''); ?></span>
+                            <span style="font-family:'Caveat',cursive;"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.text'); ?>><?php echo e($doctorsChiefQuote['text'] ?? ''); ?></span>
                         </p>
                         <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.sign'); ?>><?php echo e($doctorsChiefQuote['sign'] ?? ''); ?></p>
                     <?php endif; ?>
@@ -210,13 +198,9 @@ echo $header->render();
     <?php endif; ?>
 
     <!-- ALL DOCTORS GRID -->
-    <section class="bg-[#e4f1fa] py-12 md:py-16">
+    <section class="bg-[#e4f1fa] py-6 md:py-10">
         <div class="mx-auto max-w-6xl px-6 md:px-10" data-admin-block-root>
-            <p class="text-[0.92rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.eyebrow'); ?>><?php echo e($doctorsTeam['eyebrow'] ?? ''); ?></p>
-            <h2 class="mt-2 text-[2rem] font-bold text-[#0a293c] md:text-[2.35rem]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.title'); ?>><?php echo e($doctorsTeam['title'] ?? ''); ?></h2>
-            <p class="mt-2 text-[1.02rem] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'team.description'); ?>><?php echo e($doctorsTeam['description'] ?? ''); ?></p>
-
-            <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-2">
+            <div class="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-2 md:mt-4">
                 <?php foreach ($teamDoctors as $index => $doc):
                     $docExp = trim((string)($doc['experience'] ?? ''));
                     $docImage = bioinmed_versioned_asset_path('/public/images/team/' . ($doc['image'] ?? ''));

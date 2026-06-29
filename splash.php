@@ -4,11 +4,14 @@
  * Используется для скрытия сайта от публичного доступа
  */
 
+require_once __DIR__ . '/includes/admin/bootstrap.php';
 require_once __DIR__ . '/includes/pin_protection.php';
 
 require_once __DIR__ . '/config.php';
 
-$correct_pin = '1290';
+$pinSettings = bioinmed_admin_load_pin_settings();
+$correct_pin = trim((string)($pinSettings['pin'] ?? '1290'));
+$pinProtectionEnabled = !empty($pinSettings['enabled']);
 $error_message = '';
 $is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
@@ -16,7 +19,7 @@ $is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTT
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $entered_pin = isset($_POST['pin']) ? trim($_POST['pin']) : '';
     
-    if ($entered_pin === $correct_pin) {
+    if (!$pinProtectionEnabled || $entered_pin === $correct_pin) {
         bioinmed_pin_grant_access();
         
         if ($is_ajax) {
@@ -38,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => false, 'error' => 'Неверный PIN-код']);
             exit;
         } else {
-            $error_message = 'Неверный PIN-код. Попробуйте снова.';
+            $error_message = $pinProtectionEnabled ? 'Неверный PIN-код. Попробуйте снова.' : '';
         }
     }
 }

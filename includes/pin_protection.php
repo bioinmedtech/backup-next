@@ -4,19 +4,77 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+function bioinmed_pin_settings_file_path() {
+    return __DIR__ . '/../data/admin/pin-settings.json';
+}
+
+function bioinmed_pin_default_settings() {
+    return [
+        'enabled' => true,
+        'pin' => '1290',
+    ];
+}
+
+function bioinmed_pin_load_settings() {
+    $path = bioinmed_pin_settings_file_path();
+    if (!is_file($path)) {
+        return bioinmed_pin_default_settings();
+    }
+
+    $raw = @file_get_contents($path);
+    if (!is_string($raw) || trim($raw) === '') {
+        return bioinmed_pin_default_settings();
+    }
+
+    $decoded = json_decode($raw, true);
+    if (!is_array($decoded)) {
+        return bioinmed_pin_default_settings();
+    }
+
+    return array_merge(bioinmed_pin_default_settings(), $decoded);
+}
+
 function bioinmed_pin_protection_enabled() {
-    $value = getenv('PIN_PROTECTION_ENABLED');
-    return !in_array($value, ['0', 'false'], true);
+    $settings = bioinmed_pin_load_settings();
+    return !empty($settings['enabled']);
 }
 
 function bioinmed_pin_cookie_name() {
     return 'bioinmed_pin_access';
 }
 
+function bioinmed_pin_skip_requested() {
+    return isset($_GET['skip_pin']) && (string)$_GET['skip_pin'] === '1';
+}
+
+function bioinmed_pin_strip_skip_pin_from_uri($requestUri) {
+    $parts = parse_url($requestUri);
+    if (!is_array($parts)) {
+        return '/';
+    }
+
+    $path = isset($parts['path']) && $parts['path'] !== '' ? $parts['path'] : '/';
+    if (empty($parts['query'])) {
+        return $path;
+    }
+
+    parse_str($parts['query'], $query);
+    if (isset($query['skip_pin'])) {
+        unset($query['skip_pin']);
+    }
+
+    if (empty($query)) {
+        return $path;
+    }
+
+    return $path . '?' . http_build_query($query);
+}
+
 function bioinmed_pin_token_secret() {
-    $secret = getenv('PIN_ACCESS_SECRET');
-    if (is_string($secret) && trim($secret) !== '') {
-        return trim($secret);
+    $settings = bioinmed_pin_load_settings();
+    $pin = trim((string)($settings['pin'] ?? ''));
+    if ($pin !== '') {
+        return hash('sha256', 'bioinmed-pin|' . $pin);
     }
 
     // Fallback secret for local/dev environments.
@@ -149,6 +207,19 @@ function bioinmed_pin_has_access() {
 }
 
 function bioinmed_pin_require_access() {
+    if (bioinmed_pin_skip_requested()) {
+        bioinmed_pin_grant_access();
+
+        $requestUri = isset($_SERVER['REQUEST_URI']) ? (string)$_SERVER['REQUEST_URI'] : '/';
+        $cleanUri = bioinmed_pin_strip_skip_pin_from_uri($requestUri);
+        if ($cleanUri !== '' && $cleanUri !== $requestUri) {
+            header('Location: ' . $cleanUri);
+            exit;
+        }
+
+        return;
+    }
+
     if (bioinmed_pin_has_access()) {
         return;
     }

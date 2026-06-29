@@ -1458,7 +1458,7 @@ class ProblemsGrid extends Component {
             }
 
             $items_html .= <<<HTML
-            <a href="/problems/{$this->e($slug)}" class="group flex h-full min-h-[210px] flex-col rounded-[1rem] bg-[#c8dbe8] p-6 text-[#0f2749] transition hover:bg-[#bfd5e4]" data-admin-block-root data-admin-link-behavior="block-edit">
+            <a href="/problems/{$this->e($slug)}" class="group flex h-full min-h-[210px] flex-col rounded-[1rem] bg-[#e6f1fa] p-6 text-[#0f2749] transition hover:bg-[#d7e9f7]" data-admin-block-root data-admin-link-behavior="block-edit">
                 <div class="min-w-0 flex-1">
                     <h3 class="text-[1.18rem] font-semibold leading-[1.08] text-[#0f2749] md:text-[1.32rem]"{$this->dataTextId($this->textPrefix . '.items.' . $slug . '.title')}>{$this->e($title)}</h3>
                     <p class="mt-4 max-w-[22rem] text-[0.92rem] leading-relaxed text-[#0f2749] md:text-[0.98rem]"{$this->dataTextId($this->textPrefix . '.items.' . $slug . '.description')}>{$this->e($description)}</p>
@@ -1474,9 +1474,15 @@ class ProblemsGrid extends Component {
         $section_title_html = '';
         if ($this->showTitle) {
             if ($this->sectionEyebrow === '' && $this->sectionSubtitle === '') {
-                $section_title_html = '<div class="mb-7" data-admin-block-root><h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"' . $this->dataTextId($this->textPrefix . '.section.title') . '>' . $this->e($this->sectionHeading) . '</h2></div>';
+                $section_title_html = '<div class="mb-7" data-admin-block-root><h2 class="text-[1.5rem] font-bold leading-tight text-white md:text-[1.8rem]"' . $this->dataTextId($this->textPrefix . '.section.title') . '>' . $this->e($this->sectionHeading) . '</h2></div>';
             } else {
-                $section_title_html = $this->sectionTitle($this->sectionEyebrow, $this->sectionHeading, $this->sectionSubtitle, $this->textPrefix . '.section');
+                $section_title_html = <<<HTML
+        <div class="mb-7" data-admin-block-root>
+            <p class="text-[0.8rem] font-semibold uppercase tracking-[0.24em] text-white/90"{$this->dataTextId($this->textPrefix . '.section.eyebrow')}>{$this->e($this->sectionEyebrow)}</p>
+            <h2 class="mt-1.5 text-[1.5rem] font-bold leading-tight text-white md:text-[1.8rem]"{$this->dataTextId($this->textPrefix . '.section.title')}>{$this->e($this->sectionHeading)}</h2>
+            <p class="mt-2.5 max-w-2xl text-[1rem] leading-relaxed text-white/90"{$this->dataTextId($this->textPrefix . '.section.subtitle')}>{$this->e($this->sectionSubtitle)}</p>
+        </div>
+        HTML;
             }
         }
         $section_cta_html = ($this->showCta && $this->ctaLabel !== '')
@@ -1484,7 +1490,7 @@ class ProblemsGrid extends Component {
             : '';
 
         return <<<HTML
-        <section id="{$this->e($this->sectionId)}" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
+        <section id="{$this->e($this->sectionId)}" class="border-b border-[#e6eef7] bg-[#1977b2] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 {$section_title_html}
                 <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
@@ -2529,6 +2535,27 @@ class Footer extends Component {
                     </div>
 
                     <button id="bioinmed-admin-users-open-desktop" type="button" class="inline-flex items-center gap-2 rounded-lg bg-[#f4f9ff] px-4 py-3 font-semibold text-[#0f2749] hover:bg-[#eaf4ff]"><i class="fa-solid fa-users" aria-hidden="true"></i><span>Пользователи</span></button>
+
+                    <div class="rounded-lg border border-[#d7e6f3] bg-white p-4 shadow-[0_8px_20px_rgba(8,36,70,0.05)]">
+                        <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                            <div>
+                                <div class="font-semibold text-[#0f2749]">ПИН-код доступа к сайту</div>
+                                <p class="bioinmed-admin-switch-desc mt-1 text-[13px] text-[#4a6f9c]">Свитчер включает или выключает доступ к сайту по PIN-коду. Текущий PIN можно изменить здесь.</p>
+                            </div>
+                            <button id="bioinmed-pin-enabled-switch" type="button" class="bioinmed-ios-switch" role="switch" aria-checked="true" aria-label="Включить или отключить PIN-защиту">
+                                <span class="bioinmed-ios-switch-track"></span>
+                                <span class="bioinmed-ios-switch-thumb"></span>
+                            </button>
+                        </div>
+                        <div class="mt-4 grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
+                            <label class="block">
+                                <span class="block text-[0.8rem] font-semibold text-[#17446f]">Новый PIN-код</span>
+                                <input id="bioinmed-pin-input" type="text" inputmode="numeric" autocomplete="off" placeholder="1290" class="mt-1.5 w-full rounded-[12px] border border-[#c8dcf0] bg-[#f9fcff] px-3.5 py-2.5 text-[0.93rem] text-[#0f2749] outline-none transition focus:border-[#1977b2] focus:bg-white focus:shadow-[0_0_0_4px_rgba(25,119,178,0.12)]">
+                            </label>
+                            <button id="bioinmed-pin-save" type="button" class="inline-flex items-center justify-center rounded-[12px] bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white hover:bg-[#16658f]">Сохранить PIN</button>
+                        </div>
+                        <p id="bioinmed-pin-status" class="mt-3 text-[13px] text-[#4a6f9c]"></p>
+                    </div>
                 </div>
             </div>
         </div>
