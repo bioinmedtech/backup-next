@@ -845,6 +845,7 @@ class HeroSection extends Component {
         $thumbs_html = '';
         $mobile_strip_html = '';
         $modal_thumbs_html = '';
+        $hero_placeholder_image = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
         $hero_slides = [
             [
                 'full' => '/public/images/slider-v2/main-photo-bioinmed-v1.webp',
@@ -868,6 +869,9 @@ class HeroSection extends Component {
             $slide_alt = $slide['alt'];
             $loading = $is_first ? 'eager' : 'lazy';
             $active_class = $is_first ? ' is-active' : '';
+            $is_mobile_initial = $slide_index < 2;
+            $mobile_src = $is_mobile_initial ? $slide_full : $hero_placeholder_image;
+            $mobile_data_thumb_attr = $is_mobile_initial ? '' : ' data-thumb-src="' . $slide_thumb . '"';
 
             $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full' . $active_class . '" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
                 . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover object-top" width="1254" height="1254" loading="' . $loading . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">'
@@ -880,7 +884,7 @@ class HeroSection extends Component {
                 . '</button>';
 
             $mobile_strip_html .= '<button type="button" class="hero-clinic-open h-[160px] w-[160px] min-w-[160px] snap-start overflow-hidden rounded-xl border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_10px_20px_rgba(10,43,80,0.12)] sm:h-[180px] sm:w-[180px] sm:min-w-[180px]" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" width="1254" height="1254" loading="' . $loading . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">'
+                . '<img src="' . $mobile_src . '" data-full-src="' . $slide_full . '"' . $mobile_data_thumb_attr . ' alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" width="1254" height="1254" loading="' . ($is_mobile_initial ? $loading : 'lazy') . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">'
                 . '</button>';
 
             $modal_thumbs_html .= '<button type="button" class="hero-modal-thumb' . $active_class . '" data-modal-index="' . $slide_index . '" data-full-src="' . $slide_full . '" aria-label="' . $this->e($hero_photo_prefix . ' ' . ($slide_index + 1)) . '">'
@@ -982,9 +986,6 @@ class HeroSection extends Component {
                             <div class="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-[#0f2749]/25 px-2.5 py-1.5 backdrop-blur-sm">
                                 {$dots_html}
                             </div>
-                        </div>
-                        <div class="mt-3 hidden gap-2 overflow-x-auto pb-1 lg:flex">
-                            {$thumbs_html}
                         </div>
                     </div>
                 </div>
@@ -1097,6 +1098,39 @@ class HeroSection extends Component {
 
                     render();
                 });
+
+                var mobileStrip = document.querySelector('.hero-clinic-mobile-strip');
+                if (mobileStrip) {
+                    var mobileImages = Array.from(mobileStrip.querySelectorAll('img[data-thumb-src]'));
+
+                    function loadMobileThumb(image) {
+                        if (!image) return;
+                        var thumbSrc = image.getAttribute('data-thumb-src') || '';
+                        if (!thumbSrc) return;
+                        image.src = thumbSrc;
+                        image.removeAttribute('data-thumb-src');
+                    }
+
+                    if ('IntersectionObserver' in window) {
+                        var mobileObserver = new IntersectionObserver(function(entries, obs) {
+                            entries.forEach(function(entry) {
+                                if (entry.isIntersecting) {
+                                    loadMobileThumb(entry.target);
+                                    obs.unobserve(entry.target);
+                                }
+                            });
+                        }, {
+                            root: mobileStrip,
+                            rootMargin: '0px 240px 0px 240px'
+                        });
+
+                        mobileImages.forEach(function(image) {
+                            mobileObserver.observe(image);
+                        });
+                    } else {
+                        mobileImages.forEach(loadMobileThumb);
+                    }
+                }
 
                 var modal = document.getElementById('hero-image-modal');
                 var modalImage = document.getElementById('hero-image-modal-image');
@@ -1569,7 +1603,7 @@ class ChiefDoctorBlock extends Component {
                 <div class="fade-up grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
                     <div class="w-full max-w-[480px]" data-admin-block-root>
                         <div class="aspect-square overflow-hidden rounded-3xl">
-                            <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="eager" fetchpriority="high" decoding="async" onerror="this.src='/public/images/placeholder.jpg'" />
+                            <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy" decoding="async" onerror="this.src='/public/images/placeholder.jpg'" />
                         </div>
                         <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью'))}</p>
                         <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
