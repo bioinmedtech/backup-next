@@ -460,9 +460,9 @@ class Header extends Component {
                             </div>
                         </div>
                         <div class="justify-self-end pt-1 text-right">
-                            <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-full min-w-[200px] items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
+                            <button type="button" class="jsClientix_openWidget inline-flex h-11 w-full min-w-[200px] items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
                                 <span{$this->dataTextId('header.online_booking_button.desktop')}>{$online_booking_desktop_text}</span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -526,9 +526,9 @@ class Header extends Component {
                     <i class="fa-solid fa-phone-volume" style="color:#1977b2;" aria-hidden="true"></i>
                     <span{$this->dataTextId('header.contact.phone_primary')}>{$phone_1}</span>
                 </a>
-                <a href="javascript:void(0)" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;text-decoration:none;">
+                <button type="button" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;border:0;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;cursor:pointer;">
                     <span{$this->dataTextId('header.online_booking_button.mobile_menu')}>{$this->e(bioinmed_text('common.online_booking_desktop'))}</span>
-                </a>
+                </button>
                 <div style="display:flex;gap:12px;">
                     <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" style="display:flex;align-items:center;justify-content:center;color:#2787f5;text-decoration:none;">
                         <i class="fa-brands fa-vk" style="font-size:1.82rem;line-height:1;transform:translateX(1px);" aria-hidden="true"></i>
@@ -898,9 +898,9 @@ class HeroSection extends Component {
 
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
                 <div class="mb-6 flex justify-start lg:hidden">
-                        <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex h-11 w-auto items-center justify-center rounded-full bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
+                        <button type="button" class="jsClientix_openWidget inline-flex h-11 w-auto items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
                         <span{$this->dataTextId('hero.mobile.online_booking_button')}>{$online_booking_text}</span>
-                    </a>
+                    </button>
                 </div>
                 <div class="relative -top-2 flex w-full flex-col md:-top-3 lg:-top-5 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
                     <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
@@ -2090,9 +2090,9 @@ class ContactSection extends Component {
                                 <p class="text-[0.92rem] text-[#0a293c] mt-1"{$this->dataTextId('home.contact.values.metro')}>
                                     {$metro}
                                 </p>
-                                <a href="javascript:void(0)" class="jsClientix_openWidget mt-4 inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden">
+                                <button type="button" class="jsClientix_openWidget mt-4 inline-flex w-full items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden">
                                     <span{$this->dataTextId('home.contact.online_booking_button_mobile')}>{$this->e(bioinmed_text('common.online_booking_desktop'))}</span>
-                                </a>
+                                </button>
                             </div>
 
                             <!-- Режим работы -->

@@ -344,10 +344,10 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                         <i class="fas fa-phone"></i>
                         Позвонить: <?php echo CLINIC_PHONE; ?>
                     </a>
-                    <a href="javascript:void(0)" class="jsClientix_openWidget inline-flex items-center justify-center gap-2 rounded-full border border-white bg-[rgba(255,255,255,0.2)] px-5 py-2.5 font-semibold text-white hover:bg-[rgba(255,255,255,0.3)] transition-colors">
+                    <button type="button" class="jsClientix_openWidget inline-flex items-center justify-center gap-2 rounded-full border border-white bg-[rgba(255,255,255,0.2)] px-5 py-2.5 font-semibold text-white hover:bg-[rgba(255,255,255,0.3)] transition-colors">
                         <i class="fas fa-calendar"></i>
                         Записаться онлайн
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
