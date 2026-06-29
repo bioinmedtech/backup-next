@@ -1,6 +1,19 @@
 <?php
 // Конфигурация и общие данные клиники
 
+$bioinmed_admin_bootstrap_requested =
+    isset($_COOKIE['bioinmed_admin_remember']) ||
+    isset($_GET['bioinmed_admin']);
+
+if ($bioinmed_admin_bootstrap_requested && !headers_sent()) {
+    header('Cache-Control: private, no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
+}
+
+if ($bioinmed_admin_bootstrap_requested && !function_exists('bioinmed_admin_client_config')) {
+    require_once __DIR__ . '/includes/admin/bootstrap.php';
+}
+
 function bioinmed_bootstrap_site_data() {
     $path = __DIR__ . '/data/content/ru/site.json';
     if (!is_file($path)) {

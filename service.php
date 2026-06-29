@@ -701,7 +701,9 @@ echo $header->render();
                                  alt="<?php echo e($service['name']); ?>"
                                  id="service-main-image"
                                  class="service-main-image-live is-animating h-full w-full cursor-zoom-in object-cover"
-                                 loading="eager">
+                                 loading="eager"
+                                 fetchpriority="high"
+                                 decoding="async">
                             <button type="button"
                                     id="service-image-zoom"
                                     class="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/88 text-[#1b5c99] shadow-[0_10px_24px_rgba(8,36,70,0.12)] transition hover:bg-white"
@@ -719,7 +721,8 @@ echo $header->render();
                                 <img src="<?php echo e($galleryImage); ?>"
                                      alt="<?php echo e($service['name']); ?>"
                                      class="h-full w-full object-cover"
-                                     loading="lazy">
+                                     loading="lazy"
+                                     decoding="async">
                             </button>
                             <?php endforeach; ?>
                         </div>

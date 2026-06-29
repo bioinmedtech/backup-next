@@ -568,7 +568,7 @@ $footer = new Footer();
         <?php if (!empty($s['video_desktop'])): ?>
             <video class="season-hero__video" poster="<?= $e($hero_image_desktop) ?>" autoplay muted loop playsinline preload="metadata">
                 <source src="<?= $e($s['video_desktop']) ?>" type="video/mp4">
-                <img src="<?= $e($hero_image_desktop) ?>" alt="<?= $e($hero_image_desktop_alt) ?>" style="width:100%;height:100%;object-fit:cover;">
+                <img src="<?= $e($hero_image_desktop) ?>" alt="<?= $e($hero_image_desktop_alt) ?>" loading="eager" fetchpriority="high" decoding="async" style="width:100%;height:100%;object-fit:cover;">
             </video>
         <?php else: ?>
             <div style="background-image:url('<?= $e($hero_image_desktop) ?>');background-size:cover;background-position:center;width:100%;height:100%;"></div>
@@ -580,7 +580,7 @@ $footer = new Footer();
         <?php if (!empty($s['video_mobile'])): ?>
             <video class="season-hero__video" poster="<?= $e($hero_image_mobile) ?>" autoplay muted loop playsinline preload="metadata">
                 <source src="<?= $e($s['video_mobile']) ?>" type="video/mp4">
-                <img src="<?= $e($hero_image_mobile) ?>" alt="<?= $e($hero_image_mobile_alt) ?>" style="width:100%;height:100%;object-fit:cover;">
+                <img src="<?= $e($hero_image_mobile) ?>" alt="<?= $e($hero_image_mobile_alt) ?>" loading="eager" fetchpriority="high" decoding="async" style="width:100%;height:100%;object-fit:cover;">
             </video>
         <?php else: ?>
             <div style="background-image:url('<?= $e($hero_image_mobile) ?>');background-size:cover;background-position:center;width:100%;height:100%;"></div>
@@ -743,7 +743,7 @@ $footer = new Footer();
                 class="group relative overflow-hidden rounded-2xl border border-[#dbe8f4] bg-white aspect-[4/3] <?= $is_current ? 'ring-4 ring-offset-2' : '' ?> transition-all hover:scale-[1.02]"
                style="<?= $is_current ? 'ring-color:' . $e($sv['color']) : '' ?>"
                     <?= $is_current ? 'aria-current="page"' : '' ?> data-admin-block-root>
-                <img src="<?= $e($sv['image']) ?>" alt="<?= $e($sv['name']) ?>" class="absolute inset-0 h-full w-full object-cover">
+                <img src="<?= $e($sv['image']) ?>" alt="<?= $e($sv['name']) ?>" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async">
                 <div class="absolute inset-0 transition-opacity" style="background:linear-gradient(to top, rgba(8,22,38,0.72) 0%, rgba(8,22,38,0.08) 58%)"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4">
                     <div class="font-semibold text-[1rem] md:text-[1.06rem] text-white"<?= $seasonNavNameNode['attr'] ?>><?= $e($seasonNavNameNode['value']) ?></div>

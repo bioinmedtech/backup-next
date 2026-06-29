@@ -158,6 +158,8 @@ echo $header->render();
                              alt="<?php echo e($doctor['name']); ?>"
                              class="h-full w-full rounded-3xl object-cover object-top"
                              loading="eager"
+                             fetchpriority="high"
+                             decoding="async"
                              onerror="this.src='/public/images/placeholder.jpg'">
                     </div>
                     <?php if (!empty($doctor['hero_tagline'])): ?>

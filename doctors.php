@@ -178,6 +178,8 @@ echo $header->render();
                                  alt="<?php echo e($chief['name']); ?>"
                                  class="h-full w-full rounded-3xl object-cover object-top"
                                  loading="eager"
+                                 fetchpriority="high"
+                                 decoding="async"
                                  onerror="this.src='/public/images/placeholder.jpg'">
                         </div>
                         <?php if (!empty($chief['hero_tagline'])): ?>
@@ -229,6 +231,7 @@ echo $header->render();
                                                         <?php echo $docImageAltNode['attr']; ?>
                                                         class="block aspect-[4/5] w-full object-cover object-top transition duration-300 md:h-full md:min-h-full md:aspect-auto <?php echo $docHasProfile ? 'group-hover:scale-[1.03]' : ''; ?>"
                              loading="lazy"
+                                     decoding="async"
                                       onerror="this.src='/public/images/placeholder.jpg'">
                         <?php if ($docHasProfile): ?>
                         </a>

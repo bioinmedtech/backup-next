@@ -1386,16 +1386,16 @@ class VisualGallery extends Component {
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="grid gap-4 md:grid-cols-4">
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/content/about-company.webp" alt="{$about_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.about_alt')} />
+                        <img src="/public/images/content/about-company.webp" alt="{$about_alt}" class="h-56 w-full object-cover" loading="lazy" decoding="async"{$this->dataTextId('home.visual_gallery.about_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/kostromina-default.webp" alt="{$kostromina_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.kostromina_alt')} />
+                        <img src="/public/images/team/kostromina-default.webp" alt="{$kostromina_alt}" class="h-56 w-full object-cover" loading="lazy" decoding="async"{$this->dataTextId('home.visual_gallery.kostromina_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/navrozov.webp" alt="{$navrozov_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.navrozov_alt')} />
+                        <img src="/public/images/team/navrozov.webp" alt="{$navrozov_alt}" class="h-56 w-full object-cover" loading="lazy" decoding="async"{$this->dataTextId('home.visual_gallery.navrozov_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/nehorosheva.webp" alt="{$nehorosheva_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.nehorosheva_alt')} />
+                        <img src="/public/images/team/nehorosheva.webp" alt="{$nehorosheva_alt}" class="h-56 w-full object-cover" loading="lazy" decoding="async"{$this->dataTextId('home.visual_gallery.nehorosheva_alt')} />
                     </div>
                 </div>
             </div>
@@ -1569,7 +1569,7 @@ class ChiefDoctorBlock extends Component {
                 <div class="fade-up grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
                     <div class="w-full max-w-[480px]" data-admin-block-root>
                         <div class="aspect-square overflow-hidden rounded-3xl">
-                            <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="eager" onerror="this.src='/public/images/placeholder.jpg'" />
+                            <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="eager" fetchpriority="high" decoding="async" onerror="this.src='/public/images/placeholder.jpg'" />
                         </div>
                         <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью'))}</p>
                         <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
@@ -1599,23 +1599,40 @@ class SpecialOffer extends Component {
         $offer_modal_eyebrow = $this->e(bioinmed_text('home.special_offer.modal.eyebrow', 'Специальное предложение'));
         $offer_modal_title = $this->e(bioinmed_text('home.special_offer.modal.title', 'Перезвоним и запишем на консультацию'));
         $offer_modal_text = $this->e(bioinmed_text('home.special_offer.modal.text', 'Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику на мультифункциональном комплексе «Хабилект».'));
+        $offer_image_src = $this->e(bioinmed_versioned_asset_path('/public/images/habilect/habilect-woman-2.webp'));
+        $offer_image_placeholder = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
         $callback_form = bioinmed_render_callback_form([
             'source_label' => bioinmed_text('labels.home_special_offer_hobilect', 'Главная — спецпредложение «Хабилект»'),
             'submit_label' => bioinmed_text('common.request_callback'),
         ]);
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-12">
+        <section class="bioinmed-special-offer border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-white">
                     <div class="grid lg:grid-cols-[0.9fr_1.1fr]">
                         <div class="relative min-h-[320px] lg:min-h-full">
                             <img
-                                src="/public/images/habilect/habilect-woman-2.webp"
+                                src="{$offer_image_placeholder}"
+                                data-src="{$offer_image_src}"
                                 alt="{$offer_image_alt}"
                                 class="h-full w-full object-cover object-center"
+                                width="1200"
+                                height="1200"
                                 loading="lazy"
+                                fetchpriority="low"
                                 decoding="async"
                             />
+                            <noscript>
+                                <img
+                                    src="{$offer_image_src}"
+                                    alt="{$offer_image_alt}"
+                                    class="h-full w-full object-cover object-center"
+                                    width="1200"
+                                    height="1200"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                            </noscript>
                         </div>
 
                         <div class="px-6 py-6 md:px-8 md:py-7" data-admin-block-root>
@@ -1671,6 +1688,43 @@ class SpecialOffer extends Component {
                     </div>
                 </div>
             </div>
+            <script>
+                (function initSpecialOfferImageLazyLoad() {
+                    var section = document.querySelector('.bioinmed-special-offer');
+                    if (!section) return;
+
+                    var image = section.querySelector('img[data-src]');
+                    if (!image) return;
+
+                    var loaded = false;
+
+                    function loadImage() {
+                        if (loaded) return;
+                        loaded = true;
+                        var fullSrc = image.getAttribute('data-src') || '';
+                        if (!fullSrc) return;
+                        image.src = fullSrc;
+                        image.removeAttribute('data-src');
+                    }
+
+                    if ('IntersectionObserver' in window) {
+                        var observer = new IntersectionObserver(function(entries, obs) {
+                            entries.forEach(function(entry) {
+                                if (entry.isIntersecting) {
+                                    obs.disconnect();
+                                    loadImage();
+                                }
+                            });
+                        }, { rootMargin: '120px 0px' });
+
+                        observer.observe(section);
+                    } else {
+                        window.addEventListener('load', function() {
+                            setTimeout(loadImage, 0);
+                        }, { once: true });
+                    }
+                })();
+            </script>
         </section>
         HTML;
     }
@@ -1695,8 +1749,8 @@ class DoctorsGrid extends Component {
             $has_profile = !array_key_exists('has_profile', $doctor) || $doctor['has_profile'] !== false;
             $card_action_text = trim((string)($doctor['card_action_text'] ?? bioinmed_text('home.doctors.card_action_fallback', 'Команда клиники')));
             $doctor_image_html = $has_profile
-                ? '<a href="' . $doctor_link . '" class="block overflow-hidden"><img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover transition duration-300 group-hover:scale-[1.03] md:h-[22rem]" loading="lazy"></a>'
-                : '<img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover md:h-[22rem]" loading="lazy">';
+                ? '<a href="' . $doctor_link . '" class="block overflow-hidden"><img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover transition duration-300 group-hover:scale-[1.03] md:h-[22rem]" loading="lazy" decoding="async"></a>'
+                : '<img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover md:h-[22rem]" loading="lazy" decoding="async">';
             $doctor_name_html = $has_profile
                 ? '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"><a href="' . $doctor_link . '" class="transition hover:text-[#1977b2]"' . $this->dataTextId('home.doctors.items.' . $slug . '.name') . '>' . $this->e($doctor['name']) . '</a></h3>'
                 : '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"' . $this->dataTextId('home.doctors.items.' . $slug . '.name') . '>' . $this->e($doctor['name']) . '</h3>';
@@ -1825,7 +1879,7 @@ class ServicesGrid extends Component {
 
             if ($service_image !== null) {
                 $service_image_html = '<div class="relative mb-4 overflow-hidden rounded-2xl border border-[#dfeaf3] bg-[#eef7fd] aspect-[4/3]">'
-                    . '<img src="' . $this->e($service_image) . '" alt="' . $this->e($service['name']) . '" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" loading="lazy">'
+                    . '<img src="' . $this->e($service_image) . '" alt="' . $this->e($service['name']) . '" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" loading="lazy" decoding="async">'
                     . '<div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[rgba(8,35,67,0.60)] via-[rgba(8,35,67,0.18)] to-transparent"></div>'
                     . '<div class="absolute left-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/88 text-[#1977b2] shadow-[0_8px_18px_rgba(8,36,70,0.12)]">'
                     . '<i class="fa-solid ' . $icon . ' text-[1rem]" aria-hidden="true"></i>'
@@ -2327,15 +2381,6 @@ class SeasonsBlock extends Component {
 
 class Footer extends Component {
     public function render() {
-        if (!function_exists('bioinmed_admin_client_config')) {
-            require_once __DIR__ . '/../admin/bootstrap.php';
-        }
-
-        $admin_config_json = json_encode(
-            bioinmed_admin_client_config(),
-            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
-        );
-
         $footer_description = $this->e(bioinmed_text('footer.clinic_description', 'Восстановительная медицина с Вашим персональным маршрутом лечения.'));
         $footer_copyright = $this->e(bioinmed_text('footer.copyright', '© 2026 КЛИНИКА БИОИНМЕД — интегративная и восстановительная медицина. Все права защищены.'));
 
@@ -2382,116 +2427,37 @@ class Footer extends Component {
         $second_phone_footer = $phone2_link
             ? '<a href="tel:' . $phone2_link . '" class="block text-sm font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"' . $this->dataTextId('footer.contact.phone_secondary') . '>' . $this->e($phone2) . '</a>'
             : '';
-
-        return <<<HTML
-        <footer class="bg-[#e4f1fa] border-t-2 border-[#1977b2]">
-            <div class="mx-auto max-w-6xl px-6 md:px-10 py-12 md:py-16">
-                <!-- Верхняя часть подвала -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-                    <!-- Логотип и описание -->
-                    <div class="md:col-span-1" data-admin-block-root>
-                        <div class="mb-4">
-                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 mb-3" loading="lazy" decoding="async">
-                        </div>
-                        <p class="text-[0.96rem] text-[#0a293c] leading-relaxed"{$this->dataTextId('footer.clinic_description')}>{$footer_description}</p>
-                        <div class="mt-4 flex gap-3">
-                            <a href="{$vk}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#2787f5] hover:text-[#1f6fd0] transition-colors" title="ВКонтакте" aria-label="ВКонтакте" data-link-key="site.clinic.vk" data-link-label="Ссылка VK">
-                                <i class="fa-brands fa-vk translate-x-[1px] text-[1.82rem] leading-none" aria-hidden="true"></i>
-                            </a>
-                            <a href="{$max}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center transition-opacity hover:opacity-85" title="MAX" aria-label="MAX" data-link-key="site.clinic.max" data-link-label="Ссылка MAX">
-                                <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" loading="lazy" decoding="async">
-                            </a>
-                            <a href="{$telegram}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#27a7e7] hover:text-[#1c8fca] transition-colors" title="Telegram" aria-label="Telegram" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
-                                <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Услуги -->
-                    <div data-admin-block-root>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.services')}>{$this->e(bioinmed_text('footer.sections.services', 'Услуги'))}</h4>
-                        <ul class="space-y-2">
-                            <li><a href="{$this->e($service_habilect['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.services.habilect')}>{$this->e($service_habilect['text'])}</a></li>
-                            <li><a href="{$this->e($service_musculoskeletal['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.services.musculoskeletal')}>{$this->e($service_musculoskeletal['text'])}</a></li>
-                            <li><a href="{$this->e($service_osteopathy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.services.osteopathy')}>{$this->e($service_osteopathy['text'])}</a></li>
-                            <li><a href="{$this->e($service_reflexotherapy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.services.reflexotherapy')}>{$this->e($service_reflexotherapy['text'])}</a></li>
-                            <li><a href="{$this->e($company_all_services_prices['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors font-semibold"{$this->dataTextId('footer.links.services.all_services_prices')}>{$this->e($company_all_services_prices['text'])}</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Компания -->
-                    <div data-admin-block-root>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.company')}>{$this->e(bioinmed_text('footer.sections.company', 'Компания'))}</h4>
-                        <ul class="space-y-2">
-                            <li><a href="{$this->e($company_about['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.about')}>{$this->e($company_about['text'])}</a></li>
-                            <li><a href="{$this->e($company_doctors['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.doctors')}>{$this->e($company_doctors['text'])}</a></li>
-                            <li><a href="{$this->e($company_prices['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.prices')}>{$this->e($company_prices['text'])}</a></li>
-                            <li><a href="{$this->e($legal_privacy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.privacy')}>{$this->e($legal_privacy['text'])}</a></li>
-                            <li><a href="{$this->e($legal_user_agreement['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.user_agreement')}>{$this->e($legal_user_agreement['text'])}</a></li>
-                            <li><a href="{$this->e($company_contacts['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.contacts')}>{$this->e($company_contacts['text'])}</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Контакты -->
-                    <div data-admin-block-root>
-                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.contacts')}>{$this->e(bioinmed_text('footer.sections.contacts', 'Контакты'))}</h4>
-                        <div class="space-y-3">
-                            <div class="flex items-start gap-2">
-                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                                <div>
-                                    <p class="text-[0.96rem] font-semibold text-[#0a293c]"{$this->dataTextId('footer.contact.address')}>{$this->e($footer_address_raw)}</p>
-                                    <p class="text-[0.84rem] text-[#0a293c]"{$this->dataTextId('footer.contact.metro')}>{$this->e($footer_metro_raw)}</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                </svg>
-                                <a href="mailto:{$this->e($footer_email_raw)}" class="text-[0.96rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.contact.email')} data-link-key="site.clinic.email" data-link-label="Email">
-                                    {$this->e($footer_email_raw)}
-                                </a>
-                            </div>
-                            <div class="flex items-start gap-2">
-                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                </svg>
-                                <div class="space-y-1">
-                                    <a href="tel:{$phone}" class="block text-[0.96rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.contact.phone_primary')} data-link-key="site.clinic.phone" data-link-label="Основной телефон">
-                                        {$phone1_display}
-                                    </a>
-                                    {$second_phone_footer}
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-2 pt-2">
-                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                <p class="text-[0.96rem] text-[#0a293c]">
-                                    <strong{$this->dataTextId('footer.contact.hours')}>{$this->e($footer_hours_raw)}</strong>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Нижняя часть подвала -->
-                <div class="border-t border-[#dce8f5] pt-5">
-                    <div class="flex flex-col gap-3 md:flex-row md:items-center">
-                        <p class="text-[0.84rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('footer.copyright')}>{$footer_copyright}</p>
+        $admin_login_trigger_html = <<<HTML
                         <button id="bioinmed-admin-login-trigger" class="bioinmed-admin-login-trigger" type="button" aria-label="Вход в админку" title="Вход в админку">
                             <i class="fa-solid fa-pen-to-square text-[12px]" aria-hidden="true"></i>
                             <span>Вход в админку</span>
                         </button>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <style>
-            #clientixAppointmentButton { display:none !important; }
-        </style>
+        HTML;
+
+        $admin_config_json = 'null';
+        $has_admin_cookie = isset($_COOKIE['bioinmed_admin_remember']) || isset($_COOKIE[session_name()]);
+        $has_admin_request_flag = isset($_GET['bioinmed_admin']);
+        $render_full_admin = false;
+
+        if ($has_admin_cookie || $has_admin_request_flag) {
+            if (!function_exists('bioinmed_admin_client_config')) {
+                require_once __DIR__ . '/../admin/bootstrap.php';
+            }
+
+            $admin_config = bioinmed_admin_client_config();
+            if (!empty($admin_config['isAuthenticated'])) {
+                $render_full_admin = true;
+                $admin_config_json = json_encode(
+                    $admin_config,
+                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+                );
+            }
+        }
+
+        $admin_interface_html = '';
+
+        if ($render_full_admin) {
+            $admin_interface_html = <<<HTML
         <link rel="stylesheet" href="{$this->e(bioinmed_versioned_asset_path('/assets/css/admin-inline.css'))}">
         <div id="bioinmed-admin-toolbar" class="bioinmed-admin-toolbar" aria-label="Панель администратора">
             <div class="bioinmed-admin-toolbar-inner">
@@ -2779,6 +2745,325 @@ class Footer extends Component {
             window.BioinmedAdminConfig = {$admin_config_json};
         </script>
         <script src="{$this->e(bioinmed_versioned_asset_path('/assets/js/admin-inline.js'))}"></script>
+        HTML;
+        } else {
+            $admin_interface_html = <<<HTML
+        <style>
+            .bioinmed-admin-login-trigger {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                border: 1px solid #c8dcf0;
+                border-radius: 10px;
+                background: #f4f9ff;
+                color: #0f2749;
+                padding: 12px 16px;
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 1;
+                box-shadow: 0 4px 12px rgba(8, 32, 56, 0.08);
+                cursor: pointer;
+            }
+
+            .bioinmed-admin-login-trigger:hover {
+                background: #eaf4ff;
+                border-color: #9cc6e8;
+            }
+
+            .bioinmed-admin-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(7, 21, 40, 0.72);
+                z-index: 9998;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 16px;
+            }
+
+            .bioinmed-admin-overlay.is-open {
+                display: flex;
+            }
+
+            .bioinmed-admin-modal {
+                width: min(620px, 95vw);
+                background: #ffffff;
+                border-radius: 20px;
+                border: 1px solid #dbe8f4;
+                box-shadow: 0 20px 45px rgba(10, 35, 62, 0.2);
+                padding: 18px;
+                font-size: 16px;
+            }
+
+            .bioinmed-admin-login-modal {
+                width: min(560px, 95vw);
+                border-radius: 24px;
+                border-color: #dbe8f4;
+                box-shadow: 0 18px 42px rgba(15, 39, 73, 0.18);
+                background-color: #ffffff !important;
+                padding: 30px 32px;
+            }
+
+            .bioinmed-admin-icon-close {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                width: 44px;
+                height: 44px;
+                border: 1px solid #d6e4f0;
+                border-radius: 50%;
+                background: #ffffff;
+                color: #355b89;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .bioinmed-admin-icon-close:hover {
+                border-color: #1977b2;
+                color: #1977b2;
+                background: #f4f9ff;
+            }
+
+            @media (max-width: 640px) {
+                .bioinmed-admin-login-modal {
+                    padding: 22px 18px;
+                    width: min(95vw, 560px);
+                    border-radius: 20px;
+                }
+            }
+        </style>
+        <div id="bioinmed-admin-login-overlay" class="bioinmed-admin-overlay" role="dialog" aria-modal="true" aria-label="Вход администратора">
+            <div class="bioinmed-admin-modal bioinmed-admin-login-modal relative">
+                <button id="bioinmed-admin-login-close" type="button" class="bioinmed-admin-icon-close absolute right-5 top-5" aria-label="Закрыть окно">
+                    <i class="fa-solid fa-xmark text-[0.96rem]" aria-hidden="true"></i>
+                </button>
+                <div class="mb-6 flex flex-col items-center text-center">
+                    <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 md:h-20 w-auto" loading="lazy" decoding="async">
+                    <h3 class="mt-4 text-[1.22rem] font-bold leading-tight text-[#0f2749]">Панель администратора</h3>
+                    <p class="mt-1 max-w-[24rem] text-[0.88rem] leading-relaxed text-[#355b89]">Войдите в аккаунт, чтобы редактировать тексты на сайте.</p>
+                </div>
+                <form id="bioinmed-admin-login-form" class="space-y-4">
+                    <label class="block text-[0.8rem] font-semibold text-[#17446f]">Email
+                        <input id="bioinmed-admin-email" type="email" required class="mt-1.5 w-full rounded-[12px] border border-[#c8dcf0] bg-[#f9fcff] px-3.5 py-2.5 text-[0.93rem] text-[#0f2749] outline-none transition focus:border-[#1977b2] focus:bg-white focus:shadow-[0_0_0_4px_rgba(25,119,178,0.12)]">
+                    </label>
+                    <label class="block text-[0.8rem] font-semibold text-[#17446f]">Пароль
+                        <input id="bioinmed-admin-password" type="password" required class="mt-1.5 w-full rounded-[12px] border border-[#c8dcf0] bg-[#f9fcff] px-3.5 py-2.5 text-[0.93rem] text-[#0f2749] outline-none transition focus:border-[#1977b2] focus:bg-white focus:shadow-[0_0_0_4px_rgba(25,119,178,0.12)]">
+                    </label>
+                    <p id="bioinmed-admin-login-error" class="min-h-[1.2rem] text-[0.82rem] font-medium text-[#dc2626]"></p>
+                    <button type="submit" class="inline-flex w-full items-center justify-center rounded-[12px] bg-[linear-gradient(135deg,#1977b2_0%,#16658f_100%)] px-4 py-3 text-[0.95rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.34)] transition hover:-translate-y-[1px] hover:brightness-105">Войти в панель</button>
+                    <p class="text-center text-[0.8rem] text-[#4a6f9c]">Доступ ограничен. Используйте учетные данные администратора или редактора.</p>
+                </form>
+            </div>
+        </div>
+        <script>
+            (function initBioinmedGuestAdminLogin() {
+                var trigger = document.getElementById('bioinmed-admin-login-trigger');
+                var overlay = document.getElementById('bioinmed-admin-login-overlay');
+                var closeButton = document.getElementById('bioinmed-admin-login-close');
+                var form = document.getElementById('bioinmed-admin-login-form');
+                var emailInput = document.getElementById('bioinmed-admin-email');
+                var passwordInput = document.getElementById('bioinmed-admin-password');
+                var errorNode = document.getElementById('bioinmed-admin-login-error');
+
+                if (!trigger || !overlay || !form || !emailInput || !passwordInput || !errorNode) {
+                    return;
+                }
+
+                function setOpen(open) {
+                    overlay.classList.toggle('is-open', !!open);
+                    if (!open) {
+                        errorNode.textContent = '';
+                        passwordInput.value = '';
+                    }
+                }
+
+                function buildAdminRedirectUrl() {
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('bioinmed_admin', '1');
+                    url.searchParams.set('_admin_ts', String(Date.now()));
+                    return url.toString();
+                }
+
+                trigger.addEventListener('click', function() {
+                    setOpen(true);
+                    emailInput.focus();
+                });
+
+                if (closeButton) {
+                    closeButton.addEventListener('click', function() {
+                        setOpen(false);
+                    });
+                }
+
+                overlay.addEventListener('click', function(event) {
+                    if (event.target === overlay) {
+                        setOpen(false);
+                    }
+                });
+
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
+                        setOpen(false);
+                    }
+                });
+
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    var submitButton = form.querySelector('button[type="submit"]');
+                    var originalLabel = submitButton ? submitButton.textContent : '';
+                    errorNode.textContent = '';
+
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.textContent = 'Входим...';
+                    }
+
+                    fetch('/api/admin/auth-login.php', {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({
+                            email: emailInput.value.trim(),
+                            password: passwordInput.value
+                        })
+                    }).then(function(response) {
+                        return response.json().catch(function() {
+                            return { ok: false, error: 'Не удалось обработать ответ сервера.' };
+                        });
+                    }).then(function(payload) {
+                        if (payload && payload.ok) {
+                            window.location.assign(buildAdminRedirectUrl());
+                            return;
+                        }
+
+                        errorNode.textContent = (payload && payload.error) ? payload.error : 'Не удалось войти в админку.';
+                    }).catch(function() {
+                        errorNode.textContent = 'Не удалось войти в админку.';
+                    }).finally(function() {
+                        if (submitButton) {
+                            submitButton.disabled = false;
+                            submitButton.textContent = originalLabel;
+                        }
+                    });
+                });
+            }());
+        </script>
+        HTML;
+        }
+
+        return <<<HTML
+        <footer class="bg-[#e4f1fa] border-t-2 border-[#1977b2]">
+            <div class="mx-auto max-w-6xl px-6 md:px-10 py-12 md:py-16">
+                <!-- Верхняя часть подвала -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                    <!-- Логотип и описание -->
+                    <div class="md:col-span-1" data-admin-block-root>
+                        <div class="mb-4">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 mb-3" loading="lazy" decoding="async">
+                        </div>
+                        <p class="text-[0.96rem] text-[#0a293c] leading-relaxed"{$this->dataTextId('footer.clinic_description')}>{$footer_description}</p>
+                        <div class="mt-4 flex gap-3">
+                            <a href="{$vk}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#2787f5] hover:text-[#1f6fd0] transition-colors" title="ВКонтакте" aria-label="ВКонтакте" data-link-key="site.clinic.vk" data-link-label="Ссылка VK">
+                                <i class="fa-brands fa-vk translate-x-[1px] text-[1.82rem] leading-none" aria-hidden="true"></i>
+                            </a>
+                            <a href="{$max}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center transition-opacity hover:opacity-85" title="MAX" aria-label="MAX" data-link-key="site.clinic.max" data-link-label="Ссылка MAX">
+                                <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" loading="lazy" decoding="async">
+                            </a>
+                            <a href="{$telegram}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#27a7e7] hover:text-[#1c8fca] transition-colors" title="Telegram" aria-label="Telegram" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
+                                <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Услуги -->
+                    <div data-admin-block-root>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.services')}>{$this->e(bioinmed_text('footer.sections.services', 'Услуги'))}</h4>
+                        <ul class="space-y-2">
+                            <li><a href="{$this->e($service_habilect['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.services.habilect')}>{$this->e($service_habilect['text'])}</a></li>
+                            <li><a href="{$this->e($service_musculoskeletal['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.services.musculoskeletal')}>{$this->e($service_musculoskeletal['text'])}</a></li>
+                            <li><a href="{$this->e($service_osteopathy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.services.osteopathy')}>{$this->e($service_osteopathy['text'])}</a></li>
+                            <li><a href="{$this->e($service_reflexotherapy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.services.reflexotherapy')}>{$this->e($service_reflexotherapy['text'])}</a></li>
+                            <li><a href="{$this->e($company_all_services_prices['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors font-semibold"{$this->dataTextId('footer.links.services.all_services_prices')}>{$this->e($company_all_services_prices['text'])}</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Компания -->
+                    <div data-admin-block-root>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.company')}>{$this->e(bioinmed_text('footer.sections.company', 'Компания'))}</h4>
+                        <ul class="space-y-2">
+                            <li><a href="{$this->e($company_about['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.about')}>{$this->e($company_about['text'])}</a></li>
+                            <li><a href="{$this->e($company_doctors['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.doctors')}>{$this->e($company_doctors['text'])}</a></li>
+                            <li><a href="{$this->e($company_prices['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.prices')}>{$this->e($company_prices['text'])}</a></li>
+                            <li><a href="{$this->e($legal_privacy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.privacy')}>{$this->e($legal_privacy['text'])}</a></li>
+                            <li><a href="{$this->e($legal_user_agreement['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.user_agreement')}>{$this->e($legal_user_agreement['text'])}</a></li>
+                            <li><a href="{$this->e($company_contacts['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.contacts')}>{$this->e($company_contacts['text'])}</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Контакты -->
+                    <div data-admin-block-root>
+                        <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.contacts')}>{$this->e(bioinmed_text('footer.sections.contacts', 'Контакты'))}</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-[0.96rem] font-semibold text-[#0a293c]"{$this->dataTextId('footer.contact.address')}>{$this->e($footer_address_raw)}</p>
+                                    <p class="text-[0.84rem] text-[#0a293c]"{$this->dataTextId('footer.contact.metro')}>{$this->e($footer_metro_raw)}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <a href="mailto:{$this->e($footer_email_raw)}" class="text-[0.96rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.contact.email')} data-link-key="site.clinic.email" data-link-label="Email">
+                                    {$this->e($footer_email_raw)}
+                                </a>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                                <div class="space-y-1">
+                                    <a href="tel:{$phone}" class="block text-[0.96rem] font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.contact.phone_primary')} data-link-key="site.clinic.phone" data-link-label="Основной телефон">
+                                        {$phone1_display}
+                                    </a>
+                                    {$second_phone_footer}
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-2 pt-2">
+                                <svg class="w-5 h-5 text-[#1977b2] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <p class="text-[0.96rem] text-[#0a293c]">
+                                    <strong{$this->dataTextId('footer.contact.hours')}>{$this->e($footer_hours_raw)}</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Нижняя часть подвала -->
+                <div class="border-t border-[#dce8f5] pt-5">
+                    <div class="flex flex-col gap-3 md:flex-row md:items-center">
+                        <p class="text-[0.84rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('footer.copyright')}>{$footer_copyright}</p>
+                        {$admin_login_trigger_html}
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <style>
+            #clientixAppointmentButton { display:none !important; }
+        </style>
+        {$admin_interface_html}
         <script type="text/javascript">
             (function initBioinmedBookingUi() {
                 if (window.__bioinmedBookingUiReady) {
