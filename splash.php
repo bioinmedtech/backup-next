@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png');
+$logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.webp');
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -61,8 +61,9 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png
     <link rel="apple-touch-icon" href="/public/images/brand/bioinmed-icon.png">
     <meta name="theme-color" content="#1977b2">
     <!-- Tailwind CSS CDN -->
-    <script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
-    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
+    <link rel="preload" href="/public/vendor/fontawesome/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"></noscript>
     <style>
         :root {
             --background: #f3f8fd;

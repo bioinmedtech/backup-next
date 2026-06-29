@@ -62,10 +62,9 @@ class Header extends Component {
         $nav_faq = bioinmed_link('nav.faq');
         $nav_prices = bioinmed_link('nav.prices');
         $nav_contacts = bioinmed_link('nav.contacts');
-        $online_booking_text = $this->e(bioinmed_text('common.online_booking'));
-        $online_booking_desktop_text = $this->e(bioinmed_text('common.online_booking_desktop'));
         $header_map_label = $this->e(bioinmed_text('header.map_label', 'На карте'));
         $header_call_phone_aria = $this->e(bioinmed_text('header.call_phone_aria', 'Позвонить'));
+
         $header_menu_aria = $this->e(bioinmed_text('header.menu_aria', 'Меню'));
         $header_close_menu_aria = $this->e(bioinmed_text('header.close_menu_aria', 'Закрыть меню'));
         $header_appointment_note = $this->e(bioinmed_text('header.appointment_note', 'Приём по предварительной записи'));
@@ -91,7 +90,7 @@ class Header extends Component {
         $telegram_url = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
         $max_url = defined('CLINIC_MAX_URL') ? $this->e(CLINIC_MAX_URL) : 'https://max.ru/id9704215369_bot';
         $max_icon_src = $this->e(bioinmed_versioned_asset_path('/public/images/icons/max-logo.png'));
-        $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'));
+        $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.webp'));
 
         $request_uri = (string)($_SERVER['REQUEST_URI'] ?? '/');
         $current_path = parse_url($request_uri, PHP_URL_PATH);
@@ -210,72 +209,36 @@ class Header extends Component {
                 'id' => $id,
                 'name' => $name,
                 'href' => '/services/' . $id,
+                'category' => $category_key,
             ];
         }
 
-        // Marketing-first order for dropdown categories.
-        $category_order = [
-            'chief_doctor',
-            'diagnostics',
-            'physiotherapy',
-            'reflexotherapy',
-            'osteopathy',
-            'manual_therapy',
-            'psychology',
-            'infusion_therapy',
-            'ozone_therapy',
-            'injection_therapy',
-            'taping',
-            'musculoskeletal',
-            'therapy',
-            'integrative',
-            'other',
-        ];
-        $category_order_index = [];
-        foreach ($category_order as $index => $order_key) {
-            $category_order_index[$order_key] = $index;
+        $mobile_groups = '';
+        $initial_category_title = 'Направления';
+        $category_counter = 0;
+
+        foreach ($services_by_category as $category_key => $category_items) {
+            $fallback_title = ucfirst(str_replace(['_', '-'], ' ', $category_key));
+            $category_lookup = str_replace('-', '_', $category_key);
+            $category_title = $category_labels[$category_lookup] ?? ($category_labels[$category_key] ?? $fallback_title);
+            $category_dom_id = preg_replace('/[^a-z0-9\-]+/', '-', strtolower(str_replace('_', '-', (string)$category_lookup)));
+            if ($category_dom_id === '') {
+                $category_dom_id = 'category-' . $category_counter;
+            }
+
+            $mobile_items_html = '';
+            foreach ($category_items as $item_index => $item) {
+                $service_name = $this->e($item['name']);
+                $service_href = $this->e($item['href']);
+                $service_text_attr = $this->dataTextId('nav.services.items.' . ($item['id'] ?? ('item_' . $item_index)));
+                $mobile_items_html .= '<a href="' . $service_href . '" onclick="closeMobMenu()"' . $service_text_attr . '>' . $service_name . '</a>';
+            }
+
+            $mobile_groups .= '<details class="mob-nav-subgroup"><summary><span' . $this->dataTextId('nav.services.categories.' . $category_lookup) . '>' . $this->e($category_title) . '</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="mob-subsubnav">' . $mobile_items_html . '</div></details>';
+            $category_counter++;
         }
-        uksort($services_by_category, function ($left, $right) use ($category_order_index) {
-            $left_key = str_replace('-', '_', strtolower((string)$left));
-            $right_key = str_replace('-', '_', strtolower((string)$right));
-            $left_index = $category_order_index[$left_key] ?? PHP_INT_MAX;
-            $right_index = $category_order_index[$right_key] ?? PHP_INT_MAX;
-            if ($left_index === $right_index) {
-                return strnatcasecmp((string)$left, (string)$right);
-            }
-            return $left_index <=> $right_index;
-        });
 
-        $desktop_services_dropdown = '';
-        $mobile_services_dropdown = '';
         if (!empty($services_by_category)) {
-            $desktop_level1_tabs = '';
-            $desktop_level2_panels = '';
-            $mobile_groups = '';
-            $initial_category_title = 'Направления';
-            $category_counter = 0;
-
-            foreach ($services_by_category as $category_key => $category_items) {
-                $fallback_title = ucfirst(str_replace(['_', '-'], ' ', $category_key));
-                $category_lookup = str_replace('-', '_', $category_key);
-                $category_title = $category_labels[$category_lookup] ?? ($category_labels[$category_key] ?? $fallback_title);
-                $category_dom_id = preg_replace('/[^a-z0-9\-]+/', '-', strtolower(str_replace('_', '-', (string)$category_lookup)));
-                if ($category_dom_id === '') {
-                    $category_dom_id = 'category-' . $category_counter;
-                }
-
-                $mobile_items_html = '';
-                foreach ($category_items as $item_index => $item) {
-                    $service_name = $this->e($item['name']);
-                    $service_href = $this->e($item['href']);
-                    $service_text_attr = $this->dataTextId('nav.services.items.' . ($item['id'] ?? ('item_' . $item_index)));
-                    $mobile_items_html .= '<a href="' . $service_href . '" onclick="closeMobMenu()"' . $service_text_attr . '>' . $service_name . '</a>';
-                }
-
-                $mobile_groups .= '<details class="mob-nav-subgroup"><summary><span' . $this->dataTextId('nav.services.categories.' . $category_lookup) . '>' . $this->e($category_title) . '</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="mob-subsubnav">' . $mobile_items_html . '</div></details>';
-                $category_counter++;
-            }
-
             // Десктоп: простая ссылка на услуги
             $desktop_services_dropdown = '<a href="/services" class="' . $desktop_services_class . '"' . $desktop_services_aria . $this->dataTextId('nav.services') . '>' . $this->e(bioinmed_text('nav.services', 'Услуги')) . '</a>';
             // Мобильный: подменю с категориями
@@ -864,7 +827,7 @@ class HeroSection extends Component {
         $hero_habilect_href = $this->e($hero_habilect_link['url']);
 
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
-        $habilect_logo = $this->e(bioinmed_versioned_asset_path('/public/images/habilect.png'));
+        $habilect_logo = $this->e(bioinmed_preferred_image_asset_path('/public/images/habilect.png'));
         $seasons = require __DIR__ . '/../../config/seasons.php';
         $actual_slug = bioinmed_current_season_slug();
         if (!isset($seasons[$actual_slug])) {
@@ -880,36 +843,45 @@ class HeroSection extends Component {
         $mobile_strip_html = '';
         $modal_thumbs_html = '';
         $hero_slides = [
-            '/public/images/slider-v2/main-photo-bioinmed-v1.jpg',
+            [
+                'full' => '/public/images/slider-v2/main-photo-bioinmed-v1.webp',
+                'thumb' => '/public/images/slider-v2/main-photo-bioinmed-v1-thumb.webp',
+                'alt' => $hero_slide_alt_prefix . ' 1',
+            ],
         ];
         for ($i = 1; $i <= 20; $i++) {
-            $hero_slides[] = '/public/images/slider-v2/slider-' . $i . '.jpg';
+            $hero_slides[] = [
+                'full' => '/public/images/slider-v2/slider-' . $i . '.webp',
+                'thumb' => '/public/images/slider-v2/slider-' . $i . '-thumb.webp',
+                'alt' => $hero_slide_alt_prefix . ' ' . ($i + 1),
+            ];
         }
         $slide_count = count($hero_slides);
 
-        foreach ($hero_slides as $slide_index => $slide_path) {
+        foreach ($hero_slides as $slide_index => $slide) {
             $is_first = ($slide_index === 0);
-            $slide_src = bioinmed_versioned_asset_path($slide_path);
-            $slide_alt = $hero_slide_alt_prefix . ' ' . ($slide_index + 1);
+            $slide_full = bioinmed_versioned_asset_path($slide['full']);
+            $slide_thumb = bioinmed_versioned_asset_path($slide['thumb']);
+            $slide_alt = $slide['alt'];
             $loading = $is_first ? 'eager' : 'lazy';
             $active_class = $is_first ? ' is-active' : '';
 
-            $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full' . $active_class . '" data-hero-image-src="' . $slide_src . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover object-top" loading="' . $loading . '" decoding="async">'
+            $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full' . $active_class . '" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
+                . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover object-top" loading="' . $loading . '" decoding="async">'
                 . '</button>';
 
             $dots_html .= '<button type="button" class="hero-clinic-dot' . $active_class . '" data-slide-index="' . $slide_index . '" aria-label="' . $this->e($hero_slide_prefix . ' ' . ($slide_index + 1)) . '"></button>';
 
-            $thumbs_html .= '<button type="button" class="hero-clinic-thumb' . $active_class . '" data-slide-index="' . $slide_index . '" aria-label="' . $this->e($hero_thumb_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="lazy" decoding="async">'
+            $thumbs_html .= '<button type="button" class="hero-clinic-thumb' . $active_class . '" data-slide-index="' . $slide_index . '" data-full-src="' . $slide_full . '" aria-label="' . $this->e($hero_thumb_prefix . ' ' . ($slide_index + 1)) . '">'
+                . '<img src="' . $slide_thumb . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="lazy" decoding="async">'
                 . '</button>';
 
-            $mobile_strip_html .= '<button type="button" class="hero-clinic-open h-[160px] w-[160px] min-w-[160px] snap-start overflow-hidden rounded-xl border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_10px_20px_rgba(10,43,80,0.12)] sm:h-[180px] sm:w-[180px] sm:min-w-[180px]" data-hero-image-src="' . $slide_src . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
+            $mobile_strip_html .= '<button type="button" class="hero-clinic-open h-[160px] w-[160px] min-w-[160px] snap-start overflow-hidden rounded-xl border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_10px_20px_rgba(10,43,80,0.12)] sm:h-[180px] sm:w-[180px] sm:min-w-[180px]" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
+                . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
                 . '</button>';
 
-            $modal_thumbs_html .= '<button type="button" class="hero-modal-thumb' . $active_class . '" data-modal-index="' . $slide_index . '" aria-label="' . $this->e($hero_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . $slide_src . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="lazy" decoding="async">'
+            $modal_thumbs_html .= '<button type="button" class="hero-modal-thumb' . $active_class . '" data-modal-index="' . $slide_index . '" data-full-src="' . $slide_full . '" aria-label="' . $this->e($hero_photo_prefix . ' ' . ($slide_index + 1)) . '">'
+                . '<img src="' . $slide_thumb . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="lazy" decoding="async">'
                 . '</button>';
         }
 
@@ -938,7 +910,8 @@ class HeroSection extends Component {
                         </a>
                         <link rel="preconnect" href="https://fonts.googleapis.com">
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+                        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+                        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"></noscript>
                         <h1 class="mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;"{$this->dataTextId('hero.heading')}>
                             {$hero_heading}
                         </h1>
@@ -1066,7 +1039,21 @@ class HeroSection extends Component {
                     var current = 0;
                     var lastIndex = slides.length - 1;
 
+                    function ensureSlideLoaded(index) {
+                        var slide = slides[index];
+                        if (!slide) return;
+                        var image = slide.querySelector('img[data-full-src]');
+                        if (!image) return;
+                        var fullSrc = image.getAttribute('data-full-src') || '';
+                        if (fullSrc && image.getAttribute('src') !== fullSrc) {
+                            image.setAttribute('src', fullSrc);
+                        }
+                    }
+
                     function render() {
+                        ensureSlideLoaded(current);
+                        ensureSlideLoaded(current + 1);
+                        ensureSlideLoaded(current - 1);
                         track.style.transform = 'translateX(-' + (current * 100) + '%)';
                         slides.forEach(function(slide, index) {
                             slide.classList.toggle('is-active', index === current);
@@ -1184,6 +1171,10 @@ class HeroSection extends Component {
                         if (!isNaN(index)) {
                             currentIndex = Math.max(0, Math.min(gallery.length - 1, index));
                             renderModalImage();
+                            var fullSrc = thumb.getAttribute('data-full-src') || '';
+                            if (fullSrc) {
+                                modalImage.src = fullSrc;
+                            }
                         }
                     });
                 });
@@ -1396,16 +1387,16 @@ class VisualGallery extends Component {
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="grid gap-4 md:grid-cols-4">
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/content/about-company.jpg" alt="{$about_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.about_alt')} />
+                        <img src="/public/images/content/about-company.webp" alt="{$about_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.about_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/kostromina-default.jpg" alt="{$kostromina_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.kostromina_alt')} />
+                        <img src="/public/images/team/kostromina-default.webp" alt="{$kostromina_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.kostromina_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/navrozov.jpg" alt="{$navrozov_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.navrozov_alt')} />
+                        <img src="/public/images/team/navrozov.webp" alt="{$navrozov_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.navrozov_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/nehorosheva.jpg" alt="{$nehorosheva_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.nehorosheva_alt')} />
+                        <img src="/public/images/team/nehorosheva.webp" alt="{$nehorosheva_alt}" class="h-56 w-full object-cover" loading="lazy"{$this->dataTextId('home.visual_gallery.nehorosheva_alt')} />
                     </div>
                 </div>
             </div>
@@ -1571,7 +1562,7 @@ class ChiefDoctorBlock extends Component {
             'cta_label' => bioinmed_text('common.more_details'),
             'text_prefix' => 'home.chief_doctor.summary',
         ]);
-        $chief_image = bioinmed_versioned_asset_path('/public/images/team/kostromina.jpg');
+        $chief_image = bioinmed_versioned_asset_path('/public/images/team/kostromina.webp');
 
         return <<<HTML
         <section class="bg-[#e4f1fa] py-10 md:py-14">
@@ -1620,7 +1611,7 @@ class SpecialOffer extends Component {
                     <div class="grid lg:grid-cols-[0.9fr_1.1fr]">
                         <div class="relative min-h-[320px] lg:min-h-full">
                             <img
-                                src="/public/images/habilect/habilect-woman-2.jpg"
+                                src="/public/images/habilect/habilect-woman-2.webp"
                                 alt="{$offer_image_alt}"
                                 class="h-full w-full object-cover object-center"
                                 loading="lazy"
@@ -1701,7 +1692,7 @@ class DoctorsGrid extends Component {
         foreach ($this->data as $doctor) {
             $slug = isset($doctor['slug']) ? $this->e($doctor['slug']) : '';
             $doctor_link = '/doctors/' . $slug;
-            $doctor_image = bioinmed_versioned_asset_path('/public/images/team/' . ($doctor['image'] ?? ''));
+            $doctor_image = bioinmed_preferred_image_asset_path('/public/images/team/' . ($doctor['image'] ?? ''));
             $has_profile = !array_key_exists('has_profile', $doctor) || $doctor['has_profile'] !== false;
             $card_action_text = trim((string)($doctor['card_action_text'] ?? bioinmed_text('home.doctors.card_action_fallback', 'Команда клиники')));
             $doctor_image_html = $has_profile
@@ -1910,6 +1901,9 @@ class CasesSlider extends Component {
     }
 
     public function render() {
+        $reviews_widget_src = 'https://yandex.ru/maps-reviews-widget/20810337169?comments';
+        $reviews_org_url = $this->e(defined('CLINIC_YANDEX_ORG_URL') ? CLINIC_YANDEX_ORG_URL : 'https://yandex.com/maps/org/bioinmed/20810337169/');
+
         return <<<HTML
         <section id="reviews" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
@@ -1919,10 +1913,68 @@ class CasesSlider extends Component {
                     bioinmed_text('home.reviews.subtitle', 'Отзывы наших пациентов на Яндекс.Картах.'),
                     'home.reviews.section'
                 )}
-                <div class="overflow-hidden rounded-2xl border border-[#dce8f5] shadow-[0_8px_24px_rgba(10,43,80,0.07)]" style="max-width:700px;">
-                    <div style="width:100%;height:800px;overflow:hidden;position:relative;"><iframe style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" src="https://yandex.ru/maps-reviews-widget/20810337169?comments"></iframe><a href="{$this->e(defined('CLINIC_YANDEX_ORG_URL') ? CLINIC_YANDEX_ORG_URL : 'https://yandex.com/maps/org/bioinmed/20810337169/')}" target="_blank" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:left;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">Биоинмед на карте Москвы — Яндекс Карты</a></div>
+                <div class="overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(10,43,80,0.07)]" style="max-width:700px;">
+                    <div class="reviews-widget-placeholder flex min-h-[800px] items-center justify-center bg-[linear-gradient(180deg,#f8fcff_0%,#eef7fd_100%)] px-6 py-8 text-center">
+                        <div class="max-w-md">
+                            <p class="text-[0.78rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"{$this->dataTextId('home.reviews.placeholder.eyebrow')}>{$this->e(bioinmed_text('home.reviews.placeholder.eyebrow', 'Отзывы'))}</p>
+                            <h3 class="mt-2 text-[1.15rem] font-bold leading-tight text-[#0f2749]"{$this->dataTextId('home.reviews.placeholder.title')}>{$this->e(bioinmed_text('home.reviews.placeholder.title', 'Загрузка отзывов по запросу'))}</h3>
+                            <p class="mt-3 text-[0.94rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.reviews.placeholder.text')}>{$this->e(bioinmed_text('home.reviews.placeholder.text', 'Виджет отзывов подгружается только когда блок попадает в область просмотра, чтобы не замедлять открытие страницы.'))}</p>
+                            <button type="button" class="reviews-widget-load mt-5 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]" aria-label="{$this->e(bioinmed_text('home.reviews.placeholder.button_aria', 'Показать отзывы'))}">
+                                <i class="fa-solid fa-comments" aria-hidden="true"></i>
+                                <span>{$this->e(bioinmed_text('home.reviews.placeholder.button', 'Показать отзывы'))}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="reviews-widget-shell hidden" style="width:100%;height:800px;overflow:hidden;position:relative;">
+                        <iframe data-reviews-widget-src="{$reviews_widget_src}" loading="lazy" style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" title="{$this->e(bioinmed_text('home.reviews.iframe_title', 'Отзывы пациентов'))}" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <a href="{$reviews_org_url}" target="_blank" rel="noreferrer noopener" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:left;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">Биоинмед на карте Москвы — Яндекс Карты</a>
+                    </div>
                 </div>
             </div>
+
+            <script>
+                (function initReviewsWidget() {
+                    var section = document.getElementById('reviews');
+                    if (!section) return;
+
+                    var placeholder = section.querySelector('.reviews-widget-placeholder');
+                    var shell = section.querySelector('.reviews-widget-shell');
+                    var iframe = section.querySelector('iframe[data-reviews-widget-src]');
+                    var button = section.querySelector('.reviews-widget-load');
+                    if (!placeholder || !shell || !iframe) return;
+
+                    var loaded = false;
+
+                    function loadWidget() {
+                        if (loaded) return;
+                        loaded = true;
+                        iframe.src = iframe.getAttribute('data-reviews-widget-src') || '';
+                        shell.classList.remove('hidden');
+                        placeholder.classList.add('hidden');
+                    }
+
+                    if (button) {
+                        button.addEventListener('click', loadWidget, { once: true });
+                    }
+
+                    if ('IntersectionObserver' in window) {
+                        var observer = new IntersectionObserver(function(entries, obs) {
+                            entries.forEach(function(entry) {
+                                if (entry.isIntersecting) {
+                                    obs.disconnect();
+                                    loadWidget();
+                                }
+                            });
+                        }, { rootMargin: '250px 0px' });
+
+                        observer.observe(section);
+                    } else {
+                        window.addEventListener('load', function() {
+                            setTimeout(loadWidget, 0);
+                        }, { once: true });
+                    }
+                })();
+            </script>
         </section>
         HTML;
     }
@@ -2124,7 +2176,7 @@ class ContactSection extends Component {
 class PartnersBlock extends Component {
     public function render() {
         $heel_logo = $this->e(bioinmed_versioned_asset_path('/public/images/partners/heel-logo.svg'));
-        $habilect_logo = $this->e(bioinmed_versioned_asset_path('/public/images/partners/habilect-logo.png'));
+        $habilect_logo = $this->e(bioinmed_preferred_image_asset_path('/public/images/partners/habilect-logo.png'));
 
         return <<<HTML
         <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
@@ -2327,7 +2379,7 @@ class Footer extends Component {
         $phone1_display = $this->e($footer_phone_1_raw);
         $phone2 = $footer_phone_2_raw;
         $phone2_link = $phone2 ? $this->phoneLink($phone2) : '';
-        $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'));
+        $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.webp'));
         $second_phone_footer = $phone2_link
             ? '<a href="tel:' . $phone2_link . '" class="block text-sm font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"' . $this->dataTextId('footer.contact.phone_secondary') . '>' . $this->e($phone2) . '</a>'
             : '';

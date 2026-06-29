@@ -123,8 +123,9 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
-    <script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
-    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
+    <link rel="preload" href="/public/vendor/fontawesome/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"></noscript>
     <style>
         html {
             font-size: clamp(17px, 0.5vw + 15px, 19px);

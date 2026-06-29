@@ -56,12 +56,13 @@ function e($value) {
     
     <title><?php echo htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></title>
     
-    <!-- Tailwind CSS CDN -->
-    <script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
+    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"></noscript>
+    <link rel="preload" href="/public/vendor/fontawesome/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"></noscript>
         <script type="application/ld+json">
                 <?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
         </script>
@@ -93,20 +94,10 @@ function e($value) {
             color: var(--foreground);
         }
         
-        /* Анимация появления при скролле */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
+        /* Avoid large reveal animations that cause section flashing during scroll. */
         .fade-in {
-            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 1;
+            transform: none;
         }
         
         a, button {
@@ -132,10 +123,6 @@ function e($value) {
         /* ── Hero keeps natural height so it doesn't fight the header layout ── */
 
         @media (prefers-reduced-motion: reduce) {
-            .fade-in {
-                animation: none;
-            }
-
             * {
                 scroll-behavior: auto !important;
             }
@@ -363,26 +350,5 @@ function e($value) {
         })();
     </script>
 
-    <script>
-        // Простая анимация появления при скролле
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        
-        // Наблюдаем за секциями
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
-    </script>
 </body>
 </html>

@@ -32,13 +32,13 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 $bookingUrl = defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '#contact';
 $chief = $doctors[0] ?? [];
 $chiefName = trim((string)($chief['name'] ?? 'Инна Викторовна Костромина'));
-$chiefImage = '/public/images/team/kostromina-default.jpg';
+$chiefImage = '/public/images/team/kostromina-default.webp';
 $mapUrl = CLINIC_MAP_URL;
 $aboutHabilectLink = bioinmed_link('services.habilect_diagnostics');
 $aboutPhysioLink = bioinmed_link('services.fizioterapiya');
 $aboutAcupunctureLink = bioinmed_link('services.acupuncture');
 if (!empty($chief['image'])) {
-	$chiefImage = '/public/images/team/' . ltrim((string)$chief['image'], '/');
+	$chiefImage = bioinmed_preferred_image_asset_path('/public/images/team/' . ltrim((string)$chief['image'], '/'));
 }
 
 
@@ -84,11 +84,13 @@ function e($value) {
 		'image' => $socialImageUrl,
 	]); ?>
 	<?php echo bioinmed_render_favicon_links($iconPath); ?>
-	<script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
-	<link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
+	<link rel="preload" href="/public/vendor/fontawesome/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"></noscript>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"></noscript>
 	<script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
 	<script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
 	<?php echo bioinmed_uis_counter_head(); ?>

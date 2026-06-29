@@ -119,6 +119,30 @@ function bioinmed_versioned_asset_path($path = '') {
     return $normalized . '?v=' . $version;
 }
 
+function bioinmed_preferred_image_asset_path($path = '') {
+    $value = trim((string)$path);
+    if ($value === '') {
+        return '';
+    }
+
+    if (preg_match('~^https?://~i', $value)) {
+        return $value;
+    }
+
+    $normalized = '/' . ltrim($value, '/');
+    $extension = strtolower(pathinfo($normalized, PATHINFO_EXTENSION));
+    $candidate = '';
+
+    if (in_array($extension, ['jpg', 'jpeg', 'png'], true)) {
+        $candidate = preg_replace('~\.(jpe?g|png)$~i', '.webp', $normalized);
+        if (is_string($candidate) && $candidate !== '' && is_file(__DIR__ . $candidate)) {
+            return bioinmed_versioned_asset_path($candidate);
+        }
+    }
+
+    return bioinmed_versioned_asset_path($normalized);
+}
+
 function bioinmed_default_social_image_path() {
     return '/public/images/brand/og-preview-bioinmed.png';
 }

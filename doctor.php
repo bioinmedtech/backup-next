@@ -55,7 +55,7 @@ $phone1link   = preg_replace('/\D/', '', $phone1);
 $phone2       = defined('CLINIC_PHONE_2') ? CLINIC_PHONE_2 : '';
 $phone2link   = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
 $doctorImagePath = $doctor && !empty($doctor['image'])
-    ? bioinmed_versioned_asset_path('/public/images/team/' . $doctor['image'])
+    ? bioinmed_preferred_image_asset_path('/public/images/team/' . $doctor['image'])
     : '';
 $doctorProjectTitle = trim((string)($doctor['project_title'] ?? ''));
 $socialImageUrl = $doctor && !empty($doctor['image'])
@@ -98,11 +98,13 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <?php endif; ?>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
-    <script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
+    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"></noscript>
+    <link rel="preload" href="/public/vendor/fontawesome/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"></noscript>
     <style>
         html {
             font-size: clamp(17px, 0.5vw + 15px, 19px);

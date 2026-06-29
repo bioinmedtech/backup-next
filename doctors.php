@@ -116,11 +116,13 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
-    <script src="/public/vendor/tailwind/tailwindcss-cdn.js"></script>
+    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"></noscript>
+    <link rel="preload" href="/public/vendor/fontawesome/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/public/vendor/fontawesome/css/all.min.css"></noscript>
     <style>
         html {
             font-size: clamp(17px, 0.5vw + 15px, 19px);
@@ -165,7 +167,7 @@ echo $header->render();
     $chief = $chiefDoctor;
     if ($chief):
         $chiefExp = trim((string)($chief['experience'] ?? ''));
-        $chiefImage = bioinmed_versioned_asset_path('/public/images/team/' . ($chief['image'] ?? ''));
+        $chiefImage = bioinmed_preferred_image_asset_path('/public/images/team/' . ($chief['image'] ?? ''));
         $chiefYears = null;
         if (preg_match('/(\d+)\s*(?:лет|год)/ui', $chiefExp, $m)) $chiefYears = $m[1];
     ?>
@@ -203,7 +205,7 @@ echo $header->render();
             <div class="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-2 md:mt-4">
                 <?php foreach ($teamDoctors as $index => $doc):
                     $docExp = trim((string)($doc['experience'] ?? ''));
-                    $docImage = bioinmed_versioned_asset_path('/public/images/team/' . ($doc['image'] ?? ''));
+                    $docImage = bioinmed_preferred_image_asset_path('/public/images/team/' . ($doc['image'] ?? ''));
                           $docHasProfile = !array_key_exists('has_profile', $doc) || $doc['has_profile'] !== false;
                     $docActionText = trim((string)($doc['card_action_text'] ?? ($doctorsTeam['card_action_fallback'] ?? '')));
                     $docLink = '/doctors/' . ($doc['slug'] ?? '');
