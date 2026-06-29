@@ -331,11 +331,13 @@ class Header extends Component {
                 #site-header > div:nth-child(2) > div > div > div:nth-child(2) > p:first-child {
                     font-size: 0.88rem !important;
                     font-weight: 600 !important;
+                    line-height: 30px;
                 }
                 #site-header > div:nth-child(2) > div > div > div:nth-child(2) > p:nth-child(2) {
                     margin-top: 0.15rem !important;
                     font-size: 0.8rem !important;
                     color: #2a5894 !important;
+                    line-height: 24px;
                 }
                 #site-header > div:nth-child(2) > div > div > div:nth-child(2) > div {
                     margin-top: 0 !important;
