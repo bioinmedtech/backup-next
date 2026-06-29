@@ -373,6 +373,30 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://bioinmed.ru/seasons/spring</loc>
+    <lastmod>2026-06-29T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/seasons/summer</loc>
+    <lastmod>2026-06-29T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/seasons/autumn</loc>
+    <lastmod>2026-06-29T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/seasons/winter</loc>
+    <lastmod>2026-06-29T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://bioinmed.ru/problems</loc>
     <lastmod>2026-06-23T00:00:00+03:00</lastmod>
     <changefreq>weekly</changefreq>
