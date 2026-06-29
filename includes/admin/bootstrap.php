@@ -231,7 +231,21 @@ function bioinmed_admin_write_json(string $path, array $data): bool {
         return false;
     }
 
-    return @rename($tmp, $path);
+    if (@rename($tmp, $path)) {
+        @chmod($path, 0664);
+        clearstatcache(true, $path);
+        return true;
+    }
+
+    if (@copy($tmp, $path)) {
+        @unlink($tmp);
+        @chmod($path, 0664);
+        clearstatcache(true, $path);
+        return true;
+    }
+
+    @unlink($tmp);
+    return false;
 }
 
 function bioinmed_admin_default_users(): array {
@@ -546,7 +560,18 @@ function bioinmed_admin_load_pin_settings(): array {
 }
 
 function bioinmed_admin_save_pin_settings(array $payload): bool {
-    return bioinmed_admin_write_json(BIOINMED_ADMIN_PIN_SETTINGS_FILE, $payload);
+    $normalized = [
+        'enabled' => bioinmed_admin_normalize_bool($payload['enabled'] ?? true),
+        'pin' => trim((string)($payload['pin'] ?? '')),
+        'updated_at' => (string)($payload['updated_at'] ?? gmdate('c')),
+        'updated_by' => isset($payload['updated_by']) && is_array($payload['updated_by']) ? $payload['updated_by'] : null,
+    ];
+
+    if (!$normalized['enabled']) {
+        $normalized['pin'] = '';
+    }
+
+    return bioinmed_admin_write_json(BIOINMED_ADMIN_PIN_SETTINGS_FILE, $normalized);
 }
 
 function bioinmed_admin_split_price_and_note(string $value): array {

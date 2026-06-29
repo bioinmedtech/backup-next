@@ -1693,12 +1693,43 @@
             var current = !!(state.config && state.config.pinSettings && state.config.pinSettings.enabled);
             var nextEnabled = !current;
             var pinInput = byId('bioinmed-pin-input');
+            if (!state.config.pinSettings) state.config.pinSettings = {};
+
+            state.config.pinSettings.enabled = nextEnabled;
             if (pinInput) {
                 pinInput.disabled = !nextEnabled;
             }
-            if (!state.config.pinSettings) state.config.pinSettings = {};
-            state.config.pinSettings.enabled = nextEnabled;
             syncPinSettingsUi();
+
+            callApi('/pin-settings.php', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                body: JSON.stringify({
+                    csrf: state.config.csrf,
+                    enabled: nextEnabled,
+                    pin: pinInput ? (pinInput.value || '').trim() : ''
+                })
+            }).then(function (resp) {
+                if (!resp || !resp.ok) {
+                    state.config.pinSettings.enabled = current;
+                    if (pinInput) {
+                        pinInput.disabled = !current;
+                    }
+                    syncPinSettingsUi();
+                    showToast((resp && resp.error) || 'Не удалось сохранить PIN', 'error');
+                    return;
+                }
+
+                if (resp.pinSettings) {
+                    state.config.pinSettings = resp.pinSettings;
+                }
+
+                return loadSession().then(function () {
+                    syncPinSettingsUi();
+                    showToast('PIN-настройки сохранены');
+                });
+            });
         });
     }
 
@@ -1726,8 +1757,10 @@
                 if (resp.pinSettings) {
                     state.config.pinSettings = resp.pinSettings;
                 }
-                syncPinSettingsUi();
-                showToast('PIN-настройки сохранены');
+                return loadSession().then(function () {
+                    syncPinSettingsUi();
+                    showToast('PIN-настройки сохранены');
+                });
             });
         });
     }

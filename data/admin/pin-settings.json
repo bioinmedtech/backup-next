@@ -1,6 +1,10 @@
 {
-    "enabled": true,
-    "pin": "1290",
-    "updated_at": "2026-06-29T16:27:49+00:00",
-    "updated_by": null
+    "enabled": false,
+    "pin": "",
+    "updated_at": "2026-06-29T16:49:53+00:00",
+    "updated_by": {
+        "id": "u_admin",
+        "email": "admin@bioinmed.ru",
+        "name": "Главный администратор"
+    }
 }
