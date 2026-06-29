@@ -1,9 +1,5 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 function bioinmed_pin_settings_file_path() {
     return __DIR__ . '/../data/admin/pin-settings.json';
 }
@@ -173,9 +169,6 @@ function bioinmed_pin_grant_access($ttlSeconds = 2592000) {
     $ttl = max(300, (int)$ttlSeconds);
     $expiresAt = time() + $ttl;
 
-    $_SESSION['site_access_granted'] = true;
-    $_SESSION['access_time'] = time();
-
     $token = bioinmed_pin_build_token($expiresAt);
     if ($token !== '') {
         bioinmed_pin_set_cookie($token, $expiresAt);
@@ -184,10 +177,6 @@ function bioinmed_pin_grant_access($ttlSeconds = 2592000) {
 
 function bioinmed_pin_has_access() {
     if (!bioinmed_pin_protection_enabled()) {
-        return true;
-    }
-
-    if (!empty($_SESSION['site_access_granted'])) {
         return true;
     }
 
@@ -200,9 +189,6 @@ function bioinmed_pin_has_access() {
         return false;
     }
 
-    // Restore session access from a valid signed cookie token.
-    $_SESSION['site_access_granted'] = true;
-    $_SESSION['access_time'] = time();
     return true;
 }
 
