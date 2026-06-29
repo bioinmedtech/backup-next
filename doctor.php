@@ -420,7 +420,14 @@ echo $header->render();
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root data-doctor-toggle="education">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
                         <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
-                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-university text-sm"></i></span>
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                    <path d="M3 21h18" />
+                                    <path d="M6 21V8l6-3 6 3v13" />
+                                    <path d="M9 21v-8h6v8" />
+                                    <path d="M12 5V3" />
+                                </svg>
+                            </span>
                             <span<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'sections.education_title'); ?>><?php echo e($doctorSectionsText['education_title'] ?? ''); ?></span>
                         </span>
                         <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
