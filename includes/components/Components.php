@@ -64,6 +64,7 @@ class Header extends Component {
         $nav_contacts = bioinmed_link('nav.contacts');
         $header_map_label = $this->e(bioinmed_text('header.map_label', 'На карте'));
         $header_call_phone_aria = $this->e(bioinmed_text('header.call_phone_aria', 'Позвонить'));
+        $online_booking_desktop_text = $this->e(bioinmed_text('header.online_booking_button.desktop', bioinmed_text('common.online_booking_desktop')));
 
         $header_menu_aria = $this->e(bioinmed_text('header.menu_aria', 'Меню'));
         $header_close_menu_aria = $this->e(bioinmed_text('header.close_menu_aria', 'Закрыть меню'));
@@ -908,10 +909,6 @@ class HeroSection extends Component {
                             {$hero_season_prefix}: {$actual_season_name}
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
                         </a>
-                        <link rel="preconnect" href="https://fonts.googleapis.com">
-                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-                        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap"></noscript>
                         <h1 class="mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;"{$this->dataTextId('hero.heading')}>
                             {$hero_heading}
                         </h1>
@@ -1573,7 +1570,7 @@ class ChiefDoctorBlock extends Component {
                             <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="eager" onerror="this.src='/public/images/placeholder.jpg'" />
                         </div>
                         <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью'))}</p>
-                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
+                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
                     </div>
                     {$summary_html}
                 </div>

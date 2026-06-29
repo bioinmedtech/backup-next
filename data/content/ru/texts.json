@@ -25,6 +25,9 @@
         "menu_aria": "Меню",
         "close_menu_aria": "Закрыть меню",
         "appointment_note": "Приём по предварительной записи",
+        "online_booking_button": {
+            "desktop": "Онлайн-запись"
+        },
         "phone_note": "Запись по телефону ежедневно",
         "contact": {
             "address": "Москва, Оболенский пер., 9А",

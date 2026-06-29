@@ -145,7 +145,6 @@
         }
         if (input) {
             input.value = settings.pin || '';
-            input.disabled = !enabled;
         }
         if (status) {
             status.textContent = enabled
@@ -1696,9 +1695,6 @@
             if (!state.config.pinSettings) state.config.pinSettings = {};
 
             state.config.pinSettings.enabled = nextEnabled;
-            if (pinInput) {
-                pinInput.disabled = !nextEnabled;
-            }
             syncPinSettingsUi();
 
             callApi('/pin-settings.php', {
@@ -1708,14 +1704,11 @@
                 body: JSON.stringify({
                     csrf: state.config.csrf,
                     enabled: nextEnabled,
-                    pin: pinInput ? (pinInput.value || '').trim() : ''
+                    pin: pinInput ? (pinInput.value || '').trim() : (state.config.pinSettings.pin || '')
                 })
             }).then(function (resp) {
                 if (!resp || !resp.ok) {
                     state.config.pinSettings.enabled = current;
-                    if (pinInput) {
-                        pinInput.disabled = !current;
-                    }
                     syncPinSettingsUi();
                     showToast((resp && resp.error) || 'Не удалось сохранить PIN', 'error');
                     return;

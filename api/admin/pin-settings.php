@@ -31,6 +31,7 @@ if (!bioinmed_admin_verify_csrf((string)($body['csrf'] ?? ''))) {
 
 $enabled = bioinmed_admin_normalize_bool($body['enabled'] ?? true);
 $pin = trim((string)($body['pin'] ?? ''));
+$existing = bioinmed_admin_load_pin_settings();
 
 if ($enabled && !preg_match('/^[0-9]{4,12}$/', $pin)) {
     bioinmed_admin_json_response([
@@ -41,7 +42,7 @@ if ($enabled && !preg_match('/^[0-9]{4,12}$/', $pin)) {
 
 $payload = [
     'enabled' => $enabled,
-    'pin' => $enabled ? $pin : '',
+    'pin' => $pin !== '' ? $pin : (string)($existing['pin'] ?? ''),
     'updated_at' => gmdate('c'),
     'updated_by' => [
         'id' => (string)($actor['id'] ?? ''),
