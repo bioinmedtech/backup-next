@@ -399,7 +399,7 @@ class Header extends Component {
                 <!-- Row 1: logo + phone + burger -->
                 <div class="flex items-center justify-between px-6 py-2.5 md:px-10">
                     <a href="/" class="inline-flex items-center mr-3 shrink-0">
-                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" loading="eager">
+                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" width="1000" height="250" loading="eager" decoding="async">
                     </a>
                     <div class="flex items-center gap-2">
                         <a href="tel:{$phone_1_link}" aria-label="{$header_call_phone_aria}" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#1977b2]">
@@ -430,7 +430,7 @@ class Header extends Component {
                 <div class="mx-auto max-w-6xl px-6 pt-2 md:px-10">
                     <div class="grid gap-2 pb-2.5 lg:grid-cols-[max-content_minmax(0,1.05fr)_minmax(0,0.9fr)_minmax(0,0.74fr)_minmax(200px,auto)] lg:items-start">
                         <a href="/" class="inline-flex items-center mr-3 shrink-0">
-                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" loading="eager">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" width="1000" height="250" loading="eager" decoding="async">
                         </a>
 
                         <div class="pt-1 leading-tight text-[#0a293c]" data-admin-block-root>
@@ -487,7 +487,7 @@ class Header extends Component {
                             <i class="fa-brands fa-vk translate-x-[1px] text-[1.82rem] leading-none" aria-hidden="true"></i>
                         </a>
                         <a href="{$max_url}" target="_blank" rel="noreferrer noopener" aria-label="MAX" class="group inline-flex items-center justify-center transition hover:opacity-85" data-link-key="site.clinic.max" data-link-label="Ссылка MAX">
-                            <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" loading="lazy" decoding="async">
+                            <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" width="256" height="256" loading="lazy" decoding="async">
                         </a>
                         <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="group inline-flex items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
                             <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
@@ -501,7 +501,7 @@ class Header extends Component {
         <div id="mob-backdrop" onclick="closeMobMenu()"></div>
         <div id="mob-menu">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #dce8f3;">
-                <img src="{$logo_src}" alt="БИОИНМЕД" style="height:48px;width:auto;">
+                <img src="{$logo_src}" alt="БИОИНМЕД" style="height:48px;width:auto;" width="1000" height="250" decoding="async">
                 <button onclick="closeMobMenu()" aria-label="{$header_close_menu_aria}" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #dce8f3;background:transparent;cursor:pointer;color:#0a293c;">
                     <i class="fa-solid fa-xmark" style="font-size:0.9rem;" aria-hidden="true"></i>
                 </button>
@@ -868,21 +868,21 @@ class HeroSection extends Component {
             $active_class = $is_first ? ' is-active' : '';
 
             $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full' . $active_class . '" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover object-top" loading="' . $loading . '" decoding="async">'
+                . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover object-top" width="1254" height="1254" loading="' . $loading . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">'
                 . '</button>';
 
             $dots_html .= '<button type="button" class="hero-clinic-dot' . $active_class . '" data-slide-index="' . $slide_index . '" aria-label="' . $this->e($hero_slide_prefix . ' ' . ($slide_index + 1)) . '"></button>';
 
             $thumbs_html .= '<button type="button" class="hero-clinic-thumb' . $active_class . '" data-slide-index="' . $slide_index . '" data-full-src="' . $slide_full . '" aria-label="' . $this->e($hero_thumb_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . $slide_thumb . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="lazy" decoding="async">'
+                . '<img src="' . $slide_thumb . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" width="1254" height="1254" loading="lazy" decoding="async">'
                 . '</button>';
 
             $mobile_strip_html .= '<button type="button" class="hero-clinic-open h-[160px] w-[160px] min-w-[160px] snap-start overflow-hidden rounded-xl border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_10px_20px_rgba(10,43,80,0.12)] sm:h-[180px] sm:w-[180px] sm:min-w-[180px]" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="' . $loading . '" decoding="async">'
+                . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" width="1254" height="1254" loading="' . $loading . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">'
                 . '</button>';
 
             $modal_thumbs_html .= '<button type="button" class="hero-modal-thumb' . $active_class . '" data-modal-index="' . $slide_index . '" data-full-src="' . $slide_full . '" aria-label="' . $this->e($hero_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . $slide_thumb . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" loading="lazy" decoding="async">'
+                . '<img src="' . $slide_thumb . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" width="1254" height="1254" loading="lazy" decoding="async">'
                 . '</button>';
         }
 
