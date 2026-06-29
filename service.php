@@ -287,9 +287,7 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
     <?php if ($service): ?>
     <script type="application/ld+json"><?php echo json_encode($faqStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <?php endif; ?>
-    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
-    <link rel="preload" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>"></noscript>
+    <?php echo bioinmed_render_public_head_assets(); ?>
     <style>
         html {
             font-size: clamp(17px, 0.5vw + 15px, 19px);

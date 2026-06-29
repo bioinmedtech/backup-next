@@ -123,9 +123,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
-    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
-    <link rel="preload" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>"></noscript>
+    <?php echo bioinmed_render_public_head_assets(); ?>
     <style>
         html {
             font-size: clamp(17px, 0.5vw + 15px, 19px);

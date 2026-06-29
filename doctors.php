@@ -116,11 +116,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
-    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>"></noscript>
+    <?php echo bioinmed_render_public_head_assets(); ?>
     <style>
         html {
             font-size: clamp(17px, 0.5vw + 15px, 19px);
@@ -183,10 +179,10 @@ echo $header->render();
                                  onerror="this.src='/public/images/placeholder.jpg'">
                         </div>
                         <?php if (!empty($chief['hero_tagline'])): ?>
-                        <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
-                            <span style="font-family:'Caveat',cursive;"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.text'); ?>><?php echo e($doctorsChiefQuote['text'] ?? ''); ?></span>
+                        <p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
+                            <span class="caveat-reveal" style="font-family:'Caveat',cursive;"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.text'); ?>><?php echo e($doctorsChiefQuote['text'] ?? ''); ?></span>
                         </p>
-                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.sign'); ?>><?php echo e($doctorsChiefQuote['sign'] ?? ''); ?></p>
+                        <p class="caveat-reveal mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'chief_quote.sign'); ?>><?php echo e($doctorsChiefQuote['sign'] ?? ''); ?></p>
                     <?php endif; ?>
                     </div>
                 <?php echo bioinmed_render_chief_doctor_summary($chief, [

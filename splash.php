@@ -61,9 +61,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.web
     <link rel="apple-touch-icon" href="/public/images/brand/bioinmed-icon.png">
     <meta name="theme-color" content="#1977b2">
     <!-- Tailwind CSS CDN -->
-    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
-    <link rel="preload" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>"></noscript>
+    <?php echo bioinmed_render_public_head_assets(); ?>
     <style>
         :root {
             --background: #f3f8fd;

@@ -84,11 +84,7 @@ function e($value) {
 		'image' => $socialImageUrl,
 	]); ?>
 	<?php echo bioinmed_render_favicon_links($iconPath); ?>
-	<link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
-	<link rel="preload" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-	<noscript><link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>"></noscript>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<?php echo bioinmed_render_public_head_assets(); ?>
 	<script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
 	<script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
 	<?php echo bioinmed_uis_counter_head(); ?>
@@ -184,10 +180,10 @@ echo $header->render();
 			<div class="aspect-square overflow-hidden rounded-3xl">
 				<img src="<?php echo e($chiefImage); ?>" alt="<?php echo e($chiefName); ?>" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy">
 			</div>
-			<p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'chief_quote.text'); ?>>
+			<p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'chief_quote.text'); ?>>
 				<?php echo e($aboutChiefQuote['text'] ?? ''); ?>
 			</p>
-			<p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'chief_quote.sign'); ?>><?php echo e($aboutChiefQuote['sign'] ?? ''); ?></p>
+			<p class="caveat-reveal mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'chief_quote.sign'); ?>><?php echo e($aboutChiefQuote['sign'] ?? ''); ?></p>
 		</div>
 		<article class="p-5 md:p-7" data-admin-block-root>
 			<?php echo bioinmed_render_chief_doctor_summary($chief, ['show_cta' => false]); ?>

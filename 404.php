@@ -34,9 +34,7 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
         'image' => bioinmed_default_social_image_url(),
     ]); ?>
     <?php echo bioinmed_render_favicon_links($iconPath); ?>
-    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
-    <link rel="preload" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>"></noscript>
+    <?php echo bioinmed_render_public_head_assets(); ?>
     <style>
         .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .45s ease, transform .45s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }

@@ -401,7 +401,7 @@ class Header extends Component {
                 <!-- Row 1: logo + phone + burger -->
                 <div class="flex items-center justify-between px-6 py-2.5 md:px-10">
                     <a href="/" class="inline-flex items-center mr-3 shrink-0">
-                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" width="1000" height="250" loading="eager" decoding="async">
+                        <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" width="1348" height="400" loading="eager" decoding="async">
                     </a>
                     <div class="flex items-center gap-2">
                         <a href="tel:{$phone_1_link}" aria-label="{$header_call_phone_aria}" class="flex h-10 w-10 items-center justify-center rounded-full border border-[#b9d7ef] bg-white text-[#1977b2]">
@@ -432,7 +432,7 @@ class Header extends Component {
                 <div class="mx-auto max-w-6xl px-6 pt-2 md:px-10">
                     <div class="grid gap-2 pb-2.5 lg:grid-cols-[max-content_minmax(0,1.05fr)_minmax(0,0.9fr)_minmax(0,0.74fr)_minmax(200px,auto)] lg:items-start">
                         <a href="/" class="inline-flex items-center mr-3 shrink-0">
-                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" width="1000" height="250" loading="eager" decoding="async">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" width="1348" height="400" loading="eager" decoding="async">
                         </a>
 
                         <div class="pt-1 leading-tight text-[#0a293c]" data-admin-block-root>
@@ -503,7 +503,7 @@ class Header extends Component {
         <div id="mob-backdrop" onclick="closeMobMenu()"></div>
         <div id="mob-menu">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #dce8f3;">
-                <img src="{$logo_src}" alt="БИОИНМЕД" style="height:48px;width:auto;" width="1000" height="250" decoding="async">
+                <img src="{$logo_src}" alt="БИОИНМЕД" style="height:48px;width:auto;" width="1348" height="400" decoding="async">
                 <button onclick="closeMobMenu()" aria-label="{$header_close_menu_aria}" style="display:flex;width:32px;height:32px;align-items:center;justify-content:center;border-radius:9999px;border:1px solid #dce8f3;background:transparent;cursor:pointer;color:#0a293c;">
                     <i class="fa-solid fa-xmark" style="font-size:0.9rem;" aria-hidden="true"></i>
                 </button>
@@ -915,10 +915,10 @@ class HeroSection extends Component {
                             {$hero_season_prefix}: {$actual_season_name}
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
                         </a>
-                        <h1 class="mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;"{$this->dataTextId('hero.heading')}>
+                        <h1 class="caveat-reveal mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;"{$this->dataTextId('hero.heading')}>
                             {$hero_heading}
                         </h1>
-                        <p class="mt-4 inline-flex w-fit items-center bg-transparent px-0 py-0 leading-[1.16] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;"{$this->dataTextId('hero.signature')}>
+                        <p class="caveat-reveal mt-4 inline-flex w-fit items-center bg-transparent px-0 py-0 leading-[1.16] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;"{$this->dataTextId('hero.signature')}>
                             {$hero_signature}
                         </p>
                         <div class="mt-4 flex max-w-3xl flex-col gap-2.5 md:mt-5 md:gap-3">
@@ -1605,8 +1605,8 @@ class ChiefDoctorBlock extends Component {
                         <div class="aspect-square overflow-hidden rounded-3xl">
                             <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy" decoding="async" onerror="this.src='/public/images/placeholder.jpg'" />
                         </div>
-                        <p class="mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью'))}</p>
-                        <p class="mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
+                        <p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью'))}</p>
+                        <p class="caveat-reveal mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
                     </div>
                     {$summary_html}
                 </div>

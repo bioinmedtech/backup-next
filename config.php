@@ -132,6 +132,32 @@ function bioinmed_versioned_asset_path($path = '') {
     return $normalized . '?v=' . $version;
 }
 
+function bioinmed_render_public_head_assets(array $options = []) {
+    $site_css_href = bioinmed_versioned_asset_path('/public/assets/css/site.css');
+    $fontawesome_href = bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css');
+    $include_uis_hints = array_key_exists('include_uis_hints', $options) ? (bool)$options['include_uis_hints'] : true;
+
+    $html = [];
+
+    if ($include_uis_hints) {
+        $html[] = '<link rel="dns-prefetch" href="//app.uiscom.ru">';
+        $html[] = '<link rel="preconnect" href="https://app.uiscom.ru" crossorigin>';
+        $html[] = '<link rel="dns-prefetch" href="//app.comagic.ru">';
+        $html[] = '<link rel="preconnect" href="https://app.comagic.ru" crossorigin>';
+    }
+
+    $html[] = '<script>(function(){document.documentElement.classList.add("js-caveat-pending");})();</script>';
+    $html[] = '<style>.js-caveat-pending .caveat-reveal{visibility:hidden}.js-caveat-ready .caveat-reveal,.js-caveat-failed .caveat-reveal{visibility:visible}</style>';
+
+    // Keep the main stylesheet blocking to avoid FOUC/layout jumping on first paint.
+    $html[] = '<link rel="stylesheet" href="' . htmlspecialchars($site_css_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';
+    $html[] = '<link rel="preload" href="' . htmlspecialchars($fontawesome_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
+    $html[] = '<noscript><link rel="stylesheet" href="' . htmlspecialchars($fontawesome_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></noscript>';
+    $html[] = '<script>(function(){var root=document.documentElement;var done=false;function finish(state){if(done)return;done=true;root.classList.remove("js-caveat-pending");root.classList.add(state);}function fallback(){finish("js-caveat-failed");}if(!("fonts" in document)||typeof document.fonts.load!=="function"){fallback();return;}var timeout=window.setTimeout(fallback,1500);document.fonts.load("700 1em Caveat").then(function(){window.clearTimeout(timeout);finish("js-caveat-ready");},function(){window.clearTimeout(timeout);fallback();});})();</script>';
+
+    return implode("\n    ", $html);
+}
+
 function bioinmed_preferred_image_asset_path($path = '') {
     $value = trim((string)$path);
     if ($value === '') {

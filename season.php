@@ -159,11 +159,7 @@ $footer = new Footer();
         'image' => $social_image,
         'image_alt' => $social_image_alt,
     ]) ?>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/site.css'); ?>">
-    <link rel="preload" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="<?php echo bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css'); ?>"></noscript>
+    <?php echo bioinmed_render_public_head_assets(); ?>
     <style>
         * {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', sans-serif;
@@ -618,7 +614,7 @@ $footer = new Footer();
             <p class="text-[1.16rem] md:text-[1.3rem] font-light mb-4 max-w-xl leading-relaxed" style="color:rgba(255,255,255,0.92)"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.slogan') ?>>
                 <?= $e($s['slogan']) ?>
             </p>
-            <blockquote class="text-[1.06rem] md:text-[1.18rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.9);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.35rem,2.5vw,1.75rem);font-weight:700;">
+            <blockquote class="caveat-reveal text-[1.06rem] md:text-[1.18rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.9);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.35rem,2.5vw,1.75rem);font-weight:700;">
                 <?= $e($s['quote']) ?>
             </blockquote>
 
