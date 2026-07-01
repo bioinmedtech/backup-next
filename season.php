@@ -555,6 +555,7 @@ $footer = new Footer();
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="bg-[#e4f1fa] antialiased">
+    <?php echo bioinmed_yandex_metrika_noscript(); ?>
 <?= $header->render() ?>
 
 <!-- ═══════════════ HERO ═══════════════ -->

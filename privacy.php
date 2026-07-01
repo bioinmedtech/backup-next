@@ -44,6 +44,7 @@ function e($value) {
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="min-h-screen bg-[#e4f1fa] text-[#0f2749] antialiased">
+    <?php echo bioinmed_yandex_metrika_noscript(); ?>
 <?php
 $header = new Header($brand_colors);
 echo $header->render();

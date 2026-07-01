@@ -42,6 +42,7 @@ $phone2link = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="flex min-h-screen flex-col bg-[#e4f1fa] text-[#0f2749] antialiased">
+    <?php echo bioinmed_yandex_metrika_noscript(); ?>
 <?php
 $header = new Header($brand_colors);
 echo $header->render();

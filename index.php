@@ -123,6 +123,7 @@ function e($value) {
 <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="antialiased">
+    <?php echo bioinmed_yandex_metrika_noscript(); ?>
     <!-- Header -->
     <?php
     $header = new Header($brand_colors);

@@ -373,6 +373,7 @@ $logoSrc = bioinmed_versioned_asset_path('/public/images/brand/main-logotype.web
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body>
+    <?php echo bioinmed_yandex_metrika_noscript(); ?>
     <div class="splash-container">
         <div class="logo-block">
             <a href="/" class="logo-mark" aria-label="На главную страницу БИОИНМЕД">

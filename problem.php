@@ -115,6 +115,7 @@ if ($problem) {
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="flex min-h-screen flex-col antialiased">
+    <?php echo bioinmed_yandex_metrika_noscript(); ?>
 <?php
 $header = new Header($brand_colors);
 echo $header->render();
