@@ -1,7 +1,7 @@
 {
-    "enabled": false,
-    "pin": "",
-    "updated_at": "2026-06-29T21:49:28+00:00",
+    "enabled": true,
+    "pin": "1290",
+    "updated_at": "2026-07-01T10:24:40+00:00",
     "updated_by": {
         "id": "u_admin",
         "email": "admin@bioinmed.ru",
