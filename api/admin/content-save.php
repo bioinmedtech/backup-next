@@ -46,6 +46,11 @@ $path = $target['json_path'];
 $payload = bioinmed_admin_read_json($path, []);
 $oldValue = bioinmed_admin_get_nested_value($payload, $target['field_path']);
 
+// Do not persist empty updates: keep the previously saved value.
+if (trim($value) === '') {
+    $value = $oldValue;
+}
+
 bioinmed_admin_set_nested_value($payload, $target['field_path'], $value);
 if (!bioinmed_admin_write_json($path, $payload)) {
     bioinmed_admin_json_response([
