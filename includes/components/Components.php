@@ -823,7 +823,6 @@ class HeroSection extends Component {
 
         $hero_habilect_ecosystem = $this->e(bioinmed_text('hero.habilect.lines.ecosystem', 'Экосистема «Хабилект»'));
         $hero_habilect_route = $this->e(bioinmed_text('hero.habilect.lines.route', 'Ваш эффективный маршрут здоровья'));
-        $hero_habilect_unique = $this->e(bioinmed_text('hero.habilect.lines.unique', 'Где Вы особенный'));
         $hero_habilect_label = $this->e(bioinmed_text('hero.habilect.label', '«Хабилект»'));
         $hero_habilect_subtitle = $this->e(bioinmed_text('hero.habilect.subtitle', 'Инновационные диагностические системы'));
         $hero_habilect_link = bioinmed_link('hero.habilect', ['url' => '/services/hobilect-diagnostics']);
@@ -932,12 +931,6 @@ class HeroSection extends Component {
                                 <span class="flex items-start gap-2 text-[#17446f]">
                                     <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
                                     <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]"{$this->dataTextId('hero.habilect.lines.route')}>{$hero_habilect_route}</span>
-                                </span>
-                            </a>
-                            <a href="{$hero_habilect_href}" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
-                                <span class="flex items-start gap-2 text-[#17446f]">
-                                    <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
-                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]"{$this->dataTextId('hero.habilect.lines.unique')}>{$hero_habilect_unique}</span>
                                 </span>
                             </a>
                         </div>
@@ -1340,14 +1333,23 @@ class HeroSection extends Component {
 
 class StatsBlock extends Component {
     public function render() {
-        $experience = defined('CLINIC_EXPERIENCE_YEARS') ? $this->e(CLINIC_EXPERIENCE_YEARS) : '10+';
-        $experience_desc = defined('CLINIC_EXPERIENCE_DESC') ? $this->e(CLINIC_EXPERIENCE_DESC) : 'ЛЕТ ОПЫТА';
-        $rating = defined('CLINIC_RATING') ? $this->e(CLINIC_RATING) : '4.8';
-        $rating_desc = defined('CLINIC_RATING_DESC') ? $this->e(CLINIC_RATING_DESC) : 'СРЕДНЯЯ ОЦЕНКА';
-        $patients = defined('CLINIC_PATIENTS_YEARLY') ? $this->e(CLINIC_PATIENTS_YEARLY) : '1000+';
-        $patients_desc = defined('CLINIC_PATIENTS_DESC') ? $this->e(CLINIC_PATIENTS_DESC) : 'ПАЦИЕНТОВ';
-        $license_text = defined('CLINIC_LICENSE_TEXT') ? $this->e(CLINIC_LICENSE_TEXT) : 'Лицензия';
-        $license_desc = defined('CLINIC_LICENSE_DESC') ? $this->e(CLINIC_LICENSE_DESC) : 'ЛИЦЕНЗИЯ И АККРЕДИТАЦИЯ';
+        $experience_fallback = defined('CLINIC_EXPERIENCE_YEARS') ? CLINIC_EXPERIENCE_YEARS : '10+';
+        $experience_desc_fallback = defined('CLINIC_EXPERIENCE_DESC') ? CLINIC_EXPERIENCE_DESC : 'ЛЕТ ОПЫТА';
+        $rating_fallback = defined('CLINIC_RATING') ? CLINIC_RATING : '4.8';
+        $rating_desc_fallback = defined('CLINIC_RATING_DESC') ? CLINIC_RATING_DESC : 'СРЕДНЯЯ ОЦЕНКА';
+        $patients_fallback = defined('CLINIC_PATIENTS_YEARLY') ? CLINIC_PATIENTS_YEARLY : '1000+';
+        $patients_desc_fallback = defined('CLINIC_PATIENTS_DESC') ? CLINIC_PATIENTS_DESC : 'ПАЦИЕНТОВ';
+        $license_text_fallback = defined('CLINIC_LICENSE_TEXT') ? CLINIC_LICENSE_TEXT : 'Лицензия';
+        $license_desc_fallback = defined('CLINIC_LICENSE_DESC') ? CLINIC_LICENSE_DESC : 'ЛИЦЕНЗИЯ И АККРЕДИТАЦИЯ';
+
+        $experience = $this->e(bioinmed_text('stats.experience_years', $experience_fallback));
+        $experience_desc = $this->e(bioinmed_text('stats.experience_desc', $experience_desc_fallback));
+        $rating = $this->e(bioinmed_text('stats.rating', $rating_fallback));
+        $rating_desc = $this->e(bioinmed_text('stats.rating_desc', $rating_desc_fallback));
+        $patients = $this->e(bioinmed_text('stats.patients_yearly', $patients_fallback));
+        $patients_desc = $this->e(bioinmed_text('stats.patients_desc', $patients_desc_fallback));
+        $license_text = $this->e(bioinmed_text('stats.license_text', $license_text_fallback));
+        $license_desc = $this->e(bioinmed_text('stats.license_desc', $license_desc_fallback));
 
         return <<<HTML
         <section class="fade-in border-b border-[#e6eef7] bg-[#1977b2] py-4 md:py-6">

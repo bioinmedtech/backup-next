@@ -256,7 +256,16 @@ function bioinmed_text($key_path, $default = '') {
     }
 
     $value = bioinmed_json_get($texts, $key_path, $default);
-    return is_scalar($value) ? (string)$value : (string)$default;
+    if (!is_scalar($value)) {
+        return (string)$default;
+    }
+
+    $string_value = (string)$value;
+    if ($string_value === '' && (string)$default !== '') {
+        return (string)$default;
+    }
+
+    return $string_value;
 }
 
 function bioinmed_link($key_path, array $fallback = []) {
@@ -1265,6 +1274,34 @@ foreach ($problems as $problem_item) {
     $children_problems[] = $problem_item;
 }
 
-$advantages = $bioinmed_config_array('advantages');
+$advantages = [];
+$texts_data = bioinmed_read_json_file('texts.json');
+$text_advantages = bioinmed_json_get($texts_data, 'home.advantages.items', []);
+if (is_array($text_advantages)) {
+    foreach ($text_advantages as $item) {
+        $title = '';
+        $description = '';
+
+        if (is_array($item)) {
+            $title = trim((string)($item['title'] ?? ''));
+            $description = trim((string)($item['description'] ?? ''));
+        } elseif (is_scalar($item)) {
+            $description = trim((string)$item);
+        }
+
+        if ($title === '' && $description === '') {
+            continue;
+        }
+
+        $advantages[] = [
+            'title' => $title,
+            'description' => $description,
+        ];
+    }
+}
+
+if (empty($advantages)) {
+    $advantages = $bioinmed_config_array('advantages');
+}
 $doctors = $bioinmed_config_array('doctors');
 ?>
