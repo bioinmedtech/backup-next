@@ -671,7 +671,9 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
         return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     };
 
-    $title = trim((string)($doctor['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ'));
+    $textValues = is_array($options['text_values'] ?? null) ? $options['text_values'] : [];
+    $hasCustomIntro = array_key_exists('intro', $textValues);
+    $title = trim((string)($textValues['title'] ?? ($doctor['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ')));
     $name = trim((string)($doctor['name'] ?? ''));
     $projectTitle = trim((string)($doctor['project_title'] ?? ''));
     $leadership = trim((string)($doctor['hero_leadership'] ?? ($doctor['leadership'] ?? '')));
@@ -745,6 +747,10 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
         $intro = $bio;
     }
 
+    if ($hasCustomIntro) {
+        $intro = trim((string)$textValues['intro']);
+    }
+
     $highlightHtml = '';
     $highlights = $doctor['hero_highlights'] ?? [];
     if (!empty($highlights) && is_array($highlights)) {
@@ -756,7 +762,7 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
     }
 
     $bioHtml = '';
-    if ($showBioIfTaglineMissing && empty($doctor['hero_tagline']) && $bio !== '' && $intro !== $bio) {
+    if ($showBioIfTaglineMissing && !$hasCustomIntro && empty($doctor['hero_tagline']) && $bio !== '' && $intro !== $bio) {
         $bioHtml = '<p class="mt-6 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1.03rem]">' . $escape($bio) . '</p>';
     }
 

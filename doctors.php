@@ -12,6 +12,7 @@ $doctorsHero = is_array($doctorsPage['hero'] ?? null) ? $doctorsPage['hero'] : [
 $doctorsChiefQuote = is_array($doctorsPage['chief_quote'] ?? null) ? $doctorsPage['chief_quote'] : [];
 $doctorsTeam = is_array($doctorsPage['team'] ?? null) ? $doctorsPage['team'] : [];
 $doctorsCta = is_array($doctorsPage['cta'] ?? null) ? $doctorsPage['cta'] : [];
+$doctorDetailsPage = bioinmed_read_json_file('pages/doctor.json');
 
 $siteUrl  = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
@@ -208,7 +209,16 @@ echo $header->render();
                     $docLink = '/doctors/' . ($doc['slug'] ?? '');
                     $docKey = trim((string)($doc['slug'] ?? ('item_' . $index)));
                     $docNameNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.name', (string)($doc['name'] ?? ''));
-                    $docTitleNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.title', (string)($doc['title'] ?? ''));
+                    $docSummaryText = bioinmed_json_get($doctorDetailsPage, 'doctor_items.' . $docKey . '.summary', []);
+                    $docSummaryTitle = is_array($docSummaryText) && is_scalar($docSummaryText['title'] ?? null)
+                        ? trim((string)$docSummaryText['title'])
+                        : '';
+                    $docTitleNode = $docSummaryTitle !== ''
+                        ? [
+                            'value' => $docSummaryTitle,
+                            'attr' => bioinmed_data_text_id('pages.doctor.doctor_items.' . $docKey . '.summary.title'),
+                        ]
+                        : bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.title', (string)($doc['title'] ?? ''));
                     $docExpNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.experience', $docExp);
                     $docActionNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.action_text', $docActionText);
                     $docImageAltNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.image_alt', (string)($doc['name'] ?? ''));

@@ -174,6 +174,11 @@ echo $header->render();
                             'show_cta' => false,
                             'surface_class' => 'space-y-4',
                             'text_prefix' => 'pages.doctor.doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.summary',
+                            'text_values' => bioinmed_json_get(
+                                $doctorPage,
+                                'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.summary',
+                                []
+                            ),
                         ]); ?>
                     </div>
 
