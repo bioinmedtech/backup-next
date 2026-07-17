@@ -1483,6 +1483,15 @@ class ProblemsGrid extends Component {
                 continue;
             }
 
+            $title = trim((string)bioinmed_text(
+                $this->textPrefix . '.items.' . $slug . '.title',
+                $title
+            ));
+            $description = trim((string)bioinmed_text(
+                $this->textPrefix . '.items.' . $slug . '.description',
+                $description
+            ));
+
             $items_html .= <<<HTML
             <a href="/problems/{$this->e($slug)}" class="group flex h-full min-h-[210px] flex-col rounded-[1rem] bg-[#e6f1fa] p-6 text-[#0f2749] transition hover:bg-[#d7e9f7]" data-admin-block-root data-admin-link-behavior="block-edit">
                 <div class="min-w-0 flex-1">
@@ -1490,7 +1499,7 @@ class ProblemsGrid extends Component {
                     <p class="mt-4 max-w-[22rem] text-[0.92rem] leading-relaxed text-[#0f2749] md:text-[0.98rem]"{$this->dataTextId($this->textPrefix . '.items.' . $slug . '.description')}>{$this->e($description)}</p>
                 </div>
                 <div class="mt-5 inline-flex self-start items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white shadow-[0_8px_18px_rgba(10,43,80,0.08)] transition group-hover:bg-[#16658f] group-hover:text-white">
-                    <span{$this->dataTextId($this->textPrefix . '.items.' . $slug . '.cta')}>{$this->e(bioinmed_text('common.more_details'))}</span>
+                    <span{$this->dataTextId($this->textPrefix . '.items.' . $slug . '.cta')}>{$this->e(bioinmed_text($this->textPrefix . '.items.' . $slug . '.cta', bioinmed_text('common.more_details')))}</span>
                     <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i>
                 </div>
             </a>

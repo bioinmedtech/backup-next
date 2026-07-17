@@ -307,6 +307,10 @@ function bioinmed_page_text_node($page_data, $page_name, $path, $default = '') {
         $value = $default;
     }
 
+    if ((string)$value === '' && (string)$default !== '') {
+        $value = $default;
+    }
+
     return [
         'key' => $key,
         'value' => (string)$value,
@@ -671,11 +675,25 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
         return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     };
 
+    $textValuesProvided = array_key_exists('text_values', $options);
     $textValues = is_array($options['text_values'] ?? null) ? $options['text_values'] : [];
+    if (!$textValuesProvided && strpos((string)($options['text_prefix'] ?? 'home.chief_doctor.summary'), 'home.') === 0) {
+        $textValues = bioinmed_json_get(
+            bioinmed_read_json_file('texts.json'),
+            (string)($options['text_prefix'] ?? 'home.chief_doctor.summary'),
+            []
+        );
+        if (!is_array($textValues)) {
+            $textValues = [];
+        }
+    }
+
     $hasCustomIntro = array_key_exists('intro', $textValues);
+    $hasCustomSpecializationIntro = array_key_exists('specialization_intro', $textValues);
+    $hasCustomLeadershipIntro = array_key_exists('leadership_intro', $textValues);
     $title = trim((string)($textValues['title'] ?? ($doctor['title'] ?? 'ОСНОВАТЕЛЬ И ГЛАВНЫЙ ВРАЧ')));
-    $name = trim((string)($doctor['name'] ?? ''));
-    $projectTitle = trim((string)($doctor['project_title'] ?? ''));
+    $name = trim((string)($textValues['name'] ?? ($doctor['name'] ?? '')));
+    $projectTitle = trim((string)($textValues['project_title'] ?? ($doctor['project_title'] ?? '')));
     $leadership = trim((string)($doctor['hero_leadership'] ?? ($doctor['leadership'] ?? '')));
     $bio = trim((string)($doctor['bio'] ?? ''));
     $slug = trim((string)($doctor['slug'] ?? ''));
@@ -706,11 +724,16 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
         if ($leadership !== '') {
             $leadershipIntro = $leadership;
         }
+        if ($hasCustomSpecializationIntro) {
+            $specializationIntro = trim((string)$textValues['specialization_intro']);
+        }
 
         $doctorPageData = bioinmed_read_json_file('pages/doctor.json');
-        $educationalRole = is_array($doctorPageData['sections']['educational_role'] ?? null)
-            ? $doctorPageData['sections']['educational_role']
-            : [];
+        $educationalRole = is_array($textValues['educational_role'] ?? null)
+            ? $textValues['educational_role']
+            : (is_array($doctorPageData['sections']['educational_role'] ?? null)
+                ? $doctorPageData['sections']['educational_role']
+                : []);
         $educationalRoleTitle = trim((string)($educationalRole['title'] ?? ''));
         $educationalRoleItems = is_array($educationalRole['items'] ?? null)
             ? $educationalRole['items']
@@ -749,6 +772,10 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
 
     if ($hasCustomIntro) {
         $intro = trim((string)$textValues['intro']);
+    }
+
+    if ($hasCustomLeadershipIntro) {
+        $leadershipIntro = trim((string)$textValues['leadership_intro']);
     }
 
     $highlightHtml = '';

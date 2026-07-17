@@ -187,6 +187,8 @@ echo $header->render();
                     if ($sectionTitle === '' && (empty($sectionItems) || !is_array($sectionItems))) continue;
                     $sectionIcon = ['fa-user-doctor', 'fa-magnifying-glass', 'fa-clipboard-check', 'fa-kit-medical', 'fa-star'][$index] ?? 'fa-circle-info';
                     $sectionKey = trim((string)($section['key'] ?? ('section_' . $index)));
+                    $sectionTitle = (string)bioinmed_text('problem.details_sections.' . $sectionKey . '.title', $sectionTitle);
+                    $sectionIntro = (string)bioinmed_text('problem.details_sections.' . $sectionKey . '.intro', $sectionIntro);
                     ?>
                     <details class="group rounded-[1.4rem] bg-white p-5 shadow-[0_12px_28px_rgba(10,43,80,0.06)]" data-admin-block-root data-problem-step="<?php echo e((string)$index); ?>"<?php echo $index < 5 ? ' open' : ''; ?>>
                         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
@@ -216,6 +218,10 @@ echo $header->render();
                                         $sectionItemText = (string)$sectionItemEntry;
                                         $sectionItemKey = 'item_' . $itemIndex;
                                     }
+                                    $sectionItemText = (string)bioinmed_text(
+                                        'problem.details_sections.' . $sectionKey . '.items.' . $sectionItemKey,
+                                        $sectionItemText
+                                    );
                                     ?>
                                     <li class="flex items-start gap-3 border-l-2 border-[#dbe8f3] pl-3 text-[0.95rem] leading-relaxed text-[#0a293c]">
                                         <i class="fa-solid fa-check mt-1 text-[0.75rem] text-[#1977b2]" aria-hidden="true"></i>
@@ -289,7 +295,7 @@ echo $header->render();
                                 <span class="text-[1.02rem] font-semibold leading-none text-[#1977b2]"<?php echo $servicePriceNode['attr']; ?>><?php echo e($servicePriceNode['value']); ?></span>
                             <?php endif; ?>
                             <span class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition group-hover:bg-[#16658f] group-hover:gap-2.5">
-                                <?php echo e(bioinmed_text('common.more_details')); ?>
+                                <?php echo e(bioinmed_text($serviceNodeBase . '.cta', bioinmed_text('common.more_details'))); ?>
                                 <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i>
                             </span>
                         </div>

@@ -17,6 +17,7 @@ $doctorServicesText = is_array($doctorPage['services'] ?? null) ? $doctorPage['s
 $doctorFinalCta = is_array($doctorPage['final_cta'] ?? null) ? $doctorPage['final_cta'] : [];
 $doctorEducationalRole = is_array($doctorSectionsText['educational_role'] ?? null) ? $doctorSectionsText['educational_role'] : [];
 $doctorTrustSection = is_array($doctorSectionsText['trust'] ?? null) ? $doctorSectionsText['trust'] : [];
+$doctorHeroSignNode = bioinmed_page_text_node($doctorPage, 'doctor', 'hero.sign', (string)($doctorHero['sign'] ?? ''));
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
@@ -163,7 +164,7 @@ echo $header->render();
                     <p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
                         <?php echo e($doctor['hero_tagline']); ?>
                     </p>
-                    <p class="caveat-reveal mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'hero.sign'); ?>><?php echo e($doctorHero['sign'] ?? ''); ?></p>
+                    <p class="caveat-reveal mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"<?php echo $doctorHeroSignNode['attr']; ?>><?php echo e($doctorHeroSignNode['value']); ?></p>
                     <?php endif; ?>
                 </div>
 
@@ -465,8 +466,14 @@ echo $header->render();
                                 $trustItem = (string)$trustItemEntry;
                                 $trustItemKey = 'item_' . $trustIndex;
                             }
+                            $trustItemNode = bioinmed_page_text_node(
+                                $doctorPage,
+                                'doctor',
+                                'sections.trust.items.' . $trustItemKey,
+                                $trustItem
+                            );
                             ?>
-                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'sections.trust.items.' . $trustItemKey); ?>><?php echo e($trustItem); ?></span></li>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $trustItemNode['attr']; ?>><?php echo e($trustItemNode['value']); ?></span></li>
                             <?php endforeach; ?>
                         </ul>
                     </div>

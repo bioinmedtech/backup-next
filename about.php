@@ -15,6 +15,9 @@ $aboutTaskItems = is_array($aboutTasks['items'] ?? null) ? $aboutTasks['items'] 
 $aboutHeroParagraphEntries = is_array($aboutHero['paragraphs'] ?? null) ? $aboutHero['paragraphs'] : [];
 $aboutChiefQuote = is_array($aboutPage['chief_quote'] ?? null) ? $aboutPage['chief_quote'] : [];
 $aboutCta = is_array($aboutPage['cta'] ?? null) ? $aboutPage['cta'] : [];
+$aboutContactHoursNode = bioinmed_page_text_node($aboutPage, 'about', 'contact_values.hours', CLINIC_HOURS);
+$aboutContactPhoneNode = bioinmed_page_text_node($aboutPage, 'about', 'contact_values.phone', CLINIC_PHONE);
+$aboutContactMetroNode = bioinmed_page_text_node($aboutPage, 'about', 'contact_values.metro', CLINIC_METRO);
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
@@ -126,7 +129,7 @@ echo $header->render();
 			<aside class="rounded-3xl border border-[#d6e4f1] bg-white p-5 shadow-[0_16px_38px_rgba(8,36,70,0.13)]" data-admin-block-root>
 				<p class="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'address.title'); ?>><?php echo e($aboutAddress['title'] ?? 'Адрес клиники'); ?></p>
 				<h2 class="mt-2 text-[1.25rem] font-bold leading-tight text-[#0f2749]"><?php echo e(CLINIC_ADDRESS); ?></h2>
-				<p class="mt-1 text-[0.9rem] font-medium text-[#0a293c]"><?php echo e(CLINIC_METRO); ?></p>
+								<p class="mt-1 text-[0.9rem] font-medium text-[#0a293c]"<?php echo $aboutContactMetroNode['attr']; ?>><?php echo e($aboutContactMetroNode['value']); ?></p>
 
 				<div class="mt-4 space-y-3 rounded-2xl border border-[#dce8f4] bg-[#e4f1fa] p-4">
 					<div class="flex items-start gap-2 text-[0.86rem] text-[#0a293c]">
@@ -135,11 +138,11 @@ echo $header->render();
 					</div>
 					<div class="flex items-start gap-2 text-[0.86rem] text-[#0a293c]">
 						<i class="fa-solid fa-clock mt-0.5 text-[#1977b2]"></i>
-						<span><?php echo e(CLINIC_HOURS); ?></span>
+								<span<?php echo $aboutContactHoursNode['attr']; ?>><?php echo e($aboutContactHoursNode['value']); ?></span>
 					</div>
 					<div class="flex items-start gap-2 text-[0.86rem] text-[#0a293c]">
 						<i class="fa-solid fa-phone mt-0.5 text-[#1977b2]"></i>
-						<span><?php echo e(CLINIC_PHONE); ?></span>
+						<span<?php echo $aboutContactPhoneNode['attr']; ?>><?php echo e($aboutContactPhoneNode['value']); ?></span>
 					</div>
 				</div>
 

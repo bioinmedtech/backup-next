@@ -233,6 +233,18 @@ $serviceGallery = $service ? bioinmed_service_gallery_urls($service, 4) : [];
 $servicePrimaryImage = $serviceGallery[0] ?? null;
 $socialImageUrl = $servicePrimaryImage ? ($siteUrl . $servicePrimaryImage) : bioinmed_default_social_image_url();
 $serviceDoctorTitle = trim((string)($service['doctor_title'] ?? ''));
+$serviceHeroNameNode = bioinmed_page_text_node($servicePage, 'service', 'hero.service_name', (string)($service['name'] ?? ''));
+$serviceDoctorTitleNode = bioinmed_page_text_node($servicePage, 'service', 'hero.doctor_title', $serviceDoctorTitle);
+$serviceHeroDescriptionNode = bioinmed_page_text_node($servicePage, 'service', 'hero.description', (string)($service['description'] ?? ''));
+$serviceFlowDetailsNode = bioinmed_page_text_node($servicePage, 'service', 'flow.details', (string)($service['details'] ?? ''));
+$serviceFlowTargetNode = bioinmed_page_text_node($servicePage, 'service', 'flow.target_text', (string)($service['target'] ?? ''));
+$serviceSidebarPriceNode = bioinmed_page_text_node(
+    $servicePage,
+    'service',
+    'sidebar.price',
+    (string)($service['price'] ?? ($serviceDefault['price_on_request'] ?? ''))
+);
+$serviceSidebarPriceNoteNode = bioinmed_page_text_node($servicePage, 'service', 'sidebar.price_note', (string)($service['price_note'] ?? ''));
 $isHobilect = (($service['id'] ?? '') === 'hobilect-diagnostics');
 $serviceGalleryJson = json_encode(array_values($serviceGallery), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 $faqs_on_page = is_array($serviceFaqText['items'] ?? null) ? $serviceFaqText['items'] : [];
@@ -389,14 +401,14 @@ echo $header->render();
             </nav>
 
             <div class="fade-up" data-admin-block-root>
-                    <h1 class="mt-4 text-xl font-bold leading-tight text-[#0a293c] sm:text-2xl md:text-3xl lg:text-4xl"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.service_name'); ?>><?php echo e($service['name']); ?></h1>
-                    <?php if ($serviceDoctorTitle !== ''): ?>
-                    <p class="mt-2 text-[0.95rem] font-semibold text-[#355b89]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.doctor_title'); ?>><?php echo e($serviceDoctorTitle); ?></p>
+                    <h1 class="mt-4 text-xl font-bold leading-tight text-[#0a293c] sm:text-2xl md:text-3xl lg:text-4xl"<?php echo $serviceHeroNameNode['attr']; ?>><?php echo e($serviceHeroNameNode['value']); ?></h1>
+                    <?php if ($serviceDoctorTitleNode['value'] !== ''): ?>
+                    <p class="mt-2 text-[0.95rem] font-semibold text-[#355b89]"<?php echo $serviceDoctorTitleNode['attr']; ?>><?php echo e($serviceDoctorTitleNode['value']); ?></p>
                     <?php endif; ?>
 
-                    <?php if (!$isHobilect && !empty($service['description'])): ?>
-                    <p class="mt-4 max-w-2xl text-base leading-relaxed text-[#0a293c] md:text-[1.02rem]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hero.description'); ?>>
-                        <?php echo e($service['description']); ?>
+                    <?php if (!$isHobilect && $serviceHeroDescriptionNode['value'] !== ''): ?>
+                    <p class="mt-4 max-w-2xl text-base leading-relaxed text-[#0a293c] md:text-[1.02rem]"<?php echo $serviceHeroDescriptionNode['attr']; ?>>
+                        <?php echo e($serviceHeroDescriptionNode['value']); ?>
                     </p>
                     <?php endif; ?>
 
@@ -575,8 +587,8 @@ echo $header->render();
                         </span>
                     </summary>
                     <div class="space-y-5 px-7 pb-7">
-                        <?php if (!empty($service['details'])): ?>
-                        <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.details'); ?>><?php echo e($service['details']); ?></p>
+                        <?php if ($serviceFlowDetailsNode['value'] !== ''): ?>
+                        <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo $serviceFlowDetailsNode['attr']; ?>><?php echo e($serviceFlowDetailsNode['value']); ?></p>
                         <?php endif; ?>
                         <ol class="space-y-3">
                             <li class="flex items-start gap-3">
@@ -596,10 +608,10 @@ echo $header->render();
                                 <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.3'); ?>><?php echo e($flowSteps[3] ?? ''); ?></span>
                             </li>
                         </ol>
-                        <?php if (!empty($service['target'])): ?>
+                        <?php if ($serviceFlowTargetNode['value'] !== ''): ?>
                         <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fbff] p-4">
                             <h3 class="text-[0.92rem] font-semibold uppercase tracking-[0.14em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.target_title'); ?>><?php echo e($serviceFlowText['target_title'] ?? ''); ?></h3>
-                            <p class="mt-2 text-sm leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.target_text'); ?>><?php echo e($service['target']); ?></p>
+                            <p class="mt-2 text-sm leading-relaxed text-[#0a293c]"<?php echo $serviceFlowTargetNode['attr']; ?>><?php echo e($serviceFlowTargetNode['value']); ?></p>
                             <div class="mt-4 rounded-xl border border-[#dce8f5] bg-white p-4 text-sm text-[#0a293c]">
                                 <i class="fa-solid fa-circle-info text-[#1977b2] mr-2"></i>
                                 <?php echo e($serviceFlowText['target_note'] ?? ''); ?>
@@ -733,9 +745,9 @@ echo $header->render();
                         <div class="flex items-end gap-2 border-b border-[#eaf1f8] pb-5">
                             <div>
                                 <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.price_title'); ?>><?php echo e($serviceSidebarText['price_title'] ?? ''); ?></p>
-                                <p class="mt-1 text-3xl font-bold text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.price', (string)($service['price'] ?? ($serviceDefault['price_on_request'] ?? ''))); ?>><?php echo e($service['price'] ?? ($serviceDefault['price_on_request'] ?? '')); ?></p>
-                                <?php if (!empty($service['price_note'])): ?>
-                                <p class="mt-0.5 text-sm text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.price_note', (string)$service['price_note']); ?>><?php echo e($service['price_note']); ?></p>
+                                <p class="mt-1 text-3xl font-bold text-[#0a293c]"<?php echo $serviceSidebarPriceNode['attr']; ?>><?php echo e($serviceSidebarPriceNode['value']); ?></p>
+                                <?php if ($serviceSidebarPriceNoteNode['value'] !== ''): ?>
+                                <p class="mt-0.5 text-sm text-[#0a293c]"<?php echo $serviceSidebarPriceNoteNode['attr']; ?>><?php echo e($serviceSidebarPriceNoteNode['value']); ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>

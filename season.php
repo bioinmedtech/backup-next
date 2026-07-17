@@ -130,6 +130,9 @@ $titles = $season_titles[$slug] ?? [
     'nav' => $seasonNavigationText['title_default'] ?? 'Другие времена года',
 ];
 
+$seasonHeroNameNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.name', (string)($s['name'] ?? ''));
+$seasonHeroSloganNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.slogan', (string)($s['slogan'] ?? ''));
+$seasonIntroNode = bioinmed_page_text_node($seasonPage, 'season', 'intro.text', (string)($s['intro'] ?? ''));
 $seasonHealthTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.health', $titles['health']);
 $seasonTipsTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.tips', $titles['tips']);
 $seasonServicesTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.services', $titles['services']);
@@ -610,10 +613,10 @@ $footer = new Footer();
                 <?= $e($seasonHeroText['eyebrow'] ?? 'Времена года') ?>
             </p>
             <h1 class="text-4xl md:text-6xl font-black text-white leading-none mb-4"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.name') ?>>
-                <?= $e($s['name']) ?>
+                <?= $e($seasonHeroNameNode['value']) ?>
             </h1>
-            <p class="text-[1.16rem] md:text-[1.3rem] font-light mb-4 max-w-xl leading-relaxed" style="color:rgba(255,255,255,0.92)"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.slogan') ?>>
-                <?= $e($s['slogan']) ?>
+            <p class="text-[1.16rem] md:text-[1.3rem] font-light mb-4 max-w-xl leading-relaxed" style="color:rgba(255,255,255,0.92)"<?= $seasonHeroSloganNode['attr'] ?>>
+                <?= $e($seasonHeroSloganNode['value']) ?>
             </p>
             <blockquote class="caveat-reveal text-[1.06rem] md:text-[1.18rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.9);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.35rem,2.5vw,1.75rem);font-weight:700;">
                 <?= $e($s['quote']) ?>
@@ -632,8 +635,8 @@ $footer = new Footer();
             <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold mb-3" style="color:<?= $e($s['color_dark']) ?>"<?= $seasonHealthTitleNode['attr'] ?>>
                 <?= $e($seasonHealthTitleNode['value']) ?>
             </h2>
-            <p class="text-[1.08rem] md:text-[1.16rem] text-gray-700 leading-relaxed max-w-3xl mx-auto"<?= bioinmed_page_text_attr($seasonPage, 'season', 'intro.text') ?>>
-                <?= $e($s['intro']) ?>
+            <p class="text-[1.08rem] md:text-[1.16rem] text-gray-700 leading-relaxed max-w-3xl mx-auto"<?= $seasonIntroNode['attr'] ?>>
+                <?= $e($seasonIntroNode['value']) ?>
             </p>
         </div>
     </div>
