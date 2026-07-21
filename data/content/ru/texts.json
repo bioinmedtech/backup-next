@@ -163,15 +163,15 @@
                 },
                 {
                     "title": "Опытные врачи",
-                    "description": "Персональный план лечения: стаж от 10 лет, кандидаты наук и постоянное обучение команды."
+                    "description": "Персональный маршрут лечения, авторские наработки, профессиональное обучение команды, специализация на сложных случаях."
                 },
                 {
                     "title": "Безопасные методы",
-                    "description": "Контроль результата на каждом этапе без вреда для печени и органов, с натуральными подходами."
+                    "description": "Мы придерживаемся принципа фармакологической гигиены на каждом этапе лечения, снижая токсическую нагрузку на организм. Используем неинвазивные методы диагностики."
                 },
                 {
                     "title": "Маршрут",
-                    "description": "От первого касания до эффективного результата"
+                    "description": "От первого касания до эффективного результата. Мониторинг на каждом этапе лечения."
                 }
             ]
         },
@@ -319,10 +319,42 @@
     "stats": {
         "experience_years": "30+",
         "experience_desc": "клинического опыта",
-        "license_text": "",
-        "license_desc": "Медицинские лицензии, соблюдение норм СанПиН",
-        "rating": "5",
+        "license_text": "Лицензии",
+        "license_desc": "Медицинские лицензии, сертификаты, соблюдение норм СанПиН",
+        "rating": "5+",
         "rating_desc": "Уникальные авторские методики",
-        "patients_desc": "Индивидуальных программ реабилитации"
+        "patients_desc": "Программ восстановления и реабилитации"
+    },
+    "problem": {
+        "details_sections": {
+            "consultation_diagnostics": {
+                "items": {
+                    "spetsialist-po-reabilitatsii": "Специалист по реабилитации , ортопедии и ЛФК, тренер-инструктор, специалист по программе \"Хабилект\", реабилитации и АФК",
+                    "glavnyy-vrach-vrach-vrt-gomeopat-integrativnyy-psikholog": "Главный врач, врач БРТ, гомеопат, рефлексотерапевт, психотерапевт",
+                    "zaveduyuschaya-otdeleniem-vrach-akusher-ginekolog-refleksoterapevt-fizioterapevt": "Заведующая отделением рефлексотерапии и физиотерапии, акушер-гинеколог, рефлексотерапевт, физиотерапевт",
+                    "vrach-nevrolog-manualnyy-terapevt": "Кандидат медицинских наук, стоматолог, мануальный терапевт, остеопат",
+                    "vrach-osteopat": "Врач-остеопат, невролог"
+                }
+            },
+            "functional_diagnostics": {
+                "items": {
+                    "3d-diagnostika-oporno-dvigatelnogo-apparata-na-multifunktsionalnom-komplekse-khabilekt": "3D-диагностика опорно-двигательного аппарата на лечебно-диагностическом комплексе «Хабилект»"
+                }
+            },
+            "rehabilitation": {
+                "items": {
+                    "massazh": "Рефлексотерапия, гомеопунктура, биопунктура, плазмопунктура",
+                    "lfk": "Остеопатия, мануальная терапия, массаж",
+                    "stelki-formtotiks-futmaster-po-pokazaniyam": "ЛФК, АФК c биологической обратной связью (БОС) на аппарате \"Хабилект\" с видеоуроками",
+                    "inektsionnaya-i-infuzionnaya-terapiya-v-tom-chisle-gomeopunktura-kheel-i-plazmoterapiya": "Инъекционная и инфузионная терапия (препараты HEEL)",
+                    "fizioterapiya-uvt-khilt-nlok-geliosplazma-elektrostimulyatsiya-elektroforez-ultrafonoforez-magnitoterapiya": "Физиотерапия: УВТ, ХИЛТ, НЛОК, магнитотерапия, электростимуляция, электрофорез, ультрафонофорез"
+                }
+            },
+            "result": {
+                "items": {
+                    "obschee-uluchshenie-samochuvstviya-i-kachestva-zhizni": "Общее улучшение настроения, самочувствия и качества жизни"
+                }
+            }
+        }
     }
 }
