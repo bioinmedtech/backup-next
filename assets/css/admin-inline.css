@@ -439,6 +439,44 @@
     color: #991b1b;
 }
 
+.bioinmed-admin-confirm-overlay {
+    z-index: 10130;
+}
+
+.bioinmed-admin-confirm-modal {
+    padding: 28px 28px 24px;
+    border-radius: 24px;
+    border-color: #dbe8f4;
+    box-shadow: 0 26px 60px rgba(10, 35, 62, 0.28);
+}
+
+.bioinmed-admin-confirm-icon-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.bioinmed-admin-confirm-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fff4f4 0%, #ffe5e5 100%);
+    color: #b91c1c;
+    font-size: 22px;
+    box-shadow: inset 0 0 0 1px rgba(185, 28, 28, 0.12);
+}
+
+.bioinmed-admin-confirm-modal h3 {
+    margin: 0;
+}
+
+.bioinmed-admin-confirm-modal p {
+    margin: 0;
+}
+
 .bioinmed-ios-switch {
     position: relative;
     display: inline-flex;
@@ -643,6 +681,19 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
     box-shadow: inset 0 1px 2px rgba(15, 39, 73, 0.04);
 }
 
+.bioinmed-block-edit-field input {
+    width: 100%;
+    border: 1px solid #c8dcf0;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0f2749;
+    font-size: 18px;
+    padding: 12px 14px;
+    line-height: 1.5;
+    min-height: 56px;
+    box-shadow: inset 0 1px 2px rgba(15, 39, 73, 0.04);
+}
+
 .bioinmed-block-edit-link-static {
     margin-bottom: 10px;
     border: 0;
@@ -699,7 +750,12 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
 }
 
 .bioinmed-admin-text-edit-modal .space-y-3 {
-    gap: 4px;
+    gap: 12px;
+}
+
+.bioinmed-admin-text-edit-modal #bioinmed-admin-text-edit-fields {
+    display: grid;
+    gap: 6px;
 }
 
 #bioinmed-admin-text-edit-fields {
@@ -713,6 +769,24 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
 #bioinmed-admin-text-edit-fields::-webkit-scrollbar-thumb {
     background: rgba(53, 91, 137, 0.24);
     border-radius: 999px;
+}
+
+#bioinmed-admin-prices-edit-fields {
+    padding-right: 2px;
+}
+
+#bioinmed-admin-prices-edit-fields::-webkit-scrollbar {
+    width: 10px;
+}
+
+#bioinmed-admin-prices-edit-fields::-webkit-scrollbar-thumb {
+    background: rgba(53, 91, 137, 0.24);
+    border-radius: 999px;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-grid,
+.bioinmed-admin-prices-edit-modal .price-admin-editor-grid-section {
+    gap: 12px;
 }
 
 .bioinmed-context-menu {
@@ -827,8 +901,6 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
     cursor: pointer;
     transition: all 0.2s ease;
 }
-    padding: 9px 12px;
-}
 
 .bioinmed-admin-modal h2,
 .bioinmed-admin-modal h3 {
@@ -861,6 +933,57 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
 .bioinmed-admin-modal button {
     min-height: 40px;
     letter-spacing: 0;
+}
+
+/* Material-like unified field style for all admin popups. */
+.bioinmed-admin-modal input:not([type="checkbox"]):not([type="radio"]),
+.bioinmed-admin-modal select,
+.bioinmed-admin-modal textarea {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #c3d7ea;
+    border-radius: 12px;
+    background: #f4f8fd;
+    color: #0f2749;
+    padding: 11px 13px;
+    line-height: 1.35;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.bioinmed-admin-modal textarea {
+    min-height: 88px;
+    resize: vertical;
+}
+
+.bioinmed-admin-modal input:not([type="checkbox"]):not([type="radio"]):hover,
+.bioinmed-admin-modal select:hover,
+.bioinmed-admin-modal textarea:hover {
+    border-color: #abc9e4;
+    background: #f7fbff;
+}
+
+.bioinmed-admin-modal input:not([type="checkbox"]):not([type="radio"]):focus,
+.bioinmed-admin-modal select:focus,
+.bioinmed-admin-modal textarea:focus {
+    outline: none;
+    border-color: #1977b2;
+    background: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.bioinmed-admin-modal input:not([type="checkbox"]):not([type="radio"]):disabled,
+.bioinmed-admin-modal select:disabled,
+.bioinmed-admin-modal textarea:disabled {
+    background: #eef4fa;
+    color: #6a84a3;
+    border-color: #d4e2f0;
+    cursor: not-allowed;
+}
+
+.bioinmed-admin-modal label {
+    color: #17446f;
+    font-weight: 600;
 }
 
 @media (max-width: 640px) {
@@ -923,6 +1046,386 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
     background: #eef6ff;
     border-color: #9cc6e8;
 }
+.price-admin-page-toolbar {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.price-admin-toolbar-btn,
+.price-admin-inline-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #c8dcf0;
+    border-radius: 0;
+    background: rgba(15, 39, 73, 0.94);
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 10px 24px rgba(10, 35, 62, 0.18);
+}
+
+.price-admin-toolbar-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    line-height: 1;
+}
+
+.price-admin-toolbar-btn-save {
+    background: rgba(25, 119, 178, 0.98);
+    border-color: #c8dcf0;
+}
+
+.price-admin-toolbar-btn:hover,
+.price-admin-inline-btn:hover {
+    background: rgba(25, 119, 178, 0.98);
+    border-color: #d9e7f4;
+}
+
+.price-admin-toolbar-btn-save:hover {
+    background: rgba(18, 103, 155, 0.98);
+    border-color: #d9e7f4;
+}
+
+.price-admin-inline-btn {
+    min-height: 24px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.price-admin-inline-btn-danger {
+    border-color: #ffd1d1;
+    background: rgba(153, 27, 27, 0.94);
+}
+
+.price-admin-inline-btn-danger:hover {
+    background: rgba(185, 28, 28, 0.98);
+    border-color: #ffdede;
+}
+
+.price-admin-section-toolbar,
+.price-admin-row-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: nowrap;
+    position: absolute;
+    right: 0;
+    left: auto;
+    transform: none;
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.price-admin-section-toolbar {
+    top: 0;
+}
+
+.price-admin-row-actions {
+    top: 0;
+}
+
+.price-admin-section-toolbar .price-admin-inline-btn,
+.price-admin-row-actions .price-admin-inline-btn {
+    border-radius: 0;
+    margin: 0;
+}
+
+.price-admin-section-toolbar .price-admin-inline-btn + .price-admin-inline-btn,
+.price-admin-row-actions .price-admin-inline-btn + .price-admin-inline-btn {
+    margin-left: -1px;
+}
+
+.price-admin-section-host,
+.price-admin-row-host {
+    position: relative;
+}
+
+.price-admin-row-host {
+    padding-top: 34px;
+    overflow: visible;
+}
+
+body.bioinmed-edit-mode .price-admin-section-host:hover .price-admin-section-toolbar,
+body.bioinmed-edit-mode .price-admin-section-toolbar:hover,
+body.bioinmed-edit-mode .price-admin-row-host:hover .price-admin-row-actions,
+body.bioinmed-edit-mode .price-admin-row-actions:hover,
+body.bioinmed-show-all-edit-zones.bioinmed-edit-mode .price-admin-section-toolbar,
+body.bioinmed-show-all-edit-zones.bioinmed-edit-mode .price-admin-row-actions,
+body.bioinmed-touch-device.bioinmed-edit-mode .price-admin-section-toolbar,
+body.bioinmed-touch-device.bioinmed-edit-mode .price-admin-row-actions,
+body.bioinmed-ios-device.bioinmed-edit-mode .price-admin-section-toolbar,
+body.bioinmed-ios-device.bioinmed-edit-mode .price-admin-row-actions {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+body.bioinmed-edit-mode .price-admin-section-host:hover .price-admin-section-toolbar,
+body.bioinmed-edit-mode .price-admin-section-toolbar:hover,
+body.bioinmed-edit-mode .price-admin-row-host:hover .price-admin-row-actions,
+body.bioinmed-edit-mode .price-admin-row-actions:hover {
+    transform: none;
+}
+
+.price-admin-row-actions {
+    left: auto;
+    right: 0;
+    max-width: calc(100% - 24px);
+    transform: none;
+    justify-content: flex-end;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.price-admin-row-actions::-webkit-scrollbar {
+    display: none;
+}
+
+.price-admin-editor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.price-admin-editor-grid-section {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.price-admin-editor-field {
+    display: grid;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #17446f;
+}
+
+.price-admin-editor-field-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: end;
+    min-height: 42px;
+}
+
+.price-admin-editor-input {
+    width: 100%;
+    min-height: 40px;
+    border: 1px solid #c8dcf0;
+    border-radius: 10px;
+    background: #fff;
+    color: #0f2749;
+    padding: 9px 10px;
+    font-size: 13px;
+}
+
+/* Prices popup uses row-based form layout (label + field in one line). */
+.bioinmed-admin-prices-edit-modal .price-admin-editor-grid,
+.bioinmed-admin-prices-edit-modal .price-admin-editor-grid-section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    margin: 5px 0px;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-grid-section .price-admin-editor-field {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-grid-section .price-admin-editor-material-field .price-admin-editor-input {
+    width: 100%;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-grid-section .price-admin-editor-floating-label {
+    left: 12px;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 0;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field > span {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field .price-admin-editor-input {
+    margin: 0;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field-material > span {
+    font-size: 0;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field-material {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-material-field {
+    position: relative;
+    display: block;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-material-field .price-admin-editor-input {
+    border-radius: 12px;
+    background: #f4f8fd;
+    border: 1px solid #c3d7ea;
+    min-height: 48px;
+    padding: 18px 13px 10px;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-material-field textarea.price-admin-editor-input {
+    min-height: 92px;
+    padding-top: 18px;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-floating-label {
+    position: absolute;
+    left: 13px;
+    top: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #5a7da2;
+    font-size: 11px;
+    line-height: 1;
+    background: #ffffff;
+    padding: 0 4px;
+    transition: color 0.18s ease;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-material-field .price-admin-editor-input:focus + .price-admin-editor-floating-label,
+.bioinmed-admin-prices-edit-modal .price-admin-editor-material-field.is-filled .price-admin-editor-floating-label {
+    top: 0;
+    transform: translateY(-50%);
+    color: #1977b2;
+    background: #ffffff;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-material-field .price-admin-editor-input:focus {
+    border-color: #1977b2;
+    background: #ffffff;
+    box-shadow: none;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-material-field .price-admin-editor-input:hover {
+    border-color: #abc9e4;
+    background: #f7fbff;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field .price-admin-editor-textarea {
+    min-height: 92px;
+}
+
+.bioinmed-admin-prices-edit-modal {
+    display: flex;
+    flex-direction: column;
+    max-height: 86vh;
+    gap: 4px;
+}
+
+.bioinmed-admin-prices-edit-modal > .space-y-3 {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.bioinmed-admin-prices-edit-modal #bioinmed-admin-prices-edit-fields {
+    flex: 1 1 auto;
+    max-height: none;
+    min-height: 0;
+    overflow: auto;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-service-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #1977b2;
+    text-decoration: none;
+}
+.bioinmed-admin-prices-edit-modal .price-admin-editor-service-link:hover {
+    text-decoration: underline;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field-checkbox > span {
+    font-size: 12px;
+    line-height: 1.25;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    margin: 0;
+    flex: 0 0 auto;
+    accent-color: #1977b2;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field-hint {
+    margin: -4px 0 0;
+    font-size: 11px;
+    line-height: 1.35;
+    color: #5a7da2;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field-hint code {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: #edf5fb;
+    color: #17446f;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.price-section-hidden,
+.price-row-hidden {
+    display: none;
+}
+
+body.bioinmed-edit-mode .price-section-hidden {
+    display: block;
+    opacity: 0.58;
+}
+
+body.bioinmed-edit-mode tr.price-row-hidden {
+    display: table-row;
+    opacity: 0.55;
+    background: #f8fafc;
+}
+
+.price-admin-section-footer {
+    display: none;
+    margin-top: 12px;
+}
+
+body.bioinmed-edit-mode .price-admin-section-footer {
+    display: flex;
+}
+
+.price-admin-section-footer .price-admin-inline-btn {
+    background: rgba(25, 119, 178, 0.98);
+}
 
 .bioinmed-admin-users-modal-header {
     gap: 12px;
@@ -944,12 +1447,22 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
     }
 
     .bioinmed-admin-users-modal .bioinmed-admin-icon-close {
-        flex: 0 0 auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-field {
+    gap: 8px;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-textarea {
+    min-height: 132px;
+    resize: vertical;
         width: 44px;
         min-width: 44px;
         height: 44px;
         min-height: 44px;
-    }
+    display: none; /* Remove obsolete inline price editor CSS */
 
     .bioinmed-admin-users-modal h3 {
         font-size: 24px;
@@ -976,12 +1489,65 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
     .bioinmed-admin-user-meta {
         font-size: 12px;
     }
+    .bioinmed-admin-prices-edit-modal .price-admin-editor-service-link {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 8px;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #1977b2;
+        text-decoration: none;
+    }
+
+    .bioinmed-admin-prices-edit-modal .price-admin-editor-service-link:hover {
+        text-decoration: underline;
+    }
 
     .bioinmed-admin-user-actions button {
         width: 100%;
         justify-content: center;
         padding: 9px 12px;
         font-size: 14px;
+    }
+
+    .price-admin-editor-grid,
+    .price-admin-editor-grid-section {
+        grid-template-columns: 1fr;
+    }
+
+    .bioinmed-admin-prices-edit-modal .price-admin-editor-field {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 6px;
+    }
+
+    .bioinmed-admin-prices-edit-modal .price-admin-editor-floating-label {
+        left: 12px;
+    }
+
+    .price-admin-page-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .price-admin-toolbar-btn {
+        justify-content: center;
+    }
+
+    .price-admin-section-toolbar,
+    .price-admin-row-actions {
+        position: static;
+        left: auto;
+        right: auto;
+        top: auto;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        margin-top: 8px;
+    }
+
+    .price-admin-row-host {
+        padding-top: 8px;
     }
 }
 

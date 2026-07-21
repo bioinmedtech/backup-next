@@ -17,10 +17,35 @@
         savingTextChanges: false,
         blockModeReady: false,
         editableBlocks: [],
+        activePriceEdit: null,
+        pendingPriceDelete: null,
+        pricesManager: {
+            loaded: false,
+            loading: false,
+            saving: false,
+            sections: [],
+            services: []
+        }
     };
 
     var EDIT_MODE_KEY = 'bioinmed:edit-mode';
     var SHOW_ALL_BLOCKS_KEY = 'bioinmed:show-all-edit-zones';
+
+    function scheduleInlinePricesAutosave() {
+        if (!pageHasInlinePricesEditor() || !state.config.isAuthenticated) {
+            return;
+        }
+
+        if (state.pricesManager.autosaveTimer) {
+            clearTimeout(state.pricesManager.autosaveTimer);
+        }
+
+        state.pricesManager.autosaveTimer = setTimeout(function () {
+            state.pricesManager.autosaveTimer = null;
+            state.pricesManager.sections = collectInlinePricesStructure();
+            savePricesManagerData();
+        }, 450);
+    }
 
     function byId(id) {
         return document.getElementById(id);
@@ -39,6 +64,65 @@
     function setText(el, txt) {
         if (!el) return;
         el.textContent = txt || '';
+    }
+
+    function formatPriceEditorNumber(value) {
+        var digits = String(value || '').replace(/[^0-9]/g, '');
+        if (!digits) {
+            return '';
+        }
+        return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' руб.';
+    }
+
+    function formatPriceEditorDuration(value) {
+        var text = String(value || '').trim();
+        if (!text) {
+            return '';
+        }
+
+        var rangeMatch = text.match(/(\d+)\s*[-–]\s*(\d+)/);
+        if (rangeMatch) {
+            return rangeMatch[1] + '-' + rangeMatch[2] + ' мин';
+        }
+
+        var durationMatch = text.match(/^(\d+)\s*(?:мин\.?|m|minutes?)?$/i);
+        if (durationMatch) {
+            return durationMatch[1] + ' мин';
+        }
+
+        var digits = text.match(/\d+/);
+        if (digits) {
+            return digits[0] + ' мин';
+        }
+
+        return text.replace(/\s+/g, ' ').replace(/(?:мин\.?|minutes?)$/i, '').trim() + ' мин';
+    }
+
+    function normalizePriceEditorField(fieldName, value) {
+        if (fieldName === 'price') {
+            return formatPriceEditorNumber(value);
+        }
+        if (fieldName === 'duration') {
+            return formatPriceEditorDuration(value);
+        }
+        return value;
+    }
+
+    function syncPriceEditorFieldValue(field) {
+        if (!field || !field.getAttribute) {
+            return;
+        }
+
+        var fieldName = field.getAttribute('data-price-modal-field') || '';
+        if (!fieldName || field.type === 'checkbox' || field.tagName === 'SELECT') {
+            return;
+        }
+
+        var nextValue = normalizePriceEditorField(fieldName, field.value || '');
+        if (nextValue !== field.value) {
+            field.value = nextValue;
+        }
+        syncPriceMaterialFieldState(field);
     }
 
     function showToast(message, type) {
@@ -145,6 +229,818 @@
         var overlay = byId('bioinmed-admin-text-edit-overlay');
         if (!overlay) return;
         overlay.classList.toggle('is-open', !!open);
+    }
+
+    function showPricesEdit(open) {
+        var overlay = byId('bioinmed-admin-prices-edit-overlay');
+        if (!overlay) return;
+        overlay.classList.toggle('is-open', !!open);
+        if (!open) {
+            state.activePriceEdit = null;
+        }
+    }
+
+    function showPriceDeleteConfirm(open, payload) {
+        var overlay = byId('bioinmed-admin-price-delete-overlay');
+        var titleEl = byId('bioinmed-admin-price-delete-title');
+        var textEl = byId('bioinmed-admin-price-delete-text');
+        var cancelBtn = byId('bioinmed-admin-price-delete-cancel');
+        var confirmBtn = byId('bioinmed-admin-price-delete-confirm');
+
+        if (!overlay) {
+            return;
+        }
+
+        if (open) {
+            state.pendingPriceDelete = payload || null;
+            if (titleEl) {
+                titleEl.textContent = (payload && payload.title) ? payload.title : 'Подтвердите удаление';
+            }
+            if (textEl) {
+                textEl.textContent = (payload && payload.text) ? payload.text : 'Действие нельзя будет отменить.';
+            }
+            if (confirmBtn) {
+                confirmBtn.textContent = (payload && payload.confirmText) ? payload.confirmText : 'Удалить';
+            }
+            if (cancelBtn) {
+                cancelBtn.focus();
+            }
+            overlay.classList.add('is-open');
+            return;
+        }
+
+        overlay.classList.remove('is-open');
+        state.pendingPriceDelete = null;
+    }
+
+    function runPendingPriceDelete() {
+        var pending = state.pendingPriceDelete;
+        if (!pending || typeof pending.action !== 'function') {
+            showPriceDeleteConfirm(false);
+            return;
+        }
+        showPriceDeleteConfirm(false);
+        pending.action();
+    }
+
+    function renderPricesEditModal(title, subtitle, html) {
+        var titleEl = byId('bioinmed-admin-prices-edit-title');
+        var subtitleEl = byId('bioinmed-admin-prices-edit-subtitle');
+        var fieldsHost = byId('bioinmed-admin-prices-edit-fields');
+        if (!fieldsHost) {
+            return;
+        }
+        if (titleEl) {
+            titleEl.textContent = title || 'Редактирование прайса';
+        }
+        if (subtitleEl) {
+            subtitleEl.textContent = subtitle || '';
+        }
+        fieldsHost.innerHTML = html || '';
+    }
+
+    function getPriceSectionState(sectionEl) {
+        return {
+            id: (sectionEl.getAttribute('data-price-section-id') || '').trim(),
+            title: ((sectionEl.querySelector('[data-price-section-title-view]') || {}).textContent || '').trim(),
+            nav_label: (sectionEl.getAttribute('data-price-section-nav-label') || '').trim(),
+            badge: (sectionEl.getAttribute('data-price-section-badge') || '').trim(),
+            hidden: sectionEl.getAttribute('data-price-section-hidden') === '1'
+        };
+    }
+
+    function applyPriceSectionState(sectionEl, nextState) {
+        var titleView = sectionEl.querySelector('[data-price-section-title-view]') || sectionEl.querySelector('h2');
+        var normalizedId = normalizePriceManagerSectionId(nextState.id || '', 0);
+        sectionEl.setAttribute('data-price-section-id', normalizedId);
+        sectionEl.id = normalizedId;
+        sectionEl.setAttribute('data-price-section-nav-label', (nextState.nav_label || '').trim());
+        sectionEl.setAttribute('data-price-section-badge', (nextState.badge || '').trim());
+        if (titleView) {
+            titleView.textContent = (nextState.title || '').trim();
+        }
+    }
+
+    function getPriceRowState(rowEl) {
+        var serviceHolder = rowEl.querySelector('[data-service-id]');
+        return {
+            service_id: serviceHolder ? ((serviceHolder.getAttribute('data-service-id') || '').trim()) : '',
+            title: rowEl.getAttribute('data-price-row-title') || '',
+            description: rowEl.getAttribute('data-price-row-description') || '',
+            duration: rowEl.getAttribute('data-price-row-duration') || '',
+            price: rowEl.getAttribute('data-price-row-price') || '',
+            row_class: rowEl.getAttribute('data-price-row-class') || '',
+            link: rowEl.getAttribute('data-price-row-link') !== '0',
+            hidden: rowEl.getAttribute('data-price-row-hidden') === '1'
+        };
+    }
+
+    function applyPriceRowState(rowEl, nextState) {
+        var titleView = rowEl.querySelector('[data-price-row-title-view]');
+        var descView = rowEl.querySelector('[data-price-row-description-view]');
+        var durationView = rowEl.querySelector('[data-price-row-duration-view]');
+        var priceView = rowEl.querySelector('[data-price-row-price-view]');
+        var serviceCell = rowEl.querySelector('[data-service-id]');
+        var rowClass = (nextState.row_class || '').trim();
+
+        rowEl.className = rowClass + (nextState.hidden ? (rowClass ? ' ' : '') + 'price-row-hidden' : '');
+        rowEl.setAttribute('data-price-row-title', nextState.title || '');
+        rowEl.setAttribute('data-price-row-description', nextState.description || '');
+        rowEl.setAttribute('data-price-row-duration', nextState.duration || '');
+        rowEl.setAttribute('data-price-row-price', nextState.price || '');
+        rowEl.setAttribute('data-price-row-class', rowClass);
+        rowEl.setAttribute('data-price-row-link', nextState.link ? '1' : '0');
+        rowEl.setAttribute('data-price-row-hidden', nextState.hidden ? '1' : '0');
+        rowEl.classList.toggle('price-row-hidden', !!nextState.hidden);
+
+        if (titleView) {
+            titleView.textContent = nextState.title || '';
+        }
+        if (descView) {
+            descView.textContent = nextState.description || '';
+            descView.style.display = (nextState.description || '').trim() ? '' : 'none';
+        }
+        if (durationView) {
+            durationView.textContent = (nextState.duration || '').trim() || '—';
+        }
+        if (priceView) {
+            priceView.textContent = nextState.price || '';
+        }
+        if (serviceCell) {
+            serviceCell.setAttribute('data-service-id', nextState.service_id || '');
+        }
+    }
+
+    function renderPriceMaterialInputField(fieldName, label, value) {
+        var placeholder = ' ';
+        if (fieldName === 'row_class') {
+            placeholder = 'Например: bg-[#f9f0e6] font-semibold';
+        }
+        return [
+            '<label class="price-admin-editor-field price-admin-editor-field-material">',
+            '<span class="price-admin-editor-material-field" data-price-material-field="1">',
+            '<input type="text" class="price-admin-editor-input" data-price-modal-field="' + esc(fieldName) + '" value="' + esc(value || '') + '" placeholder="' + esc(placeholder) + '">',
+            '<span class="price-admin-editor-floating-label">' + esc(label) + '</span>',
+            '</span>',
+            '</label>'
+        ].join('');
+    }
+
+    function renderPriceMaterialTextareaField(fieldName, label, value, rows) {
+        return [
+            '<label class="price-admin-editor-field price-admin-editor-field-material">',
+            '<span class="price-admin-editor-material-field" data-price-material-field="1">',
+            '<textarea class="price-admin-editor-input price-admin-editor-textarea" data-price-modal-field="' + esc(fieldName) + '" rows="' + String(rows || 6) + '" placeholder=" ">' + esc(value || '') + '</textarea>',
+            '<span class="price-admin-editor-floating-label">' + esc(label) + '</span>',
+            '</span>',
+            '</label>'
+        ].join('');
+    }
+
+    function renderPriceMaterialSelectField(fieldName, label, optionsHtml) {
+        return [
+            '<label class="price-admin-editor-field price-admin-editor-field-material">',
+            '<span class="price-admin-editor-material-field" data-price-material-field="1">',
+            '<select class="price-admin-editor-input" data-price-modal-field="' + esc(fieldName) + '">',
+            optionsHtml,
+            '</select>',
+            '<span class="price-admin-editor-floating-label">' + esc(label) + '</span>',
+            (fieldName === 'service_id' ? '<a href="#" class="price-admin-editor-service-link" data-price-service-edit-link target="_blank" rel="noopener noreferrer">Открыть услугу для быстрого редактирования</a>' : ''),
+            '</span>',
+            '</label>'
+        ].join('');
+    }
+
+    function syncPriceMaterialFieldState(field) {
+        if (!field || !field.closest) {
+            return;
+        }
+        var materialField = field.closest('[data-price-material-field="1"]');
+        if (!materialField) {
+            return;
+        }
+        var rawValue = '';
+        if (field.tagName === 'SELECT') {
+            rawValue = field.value || '';
+        } else {
+            rawValue = field.value || '';
+        }
+        materialField.classList.toggle('is-filled', String(rawValue).trim().length > 0);
+    }
+
+    function bindPriceMaterialFields(scope) {
+        if (!scope || !scope.querySelectorAll) {
+            return;
+        }
+        scope.querySelectorAll('[data-price-material-field="1"] [data-price-modal-field]').forEach(function (field) {
+            if (!field.hasAttribute('data-price-material-bound')) {
+                field.addEventListener('input', function () {
+                    syncPriceMaterialFieldState(field);
+                });
+                field.addEventListener('blur', function () {
+                    syncPriceEditorFieldValue(field);
+                });
+                field.addEventListener('change', function () {
+                    syncPriceMaterialFieldState(field);
+                    syncPriceEditorFieldValue(field);
+                });
+                field.setAttribute('data-price-material-bound', '1');
+            }
+            syncPriceEditorFieldValue(field);
+            syncPriceMaterialFieldState(field);
+        });
+
+        scope.querySelectorAll('[data-price-service-edit-link]').forEach(function (link) {
+            var select = scope.querySelector('[data-price-modal-field="service_id"]');
+            if (!select) {
+                link.style.display = 'none';
+                return;
+            }
+
+            var updateServiceEditLink = function () {
+                var serviceId = (select.value || '').trim();
+                if (!serviceId) {
+                    link.style.display = 'none';
+                    link.removeAttribute('href');
+                    link.textContent = 'Выберите услугу, чтобы открыть её параметры';
+                    return;
+                }
+
+                link.style.display = 'inline-flex';
+                link.setAttribute('href', '/services/' + encodeURIComponent(serviceId));
+                link.textContent = 'Открыть услугу для быстрого редактирования';
+            };
+
+            if (!select.hasAttribute('data-price-service-link-bound')) {
+                select.addEventListener('change', updateServiceEditLink);
+                select.addEventListener('input', updateServiceEditLink);
+                select.setAttribute('data-price-service-link-bound', '1');
+            }
+
+            updateServiceEditLink();
+        });
+    }
+
+    function renderPriceSectionEditForm(sectionEl) {
+        var sectionState = getPriceSectionState(sectionEl);
+        var html = [];
+        ['id', 'title', 'nav_label', 'badge'].forEach(function (fieldName) {
+            var label = 'Поле';
+            if (fieldName === 'id') label = 'ID раздела';
+            if (fieldName === 'title') label = 'Заголовок';
+            if (fieldName === 'nav_label') label = 'Ярлык в навигации';
+            if (fieldName === 'badge') label = 'Бейдж';
+            html.push(renderPriceMaterialInputField(fieldName, label, sectionState[fieldName] || ''));
+        });
+        return '<div class="price-admin-editor-grid price-admin-editor-grid-section">' + html.join('') + '</div>';
+    }
+
+    function renderPriceRowEditForm(rowEl) {
+        var rowState = getPriceRowState(rowEl);
+        var html = [];
+        ['title', 'description', 'duration', 'price', 'service_id', 'row_class', 'link'].forEach(function (fieldName) {
+            var label = 'Поле';
+            if (fieldName === 'title') label = 'Название';
+            if (fieldName === 'description') label = 'Описание';
+            if (fieldName === 'duration') label = 'Длительность';
+            if (fieldName === 'price') label = 'Цена';
+            if (fieldName === 'service_id') label = 'Привязка к услуге';
+            if (fieldName === 'row_class') label = 'CSS-класс';
+            if (fieldName === 'link') {
+                html.push([
+                    '<label class="price-admin-editor-field price-admin-editor-field-checkbox">',
+                    '<input type="checkbox" data-price-modal-field="link"' + (rowState.link ? ' checked' : '') + '>',
+                    '<span>Ссылка на услугу включена</span>',
+                    '</label>'
+                ].join(''));
+                return;
+            }
+
+            if (fieldName === 'service_id') {
+                html.push(renderPriceMaterialSelectField(fieldName, label, getInlineServiceOptionsHtml()));
+                return;
+            }
+
+            if (fieldName === 'description') {
+                html.push(renderPriceMaterialTextareaField('description', label, rowState.description || '', 6));
+                return;
+            }
+
+            if (fieldName === 'row_class') {
+                html.push([
+                    renderPriceMaterialInputField(fieldName, label, rowState[fieldName] || ''),
+                    '<p class="price-admin-editor-field-hint">Укажите один или несколько CSS-классов через пробел. Это нужно, чтобы выделить строку, изменить её фон, сделать шрифт жирным или скрыть её через <code>price-row-hidden</code>.</p>'
+                ].join(''));
+                return;
+            }
+
+            html.push(renderPriceMaterialInputField(fieldName, label, rowState[fieldName] || ''));
+        });
+        return '<div class="price-admin-editor-grid">' + html.join('') + '</div>';
+    }
+
+    function openPriceSectionEditModal(sectionEl) {
+        var sectionId = sectionEl.getAttribute('data-price-section-id') || '';
+        var modalHost;
+        state.activePriceEdit = {
+            type: 'section',
+            sectionEl: sectionEl
+        };
+        renderPricesEditModal('Редактирование раздела', sectionId ? ('Раздел: ' + sectionId) : '', renderPriceSectionEditForm(sectionEl));
+        modalHost = byId('bioinmed-admin-prices-edit-fields');
+        bindPriceMaterialFields(modalHost);
+        showPricesEdit(true);
+    }
+
+    function openPriceRowEditModal(sectionEl, rowEl) {
+        var titleView = rowEl.querySelector('[data-price-row-title-view]');
+        var modalHost;
+        state.activePriceEdit = {
+            type: 'row',
+            sectionEl: sectionEl,
+            rowEl: rowEl
+        };
+        renderPricesEditModal('Редактирование цены', titleView ? ((titleView.textContent || '').trim()) : '', renderPriceRowEditForm(rowEl));
+        modalHost = byId('bioinmed-admin-prices-edit-fields');
+        var modalServiceField = document.querySelector('#bioinmed-admin-prices-edit-fields [data-price-modal-field="service_id"]');
+        var rowState = getPriceRowState(rowEl);
+        if (modalServiceField) {
+            modalServiceField.value = rowState.service_id || '';
+            syncPriceMaterialFieldState(modalServiceField);
+        }
+        bindPriceMaterialFields(modalHost);
+        showPricesEdit(true);
+    }
+
+    function saveActivePriceEdit() {
+        if (!state.activePriceEdit) {
+            showPricesEdit(false);
+            return;
+        }
+
+        var modalHost = byId('bioinmed-admin-prices-edit-fields');
+        if (!modalHost) {
+            return;
+        }
+
+        if (state.activePriceEdit.type === 'section' && state.activePriceEdit.sectionEl) {
+            var sectionEl = state.activePriceEdit.sectionEl;
+            var sectionState = getPriceSectionState(sectionEl);
+            modalHost.querySelectorAll('[data-price-modal-field]').forEach(function (field) {
+                var fieldName = field.getAttribute('data-price-modal-field') || '';
+                sectionState[fieldName] = field.value || '';
+            });
+            applyPriceSectionState(sectionEl, sectionState);
+            scheduleInlinePricesAutosave();
+            showPricesEdit(false);
+            return;
+        }
+
+        if (state.activePriceEdit.type === 'row' && state.activePriceEdit.rowEl) {
+            var rowEl = state.activePriceEdit.rowEl;
+            var rowState = getPriceRowState(rowEl);
+
+            modalHost.querySelectorAll('[data-price-modal-field]').forEach(function (field) {
+                var fieldName = field.getAttribute('data-price-modal-field') || '';
+                rowState[fieldName] = field.type === 'checkbox' ? !!field.checked : normalizePriceEditorField(fieldName, field.value || '');
+            });
+            applyPriceRowState(rowEl, rowState);
+            scheduleInlinePricesAutosave();
+            showPricesEdit(false);
+        }
+    }
+
+    function normalizePriceManagerSectionId(value, fallbackIndex) {
+        var normalized = String(value || '').toLowerCase().trim().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '');
+        if (!normalized) {
+            normalized = 'section-' + String((fallbackIndex || 0) + 1);
+        }
+        return normalized;
+    }
+
+    function createEmptyPriceRow() {
+        return {
+            service_id: '',
+            title: '',
+            description: '',
+            duration: '',
+            price: '',
+            row_class: '',
+            link: true,
+            hidden: false
+        };
+    }
+
+    function normalizePriceRow(row) {
+        var source = row && typeof row === 'object' ? row : {};
+        return {
+            service_id: (source.service_id || '').toString().trim(),
+            title: (source.title || '').toString().trim(),
+            description: (source.description || '').toString(),
+            duration: (source.duration || '').toString().trim(),
+            price: (source.price || '').toString().trim(),
+            row_class: (source.row_class || '').toString().trim(),
+            link: !!(typeof source.link === 'undefined' ? true : source.link),
+            hidden: !!source.hidden
+        };
+    }
+
+    function normalizePriceSection(section, index) {
+        var source = section && typeof section === 'object' ? section : {};
+        var rows = Array.isArray(source.rows) ? source.rows.map(normalizePriceRow) : [];
+
+        return {
+            id: normalizePriceManagerSectionId(source.id || '', index),
+            title: (source.title || '').toString().trim(),
+            nav_label: (source.nav_label || source.title || '').toString().trim(),
+            badge: (source.badge || '').toString().trim(),
+            hidden: !!source.hidden,
+            rows: rows
+        };
+    }
+
+    function sanitizePricesBeforeSave() {
+        var normalizedSections = [];
+
+        (state.pricesManager.sections || []).forEach(function (section, index) {
+            if (!section || typeof section !== 'object') {
+                return;
+            }
+
+            var nextSection = normalizePriceSection(section, index);
+            nextSection.title = (nextSection.title || '').trim() || ('Раздел ' + String(index + 1));
+            nextSection.nav_label = (nextSection.nav_label || '').trim() || nextSection.title;
+            nextSection.rows = (nextSection.rows || []).map(function (row) {
+                var nextRow = normalizePriceRow(row);
+                if (!nextRow.title && nextRow.service_id) {
+                    var found = state.pricesManager.services.find(function (service) {
+                        return service.id === nextRow.service_id;
+                    });
+                    if (found && found.name) {
+                        nextRow.title = found.name;
+                    }
+                }
+                return nextRow;
+            }).filter(function (row) {
+                return !!(row.title || row.price || row.service_id);
+            });
+
+            normalizedSections.push(nextSection);
+        });
+
+        state.pricesManager.sections = normalizedSections;
+    }
+
+    function loadPricesManagerData(forceReload) {
+        var shouldReload = !!forceReload;
+        if (state.pricesManager.loaded && !shouldReload) {
+            return Promise.resolve(true);
+        }
+
+        if (state.pricesManager.loading) {
+            return Promise.resolve(false);
+        }
+
+        state.pricesManager.loading = true;
+
+        return callApi('/prices-manage.php', {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }).then(function (resp) {
+            state.pricesManager.loading = false;
+            if (!resp || !resp.ok) {
+                showToast((resp && resp.error) || 'Не удалось загрузить прайс-лист', 'error');
+                return false;
+            }
+
+            var sections = Array.isArray(resp.sections) ? resp.sections : [];
+            var services = Array.isArray(resp.services) ? resp.services : [];
+            state.pricesManager.sections = sections.map(function (section, index) {
+                return normalizePriceSection(section, index);
+            });
+            state.pricesManager.services = services.map(function (service) {
+                return {
+                    id: (service && service.id ? service.id : '').toString(),
+                    name: (service && service.name ? service.name : '').toString()
+                };
+            }).filter(function (service) {
+                return !!service.id;
+            });
+            state.pricesManager.loaded = true;
+            return true;
+        });
+    }
+
+    function savePricesManagerData() {
+        if (!state.config.isAuthenticated || state.pricesManager.saving) {
+            return Promise.resolve(false);
+        }
+
+        sanitizePricesBeforeSave();
+        state.pricesManager.saving = true;
+
+        return callApi('/prices-manage.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                csrf: state.config.csrf,
+                action: 'save_structure',
+                sections: state.pricesManager.sections
+            })
+        }).then(function (resp) {
+            state.pricesManager.saving = false;
+            if (!resp || !resp.ok) {
+                showToast((resp && resp.error) || 'Не удалось сохранить прайс-лист', 'error');
+                return false;
+            }
+            return true;
+        });
+    }
+
+    function pageHasInlinePricesEditor() {
+        return !!document.querySelector('[data-prices-page-root]');
+    }
+
+    function getInlineServiceOptionsHtml() {
+        var options = ['<option value="">Без привязки</option>'];
+        (state.pricesManager.services || []).forEach(function (service) {
+            if (!service || !service.id) {
+                return;
+            }
+            options.push('<option value="' + esc(service.id) + '">' + esc(service.name || service.id) + '</option>');
+        });
+        return options.join('');
+    }
+
+    function refreshInlinePriceIndices() {
+        document.querySelectorAll('[data-price-section-id]').forEach(function (sectionEl) {
+            var index = 0;
+            var bodyRows = sectionEl.querySelectorAll('tbody > tr[data-price-row-index]');
+            bodyRows.forEach(function (rowEl) {
+                rowEl.setAttribute('data-price-row-index', String(index));
+                index += 1;
+            });
+        });
+    }
+
+    function createInlinePriceRowDom(sectionEl, rowData) {
+        var tbody = sectionEl ? sectionEl.querySelector('tbody') : null;
+        if (!tbody) {
+            return null;
+        }
+
+        var row = normalizePriceRow(rowData || createEmptyPriceRow());
+        var rowIndex = tbody.querySelectorAll('tr[data-price-row-index]').length;
+
+        var displayDuration = row.duration || '—';
+        var mainRow = document.createElement('tr');
+        mainRow.setAttribute('data-price-row-index', String(rowIndex));
+        mainRow.setAttribute('data-price-row-hidden', row.hidden ? '1' : '0');
+        mainRow.setAttribute('data-price-row-title', row.title || '');
+        mainRow.setAttribute('data-price-row-description', row.description || '');
+        mainRow.setAttribute('data-price-row-duration', row.duration || '');
+        mainRow.setAttribute('data-price-row-price', row.price || '');
+        mainRow.setAttribute('data-price-row-class', row.row_class || '');
+        mainRow.setAttribute('data-price-row-link', row.link ? '1' : '0');
+        mainRow.setAttribute('data-admin-disable-block-edit', '1');
+        if (row.hidden) {
+            mainRow.classList.add('price-row-hidden');
+        }
+        if (row.row_class) {
+            mainRow.classList.add(row.row_class);
+        }
+        mainRow.innerHTML = [
+            '<td class="px-4 py-3 price-admin-row-host" data-service-id="' + esc(row.service_id || '') + '">',
+            '<div class="price-admin-row-actions" data-admin-disable-block-edit="1">',
+            '<button type="button" class="price-admin-inline-btn" data-price-row-action="move-up" title="Поднять строку выше"><span aria-hidden="true">↑</span><span>Выше</span></button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-row-action="move-down" title="Опустить строку ниже"><span aria-hidden="true">↓</span><span>Ниже</span></button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-row-action="add-after" title="Добавить цену ниже">Добавить цену ниже</button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-row-action="toggle-editor" title="Редактировать строку">Редактировать</button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-row-action="toggle-hidden" title="Скрыть или показать">' + (row.hidden ? 'Показать' : 'Скрыть') + '</button>',
+            '<button type="button" class="price-admin-inline-btn price-admin-inline-btn-danger" data-price-row-action="delete-row" title="Удалить цену">Удалить</button>',
+            '</div>',
+            '<span data-price-row-title-view>' + esc(row.title || '') + '</span><p class="text-sm text-[#0a293c] mt-1" data-price-row-description-view' + ((row.description || '').trim() ? '' : ' style="display:none"') + '>' + esc(row.description || '') + '</p></td>',
+            '<td class="px-4 py-3 text-[#0a293c]" data-price-row-duration-view>' + esc(displayDuration) + '</td>',
+            '<td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap" data-price-row-price-view>' + esc(row.price || '') + '</td>'
+        ].join('');
+
+        tbody.appendChild(mainRow);
+
+        return mainRow;
+    }
+
+    function createInlinePriceSectionDom() {
+        var root = document.querySelector('[data-prices-page-root]');
+        if (!root) {
+            return null;
+        }
+
+        var nextNumber = root.querySelectorAll('[data-price-section-id]').length + 1;
+        var sectionId = 'new-section-' + String(nextNumber);
+        var sectionEl = document.createElement('section');
+        sectionEl.className = 'category-section';
+        sectionEl.id = sectionId;
+        sectionEl.setAttribute('data-price-section-id', sectionId);
+        sectionEl.setAttribute('data-price-section-hidden', '0');
+        sectionEl.setAttribute('data-price-section-nav-label', 'Новый раздел');
+        sectionEl.setAttribute('data-price-section-badge', '');
+        sectionEl.setAttribute('data-admin-disable-block-edit', '1');
+        sectionEl.innerHTML = [
+            '<div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]" data-admin-disable-block-edit="1">',
+            '<h2 class="text-2xl font-bold text-[#1977b2]" data-price-section-title-view>Новый раздел</h2>',
+            '<div class="price-admin-section-toolbar" data-admin-disable-block-edit="1">',
+            '<button type="button" class="price-admin-inline-btn" data-price-section-action="move-up" title="Поднять раздел выше"><span aria-hidden="true">↑</span><span>Выше</span></button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-section-action="move-down" title="Опустить раздел ниже"><span aria-hidden="true">↓</span><span>Ниже</span></button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-section-action="toggle-settings" title="Редактировать раздел">Редактировать</button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-section-action="add-row" title="Добавить цену в раздел">Добавить цену</button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-section-action="add-section-below" title="Добавить новый раздел ниже">Добавить раздел ниже</button>',
+            '<button type="button" class="price-admin-inline-btn" data-price-section-action="toggle-hidden" title="Скрыть или показать раздел">Скрыть</button>',
+            '<button type="button" class="price-admin-inline-btn price-admin-inline-btn-danger" data-price-section-action="delete-section" title="Удалить раздел">Удалить</button>',
+            '</div>',
+            '</div>',
+            '<div class="overflow-x-auto">',
+            '<table class="w-full border-collapse">',
+            '<thead><tr class="bg-[#f0f7fc]"><th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Наименование услуги</th><th class="px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Длительность</th><th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена, руб.</th></tr></thead>',
+            '<tbody></tbody>',
+            '</table>',
+            '</div>'
+        ].join('');
+
+        root.appendChild(sectionEl);
+        createInlinePriceRowDom(sectionEl, createEmptyPriceRow());
+        return sectionEl;
+    }
+
+    function collectInlinePricesStructure() {
+        var sections = [];
+        document.querySelectorAll('[data-prices-page-root] [data-price-section-id]').forEach(function (sectionEl, sectionIndex) {
+            var section = getPriceSectionState(sectionEl);
+
+            section.id = normalizePriceManagerSectionId(section.id || '', sectionIndex);
+            section.title = (section.title || '').trim() || ('Раздел ' + String(sectionIndex + 1));
+            section.nav_label = (section.nav_label || '').trim() || section.title;
+
+            sectionEl.querySelectorAll('tbody > tr[data-price-row-index]').forEach(function (rowEl) {
+                var row = getPriceRowState(rowEl);
+
+                if (row.title || row.price || row.service_id) {
+                    section.rows.push(row);
+                }
+            });
+
+            sections.push(section);
+        });
+
+        return sections;
+    }
+
+    function bindInlinePricesEditor() {
+        if (!pageHasInlinePricesEditor()) {
+            return;
+        }
+
+        loadPricesManagerData(false);
+
+        document.querySelectorAll('[data-price-section-id]').forEach(function (sectionEl) {
+            if (!sectionEl.__priceInlineBound) {
+                sectionEl.__priceInlineBound = true;
+
+                sectionEl.querySelectorAll('[data-price-section-action]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var action = btn.getAttribute('data-price-section-action') || '';
+                        if (action === 'toggle-settings') {
+                            openPriceSectionEditModal(sectionEl);
+                            return;
+                        }
+                        if (action === 'move-up') {
+                            var prev = sectionEl.previousElementSibling;
+                            if (prev) {
+                                sectionEl.parentNode.insertBefore(sectionEl, prev);
+                                refreshInlinePriceIndices();
+                            }
+                            return;
+                        }
+                        if (action === 'move-down') {
+                            var next = sectionEl.nextElementSibling;
+                            if (next) {
+                                sectionEl.parentNode.insertBefore(next, sectionEl);
+                                refreshInlinePriceIndices();
+                            }
+                            return;
+                        }
+                        if (action === 'toggle-hidden') {
+                            var hidden = sectionEl.getAttribute('data-price-section-hidden') === '1';
+                            sectionEl.setAttribute('data-price-section-hidden', hidden ? '0' : '1');
+                            sectionEl.classList.toggle('price-section-hidden', !hidden);
+                            btn.textContent = !hidden ? 'Показать' : 'Скрыть';
+                            return;
+                        }
+                        if (action === 'delete-section') {
+                            showPriceDeleteConfirm(true, {
+                                title: 'Удалить раздел?',
+                                text: 'Раздел и все цены внутри него будут удалены. Это действие нельзя отменить.',
+                                confirmText: 'Удалить раздел',
+                                action: function () {
+                                    sectionEl.remove();
+                                    refreshInlinePriceIndices();
+                                    scheduleInlinePricesAutosave();
+                                }
+                            });
+                            return;
+                        }
+                        if (action === 'add-row') {
+                            createInlinePriceRowDom(sectionEl, createEmptyPriceRow());
+                            refreshInlinePriceIndices();
+                            bindInlinePricesEditor();
+                            scheduleInlinePricesAutosave();
+                            return;
+                        }
+                        if (action === 'add-section-below') {
+                            var createdSection = createInlinePriceSectionDom();
+                            if (createdSection && sectionEl.parentNode) {
+                                sectionEl.parentNode.insertBefore(createdSection, sectionEl.nextElementSibling);
+                                bindInlinePricesEditor();
+                                refreshInlinePriceIndices();
+                                scheduleInlinePricesAutosave();
+                            }
+                        }
+                    });
+                });
+            }
+
+            sectionEl.querySelectorAll('tbody > tr[data-price-row-index]').forEach(function (rowEl) {
+                if (rowEl.__priceInlineBound) {
+                    return;
+                }
+                rowEl.__priceInlineBound = true;
+
+                rowEl.querySelectorAll('[data-price-row-action]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var action = btn.getAttribute('data-price-row-action') || '';
+
+                        if (action === 'toggle-editor') {
+                            openPriceRowEditModal(sectionEl, rowEl);
+                            return;
+                        }
+                        if (action === 'move-up') {
+                            var prevRow = rowEl.previousElementSibling;
+                            if (prevRow && prevRow.hasAttribute('data-price-row-index')) {
+                                rowEl.parentNode.insertBefore(rowEl, prevRow);
+                                refreshInlinePriceIndices();
+                                scheduleInlinePricesAutosave();
+                            }
+                            return;
+                        }
+                        if (action === 'move-down') {
+                            var nextRow = rowEl.nextElementSibling;
+                            if (nextRow && nextRow.hasAttribute('data-price-row-index')) {
+                                rowEl.parentNode.insertBefore(nextRow, rowEl);
+                                refreshInlinePriceIndices();
+                                scheduleInlinePricesAutosave();
+                            }
+                            return;
+                        }
+                        if (action === 'add-after') {
+                            var createdRow = createInlinePriceRowDom(sectionEl, createEmptyPriceRow());
+                            if (createdRow) {
+                                rowEl.parentNode.insertBefore(createdRow, rowEl.nextElementSibling);
+                                refreshInlinePriceIndices();
+                                bindInlinePricesEditor();
+                                scheduleInlinePricesAutosave();
+                            }
+                            return;
+                        }
+                        if (action === 'toggle-hidden') {
+                            var hidden = rowEl.getAttribute('data-price-row-hidden') === '1';
+                            rowEl.setAttribute('data-price-row-hidden', hidden ? '0' : '1');
+                            rowEl.classList.toggle('price-row-hidden', !hidden);
+                            btn.textContent = !hidden ? 'Показать' : 'Скрыть';
+                            scheduleInlinePricesAutosave();
+                            return;
+                        }
+                        if (action === 'delete-row') {
+                            showPriceDeleteConfirm(true, {
+                                title: 'Удалить цену?',
+                                text: 'Материал будет удалён из прайса. Это действие нельзя отменить.',
+                                confirmText: 'Удалить цену',
+                                action: function () {
+                                    rowEl.remove();
+                                    refreshInlinePriceIndices();
+                                    scheduleInlinePricesAutosave();
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        });
     }
 
     function syncPinSettingsUi() {
@@ -513,6 +1409,10 @@
             return null;
         }
 
+        if (el.closest && el.closest('[data-admin-disable-block-edit="1"]')) {
+            return null;
+        }
+
         var explicitRoot = el.closest('[data-admin-block-root]');
         if (explicitRoot) {
             return explicitRoot;
@@ -610,7 +1510,7 @@
             return [
                 '<div class="bioinmed-block-edit-field">',
                 showLabels ? '<label class="bioinmed-block-edit-field-key">' + esc(item.label) + '</label>' : '',
-                '<textarea data-block-field-index="' + item.index + '" rows="1">' + esc(item.value) + '</textarea>',
+                renderBlockFieldControl(item),
                 '</div>'
             ].join('');
         }).join('');
@@ -664,6 +1564,44 @@
 
         bindBlockTextareasAutoGrow(host);
         bindArrayControls(host);
+    }
+
+    function renderBlockFieldControl(item) {
+        var value = item && typeof item.value !== 'undefined' ? item.value : '';
+        var text = value === null || typeof value === 'undefined' ? '' : String(value);
+        var isMultiline = shouldRenderBlockTextarea(text);
+        if (isMultiline) {
+            return '<textarea data-block-field-index="' + item.index + '" rows="' + getBlockTextareaRows(text) + '">' + esc(text) + '</textarea>';
+        }
+        return '<input type="text" data-block-field-index="' + item.index + '" value="' + esc(text) + '">';
+    }
+
+    function shouldRenderBlockTextarea(text) {
+        var value = String(text || '').trim();
+        if (!value) {
+            return false;
+        }
+
+        if (value.indexOf('\n') !== -1) {
+            return true;
+        }
+
+        if (value.length >= 80) {
+            return true;
+        }
+
+        var words = value.split(/\s+/);
+        return words.length >= 8 && value.length >= 48;
+    }
+
+    function getBlockTextareaRows(text) {
+        var value = String(text || '').trim();
+        if (!value) {
+            return 2;
+        }
+
+        var estimatedRows = Math.ceil(value.length / 60);
+        return Math.max(2, Math.min(estimatedRows, 6));
     }
 
     function collectFormEditedLinks(host, originalLinks) {
@@ -755,12 +1693,12 @@
         var arrayGroupsByKey = {};
 
         // Сначала собираем простые поля
-        host.querySelectorAll('textarea[data-block-field-index]').forEach(function (ta) {
-            var idx = parseInt(ta.getAttribute('data-block-field-index') || '-1', 10);
+        host.querySelectorAll('[data-block-field-index]').forEach(function (input) {
+            var idx = parseInt(input.getAttribute('data-block-field-index') || '-1', 10);
             if (idx < 0 || idx >= originalFields.length) return;
 
             var field = originalFields[idx];
-            var nextValue = ta.value || '';
+            var nextValue = input.value || '';
             var isArray = Array.isArray(field.value);
 
             if (!isArray) {
@@ -890,6 +1828,10 @@
         document.querySelectorAll('[data-text-id]').forEach(function (el) {
             var ownKey = el.getAttribute('data-text-id') || '';
             if (!ownKey || isIgnoredTextKey(ownKey)) {
+                return;
+            }
+
+            if (el.closest && el.closest('[data-admin-disable-block-edit="1"]')) {
                 return;
             }
 
@@ -1618,6 +2560,29 @@
             });
         }
 
+        var priceDeleteClose = byId('bioinmed-admin-price-delete-cancel');
+        if (priceDeleteClose) {
+            priceDeleteClose.addEventListener('click', function () {
+                showPriceDeleteConfirm(false);
+            });
+        }
+
+        var priceDeleteConfirm = byId('bioinmed-admin-price-delete-confirm');
+        if (priceDeleteConfirm) {
+            priceDeleteConfirm.addEventListener('click', function () {
+                runPendingPriceDelete();
+            });
+        }
+
+        var priceDeleteOverlay = byId('bioinmed-admin-price-delete-overlay');
+        if (priceDeleteOverlay) {
+            priceDeleteOverlay.addEventListener('click', function (ev) {
+                if (ev.target === priceDeleteOverlay) {
+                    showPriceDeleteConfirm(false);
+                }
+            });
+        }
+
         var usersCreate = byId('bioinmed-admin-users-create-form');
         if (usersCreate) {
             usersCreate.addEventListener('submit', function (ev) {
@@ -1654,6 +2619,12 @@
             }
         }, true);
 
+        document.addEventListener('keydown', function (ev) {
+            if (ev.key === 'Escape' && state.pendingPriceDelete) {
+                showPriceDeleteConfirm(false);
+            }
+        });
+
         var textEditClose = byId('bioinmed-admin-text-edit-close');
         if (textEditClose) {
             textEditClose.addEventListener('click', function () {
@@ -1686,6 +2657,27 @@
                         showTextEdit(false);
                     }
                 });
+            });
+        }
+
+        var pricesEditClose = byId('bioinmed-admin-prices-edit-close');
+        if (pricesEditClose) {
+            pricesEditClose.addEventListener('click', function () {
+                showPricesEdit(false);
+            });
+        }
+
+        var pricesEditCancel = byId('bioinmed-admin-prices-edit-cancel');
+        if (pricesEditCancel) {
+            pricesEditCancel.addEventListener('click', function () {
+                showPricesEdit(false);
+            });
+        }
+
+        var pricesEditSave = byId('bioinmed-admin-prices-edit-save');
+        if (pricesEditSave) {
+            pricesEditSave.addEventListener('click', function () {
+                saveActivePriceEdit();
             });
         }
 
@@ -2027,6 +3019,7 @@
 
     initEvents();
     ensureLinkIds();
+    bindInlinePricesEditor();
     loadSession().then(function () {
         if (state.config && state.config.isAuthenticated) {
             return loadPinSettings();

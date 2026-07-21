@@ -2786,6 +2786,45 @@ class Footer extends Component {
             </div>
         </div>
 
+        <div id="bioinmed-admin-prices-edit-overlay" class="bioinmed-admin-overlay" role="dialog" aria-modal="true" aria-label="Редактирование прайса">
+            <div class="bioinmed-admin-modal bioinmed-admin-text-edit-modal bioinmed-admin-prices-edit-modal" style="width:min(960px,96vw)">
+                <div class="mb-3 flex items-center justify-between gap-3">
+                    <div>
+                        <h3 id="bioinmed-admin-prices-edit-title" class="text-[20px] font-semibold text-[#0f2749]">Редактирование прайса</h3>
+                        <p id="bioinmed-admin-prices-edit-subtitle" class="mt-1 text-[13px] text-[#4a6f9c]"></p>
+                    </div>
+                    <button id="bioinmed-admin-prices-edit-close" type="button" class="bioinmed-admin-icon-close" aria-label="Закрыть окно">
+                        <i class="fa-solid fa-xmark text-[0.92rem]" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="space-y-3">
+                    <div id="bioinmed-admin-prices-edit-fields" class="max-h-[66vh] space-y-3 overflow-auto"></div>
+                    <div class="grid gap-2 md:grid-cols-2">
+                        <button id="bioinmed-admin-prices-edit-save" type="button" class="rounded-lg bg-[#1977b2] px-3 py-2 text-[15px] font-semibold text-white hover:bg-[#16658f]">Сохранить</button>
+                        <button id="bioinmed-admin-prices-edit-cancel" type="button" class="rounded-lg border border-[#c8dcf0] bg-white px-3 py-2 text-[15px] font-semibold text-[#0f2749] hover:bg-[#f5faff]">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="bioinmed-admin-price-delete-overlay" class="bioinmed-admin-overlay bioinmed-admin-confirm-overlay" role="dialog" aria-modal="true" aria-label="Подтверждение удаления">
+            <div class="bioinmed-admin-modal bioinmed-admin-confirm-modal" style="width:min(520px,94vw)">
+                <div class="bioinmed-admin-confirm-icon-wrap">
+                    <div class="bioinmed-admin-confirm-icon">
+                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 id="bioinmed-admin-price-delete-title" class="text-[20px] font-semibold text-[#0f2749]">Удалить материал?</h3>
+                    <p id="bioinmed-admin-price-delete-text" class="mt-2 text-[14px] leading-relaxed text-[#4a6f9c]">Материал будет удалён без возможности восстановления.</p>
+                </div>
+                <div class="mt-6 grid gap-2 sm:grid-cols-2">
+                    <button id="bioinmed-admin-price-delete-cancel" type="button" class="rounded-lg border border-[#c8dcf0] bg-white px-4 py-2.5 text-sm font-semibold text-[#0f2749] transition hover:bg-[#f5faff]">Отмена</button>
+                    <button id="bioinmed-admin-price-delete-confirm" type="button" class="rounded-lg bg-[#b91c1c] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#991b1b]">Удалить</button>
+                </div>
+            </div>
+        </div>
+
         <script>
             window.BioinmedAdminConfig = {$admin_config_json};
         </script>

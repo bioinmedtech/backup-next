@@ -1,653 +1,1005 @@
 {
-  "meta": {
-    "title": "Прайс-лист услуг и цены",
-    "description": "Прайс-лист клиники БИОИНМЕД в Москве: цены на консультации, диагностику, остеопатию, рефлексотерапию, физиотерапию, капельницы и комплексные программы.",
-    "hero_eyebrow": "Прайс-лист",
-    "hero_title": "Стоимость услуг",
-    "hero_text": "Актуальные цены по направлениям лечения: от первичной консультации до комплексных программ восстановления. Поможем подобрать специалиста и оптимальный формат терапии.",
-    "hero_badge_primary": "Актуальные цены",
-    "hero_badge_secondary": "Ежедневно 9:00-21:00",
-    "quick_nav_title": "Быстрая навигация:"
-  },
-  "sections": [
-    {
-      "id": "chief-doctor",
-      "title": "Приём главного врача клиники Костроминой И.В.",
-      "badge": "Костромина И.В.",
-      "nav_label": "Приём главного врача",
-      "rows": [
-        {
-          "service_id": "avtorskiy-tematicheskiy-priem",
-          "title": "Авторский тематический приём",
-          "description": "Многоуровневая системная адаптационная диагностика и терапия, вегетативно-резонансное тестирование, биорезонансная терапия, психосоматическая и психогенетическая диагностика и терапия",
-          "duration": "120 мин",
-          "price": "15 000 руб."
-        },
-        {
-          "service_id": "chief-doctor-consultation",
-          "title": "Лечебно-диагностический приём",
-          "description": "Многоуровневая системная адаптационная вегетативно-резонансная диагностика и биорезонансная терапия",
-          "duration": "90 мин",
-          "price": "10 000 руб."
-        },
-        {
-          "service_id": "lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let",
-          "title": "Лечебно-диагностический приём \"Мать и дитя\"",
-          "description": "Мама и ребёнок с 0 до 3-х лет",
-          "duration": "120 мин",
-          "price": "10 000 руб."
-        },
-        {
-          "service_id": "sotsialnyy-priem",
-          "title": "Лечебно-диагностический приём (программа лояльности)",
-          "description": "Серебряный возраст 70+ и участники СВО, дети 3-12 лет",
-          "duration": "60 мин",
-          "price": "6 000 руб.",
-          "row_class": "bg-[#f9f0e6]"
-        },
-        {
-          "service_id": "monitoring",
-          "title": "Мониторинг",
-          "description": "Подбор и изготовление индивидуальных лечебных препаратов",
-          "duration": "30 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie",
-          "title": "Авторская методика \"Естественное омоложение\"",
-          "description": "Комплексная системная программа биорегуляции: детоксикация, адаптация, регенерация",
-          "duration": "60 мин",
-          "price": "10 000 руб."
-        },
-        {
-          "service_id": "prp-therapy",
-          "title": "Плазмолифтинг - PRP-терапия (1-2-3 пробирки)",
-          "duration": "",
-          "price": "2 000 руб./пробирка"
-        }
-      ]
+    "meta": {
+        "title": "Прайс-лист услуг и цены",
+        "description": "Прайс-лист клиники БИОИНМЕД в Москве: цены на консультации, диагностику, остеопатию, рефлексотерапию, физиотерапию, капельницы и комплексные программы.",
+        "hero_eyebrow": "Прайс-лист",
+        "hero_title": "Стоимость услуг",
+        "hero_text": "Актуальные цены по направлениям лечения: от первичной консультации до комплексных программ восстановления. Поможем подобрать специалиста и оптимальный формат терапии.",
+        "hero_badge_primary": "Актуальные цены",
+        "hero_badge_secondary": "Ежедневно 9:00-21:00",
+        "quick_nav_title": "Быстрая навигация:"
     },
-    {
-      "id": "oda",
-      "title": "Диагностика и реабилитация опорно-двигательного аппарата (ОДА)",
-      "badge": "",
-      "nav_label": "Диагностика и реабилитация ОДА",
-      "rows": [
+    "sections": [
         {
-          "service_id": "hobilect-diagnostics",
-          "title": "Хабилект-комплекс: диагностика, коррекция, мониторинг, результат",
-          "description": "3D-диагностика ОДА и анализ биомеханики + диагностика стоп + консультация реабилитолога/инструктора ЛФК + сеанс ЛФК с записью видео-уроков",
-          "duration": "60 мин",
-          "price": "6 000 руб."
+            "id": "chief-doctor",
+            "title": "Приём главного врача клиники Костроминой И.В.",
+            "badge": "Костромина И.В.",
+            "nav_label": "Приём главного врача",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "avtorskiy-tematicheskiy-priem",
+                    "title": "Авторский тематический приём",
+                    "description": "Многоуровневая системная адаптационная диагностика и терапия, вегетативно-резонансное тестирование, биорезонансная терапия, психосоматическая и психогенетическая диагностика и терапия",
+                    "duration": "120 мин",
+                    "price": "15 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "chief-doctor-consultation",
+                    "title": "Лечебно-диагностический приём",
+                    "description": "Многоуровневая системная адаптационная вегетативно-резонансная диагностика и биорезонансная терапия",
+                    "duration": "90 мин",
+                    "price": "10 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let",
+                    "title": "Лечебно-диагностический приём \"Мать и дитя\"",
+                    "description": "Мама и ребёнок с 0 до 3-х лет",
+                    "duration": "120 мин",
+                    "price": "10 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "sotsialnyy-priem",
+                    "title": "Лечебно-диагностический приём (программа лояльности)",
+                    "description": "Серебряный возраст 70+ и участники СВО, дети 3-12 лет",
+                    "duration": "60 мин",
+                    "price": "6 000 руб.",
+                    "row_class": "bg-[#f9f0e6]",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "monitoring",
+                    "title": "Мониторинг",
+                    "description": "Подбор и изготовление индивидуальных лечебных препаратов",
+                    "duration": "30 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie",
+                    "title": "Авторская методика \"Естественное омоложение\"",
+                    "description": "Комплексная системная программа биорегуляции: детоксикация, адаптация, регенерация",
+                    "duration": "60 мин",
+                    "price": "10 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "prp-therapy",
+                    "title": "Плазмолифтинг - PRP-терапия (1-2-3 пробирки)",
+                    "description": "",
+                    "duration": "",
+                    "price": "2 000 руб./пробирка",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                }
+            ]
         },
         {
-          "service_id": "hobilect-diagnostics",
-          "title": "3D-диагностика ОДА и анализ биомеханики на лечебно-диагностическом аппаратном комплексе Хабилект",
-          "duration": "30 мин",
-          "price": "3 500 руб."
+            "id": "oda",
+            "title": "Диагностика и реабилитация опорно-двигательного аппарата (ОДА)",
+            "badge": "",
+            "nav_label": "Диагностика и реабилитация ОДА",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "hobilect-diagnostics",
+                    "title": "Хабилект-комплекс: диагностика, коррекция, мониторинг, результат",
+                    "description": "3D-диагностика ОДА и анализ биомеханики + диагностика стоп + консультация реабилитолога/инструктора ЛФК + сеанс ЛФК с записью видео-уроков",
+                    "duration": "60 мин",
+                    "price": "6 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "hobilect-diagnostics",
+                    "title": "3D-диагностика ОДА и анализ биомеханики на лечебно-диагностическом аппаратном комплексе Хабилект",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "rehabilitation-specialist-consultation",
+                    "title": "Сеанс ЛФК с реабилитологом/инструктором ЛФК (онлайн/офлайн)",
+                    "description": "",
+                    "duration": "30-40 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "orthotic-insoles-formthotics",
+                    "title": "Изготовление индивидуальных стелек Formthotics",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "13 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "orthotic-insoles-footmaster",
+                    "title": "Изготовление индивидуальных стелек Футмастер",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "8 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "rehabilitation-specialist-monitoring",
+                    "title": "Мониторинг и коррекция стелек",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "2 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "massage",
+                    "title": "Массаж медицинский/спортивный/лимфодренажный/релаксирующий",
+                    "description": "",
+                    "duration": "90 мин",
+                    "price": "8 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "massage",
+                    "title": "Массаж с маслом «Озонид» + озоновая камера (руки/ноги)",
+                    "description": "",
+                    "duration": "45 мин",
+                    "price": "4 500 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "massage-course",
+                    "title": "Массаж общий - курс 10 сеансов (10% скидка), семейный сертификат",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "54 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "massage-course",
+                    "title": "Массаж общий - курс 10 сеансов (10% скидка), именной сертификат",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "54 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "manual-therapy-consultation",
+                    "title": "Консультация мануального терапевта, невролога",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "manual-therapy-session",
+                    "title": "Приём мануального терапевта, невролога",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "8 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kineziodiagnostics-therapy",
+                    "title": "Лечебно-диагностический приём (кинезиолог)",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "8 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                }
+            ]
         },
         {
-          "service_id": "rehabilitation-specialist-consultation",
-          "title": "Сеанс ЛФК с реабилитологом/инструктором ЛФК (онлайн/офлайн)",
-          "duration": "30-40 мин",
-          "price": "3 000 руб."
+            "id": "osteopathy",
+            "title": "Остеопатия",
+            "badge": "",
+            "nav_label": "Остеопатия",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "osteopathy",
+                    "title": "Лечебно-диагностический приём (к.м.н., стоматолог-остеопат, мануальный терапевт Нехорошева Л.С.)",
+                    "description": "",
+                    "duration": "90 мин",
+                    "price": "11 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "osteopathy",
+                    "title": "Лечебно-диагностический приём (невролог-остеопат Вертлиб В.П.)",
+                    "description": "",
+                    "duration": "90 мин",
+                    "price": "10 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "priem-detskogo-osteopata",
+                    "title": "Приём врача-остеопата (дети 0-12 лет)",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "6 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                }
+            ]
         },
         {
-          "service_id": "orthotic-insoles-formthotics",
-          "title": "Изготовление индивидуальных стелек Formthotics",
-          "duration": "30 мин",
-          "price": "13 000 руб."
+            "id": "infusion",
+            "title": "Инфузионная терапия",
+            "badge": "",
+            "nav_label": "Инфузионная терапия",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "detoks-kapelnitsa",
+                    "title": "Капельница с индивидуальными гомеопатическими биорезонансными препаратами (детоксикация / естественное омоложение)",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "gomeopaticheskaya-kapelnitsa-preparatami-kheel",
+                    "title": "Капельница с комплексными гомеопатическими препаратами Heel (без стоимости препаратов)",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "2 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "gomeopaticheskaya-kapelnitsa-preparatami-kheel-ozon",
+                    "title": "Капельница с комплексными гомеопатическими препаратами Heel + озон",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-s-glutationom-antioksidant",
+                    "title": "Капельница с глутатионом (антиоксидант)",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-s-elkarom-levokarnitin",
+                    "title": "Капельница с элькаром (левокарнитин)",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "2 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-s-lipoevoy-kislotoy-germaniya",
+                    "title": "Капельница с липоевой кислотой (Германия)",
+                    "description": "",
+                    "duration": "40 мин",
+                    "price": "2 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-s-tsitoflavinom",
+                    "title": "Капельница с цитофлавином",
+                    "description": "",
+                    "duration": "40 мин",
+                    "price": "2 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-laennek-yaponiya",
+                    "title": "Капельница Лаеннек (Япония) 1 ампула 2 мл",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "4 500 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-laennek-yaponiya",
+                    "title": "Капельница Лаеннек (Япония) 2 ампулы 4 мл",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "6 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-laennek-yaponiya",
+                    "title": "Капельница Лаеннек (Япония) 3 ампулы 6 мл",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "8 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-laennek-yaponiya",
+                    "title": "Капельница Лаеннек (Япония) 4 ампулы 8 мл",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "10 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "kapelnitsa-laennek-yaponiya",
+                    "title": "Капельница Лаеннек (Япония) 5 ампул 10 мл",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "12 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": true,
+                    "hidden": false
+                }
+            ]
         },
         {
-          "service_id": "orthotic-insoles-footmaster",
-          "title": "Изготовление индивидуальных стелек Футмастер",
-          "duration": "30 мин",
-          "price": "8 000 руб."
+            "id": "injection",
+            "title": "Инъекционная терапия",
+            "badge": "",
+            "nav_label": "Инъекционная терапия",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "gomeopunktura",
+                    "title": "Гомеопунктура с индивидуальными гомеопатическими/биорезонансными препаратами",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "gomeopunktura",
+                    "title": "Гомеопунктура с препаратами Heel (без стоимости препаратов)",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "biopunktura",
+                    "title": "Биопунктура (Мэлсмон), иммуномодуляция и омоложение",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "7 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "gomeopunktura",
+                    "title": "Плазмопунктура (1-2 пробирки)",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "7 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "prp-therapy",
+                    "title": "PRP-терапия, 1 пробирка",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "7 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "prp-therapy",
+                    "title": "PRP-терапия, 2 пробирки",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "9 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "prp-therapy",
+                    "title": "PRP-терапия, 3 пробирки",
+                    "description": "",
+                    "duration": "45 мин",
+                    "price": "11 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "prp-therapy",
+                    "title": "PRP-терапия, 4 пробирки",
+                    "description": "",
+                    "duration": "45 мин",
+                    "price": "13 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "prp-therapy",
+                    "title": "PRP-терапия, 5 пробирок",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "15 000 руб.",
+                    "row_class": "bg-[#f0f7fc] font-semibold",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "biopunktura",
+                    "title": "Таблетка «Принцесса на горошине» (иммуномодулятор из аутоплазмы)",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "7 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "prp-therapy",
+                    "title": "Омолаживающая сыворотка из аутоплазмы",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "5 500 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "karboksiterapiya-ozonoterapiya",
+                    "title": "Карбокситерапия - 1 зона",
+                    "description": "",
+                    "duration": "15 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "karboksiterapiya-ozonoterapiya",
+                    "title": "Карбокситерапия - 2 зоны",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "4 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "karboksiterapiya-ozonoterapiya",
+                    "title": "Карбокситерапия - общая",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "6 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "inektsionnaya-terapiya",
+                    "title": "Внутримышечные инъекции",
+                    "description": "",
+                    "duration": "10 мин",
+                    "price": "600 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "inektsionnaya-terapiya",
+                    "title": "Внутримышечные инъекции (выездная процедура)",
+                    "description": "",
+                    "duration": "",
+                    "price": "1 200 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                }
+            ]
         },
         {
-          "service_id": "rehabilitation-specialist-monitoring",
-          "title": "Мониторинг и коррекция стелек",
-          "duration": "30 мин",
-          "price": "2 000 руб."
+            "id": "ozone",
+            "title": "Озонотерапия",
+            "badge": "",
+            "nav_label": "Озонотерапия",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "detoks-kapelnitsa",
+                    "title": "Капельница с озоном",
+                    "description": "",
+                    "duration": "20 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "ozonoterapiya",
+                    "title": "Мезотерапия озоном - 1 зона",
+                    "description": "",
+                    "duration": "15 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "ozonoterapiya",
+                    "title": "Мезотерапия озоном - 2 зоны",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "4 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "ozonoterapiya",
+                    "title": "Мезотерапия озоном - общая",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "6 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "ozone-camera",
+                    "title": "Озоновая камера",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                }
+            ]
         },
         {
-          "service_id": "massage",
-          "title": "Массаж медицинский/спортивный/лимфодренажный/релаксирующий",
-          "duration": "90 мин",
-          "price": "8 000 руб."
+            "id": "reflexotherapy",
+            "title": "Рефлексотерапия",
+            "badge": "",
+            "nav_label": "Рефлексотерапия",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a",
+                    "title": "Лечебно-диагностический приём (акушер-гинеколог, рефлексотерапевт Кондратова Е.А.)",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "4 500 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "korporalnaya-iglorefleksoterapiya",
+                    "title": "Корпоральная иглорефлексотерапия (ИРТ)",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "6 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "mikropunktura-aurikulyarnaya",
+                    "title": "Аурикулопунктура",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "4 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "mikropunktura-lazernaya",
+                    "title": "Лазеропунктура",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "korporalnaya-iglorefleksoterapiya",
+                    "title": "Акупунктурный лифтинг лица",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "6 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "semyanoterapiya",
+                    "title": "Семянопунктура",
+                    "description": "",
+                    "duration": "10 мин",
+                    "price": "1 500 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "akupunkturnyy-avtorskiy-metod-kondratovoy-e-a-vostochnyy-ekspress",
+                    "title": "Авторская методика «Восточный экспресс»",
+                    "description": "Кетгут-терапия (коррекция веса и пищевого поведения)",
+                    "duration": "60 мин",
+                    "price": "12 500 руб.",
+                    "row_class": "bg-[#f9f0e6]",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove",
+                    "title": "Авторская программа «Женское здоровье»",
+                    "description": "Биопунктура (Мэлсмон/Аутоплазма) + вакуумная гармонизация + аурикулопунктура",
+                    "duration": "60 мин",
+                    "price": "10 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                }
+            ]
         },
         {
-          "service_id": "massage",
-          "title": "Массаж с маслом «Озонид» + озоновая камера (руки/ноги)",
-          "duration": "45 мин",
-          "price": "4 500 руб."
+            "id": "physiotherapy",
+            "title": "Физиотерапия",
+            "badge": "",
+            "nav_label": "Физиотерапия",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "hilt-therapy",
+                    "title": "HILT (высокоинтенсивная лазерная терапия) - 1 зона",
+                    "description": "",
+                    "duration": "10 мин",
+                    "price": "3 800 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "hilt-therapy",
+                    "title": "HILT (высокоинтенсивная лазерная терапия) - 2 зоны",
+                    "description": "",
+                    "duration": "20 мин",
+                    "price": "5 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "hilt-therapy",
+                    "title": "HILT (высокоинтенсивная лазерная терапия) - 3 зоны",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "6 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "transkranialnaya-magnitoterapiya-tkmt",
+                    "title": "ТКМТ (транскраниальная магнитотерапия)",
+                    "description": "",
+                    "duration": "15 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "transkranialnaya-magnitoterapiya-tkmt",
+                    "title": "ТКМТ + электростимуляция",
+                    "description": "",
+                    "duration": "15 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "magnitoterapiya-fotostimulyatsiya-amblio",
+                    "title": "Магнитотерапия / фотостимуляция Амблио",
+                    "description": "",
+                    "duration": "15 мин",
+                    "price": "1 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "shock-wave-therapy",
+                    "title": "УВТ - 1 анатомическая зона (2000-3000 импульсов)",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "shock-wave-therapy",
+                    "title": "УВТ - 2 анатомические зоны и более (4000-9000 импульсов)",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "5 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "hilt-therapy",
+                    "title": "НЛОК (надвенное лазерное облучение крови)",
+                    "description": "",
+                    "duration": "20 мин",
+                    "price": "1 500 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "geliosplazma",
+                    "title": "Гелиосплазма - 1 зона (дерматиты, акне, онихомикозы)",
+                    "description": "",
+                    "duration": "20 мин",
+                    "price": "1 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "geliosplazma",
+                    "title": "Гелиосплазма - омоложение кожи",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "5 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "miostimulyatsiya-vip-layn",
+                    "title": "Электромиостимуляция на аппарате VIP LINE Transion - 1 зона",
+                    "description": "",
+                    "duration": "45 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "miostimulyatsiya-vip-layn",
+                    "title": "Электромиостимуляция на аппарате VIP LINE Transion - 2 зоны",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "5 500 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "miostimulyatsiya-vip-layn",
+                    "title": "Электромиостимуляция на аппарате VIP LINE Transion - 3 зоны",
+                    "description": "",
+                    "duration": "70 мин",
+                    "price": "8 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "miostimulyatsiya-vip-layn",
+                    "title": "Микротоки на аппарате VIP LINE Microgei (лицо, шея, декольте)",
+                    "description": "",
+                    "duration": "40 мин",
+                    "price": "5 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "miostimulyatsiya-vip-layn",
+                    "title": "Изометрическая миостимуляция на аппарате VIP LINE Isogei",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "5 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "elektroforez",
+                    "title": "Электрофорез лекарственный (эндоназальный/эндауральный/общий)",
+                    "description": "",
+                    "duration": "30-40 мин",
+                    "price": "2 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "ultrafonoforez",
+                    "title": "Ультрафонофорез лекарственный 1-2 зоны",
+                    "description": "",
+                    "duration": "15-30 мин",
+                    "price": "2 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "ultrafonoforez",
+                    "title": "Ультрафонофорез лекарственный 3-4 зоны",
+                    "description": "",
+                    "duration": "45-60 мин",
+                    "price": "2 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                }
+            ]
         },
         {
-          "service_id": "massage-course",
-          "title": "Массаж общий - курс 10 сеансов (10% скидка), семейный сертификат",
-          "duration": "60 мин",
-          "price": "54 000 руб."
-        },
-        {
-          "service_id": "massage-course",
-          "title": "Массаж общий - курс 10 сеансов (10% скидка), именной сертификат",
-          "duration": "60 мин",
-          "price": "54 000 руб."
-        },
-        {
-          "service_id": "manual-therapy-consultation",
-          "title": "Консультация мануального терапевта, невролога",
-          "duration": "30 мин",
-          "price": "3 500 руб."
-        },
-        {
-          "service_id": "manual-therapy-session",
-          "title": "Приём мануального терапевта, невролога",
-          "duration": "60 мин",
-          "price": "8 000 руб."
-        },
-        {
-          "service_id": "kineziodiagnostics-therapy",
-          "title": "Лечебно-диагностический приём (кинезиолог)",
-          "duration": "60 мин",
-          "price": "8 000 руб."
+            "id": "taping",
+            "title": "Тейпирование и банки",
+            "badge": "",
+            "nav_label": "Тейпирование и банки",
+            "hidden": false,
+            "rows": [
+                {
+                    "service_id": "taping",
+                    "title": "Кинезиотейпирование - 1 зона",
+                    "description": "",
+                    "duration": "10 мин",
+                    "price": "2 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "taping",
+                    "title": "Кинезиотейпирование - 2 зоны",
+                    "description": "",
+                    "duration": "20 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "taping",
+                    "title": "Кинезиотейпирование - 3 зоны",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "4 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "akupunkturnoe-kross-teypirovanie",
+                    "title": "Акупунктурное кросс-тейпирование 1-2 зоны",
+                    "description": "",
+                    "duration": "10 мин",
+                    "price": "2 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "akupunkturnoe-kross-teypirovanie",
+                    "title": "Акупунктурное кросс-тейпирование 3-4 зоны",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "2 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "akupunkturnoe-kross-teypirovanie",
+                    "title": "Акупунктурное кросс-тейпирование 5-6 зон",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "cupping",
+                    "title": "Постановка банок - 1 зона",
+                    "description": "",
+                    "duration": "40 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "cupping",
+                    "title": "Постановка банок - 2 зоны",
+                    "description": "",
+                    "duration": "50 мин",
+                    "price": "4 000 руб.",
+                    "row_class": "",
+                    "link": false,
+                    "hidden": false
+                }
+            ]
         }
-      ]
-    },
-    {
-      "id": "osteopathy",
-      "title": "Остеопатия",
-      "badge": "",
-      "nav_label": "Остеопатия",
-      "rows": [
-        {
-          "service_id": "osteopathy",
-          "title": "Лечебно-диагностический приём (к.м.н., стоматолог-остеопат, мануальный терапевт Нехорошева Л.С.)",
-          "duration": "90 мин",
-          "price": "11 000 руб."
-        },
-        {
-          "service_id": "osteopathy",
-          "title": "Лечебно-диагностический приём (невролог-остеопат Вертлиб В.П.)",
-          "duration": "90 мин",
-          "price": "10 000 руб."
-        },
-        {
-          "service_id": "priem-detskogo-osteopata",
-          "title": "Приём врача-остеопата (дети 0-12 лет)",
-          "duration": "60 мин",
-          "price": "6 000 руб."
-        }
-      ]
-    },
-    {
-      "id": "infusion",
-      "title": "Инфузионная терапия",
-      "badge": "",
-      "nav_label": "Инфузионная терапия",
-      "rows": [
-        {
-          "service_id": "detoks-kapelnitsa",
-          "title": "Капельница с индивидуальными гомеопатическими биорезонансными препаратами (детоксикация / естественное омоложение)",
-          "duration": "30 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "gomeopaticheskaya-kapelnitsa-preparatami-kheel",
-          "title": "Капельница с комплексными гомеопатическими препаратами Heel (без стоимости препаратов)",
-          "duration": "30 мин",
-          "price": "2 000 руб."
-        },
-        {
-          "service_id": "gomeopaticheskaya-kapelnitsa-preparatami-kheel-ozon",
-          "title": "Капельница с комплексными гомеопатическими препаратами Heel + озон",
-          "duration": "30 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "kapelnitsa-s-glutationom-antioksidant",
-          "title": "Капельница с глутатионом (антиоксидант)",
-          "duration": "30 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "kapelnitsa-s-elkarom-levokarnitin",
-          "title": "Капельница с элькаром (левокарнитин)",
-          "duration": "30 мин",
-          "price": "2 500 руб."
-        },
-        {
-          "service_id": "kapelnitsa-s-lipoevoy-kislotoy-germaniya",
-          "title": "Капельница с липоевой кислотой (Германия)",
-          "duration": "40 мин",
-          "price": "2 500 руб."
-        },
-        {
-          "service_id": "kapelnitsa-s-tsitoflavinom",
-          "title": "Капельница с цитофлавином",
-          "duration": "40 мин",
-          "price": "2 500 руб."
-        },
-        {
-          "service_id": "kapelnitsa-laennek-yaponiya",
-          "title": "Капельница Лаеннек (Япония) 1 ампула 2 мл",
-          "duration": "60 мин",
-          "price": "4 500 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "kapelnitsa-laennek-yaponiya",
-          "title": "Капельница Лаеннек (Япония) 2 ампулы 4 мл",
-          "duration": "60 мин",
-          "price": "6 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "kapelnitsa-laennek-yaponiya",
-          "title": "Капельница Лаеннек (Япония) 3 ампулы 6 мл",
-          "duration": "60 мин",
-          "price": "8 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "kapelnitsa-laennek-yaponiya",
-          "title": "Капельница Лаеннек (Япония) 4 ампулы 8 мл",
-          "duration": "60 мин",
-          "price": "10 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "kapelnitsa-laennek-yaponiya",
-          "title": "Капельница Лаеннек (Япония) 5 ампул 10 мл",
-          "duration": "60 мин",
-          "price": "12 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        }
-      ]
-    },
-    {
-      "id": "injection",
-      "title": "Инъекционная терапия",
-      "badge": "",
-      "nav_label": "Инъекционная терапия",
-      "rows": [
-        {
-          "service_id": "gomeopunktura",
-          "title": "Гомеопунктура с индивидуальными гомеопатическими/биорезонансными препаратами",
-          "duration": "30 мин",
-          "price": "3 500 руб."
-        },
-        {
-          "service_id": "gomeopunktura",
-          "title": "Гомеопунктура с препаратами Heel (без стоимости препаратов)",
-          "duration": "30 мин",
-          "price": "3 500 руб."
-        },
-        {
-          "service_id": "biopunktura",
-          "title": "Биопунктура (Мэлсмон), иммуномодуляция и омоложение",
-          "duration": "30 мин",
-          "price": "7 000 руб."
-        },
-        {
-          "service_id": "gomeopunktura",
-          "title": "Плазмопунктура (1-2 пробирки)",
-          "duration": "30 мин",
-          "price": "7 000 руб."
-        },
-        {
-          "service_id": "prp-therapy",
-          "title": "PRP-терапия, 1 пробирка",
-          "duration": "30 мин",
-          "price": "7 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "prp-therapy",
-          "title": "PRP-терапия, 2 пробирки",
-          "duration": "30 мин",
-          "price": "9 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "prp-therapy",
-          "title": "PRP-терапия, 3 пробирки",
-          "duration": "45 мин",
-          "price": "11 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "prp-therapy",
-          "title": "PRP-терапия, 4 пробирки",
-          "duration": "45 мин",
-          "price": "13 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "prp-therapy",
-          "title": "PRP-терапия, 5 пробирок",
-          "duration": "60 мин",
-          "price": "15 000 руб.",
-          "row_class": "bg-[#f0f7fc] font-semibold"
-        },
-        {
-          "service_id": "biopunktura",
-          "title": "Таблетка «Принцесса на горошине» (иммуномодулятор из аутоплазмы)",
-          "duration": "60 мин",
-          "price": "7 000 руб."
-        },
-        {
-          "service_id": "prp-therapy",
-          "title": "Омолаживающая сыворотка из аутоплазмы",
-          "duration": "30 мин",
-          "price": "5 500 руб."
-        },
-        {
-          "service_id": "karboksiterapiya-ozonoterapiya",
-          "title": "Карбокситерапия - 1 зона",
-          "duration": "15 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "karboksiterapiya-ozonoterapiya",
-          "title": "Карбокситерапия - 2 зоны",
-          "duration": "30 мин",
-          "price": "4 500 руб."
-        },
-        {
-          "service_id": "karboksiterapiya-ozonoterapiya",
-          "title": "Карбокситерапия - общая",
-          "duration": "60 мин",
-          "price": "6 000 руб."
-        },
-        {
-          "service_id": "inektsionnaya-terapiya",
-          "title": "Внутримышечные инъекции",
-          "duration": "10 мин",
-          "price": "600 руб."
-        },
-        {
-          "service_id": "inektsionnaya-terapiya",
-          "title": "Внутримышечные инъекции (выездная процедура)",
-          "duration": "",
-          "price": "1 200 руб."
-        }
-      ]
-    },
-    {
-      "id": "ozone",
-      "title": "Озонотерапия",
-      "badge": "",
-      "nav_label": "Озонотерапия",
-      "rows": [
-        {
-          "service_id": "detoks-kapelnitsa",
-          "title": "Капельница с озоном",
-          "duration": "20 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "ozonoterapiya",
-          "title": "Мезотерапия озоном - 1 зона",
-          "duration": "15 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "ozonoterapiya",
-          "title": "Мезотерапия озоном - 2 зоны",
-          "duration": "30 мин",
-          "price": "4 500 руб."
-        },
-        {
-          "service_id": "ozonoterapiya",
-          "title": "Мезотерапия озоном - общая",
-          "duration": "60 мин",
-          "price": "6 000 руб."
-        },
-        {
-          "service_id": "ozone-camera",
-          "title": "Озоновая камера",
-          "duration": "30 мин",
-          "price": "3 500 руб."
-        }
-      ]
-    },
-    {
-      "id": "reflexotherapy",
-      "title": "Рефлексотерапия",
-      "badge": "",
-      "nav_label": "Рефлексотерапия",
-      "rows": [
-        {
-          "service_id": "ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a",
-          "title": "Лечебно-диагностический приём (акушер-гинеколог, рефлексотерапевт Кондратова Е.А.)",
-          "duration": "60 мин",
-          "price": "4 500 руб."
-        },
-        {
-          "service_id": "korporalnaya-iglorefleksoterapiya",
-          "title": "Корпоральная иглорефлексотерапия (ИРТ)",
-          "duration": "60 мин",
-          "price": "6 000 руб."
-        },
-        {
-          "service_id": "mikropunktura-aurikulyarnaya",
-          "title": "Аурикулопунктура",
-          "duration": "30 мин",
-          "price": "4 500 руб."
-        },
-        {
-          "service_id": "mikropunktura-lazernaya",
-          "title": "Лазеропунктура",
-          "duration": "30 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "korporalnaya-iglorefleksoterapiya",
-          "title": "Акупунктурный лифтинг лица",
-          "duration": "60 мин",
-          "price": "6 000 руб."
-        },
-        {
-          "service_id": "semyanoterapiya",
-          "title": "Семянопунктура",
-          "duration": "10 мин",
-          "price": "1 500 руб."
-        },
-        {
-          "service_id": "akupunkturnyy-avtorskiy-metod-kondratovoy-e-a-vostochnyy-ekspress",
-          "title": "Авторская методика «Восточный экспресс»",
-          "description": "Кетгут-терапия (коррекция веса и пищевого поведения)",
-          "duration": "60 мин",
-          "price": "12 500 руб.",
-          "row_class": "bg-[#f9f0e6]"
-        },
-        {
-          "service_id": "avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove",
-          "title": "Авторская программа «Женское здоровье»",
-          "description": "Биопунктура (Мэлсмон/Аутоплазма) + вакуумная гармонизация + аурикулопунктура",
-          "duration": "60 мин",
-          "price": "10 000 руб."
-        }
-      ]
-    },
-    {
-      "id": "physiotherapy",
-      "title": "Физиотерапия",
-      "badge": "",
-      "nav_label": "Физиотерапия",
-      "rows": [
-        {
-          "service_id": "hilt-therapy",
-          "title": "HILT (высокоинтенсивная лазерная терапия) - 1 зона",
-          "duration": "10 мин",
-          "price": "3 800 руб."
-        },
-        {
-          "service_id": "hilt-therapy",
-          "title": "HILT (высокоинтенсивная лазерная терапия) - 2 зоны",
-          "duration": "20 мин",
-          "price": "5 500 руб."
-        },
-        {
-          "service_id": "hilt-therapy",
-          "title": "HILT (высокоинтенсивная лазерная терапия) - 3 зоны",
-          "duration": "30 мин",
-          "price": "6 500 руб."
-        },
-        {
-          "service_id": "transkranialnaya-magnitoterapiya-tkmt",
-          "title": "ТКМТ (транскраниальная магнитотерапия)",
-          "duration": "15 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "transkranialnaya-magnitoterapiya-tkmt",
-          "title": "ТКМТ + электростимуляция",
-          "duration": "15 мин",
-          "price": "3 500 руб."
-        },
-        {
-          "service_id": "magnitoterapiya-fotostimulyatsiya-amblio",
-          "title": "Магнитотерапия / фотостимуляция Амблио",
-          "duration": "15 мин",
-          "price": "1 500 руб."
-        },
-        {
-          "service_id": "shock-wave-therapy",
-          "title": "УВТ - 1 анатомическая зона (2000-3000 импульсов)",
-          "duration": "30 мин",
-          "price": "3 500 руб."
-        },
-        {
-          "service_id": "shock-wave-therapy",
-          "title": "УВТ - 2 анатомические зоны и более (4000-9000 импульсов)",
-          "duration": "60 мин",
-          "price": "5 000 руб."
-        },
-        {
-          "service_id": "hilt-therapy",
-          "title": "НЛОК (надвенное лазерное облучение крови)",
-          "duration": "20 мин",
-          "price": "1 500 руб."
-        },
-        {
-          "service_id": "geliosplazma",
-          "title": "Гелиосплазма - 1 зона (дерматиты, акне, онихомикозы)",
-          "duration": "20 мин",
-          "price": "1 500 руб."
-        },
-        {
-          "service_id": "geliosplazma",
-          "title": "Гелиосплазма - омоложение кожи",
-          "duration": "30 мин",
-          "price": "5 500 руб."
-        },
-        {
-          "service_id": "miostimulyatsiya-vip-layn",
-          "title": "Электромиостимуляция на аппарате VIP LINE Transion - 1 зона",
-          "duration": "45 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "miostimulyatsiya-vip-layn",
-          "title": "Электромиостимуляция на аппарате VIP LINE Transion - 2 зоны",
-          "duration": "60 мин",
-          "price": "5 500 руб."
-        },
-        {
-          "service_id": "miostimulyatsiya-vip-layn",
-          "title": "Электромиостимуляция на аппарате VIP LINE Transion - 3 зоны",
-          "duration": "70 мин",
-          "price": "8 000 руб."
-        },
-        {
-          "service_id": "miostimulyatsiya-vip-layn",
-          "title": "Микротоки на аппарате VIP LINE Microgei (лицо, шея, декольте)",
-          "duration": "40 мин",
-          "price": "5 000 руб."
-        },
-        {
-          "service_id": "miostimulyatsiya-vip-layn",
-          "title": "Изометрическая миостимуляция на аппарате VIP LINE Isogei",
-          "duration": "60 мин",
-          "price": "5 000 руб."
-        },
-        {
-          "service_id": "elektroforez",
-          "title": "Электрофорез лекарственный (эндоназальный/эндауральный/общий)",
-          "duration": "30-40 мин",
-          "price": "2 000 руб."
-        },
-        {
-          "service_id": "ultrafonoforez",
-          "title": "Ультрафонофорез лекарственный 1-2 зоны",
-          "duration": "15-30 мин",
-          "price": "2 000 руб."
-        },
-        {
-          "service_id": "ultrafonoforez",
-          "title": "Ультрафонофорез лекарственный 3-4 зоны",
-          "duration": "45-60 мин",
-          "price": "2 000 руб."
-        }
-      ]
-    },
-    {
-      "id": "taping",
-      "title": "Тейпирование и банки",
-      "badge": "",
-      "nav_label": "Тейпирование и банки",
-      "rows": [
-        {
-          "service_id": "taping",
-          "title": "Кинезиотейпирование - 1 зона",
-          "duration": "10 мин",
-          "price": "2 500 руб."
-        },
-        {
-          "service_id": "taping",
-          "title": "Кинезиотейпирование - 2 зоны",
-          "duration": "20 мин",
-          "price": "3 500 руб."
-        },
-        {
-          "service_id": "taping",
-          "title": "Кинезиотейпирование - 3 зоны",
-          "duration": "30 мин",
-          "price": "4 500 руб."
-        },
-        {
-          "service_id": "akupunkturnoe-kross-teypirovanie",
-          "title": "Акупунктурное кросс-тейпирование 1-2 зоны",
-          "duration": "10 мин",
-          "price": "2 000 руб."
-        },
-        {
-          "service_id": "akupunkturnoe-kross-teypirovanie",
-          "title": "Акупунктурное кросс-тейпирование 3-4 зоны",
-          "duration": "30 мин",
-          "price": "2 500 руб."
-        },
-        {
-          "service_id": "akupunkturnoe-kross-teypirovanie",
-          "title": "Акупунктурное кросс-тейпирование 5-6 зон",
-          "duration": "30 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "cupping",
-          "title": "Постановка банок - 1 зона",
-          "duration": "40 мин",
-          "price": "3 000 руб."
-        },
-        {
-          "service_id": "cupping",
-          "title": "Постановка банок - 2 зоны",
-          "duration": "50 мин",
-          "price": "4 000 руб."
-        }
-      ]
-    }
-  ]
+    ]
 }

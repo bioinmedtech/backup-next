@@ -98,7 +98,23 @@ foreach ($pricesSectionsConfig as $sectionConfig) {
         'title' => $title,
         'badge' => trim((string)($sectionConfig['badge'] ?? '')),
         'nav_label' => $navLabel,
+        'hidden' => !empty($sectionConfig['hidden']),
     ];
+}
+
+$serviceSelectOptionsHtml = '<option value="">Без привязки</option>';
+foreach ($services as $serviceItem) {
+    if (!is_array($serviceItem)) {
+        continue;
+    }
+
+    $serviceOptionId = trim((string)($serviceItem['id'] ?? ''));
+    $serviceOptionName = trim((string)($serviceItem['name'] ?? ''));
+    if ($serviceOptionId === '' || $serviceOptionName === '') {
+        continue;
+    }
+
+    $serviceSelectOptionsHtml .= '<option value="' . htmlspecialchars($serviceOptionId, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($serviceOptionName, ENT_QUOTES, 'UTF-8') . '</option>';
 }
 
 $resolveServicePrice = static function (string $serviceId) use ($servicesById): string {
@@ -250,6 +266,11 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-cta a { font-size: 0.94rem; }
         .price-service-link { color: #0a293c; text-decoration: underline; text-decoration-color: rgba(36, 140, 255, 0.45); text-underline-offset: 2px; transition: color .2s ease, text-decoration-color .2s ease; }
         .price-service-link:hover { color: #1977b2; text-decoration-color: rgba(36, 140, 255, 0.95); }
+        .price-section-hidden, tr.price-row-hidden, .price-nav-link-hidden { display: none; }
+        .price-admin-section-toolbar, .price-admin-row-actions { display: none; }
+        body.bioinmed-edit-mode .price-section-hidden { display: block; }
+        body.bioinmed-edit-mode tr.price-row-hidden { display: table-row; }
+        body.bioinmed-edit-mode .price-nav-link-hidden { display: inline-flex; opacity: 0.58; }
         @media (min-width: 768px) { .prices-hero h1 { font-size: 2.15rem; } }
         @media (max-width: 767px) {
             .category-section { padding: 0.78rem; }
@@ -293,17 +314,19 @@ $header = new Header($brand_colors);
                         'sections.' . $sectionId . '.nav_label',
                         (string)$sectionMeta['nav_label']
                     );
+                    $navLinkClass = 'inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]' . (!empty($sectionMeta['hidden']) ? ' price-nav-link-hidden' : '');
                     ?>
-                    <a href="#<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" class="inline-flex items-center rounded-full border border-[#cfe0ef] bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#0a293c] hover:border-[#8bb7dc] hover:text-[#1977b2]"<?php echo $navLabelNode['attr']; ?>><?php echo htmlspecialchars($navLabelNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
+                    <a href="#<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" class="<?php echo htmlspecialchars($navLinkClass, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $navLabelNode['attr']; ?>><?php echo htmlspecialchars($navLabelNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
                 <?php endforeach; ?>
             </div>
         </div>
 
-        <div class="space-y-6">
+        <div class="space-y-6" data-prices-page-root>
             <?php foreach ($sectionsMeta as $sectionMeta): ?>
                 <?php
                 $sectionId = (string)$sectionMeta['id'];
                 $sectionRows = is_array($pricesRowsBySection[$sectionId] ?? null) ? $pricesRowsBySection[$sectionId] : [];
+                $sectionHidden = !empty($sectionMeta['hidden']);
                 $sectionTitleNode = bioinmed_page_text_node(
                     $pricesPage,
                     'prices',
@@ -316,14 +339,20 @@ $header = new Header($brand_colors);
                     'sections.' . $sectionId . '.badge',
                     (string)($sectionMeta['badge'] ?? '')
                 );
-                $sectionBadgeAttr = $sectionId === 'chief-doctor' ? $sectionBadgeNode['attr'] : '';
+                $sectionClasses = 'category-section' . ($sectionHidden ? ' price-section-hidden' : '');
                 ?>
-                <section id="<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" class="category-section">
-                    <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]" data-admin-block-root>
-                        <h2 class="text-2xl font-bold text-[#1977b2]"<?php echo $sectionTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$sectionTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></h2>
-                        <?php if ((string)$sectionBadgeNode['value'] !== ''): ?>
-                            <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white"<?php echo $sectionBadgeAttr; ?>><?php echo htmlspecialchars((string)$sectionBadgeNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
-                        <?php endif; ?>
+                <section id="<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" class="<?php echo htmlspecialchars($sectionClasses, ENT_QUOTES, 'UTF-8'); ?> price-admin-section-host" data-price-section-id="<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" data-price-section-hidden="<?php echo $sectionHidden ? '1' : '0'; ?>" data-price-section-nav-label="<?php echo htmlspecialchars((string)$sectionMeta['nav_label'], ENT_QUOTES, 'UTF-8'); ?>" data-price-section-badge="<?php echo htmlspecialchars((string)$sectionBadgeNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-admin-disable-block-edit="1">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]" data-admin-disable-block-edit="1">
+                        <h2 class="text-2xl font-bold text-[#1977b2]" data-price-section-title-view<?php echo $sectionTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$sectionTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></h2>
+                        <div class="price-admin-section-toolbar" data-admin-disable-block-edit="1">
+                            <button type="button" class="price-admin-inline-btn" data-price-section-action="move-up" title="Поднять раздел выше"><span aria-hidden="true">↑</span><span>Выше</span></button>
+                            <button type="button" class="price-admin-inline-btn" data-price-section-action="move-down" title="Опустить раздел ниже"><span aria-hidden="true">↓</span><span>Ниже</span></button>
+                            <button type="button" class="price-admin-inline-btn" data-price-section-action="toggle-settings" title="Открыть редактирование раздела">Редактировать</button>
+                            <button type="button" class="price-admin-inline-btn" data-price-section-action="add-row" title="Добавить цену в раздел">Добавить цену</button>
+                            <button type="button" class="price-admin-inline-btn" data-price-section-action="add-section-below" title="Добавить новый раздел ниже">Добавить раздел ниже</button>
+                            <button type="button" class="price-admin-inline-btn" data-price-section-action="toggle-hidden" title="Скрыть или показать раздел"><?php echo $sectionHidden ? 'Показать' : 'Скрыть'; ?></button>
+                            <button type="button" class="price-admin-inline-btn price-admin-inline-btn-danger" data-price-section-action="delete-section" title="Удалить раздел">Удалить</button>
+                        </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse">
@@ -342,11 +371,8 @@ $header = new Header($brand_colors);
                                     }
 
                                     $serviceId = trim((string)($row['service_id'] ?? ''));
-                                    if ($serviceId === '' || !isset($servicesById[$serviceId])) {
-                                        continue;
-                                    }
-
-                                    $serviceName = trim((string)($servicesById[$serviceId]['name'] ?? ''));
+                                    $serviceExists = $serviceId !== '' && isset($servicesById[$serviceId]);
+                                    $serviceName = $serviceExists ? trim((string)($servicesById[$serviceId]['name'] ?? '')) : '';
                                     $rowTitle = trim((string)($row['title'] ?? $serviceName));
                                     if ($rowTitle === '') {
                                         continue;
@@ -355,14 +381,15 @@ $header = new Header($brand_colors);
                                     $rowDescription = trim((string)($row['description'] ?? ''));
                                     $rowDuration = trim((string)($row['duration'] ?? ''));
                                     $rowPrice = trim((string)($row['price'] ?? ''));
-                                    if ($rowPrice === '') {
+                                    if ($rowPrice === '' && $serviceExists) {
                                         $rowPrice = $resolveServicePrice($serviceId);
                                     }
                                     if ($rowPrice === '') {
                                         continue;
                                     }
 
-                                    $serviceResolvedPrice = $resolveServicePrice($serviceId);
+                                    $rowHidden = !empty($row['hidden']);
+                                    $serviceResolvedPrice = $serviceExists ? $resolveServicePrice($serviceId) : '';
                                     $allowServiceLink = true;
                                     if (array_key_exists('link', $row)) {
                                         $allowServiceLink = (bool)$row['link'];
@@ -371,8 +398,9 @@ $header = new Header($brand_colors);
                                     }
 
                                     $rowClass = trim((string)($row['row_class'] ?? ''));
-                                    $rowClassAttr = $rowClass !== '' ? ' class="' . htmlspecialchars($rowClass, ENT_QUOTES, 'UTF-8') . '"' : '';
-                                    $serviceHref = '/services/' . rawurlencode($serviceId);
+                                    $rowClasses = trim($rowClass . ($rowHidden ? ' price-row-hidden' : ''));
+                                    $rowClassAttr = $rowClasses !== '' ? ' class="' . htmlspecialchars($rowClasses, ENT_QUOTES, 'UTF-8') . '"' : '';
+                                    $serviceHref = $serviceExists ? '/services/' . rawurlencode($serviceId) : '';
                                     $rowTitleNode = bioinmed_page_text_node(
                                         $pricesPage,
                                         'prices',
@@ -403,27 +431,36 @@ $header = new Header($brand_colors);
                                     }
                                     $displayPrice = trim((string)$rowPriceNode['value']);
                                     ?>
-                                    <tr<?php echo $rowClassAttr; ?> data-admin-block-root>
-                                        <td class="px-4 py-3" data-service-id="<?php echo htmlspecialchars($serviceId, ENT_QUOTES, 'UTF-8'); ?>">
+                                    <tr<?php echo $rowClassAttr; ?> data-price-row-index="<?php echo (int)$rowIndex; ?>" data-price-row-hidden="<?php echo $rowHidden ? '1' : '0'; ?>" data-price-row-title="<?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-price-row-description="<?php echo htmlspecialchars((string)$rowDescriptionNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-price-row-duration="<?php echo htmlspecialchars((string)$rowDurationNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-price-row-price="<?php echo htmlspecialchars($displayPrice, ENT_QUOTES, 'UTF-8'); ?>" data-price-row-class="<?php echo htmlspecialchars($rowClass, ENT_QUOTES, 'UTF-8'); ?>" data-price-row-link="<?php echo $allowServiceLink ? '1' : '0'; ?>" data-admin-disable-block-edit="1">
+                                        <td class="px-4 py-3 price-admin-row-host" data-service-id="<?php echo htmlspecialchars($serviceId, ENT_QUOTES, 'UTF-8'); ?>">
+                                            <div class="price-admin-row-actions" data-admin-disable-block-edit="1">
+                                                <button type="button" class="price-admin-inline-btn" data-price-row-action="move-up" title="Поднять строку выше"><span aria-hidden="true">↑</span><span>Выше</span></button>
+                                                <button type="button" class="price-admin-inline-btn" data-price-row-action="move-down" title="Опустить строку ниже"><span aria-hidden="true">↓</span><span>Ниже</span></button>
+                                                <button type="button" class="price-admin-inline-btn" data-price-row-action="add-after" title="Добавить цену ниже">Добавить цену ниже</button>
+                                                <button type="button" class="price-admin-inline-btn" data-price-row-action="toggle-editor" title="Открыть редактирование строки">Редактировать</button>
+                                                <button type="button" class="price-admin-inline-btn" data-price-row-action="toggle-hidden" title="Скрыть или показать"><?php echo $rowHidden ? 'Показать' : 'Скрыть'; ?></button>
+                                                <button type="button" class="price-admin-inline-btn price-admin-inline-btn-danger" data-price-row-action="delete-row" title="Удалить цену">Удалить</button>
+                                            </div>
                                             <?php if ((string)$rowDescriptionNode['value'] !== ''): ?>
                                                 <div class="font-semibold text-[#0f2749]">
-                                                    <?php if ($allowServiceLink): ?>
-                                                        <a class="price-service-link" href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
+                                                    <?php if ($allowServiceLink && $serviceExists): ?>
+                                                        <a class="price-service-link" data-price-row-title-view href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
                                                     <?php else: ?>
-                                                        <span<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                        <span data-price-row-title-view<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
                                                     <?php endif; ?>
                                                 </div>
-                                                <p class="text-sm text-[#0a293c] mt-1"<?php echo $rowDescriptionNode['attr']; ?>><?php echo htmlspecialchars((string)$rowDescriptionNode['value'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                                <p class="text-sm text-[#0a293c] mt-1" data-price-row-description-view<?php echo $rowDescriptionNode['attr']; ?>><?php echo htmlspecialchars((string)$rowDescriptionNode['value'], ENT_QUOTES, 'UTF-8'); ?></p>
                                             <?php else: ?>
-                                                <?php if ($allowServiceLink): ?>
-                                                    <a class="price-service-link" href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
+                                                <?php if ($allowServiceLink && $serviceExists): ?>
+                                                    <a class="price-service-link" data-price-row-title-view href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
                                                 <?php else: ?>
-                                                    <span<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                    <span data-price-row-title-view<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
                                                 <?php endif; ?>
+                                                <p class="text-sm text-[#0a293c] mt-1" data-price-row-description-view style="display:none"></p>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="px-4 py-3 text-[#0a293c]"<?php echo $rowDurationNode['attr']; ?>><?php echo htmlspecialchars($displayDuration, ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap"<?php echo $rowPriceNode['attr']; ?>><?php echo htmlspecialchars($displayPrice, ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="px-4 py-3 text-[#0a293c]" data-price-row-duration-view<?php echo $rowDurationNode['attr']; ?>><?php echo htmlspecialchars($displayDuration, ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap" data-price-row-price-view<?php echo $rowPriceNode['attr']; ?>><?php echo htmlspecialchars($displayPrice, ENT_QUOTES, 'UTF-8'); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
