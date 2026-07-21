@@ -302,6 +302,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-export-dropdown[hidden] { display: none !important; }
         .prices-export-dropdown .prices-document-button { width: 100%; justify-content: flex-start; border-color: transparent; background: #fff; color: #17446f; }
         .prices-export-dropdown .prices-document-button:hover { border-color: #d8e8f5; background: #eef6fd; color: #1977b2; }
+        .prices-export-divider { height: 1px; margin: 0.15rem 0.3rem; background: #e2edf6; }
         .prices-print-header, .prices-print-footer, .prices-signature-zone { display: none; }
         .price-service-link { color: #0a293c; text-decoration: underline; text-decoration-color: rgba(36, 140, 255, 0.45); text-underline-offset: 2px; transition: color .2s ease, text-decoration-color .2s ease; }
         .price-service-link:hover { color: #1977b2; text-decoration-color: rgba(36, 140, 255, 0.95); }
@@ -484,6 +485,9 @@ $header = new Header($brand_colors);
                         <div class="prices-export-dropdown" id="prices-export-dropdown" role="menu" hidden>
                             <button type="button" class="prices-document-button" role="menuitem" data-prices-export-url="/api/admin/prices-export/?format=excel" data-prices-export-filename="bioinmed-prices.xlsx"><i class="fa-solid fa-file-excel" aria-hidden="true"></i><span>Excel</span></button>
                             <button type="button" class="prices-document-button" role="menuitem" data-prices-export-url="/api/admin/prices-export/?format=yandex" data-prices-export-filename="bioinmed-yandex-prices.xlsx"><i class="fa-solid fa-building" aria-hidden="true"></i><span>Яндекс Бизнес</span></button>
+                            <div class="prices-export-divider" aria-hidden="true"></div>
+                            <a class="prices-document-button" role="menuitem" href="/api/prices-yml/" target="_blank" rel="noopener"><i class="fa-solid fa-rss" aria-hidden="true"></i><span>Открыть YML-фид</span></a>
+                            <button id="prices-copy-yml" type="button" class="prices-document-button" role="menuitem" data-yml-url="/api/prices-yml/"><i class="fa-solid fa-link" aria-hidden="true"></i><span>Копировать ссылку YML</span></button>
                         </div>
                     </div>
                 </div>
@@ -724,6 +728,7 @@ $header = new Header($brand_colors);
             const exportMenu = document.getElementById('prices-export-menu');
             const exportToggle = document.getElementById('prices-export-toggle');
             const exportDropdown = document.getElementById('prices-export-dropdown');
+            const copyYmlButton = document.getElementById('prices-copy-yml');
             const storageKey = 'bioinmed:prices-print-mode';
             const signatureStorageKey = 'bioinmed:prices-signature';
 
@@ -800,6 +805,36 @@ $header = new Header($brand_colors);
                     if (event.key === 'Escape' && exportToggle.getAttribute('aria-expanded') === 'true') {
                         setExportMenu(false);
                         exportToggle.focus();
+                    }
+                });
+            }
+
+            if (copyYmlButton) {
+                copyYmlButton.addEventListener('click', async function () {
+                    const url = new URL(copyYmlButton.dataset.ymlUrl, window.location.origin).href;
+                    const label = copyYmlButton.querySelector('span');
+                    const originalLabel = label ? label.textContent : '';
+                    try {
+                        if (navigator.clipboard && window.isSecureContext) {
+                            await navigator.clipboard.writeText(url);
+                        } else {
+                            const textArea = document.createElement('textarea');
+                            textArea.value = url;
+                            textArea.setAttribute('readonly', '');
+                            textArea.style.position = 'fixed';
+                            textArea.style.opacity = '0';
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            if (!document.execCommand('copy')) throw new Error('copy_failed');
+                            textArea.remove();
+                        }
+                        if (label) label.textContent = 'Ссылка скопирована';
+                        setTimeout(function () {
+                            if (label) label.textContent = originalLabel;
+                            setExportMenu(false);
+                        }, 900);
+                    } catch (error) {
+                        window.prompt('Скопируйте ссылку на YML-фид:', url);
                     }
                 });
             }
