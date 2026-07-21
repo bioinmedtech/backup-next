@@ -99,39 +99,6 @@ function bioinmed_admin_prices_manage_section(array $section, int $index, array 
     ];
 }
 
-function bioinmed_admin_prices_manage_sync_prices(array $sections): bool {
-    foreach ($sections as $section) {
-        if (!is_array($section)) {
-            continue;
-        }
-
-        $sectionId = trim((string)($section['id'] ?? ''));
-        if ($sectionId === '') {
-            continue;
-        }
-
-        $rows = is_array($section['rows'] ?? null) ? $section['rows'] : [];
-        foreach ($rows as $rowIndex => $row) {
-            if (!is_array($row)) {
-                continue;
-            }
-
-            $serviceId = trim((string)($row['service_id'] ?? ''));
-            $price = trim((string)($row['price'] ?? ''));
-            if ($serviceId === '' || $price === '') {
-                continue;
-            }
-
-            $textKey = 'pages.prices.sections.' . $sectionId . '.rows.' . $rowIndex . '.price';
-            if (!bioinmed_admin_sync_service_price_from_prices_key($textKey, $price)) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
 $method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
 $pricesPath = bioinmed_admin_prices_manage_path();
 $payload = bioinmed_admin_read_json($pricesPath, []);
@@ -226,13 +193,6 @@ if (!bioinmed_admin_write_json($pricesPath, $nextPayload)) {
     bioinmed_admin_json_response([
         'ok' => false,
         'error' => 'Не удалось сохранить структуру прайса.',
-    ], 500);
-}
-
-if (!bioinmed_admin_prices_manage_sync_prices($normalizedSections)) {
-    bioinmed_admin_json_response([
-        'ok' => false,
-        'error' => 'Прайс сохранён, но не удалось синхронизировать цены услуг.',
     ], 500);
 }
 

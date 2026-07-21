@@ -305,7 +305,8 @@
             title: ((sectionEl.querySelector('[data-price-section-title-view]') || {}).textContent || '').trim(),
             nav_label: (sectionEl.getAttribute('data-price-section-nav-label') || '').trim(),
             badge: (sectionEl.getAttribute('data-price-section-badge') || '').trim(),
-            hidden: sectionEl.getAttribute('data-price-section-hidden') === '1'
+            hidden: sectionEl.getAttribute('data-price-section-hidden') === '1',
+            rows: []
         };
     }
 
@@ -372,14 +373,10 @@
     }
 
     function renderPriceMaterialInputField(fieldName, label, value) {
-        var placeholder = ' ';
-        if (fieldName === 'row_class') {
-            placeholder = 'Например: bg-[#f9f0e6] font-semibold';
-        }
         return [
             '<label class="price-admin-editor-field price-admin-editor-field-material">',
             '<span class="price-admin-editor-material-field" data-price-material-field="1">',
-            '<input type="text" class="price-admin-editor-input" data-price-modal-field="' + esc(fieldName) + '" value="' + esc(value || '') + '" placeholder="' + esc(placeholder) + '">',
+            '<input type="text" class="price-admin-editor-input" data-price-modal-field="' + esc(fieldName) + '" value="' + esc(value || '') + '" placeholder=" ">',
             '<span class="price-admin-editor-floating-label">' + esc(label) + '</span>',
             '</span>',
             '</label>'
@@ -409,6 +406,104 @@
             '</span>',
             '</label>'
         ].join('');
+    }
+
+    function getPriceRowStyleState(currentValue) {
+        var classes = String(currentValue || '')
+            .split(/\s+/)
+            .filter(function (className) {
+                return className && className !== 'price-row-hidden';
+            });
+        var background = '';
+
+        if (classes.indexOf('price-row-background-blue') !== -1 || classes.indexOf('bg-[#f0f7fc]') !== -1) {
+            background = 'price-row-background-blue';
+        } else if (classes.indexOf('price-row-background-beige') !== -1 || classes.indexOf('bg-[#f9f0e6]') !== -1) {
+            background = 'price-row-background-beige';
+        }
+
+        return {
+            background: background,
+            bold: classes.indexOf('price-row-emphasis') !== -1 || classes.indexOf('font-semibold') !== -1,
+            extra: classes.filter(function (className) {
+                return [
+                    'price-row-background-blue',
+                    'price-row-background-beige',
+                    'bg-[#f0f7fc]',
+                    'bg-[#f9f0e6]',
+                    'price-row-emphasis',
+                    'font-semibold'
+                ].indexOf(className) === -1;
+            }).join(' ')
+        };
+    }
+
+    function renderPriceRowStyleField(currentValue) {
+        var style = getPriceRowStyleState(currentValue);
+        var value = [style.extra, style.background, style.bold ? 'price-row-emphasis' : ''].filter(Boolean).join(' ');
+
+        return [
+            '<div class="price-admin-editor-style-field" data-price-row-style-editor>',
+            '<span class="price-admin-editor-style-title">Оформление строки</span>',
+            '<div class="price-admin-editor-style-controls">',
+            '<div class="price-admin-editor-style-background">',
+            '<span>Фон строки</span>',
+            '<div class="price-admin-editor-style-background-options">',
+            '<label class="price-admin-editor-style-background-option"><input type="radio" name="price-row-style-background" value="" data-price-row-style-background' + (!style.background ? ' checked' : '') + '><span class="price-admin-editor-style-swatch is-none">×</span><span>Без фона</span></label>',
+            '<label class="price-admin-editor-style-background-option"><input type="radio" name="price-row-style-background" value="price-row-background-blue" data-price-row-style-background' + (style.background === 'price-row-background-blue' ? ' checked' : '') + '><span class="price-admin-editor-style-swatch is-blue"></span><span>Голубой</span></label>',
+            '<label class="price-admin-editor-style-background-option"><input type="radio" name="price-row-style-background" value="price-row-background-beige" data-price-row-style-background' + (style.background === 'price-row-background-beige' ? ' checked' : '') + '><span class="price-admin-editor-style-swatch is-beige"></span><span>Бежевый</span></label>',
+            '</div>',
+            '</div>',
+            '<label class="price-admin-editor-style-bold">',
+            '<input type="checkbox" data-price-row-style-bold' + (style.bold ? ' checked' : '') + '>',
+            '<span>Выделить всю строку жирным</span>',
+            '</label>',
+            '</div>',
+            '<button type="button" class="price-admin-editor-style-reset" data-price-row-style-reset>Сбросить оформление</button>',
+            '<input type="hidden" data-price-modal-field="row_class" data-price-row-style-extra="' + esc(style.extra) + '" value="' + esc(value) + '">',
+            '</div>'
+        ].join('');
+    }
+
+    function syncPriceRowStyleEditor(editor) {
+        var backgroundField = editor.querySelector('[data-price-row-style-background]:checked');
+        var boldField = editor.querySelector('[data-price-row-style-bold]');
+        var valueField = editor.querySelector('[data-price-modal-field="row_class"]');
+        var background = backgroundField ? backgroundField.value : '';
+        var bold = !!(boldField && boldField.checked);
+        var extra = valueField ? (valueField.getAttribute('data-price-row-style-extra') || '').trim() : '';
+
+        if (valueField) {
+            valueField.value = [extra, background, bold ? 'price-row-emphasis' : ''].filter(Boolean).join(' ');
+        }
+        editor.querySelectorAll('.price-admin-editor-style-background-option').forEach(function (option) {
+            var radio = option.querySelector('[data-price-row-style-background]');
+            option.classList.toggle('is-selected', !!(radio && radio.checked));
+        });
+    }
+
+    function bindPriceRowStyleEditors(scope) {
+        scope.querySelectorAll('[data-price-row-style-editor]').forEach(function (editor) {
+            if (!editor.hasAttribute('data-price-row-style-bound')) {
+                editor.querySelectorAll('[data-price-row-style-background], [data-price-row-style-bold]').forEach(function (field) {
+                    field.addEventListener('change', function () {
+                        syncPriceRowStyleEditor(editor);
+                    });
+                });
+                var resetButton = editor.querySelector('[data-price-row-style-reset]');
+                if (resetButton) {
+                    resetButton.addEventListener('click', function () {
+                        var emptyBackground = editor.querySelector('[data-price-row-style-background][value=""]');
+                        var boldField = editor.querySelector('[data-price-row-style-bold]');
+                        if (emptyBackground) emptyBackground.checked = true;
+                        if (boldField) boldField.checked = false;
+                        syncPriceRowStyleEditor(editor);
+                    });
+                }
+                editor.setAttribute('data-price-row-style-bound', '1');
+            }
+            syncPriceRowStyleEditor(editor);
+        });
     }
 
     function syncPriceMaterialFieldState(field) {
@@ -479,6 +574,8 @@
 
             updateServiceEditLink();
         });
+
+        bindPriceRowStyleEditors(scope);
     }
 
     function renderPriceSectionEditForm(sectionEl) {
@@ -505,7 +602,7 @@
             if (fieldName === 'duration') label = 'Длительность';
             if (fieldName === 'price') label = 'Цена';
             if (fieldName === 'service_id') label = 'Привязка к услуге';
-            if (fieldName === 'row_class') label = 'CSS-класс';
+            if (fieldName === 'row_class') label = 'Выделение строки';
             if (fieldName === 'link') {
                 html.push([
                     '<label class="price-admin-editor-field price-admin-editor-field-checkbox">',
@@ -522,15 +619,12 @@
             }
 
             if (fieldName === 'description') {
-                html.push(renderPriceMaterialTextareaField('description', label, rowState.description || '', 6));
+                html.push(renderPriceMaterialTextareaField('description', label, rowState.description || '', 3));
                 return;
             }
 
             if (fieldName === 'row_class') {
-                html.push([
-                    renderPriceMaterialInputField(fieldName, label, rowState[fieldName] || ''),
-                    '<p class="price-admin-editor-field-hint">Укажите один или несколько CSS-классов через пробел. Это нужно, чтобы выделить строку, изменить её фон, сделать шрифт жирным или скрыть её через <code>price-row-hidden</code>.</p>'
-                ].join(''));
+                html.push(renderPriceRowStyleField(rowState[fieldName] || ''));
                 return;
             }
 
@@ -814,7 +908,9 @@
             mainRow.classList.add('price-row-hidden');
         }
         if (row.row_class) {
-            mainRow.classList.add(row.row_class);
+            row.row_class.split(/\s+/).filter(Boolean).forEach(function (className) {
+                mainRow.classList.add(className);
+            });
         }
         mainRow.innerHTML = [
             '<td class="px-4 py-3 price-admin-row-host" data-service-id="' + esc(row.service_id || '') + '">',

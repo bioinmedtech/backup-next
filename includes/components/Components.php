@@ -2818,9 +2818,9 @@ class Footer extends Component {
                     <h3 id="bioinmed-admin-price-delete-title" class="text-[20px] font-semibold text-[#0f2749]">Удалить материал?</h3>
                     <p id="bioinmed-admin-price-delete-text" class="mt-2 text-[14px] leading-relaxed text-[#4a6f9c]">Материал будет удалён без возможности восстановления.</p>
                 </div>
-                <div class="mt-6 grid gap-2 sm:grid-cols-2">
-                    <button id="bioinmed-admin-price-delete-cancel" type="button" class="rounded-lg border border-[#c8dcf0] bg-white px-4 py-2.5 text-sm font-semibold text-[#0f2749] transition hover:bg-[#f5faff]">Отмена</button>
-                    <button id="bioinmed-admin-price-delete-confirm" type="button" class="rounded-lg bg-[#b91c1c] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#991b1b]">Удалить</button>
+                <div class="bioinmed-admin-confirm-actions">
+                    <button id="bioinmed-admin-price-delete-cancel" type="button" class="bioinmed-admin-confirm-cancel">Отмена</button>
+                    <button id="bioinmed-admin-price-delete-confirm" type="button" class="bioinmed-admin-confirm-submit">Удалить</button>
                 </div>
             </div>
         </div>

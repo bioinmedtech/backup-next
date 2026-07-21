@@ -266,6 +266,9 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-cta a { font-size: 0.94rem; }
         .price-service-link { color: #0a293c; text-decoration: underline; text-decoration-color: rgba(36, 140, 255, 0.45); text-underline-offset: 2px; transition: color .2s ease, text-decoration-color .2s ease; }
         .price-service-link:hover { color: #1977b2; text-decoration-color: rgba(36, 140, 255, 0.95); }
+        tr.price-row-background-blue, tr[data-price-row-class~="bg-[#f0f7fc]"] { background-color: #f0f7fc; }
+        tr.price-row-background-beige, tr[data-price-row-class~="bg-[#f9f0e6]"] { background-color: #f9f0e6; }
+        tr.price-row-emphasis, tr[data-price-row-class~="font-semibold"] { font-weight: 600; }
         .price-section-hidden, tr.price-row-hidden, .price-nav-link-hidden { display: none; }
         .price-admin-section-toolbar, .price-admin-row-actions { display: none; }
         body.bioinmed-edit-mode .price-section-hidden { display: block; }
