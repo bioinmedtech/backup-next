@@ -117,6 +117,76 @@ $resolveServicePrice = static function (string $serviceId) use ($servicesById): 
     return trim($price . ($note !== '' ? ' ' . $note : ''));
 };
 
+$normalizeForCompare = static function (string $value): string {
+    $value = mb_strtolower($value, 'UTF-8');
+    $value = str_replace(['ё', '«', '»', '"', '(', ')', '.', ',', ':', ';', '-', '+', '/'], ['е', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], $value);
+    $value = preg_replace('/\s+/u', ' ', $value);
+
+    return trim((string)$value);
+};
+
+$extractPriceNumbers = static function (string $value): array {
+    if ($value === '') {
+        return [];
+    }
+
+    preg_match_all('/\d[\d\s]*/u', $value, $matches);
+    $numbers = [];
+
+    foreach (($matches[0] ?? []) as $match) {
+        $normalized = preg_replace('/\s+/u', '', (string)$match);
+        if ($normalized === null || $normalized === '') {
+            continue;
+        }
+
+        $numbers[] = (int)$normalized;
+    }
+
+    return array_values(array_unique($numbers));
+};
+
+$shouldLinkService = static function (
+    string $rowTitle,
+    string $serviceName,
+    string $rowPrice,
+    string $servicePrice
+) use ($normalizeForCompare, $extractPriceNumbers): bool {
+    $normalizedRowTitle = $normalizeForCompare($rowTitle);
+    $normalizedServiceName = $normalizeForCompare($serviceName);
+
+    if ($normalizedRowTitle === '' || $normalizedServiceName === '') {
+        return false;
+    }
+
+    if ($normalizedRowTitle === $normalizedServiceName) {
+        return true;
+    }
+
+    if (mb_stripos($normalizedRowTitle, $normalizedServiceName, 0, 'UTF-8') !== false || mb_stripos($normalizedServiceName, $normalizedRowTitle, 0, 'UTF-8') !== false) {
+        return true;
+    }
+
+    $rowTokens = array_values(array_filter(explode(' ', $normalizedRowTitle), static fn (string $token): bool => mb_strlen($token, 'UTF-8') >= 4));
+    $serviceTokens = array_values(array_filter(explode(' ', $normalizedServiceName), static fn (string $token): bool => mb_strlen($token, 'UTF-8') >= 4));
+
+    if ($rowTokens !== [] && $serviceTokens !== []) {
+        $shared = count(array_intersect($rowTokens, $serviceTokens));
+        if ($shared >= 2) {
+            return true;
+        }
+    }
+
+    $rowPriceNumbers = $extractPriceNumbers($rowPrice);
+    $servicePriceNumbers = $extractPriceNumbers($servicePrice);
+    if ($rowPriceNumbers !== [] && $servicePriceNumbers !== []) {
+        if (count(array_intersect($rowPriceNumbers, $servicePriceNumbers)) > 0) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
 $structuredData = [
     '@context' => 'https://schema.org',
     '@type' => 'CollectionPage',
@@ -168,6 +238,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .category-section > div:first-child { margin-bottom: 0.95rem; padding-bottom: 0.62rem; }
         .category-section td p { font-size: 0.9rem; line-height: 1.45; margin-top: 0.3rem; }
         .category-section td div.font-semibold { font-size: 1rem; line-height: 1.3; }
+        .category-section th:nth-child(2), .category-section td:nth-child(2) { text-align: center; white-space: nowrap; }
         .category-section td:last-child, .category-section th:last-child { font-size: 0.9rem; white-space: nowrap; }
         .prices-hero h1 { font-size: 1.76rem; line-height: 1.14; }
         .prices-hero p { font-size: 0.98rem; line-height: 1.5; }
@@ -245,20 +316,22 @@ $header = new Header($brand_colors);
                     'sections.' . $sectionId . '.badge',
                     (string)($sectionMeta['badge'] ?? '')
                 );
+                $sectionBadgeAttr = $sectionId === 'chief-doctor' ? $sectionBadgeNode['attr'] : '';
                 ?>
                 <section id="<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" class="category-section">
                     <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]" data-admin-block-root>
                         <h2 class="text-2xl font-bold text-[#1977b2]"<?php echo $sectionTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$sectionTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></h2>
                         <?php if ((string)$sectionBadgeNode['value'] !== ''): ?>
-                            <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white"<?php echo $sectionBadgeNode['attr']; ?>><?php echo htmlspecialchars((string)$sectionBadgeNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
+                            <span class="inline-flex items-center rounded-full bg-[#1977b2] px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-white"<?php echo $sectionBadgeAttr; ?>><?php echo htmlspecialchars((string)$sectionBadgeNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
                         <?php endif; ?>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse">
                             <thead>
                                 <tr class="bg-[#f0f7fc]">
-                                    <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Услуга</th>
-                                    <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена</th>
+                                    <th class="text-left px-4 py-3 font-semibold text-[#1977b2]">Наименование услуги</th>
+                                    <th class="px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Длительность</th>
+                                    <th class="text-right px-4 py-3 font-semibold text-[#1977b2] whitespace-nowrap">Цена, руб.</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -280,12 +353,21 @@ $header = new Header($brand_colors);
                                     }
 
                                     $rowDescription = trim((string)($row['description'] ?? ''));
+                                    $rowDuration = trim((string)($row['duration'] ?? ''));
                                     $rowPrice = trim((string)($row['price'] ?? ''));
                                     if ($rowPrice === '') {
                                         $rowPrice = $resolveServicePrice($serviceId);
                                     }
                                     if ($rowPrice === '') {
                                         continue;
+                                    }
+
+                                    $serviceResolvedPrice = $resolveServicePrice($serviceId);
+                                    $allowServiceLink = true;
+                                    if (array_key_exists('link', $row)) {
+                                        $allowServiceLink = (bool)$row['link'];
+                                    } else {
+                                        $allowServiceLink = $shouldLinkService($rowTitle, $serviceName, $rowPrice, $serviceResolvedPrice);
                                     }
 
                                     $rowClass = trim((string)($row['row_class'] ?? ''));
@@ -303,23 +385,45 @@ $header = new Header($brand_colors);
                                         'sections.' . $sectionId . '.rows.' . $rowIndex . '.description',
                                         $rowDescription
                                     );
+                                    $rowDurationNode = bioinmed_page_text_node(
+                                        $pricesPage,
+                                        'prices',
+                                        'sections.' . $sectionId . '.rows.' . $rowIndex . '.duration',
+                                        $rowDuration
+                                    );
                                     $rowPriceNode = bioinmed_page_text_node(
                                         $pricesPage,
                                         'prices',
                                         'sections.' . $sectionId . '.rows.' . $rowIndex . '.price',
                                         $rowPrice
                                     );
+                                    $displayDuration = trim((string)$rowDurationNode['value']);
+                                    if ($displayDuration === '') {
+                                        $displayDuration = '—';
+                                    }
+                                    $displayPrice = trim((string)$rowPriceNode['value']);
                                     ?>
                                     <tr<?php echo $rowClassAttr; ?> data-admin-block-root>
                                         <td class="px-4 py-3" data-service-id="<?php echo htmlspecialchars($serviceId, ENT_QUOTES, 'UTF-8'); ?>">
                                             <?php if ((string)$rowDescriptionNode['value'] !== ''): ?>
-                                                <div class="font-semibold text-[#0f2749]"><a class="price-service-link" href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a></div>
+                                                <div class="font-semibold text-[#0f2749]">
+                                                    <?php if ($allowServiceLink): ?>
+                                                        <a class="price-service-link" href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
+                                                    <?php else: ?>
+                                                        <span<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                    <?php endif; ?>
+                                                </div>
                                                 <p class="text-sm text-[#0a293c] mt-1"<?php echo $rowDescriptionNode['attr']; ?>><?php echo htmlspecialchars((string)$rowDescriptionNode['value'], ENT_QUOTES, 'UTF-8'); ?></p>
                                             <?php else: ?>
-                                                <a class="price-service-link" href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
+                                                <?php if ($allowServiceLink): ?>
+                                                    <a class="price-service-link" href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
+                                                <?php else: ?>
+                                                    <span<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap"<?php echo $rowPriceNode['attr']; ?>><?php echo htmlspecialchars((string)$rowPriceNode['value'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="px-4 py-3 text-[#0a293c]"<?php echo $rowDurationNode['attr']; ?>><?php echo htmlspecialchars($displayDuration, ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap"<?php echo $rowPriceNode['attr']; ?>><?php echo htmlspecialchars($displayPrice, ENT_QUOTES, 'UTF-8'); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
