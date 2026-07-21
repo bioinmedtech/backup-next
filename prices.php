@@ -4,6 +4,10 @@ bioinmed_pin_require_access();
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
+require_once __DIR__ . '/includes/admin/bootstrap.php';
+
+$pricesAdminUser = bioinmed_admin_current_user();
+$pricesCanExport = is_array($pricesAdminUser) && (string)($pricesAdminUser['role'] ?? '') === 'admin';
 
 $pricesPage = bioinmed_read_json_file('pages/prices.json');
 $pricesMeta = is_array($pricesPage['meta'] ?? null) ? $pricesPage['meta'] : [];
@@ -239,7 +243,19 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
-    <?php echo bioinmed_render_public_head_assets(); ?>
+    <?php if ($pricesCanExport): ?>
+        <script>
+            (function () {
+                try {
+                    if (localStorage.getItem('bioinmed:prices-print-mode') === '1') {
+                        window.BioinmedDisableUis = true;
+                        document.documentElement.classList.add('prices-print-mode-pending');
+                    }
+                } catch (error) {}
+            })();
+        </script>
+    <?php endif; ?>
+    <?php echo bioinmed_render_public_head_assets(['include_uis_hints' => false]); ?>
     <style>
         html { font-size: clamp(17px, 0.5vw + 15px, 19px); }
         body { line-height: 1.72; }
@@ -264,6 +280,29 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-cta h3 { font-size: 1.42rem; line-height: 1.2; margin-bottom: 0.55rem; }
         .prices-cta p { font-size: 0.96rem; line-height: 1.5; }
         .prices-cta a { font-size: 0.94rem; }
+        .prices-hero .prices-document-tools { position: absolute !important; z-index: 6; top: 0.75rem; right: 0.75rem; left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 0.45rem; max-width: calc(100% - 1.5rem); margin: 0; padding: 0.45rem; border: 1px solid rgba(188,212,232,.9); border-radius: 0.8rem; background: rgba(255,255,255,.94); box-shadow: 0 8px 22px rgba(15,39,73,.12); backdrop-filter: blur(8px); }
+        .prices-print-toggle { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.35rem; padding: 0.35rem 0.7rem; border: 1px solid #bcd4e8; border-radius: 0.65rem; background: rgba(255,255,255,0.86); color: #17446f; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+        .prices-print-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+        .prices-print-toggle-track { position: relative; width: 2.3rem; height: 1.3rem; border-radius: 999px; background: #b8c9d9; transition: background .18s ease; }
+        .prices-print-toggle-track::after { content: ''; position: absolute; top: 0.15rem; left: 0.15rem; width: 1rem; height: 1rem; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(15,39,73,.25); transition: transform .18s ease; }
+        .prices-print-toggle input:checked + .prices-print-toggle-track { background: #1977b2; }
+        .prices-print-toggle input:checked + .prices-print-toggle-track::after { transform: translateX(1rem); }
+        .prices-signature-toggle { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.35rem; padding: 0.35rem 0.7rem; border: 1px solid #bcd4e8; border-radius: 0.65rem; background: #fff; color: #17446f; font-size: 0.76rem; font-weight: 700; cursor: pointer; }
+        .prices-signature-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+        .prices-signature-toggle-box { display: inline-flex; align-items: center; justify-content: center; width: 1.2rem; height: 1.2rem; border: 1px solid #9fbad2; border-radius: 0.3rem; background: #fff; color: transparent; font-size: 0.75rem; }
+        .prices-signature-toggle input:checked + .prices-signature-toggle-box { border-color: #1977b2; background: #1977b2; color: #fff; }
+        .prices-document-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 2.35rem; padding: 0.45rem 0.75rem; border: 1px solid #1977b2; border-radius: 0.65rem; background: #1977b2; color: #fff; font-size: 0.76rem; font-weight: 700; line-height: 1.2; text-decoration: none; cursor: pointer; }
+        .prices-document-button:hover { background: #16658f; color: #fff; }
+        .prices-document-button.is-secondary { border-color: #bcd4e8; background: #fff; color: #17446f; }
+        .prices-document-button.is-secondary:hover { border-color: #1977b2; background: #f5faff; color: #1977b2; }
+        .prices-export-menu { position: relative; }
+        .prices-export-toggle-chevron { margin-left: 0.15rem; font-size: 0.62rem; transition: transform .18s ease; }
+        .prices-export-menu.is-open .prices-export-toggle-chevron { transform: rotate(180deg); }
+        .prices-export-dropdown { position: absolute; z-index: 12; top: calc(100% + 0.45rem); right: 0; display: grid; gap: 0.3rem; width: max-content; min-width: 12.5rem; padding: 0.4rem; border: 1px solid #d5e3ef; border-radius: 0.75rem; background: #fff; box-shadow: 0 12px 30px rgba(15,39,73,.18); }
+        .prices-export-dropdown[hidden] { display: none !important; }
+        .prices-export-dropdown .prices-document-button { width: 100%; justify-content: flex-start; border-color: transparent; background: #fff; color: #17446f; }
+        .prices-export-dropdown .prices-document-button:hover { border-color: #d8e8f5; background: #eef6fd; color: #1977b2; }
+        .prices-print-header, .prices-print-footer, .prices-signature-zone { display: none; }
         .price-service-link { color: #0a293c; text-decoration: underline; text-decoration-color: rgba(36, 140, 255, 0.45); text-underline-offset: 2px; transition: color .2s ease, text-decoration-color .2s ease; }
         .price-service-link:hover { color: #1977b2; text-decoration-color: rgba(36, 140, 255, 0.95); }
         tr.price-row-background-blue, tr[data-price-row-class~="bg-[#f0f7fc]"] { background-color: #f0f7fc; }
@@ -279,26 +318,183 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             .category-section { padding: 0.78rem; }
             .category-section h2 { font-size: 1.24rem; }
             .prices-hero h1 { font-size: 1.55rem; }
+            .prices-document-tools { justify-content: flex-start; }
+            .prices-document-button, .prices-print-toggle, .prices-signature-toggle { flex: 1 1 auto; }
+            .prices-hero.has-document-tools .prices-hero-content { padding-top: 7.2rem; }
+        }
+
+        body.prices-print-mode,
+        body.prices-print-mode.bioinmed-admin-authenticated { padding-top: 0 !important; background: #fff !important; color: #111827; }
+        body.prices-print-mode #site-header,
+        body.prices-print-mode #mob-backdrop,
+        body.prices-print-mode #mob-menu,
+        body.prices-print-mode .desktop-menu-bar,
+        body.prices-print-mode > footer:not(.prices-print-footer),
+        body.prices-print-mode .prices-nav,
+        body.prices-print-mode .prices-cta,
+        body.prices-print-mode .bioinmed-admin-toolbar,
+        body.prices-print-mode .bioinmed-block-edit-badge,
+        body.prices-print-mode .price-admin-section-toolbar,
+        body.prices-print-mode .price-admin-row-actions { display: none !important; }
+        body.prices-print-mode.bioinmed-edit-mode .price-section-hidden,
+        body.prices-print-mode.bioinmed-edit-mode tr.price-row-hidden { display: none !important; }
+        body.prices-print-mode .prices-print-header,
+        body.prices-print-mode .prices-print-footer { display: flex; }
+        body.prices-print-mode .prices-hero .prices-document-tools { position: fixed !important; top: 0; right: 0; left: 0; width: 100%; max-width: none; justify-content: center; border-width: 0 0 1px; border-radius: 0; box-shadow: 0 8px 24px rgba(15,39,73,.16); }
+        body.prices-print-mode .prices-print-header { margin-top: 4.25rem; }
+        body.prices-print-mode .prices-main { box-sizing: border-box; width: 100%; max-width: 210mm; padding: 10mm 0; }
+        body.prices-print-mode .prices-hero { margin-bottom: 5mm; border: 0; border-radius: 0; background: #fff; box-shadow: none; padding: 0; text-align: center; }
+        body.prices-print-mode .prices-hero-decoration,
+        body.prices-print-mode .prices-hero-eyebrow,
+        body.prices-print-mode .prices-hero-description,
+        body.prices-print-mode .prices-hero-badges { display: none !important; }
+        body.prices-print-mode .prices-hero h1 { margin: 0; color: #0f2749; font-size: 0; line-height: 0; }
+        body.prices-print-mode .prices-hero h1::after { content: 'ПРАЙС-ЛИСТ'; display: block; box-sizing: border-box; width: 100%; padding: 2.4mm 8mm; border-radius: 2.5mm; background: linear-gradient(90deg, #f2f9fd 0%, #dceefa 50%, #f2f9fd 100%); box-shadow: inset 0 -1px 0 rgba(25,119,178,.18); color: #1977b2; font-size: 19pt; font-weight: 800; line-height: 1.15; letter-spacing: 0.12em; }
+        body.prices-print-mode .price-service-link { color: inherit; text-decoration: none; }
+        body.prices-print-mode .category-section { margin-bottom: 5mm; border: 1px solid white; border-radius: 4mm; background: #fff; box-shadow: none; padding: 0; }
+        body.prices-print-mode .category-section > div:first-child { margin-bottom: 2mm; padding-bottom: 2mm; }
+        body.prices-print-mode .category-section h2 { font-size: 16pt; line-height: 1.3; }
+        body.prices-print-mode .category-section .overflow-x-auto { overflow: hidden; border-radius: 3mm; }
+        body.prices-print-mode .category-section table { table-layout: fixed; border-collapse: separate; border-spacing: 0; border: 1px solid #e1edf8; border-radius: 3mm; background: #fff; overflow: hidden; }
+        body.prices-print-mode .category-section th:nth-child(2),
+        body.prices-print-mode .category-section td:nth-child(2) { width: 34mm; }
+        body.prices-print-mode .category-section th:nth-child(3),
+        body.prices-print-mode .category-section td:nth-child(3) { width: 38mm; white-space: normal !important; overflow-wrap: anywhere; }
+        body.prices-print-mode .category-section td,
+        body.prices-print-mode .category-section th { padding: 1.7mm 2.8mm; border: 0; border-bottom: 1px solid #e9f2fb; font-size: 11pt; line-height: 1.3; }
+        body.prices-print-mode .category-section thead th { border-top: 1px solid #e1edf8; background: #eef6fd !important; color: #1977b2 !important; font-weight: 700; }
+        body.prices-print-mode .category-section thead th:first-child { border-top-left-radius: 3mm; }
+        body.prices-print-mode .category-section thead th:last-child { border-top-right-radius: 3mm; }
+        body.prices-print-mode .category-section tbody tr:last-child td { border-bottom: 1px solid #e1edf8; }
+        body.prices-print-mode .category-section tbody tr:last-child td:first-child { border-bottom-left-radius: 3mm; }
+        body.prices-print-mode .category-section tbody tr:last-child td:last-child { border-bottom-right-radius: 3mm; }
+        body.prices-print-mode .category-section tbody tr:hover { background: inherit; }
+        body.prices-print-mode .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; font-weight: 600; }
+        body.prices-print-mode .category-section td div.font-semibold { font-size: 11.5pt !important; line-height: 1.3 !important; }
+        body.prices-print-mode .category-section td p { font-size: 10.5pt; line-height: 1.35; }
+        body.prices-print-mode .category-section td:last-child { font-size: 12pt; font-weight: 700; }
+        .prices-print-header { width: 100%; max-width: 210mm; margin: 0 auto; padding: 10mm 10mm 4mm; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid #cbd5df; }
+        .prices-print-header img { display: block !important; visibility: visible !important; width: auto; height: 3.1rem; object-fit: contain; }
+        .prices-print-header-copy { display: grid; gap: 0.1rem; }
+        .prices-print-header strong { color: #0f2749; font-size: 1rem; }
+        .prices-print-header span { color: #52677c; font-size: 0.75rem; text-align: right; }
+        .prices-print-footer { width: 100%; max-width: 210mm; margin: 0 auto; padding: 4mm 0 10mm; justify-content: space-between; gap: 1rem; border-top: 1px solid #cbd5df; color: #52677c; font-size: 0.7rem; }
+        body.prices-print-mode.prices-show-signature .prices-signature-zone { display: block; }
+        .prices-signature-zone { width: 100%; max-width: 210mm; margin: 0 auto; padding: 0 0 12mm; color: #0f2749; break-inside: avoid; page-break-inside: avoid; }
+        .prices-signature-card { position: relative; min-height: 58mm; padding: 8mm 56mm 8mm 8mm; border: 1px solid #b9c8d6; border-radius: 3mm; background: #fff; }
+        .prices-signature-role { max-width: 112mm; font-size: 10pt; font-weight: 600; line-height: 1.45; }
+        .prices-signature-fields { display: grid; grid-template-columns: minmax(48mm, 1fr) auto; align-items: end; gap: 8mm; margin-top: 15mm; }
+        .prices-signature-fields > div:first-child { position: relative; height: 8mm; }
+        .prices-signature-line { display: block; height: 8mm; border-bottom: 1px solid #52677c; }
+        .prices-signature-caption { position: absolute; top: 9mm; right: 0; left: 0; display: block; color: #718397; font-size: 7pt; line-height: 1; text-align: center; }
+        .prices-signature-name { padding-bottom: 1.5mm; font-size: 10pt; font-weight: 700; white-space: nowrap; }
+        .prices-signature-seal { position: absolute; right: 8mm; top: 8mm; display: flex; align-items: center; justify-content: center; width: 40mm; height: 40mm; border: 1px dashed #9babb9; border-radius: 50%; color: #718397; font-size: 8pt; font-weight: 700; }
+
+        @media (max-width: 767px) {
+            body.prices-print-mode .prices-print-header { margin-top: 9rem; }
+        }
+
+        @media print {
+            @page { size: A4 portrait; margin: 10mm; }
+            html, body, body.bioinmed-admin-authenticated { padding-top: 0 !important; background: #fff !important; color: #111827 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+            #site-header,
+            #mob-backdrop,
+            #mob-menu,
+            .desktop-menu-bar,
+            body > footer:not(.prices-print-footer),
+            .prices-nav,
+            .prices-cta,
+            .prices-document-tools,
+            .bioinmed-admin-toolbar,
+            .bioinmed-admin-overlay,
+            .bioinmed-block-edit-badge,
+            .price-admin-section-toolbar,
+            .price-admin-row-actions { display: none !important; }
+            body.bioinmed-edit-mode .price-section-hidden,
+            body.bioinmed-edit-mode tr.price-row-hidden { display: none !important; }
+            .prices-print-header { display: flex !important; margin-top: 0 !important; padding: 0 0 4mm !important; }
+            .prices-print-footer { display: flex !important; padding: 4mm 0 0 !important; }
+            body.prices-show-signature .prices-signature-zone { display: block !important; padding: 8mm 0 0 !important; }
+            .prices-main { box-sizing: border-box; width: 190mm !important; max-width: 190mm !important; margin-right: auto !important; margin-left: auto !important; padding: 10mm 0 !important; }
+            .prices-hero { margin-bottom: 5mm !important; border: 0 !important; border-radius: 0 !important; background: #fff !important; box-shadow: none !important; padding: 0 !important; text-align: center !important; }
+            .prices-hero-decoration, .prices-hero-eyebrow, .prices-hero-description, .prices-hero-badges { display: none !important; }
+            .prices-hero.has-document-tools .prices-hero-content { padding-top: 0 !important; }
+            .prices-hero h1 { margin: 0 !important; font-size: 0 !important; line-height: 0 !important; color: #0f2749 !important; }
+            .prices-hero h1::after { content: 'ПРАЙС-ЛИСТ'; display: block; box-sizing: border-box; width: 100%; padding: 2.4mm 8mm; border-radius: 2.5mm; background: linear-gradient(90deg, #f2f9fd 0%, #dceefa 50%, #f2f9fd 100%); box-shadow: inset 0 -1px 0 rgba(25,119,178,.18); color: #1977b2; font-size: 19pt; font-weight: 800; line-height: 1.15; letter-spacing: 0.12em; }
+            .price-service-link { color: inherit !important; text-decoration: none !important; }
+            [data-prices-page-root] { display: block !important; }
+            .category-section { margin: 0 0 5mm !important; padding: 0 !important; border: 1px solid white !important; border-radius: 4mm !important; background: #fff !important; box-shadow: none !important; break-inside: auto; page-break-inside: auto; }
+            .category-section > div:first-child { margin-bottom: 2mm !important; padding-bottom: 2mm !important; }
+            .category-section h2 { font-size: 16pt !important; line-height: 1.3 !important; break-after: avoid; page-break-after: avoid; }
+            .category-section .overflow-x-auto { overflow: visible !important; }
+            .category-section table { table-layout: fixed !important; border-collapse: separate !important; border-spacing: 0 !important; border: 1px solid #e1edf8 !important; border-radius: 3mm !important; background: #fff !important; overflow: visible !important; }
+            .category-section th:nth-child(2), .category-section td:nth-child(2) { width: 34mm !important; }
+            .category-section th:nth-child(3), .category-section td:nth-child(3) { width: 38mm !important; white-space: normal !important; overflow-wrap: anywhere; }
+            .category-section thead { display: table-header-group; }
+            .category-section tr { break-inside: avoid; page-break-inside: avoid; }
+            .category-section td, .category-section th { padding: 1.7mm 2.8mm !important; border: 0 !important; border-bottom: 1px solid #e9f2fb !important; font-size: 11pt !important; line-height: 1.3 !important; }
+            .category-section thead th { border-top: 1px solid #e1edf8 !important; background: #eef6fd !important; color: #1977b2 !important; font-weight: 700 !important; }
+            .category-section thead th:first-child { border-top-left-radius: 3mm !important; }
+            .category-section thead th:last-child { border-top-right-radius: 3mm !important; }
+            .category-section tbody tr:last-child td { border-bottom: 1px solid #e1edf8 !important; }
+            .category-section tbody tr:last-child td:first-child { border-bottom-left-radius: 3mm !important; }
+            .category-section tbody tr:last-child td:last-child { border-bottom-right-radius: 3mm !important; }
+            .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; font-weight: 600 !important; }
+            .category-section td div.font-semibold { font-size: 11.5pt !important; line-height: 1.3 !important; }
+            .category-section td p { font-size: 10.5pt !important; line-height: 1.35 !important; }
+            .category-section td:last-child { font-size: 12pt !important; font-weight: 700 !important; }
+            .prices-print-footer { break-before: avoid; page-break-before: avoid; }
         }
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="bg-[#e4f1fa] text-[#0f2749] antialiased">
+    <script>if (window.BioinmedDisableUis) document.body.classList.add('prices-print-mode');</script>
     <?php echo bioinmed_yandex_metrika_noscript(); ?>
 <?php
 $header = new Header($brand_colors);
     echo $header->render();
     ?>
 
-    <main class="mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
-        <div class="prices-hero mb-6 p-5 md:p-6">
-            <div class="absolute -right-14 -top-14 h-36 w-36 rounded-full bg-[#1977b21f] blur-2xl"></div>
-            <div class="absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[#1977b214] blur-2xl"></div>
-            <div class="relative" data-admin-block-root>
-                <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($pricesPage, 'prices', 'meta.hero_eyebrow'); ?>><?php echo htmlspecialchars((string)($pricesMeta['hero_eyebrow'] ?? 'Прайс-лист'), ENT_QUOTES, 'UTF-8'); ?></p>
+    <div class="prices-print-header">
+        <img src="<?php echo htmlspecialchars(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'), ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars(CLINIC_NAME, ENT_QUOTES, 'UTF-8'); ?>" width="1348" height="400">
+        <div class="prices-print-header-copy">
+            <strong><?php echo htmlspecialchars(CLINIC_NAME, ENT_QUOTES, 'UTF-8'); ?></strong>
+            <span><?php echo htmlspecialchars(CLINIC_PHONE . ' · ' . CLINIC_ADDRESS, ENT_QUOTES, 'UTF-8'); ?></span>
+        </div>
+    </div>
+
+    <main class="prices-main mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
+        <div class="prices-hero<?php echo $pricesCanExport ? ' has-document-tools' : ''; ?> mb-6 p-5 md:p-6">
+            <?php if ($pricesCanExport): ?>
+                <div class="prices-document-tools" aria-label="Документы и печать">
+                    <label class="prices-print-toggle" for="prices-print-mode-toggle">
+                        <span>Режим печати</span>
+                        <input id="prices-print-mode-toggle" type="checkbox" role="switch" aria-label="Включить режим печати">
+                        <span class="prices-print-toggle-track" aria-hidden="true"></span>
+                    </label>
+                    <button id="prices-save-pdf" type="button" class="prices-document-button"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i><span>Сохранить в PDF</span></button>
+                    <label class="prices-signature-toggle" for="prices-signature-toggle">
+                        <input id="prices-signature-toggle" type="checkbox">
+                        <span class="prices-signature-toggle-box" aria-hidden="true">✓</span>
+                        <span>Подпись/печать</span>
+                    </label>
+                    <div class="prices-export-menu" id="prices-export-menu">
+                        <button id="prices-export-toggle" type="button" class="prices-document-button is-secondary" aria-haspopup="menu" aria-expanded="false"><i class="fa-solid fa-file-export" aria-hidden="true"></i><span>Экспорт</span><i class="fa-solid fa-chevron-down prices-export-toggle-chevron" aria-hidden="true"></i></button>
+                        <div class="prices-export-dropdown" id="prices-export-dropdown" role="menu" hidden>
+                            <button type="button" class="prices-document-button" role="menuitem" data-prices-export-url="/api/admin/prices-export/?format=excel" data-prices-export-filename="bioinmed-prices.xlsx"><i class="fa-solid fa-file-excel" aria-hidden="true"></i><span>Excel</span></button>
+                            <button type="button" class="prices-document-button" role="menuitem" data-prices-export-url="/api/admin/prices-export/?format=yandex" data-prices-export-filename="bioinmed-yandex-prices.xlsx"><i class="fa-solid fa-building" aria-hidden="true"></i><span>Яндекс Бизнес</span></button>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="prices-hero-decoration absolute -right-14 -top-14 h-36 w-36 rounded-full bg-[#1977b21f] blur-2xl"></div>
+            <div class="prices-hero-decoration absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[#1977b214] blur-2xl"></div>
+            <div class="prices-hero-content relative" data-admin-block-root>
+                <p class="prices-hero-eyebrow text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($pricesPage, 'prices', 'meta.hero_eyebrow'); ?>><?php echo htmlspecialchars((string)($pricesMeta['hero_eyebrow'] ?? 'Прайс-лист'), ENT_QUOTES, 'UTF-8'); ?></p>
                 <h1 class="mt-2 font-bold text-[#0f2749]"<?php echo bioinmed_page_text_attr($pricesPage, 'prices', 'meta.hero_title'); ?>><?php echo htmlspecialchars((string)($pricesMeta['hero_title'] ?? 'Стоимость услуг'), ENT_QUOTES, 'UTF-8'); ?></h1>
-                <p class="mt-2 max-w-3xl text-[0.95rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]"<?php echo $pricesHeroTextNode['attr']; ?>><?php echo htmlspecialchars((string)$pricesHeroTextNode['value'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <div class="mt-3.5 flex flex-wrap gap-2">
+                <p class="prices-hero-description mt-2 max-w-3xl text-[0.95rem] leading-relaxed text-[#0a293c] md:text-[1.02rem]"<?php echo $pricesHeroTextNode['attr']; ?>><?php echo htmlspecialchars((string)$pricesHeroTextNode['value'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <div class="prices-hero-badges mt-3.5 flex flex-wrap gap-2">
                     <span class="inline-flex rounded-full border border-[#c7ddf0] bg-white/75 px-3 py-1 text-[0.74rem] font-semibold text-[#0a293c]"<?php echo $pricesHeroBadgePrimaryNode['attr']; ?>><?php echo htmlspecialchars((string)$pricesHeroBadgePrimaryNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
                     <span class="inline-flex rounded-full border border-[#c7ddf0] bg-white/75 px-3 py-1 text-[0.74rem] font-semibold text-[#0a293c]"<?php echo $pricesHeroBadgeSecondaryNode['attr']; ?>><?php echo htmlspecialchars((string)$pricesHeroBadgeSecondaryNode['value'], ENT_QUOTES, 'UTF-8'); ?></span>
                 </div>
@@ -496,12 +692,159 @@ $header = new Header($brand_colors);
         </div>
     </main>
 
+    <footer class="prices-print-footer" aria-hidden="true">
+        <span><?php echo htmlspecialchars(rtrim(CLINIC_SITE_URL, '/'), ENT_QUOTES, 'UTF-8'); ?></span>
+        <span>Прайс-лист от <?php echo htmlspecialchars(date('d.m.Y'), ENT_QUOTES, 'UTF-8'); ?></span>
+    </footer>
+
+    <section class="prices-signature-zone" aria-label="Подпись и печать генерального директора">
+        <div class="prices-signature-card">
+            <div class="prices-signature-role">Генеральный директор ООО «Клиника „БИОИНМЕД“»</div>
+            <div class="prices-signature-fields">
+                <div>
+                    <span class="prices-signature-line"></span>
+                    <span class="prices-signature-caption">подпись</span>
+                </div>
+                <div class="prices-signature-name">Костромина И.В.</div>
+            </div>
+            <div class="prices-signature-seal">М.П.</div>
+        </div>
+    </section>
+
     <?php
     $footer = new Footer($brand_colors);
     echo $footer->render();
     ?>
 
     <script>
+        (function () {
+            const toggle = document.getElementById('prices-print-mode-toggle');
+            const pdfButton = document.getElementById('prices-save-pdf');
+            const signatureToggle = document.getElementById('prices-signature-toggle');
+            const exportMenu = document.getElementById('prices-export-menu');
+            const exportToggle = document.getElementById('prices-export-toggle');
+            const exportDropdown = document.getElementById('prices-export-dropdown');
+            const storageKey = 'bioinmed:prices-print-mode';
+            const signatureStorageKey = 'bioinmed:prices-signature';
+
+            if (!toggle) {
+                document.body.classList.remove('prices-print-mode');
+                window.BioinmedDisableUis = false;
+                if (typeof window.BioinmedLoadUis === 'function') window.BioinmedLoadUis();
+                return;
+            }
+
+            function setPrintMode(enabled, persist = true) {
+                document.body.classList.toggle('prices-print-mode', enabled);
+                document.documentElement.classList.remove('prices-print-mode-pending');
+                window.BioinmedDisableUis = enabled;
+                if (toggle) {
+                    toggle.checked = enabled;
+                    toggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+                }
+                if (persist) {
+                    try { localStorage.setItem(storageKey, enabled ? '1' : '0'); } catch (error) {}
+                }
+                if (!enabled && typeof window.BioinmedLoadUis === 'function') {
+                    window.BioinmedLoadUis();
+                }
+            }
+
+            function setSignature(enabled, persist = true) {
+                document.body.classList.toggle('prices-show-signature', enabled);
+                if (signatureToggle) signatureToggle.checked = enabled;
+                if (persist) {
+                    try { localStorage.setItem(signatureStorageKey, enabled ? '1' : '0'); } catch (error) {}
+                }
+            }
+
+            let initialPrintMode = false;
+            try { initialPrintMode = localStorage.getItem(storageKey) === '1'; } catch (error) {}
+            setPrintMode(initialPrintMode, false);
+            let initialSignature = false;
+            try { initialSignature = localStorage.getItem(signatureStorageKey) === '1'; } catch (error) {}
+            setSignature(initialSignature, false);
+
+            if (toggle) {
+                toggle.addEventListener('change', function () {
+                    setPrintMode(toggle.checked);
+                });
+            }
+            if (pdfButton) {
+                pdfButton.addEventListener('click', function () {
+                    setPrintMode(true);
+                    requestAnimationFrame(function () { window.print(); });
+                });
+            }
+            if (signatureToggle) {
+                signatureToggle.addEventListener('change', function () {
+                    setSignature(signatureToggle.checked);
+                });
+            }
+
+            function setExportMenu(open) {
+                if (!exportMenu || !exportToggle || !exportDropdown) return;
+                exportMenu.classList.toggle('is-open', open);
+                exportToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                exportDropdown.hidden = !open;
+            }
+
+            if (exportToggle) {
+                exportToggle.addEventListener('click', function () {
+                    setExportMenu(exportToggle.getAttribute('aria-expanded') !== 'true');
+                });
+                document.addEventListener('click', function (event) {
+                    if (exportMenu && !exportMenu.contains(event.target)) setExportMenu(false);
+                });
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape' && exportToggle.getAttribute('aria-expanded') === 'true') {
+                        setExportMenu(false);
+                        exportToggle.focus();
+                    }
+                });
+            }
+
+            document.querySelectorAll('[data-prices-export-url]').forEach(function (button) {
+                button.addEventListener('click', async function () {
+                    if (button.disabled) return;
+                    setExportMenu(false);
+                    button.disabled = true;
+                    button.setAttribute('aria-busy', 'true');
+
+                    try {
+                        const response = await fetch(button.dataset.pricesExportUrl, {
+                            credentials: 'same-origin',
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                        });
+                        if (!response.ok) {
+                            let message = 'Не удалось сформировать файл.';
+                            try {
+                                const payload = await response.json();
+                                if (payload && payload.error) message = payload.error;
+                            } catch (error) {}
+                            throw new Error(message);
+                        }
+
+                        const blob = await response.blob();
+                        if (!blob.size) throw new Error('Сервер вернул пустой файл.');
+                        const objectUrl = URL.createObjectURL(blob);
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = objectUrl;
+                        downloadLink.download = button.dataset.pricesExportFilename || 'prices.xlsx';
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        downloadLink.remove();
+                        setTimeout(function () { URL.revokeObjectURL(objectUrl); }, 1000);
+                    } catch (error) {
+                        window.alert(error && error.message ? error.message : 'Не удалось скачать файл.');
+                    } finally {
+                        button.disabled = false;
+                        button.removeAttribute('aria-busy');
+                    }
+                });
+            });
+        })();
+
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();

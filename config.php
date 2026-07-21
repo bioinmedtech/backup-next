@@ -331,6 +331,7 @@ function bioinmed_uis_counter_head() {
             var src = 'https://app.uiscom.ru/static/cs.min.js?k=if02ewgEvY95V_mhIKLExPfM0ipC6i1u';
 
             function loadUisCounter() {
+                if (window.BioinmedDisableUis) return;
                 if (document.querySelector('script[data-bioinmed-uis-counter]')) return;
                 var script = document.createElement('script');
                 script.type = 'text/javascript';
@@ -341,12 +342,15 @@ function bioinmed_uis_counter_head() {
             }
 
             function scheduleLoad() {
+                if (window.BioinmedDisableUis) return;
                 if (window.requestIdleCallback) {
                     window.requestIdleCallback(loadUisCounter, { timeout: 2500 });
                     return;
                 }
                 setTimeout(loadUisCounter, 1);
             }
+
+            window.BioinmedLoadUis = scheduleLoad;
 
             if (document.readyState === 'complete') {
                 scheduleLoad();
