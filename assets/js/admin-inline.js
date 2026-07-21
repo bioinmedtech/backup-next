@@ -3113,6 +3113,187 @@
         });
     }
 
+    function editableListItems(root) {
+        return Array.prototype.map.call(root.querySelectorAll('[data-admin-list-item="1"]'), function (item) {
+            return {
+                id: item.getAttribute('data-admin-list-item-id') || '',
+                text: item.getAttribute('data-admin-list-item-text') || '',
+                secondary: item.getAttribute('data-admin-list-item-secondary') || '',
+                url: item.getAttribute('data-admin-list-item-url') || '',
+                icon: item.getAttribute('data-admin-list-item-icon') || '',
+                hidden: item.getAttribute('data-admin-list-item-hidden') === '1'
+            };
+        });
+    }
+
+    function saveEditableList(root, items) {
+        if (!root) return Promise.resolve(false);
+        return callApi('/editable-list.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify({
+                page: root.getAttribute('data-admin-list-page') || '',
+                list_key: root.getAttribute('data-admin-list-key') || '',
+                items: items,
+                csrf: state.config.csrf
+            })
+        }).then(function (resp) {
+            if (!resp || !resp.ok) {
+                showToast((resp && resp.error) || 'Не удалось сохранить список', 'error');
+                return false;
+            }
+            showToast('Список сохранён');
+            window.setTimeout(function () { window.location.reload(); }, 220);
+            return true;
+        });
+    }
+
+    var editableListModalState = { root: null, index: -1, insertIndex: -1 };
+
+    function ensureEditableListModal() {
+        var overlay = byId('bioinmed-list-editor-overlay');
+        if (overlay) return overlay;
+        overlay = document.createElement('div');
+        overlay.id = 'bioinmed-list-editor-overlay';
+        overlay.className = 'bioinmed-list-editor-overlay';
+        overlay.innerHTML = ''
+            + '<form class="bioinmed-list-editor-modal" id="bioinmed-list-editor-form">'
+            + '<h2 class="bioinmed-list-editor-title" id="bioinmed-list-editor-title">Элемент списка</h2>'
+            + '<label class="bioinmed-list-editor-field"><span>Текст</span><textarea id="bioinmed-list-editor-text" required></textarea></label>'
+            + '<label class="bioinmed-list-editor-field" id="bioinmed-list-editor-secondary-field"><span id="bioinmed-list-editor-secondary-label">Описание</span><textarea id="bioinmed-list-editor-secondary"></textarea></label>'
+            + '<label class="bioinmed-list-editor-field" id="bioinmed-list-editor-url-field"><span id="bioinmed-list-editor-url-label">Ссылка</span><input id="bioinmed-list-editor-url" type="text" placeholder="/services/example"></label>'
+            + '<label class="bioinmed-list-editor-field" id="bioinmed-list-editor-icon-field"><span>Иконка</span><select id="bioinmed-list-editor-icon"><option value="">Без иконки</option><option value="fa-solid fa-check">Галочка</option><option value="fa-solid fa-circle">Круглый маркер</option><option value="fa-solid fa-star">Звезда</option><option value="fa-solid fa-heart-pulse">Здоровье</option><option value="fa-solid fa-arrow-right">Стрелка</option><option value="fa-solid fa-graduation-cap">Образование</option><option value="fa-solid fa-stethoscope">Врач</option><option value="fa-solid fa-file-medical">Медицинский документ</option><option value="fa-solid fa-clock">Часы</option><option value="fa-solid fa-list-check">Список</option><option value="fa-solid fa-bullseye">Цель</option></select></label>'
+            + '<label class="bioinmed-list-editor-checkbox"><input id="bioinmed-list-editor-hidden" type="checkbox"><span>Скрыть элемент на сайте</span></label>'
+            + '<div class="bioinmed-list-editor-actions"><button type="button" data-admin-list-modal-close>Отмена</button><button type="submit">Сохранить</button></div>'
+            + '</form>';
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener('click', function (event) {
+            if (event.target === overlay || event.target.closest('[data-admin-list-modal-close]')) {
+                overlay.classList.remove('is-open');
+            }
+        });
+        byId('bioinmed-list-editor-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var root = editableListModalState.root;
+            if (!root) return;
+            var items = editableListItems(root);
+            var text = (byId('bioinmed-list-editor-text').value || '').trim();
+            if (!text) {
+                showToast('Введите текст элемента', 'error');
+                return;
+            }
+            var item = {
+                id: '',
+                text: text,
+                secondary: (byId('bioinmed-list-editor-secondary').value || '').trim(),
+                url: (byId('bioinmed-list-editor-url').value || '').trim(),
+                icon: root.getAttribute('data-admin-list-icons') === '1' ? (byId('bioinmed-list-editor-icon').value || '').trim() : '',
+                hidden: !!byId('bioinmed-list-editor-hidden').checked
+            };
+            if (editableListModalState.index >= 0 && items[editableListModalState.index]) {
+                item.id = items[editableListModalState.index].id;
+                items[editableListModalState.index] = item;
+            } else if (editableListModalState.insertIndex >= 0) {
+                items.splice(editableListModalState.insertIndex, 0, item);
+            } else {
+                items.push(item);
+            }
+            overlay.classList.remove('is-open');
+            saveEditableList(root, items);
+        });
+        return overlay;
+    }
+
+    function openEditableListModal(root, index, insertIndex) {
+        var overlay = ensureEditableListModal();
+        var items = editableListItems(root);
+        var item = index >= 0 ? items[index] : null;
+        editableListModalState.root = root;
+        editableListModalState.index = index;
+        editableListModalState.insertIndex = typeof insertIndex === 'number' ? insertIndex : -1;
+        setText(byId('bioinmed-list-editor-title'), (index >= 0 ? 'Редактирование' : 'Новый элемент') + ': ' + (root.getAttribute('data-admin-list-title') || 'список'));
+        byId('bioinmed-list-editor-text').value = item ? item.text : '';
+        var secondaryLabel = root.getAttribute('data-admin-list-secondary-label') || '';
+        byId('bioinmed-list-editor-secondary').value = item ? (item.secondary || '') : '';
+        setText(byId('bioinmed-list-editor-secondary-label'), secondaryLabel || 'Описание');
+        byId('bioinmed-list-editor-secondary-field').style.display = secondaryLabel ? '' : 'none';
+        var urlLabel = root.getAttribute('data-admin-list-url-label') || '';
+        byId('bioinmed-list-editor-url').value = item ? (item.url || '') : '';
+        setText(byId('bioinmed-list-editor-url-label'), urlLabel || 'Ссылка');
+        byId('bioinmed-list-editor-url-field').style.display = urlLabel ? '' : 'none';
+        var iconSelect = byId('bioinmed-list-editor-icon');
+        var iconValue = item ? item.icon : '';
+        var hasIconOption = Array.prototype.some.call(iconSelect.options, function (option) { return option.value === iconValue; });
+        if (iconValue && !hasIconOption) {
+            var currentIconOption = document.createElement('option');
+            currentIconOption.value = iconValue;
+            currentIconOption.textContent = 'Текущая иконка';
+            iconSelect.appendChild(currentIconOption);
+        }
+        iconSelect.value = iconValue;
+        byId('bioinmed-list-editor-hidden').checked = item ? item.hidden : false;
+        byId('bioinmed-list-editor-icon-field').style.display = root.getAttribute('data-admin-list-icons') === '1' ? '' : 'none';
+        overlay.classList.add('is-open');
+        window.setTimeout(function () { byId('bioinmed-list-editor-text').focus(); }, 0);
+    }
+
+    document.addEventListener('click', function (event) {
+        var button = event.target.closest('[data-admin-list-action]');
+        if (!button || !state.config.isAuthenticated || !state.editMode) return;
+        var action = button.getAttribute('data-admin-list-action') || '';
+        var root = button.closest('[data-admin-list-root="1"]');
+        if (!root) return;
+        event.preventDefault();
+        event.stopPropagation();
+
+        var itemElement = button.closest('[data-admin-list-item="1"]');
+        var elements = Array.prototype.slice.call(root.querySelectorAll('[data-admin-list-item="1"]'));
+        var index = itemElement ? elements.indexOf(itemElement) : -1;
+        var items = editableListItems(root);
+
+        if (action === 'add') {
+            openEditableListModal(root, -1);
+            return;
+        }
+        if (index < 0 || !items[index]) return;
+        if (action === 'edit') {
+            openEditableListModal(root, index);
+            return;
+        }
+        if (action === 'add-after') {
+            openEditableListModal(root, -1, index + 1);
+            return;
+        }
+        if (action === 'move-up' && index > 0) {
+            items.splice(index - 1, 0, items.splice(index, 1)[0]);
+            saveEditableList(root, items);
+            return;
+        }
+        if (action === 'move-down' && index < items.length - 1) {
+            items.splice(index + 1, 0, items.splice(index, 1)[0]);
+            saveEditableList(root, items);
+            return;
+        }
+        if (action === 'toggle-hidden') {
+            items[index].hidden = !items[index].hidden;
+            saveEditableList(root, items);
+            return;
+        }
+        if (action === 'delete' && window.confirm('Удалить этот элемент списка? Действие нельзя отменить.')) {
+            items.splice(index, 1);
+            saveEditableList(root, items);
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            var overlay = byId('bioinmed-list-editor-overlay');
+            if (overlay) overlay.classList.remove('is-open');
+        }
+    });
+
     initEvents();
     ensureLinkIds();
     bindInlinePricesEditor();

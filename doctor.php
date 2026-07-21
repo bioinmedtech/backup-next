@@ -5,6 +5,7 @@ bioinmed_pin_require_access();
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
+require_once 'includes/content/EditableLists.php';
 
 $doctorPage = bioinmed_read_json_file('pages/doctor.json');
 $doctorMeta = is_array($doctorPage['meta'] ?? null) ? $doctorPage['meta'] : [];
@@ -59,6 +60,7 @@ $doctorImagePath = $doctor && !empty($doctor['image'])
     ? bioinmed_preferred_image_asset_path('/public/images/team/' . $doctor['image'])
     : '';
 $doctorProjectTitle = trim((string)($doctor['project_title'] ?? ''));
+$doctorEditablePrefix = 'doctor.' . (string)($doctor['slug'] ?? ($slug ?: 'default'));
 $socialImageUrl = $doctor && !empty($doctor['image'])
     ? bioinmed_absolute_url($doctorImagePath)
     : bioinmed_default_social_image_url();
@@ -107,6 +109,12 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
         body {
             line-height: 1.72;
+        }
+
+        .bioinmed-editable-list-item-hidden,
+        .bioinmed-editable-list-toolbar,
+        .bioinmed-editable-list-actions {
+            display: none !important;
         }
 
         .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
@@ -180,6 +188,7 @@ echo $header->render();
                                 'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.summary',
                                 []
                             ),
+                            'editable_list_key' => $doctorEditablePrefix . '.summary.educational_role',
                         ]); ?>
                     </div>
 
@@ -277,15 +286,7 @@ echo $header->render();
                         </span>
                     </summary>
                     <div class="px-7 pb-7">
-                        <ul class="space-y-3">
-                            <?php foreach ($doctor['specializations'] as $specIndex => $spec): ?>
-                            <?php $specNode = bioinmed_page_text_node($doctorPage, 'doctor', 'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.specializations.' . $specIndex, (string)$spec); ?>
-                            <li class="flex items-start gap-3 text-sm leading-snug text-[#0a293c]">
-                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                <span<?php echo $specNode['attr']; ?>><?php echo e($specNode['value']); ?></span>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <?php bioinmed_render_editable_icon_list($doctorPage, 'doctor', $doctorEditablePrefix . '.specializations', bioinmed_editable_list_resolve_texts($doctorPage, 'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.specializations', $doctor['specializations']), 'Специализации', 'space-y-3', 'flex items-start gap-3 text-sm leading-snug text-[#0a293c]', 'fa-solid fa-circle'); ?>
                     </div>
                 </details>
                 <?php endif; ?>
@@ -302,15 +303,7 @@ echo $header->render();
                         </span>
                     </summary>
                     <div class="px-7 pb-7">
-                        <ul class="grid gap-3 sm:grid-cols-2">
-                            <?php foreach ($doctor['focus'] as $focusIndex => $item): ?>
-                            <?php $focusNode = bioinmed_page_text_node($doctorPage, 'doctor', 'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.focus.' . $focusIndex, (string)$item); ?>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                <i class="fa-solid fa-check mt-0.5 shrink-0 text-[#1977b2]"></i>
-                                <span<?php echo $focusNode['attr']; ?>><?php echo e($focusNode['value']); ?></span>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <?php bioinmed_render_editable_icon_list($doctorPage, 'doctor', $doctorEditablePrefix . '.focus', bioinmed_editable_list_resolve_texts($doctorPage, 'doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.focus', $doctor['focus']), 'Основные направления', 'grid gap-3 sm:grid-cols-2', 'flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.96rem] leading-snug text-[#0a293c]'); ?>
                     </div>
                 </details>
                 <?php endif; ?>
@@ -366,22 +359,7 @@ echo $header->render();
                         <?php endif; ?>
 
                         <?php if (!empty($sectionItems) && is_array($sectionItems)): ?>
-                        <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                            <?php foreach ($sectionItems as $itemIndex => $item): ?>
-                            <?php
-                                $sectionItemNode = bioinmed_page_text_node(
-                                    $doctorPage,
-                                    'doctor',
-                                    $sectionBase . '.items.' . $itemIndex,
-                                    (string)$item
-                                );
-                            ?>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                <span<?php echo $sectionItemNode['attr']; ?>><?php echo e($sectionItemNode['value']); ?></span>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <?php bioinmed_render_editable_icon_list($doctorPage, 'doctor', $doctorEditablePrefix . '.custom.' . $sectionKey . '.items', bioinmed_editable_list_resolve_texts($doctorPage, $sectionBase . '.items', $sectionItems), $sectionTitle, 'space-y-3 text-[0.96rem] leading-snug text-[#0a293c]', 'flex items-start gap-3', 'fa-solid fa-circle'); ?>
                         <?php endif; ?>
 
                         <?php if (!empty($sectionSubsections) && is_array($sectionSubsections)): ?>
@@ -400,15 +378,7 @@ echo $header->render();
                                 <h3 class="text-[0.98rem] font-semibold text-[#0a293c] md:text-[1.03rem]"<?php echo $subTitleNode['attr']; ?>><?php echo e($subTitleNode['value']); ?></h3>
                                 <?php endif; ?>
                                 <?php if (!empty($subItems) && is_array($subItems)): ?>
-                                <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                    <?php foreach ($subItems as $subItemIndex => $subItem): ?>
-                                    <?php $subItemNode = bioinmed_page_text_node($doctorPage, 'doctor', $subBase . '.items.' . $subItemIndex, (string)$subItem); ?>
-                                    <li class="flex items-start gap-3">
-                                        <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#1977b2]"></span>
-                                        <span<?php echo $subItemNode['attr']; ?>><?php echo e($subItemNode['value']); ?></span>
-                                    </li>
-                                    <?php endforeach; ?>
-                                </ul>
+                                <?php bioinmed_render_editable_icon_list($doctorPage, 'doctor', $doctorEditablePrefix . '.custom.' . $sectionKey . '.subsections.' . $subIndex . '.items', bioinmed_editable_list_resolve_texts($doctorPage, $subBase . '.items', is_array($subItems) ? $subItems : []), $subTitle !== '' ? $subTitle : $sectionTitle, 'mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]', 'flex items-start gap-3', 'fa-solid fa-circle'); ?>
                                 <?php endif; ?>
                             </div>
                             <?php endforeach; ?>
@@ -456,34 +426,15 @@ echo $header->render();
                         </span>
                     </summary>
                     <div class="px-7 pb-7">
-                        <ul class="space-y-3 text-[0.96rem] text-[#0a293c]">
-                            <?php foreach ((is_array($doctorTrustSection['items'] ?? null) ? $doctorTrustSection['items'] : []) as $trustIndex => $trustItemEntry): ?>
-                            <?php
-                            if (is_array($trustItemEntry)) {
-                                $trustItem = (string)($trustItemEntry['text'] ?? '');
-                                $trustItemKey = trim((string)($trustItemEntry['id'] ?? ('item_' . $trustIndex)));
-                            } else {
-                                $trustItem = (string)$trustItemEntry;
-                                $trustItemKey = 'item_' . $trustIndex;
-                            }
-                            $trustItemNode = bioinmed_page_text_node(
-                                $doctorPage,
-                                'doctor',
-                                'sections.trust.items.' . $trustItemKey,
-                                $trustItem
-                            );
-                            ?>
-                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $trustItemNode['attr']; ?>><?php echo e($trustItemNode['value']); ?></span></li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <?php bioinmed_render_editable_icon_list($doctorPage, 'doctor', $doctorEditablePrefix . '.trust', is_array($doctorTrustSection['items'] ?? null) ? $doctorTrustSection['items'] : [], 'Почему можно доверять', 'space-y-3 text-[0.96rem] text-[#0a293c]', 'flex items-start gap-3'); ?>
                     </div>
                 </details>
                 <?php endif; ?>
             </div>
 
             <!-- right column: sticky CTA -->
-            <div class="hidden lg:block">
-                <div id="book" class="fade-up sticky top-24 rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
+            <div class="hidden self-stretch lg:block">
+                <div id="book" class="sticky top-24 rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
                     <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
                     <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]">
                         <?php echo e(bioinmed_text('common.callback_15_min')); ?>

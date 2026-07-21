@@ -5,6 +5,7 @@ bioinmed_pin_require_access();
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
+require_once 'includes/content/EditableLists.php';
 
 $aboutPage = bioinmed_read_json_file('pages/about.json');
 $aboutMeta = is_array($aboutPage['meta'] ?? null) ? $aboutPage['meta'] : [];
@@ -13,6 +14,16 @@ $aboutAddress = is_array($aboutPage['address'] ?? null) ? $aboutPage['address'] 
 $aboutTasks = is_array($aboutPage['tasks'] ?? null) ? $aboutPage['tasks'] : [];
 $aboutTaskItems = is_array($aboutTasks['items'] ?? null) ? $aboutTasks['items'] : [];
 $aboutHeroParagraphEntries = is_array($aboutHero['paragraphs'] ?? null) ? $aboutHero['paragraphs'] : [];
+$aboutHeroParagraphEntries = bioinmed_editable_list_items($aboutPage, 'about.hero.paragraphs', $aboutHeroParagraphEntries, '');
+$aboutTaskFallback = [];
+foreach ($aboutTaskItems as $taskIndex => $task) {
+	$aboutTaskFallback[] = [
+		'id' => (string)($task['id'] ?? ('task-' . $taskIndex)),
+		'text' => (string)($task['title'] ?? ''),
+		'secondary' => (string)($task['text'] ?? ''),
+	];
+}
+$aboutTaskItems = bioinmed_editable_list_items($aboutPage, 'about.tasks.items', $aboutTaskFallback, '');
 $aboutChiefQuote = is_array($aboutPage['chief_quote'] ?? null) ? $aboutPage['chief_quote'] : [];
 $aboutCta = is_array($aboutPage['cta'] ?? null) ? $aboutPage['cta'] : [];
 $aboutContactHoursNode = bioinmed_page_text_node($aboutPage, 'about', 'contact_values.hours', CLINIC_HOURS);
@@ -88,6 +99,11 @@ function e($value) {
 	]); ?>
 	<?php echo bioinmed_render_favicon_links($iconPath); ?>
 	<?php echo bioinmed_render_public_head_assets(); ?>
+	<style>
+		.bioinmed-editable-list-item-hidden,
+		.bioinmed-editable-list-toolbar,
+		.bioinmed-editable-list-actions { display: none !important; }
+	</style>
 	<script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
 	<script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
 	<?php echo bioinmed_uis_counter_head(); ?>
@@ -107,22 +123,14 @@ echo $header->render();
 			<div data-admin-block-root>
 				<p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.eyebrow'); ?>><?php echo e($aboutHero['eyebrow'] ?? ''); ?></p>
 					<h1 class="mt-2 text-[1.65rem] font-bold leading-[1.08] text-[#0f2749] md:text-[2.2rem]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.heading'); ?>><?php echo e($aboutHero['heading'] ?? 'Клиника'); ?></h1>
-				<div class="mt-4 max-w-2xl space-y-2">
+				<div class="mt-4 max-w-2xl space-y-2"<?php echo bioinmed_editable_list_attrs('about', 'about.hero.paragraphs', 'Описание клиники', false); ?>>
 					<p class="text-[0.74rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.ecosystem_label'); ?>><?php echo e($aboutHero['ecosystem_label'] ?? ''); ?></p>
 					<p class="text-[1.08rem] font-semibold leading-[1.42] text-[#0a293c] md:text-[1.1rem]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.ecosystem_title'); ?>>
 						<?php echo e($aboutHero['ecosystem_title'] ?? ''); ?>
 					</p>
-					<?php foreach ($aboutHeroParagraphEntries as $heroParagraphIndex => $heroParagraphEntry): ?>
-						<?php
-						if (is_array($heroParagraphEntry)) {
-							$heroParagraph = (string)($heroParagraphEntry['text'] ?? '');
-							$heroParagraphKey = trim((string)($heroParagraphEntry['id'] ?? ('paragraph_' . $heroParagraphIndex)));
-						} else {
-							$heroParagraph = (string)$heroParagraphEntry;
-							$heroParagraphKey = 'paragraph_' . $heroParagraphIndex;
-						}
-						?>
-						<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'hero.paragraphs.' . $heroParagraphKey); ?>><?php echo e($heroParagraph); ?></p>
+					<?php echo bioinmed_editable_list_toolbar('div'); ?>
+					<?php foreach ($aboutHeroParagraphEntries as $heroParagraphEntry): ?>
+						<p class="text-[1rem] leading-[1.62] text-[#0a293c] md:text-[0.98rem]<?php echo bioinmed_editable_list_item_class($heroParagraphEntry); ?>"<?php echo bioinmed_editable_list_item_attrs($heroParagraphEntry); ?>><span data-admin-list-text-view><?php echo e($heroParagraphEntry['text']); ?></span><?php echo bioinmed_editable_list_actions($heroParagraphEntry); ?></p>
 					<?php endforeach; ?>
 				</div>
 			</div>
@@ -166,12 +174,13 @@ echo $header->render();
 			<p class="text-[0.84rem] text-[#0a293c]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'tasks.subtitle'); ?>><?php echo e($aboutTasks['subtitle'] ?? ''); ?></p>
 		</div>
 		<div class="mt-5 rounded-3xl border border-[#d9e7f3] bg-white p-5 shadow-[0_10px_24px_rgba(8,36,70,0.08)] md:p-6">
-			<div class="grid gap-4 md:grid-cols-2">
-				<?php foreach ($aboutTaskItems as $taskIndex => $task): ?>
-					<?php $taskKey = trim((string)($task['id'] ?? ('task_' . $taskIndex))); ?>
-					<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4" data-admin-block-root>
-						<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'tasks.items.' . $taskKey . '.title'); ?>><?php echo e($task['title'] ?? ''); ?></p>
-						<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'tasks.items.' . $taskKey . '.text'); ?>><?php echo e($task['text'] ?? ''); ?></p>
+			<div class="grid gap-4 md:grid-cols-2"<?php echo bioinmed_editable_list_attrs('about', 'about.tasks.items', 'Ключевые задачи клиники', false, 'Описание'); ?>>
+				<?php echo bioinmed_editable_list_toolbar('div'); ?>
+				<?php foreach ($aboutTaskItems as $task): ?>
+					<div class="rounded-2xl border border-[#e4edf6] bg-[#f8fbff] p-4<?php echo bioinmed_editable_list_item_class($task); ?>" data-admin-block-root<?php echo bioinmed_editable_list_item_attrs($task); ?>>
+						<p class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]" data-admin-list-text-view><?php echo e($task['text']); ?></p>
+						<p class="mt-2 text-[0.98rem] leading-relaxed text-[#0a293c]" data-admin-list-secondary-view><?php echo e($task['secondary']); ?></p>
+						<?php echo bioinmed_editable_list_actions($task); ?>
 					</div>
 				<?php endforeach; ?>
 			</div>
@@ -190,7 +199,12 @@ echo $header->render();
 			<p class="caveat-reveal mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'chief_quote.sign'); ?>><?php echo e($aboutChiefQuote['sign'] ?? ''); ?></p>
 		</div>
 		<article class="p-5 md:p-7" data-admin-block-root>
-			<?php echo bioinmed_render_chief_doctor_summary($chief, ['show_cta' => false]); ?>
+			<?php echo bioinmed_render_chief_doctor_summary($chief, [
+				'show_cta' => false,
+				'editable_list_key' => 'about.chief.educational_role',
+				'editable_list_page' => 'about',
+				'editable_list_page_data' => $aboutPage,
+			]); ?>
 		</article>
 	</section>
 

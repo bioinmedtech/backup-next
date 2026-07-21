@@ -5,6 +5,7 @@ bioinmed_pin_require_access();
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
+require_once 'includes/content/EditableLists.php';
 
 $servicesPage = bioinmed_read_json_file('pages/services.json');
 $servicesMeta = is_array($servicesPage['meta'] ?? null) ? $servicesPage['meta'] : [];
@@ -133,6 +134,10 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             line-height: 1.72;
         }
 
+        .bioinmed-editable-list-item-hidden,
+        .bioinmed-editable-list-toolbar,
+        .bioinmed-editable-list-actions { display: none !important; }
+
         .services-anchor {
             scroll-margin-top: 130px;
         }
@@ -216,6 +221,19 @@ echo $header->render();
                 $categoryTitle = $categoryLabels[$categoryKey] ?? ucfirst(str_replace(['_', '-'], ' ', $categoryKey));
                 $categoryIcon = $categoryIcons[$categoryKey] ?? 'fa-stethoscope';
                 $categoryHeaderNode = bioinmed_page_text_node($servicesPage, 'services', 'categories.' . $categoryKey, $categoryTitle);
+                $categoryServiceFallback = [];
+                foreach ($categoryItems as $categoryService) {
+                    $itemId = trim((string)($categoryService['id'] ?? ''));
+                    $itemPrice = trim((string)($categoryService['price'] ?? ''));
+                    $itemPriceNote = trim((string)($categoryService['price_note'] ?? ''));
+                    $categoryServiceFallback[] = [
+                        'id' => $itemId,
+                        'text' => (string)($categoryService['name'] ?? ''),
+                        'secondary' => $itemPrice !== '' && $itemPrice !== 'По запросу' ? trim($itemPrice . ($itemPriceNote !== '' ? ' ' . $itemPriceNote : '')) : '',
+                        'url' => '/services/' . $itemId,
+                    ];
+                }
+                $categoryEditableServices = bioinmed_editable_list_items($servicesPage, 'services.catalog.' . $categoryKey, $categoryServiceFallback, '');
                 ?>
                 <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor pt-2 md:pt-3">
                     <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3" data-admin-block-root>
@@ -225,34 +243,31 @@ echo $header->render();
                         <h2 class="text-[1.18rem] font-bold leading-tight text-[#0f2749] md:text-[1.42rem]"<?php echo $categoryHeaderNode['attr']; ?>><?php echo e($categoryHeaderNode['value']); ?></h2>
                     </div>
 
-                    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                        <?php foreach ($categoryItems as $service): ?>
+                    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"<?php echo bioinmed_editable_list_attrs('services', 'services.catalog.' . $categoryKey, 'Услуги: ' . $categoryTitle, false, 'Цена', 'Ссылка на страницу услуги'); ?>>
+                        <?php echo bioinmed_editable_list_toolbar('div'); ?>
+                        <?php foreach ($categoryEditableServices as $service): ?>
                             <?php
-                            $serviceId = trim((string)($service['id'] ?? ''));
-                            $serviceName = trim((string)($service['name'] ?? ''));
-                            $servicePrice = trim((string)($service['price'] ?? ''));
-                            $servicePriceNote = trim((string)($service['price_note'] ?? ''));
-                            $priceLabel = $servicePrice !== '' && $servicePrice !== 'По запросу'
-                                ? trim($servicePrice . ($servicePriceNote !== '' ? ' ' . $servicePriceNote : ''))
-                                : '';
-                            $serviceNameNode = bioinmed_page_text_node($servicesPage, 'services', 'catalog.items.' . $serviceId . '.name', $serviceName);
-                            $servicePriceLabelNode = bioinmed_page_text_node($servicesPage, 'services', 'catalog.items.' . $serviceId . '.price_label', $priceLabel);
+                            $serviceId = trim((string)$service['id']);
+                            $serviceName = trim((string)$service['text']);
+                            $priceLabel = trim((string)$service['secondary']);
+                            $serviceUrl = trim((string)$service['url']) ?: '#';
                             $servicePriceOnRequestNode = bioinmed_page_text_node($servicesPage, 'services', 'meta.price_on_request', (string)($servicesMeta['price_on_request'] ?? ''));
                             ?>
-                                     <a href="/services/<?php echo e($serviceId); ?>"
-                                         class="service-card group flex flex-col rounded-xl border border-[#deebf6] bg-white p-4 no-underline cursor-pointer" data-admin-block-root>
+                                     <a href="<?php echo e($serviceUrl); ?>"
+                                         class="service-card group flex flex-col rounded-xl border border-[#deebf6] bg-white p-4 no-underline cursor-pointer<?php echo bioinmed_editable_list_item_class($service); ?>" data-admin-block-root<?php echo bioinmed_editable_list_item_attrs($service); ?>>
                                 <div class="flex items-start justify-between gap-2">
                                     <h3 class="text-[0.93rem] font-semibold leading-snug text-[#0a293c] group-hover:text-[#1977b2]"
-                                        style="transition:color 0.15s"<?php echo $serviceNameNode['attr']; ?>><?php echo e($serviceNameNode['value']); ?></h3>
+                                        style="transition:color 0.15s" data-admin-list-text-view><?php echo e($serviceName); ?></h3>
                                     <i class="service-card-arrow fa-solid fa-arrow-right mt-0.5 shrink-0 text-[0.65rem] text-[#9bbdd8]" aria-hidden="true"></i>
                                 </div>
                                 <div class="mt-auto pt-3">
                                     <?php if ($priceLabel !== ''): ?>
-                                        <span class="inline-block rounded-full bg-[#e9f6ff] px-2.5 py-0.5 text-[0.78rem] font-semibold text-[#1a7dbf]"<?php echo $servicePriceLabelNode['attr']; ?>><?php echo e($servicePriceLabelNode['value']); ?></span>
+                                        <span class="inline-block rounded-full bg-[#e9f6ff] px-2.5 py-0.5 text-[0.78rem] font-semibold text-[#1a7dbf]" data-admin-list-secondary-view><?php echo e($priceLabel); ?></span>
                                     <?php else: ?>
                                         <span class="inline-block rounded-full bg-[#f3f6fb] px-2.5 py-0.5 text-[0.78rem] font-medium text-[#7093b8]"<?php echo $servicePriceOnRequestNode['attr']; ?>><?php echo e($servicePriceOnRequestNode['value']); ?></span>
                                     <?php endif; ?>
                                 </div>
+                                <?php echo bioinmed_editable_list_actions($service); ?>
                             </a>
                         <?php endforeach; ?>
                     </div>

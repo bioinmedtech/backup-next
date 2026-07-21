@@ -5,6 +5,7 @@ bioinmed_pin_require_access();
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
+require_once 'includes/content/EditableLists.php';
 
 $servicePage = bioinmed_read_json_file('pages/service.json');
 $serviceMeta = is_array($servicePage['meta'] ?? null) ? $servicePage['meta'] : [];
@@ -122,6 +123,12 @@ function bioinmed_render_hobilect_two_column_section(
     string $iconClass
 ): void {
     $section = is_array($serviceHobilectSections[$sectionKey] ?? null) ? $serviceHobilectSections[$sectionKey] : [];
+    $leftListKey = 'service.hobilect-diagnostics.hobilect.sections.' . $sectionKey . '.left_items';
+    $rightListKey = 'service.hobilect-diagnostics.hobilect.sections.' . $sectionKey . '.right_items';
+    $leftFallback = bioinmed_editable_list_resolve_texts($servicePage, 'hobilect.sections.' . $sectionKey . '.left_items', is_array($section['left_items'] ?? null) ? $section['left_items'] : []);
+    $rightFallback = bioinmed_editable_list_resolve_texts($servicePage, 'hobilect.sections.' . $sectionKey . '.right_items', is_array($section['right_items'] ?? null) ? $section['right_items'] : []);
+    $leftItems = bioinmed_editable_list_items($servicePage, $leftListKey, $leftFallback, 'fa-solid fa-check');
+    $rightItems = bioinmed_editable_list_items($servicePage, $rightListKey, $rightFallback, 'fa-solid fa-check');
     ?>
     <details id="<?php echo e($detailsId); ?>" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
@@ -137,18 +144,18 @@ function bioinmed_render_hobilect_two_column_section(
             <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.intro'); ?>><?php echo e($section['intro'] ?? ''); ?></p>
             <div class="mt-4 grid gap-3 md:grid-cols-2">
                 <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                    <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                        <?php foreach ((is_array($section['left_items'] ?? null) ? $section['left_items'] : []) as $leftIndex => $leftItem): ?>
-                        <?php $leftNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.left_items.' . $leftIndex, (string)$leftItem); ?>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $leftNode['attr']; ?>><?php echo e($leftNode['value']); ?></span></li>
+                    <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]"<?php echo bioinmed_editable_list_attrs('service', $leftListKey, (string)($section['title'] ?? '') . ': левая колонка'); ?>>
+                        <?php echo bioinmed_editable_list_toolbar(); ?>
+                        <?php foreach ($leftItems as $leftItem): ?>
+                        <li class="flex items-start gap-3<?php echo bioinmed_editable_list_item_class($leftItem); ?>"<?php echo bioinmed_editable_list_item_attrs($leftItem); ?>><i class="<?php echo e($leftItem['icon']); ?> mt-0.5 text-[#1977b2]" data-admin-list-icon-view></i><span data-admin-list-text-view><?php echo e($leftItem['text']); ?></span><?php echo bioinmed_editable_list_actions($leftItem); ?></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
-                    <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                        <?php foreach ((is_array($section['right_items'] ?? null) ? $section['right_items'] : []) as $rightIndex => $rightItem): ?>
-                        <?php $rightNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.right_items.' . $rightIndex, (string)$rightItem); ?>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $rightNode['attr']; ?>><?php echo e($rightNode['value']); ?></span></li>
+                    <ul class="space-y-3 text-[0.96rem] leading-snug text-[#0a293c]"<?php echo bioinmed_editable_list_attrs('service', $rightListKey, (string)($section['title'] ?? '') . ': правая колонка'); ?>>
+                        <?php echo bioinmed_editable_list_toolbar(); ?>
+                        <?php foreach ($rightItems as $rightItem): ?>
+                        <li class="flex items-start gap-3<?php echo bioinmed_editable_list_item_class($rightItem); ?>"<?php echo bioinmed_editable_list_item_attrs($rightItem); ?>><i class="<?php echo e($rightItem['icon']); ?> mt-0.5 text-[#1977b2]" data-admin-list-icon-view></i><span data-admin-list-text-view><?php echo e($rightItem['text']); ?></span><?php echo bioinmed_editable_list_actions($rightItem); ?></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -167,6 +174,9 @@ function bioinmed_render_hobilect_grid_items_section(
     string $columnsClass
 ): void {
     $section = is_array($serviceHobilectSections[$sectionKey] ?? null) ? $serviceHobilectSections[$sectionKey] : [];
+    $listKey = 'service.hobilect-diagnostics.hobilect.sections.' . $sectionKey . '.items';
+    $itemFallback = bioinmed_editable_list_resolve_texts($servicePage, 'hobilect.sections.' . $sectionKey . '.items', is_array($section['items'] ?? null) ? $section['items'] : []);
+    $items = bioinmed_editable_list_items($servicePage, $listKey, $itemFallback, 'fa-solid fa-check');
     ?>
     <details id="<?php echo e($detailsId); ?>" class="group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root>
         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
@@ -180,10 +190,10 @@ function bioinmed_render_hobilect_grid_items_section(
         </summary>
         <div class="space-y-5 px-7 pb-7">
             <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.intro'); ?>><?php echo e($section['intro'] ?? ''); ?></p>
-            <ul class="mt-4 grid gap-3 <?php echo e($columnsClass); ?> text-[0.96rem] leading-snug text-[#0a293c]">
-                <?php foreach ((is_array($section['items'] ?? null) ? $section['items'] : []) as $itemIndex => $item): ?>
-                <?php $itemNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.' . $sectionKey . '.items.' . $itemIndex, (string)$item); ?>
-                <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $itemNode['attr']; ?>><?php echo e($itemNode['value']); ?></span></li>
+            <ul class="mt-4 grid gap-3 <?php echo e($columnsClass); ?> text-[0.96rem] leading-snug text-[#0a293c]"<?php echo bioinmed_editable_list_attrs('service', $listKey, (string)($section['title'] ?? '')); ?>>
+                <?php echo bioinmed_editable_list_toolbar(); ?>
+                <?php foreach ($items as $item): ?>
+                <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3.5<?php echo bioinmed_editable_list_item_class($item); ?>"<?php echo bioinmed_editable_list_item_attrs($item); ?>><i class="<?php echo e($item['icon']); ?> mt-0.5 text-[#1977b2]" data-admin-list-icon-view></i><span data-admin-list-text-view><?php echo e($item['text']); ?></span><?php echo bioinmed_editable_list_actions($item); ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -247,10 +257,27 @@ $serviceSidebarPriceNode = bioinmed_page_text_node(
 $serviceSidebarPriceNoteNode = bioinmed_page_text_node($servicePage, 'service', 'sidebar.price_note', (string)($service['price_note'] ?? ''));
 $isHobilect = (($service['id'] ?? '') === 'hobilect-diagnostics');
 $serviceGalleryJson = json_encode(array_values($serviceGallery), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-$faqs_on_page = is_array($serviceFaqText['items'] ?? null) ? $serviceFaqText['items'] : [];
-$flowSteps = is_array($serviceFlowText['steps'] ?? null) ? $serviceFlowText['steps'] : [];
-$aboutItems = is_array($serviceAboutText['items'] ?? null) ? $serviceAboutText['items'] : [];
-$visitPrepItems = is_array($serviceSidebarText['visit_prep_items'] ?? null) ? $serviceSidebarText['visit_prep_items'] : [];
+$serviceEditablePrefix = 'service.' . (string)($service['id'] ?? ($serviceSlug ?: 'default'));
+$faqFallback = [];
+foreach ((is_array($serviceFaqText['items'] ?? null) ? $serviceFaqText['items'] : []) as $faqIndex => $faqEntry) {
+    $faqFallback[] = [
+        'id' => 'faq-' . $faqIndex,
+        'text' => (string)($faqEntry['q'] ?? ''),
+        'secondary' => (string)($faqEntry['a'] ?? ''),
+    ];
+}
+$serviceFaqItems = bioinmed_editable_list_items($servicePage, $serviceEditablePrefix . '.faq.items', $faqFallback, '');
+$faqs_on_page = array_map(static fn (array $faq): array => ['q' => $faq['text'], 'a' => $faq['secondary']], array_values(array_filter($serviceFaqItems, static fn (array $faq): bool => empty($faq['hidden']))));
+$flowFallback = bioinmed_editable_list_resolve_texts($servicePage, 'flow.steps', is_array($serviceFlowText['steps'] ?? null) ? $serviceFlowText['steps'] : []);
+$aboutFallback = bioinmed_editable_list_resolve_texts($servicePage, 'about.items', is_array($serviceAboutText['items'] ?? null) ? $serviceAboutText['items'] : []);
+$flowSteps = bioinmed_editable_list_items($servicePage, $serviceEditablePrefix . '.flow.steps', $flowFallback, '');
+$aboutItems = bioinmed_editable_list_items($servicePage, $serviceEditablePrefix . '.about.items', $aboutFallback, 'fa-solid fa-check');
+$visitPrepFallback = [];
+$visitPrepIcons = ['fa-solid fa-file-medical', 'fa-solid fa-clock', 'fa-solid fa-list-check'];
+foreach (bioinmed_editable_list_resolve_texts($servicePage, 'sidebar.visit_prep_items', is_array($serviceSidebarText['visit_prep_items'] ?? null) ? $serviceSidebarText['visit_prep_items'] : []) as $visitPrepIndex => $visitPrepText) {
+    $visitPrepFallback[] = ['text' => (string)$visitPrepText, 'icon' => $visitPrepIcons[$visitPrepIndex] ?? 'fa-solid fa-check'];
+}
+$visitPrepItems = bioinmed_editable_list_items($servicePage, $serviceEditablePrefix . '.sidebar.visit_prep_items', $visitPrepFallback, 'fa-solid fa-check');
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => (string)($serviceBreadcrumbs['home'] ?? ''), 'url' => '/'],
@@ -307,6 +334,12 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
 
         body {
             line-height: 1.72;
+        }
+
+        .bioinmed-editable-list-item-hidden,
+        .bioinmed-editable-list-toolbar,
+        .bioinmed-editable-list-actions {
+            display: none !important;
         }
 
         main p,
@@ -439,29 +472,16 @@ echo $header->render();
                     <?php endforeach; ?>
                     </div>
                     <div class="mt-6">
-                        <ul class="mt-4 grid gap-3 md:grid-cols-2">
-                            <?php foreach ((is_array($serviceHobilect['top_points'] ?? null) ? $serviceHobilect['top_points'] : []) as $hobilectPointIndex => $hobilectPoint): ?>
-                            <?php $hobilectPointNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.top_points.' . $hobilectPointIndex, (string)$hobilectPoint); ?>
-                            <li class="flex items-start gap-3 rounded-2xl border border-[#e4edf6] bg-white p-3.5 text-[0.92rem] leading-relaxed text-[#0a293c] md:p-4" data-admin-block-root>
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]" aria-hidden="true"></i>
-                                <span<?php echo $hobilectPointNode['attr']; ?>><?php echo e($hobilectPointNode['value']); ?></span>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <?php bioinmed_render_editable_icon_list($servicePage, 'service', 'service.hobilect-diagnostics.hobilect.top_points', is_array($serviceHobilect['top_points'] ?? null) ? $serviceHobilect['top_points'] : [], 'Ключевые возможности Хабилект', 'mt-4 grid gap-3 md:grid-cols-2', 'flex items-start gap-3 rounded-2xl border border-[#e4edf6] bg-white p-3.5 text-[0.92rem] leading-relaxed text-[#0a293c] md:p-4'); ?>
                     </div>
                     <div class="mt-6 grid gap-4 md:grid-cols-2">
                         <div class="rounded-2xl border border-[#e4edf6] bg-transparent p-4 md:p-5" data-admin-block-root>
                             <p class="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.module_short.hclinic_title'); ?>><?php echo e($serviceHobilect['module_short']['hclinic_title'] ?? 'H.Clinic'); ?></p>
-                            <ul class="mt-3 space-y-2.5 text-[0.92rem] leading-relaxed text-[#0a293c]">
-                                <?php foreach ((is_array($serviceHobilect['module_short']['hclinic_items'] ?? null) ? $serviceHobilect['module_short']['hclinic_items'] : []) as $moduleShortIndex => $moduleShortItem): ?>
-                                <?php $moduleShortNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.module_short.hclinic_items.' . $moduleShortIndex, (string)$moduleShortItem); ?>
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $moduleShortNode['attr']; ?>><?php echo e($moduleShortNode['value']); ?></span></li>
-                                <?php endforeach; ?>
-                            </ul>
+                            <?php bioinmed_render_editable_icon_list($servicePage, 'service', 'service.hobilect-diagnostics.hobilect.module_short.hclinic_items', is_array($serviceHobilect['module_short']['hclinic_items'] ?? null) ? $serviceHobilect['module_short']['hclinic_items'] : [], 'H.Clinic: кратко', 'mt-3 space-y-2.5 text-[0.92rem] leading-relaxed text-[#0a293c]', 'flex items-start gap-3'); ?>
                         </div>
                         <div class="rounded-2xl border border-[#e4edf6] bg-transparent p-4 md:p-5" data-admin-block-root>
                             <p class="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.module_short.motionlab_title'); ?>><?php echo e($serviceHobilect['module_short']['motionlab_title'] ?? 'H.MotionLAB'); ?></p>
-                            <p class="mt-3 text-[0.92rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.module_short.motionlab_text'); ?>><?php echo e($serviceHobilect['module_short']['motionlab_text'] ?? ''); ?></p>
+                            <?php bioinmed_render_editable_icon_list($servicePage, 'service', 'service.hobilect-diagnostics.hobilect.module_short.motionlab_items', [(string)($serviceHobilect['module_short']['motionlab_text'] ?? '')], 'H.MotionLAB: кратко', 'mt-3 space-y-2.5 text-[0.92rem] leading-relaxed text-[#0a293c]', 'flex items-start gap-3'); ?>
                         </div>
                     </div>
 
@@ -485,21 +505,11 @@ echo $header->render();
                                 <div class="mt-4 grid gap-4 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.modules.hclinic_title'); ?>><?php echo e($serviceHobilectSections['modules']['hclinic_title'] ?? 'H.Clinic'); ?></p>
-                                        <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['modules']['hclinic_items'] ?? null) ? $serviceHobilectSections['modules']['hclinic_items'] : []) as $modulesHclinicIndex => $modulesHclinicItem): ?>
-                                            <?php $modulesHclinicNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.modules.hclinic_items.' . $modulesHclinicIndex, (string)$modulesHclinicItem); ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $modulesHclinicNode['attr']; ?>><?php echo e($modulesHclinicNode['value']); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
+                                        <?php bioinmed_render_editable_icon_list($servicePage, 'service', 'service.hobilect-diagnostics.hobilect.sections.modules.hclinic_items', is_array($serviceHobilectSections['modules']['hclinic_items'] ?? null) ? $serviceHobilectSections['modules']['hclinic_items'] : [], 'Модули H.Clinic', 'mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]', 'flex items-start gap-3'); ?>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.modules.motionlab_title'); ?>><?php echo e($serviceHobilectSections['modules']['motionlab_title'] ?? 'H.MotionLAB'); ?></p>
-                                        <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['modules']['motionlab_items'] ?? null) ? $serviceHobilectSections['modules']['motionlab_items'] : []) as $modulesMotionlabIndex => $modulesMotionlabItem): ?>
-                                            <?php $modulesMotionlabNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.modules.motionlab_items.' . $modulesMotionlabIndex, (string)$modulesMotionlabItem); ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $modulesMotionlabNode['attr']; ?>><?php echo e($modulesMotionlabNode['value']); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
+                                        <?php bioinmed_render_editable_icon_list($servicePage, 'service', 'service.hobilect-diagnostics.hobilect.sections.modules.motionlab_items', is_array($serviceHobilectSections['modules']['motionlab_items'] ?? null) ? $serviceHobilectSections['modules']['motionlab_items'] : [], 'Модули H.MotionLAB', 'mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]', 'flex items-start gap-3'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -526,21 +536,11 @@ echo $header->render();
                                 <div class="mt-4 grid gap-3 md:grid-cols-2">
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.regulations.orders_title'); ?>><?php echo e($serviceHobilectSections['regulations']['orders_title'] ?? ''); ?></p>
-                                        <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['regulations']['orders_items'] ?? null) ? $serviceHobilectSections['regulations']['orders_items'] : []) as $ordersItemIdx => $ordersItem): ?>
-                                            <?php $ordersItemNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.regulations.orders_items.' . $ordersItemIdx, (string)$ordersItem); ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $ordersItemNode['attr']; ?>><?php echo e($ordersItemNode['value']); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
+                                        <?php bioinmed_render_editable_icon_list($servicePage, 'service', 'service.hobilect-diagnostics.hobilect.sections.regulations.orders_items', is_array($serviceHobilectSections['regulations']['orders_items'] ?? null) ? $serviceHobilectSections['regulations']['orders_items'] : [], 'Приказы МЗ РФ', 'mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]', 'flex items-start gap-3'); ?>
                                     </div>
                                     <div class="rounded-xl border border-[#e4edf6] bg-white p-4">
                                         <p class="text-[0.84rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'hobilect.sections.regulations.clinical_title'); ?>><?php echo e($serviceHobilectSections['regulations']['clinical_title'] ?? ''); ?></p>
-                                        <ul class="mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]">
-                                            <?php foreach ((is_array($serviceHobilectSections['regulations']['clinical_items'] ?? null) ? $serviceHobilectSections['regulations']['clinical_items'] : []) as $clinicalItemIdx => $clinicalItem): ?>
-                                            <?php $clinicalItemNode = bioinmed_page_text_node($servicePage, 'service', 'hobilect.sections.regulations.clinical_items.' . $clinicalItemIdx, (string)$clinicalItem); ?>
-                                            <li class="flex items-start gap-3"><i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo $clinicalItemNode['attr']; ?>><?php echo e($clinicalItemNode['value']); ?></span></li>
-                                            <?php endforeach; ?>
-                                        </ul>
+                                        <?php bioinmed_render_editable_icon_list($servicePage, 'service', 'service.hobilect-diagnostics.hobilect.sections.regulations.clinical_items', is_array($serviceHobilectSections['regulations']['clinical_items'] ?? null) ? $serviceHobilectSections['regulations']['clinical_items'] : [], 'Клинический контур', 'mt-3 space-y-3 text-[0.96rem] leading-snug text-[#0a293c]', 'flex items-start gap-3'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -590,23 +590,15 @@ echo $header->render();
                         <?php if ($serviceFlowDetailsNode['value'] !== ''): ?>
                         <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo $serviceFlowDetailsNode['attr']; ?>><?php echo e($serviceFlowDetailsNode['value']); ?></p>
                         <?php endif; ?>
-                        <ol class="space-y-3">
-                            <li class="flex items-start gap-3">
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">1</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.0'); ?>><?php echo e($flowSteps[0] ?? ''); ?></span>
+                        <ol class="space-y-3"<?php echo bioinmed_editable_list_attrs('service', $serviceEditablePrefix . '.flow.steps', 'Этапы приёма', false); ?>>
+                            <?php echo bioinmed_editable_list_toolbar(); ?>
+                            <?php foreach ($flowSteps as $flowIndex => $flowStep): ?>
+                            <li class="flex items-start gap-3<?php echo bioinmed_editable_list_item_class($flowStep); ?>"<?php echo bioinmed_editable_list_item_attrs($flowStep); ?>>
+                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white"><?php echo $flowIndex + 1; ?></span>
+                                <span class="text-sm text-[#0a293c] mt-0.5" data-admin-list-text-view><?php echo e($flowStep['text']); ?></span>
+                                <?php echo bioinmed_editable_list_actions($flowStep); ?>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">2</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.1'); ?>><?php echo e($flowSteps[1] ?? ''); ?></span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">3</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.2'); ?>><?php echo e($flowSteps[2] ?? ''); ?></span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white">4</span>
-                                <span class="text-sm text-[#0a293c] mt-0.5"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'flow.steps.3'); ?>><?php echo e($flowSteps[3] ?? ''); ?></span>
-                            </li>
+                            <?php endforeach; ?>
                         </ol>
                         <?php if ($serviceFlowTargetNode['value'] !== ''): ?>
                         <div class="rounded-2xl border border-[#dce8f5] bg-[#f8fbff] p-4">
@@ -636,10 +628,11 @@ echo $header->render();
                         </span>
                     </summary>
                     <div class="px-5 pb-5 md:px-6 md:pb-6">
-                        <ul class="grid gap-3 sm:grid-cols-2">
-                            <?php foreach ($aboutItems as $aboutIndex => $aboutItem): ?>
-                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]">
-                                <i class="fa-solid fa-check mt-0.5 text-[#1977b2]"></i><span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'about.items.' . $aboutIndex); ?>><?php echo e($aboutItem); ?></span>
+                        <ul class="grid gap-3 sm:grid-cols-2"<?php echo bioinmed_editable_list_attrs('service', $serviceEditablePrefix . '.about.items', 'Преимущества клиники'); ?>>
+                            <?php echo bioinmed_editable_list_toolbar(); ?>
+                            <?php foreach ($aboutItems as $aboutItem): ?>
+                            <li class="flex items-start gap-3 rounded-xl border border-[#e4edf6] bg-white p-3 text-[0.9rem] text-[#0a293c] md:text-[0.92rem]<?php echo bioinmed_editable_list_item_class($aboutItem); ?>"<?php echo bioinmed_editable_list_item_attrs($aboutItem); ?>>
+                                <i class="<?php echo e($aboutItem['icon']); ?> mt-0.5 text-[#1977b2]" data-admin-list-icon-view></i><span data-admin-list-text-view><?php echo e($aboutItem['text']); ?></span><?php echo bioinmed_editable_list_actions($aboutItem); ?>
                             </li>
                             <?php endforeach; ?>
                         </ul>
@@ -659,14 +652,16 @@ echo $header->render();
                             <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                         </span>
                     </summary>
-                    <div class="space-y-4 px-5 pb-5 md:px-6 md:pb-6" id="faq-list">
-                        <?php foreach ($faqs_on_page as $i => $faq): ?>
-                        <details class="group rounded-2xl border border-[#e4edf6] bg-white" data-admin-block-root>
+                    <div class="space-y-4 px-5 pb-5 md:px-6 md:pb-6" id="faq-list"<?php echo bioinmed_editable_list_attrs('service', $serviceEditablePrefix . '.faq.items', 'Часто задаваемые вопросы', false, 'Ответ'); ?>>
+                        <?php echo bioinmed_editable_list_toolbar('div'); ?>
+                        <?php foreach ($serviceFaqItems as $faq): ?>
+                        <details class="group rounded-2xl border border-[#e4edf6] bg-white<?php echo bioinmed_editable_list_item_class($faq); ?>" data-admin-block-root<?php echo bioinmed_editable_list_item_attrs($faq); ?>>
                             <summary class="flex cursor-pointer items-center justify-between gap-4 p-4 text-[0.98rem] font-semibold text-[#0a293c] marker:hidden list-none md:p-5 md:text-[1.04rem]">
-                                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'faq.items.' . $i . '.q'); ?>><?php echo e($faq['q']); ?></span>
+                                <span data-admin-list-text-view><?php echo e($faq['text']); ?></span>
                                 <i class="fa-solid fa-chevron-down shrink-0 text-xs text-[#1977b2] transition-transform group-open:rotate-180"></i>
                             </summary>
-                            <p class="px-4 pb-4 text-[0.92rem] leading-relaxed text-[#0a293c] md:px-5 md:pb-5 md:text-[0.96rem]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'faq.items.' . $i . '.a'); ?>><?php echo e($faq['a']); ?></p>
+                            <p class="px-4 pb-4 text-[0.92rem] leading-relaxed text-[#0a293c] md:px-5 md:pb-5 md:text-[0.96rem]" data-admin-list-secondary-view><?php echo e($faq['secondary']); ?></p>
+                            <?php echo bioinmed_editable_list_actions($faq); ?>
                         </details>
                         <?php endforeach; ?>
                     </div>
@@ -776,25 +771,14 @@ echo $header->render();
 
                     <div class="rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
                         <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#4b6f9a]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.visit_prep_title'); ?>><?php echo e($serviceSidebarText['visit_prep_title'] ?? ''); ?></p>
-                        <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]">
-                            <li class="flex items-start gap-3">
-                                <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
-                                    <i class="fa-solid fa-file-medical text-[0.68rem]"></i>
-                                </span>
-                                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.visit_prep_items.0'); ?>><?php echo e($visitPrepItems[0] ?? ''); ?></span>
+                        <ul class="mt-3 space-y-2.5 text-sm text-[#0a293c]"<?php echo bioinmed_editable_list_attrs('service', $serviceEditablePrefix . '.sidebar.visit_prep_items', 'Подготовка к визиту'); ?>>
+                            <?php echo bioinmed_editable_list_toolbar(); ?>
+                            <?php foreach ($visitPrepItems as $visitPrepItem): ?>
+                            <li class="flex items-start gap-3<?php echo bioinmed_editable_list_item_class($visitPrepItem); ?>"<?php echo bioinmed_editable_list_item_attrs($visitPrepItem); ?>>
+                                <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="<?php echo e($visitPrepItem['icon']); ?> text-[0.68rem]" data-admin-list-icon-view></i></span>
+                                <span data-admin-list-text-view><?php echo e($visitPrepItem['text']); ?></span><?php echo bioinmed_editable_list_actions($visitPrepItem); ?>
                             </li>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
-                                    <i class="fa-solid fa-clock text-[0.68rem]"></i>
-                                </span>
-                                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.visit_prep_items.1'); ?>><?php echo e($visitPrepItems[1] ?? ''); ?></span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]">
-                                    <i class="fa-solid fa-list-check text-[0.68rem]"></i>
-                                </span>
-                                <span<?php echo bioinmed_page_text_attr($servicePage, 'service', 'sidebar.visit_prep_items.2'); ?>><?php echo e($visitPrepItems[2] ?? ''); ?></span>
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
 

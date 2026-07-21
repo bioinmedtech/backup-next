@@ -5,6 +5,7 @@ bioinmed_pin_require_access();
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
+require_once 'includes/content/EditableLists.php';
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
@@ -35,6 +36,24 @@ $faqStructuredData = bioinmed_faq_schema(array_map(static function ($item) {
 $indexPage = bioinmed_read_json_file('pages/index.json');
 $indexHealthRoute = is_array($indexPage['health_route'] ?? null) ? $indexPage['health_route'] : [];
 $indexHealthRouteSteps = is_array($indexHealthRoute['steps'] ?? null) ? $indexHealthRoute['steps'] : [];
+$indexHealthRouteIcons = [
+    'consultation' => 'fa-solid fa-user-doctor',
+    'diagnostics' => 'fa-solid fa-magnifying-glass-chart',
+    'treatment' => 'fa-solid fa-heart-pulse',
+    'recovery' => 'fa-solid fa-kit-medical',
+    'activity' => 'fa-solid fa-person-walking',
+    'result' => 'fa-solid fa-star',
+];
+$indexHealthRouteFallback = [];
+foreach ($indexHealthRouteSteps as $stepKey => $step) {
+    $indexHealthRouteFallback[] = [
+        'id' => (string)$stepKey,
+        'text' => (string)($step['title'] ?? ''),
+        'secondary' => (string)($step['text'] ?? ''),
+        'icon' => $indexHealthRouteIcons[$stepKey] ?? 'fa-solid fa-check',
+    ];
+}
+$indexHealthRouteEditableItems = bioinmed_editable_list_items($indexPage, 'index.health_route.steps', $indexHealthRouteFallback, 'fa-solid fa-check');
 
 function e($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
@@ -107,6 +126,10 @@ function e($value) {
             box-shadow: 0 0 0 3px rgba(36, 140, 255, 0.1);
         }
 
+        .bioinmed-editable-list-item-hidden,
+        .bioinmed-editable-list-toolbar,
+        .bioinmed-editable-list-actions { display: none !important; }
+
 
         @media (max-width: 767px) {
             body {
@@ -174,61 +197,19 @@ function e($value) {
                     <p class="max-w-2xl text-[0.92rem] leading-relaxed text-[#1977b2]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.subtitle'); ?>><?php echo e($indexHealthRoute['subtitle'] ?? 'Маршрут построен так, чтобы пациент видел всю логику лечения целиком: от первого обращения до устойчивого результата.'); ?></p>
                 </div>
 
-                <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
+                <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3"<?php echo bioinmed_editable_list_attrs('index', 'index.health_route.steps', 'Маршрут здоровья', true, 'Описание'); ?>>
+                    <?php echo bioinmed_editable_list_toolbar('div'); ?>
+                    <?php foreach ($indexHealthRouteEditableItems as $routeItem): ?>
+                    <?php $isResultItem = strpos((string)$routeItem['icon'], 'fa-star') !== false; ?>
+                    <article class="rounded-2xl border <?php echo $isResultItem ? 'border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)]' : 'border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)]'; ?> p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]<?php echo bioinmed_editable_list_item_class($routeItem); ?>" data-admin-block-root<?php echo bioinmed_editable_list_item_attrs($routeItem); ?>>
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-user-doctor text-[1rem]"></i></span>
-                            <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.consultation.title'); ?>><?php echo e($indexHealthRouteSteps['consultation']['title'] ?? 'Консультация'); ?></p>
-                            </div>
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl <?php echo $isResultItem ? 'bg-[#e7f7ef] text-[#2f9b6a]' : 'bg-[#e8f3fc] text-[#1977b2]'; ?>"><i class="<?php echo e($routeItem['icon']); ?> text-[1rem]" data-admin-list-icon-view></i></span>
+                            <p class="text-[1rem] font-semibold text-[#17446f]" data-admin-list-text-view><?php echo e($routeItem['text']); ?></p>
                         </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.consultation.text'); ?>><?php echo e($indexHealthRouteSteps['consultation']['text'] ?? 'Врач собирает жалобы, историю заболевания и формирует первичное понимание ситуации.'); ?></p>
+                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]" data-admin-list-secondary-view><?php echo e($routeItem['secondary']); ?></p>
+                        <?php echo bioinmed_editable_list_actions($routeItem); ?>
                     </article>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
-                        <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-magnifying-glass-chart text-[1rem]"></i></span>
-                            <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.diagnostics.title'); ?>><?php echo e($indexHealthRouteSteps['diagnostics']['title'] ?? 'Диагностика'); ?></p>
-                            </div>
-                        </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.diagnostics.text'); ?>><?php echo e($indexHealthRouteSteps['diagnostics']['text'] ?? 'Подбираются нужные методы обследования, чтобы увидеть причину нарушений, а не только симптомы.'); ?></p>
-                    </article>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
-                        <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-heart-pulse text-[1rem]"></i></span>
-                            <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.treatment.title'); ?>><?php echo e($indexHealthRouteSteps['treatment']['title'] ?? 'Лечение'); ?></p>
-                            </div>
-                        </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.treatment.text'); ?>><?php echo e($indexHealthRouteSteps['treatment']['text'] ?? 'Составляется персональный лечебный план с процедурами, рекомендациями и понятной последовательностью шагов.'); ?></p>
-                    </article>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
-                        <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-kit-medical text-[1rem]"></i></span>
-                            <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.recovery.title'); ?>><?php echo e($indexHealthRouteSteps['recovery']['title'] ?? 'Восстановление'); ?></p>
-                            </div>
-                        </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.recovery.text'); ?>><?php echo e($indexHealthRouteSteps['recovery']['text'] ?? 'Организм адаптируется к изменениям, а улучшения постепенно закрепляются без лишней перегрузки.'); ?></p>
-                    </article>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
-                        <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-person-walking text-[1rem]"></i></span>
-                            <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.activity.title'); ?>><?php echo e($indexHealthRouteSteps['activity']['title'] ?? 'Лечебная физическая активность'); ?></p>
-                            </div>
-                        </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.activity.text'); ?>><?php echo e($indexHealthRouteSteps['activity']['text'] ?? 'Подключаются упражнения и безопасная физическая нагрузка, чтобы сохранить результат в повседневной жизни.'); ?></p>
-                    </article>
-                    <article class="rounded-2xl border border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]" data-admin-block-root>
-                        <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e7f7ef] text-[#2f9b6a]"><i class="fa-solid fa-star text-[1rem]"></i></span>
-                            <div>
-                                <p class="text-[1rem] font-semibold text-[#17446f]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.result.title'); ?>><?php echo e($indexHealthRouteSteps['result']['title'] ?? 'Результат'); ?></p>
-                            </div>
-                        </div>
-                        <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_page_text_attr($indexPage, 'index', 'health_route.steps.result.text'); ?>><?php echo e($indexHealthRouteSteps['result']['text'] ?? 'Цель маршрута - не временный эффект, а более устойчивое самочувствие и понятное движение к восстановлению.'); ?></p>
-                    </article>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

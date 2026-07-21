@@ -5,6 +5,7 @@ bioinmed_pin_require_access();
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
+require_once 'includes/content/EditableLists.php';
 
 $doctorsPage = bioinmed_read_json_file('pages/doctors.json');
 $doctorsMeta = is_array($doctorsPage['meta'] ?? null) ? $doctorsPage['meta'] : [];
@@ -127,6 +128,10 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             line-height: 1.72;
         }
 
+        .bioinmed-editable-list-item-hidden,
+        .bioinmed-editable-list-toolbar,
+        .bioinmed-editable-list-actions { display: none !important; }
+
         .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
     </style>
@@ -191,6 +196,9 @@ echo $header->render();
                     'show_cta' => true,
                     'cta_url' => '/doctors/' . ($chief['slug'] ?? ''),
                     'cta_label' => bioinmed_text('common.more_details'),
+                    'editable_list_key' => 'doctors.chief.educational_role',
+                    'editable_list_page' => 'doctors',
+                    'editable_list_page_data' => $doctorsPage,
                 ]); ?>
             </div>
         </div>
@@ -198,36 +206,47 @@ echo $header->render();
     <?php endif; ?>
 
     <!-- ALL DOCTORS GRID -->
+    <?php
+    $teamDoctorMap = [];
+    $teamDoctorFallback = [];
+    foreach ($teamDoctors as $teamIndex => $teamDoctor) {
+        $teamKey = trim((string)($teamDoctor['slug'] ?? ('doctor-' . $teamIndex)));
+        $teamSummary = bioinmed_json_get($doctorDetailsPage, 'doctor_items.' . $teamKey . '.summary', []);
+        $teamTitle = is_array($teamSummary) && is_scalar($teamSummary['title'] ?? null)
+            ? trim((string)$teamSummary['title'])
+            : trim((string)($teamDoctor['title'] ?? ''));
+        $teamDoctorMap[$teamKey] = $teamDoctor;
+        $teamDoctorFallback[] = [
+            'id' => $teamKey,
+            'text' => (string)($teamDoctor['name'] ?? ''),
+            'secondary' => $teamTitle,
+            'url' => '/doctors/' . $teamKey,
+        ];
+    }
+    $teamDoctorItems = bioinmed_editable_list_items($doctorsPage, 'doctors.team.items', $teamDoctorFallback, '');
+    ?>
     <section class="bg-[#e4f1fa] py-6 md:py-10">
         <div class="mx-auto max-w-6xl px-6 md:px-10" data-admin-block-root>
-            <div class="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-2 md:mt-4">
-                <?php foreach ($teamDoctors as $index => $doc):
+            <div class="mt-3 grid gap-5 sm:grid-cols-2 lg:grid-cols-2 md:mt-4"<?php echo bioinmed_editable_list_attrs('doctors', 'doctors.team.items', 'Список врачей', false, 'Должность и специализация', 'Ссылка на страницу врача'); ?>>
+                <?php echo bioinmed_editable_list_toolbar('div'); ?>
+                <?php foreach ($teamDoctorItems as $index => $doctorItem):
+                    $doc = $teamDoctorMap[$doctorItem['id']] ?? [];
                     $docExp = trim((string)($doc['experience'] ?? ''));
-                    $docImage = bioinmed_preferred_image_asset_path('/public/images/team/' . ($doc['image'] ?? ''));
-                          $docHasProfile = !array_key_exists('has_profile', $doc) || $doc['has_profile'] !== false;
+                    $docImage = !empty($doc['image']) ? bioinmed_preferred_image_asset_path('/public/images/team/' . $doc['image']) : '/public/images/placeholder.jpg';
+                    $docHasProfile = trim((string)$doctorItem['url']) !== '';
                     $docActionText = trim((string)($doc['card_action_text'] ?? ($doctorsTeam['card_action_fallback'] ?? '')));
-                    $docLink = '/doctors/' . ($doc['slug'] ?? '');
-                    $docKey = trim((string)($doc['slug'] ?? ('item_' . $index)));
-                    $docNameNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.name', (string)($doc['name'] ?? ''));
-                    $docSummaryText = bioinmed_json_get($doctorDetailsPage, 'doctor_items.' . $docKey . '.summary', []);
-                    $docSummaryTitle = is_array($docSummaryText) && is_scalar($docSummaryText['title'] ?? null)
-                        ? trim((string)$docSummaryText['title'])
-                        : '';
-                    $docTitleNode = $docSummaryTitle !== ''
-                        ? [
-                            'value' => $docSummaryTitle,
-                            'attr' => bioinmed_data_text_id('pages.doctor.doctor_items.' . $docKey . '.summary.title'),
-                        ]
-                        : bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.title', (string)($doc['title'] ?? ''));
+                    $docLink = (string)$doctorItem['url'];
+                    $docKey = (string)$doctorItem['id'];
                     $docExpNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.experience', $docExp);
                     $docActionNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.action_text', $docActionText);
-                    $docImageAltNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.image_alt', (string)($doc['name'] ?? ''));
+                    $docImageAltNode = bioinmed_page_text_node($doctorsPage, 'doctors', 'team.items.' . $docKey . '.image_alt', (string)$doctorItem['text']);
                     $docYears = null;
                     if (preg_match('/(\d+)\s*(?:лет|год)/ui', $docExp, $m)) $docYears = $m[1];
                 ?>
                     <article
-                        class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition md:flex-row md:items-stretch <?php echo $docHasProfile ? 'hover:border-[#1977b2] hover:shadow-[0_12px_30px_rgba(25,119,178,0.13)]' : ''; ?>"
+                        class="fade-up group flex flex-col overflow-hidden rounded-3xl border border-[#dce8f5] bg-white shadow-[0_8px_24px_rgba(8,36,70,0.07)] transition md:flex-row md:items-stretch <?php echo $docHasProfile ? 'hover:border-[#1977b2] hover:shadow-[0_12px_30px_rgba(25,119,178,0.13)]' : ''; ?><?php echo bioinmed_editable_list_item_class($doctorItem); ?>"
                         data-admin-block-root
+                        <?php echo bioinmed_editable_list_item_attrs($doctorItem); ?>
                         style="transition-delay:<?php echo $index * 60; ?>ms">
                     <div class="overflow-hidden md:w-[260px] lg:w-[320px] md:self-stretch md:shrink-0">
                         <?php if ($docHasProfile): ?>
@@ -247,12 +266,12 @@ echo $header->render();
                     <div class="flex flex-1 flex-col p-5 md:p-6">
                         <h3 class="text-[1.02rem] font-bold leading-tight text-[#0a293c] md:text-[1.08rem]">
                             <?php if ($docHasProfile): ?>
-                            <a href="<?php echo e($docLink); ?>" class="transition hover:text-[#1977b2]"<?php echo $docNameNode['attr']; ?>><?php echo e($docNameNode['value']); ?></a>
+                            <a href="<?php echo e($docLink); ?>" class="transition hover:text-[#1977b2]" data-admin-list-text-view><?php echo e($doctorItem['text']); ?></a>
                             <?php else: ?>
-                            <span<?php echo $docNameNode['attr']; ?>><?php echo e($docNameNode['value']); ?></span>
+                            <span data-admin-list-text-view><?php echo e($doctorItem['text']); ?></span>
                             <?php endif; ?>
                         </h3>
-                        <p class="mt-2 text-[0.88rem] font-semibold uppercase tracking-[0.08em] text-[#0a293c] md:mt-2.5 md:text-[0.92rem]"<?php echo $docTitleNode['attr']; ?>><?php echo e($docTitleNode['value']); ?></p>
+                        <p class="mt-2 text-[0.88rem] font-semibold uppercase tracking-[0.08em] text-[#0a293c] md:mt-2.5 md:text-[0.92rem]" data-admin-list-secondary-view><?php echo e($doctorItem['secondary']); ?></p>
                         <?php if ($docExp !== ''): ?>
                         <p class="mt-2.5 text-[0.95rem] font-medium leading-relaxed text-[#0a293c] md:mt-3 md:text-[0.98rem]"<?php echo $docExpNode['attr']; ?>><?php echo e($docExpNode['value']); ?></p>
                         <?php endif; ?>
@@ -269,6 +288,7 @@ echo $header->render();
                         </div>
                         <?php endif; ?>
                     </div>
+                    <?php echo bioinmed_editable_list_actions($doctorItem); ?>
                 </article>
                 <?php endforeach; ?>
             </div>

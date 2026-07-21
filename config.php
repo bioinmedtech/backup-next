@@ -733,15 +733,41 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
         }
 
         $doctorPageData = bioinmed_read_json_file('pages/doctor.json');
-        $educationalRole = is_array($textValues['educational_role'] ?? null)
+        $educationalRoleBase = is_array($doctorPageData['sections']['educational_role'] ?? null)
+            ? $doctorPageData['sections']['educational_role']
+            : [];
+        $educationalRoleOverride = is_array($textValues['educational_role'] ?? null)
             ? $textValues['educational_role']
-            : (is_array($doctorPageData['sections']['educational_role'] ?? null)
-                ? $doctorPageData['sections']['educational_role']
-                : []);
+            : [];
+        $educationalRole = $educationalRoleBase;
+        if (array_key_exists('title', $educationalRoleOverride)) {
+            $educationalRole['title'] = $educationalRoleOverride['title'];
+        }
+        $baseRoleItems = is_array($educationalRoleBase['items'] ?? null) ? $educationalRoleBase['items'] : [];
+        foreach ((is_array($educationalRoleOverride['items'] ?? null) ? $educationalRoleOverride['items'] : []) as $roleIndex => $roleItem) {
+            $baseRoleItems[$roleIndex] = $roleItem;
+        }
+        $educationalRole['items'] = $baseRoleItems;
         $educationalRoleTitle = trim((string)($educationalRole['title'] ?? ''));
         $educationalRoleItems = is_array($educationalRole['items'] ?? null)
             ? $educationalRole['items']
             : [];
+        $editableRoleListKey = trim((string)($options['editable_list_key'] ?? ''));
+        $editableRolePage = trim((string)($options['editable_list_page'] ?? 'doctor')) ?: 'doctor';
+        $editableRolePageData = is_array($options['editable_list_page_data'] ?? null)
+            ? $options['editable_list_page_data']
+            : $doctorPageData;
+        $editableRoleList = $editableRoleListKey !== ''
+            && function_exists('bioinmed_editable_list_items')
+            && function_exists('bioinmed_editable_list_attrs');
+        if ($editableRoleList) {
+            $educationalRoleItems = bioinmed_editable_list_items(
+                $editableRolePageData,
+                $editableRoleListKey,
+                $educationalRoleItems,
+                'fa-solid fa-check'
+            );
+        }
 
         if (!empty($educationalRoleItems)) {
             $educationalRoleItemsHtml = '';
@@ -756,7 +782,19 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
                     continue;
                 }
 
-                $educationalRoleItemsHtml .= '<li class="rounded-xl border border-[#dbe9f5] bg-white p-3.5 text-[0.9rem] leading-relaxed text-[#0a293c]"><span class="flex items-start gap-2.5"><span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#a8cde9] bg-[#eef7ff] text-[#1977b2]"><i class="fa-solid fa-check text-[0.62rem]" aria-hidden="true"></i></span><span data-text-id="' . $escape($textPrefix . '.educational_role.items.' . $roleIndex) . '">' . $escape($roleText) . '</span></span></li>';
+                $roleItemClass = 'rounded-xl border border-[#dbe9f5] bg-white p-3.5 text-[0.9rem] leading-relaxed text-[#0a293c]';
+                $roleItemAttrs = '';
+                $roleIcon = 'fa-solid fa-check';
+                $roleActions = '';
+                $roleTextAttr = ' data-text-id="' . $escape($textPrefix . '.educational_role.items.' . $roleIndex) . '"';
+                if ($editableRoleList && is_array($roleItem)) {
+                    $roleItemClass .= bioinmed_editable_list_item_class($roleItem);
+                    $roleItemAttrs = bioinmed_editable_list_item_attrs($roleItem);
+                    $roleIcon = trim((string)($roleItem['icon'] ?? 'fa-solid fa-check'));
+                    $roleActions = bioinmed_editable_list_actions($roleItem);
+                    $roleTextAttr = ' data-admin-list-text-view';
+                }
+                $educationalRoleItemsHtml .= '<li class="' . $escape($roleItemClass) . '"' . $roleItemAttrs . '><span class="flex items-start gap-2.5"><span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#a8cde9] bg-[#eef7ff] text-[#1977b2]"><i class="' . $escape($roleIcon) . ' text-[0.62rem]" data-admin-list-icon-view aria-hidden="true"></i></span><span' . $roleTextAttr . '>' . $escape($roleText) . '</span></span>' . $roleActions . '</li>';
             }
 
             if ($educationalRoleItemsHtml !== '') {
@@ -764,7 +802,9 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
                     . ($educationalRoleTitle !== ''
                         ? '<p class="text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]" data-text-id="' . $escape($textPrefix . '.educational_role.title') . '">' . $escape($educationalRoleTitle) . '</p>'
                         : '')
-                    . '<ul class="mt-3 space-y-2.5">' . $educationalRoleItemsHtml . '</ul>'
+                    . '<ul class="mt-3 space-y-2.5"' . ($editableRoleList ? bioinmed_editable_list_attrs($editableRolePage, $editableRoleListKey, $educationalRoleTitle !== '' ? $educationalRoleTitle : 'Образовательная роль') : '') . '>'
+                    . ($editableRoleList ? bioinmed_editable_list_toolbar() : '')
+                    . $educationalRoleItemsHtml . '</ul>'
                     . '</div>';
             }
         }

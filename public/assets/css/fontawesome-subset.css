@@ -135,6 +135,17 @@
 .fa-magnifying-glass:before,
 .fa-search:before { content: "\f002"; }
 .fa-check:before { content: "\f00c"; }
+.fa-circle:before { content: "\f111"; }
+.fa-plus:before { content: "\2b"; }
+
+/* Compact bullet used by editable text lists; keep full-size circle icons in cards. */
+[data-admin-list-root] [data-admin-list-item] > [data-admin-list-icon-view].fa-circle {
+  width: 0.5rem;
+  min-width: 0.5rem;
+  margin-top: 0.48rem !important;
+  font-size: 0.46rem !important;
+  text-align: center;
+}
 .fa-arrow-right:before { content: "\f061"; }
 .fa-arrow-right-from-bracket:before,
 .fa-sign-out-alt:before { content: "\f08b"; }

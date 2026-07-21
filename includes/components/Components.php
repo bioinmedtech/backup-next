@@ -1556,23 +1556,39 @@ class AdvantagesBlock extends Component {
             'fa-location-dot',
         ];
 
-        $items_html = '';
-        $index = 0;
-        foreach ($this->data as $advantage) {
-            $icon = $fa_icons[$index % count($fa_icons)];
+        $index_page = bioinmed_read_json_file('pages/index.json');
+        $fallback_items = [];
+        foreach ($this->data as $index => $advantage) {
+            $fallback_items[] = [
+                'id' => 'advantage-' . $index,
+                'text' => (string)($advantage['title'] ?? ''),
+                'secondary' => (string)($advantage['description'] ?? ''),
+                'icon' => 'fa-solid ' . $fa_icons[$index % count($fa_icons)],
+            ];
+        }
+        $advantages_items = bioinmed_editable_list_items($index_page, 'index.advantages.items', $fallback_items, 'fa-solid fa-check');
+        $items_html = bioinmed_editable_list_toolbar('li');
+        foreach ($advantages_items as $advantage) {
+            $item_class = bioinmed_editable_list_item_class($advantage);
+            $item_attrs = bioinmed_editable_list_item_attrs($advantage);
+            $item_actions = bioinmed_editable_list_actions($advantage);
+            $icon = $this->e($advantage['icon']);
+            $title = $this->e($advantage['text']);
+            $description = $this->e($advantage['secondary']);
             $items_html .= <<<HTML
-            <li class="flex items-start gap-3.5 rounded-xl border border-[#dce8f5] bg-white p-4" data-admin-block-root>
+            <li class="flex items-start gap-3.5 rounded-xl border border-[#dce8f5] bg-white p-4{$item_class}" data-admin-block-root{$item_attrs}>
                 <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#eaf4fc] text-[#1977b2]" aria-hidden="true">
-                    <i class="fa-solid {$icon} text-[1rem]"></i>
+                    <i class="{$icon} text-[1rem]" data-admin-list-icon-view></i>
                 </span>
                 <div>
-                    <h3 class="text-[1rem] font-bold leading-tight text-[#0f2749]"{$this->dataTextId('home.advantages.items.' . $index . '.title')}>{$this->e($advantage['title'])}</h3>
-                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.advantages.items.' . $index . '.description')}>{$this->e($advantage['description'])}</p>
+                    <h3 class="text-[1rem] font-bold leading-tight text-[#0f2749]" data-admin-list-text-view>{$title}</h3>
+                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#0a293c]" data-admin-list-secondary-view>{$description}</p>
                 </div>
+                {$item_actions}
             </li>
             HTML;
-            $index++;
         }
+        $list_attrs = bioinmed_editable_list_attrs('index', 'index.advantages.items', 'Почему выбирают нас', true, 'Описание');
 
         return <<<HTML
         <section id="advantages" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
@@ -1580,7 +1596,7 @@ class AdvantagesBlock extends Component {
                 <div class="mb-6" data-admin-block-root>
                     <h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"{$this->dataTextId('home.advantages.title')}>{$this->e(bioinmed_text('home.advantages.title', 'Почему выбирают нас'))}</h2>
                 </div>
-                <ul class="grid gap-3 sm:grid-cols-2">
+                <ul class="grid gap-3 sm:grid-cols-2"{$list_attrs}>
                     {$items_html}
                 </ul>
             </div>
@@ -1605,6 +1621,9 @@ class ChiefDoctorBlock extends Component {
             'cta_url' => '/doctors/' . ($this->data['slug'] ?? ''),
             'cta_label' => bioinmed_text('common.more_details'),
             'text_prefix' => 'home.chief_doctor.summary',
+            'editable_list_key' => 'index.chief.educational_role',
+            'editable_list_page' => 'index',
+            'editable_list_page_data' => bioinmed_read_json_file('pages/index.json'),
         ]);
         $chief_image = bioinmed_versioned_asset_path('/public/images/team/kostromina.webp');
 
@@ -1650,6 +1669,22 @@ class SpecialOffer extends Component {
             'source_label' => bioinmed_text('labels.home_special_offer_hobilect', 'Главная — спецпредложение «Хабилект»'),
             'submit_label' => bioinmed_text('common.request_callback'),
         ]);
+        $index_page = bioinmed_read_json_file('pages/index.json');
+        $offer_bullets = bioinmed_editable_list_items($index_page, 'index.special_offer.bullets', [
+            bioinmed_text('home.special_offer.bullets.1', '3D-диагностика на мультифункциональном комплексе «Хабилект» для точной оценки нарушений опорно-двигательного аппарата'),
+            bioinmed_text('home.special_offer.bullets.2', 'Консультация реабилитолога с подбором индивидуального комплекса ЛФК'),
+            bioinmed_text('home.special_offer.bullets.3', 'Диагностика стоп на подоскопе в подарок'),
+        ], 'fa-solid fa-check');
+        $offer_bullets_html = bioinmed_editable_list_toolbar('li');
+        foreach ($offer_bullets as $bullet) {
+            $bullet_class = bioinmed_editable_list_item_class($bullet);
+            $bullet_attrs = bioinmed_editable_list_item_attrs($bullet);
+            $bullet_icon = $this->e($bullet['icon']);
+            $bullet_text = $this->e($bullet['text']);
+            $bullet_actions = bioinmed_editable_list_actions($bullet);
+            $offer_bullets_html .= '<li class="flex items-start gap-2.5' . $bullet_class . '"' . $bullet_attrs . '><i class="' . $bullet_icon . ' mt-1 text-[0.8rem] text-[#1977b2]" data-admin-list-icon-view aria-hidden="true"></i><span data-admin-list-text-view>' . $bullet_text . '</span>' . $bullet_actions . '</li>';
+        }
+        $offer_bullets_attrs = bioinmed_editable_list_attrs('index', 'index.special_offer.bullets', 'Специальное предложение');
         return <<<HTML
         <section class="bioinmed-special-offer border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
@@ -1692,19 +1727,8 @@ class SpecialOffer extends Component {
                                     </div>
                                 </div>
                                 <p class="mt-4 max-w-3xl text-[0.94rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.special_offer.description')}>{$offer_description}</p>
-                                <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#0a293c]">
-                                    <li class="flex items-start gap-2.5">
-                                        <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                        <span{$this->dataTextId('home.special_offer.bullets.1')}>{$offer_bullet_1}</span>
-                                    </li>
-                                    <li class="flex items-start gap-2.5">
-                                        <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                        <span{$this->dataTextId('home.special_offer.bullets.2')}>{$offer_bullet_2}</span>
-                                    </li>
-                                    <li class="flex items-start gap-2.5">
-                                        <i class="fa-solid fa-check mt-1 text-[0.8rem] text-[#1977b2]" aria-hidden="true"></i>
-                                        <span{$this->dataTextId('home.special_offer.bullets.3')}>{$offer_bullet_3}</span>
-                                    </li>
+                                <ul class="mt-4 max-w-3xl space-y-2.5 text-[0.94rem] leading-relaxed text-[#0a293c]"{$offer_bullets_attrs}>
+                                    {$offer_bullets_html}
                                 </ul>
                             </a>
                             <div class="mt-4">
@@ -1786,38 +1810,52 @@ class DoctorsGrid extends Component {
             return '';
         }
 
-        $cards_html = '';
-        foreach ($this->data as $doctor) {
-            $slug = isset($doctor['slug']) ? $this->e($doctor['slug']) : '';
-            $doctor_link = '/doctors/' . $slug;
-            $doctor_image = bioinmed_preferred_image_asset_path('/public/images/team/' . ($doctor['image'] ?? ''));
-            $has_profile = !array_key_exists('has_profile', $doctor) || $doctor['has_profile'] !== false;
+        $doctor_map = [];
+        $doctor_fallback = [];
+        foreach ($this->data as $doctor_index => $doctor) {
+            $doctor_id = trim((string)($doctor['slug'] ?? ('doctor-' . $doctor_index)));
+            $doctor_map[$doctor_id] = $doctor;
+            $doctor_fallback[] = ['id' => $doctor_id, 'text' => (string)($doctor['name'] ?? ''), 'secondary' => (string)($doctor['title'] ?? ''), 'url' => '/doctors/' . $doctor_id];
+        }
+        $doctor_items = bioinmed_editable_list_items(bioinmed_read_json_file('pages/index.json'), 'index.doctors.items', $doctor_fallback, '');
+        $cards_html = bioinmed_editable_list_toolbar('div');
+        foreach ($doctor_items as $doctor_item) {
+            $doctor = $doctor_map[$doctor_item['id']] ?? [];
+            $slug = $this->e($doctor_item['id']);
+            $doctor_link = trim((string)$doctor_item['url']);
+            $doctor_image = !empty($doctor['image']) ? bioinmed_preferred_image_asset_path('/public/images/team/' . $doctor['image']) : '/public/images/placeholder.jpg';
+            $has_profile = $doctor_link !== '';
             $card_action_text = trim((string)($doctor['card_action_text'] ?? bioinmed_text('home.doctors.card_action_fallback', 'Команда клиники')));
             $doctor_image_html = $has_profile
-                ? '<a href="' . $doctor_link . '" class="block overflow-hidden"><img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover transition duration-300 group-hover:scale-[1.03] md:h-[22rem]" loading="lazy" decoding="async"></a>'
-                : '<img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor['name']) . '" class="h-80 w-full object-cover md:h-[22rem]" loading="lazy" decoding="async">';
+                ? '<a href="' . $this->e($doctor_link) . '" class="block overflow-hidden"><img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor_item['text']) . '" class="h-80 w-full object-cover transition duration-300 group-hover:scale-[1.03] md:h-[22rem]" loading="lazy" decoding="async"></a>'
+                : '<img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor_item['text']) . '" class="h-80 w-full object-cover md:h-[22rem]" loading="lazy" decoding="async">';
             $doctor_name_html = $has_profile
-                ? '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"><a href="' . $doctor_link . '" class="transition hover:text-[#1977b2]"' . $this->dataTextId('home.doctors.items.' . $slug . '.name') . '>' . $this->e($doctor['name']) . '</a></h3>'
-                : '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"' . $this->dataTextId('home.doctors.items.' . $slug . '.name') . '>' . $this->e($doctor['name']) . '</h3>';
+                ? '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"><a href="' . $this->e($doctor_link) . '" class="transition hover:text-[#1977b2]" data-admin-list-text-view>' . $this->e($doctor_item['text']) . '</a></h3>'
+                : '<h3 class="text-lg font-bold leading-tight text-[#0a293c]" data-admin-list-text-view>' . $this->e($doctor_item['text']) . '</h3>';
             $card_action = $has_profile
                 ? '<a href="' . $doctor_link . '" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]"><span' . $this->dataTextId('home.doctors.items.' . $slug . '.cta') . '>' . $this->e(bioinmed_text('common.more_details')) . '</span> <i class="fa-solid fa-arrow-right text-[0.72rem]"></i></a>'
                 : ($card_action_text !== ''
                     ? '<div class="mt-4 w-full rounded-full border border-[#d8e6f3] bg-white py-2.5 text-center text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-[#6d8db2]"' . $this->dataTextId('home.doctors.items.' . $slug . '.card_action_text') . '>' . $this->e($card_action_text) . '</div>'
                     : '');
+            $doctor_item_class = bioinmed_editable_list_item_class($doctor_item);
+            $doctor_item_attrs = bioinmed_editable_list_item_attrs($doctor_item);
+            $doctor_item_actions = bioinmed_editable_list_actions($doctor_item);
             $cards_html .= <<<HTML
-            <article class="min-w-[320px] max-w-[320px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[350px] sm:max-w-[350px] lg:min-w-[380px] lg:max-w-[380px] flex flex-col self-stretch" data-admin-block-root>
+            <article class="min-w-[320px] max-w-[320px] shrink-0 overflow-hidden rounded-2xl border border-[#dce8f5] bg-white shadow-[0_10px_28px_rgba(9,39,72,0.08)] sm:min-w-[350px] sm:max-w-[350px] lg:min-w-[380px] lg:max-w-[380px] flex flex-col self-stretch{$doctor_item_class}" data-admin-block-root{$doctor_item_attrs}>
                 {$doctor_image_html}
                 <div class="flex flex-1 flex-col p-6">
                     <div class="flex-1">
                         {$doctor_name_html}
-                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c]"{$this->dataTextId('home.doctors.items.' . $slug . '.title')}>{$this->e($doctor['title'])}</p>
-                        <p class="mt-2 text-sm font-semibold leading-snug text-[#0a293c]"{$this->dataTextId('home.doctors.items.' . $slug . '.experience')}>{$this->e($doctor['experience'])}</p>
+                        <p class="mt-1 text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-[#0a293c]" data-admin-list-secondary-view>{$this->e($doctor_item['secondary'])}</p>
+                        <p class="mt-2 text-sm font-semibold leading-snug text-[#0a293c]"{$this->dataTextId('home.doctors.items.' . $slug . '.experience')}>{$this->e($doctor['experience'] ?? '')}</p>
                     </div>
                     {$card_action}
                 </div>
+                {$doctor_item_actions}
             </article>
             HTML;
         }
+        $doctor_list_attrs = bioinmed_editable_list_attrs('index', 'index.doctors.items', 'Врачи на главной', false, 'Должность и специализация', 'Ссылка на страницу врача');
 
         return <<<HTML
         <section id="doctors" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
@@ -1836,7 +1874,7 @@ class DoctorsGrid extends Component {
                         <i class="fa-solid fa-chevron-right text-[1rem]" aria-hidden="true"></i>
                     </button>
                 </div>
-                <div class="doctor-slider-track flex items-stretch gap-4 overflow-x-auto scroll-smooth">
+                <div class="doctor-slider-track flex items-stretch gap-4 overflow-x-auto scroll-smooth"{$doctor_list_attrs}>
                     {$cards_html}
                 </div>
             </div>
@@ -1856,22 +1894,30 @@ class FAQBlock extends Component {
             return '';
         }
 
-        $items_html = '';
-        $faqIndex = 0;
-        foreach ($this->data as $item) {
+        $faq_fallback = [];
+        foreach ($this->data as $faqIndex => $item) {
+            $faq_fallback[] = ['id' => 'faq-' . $faqIndex, 'text' => (string)($item['question'] ?? ''), 'secondary' => (string)($item['answer'] ?? '')];
+        }
+        $faq_items = bioinmed_editable_list_items(bioinmed_read_json_file('pages/index.json'), 'index.faq.items', $faq_fallback, '');
+        $items_html = bioinmed_editable_list_toolbar('div');
+        foreach ($faq_items as $item) {
+            $item_class = bioinmed_editable_list_item_class($item);
+            $item_attrs = bioinmed_editable_list_item_attrs($item);
+            $item_actions = bioinmed_editable_list_actions($item);
             $items_html .= <<<HTML
-            <details class="group rounded-2xl border border-[#dce8f5] bg-white p-5 open:shadow-[0_10px_30px_rgba(7,35,68,0.08)]" data-admin-block-root>
+            <details class="group rounded-2xl border border-[#dce8f5] bg-white p-5 open:shadow-[0_10px_30px_rgba(7,35,68,0.08)]{$item_class}" data-admin-block-root{$item_attrs}>
                 <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-semibold text-[#0a293c]">
-                    <span{$this->dataTextId('home.faq.items.' . $faqIndex . '.question')}>{$this->e($item['question'])}</span>
+                    <span data-admin-list-text-view>{$this->e($item['text'])}</span>
                     <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
                         <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
                     </span>
                 </summary>
-                <p class="mt-4 text-[0.96rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.faq.items.' . $faqIndex . '.answer')}>{$this->e($item['answer'])}</p>
+                <p class="mt-4 text-[0.96rem] leading-relaxed text-[#0a293c]" data-admin-list-secondary-view>{$this->e($item['secondary'])}</p>
+                {$item_actions}
             </details>
             HTML;
-            $faqIndex++;
         }
+        $faq_list_attrs = bioinmed_editable_list_attrs('index', 'index.faq.items', 'Частые вопросы', false, 'Ответ');
 
         return <<<HTML
         <section id="faq" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
@@ -1879,7 +1925,7 @@ class FAQBlock extends Component {
                 <div class="mb-7" data-admin-block-root>
                     <h2 class="text-[1.5rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"{$this->dataTextId('home.faq.heading')}>{$this->e(bioinmed_text('home.faq.heading', 'Ответы на частые вопросы'))}</h2>
                 </div>
-                <div class="grid gap-3 md:gap-4">
+                <div class="grid gap-3 md:gap-4"{$faq_list_attrs}>
                     {$items_html}
                 </div>
             </div>
@@ -1912,19 +1958,31 @@ class ServicesGrid extends Component {
             'fa-lightbulb',
         ];
 
+        $service_map = [];
+        $service_fallback = [];
+        foreach (array_slice($this->data, 0, 6) as $service_index => $service_source) {
+            $item_id = trim((string)($service_source['id'] ?? ('service-' . $service_index)));
+            $service_map[$item_id] = $service_source;
+            $item_description = isset($service_source['card_description']) && trim((string)$service_source['card_description']) !== ''
+                ? (string)$service_source['card_description']
+                : (string)($service_source['description'] ?? '');
+            $service_fallback[] = ['id' => $item_id, 'text' => (string)($service_source['name'] ?? ''), 'secondary' => $item_description, 'url' => '/services/' . $item_id];
+        }
+        $service_items = bioinmed_editable_list_items(bioinmed_read_json_file('pages/index.json'), 'index.services.items', $service_fallback, '');
+        $items_html = bioinmed_editable_list_toolbar('div');
         $count = 0;
-        foreach ($this->data as $service) {
-            if ($count >= 6) break; // Показываем только 6 услуг
+        foreach ($service_items as $service_item) {
+            $service = $service_map[$service_item['id']] ?? [];
 
             $icon = isset($icons[$count]) ? $icons[$count] : $icons[$count % count($icons)];
-            $service_id = isset($service['id']) ? $this->e($service['id']) : '';
-            $service_link = '/services/' . $service_id;
+            $service_id = $this->e($service_item['id']);
+            $service_link = trim((string)$service_item['url']) ?: '#';
             $service_image = $this->showImages ? bioinmed_service_primary_image_url($service) : null;
             $service_image_html = '';
 
             if ($service_image !== null) {
                 $service_image_html = '<div class="relative mb-4 overflow-hidden rounded-2xl border border-[#dfeaf3] bg-[#eef7fd] aspect-[4/3]">'
-                    . '<img src="' . $this->e($service_image) . '" alt="' . $this->e($service['name']) . '" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" loading="lazy" decoding="async">'
+                    . '<img src="' . $this->e($service_image) . '" alt="' . $this->e($service_item['text']) . '" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" loading="lazy" decoding="async">'
                     . '<div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[rgba(8,35,67,0.60)] via-[rgba(8,35,67,0.18)] to-transparent"></div>'
                     . '<div class="absolute left-3 top-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/88 text-[#1977b2] shadow-[0_8px_18px_rgba(8,36,70,0.12)]">'
                     . '<i class="fa-solid ' . $icon . ' text-[1rem]" aria-hidden="true"></i>'
@@ -1940,12 +1998,13 @@ class ServicesGrid extends Component {
                 }
                 $price_display .= '</div>';
             }
-            $card_description = isset($service['card_description']) && trim((string)$service['card_description']) !== ''
-                ? (string)$service['card_description']
-                : (string)($service['description'] ?? '');
+            $card_description = (string)$service_item['secondary'];
+            $service_item_class = bioinmed_editable_list_item_class($service_item);
+            $service_item_attrs = bioinmed_editable_list_item_attrs($service_item);
+            $service_item_actions = bioinmed_editable_list_actions($service_item);
 
             $items_html .= <<<HTML
-            <article class="group flex h-full flex-col rounded-[1.35rem] border border-[#d7e4ef] bg-white/80 p-5 transition hover:-translate-y-0.5 hover:border-[#1977b2] hover:shadow-[0_12px_28px_rgba(25,119,178,0.16)]" data-admin-block-root>
+            <article class="group flex h-full flex-col rounded-[1.35rem] border border-[#d7e4ef] bg-white/80 p-5 transition hover:-translate-y-0.5 hover:border-[#1977b2] hover:shadow-[0_12px_28px_rgba(25,119,178,0.16)]{$service_item_class}" data-admin-block-root{$service_item_attrs}>
                 <div class="flex-1">
                     {$service_image_html}
                     <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#e3f2fc] text-[#1977b2]">
@@ -1954,20 +2013,22 @@ class ServicesGrid extends Component {
                     <p class="mb-1 text-[0.82rem] font-semibold uppercase tracking-[0.1em] text-[#0a293c]"{$this->dataTextId('home.services.items.' . $service_id . '.subtitle')}>{$this->e($service['subtitle'] ?? bioinmed_text('service.default_label', 'Услуга'))}</p>
                     <h3 class="mb-2 text-[1.2rem] font-bold leading-[1.2]">
                         <a href="{$service_link}" class="text-[#0f2749] transition hover:text-[#1977b2] focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-white">
-                            <span{$this->dataTextId('home.services.items.' . $service_id . '.name')}>{$this->e($service['name'])}</span>
+                            <span data-admin-list-text-view>{$this->e($service_item['text'])}</span>
                         </a>
                     </h3>
-                    <p class="text-[0.96rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.services.items.' . $service_id . '.description')}>{$this->e($card_description)}</p>
+                    <p class="text-[0.96rem] leading-relaxed text-[#0a293c]" data-admin-list-secondary-view>{$this->e($card_description)}</p>
                     {$price_display}
                 </div>
                 <a href="{$service_link}" class="mt-4 inline-flex items-center gap-2 self-start rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.86rem] font-semibold text-white shadow-[0_10px_24px_rgba(25,119,178,0.18)] transition hover:bg-[#16658f]">
                     <span{$this->dataTextId('home.services.items.' . $service_id . '.cta')}>{$this->e(bioinmed_text('common.more_details'))}</span>
                     <i class="fa-solid fa-arrow-right text-[0.72rem]"></i>
                 </a>
+                {$service_item_actions}
             </article>
             HTML;
             $count++;
         }
+        $service_list_attrs = bioinmed_editable_list_attrs('index', 'index.services.items', 'Популярные услуги', false, 'Описание', 'Ссылка на страницу услуги');
 
         return <<<HTML
         <section id="services" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
@@ -1978,7 +2039,7 @@ class ServicesGrid extends Component {
                     bioinmed_text('home.services.subtitle', 'Выберите интересующее Вас направление, чтобы узнать подробнее о методах, показаниях и ценах'),
                     'home.services.section'
                 )}
-                <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3"{$service_list_attrs}>
                     {$items_html}
                 </div>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -2087,6 +2148,22 @@ class AppointmentCTA extends Component {
             'source_label' => bioinmed_text('labels.home_final_cta', 'Главная — финальная CTA'),
             'submit_label' => bioinmed_text('common.request_callback'),
         ]);
+        $index_page = bioinmed_read_json_file('pages/index.json');
+        $appointment_items = bioinmed_editable_list_items($index_page, 'index.appointment.bullets', [
+            bioinmed_text('home.appointment.bullets.1', 'Подберём профильного специалиста под вашу ситуацию.'),
+            bioinmed_text('home.appointment.bullets.2', 'Согласуем удобное время визита без долгого ожидания.'),
+            bioinmed_text('home.appointment.bullets.3', 'Ответим на вопросы по маршруту и стоимости лечения.'),
+        ], 'fa-solid fa-check');
+        $appointment_items_html = bioinmed_editable_list_toolbar('li');
+        foreach ($appointment_items as $item) {
+            $item_class = bioinmed_editable_list_item_class($item);
+            $item_attrs = bioinmed_editable_list_item_attrs($item);
+            $item_icon = $this->e($item['icon']);
+            $item_text = $this->e($item['text']);
+            $item_actions = bioinmed_editable_list_actions($item);
+            $appointment_items_html .= '<li class="flex items-start gap-2.5' . $item_class . '"' . $item_attrs . '><i class="' . $item_icon . ' mt-1 text-[0.78rem] text-[#1977b2]" data-admin-list-icon-view aria-hidden="true"></i><span data-admin-list-text-view>' . $item_text . '</span>' . $item_actions . '</li>';
+        }
+        $appointment_items_attrs = bioinmed_editable_list_attrs('index', 'index.appointment.bullets', 'Запись на консультацию');
 
         return <<<HTML
         <section id="book-now" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
@@ -2097,10 +2174,8 @@ class AppointmentCTA extends Component {
                             <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"{$this->dataTextId('home.appointment.eyebrow')}>{$this->e(bioinmed_text('home.appointment.eyebrow', 'Запишитесь на консультацию'))}</p>
                             <h2 class="mt-2 text-[1.35rem] font-bold leading-tight text-[#0f2749] md:text-[1.6rem]"{$this->dataTextId('home.appointment.title')}>{$book_appointment_text}</h2>
                             <p class="mt-2.5 max-w-xl text-[0.94rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.appointment.callback_note')}>{$callback_15_min_text}</p>
-                            <ul class="mt-4 space-y-2 text-[0.92rem] leading-relaxed text-[#0a293c]">
-                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span{$this->dataTextId('home.appointment.bullets.1')}>{$this->e(bioinmed_text('home.appointment.bullets.1', 'Подберём профильного специалиста под вашу ситуацию.'))}</span></li>
-                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span{$this->dataTextId('home.appointment.bullets.2')}>{$this->e(bioinmed_text('home.appointment.bullets.2', 'Согласуем удобное время визита без долгого ожидания.'))}</span></li>
-                                <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-[0.78rem] text-[#1977b2]" aria-hidden="true"></i><span{$this->dataTextId('home.appointment.bullets.3')}>{$this->e(bioinmed_text('home.appointment.bullets.3', 'Ответим на вопросы по маршруту и стоимости лечения.'))}</span></li>
+                            <ul class="mt-4 space-y-2 text-[0.92rem] leading-relaxed text-[#0a293c]"{$appointment_items_attrs}>
+                                {$appointment_items_html}
                             </ul>
                         </div>
                         <div class="w-full max-w-lg lg:ml-auto">
