@@ -74,7 +74,7 @@
   "services": {
     "habilect_diagnostics": {
       "text": "Диагностика «Хабилект»",
-      "url": "/services/hobilect-diagnostics"
+      "url": "/services/habilect-diagnostics"
     },
     "musculoskeletal_program": {
       "text": "Восстановление опорно-двигательного аппарата",
@@ -134,7 +134,7 @@
   "hero": {
     "habilect": {
       "text": "Хабилект",
-      "url": "/services/hobilect-diagnostics"
+      "url": "/services/habilect-diagnostics"
     },
     "bioresonance": {
       "text": "Биорезонанс",

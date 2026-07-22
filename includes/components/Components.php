@@ -857,7 +857,7 @@ class HeroSection extends Component {
         $hero_systems_subtitle = $this->e(bioinmed_text('hero.habilect.subtitle', 'Информационные лечебно-диагностические системы'));
         $hero_bioresonance_label = $this->e(bioinmed_text('hero.bioresonance.label', 'Биорезонанс'));
         $hero_professional_union = $this->e(bioinmed_text('hero.professional_union', 'ПРОФЕССИОНАЛЬНОЕ ОБЪЕДИНЕНИЕ'));
-        $hero_habilect_link = bioinmed_link('hero.habilect', ['url' => '/services/hobilect-diagnostics']);
+        $hero_habilect_link = bioinmed_link('hero.habilect', ['url' => '/services/habilect-diagnostics']);
         $hero_habilect_href = $this->e($hero_habilect_link['url']);
         $hero_bioresonance_link = bioinmed_link('hero.bioresonance', ['url' => '/services/chief-doctor-consultation']);
         $hero_bioresonance_href = $this->e($hero_bioresonance_link['url']);
@@ -1716,7 +1716,7 @@ class SpecialOffer extends Component {
         $offer_image_src = $this->e(bioinmed_versioned_asset_path('/public/images/habilect/habilect-woman-2.webp'));
         $offer_video_src = $this->e(bioinmed_versioned_asset_path('/public/animated/habilect-woman-2.mp4'));
         $callback_form = bioinmed_render_callback_form([
-            'source_label' => bioinmed_text('labels.home_special_offer_hobilect', 'Главная — спецпредложение «Хабилект»'),
+            'source_label' => bioinmed_text('labels.home_special_offer_habilect', 'Главная — спецпредложение «Хабилект»'),
             'submit_label' => bioinmed_text('common.request_callback'),
         ]);
         $index_page = bioinmed_read_json_file('pages/index.json');
@@ -1767,7 +1767,7 @@ class SpecialOffer extends Component {
                         </div>
 
                         <div class="px-6 py-6 md:px-8 md:py-7" data-admin-block-root>
-                            <a href="/services/hobilect-diagnostics" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" aria-label="{$offer_service_aria}" data-admin-link-behavior="block-edit">
+                            <a href="/services/habilect-diagnostics" class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" aria-label="{$offer_service_aria}" data-admin-link-behavior="block-edit">
                                 <p class="text-[0.74rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"{$this->dataTextId('home.special_offer.eyebrow')}>{$offer_eyebrow}</p>
                                 <h2 class="mt-2 max-w-3xl text-[1.2rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]"{$this->dataTextId('home.special_offer.title')}>{$offer_title}</h2>
                                 <div class="mt-4 border-l-4 border-[#1977b2] pl-4 md:pl-5">
@@ -2099,7 +2099,7 @@ class ServicesGrid extends Component {
                 </div>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <p class="text-[0.96rem] text-[#0a293c]"{$this->dataTextId('home.services.habilect_prompt')}>{$this->e(bioinmed_text('home.services.habilect_prompt', 'Хотите начать с комплексной диагностики?'))}</p>
-                    <a href="/services/hobilect-diagnostics" class="inline-flex rounded-lg bg-[#1977b2] px-5 py-2.5 text-[0.96rem] font-semibold text-white transition hover:bg-[#16658f] active:bg-[#13557f]">
+                    <a href="/services/habilect-diagnostics" class="inline-flex rounded-lg bg-[#1977b2] px-5 py-2.5 text-[0.96rem] font-semibold text-white transition hover:bg-[#16658f] active:bg-[#13557f]">
                         <span{$this->dataTextId('home.services.habilect_link')}>{$this->e(bioinmed_text('home.services.habilect_link', '«Хабилект»-диагностика →'))}</span>
                     </a>
                 </div>

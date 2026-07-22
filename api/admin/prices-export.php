@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/bootstrap.php';
-bioinmed_admin_require_auth(['admin']);
+bioinmed_admin_require_auth(['admin', 'editor']);
 
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/admin/XlsxWriter.php';

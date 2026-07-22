@@ -3,6 +3,7 @@
 return array (
   'banki' => 'cupping',
   'banochnyy-massazh' => 'cupping',
+  'hobilect-diagnostics' => 'habilect-diagnostics',
   'khilt-terapiya-vysokointensivnaya-lazernaya-terapiya' => 'hilt-therapy',
   'kinezioteypirovanie' => 'taping',
   'lechebno-diagnosticheskiy-priem' => 'chief-doctor-consultation',

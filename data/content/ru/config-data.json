@@ -17,7 +17,7 @@
             "solution_links": [
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Консультация главного врача",
@@ -201,7 +201,7 @@
             "solution_links": [
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Приём реабилитолога",
@@ -303,7 +303,7 @@
                 },
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "ЛФК и реабилитация",
@@ -378,7 +378,7 @@
             "solution_links": [
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Приём реабилитолога",
@@ -484,7 +484,7 @@
                 },
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Рефлексотерапия",
@@ -573,7 +573,7 @@
                 },
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Инфузионная терапия",
@@ -828,7 +828,7 @@
             "solution_links": [
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Приём реабилитолога",
@@ -922,7 +922,7 @@
                 },
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Рефлексотерапия",
@@ -1007,7 +1007,7 @@
             "solution_links": [
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Кинезиотерапия",
@@ -1186,7 +1186,7 @@
             "solution_links": [
                 {
                     "label": "Диагностика «Хабилект»",
-                    "id": "hobilect-diagnostics"
+                    "id": "habilect-diagnostics"
                 },
                 {
                     "label": "Консультация главного врача",
@@ -1632,7 +1632,7 @@
             "services": [
                 "priem-glavnogo-vracha-kliniki-kostrominoy-i-v",
                 "chief-doctor-consultation",
-                "hobilect-diagnostics",
+                "habilect-diagnostics",
                 "acupuncture",
                 "refleksoterapiya",
                 "lechebno-diagnosticheskiy-priem"
@@ -1820,7 +1820,7 @@
             ],
             "services": [
                 "physiotherapy-comprehensive",
-                "hobilect-diagnostics",
+                "habilect-diagnostics",
                 "taping",
                 "kinezioteypirovanie",
                 "massage",

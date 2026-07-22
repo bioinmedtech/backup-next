@@ -97,7 +97,7 @@
             "hidden": false,
             "rows": [
                 {
-                    "service_id": "hobilect-diagnostics",
+                    "service_id": "habilect-diagnostics",
                     "title": "Хабилект-комплекс: диагностика, коррекция, мониторинг, результат",
                     "description": "3D-диагностика ОДА и анализ биомеханики + диагностика стоп + консультация реабилитолога/инструктора ЛФК + сеанс ЛФК с записью видео-уроков",
                     "duration": "60 мин",
@@ -107,7 +107,7 @@
                     "hidden": false
                 },
                 {
-                    "service_id": "hobilect-diagnostics",
+                    "service_id": "habilect-diagnostics",
                     "title": "3D-диагностика ОДА и анализ биомеханики на лечебно-диагностическом аппаратном комплексе Хабилект",
                     "description": "",
                     "duration": "30 мин",

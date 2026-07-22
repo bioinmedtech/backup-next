@@ -50,7 +50,7 @@
 
 ## Дополнительные направления и программы
 
-* [Диагностика Хабилект](https://bioinmed.ru/services/hobilect-diagnostics) — описание диагностического сервиса Хабилект.
+* [Диагностика Хабилект](https://bioinmed.ru/services/habilect-diagnostics) — описание диагностического сервиса Хабилект.
 * [Консультация главного врача](https://bioinmed.ru/services/chief-doctor-consultation) — консультация с главным врачом клиники.
 * [HILT-терапия](https://bioinmed.ru/services/hilt-therapy) — высокоинтенсивная лазерная терапия.
 * [PRP-терапия](https://bioinmed.ru/services/prp-therapy) — методика с использованием плазмы, обогащённой тромбоцитами.

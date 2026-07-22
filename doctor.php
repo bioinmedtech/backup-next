@@ -570,7 +570,7 @@ echo $header->render();
         $serviceId = trim((string)($serviceItem['id'] ?? ''));
 
         $isDiagnostics = $serviceCategory === 'diagnostics'
-            || $serviceId === 'hobilect-diagnostics'
+            || $serviceId === 'habilect-diagnostics'
             || mb_strpos($serviceName, 'диагност') !== false;
 
         if ($isDiagnostics) {

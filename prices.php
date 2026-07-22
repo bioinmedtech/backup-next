@@ -7,7 +7,8 @@ require_once 'includes/components/Components.php';
 require_once __DIR__ . '/includes/admin/bootstrap.php';
 
 $pricesAdminUser = bioinmed_admin_current_user();
-$pricesCanExport = is_array($pricesAdminUser) && (string)($pricesAdminUser['role'] ?? '') === 'admin';
+$pricesCanExport = is_array($pricesAdminUser)
+    && in_array((string)($pricesAdminUser['role'] ?? ''), ['admin', 'editor'], true);
 
 $pricesPage = bioinmed_read_json_file('pages/prices.json');
 $pricesMeta = is_array($pricesPage['meta'] ?? null) ? $pricesPage['meta'] : [];

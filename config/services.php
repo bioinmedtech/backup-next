@@ -3,7 +3,7 @@
 return array (
   0 => 
   array (
-    'id' => 'hobilect-diagnostics',
+    'id' => 'habilect-diagnostics',
     'name' => 'Диагностика опорно-двигательного аппарата на мультифункциональном комплексе «Хабилект»',
     'subtitle' => 'Одна система для всех задач',
     'category' => 'musculoskeletal',
