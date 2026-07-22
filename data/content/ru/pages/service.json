@@ -246,5 +246,41 @@
     "image_modal": {
         "zoom_label": "Увеличить изображение",
         "close_label": "Закрыть"
+    },
+    "editable_lists": {
+        "service.chief-doctor-consultation.flow.steps": [
+            {
+                "id": "item-268066ab8121",
+                "text": "Первичная консультация - врач собирает анамнез и оценивает состояние",
+                "secondary": "",
+                "url": "",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "item-4573259e579f",
+                "text": "Диагностика - функциональная оценка, при необходимости инструментальная",
+                "secondary": "",
+                "url": "",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "item-b1c75bc5e5e5",
+                "text": "Составление персонального маршрута лечения с конкретными целями",
+                "secondary": "",
+                "url": "",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "item-35732c2064a1",
+                "text": "Проведение курса - с контролем динамики и корректировкой маршрута",
+                "secondary": "",
+                "url": "",
+                "icon": "",
+                "hidden": false
+            }
+        ]
     }
 }

@@ -38,6 +38,18 @@
       "text": "О клинике",
       "url": "/about"
     },
+    "license": {
+      "text": "Лицензия",
+      "url": "/license"
+    },
+    "sterility": {
+      "text": "Стерильность",
+      "url": "/sterility"
+    },
+    "vacancies": {
+      "text": "Вакансии",
+      "url": "/vacancies"
+    },
     "doctors": {
       "text": "Профессиональная команда",
       "url": "/doctors"
@@ -123,6 +135,10 @@
     "habilect": {
       "text": "Хабилект",
       "url": "/services/hobilect-diagnostics"
+    },
+    "bioresonance": {
+      "text": "Биорезонанс",
+      "url": "/services/chief-doctor-consultation"
     }
   },
   "seasonal": {

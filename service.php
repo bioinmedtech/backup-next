@@ -594,7 +594,7 @@ echo $header->render();
                             <?php echo bioinmed_editable_list_toolbar(); ?>
                             <?php foreach ($flowSteps as $flowIndex => $flowStep): ?>
                             <li class="flex items-start gap-3<?php echo bioinmed_editable_list_item_class($flowStep); ?>"<?php echo bioinmed_editable_list_item_attrs($flowStep); ?>>
-                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white"><?php echo $flowIndex + 1; ?></span>
+                                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1977b2] text-xs font-bold text-white" data-admin-list-position><?php echo $flowIndex + 1; ?></span>
                                 <span class="text-sm text-[#0a293c] mt-0.5" data-admin-list-text-view><?php echo e($flowStep['text']); ?></span>
                                 <?php echo bioinmed_editable_list_actions($flowStep); ?>
                             </li>

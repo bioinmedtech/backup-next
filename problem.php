@@ -5,6 +5,7 @@ bioinmed_pin_require_access();
 
 require_once 'config.php';
 require_once 'includes/components/Components.php';
+require_once 'includes/content/EditableLists.php';
 
 $problemPage = bioinmed_read_json_file('pages/problem.json');
 $problemMeta = is_array($problemPage['meta'] ?? null) ? $problemPage['meta'] : [];
@@ -187,8 +188,30 @@ echo $header->render();
                     if ($sectionTitle === '' && (empty($sectionItems) || !is_array($sectionItems))) continue;
                     $sectionIcon = ['fa-user-doctor', 'fa-magnifying-glass', 'fa-clipboard-check', 'fa-kit-medical', 'fa-star'][$index] ?? 'fa-circle-info';
                     $sectionKey = trim((string)($section['key'] ?? ('section_' . $index)));
-                    $sectionTitle = (string)bioinmed_text('problem.details_sections.' . $sectionKey . '.title', $sectionTitle);
-                    $sectionIntro = (string)bioinmed_text('problem.details_sections.' . $sectionKey . '.intro', $sectionIntro);
+                    $legacySectionBase = 'problem.details_sections.' . $sectionKey;
+                    $sectionBasePath = 'details.' . $problemSlug . '.sections.' . $sectionKey;
+                    $sectionTitle = (string)bioinmed_text($legacySectionBase . '.title', $sectionTitle);
+                    $sectionIntro = (string)bioinmed_text($legacySectionBase . '.intro', $sectionIntro);
+                    $sectionTitleNode = bioinmed_page_text_node($problemPage, 'problem', $sectionBasePath . '.title', $sectionTitle);
+                    $sectionIntroNode = bioinmed_page_text_node($problemPage, 'problem', $sectionBasePath . '.intro', $sectionIntro);
+                    $sectionItemFallback = [];
+                    foreach ((is_array($sectionItems) ? $sectionItems : []) as $itemIndex => $sectionItemEntry) {
+                        if (is_array($sectionItemEntry)) {
+                            $sectionItemText = (string)($sectionItemEntry['text'] ?? '');
+                            $sectionItemKey = trim((string)($sectionItemEntry['id'] ?? ('item_' . $itemIndex)));
+                        } else {
+                            $sectionItemText = (string)$sectionItemEntry;
+                            $sectionItemKey = 'item_' . $itemIndex;
+                        }
+                        $sectionItemText = (string)bioinmed_text($legacySectionBase . '.items.' . $sectionItemKey, $sectionItemText);
+                        $sectionItemFallback[] = [
+                            'id' => $sectionItemKey,
+                            'text' => $sectionItemText,
+                            'icon' => 'fa-solid fa-check',
+                        ];
+                    }
+                    $sectionListKey = 'problem.' . $problemSlug . '.details_sections.' . $sectionKey . '.items';
+                    $sectionListItems = bioinmed_editable_list_items($problemPage, $sectionListKey, $sectionItemFallback, 'fa-solid fa-check');
                     ?>
                     <details class="group rounded-[1.4rem] bg-white p-5 shadow-[0_12px_28px_rgba(10,43,80,0.06)]" data-admin-block-root data-problem-step="<?php echo e((string)$index); ?>"<?php echo $index < 5 ? ' open' : ''; ?>>
                         <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
@@ -197,9 +220,9 @@ echo $header->render();
                                     <i class="fa-solid <?php echo e($sectionIcon); ?> text-[0.95rem]" aria-hidden="true"></i>
                                 </span>
                                 <div>
-                                    <span class="block text-[0.98rem] font-bold text-[#0f2749] md:text-[1.05rem]"<?php echo bioinmed_data_text_id('problem.details_sections.' . $sectionKey . '.title'); ?>><?php echo e($sectionTitle); ?></span>
-                                    <?php if ($sectionIntro !== ''): ?>
-                                        <span class="mt-1 block max-w-3xl text-[0.9rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_data_text_id('problem.details_sections.' . $sectionKey . '.intro'); ?>><?php echo e($sectionIntro); ?></span>
+                                    <span class="block text-[0.98rem] font-bold text-[#0f2749] md:text-[1.05rem]"<?php echo $sectionTitleNode['attr']; ?>><?php echo e($sectionTitleNode['value']); ?></span>
+                                    <?php if ($sectionIntroNode['value'] !== ''): ?>
+                                        <span class="mt-1 block max-w-3xl text-[0.9rem] leading-relaxed text-[#0a293c]"<?php echo $sectionIntroNode['attr']; ?>><?php echo e($sectionIntroNode['value']); ?></span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -207,29 +230,16 @@ echo $header->render();
                                 <i class="fa-solid fa-chevron-down text-[0.76rem]" aria-hidden="true"></i>
                             </span>
                         </summary>
-                        <?php if (!empty($sectionItems) && is_array($sectionItems)): ?>
-                            <ul class="mt-4 space-y-2.5">
-                                <?php foreach ($sectionItems as $itemIndex => $sectionItemEntry): ?>
-                                    <?php
-                                    if (is_array($sectionItemEntry)) {
-                                        $sectionItemText = (string)($sectionItemEntry['text'] ?? '');
-                                        $sectionItemKey = trim((string)($sectionItemEntry['id'] ?? ('item_' . $itemIndex)));
-                                    } else {
-                                        $sectionItemText = (string)$sectionItemEntry;
-                                        $sectionItemKey = 'item_' . $itemIndex;
-                                    }
-                                    $sectionItemText = (string)bioinmed_text(
-                                        'problem.details_sections.' . $sectionKey . '.items.' . $sectionItemKey,
-                                        $sectionItemText
-                                    );
-                                    ?>
-                                    <li class="flex items-start gap-3 border-l-2 border-[#dbe8f3] pl-3 text-[0.95rem] leading-relaxed text-[#0a293c]">
-                                        <i class="fa-solid fa-check mt-1 text-[0.75rem] text-[#1977b2]" aria-hidden="true"></i>
-                                        <span<?php echo bioinmed_data_text_id('problem.details_sections.' . $sectionKey . '.items.' . $sectionItemKey); ?>><?php echo e(problem_list_text((string)$sectionItemText)); ?></span>
+                            <ul class="mt-4 space-y-2.5"<?php echo bioinmed_editable_list_attrs('problem', $sectionListKey, $sectionTitleNode['value'], true); ?>>
+                                <?php echo bioinmed_editable_list_toolbar(); ?>
+                                <?php foreach ($sectionListItems as $sectionItem): ?>
+                                    <li class="flex items-start gap-3 border-l-2 border-[#dbe8f3] pl-3 text-[0.95rem] leading-relaxed text-[#0a293c]<?php echo bioinmed_editable_list_item_class($sectionItem); ?>"<?php echo bioinmed_editable_list_item_attrs($sectionItem); ?>>
+                                        <i class="<?php echo e($sectionItem['icon'] ?: 'fa-solid fa-check'); ?> mt-1 text-[0.75rem] text-[#1977b2]" data-admin-list-icon-view aria-hidden="true"></i>
+                                        <span data-admin-list-text-view><?php echo e(problem_list_text((string)$sectionItem['text'])); ?></span>
+                                        <?php echo bioinmed_editable_list_actions($sectionItem); ?>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
-                        <?php endif; ?>
                     </details>
                 <?php endforeach; ?>
             </div>

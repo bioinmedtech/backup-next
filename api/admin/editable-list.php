@@ -18,7 +18,7 @@ $page = trim((string)($body['page'] ?? ''));
 $listKey = trim((string)($body['list_key'] ?? ''));
 $rawItems = is_array($body['items'] ?? null) ? $body['items'] : [];
 
-if (!preg_match('/^[a-zA-Z0-9_-]+$/', $page) || !in_array($page, ['doctor', 'service', 'about', 'index', 'services', 'doctors'], true)) {
+if (!preg_match('/^[a-zA-Z0-9_-]+$/', $page) || !in_array($page, ['doctor', 'service', 'problem', 'about', 'index', 'services', 'doctors', 'sterility', 'vacancies'], true)) {
     bioinmed_admin_json_response(['ok' => false, 'error' => 'Недопустимая страница списка.'], 422);
 }
 if ($listKey === '' || strlen($listKey) > 240 || !preg_match('/^[a-zA-Z0-9_.:-]+$/', $listKey)) {

@@ -400,11 +400,15 @@ function bioinmed_render_callback_form(array $options = []) {
     $submit_label = trim((string)($options['submit_label'] ?? bioinmed_text('common.request_callback')));
     $form_class = trim((string)($options['form_class'] ?? ''));
     $button_class = trim((string)($options['button_class'] ?? ''));
-    $submit_label_attr = trim((string)($options['submit_label_attr'] ?? ''));
+    $normalize_attr = static function ($value) {
+        $attr = trim((string)$value);
+        return $attr !== '' ? ' ' . $attr : '';
+    };
+    $submit_label_attr = $normalize_attr($options['submit_label_attr'] ?? '');
     $phone_placeholder = trim((string)($options['phone_placeholder'] ?? bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон')));
-    $phone_placeholder_attr = trim((string)($options['phone_placeholder_attr'] ?? ''));
+    $phone_placeholder_attr = $normalize_attr($options['phone_placeholder_attr'] ?? '');
     $consent_text = trim((string)($options['consent_text'] ?? 'Я соглашаюсь с условиями'));
-    $consent_text_attr = trim((string)($options['consent_text_attr'] ?? ''));
+    $consent_text_attr = $normalize_attr($options['consent_text_attr'] ?? '');
     $show_legal_links = array_key_exists('show_legal_links', $options) ? (bool)$options['show_legal_links'] : true;
 
     $privacy_link = bioinmed_link('legal.privacy_genitive');

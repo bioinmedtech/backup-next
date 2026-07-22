@@ -200,11 +200,22 @@ function e($value) {
                 <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3"<?php echo bioinmed_editable_list_attrs('index', 'index.health_route.steps', 'Маршрут здоровья', true, 'Описание'); ?>>
                     <?php echo bioinmed_editable_list_toolbar('div'); ?>
                     <?php foreach ($indexHealthRouteEditableItems as $routeItem): ?>
-                    <?php $isResultItem = strpos((string)$routeItem['icon'], 'fa-star') !== false; ?>
-                    <article class="rounded-2xl border <?php echo $isResultItem ? 'border-[#d8ebdf] bg-[linear-gradient(180deg,#f4fcf8_0%,#ffffff_100%)]' : 'border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)]'; ?> p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]<?php echo bioinmed_editable_list_item_class($routeItem); ?>" data-admin-block-root<?php echo bioinmed_editable_list_item_attrs($routeItem); ?>>
+                    <?php
+                        $routeItemId = (string)($routeItem['id'] ?? '');
+                        $isGreenRouteItem = in_array($routeItemId, ['recovery', 'activity'], true);
+                        $isOrangeRouteItem = $routeItemId === 'result';
+                        $routeCardStyle = $isGreenRouteItem
+                            ? 'border-color:#d8ebdf;background:linear-gradient(180deg,#f4fcf8 0%,#ffffff 100%);'
+                            : ($isOrangeRouteItem ? 'border-color:#efd1a9;background:linear-gradient(180deg,#fff5e8 0%,#ffffff 100%);' : '');
+                        $routeIconStyle = $isGreenRouteItem
+                            ? 'background:#e7f7ef;color:#2f9b6a;'
+                            : ($isOrangeRouteItem ? 'background:#ffead1;color:#c56818;' : '');
+                        $routeTitleStyle = $isOrangeRouteItem ? 'color:#9a5117;' : '';
+                    ?>
+                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]<?php echo bioinmed_editable_list_item_class($routeItem); ?>" style="<?php echo e($routeCardStyle); ?>" data-admin-block-root<?php echo bioinmed_editable_list_item_attrs($routeItem); ?>>
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl <?php echo $isResultItem ? 'bg-[#e7f7ef] text-[#2f9b6a]' : 'bg-[#e8f3fc] text-[#1977b2]'; ?>"><i class="<?php echo e($routeItem['icon']); ?> text-[1rem]" data-admin-list-icon-view></i></span>
-                            <p class="text-[1rem] font-semibold text-[#17446f]" data-admin-list-text-view><?php echo e($routeItem['text']); ?></p>
+                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]" style="<?php echo e($routeIconStyle); ?>"><i class="<?php echo e($routeItem['icon']); ?> text-[1rem]" data-admin-list-icon-view></i></span>
+                            <p class="text-[1rem] font-semibold text-[#17446f]" style="<?php echo e($routeTitleStyle); ?>" data-admin-list-text-view><?php echo e($routeItem['text']); ?></p>
                         </div>
                         <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]" data-admin-list-secondary-view><?php echo e($routeItem['secondary']); ?></p>
                         <?php echo bioinmed_editable_list_actions($routeItem); ?>

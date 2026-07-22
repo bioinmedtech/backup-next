@@ -126,6 +126,8 @@
 .fa-gear:before { content: "\f013"; }
 .fa-graduation-cap:before,
 .fa-mortar-board:before { content: "\f19d"; }
+.fa-people-group:before { content: "\e533"; }
+.fa-headset:before { content: "\f590"; }
 .fa-users:before { content: "\f0c0"; }
 .fa-file-waveform:before { content: "\f478"; }
 .fa-file-medical:before { content: "\f477"; }
@@ -153,6 +155,7 @@
 .fa-bullseye:before { content: "\f140"; }
 .fa-bandage:before { content: "\f462"; }
 .fa-briefcase-medical:before { content: "\f469"; }
+.fa-box-open:before { content: "\f49e"; }
 .fa-bone:before { content: "\f5d7"; }
 .fa-brain:before { content: "\f5dc"; }
 .fa-droplet:before,
@@ -195,7 +198,9 @@
 .fa-sprout:before { content: "\f4d8"; }
 .fa-shield-halved:before,
 .fa-shield-alt:before { content: "\f3ed"; }
+.fa-shield-heart:before { content: "\e574"; }
 .fa-snowflake:before { content: "\f2dc"; }
+.fa-spray-can-sparkles:before { content: "\f5d0"; }
 .fa-staff-snake:before { content: "\e579"; }
 .fa-star:before { content: "\f005"; }
 .fa-stethoscope:before { content: "\f0f1"; }

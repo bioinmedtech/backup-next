@@ -6,6 +6,7 @@ bioinmed_pin_require_access();
 require_once 'config.php';
 require_once 'includes/components/Components.php';
 require_once 'includes/content/EditableLists.php';
+require_once 'includes/content/AboutSectionNav.php';
 
 $aboutPage = bioinmed_read_json_file('pages/about.json');
 $aboutMeta = is_array($aboutPage['meta'] ?? null) ? $aboutPage['meta'] : [];
@@ -116,6 +117,7 @@ echo $header->render();
 ?>
 
 <main class="mx-auto max-w-6xl space-y-8 px-6 py-8 md:space-y-10 md:px-10 md:py-12">
+	<?php echo bioinmed_render_about_breadcrumbs('О клинике', true); ?>
 	<section class="relative overflow-hidden rounded-[2rem] border border-[#d8e6f3] bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#edf6fd_38%,#deedf8_100%)] p-5 shadow-[0_14px_36px_rgba(8,36,70,0.08)] md:p-7">
 		<div class="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-[#1977b21e] blur-3xl"></div>
 		<div class="pointer-events-none absolute -left-10 bottom-0 h-36 w-36 rounded-full bg-[#0f274914] blur-3xl"></div>

@@ -104,7 +104,8 @@ class Header extends Component {
         }
 
         $is_home = ($current_path === '/' || $current_path === '/index.php');
-        $is_about = ($current_path === '/about' || $current_path === '/about.php');
+        $about_paths = ['/about', '/about.php', '/license', '/license.php', '/sterility', '/sterility.php', '/vacancies', '/vacancies.php'];
+        $is_about = in_array($current_path, $about_paths, true);
         $is_services = ($current_path === '/services' || strpos($current_path, '/services/') === 0 || $current_path === '/service.php');
         $is_doctors = ($current_path === '/doctors' || strpos($current_path, '/doctors/') === 0 || $current_path === '/doctor.php');
         $is_prices = ($current_path === '/prices' || $current_path === '/prices.php');
@@ -143,6 +144,26 @@ class Header extends Component {
         $mobile_seasons_details_open = $is_seasons ? ' open' : '';
         $mobile_services_summary_attr = $is_services ? ' class="is-active"' : '';
         $mobile_services_details_open = $is_services ? ' open' : '';
+
+        $about_menu_items = [
+            ['url' => '/about', 'label' => bioinmed_text('nav.about_menu.information', 'Информация о клинике')],
+            ['url' => '/license', 'label' => bioinmed_text('nav.about_menu.license', 'Лицензия')],
+            ['url' => '/sterility', 'label' => bioinmed_text('nav.about_menu.sterility', 'Стерильность')],
+            ['url' => '/vacancies', 'label' => bioinmed_text('nav.about_menu.vacancies', 'Вакансии')],
+        ];
+        $desktop_about_items = '';
+        $mobile_about_items = '';
+        foreach ($about_menu_items as $about_item) {
+            $item_path = $about_item['url'];
+            $item_active = ($current_path === $item_path || $current_path === $item_path . '.php');
+            $item_current = $item_active ? ' class="is-active" aria-current="page"' : '';
+            $desktop_about_items .= '<a href="' . $this->e($item_path) . '" role="menuitem"' . $item_current . '>' . $this->e($about_item['label']) . '</a>';
+            $mobile_about_items .= '<a href="' . $this->e($item_path) . '" onclick="closeMobMenu()"' . $item_current . '>' . $this->e($about_item['label']) . '</a>';
+        }
+        $about_summary_active = $is_about ? ' is-active' : '';
+        $about_details_open = $is_about ? ' open' : '';
+        $desktop_about_dropdown = '<details class="about-nav-item"><summary class="about-nav-trigger ' . $desktop_about_class . $about_summary_active . '"' . $desktop_about_aria . '><span' . $this->dataTextId('nav.about') . '>' . $this->e($nav_about['text']) . '</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="about-nav-menu" role="menu">' . $desktop_about_items . '</div></details>';
+        $mobile_about_dropdown = '<details class="mob-nav-group"' . $about_details_open . '><summary class="' . trim($about_summary_active) . '"><span' . $this->dataTextId('nav.about') . '>' . $this->e($nav_about['text']) . '</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><div class="mob-subnav">' . $mobile_about_items . '</div></details>';
 
         $second_phone = $phone_2 !== ''
             ? '<a href="tel:' . $phone_2_link . '" class="mt-0.5 block whitespace-nowrap text-[0.81rem] font-medium leading-tight text-[#0a293c] hover:text-[#1977b2] md:text-[0.84rem]"' . $this->dataTextId('header.contact.phone_secondary') . '>' . $phone_2 . '</a>'
@@ -475,7 +496,7 @@ class Header extends Component {
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div id="desktop-menu-row" class="desktop-menu-row flex items-center justify-between py-2.5">
                     <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.92rem] font-medium text-[#0a293c] lg:overflow-visible">
-                        <a href="{$this->e($nav_about['url'])}" class="{$desktop_about_class}"{$desktop_about_aria}{$this->dataTextId('nav.about')}>{$this->e($nav_about['text'])}</a>
+                        {$desktop_about_dropdown}
                         {$desktop_seasons_dropdown}
                         {$desktop_services_dropdown}
                         <a href="{$this->e($nav_doctors['url'])}" class="{$desktop_doctors_class}"{$desktop_doctors_aria}{$this->dataTextId('nav.doctors')}>{$this->e($nav_doctors['text'])}</a>
@@ -514,7 +535,7 @@ class Header extends Component {
                 <p style="font-size:0.78rem;color:#2d86ca;margin:2px 0 0;"{$this->dataTextId('header.contact.hours')}>{$header_hours}</p>
             </div>
             <nav id="mob-nav">
-                <a href="{$this->e($nav_about['url'])}" onclick="closeMobMenu()"{$mobile_about_attr}{$this->dataTextId('nav.about')}>{$this->e($nav_about['text'])}</a>
+                {$mobile_about_dropdown}
                 {$mobile_seasons_dropdown}
                 {$mobile_services_dropdown}
                 <a href="{$this->e($nav_doctors['url'])}" onclick="closeMobMenu()"{$mobile_doctors_attr}{$this->dataTextId('nav.doctors')}>{$this->e($nav_doctors['text'])}</a>
@@ -573,6 +594,15 @@ class Header extends Component {
             .menu-strip{scrollbar-width:none}
             .menu-strip::-webkit-scrollbar{display:none}
             .menu-strip a{display:inline-flex;align-items:center;padding-bottom:2px;transition:color .2s ease,border-color .2s ease,background-color .2s ease,box-shadow .2s ease}
+            .about-nav-item{position:relative;flex:0 0 auto}
+            .about-nav-item>summary{list-style:none}
+            .about-nav-item>summary::-webkit-details-marker{display:none}
+            .about-nav-trigger{display:inline-flex;align-items:center;gap:6px;padding:0 0 2px;cursor:pointer;transition:color .2s ease}
+            .about-nav-trigger i{font-size:.66rem;color:#6f95ba;transition:transform .2s ease}
+            .about-nav-item[open] .about-nav-trigger i{transform:rotate(180deg)}
+            .about-nav-menu{position:absolute;z-index:120;top:calc(100% + 10px);left:0;display:grid;gap:4px;min-width:250px;padding:7px;border:1px solid #d2e5f5;border-radius:14px;background:#fff;box-shadow:0 18px 40px rgba(8,32,56,.2)}
+            .about-nav-menu a{display:block!important;padding:10px 12px!important;border:0!important;border-radius:9px;color:#17446f;line-height:1.3}
+            .about-nav-menu a:hover,.about-nav-menu a.is-active{background:#eaf5ff;color:#1977b2}
             .menu-strip a.season-menu-link{padding-top:0;padding-bottom:2px;line-height:1.72}
             .menu-strip a.is-active{}
             #mob-nav a.is-active{color:#1977b2}
@@ -583,8 +613,9 @@ class Header extends Component {
         <script>
             function toggleMobMenu(){var m=document.getElementById('mob-menu');if(m.classList.contains('open')){closeMobMenu();}else{m.classList.add('open');document.getElementById('mob-backdrop').classList.add('open');document.getElementById('mob-icon').className='fa-solid fa-xmark';document.getElementById('mob-toggle').setAttribute('aria-expanded','true');document.body.style.overflow='hidden';}}
             function closeMobMenu(){document.getElementById('mob-menu').classList.remove('open');document.getElementById('mob-backdrop').classList.remove('open');document.getElementById('mob-icon').className='fa-solid fa-bars';document.getElementById('mob-toggle').setAttribute('aria-expanded','false');document.body.style.overflow='';}
-            document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeMobMenu();}});
+            document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeMobMenu();document.querySelectorAll('.about-nav-item[open]').forEach(function(item){item.removeAttribute('open');});}});
             window.addEventListener('resize',function(){if(window.innerWidth>=1024)closeMobMenu();});
+            document.addEventListener('click',function(e){document.querySelectorAll('.about-nav-item[open]').forEach(function(item){if(!item.contains(e.target))item.removeAttribute('open');});});
             function updateHeaderMetrics(){
                 var h=document.getElementById('site-header');
                 var menuBar=document.querySelector('.desktop-menu-bar');
@@ -821,15 +852,19 @@ class HeroSection extends Component {
         $hero_thumb_prefix = (string)bioinmed_text('hero.slider.thumb_prefix', 'Миниатюра');
         $hero_photo_prefix = (string)bioinmed_text('hero.slider.photo_prefix', 'Фото');
 
-        $hero_habilect_ecosystem = $this->e(bioinmed_text('hero.habilect.lines.ecosystem', 'Экосистема «Хабилект»'));
-        $hero_habilect_route = $this->e(bioinmed_text('hero.habilect.lines.route', 'Ваш эффективный маршрут здоровья'));
+        $hero_habilect_route = $this->e(bioinmed_text('hero.habilect.lines.route', 'Ваш эффективный маршрут красоты и здоровья, где Вы особенный'));
         $hero_habilect_label = $this->e(bioinmed_text('hero.habilect.label', '«Хабилект»'));
-        $hero_habilect_subtitle = $this->e(bioinmed_text('hero.habilect.subtitle', 'Инновационные диагностические системы'));
+        $hero_systems_subtitle = $this->e(bioinmed_text('hero.habilect.subtitle', 'Информационные лечебно-диагностические системы'));
+        $hero_bioresonance_label = $this->e(bioinmed_text('hero.bioresonance.label', 'Биорезонанс'));
+        $hero_professional_union = $this->e(bioinmed_text('hero.professional_union', 'ПРОФЕССИОНАЛЬНОЕ ОБЪЕДИНЕНИЕ'));
         $hero_habilect_link = bioinmed_link('hero.habilect', ['url' => '/services/hobilect-diagnostics']);
         $hero_habilect_href = $this->e($hero_habilect_link['url']);
+        $hero_bioresonance_link = bioinmed_link('hero.bioresonance', ['url' => '/services/chief-doctor-consultation']);
+        $hero_bioresonance_href = $this->e($hero_bioresonance_link['url']);
 
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
         $habilect_logo = $this->e(bioinmed_preferred_image_asset_path('/public/images/habilect.png'));
+        $clinic_icon = $this->e(bioinmed_versioned_asset_path('/public/images/brand/bioinmed-icon.png'));
         $seasons = require __DIR__ . '/../../config/seasons.php';
         $actual_slug = bioinmed_current_season_slug();
         if (!isset($seasons[$actual_slug])) {
@@ -849,6 +884,7 @@ class HeroSection extends Component {
             [
                 'full' => '/public/images/slider-v2/main-photo-bioinmed-v1.webp',
                 'thumb' => '/public/images/slider-v2/main-photo-bioinmed-v1-thumb.webp',
+                'video' => '/public/animated/main-photo-bioinmed-v1.mp4',
                 'alt' => $hero_slide_alt_prefix . ' 1',
             ],
         ];
@@ -865,15 +901,24 @@ class HeroSection extends Component {
             $is_first = ($slide_index === 0);
             $slide_full = bioinmed_versioned_asset_path($slide['full']);
             $slide_thumb = bioinmed_versioned_asset_path($slide['thumb']);
+            $slide_video = !empty($slide['video']) ? bioinmed_versioned_asset_path($slide['video']) : '';
             $slide_alt = $slide['alt'];
             $loading = $is_first ? 'eager' : 'lazy';
             $active_class = $is_first ? ' is-active' : '';
             $is_mobile_initial = $slide_index < 2;
             $mobile_src = $is_mobile_initial ? $slide_full : $hero_placeholder_image;
             $mobile_data_thumb_attr = $is_mobile_initial ? '' : ' data-thumb-src="' . $slide_thumb . '"';
+            $desktop_media_html = '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover object-top" width="1254" height="1254" loading="' . $loading . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">';
+            $mobile_media_html = '<img src="' . $mobile_src . '" data-full-src="' . $slide_full . '"' . $mobile_data_thumb_attr . ' alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" width="1254" height="1254" loading="' . ($is_mobile_initial ? $loading : 'lazy') . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">';
+
+            if ($slide_video !== '') {
+                $video_fallback = '<img src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover object-top">';
+                $desktop_media_html = '<video class="hero-clinic-slide-image h-full w-full object-cover object-top" poster="' . $slide_full . '" autoplay muted loop playsinline preload="auto" aria-label="' . $this->e($slide_alt) . '"><source src="' . $slide_video . '" type="video/mp4">' . $video_fallback . '</video>';
+                $mobile_media_html = '<video class="h-full w-full object-cover object-top" poster="' . $slide_full . '" autoplay muted loop playsinline preload="metadata" aria-label="' . $this->e($slide_alt) . '"><source src="' . $slide_video . '" type="video/mp4">' . $video_fallback . '</video>';
+            }
 
             $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full' . $active_class . '" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . ($is_first ? $slide_full : $slide_thumb) . '" data-full-src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-image h-full w-full object-cover object-top" width="1254" height="1254" loading="' . $loading . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">'
+                . $desktop_media_html
                 . '</button>';
 
             $dots_html .= '<button type="button" class="hero-clinic-dot' . $active_class . '" data-slide-index="' . $slide_index . '" aria-label="' . $this->e($hero_slide_prefix . ' ' . ($slide_index + 1)) . '"></button>';
@@ -883,7 +928,7 @@ class HeroSection extends Component {
                 . '</button>';
 
             $mobile_strip_html .= '<button type="button" class="hero-clinic-open h-[160px] w-[160px] min-w-[160px] snap-start overflow-hidden rounded-xl border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_10px_20px_rgba(10,43,80,0.12)] sm:h-[180px] sm:w-[180px] sm:min-w-[180px]" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
-                . '<img src="' . $mobile_src . '" data-full-src="' . $slide_full . '"' . $mobile_data_thumb_attr . ' alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" width="1254" height="1254" loading="' . ($is_mobile_initial ? $loading : 'lazy') . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">'
+                . $mobile_media_html
                 . '</button>';
 
             $modal_thumbs_html .= '<button type="button" class="hero-modal-thumb' . $active_class . '" data-modal-index="' . $slide_index . '" data-full-src="' . $slide_full . '" aria-label="' . $this->e($hero_photo_prefix . ' ' . ($slide_index + 1)) . '">'
@@ -917,30 +962,29 @@ class HeroSection extends Component {
                         <h1 class="caveat-reveal mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;"{$this->dataTextId('hero.heading')}>
                             {$hero_heading}
                         </h1>
-                        <p class="caveat-reveal mt-4 inline-flex w-fit items-center bg-transparent px-0 py-0 leading-[1.16] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;"{$this->dataTextId('hero.signature')}>
+                        <p class="caveat-reveal mt-4 flex w-full items-center justify-start bg-transparent px-0 py-0 text-left leading-[1.16] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;"{$this->dataTextId('hero.signature')}>
                             {$hero_signature}
                         </p>
-                        <div class="mt-4 flex max-w-3xl flex-col gap-2.5 md:mt-5 md:gap-3">
-                            <a href="{$hero_habilect_href}" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
-                                <span class="flex items-start gap-2 text-[#17446f]">
-                                    <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
-                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]"{$this->dataTextId('hero.habilect.lines.ecosystem')}>{$hero_habilect_ecosystem}</span>
-                                </span>
-                            </a>
-                            <a href="{$hero_habilect_href}" class="group inline-flex w-fit bg-transparent p-0 text-left transition-transform hover:translate-x-0.5">
-                                <span class="flex items-start gap-2 text-[#17446f]">
-                                    <span class="mt-[0.55em] h-px w-4 shrink-0 bg-[#1977b2]"></span>
-                                    <span class="block text-[0.86rem] font-semibold leading-[1.08] tracking-[0.02em] md:text-[1rem]"{$this->dataTextId('hero.habilect.lines.route')}>{$hero_habilect_route}</span>
-                                </span>
-                            </a>
-                        </div>
-                        <a href="{$hero_habilect_href}" class="group mt-5 inline-flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f8fbff] hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30 md:mt-6 md:gap-3 md:px-4 md:py-2.5" data-admin-link-behavior="block-edit">
-                            <img src="{$habilect_logo}" alt="«Хабилект»" class="h-9 w-auto shrink-0 md:h-10" loading="eager" decoding="async">
-                            <div class="min-w-0">
-                                <p class="inline-flex items-center gap-1 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2] md:text-[0.82rem]"><span{$this->dataTextId('hero.habilect.label')}>{$hero_habilect_label}</span><span aria-hidden="true" class="text-[0.66rem] transition-transform duration-200 group-hover:translate-x-0.5">→</span></p>
-                                <p class="hidden text-[0.8rem] font-medium leading-tight text-[#0a293c] sm:block md:text-[0.88rem]"{$this->dataTextId('hero.habilect.subtitle')}>{$hero_habilect_subtitle}</p>
-                            </div>
+                        <a href="{$hero_habilect_href}" class="mt-4 inline-block w-fit max-w-3xl bg-transparent p-0 text-[0.86rem] font-semibold leading-[1.2] tracking-[0.02em] text-[#17446f] transition-colors hover:text-[#1977b2] md:mt-5 md:text-[1rem]">
+                            <span{$this->dataTextId('hero.habilect.lines.route')}>{$hero_habilect_route}</span>
                         </a>
+                        <div class="mt-4 w-fit max-w-full md:mt-5">
+                            <div class="flex flex-wrap items-stretch gap-2.5">
+                                <a href="{$hero_habilect_href}" class="group inline-flex h-12 items-center gap-2 rounded-xl border border-[#d6e4f0] bg-white px-2.5 py-1.5 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30" data-admin-link-behavior="block-edit">
+                                    <img src="{$habilect_logo}" alt="«Хабилект»" class="h-7 w-auto shrink-0" loading="eager" decoding="async">
+                                    <span class="inline-flex items-center text-[0.8rem] font-semibold tracking-[0.02em] text-[#17446f] md:text-[0.82rem]">
+                                        <span{$this->dataTextId('hero.habilect.label')}>{$hero_habilect_label}</span>
+                                    </span>
+                                </a>
+                                <a href="{$hero_bioresonance_href}" class="group inline-flex h-12 items-center gap-2 rounded-xl border border-[#d6e4f0] bg-white px-2.5 py-1.5 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30" data-admin-link-behavior="block-edit">
+                                    <img src="{$clinic_icon}" alt="БИОИНМЕД" class="h-7 w-7 shrink-0 object-contain" loading="eager" decoding="async">
+                                    <span class="inline-flex items-center text-[0.8rem] font-semibold tracking-[0.02em] text-[#17446f] md:text-[0.82rem]">
+                                        <span{$this->dataTextId('hero.bioresonance.label')}>{$hero_bioresonance_label}</span>
+                                    </span>
+                                </a>
+                            </div>
+                            <p class="mt-2 text-[0.72rem] font-medium leading-snug tracking-[0.02em] text-[#0a293c] md:text-[0.82rem]"{$this->dataTextId('hero.habilect.subtitle')}>{$hero_systems_subtitle}</p>
+                        </div>
 
                         <div class="mt-6 hidden w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-7 md:p-4 lg:block">
                             <div>
@@ -955,6 +999,12 @@ class HeroSection extends Component {
                     </div>
 
                     <div class="order-1 mb-4 min-w-0 overflow-hidden lg:order-2 lg:mb-0">
+                        <div class="mb-3 hidden justify-end lg:flex" data-admin-block-root>
+                            <a href="#solidarity-medicine" class="inline-flex items-center gap-2 rounded-full border border-[#b8d2e7] bg-white px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.13em] text-[#17446f] shadow-[0_10px_24px_rgba(15,39,73,0.09)] transition hover:-translate-y-0.5 hover:border-[#82bee4] hover:text-[#1977b2] hover:shadow-[0_14px_28px_rgba(15,39,73,0.13)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30">
+                                <i class="fa-solid fa-people-group text-[#1977b2]" aria-hidden="true"></i>
+                                <span{$this->dataTextId('hero.professional_union')}>{$hero_professional_union}</span>
+                            </a>
+                        </div>
                         <div class="lg:hidden">
                             <div class="hero-clinic-mobile-strip flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-1">
                                 {$mobile_strip_html}
@@ -965,7 +1015,7 @@ class HeroSection extends Component {
                             </p>
                         </div>
 
-                        <div class="hero-clinic-slider relative hidden overflow-hidden rounded-[1.25rem] border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_18px_38px_rgba(10,43,80,0.1)] sm:h-[340px] md:h-[420px] lg:block lg:h-[520px] xl:h-[580px] lg:w-full" data-slide-count="{$slide_count}">
+                        <div class="hero-clinic-slider relative hidden aspect-square overflow-hidden rounded-[1.25rem] border border-[#d6e4f0] bg-[#eaf4fc] shadow-[0_18px_38px_rgba(10,43,80,0.1)] lg:block lg:w-full" data-slide-count="{$slide_count}">
                             <div class="hero-clinic-slider-track flex h-full transition-transform duration-500 ease-out">
                                 {$slides_html}
                             </div>
@@ -1664,7 +1714,7 @@ class SpecialOffer extends Component {
         $offer_modal_title = $this->e(bioinmed_text('home.special_offer.modal.title', 'Перезвоним и запишем на консультацию'));
         $offer_modal_text = $this->e(bioinmed_text('home.special_offer.modal.text', 'Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику на мультифункциональном комплексе «Хабилект».'));
         $offer_image_src = $this->e(bioinmed_versioned_asset_path('/public/images/habilect/habilect-woman-2.webp'));
-        $offer_image_placeholder = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
+        $offer_video_src = $this->e(bioinmed_versioned_asset_path('/public/animated/habilect-woman-2.mp4'));
         $callback_form = bioinmed_render_callback_form([
             'source_label' => bioinmed_text('labels.home_special_offer_hobilect', 'Главная — спецпредложение «Хабилект»'),
             'submit_label' => bioinmed_text('common.request_callback'),
@@ -1691,17 +1741,18 @@ class SpecialOffer extends Component {
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-white">
                     <div class="grid lg:grid-cols-[0.9fr_1.1fr]">
                         <div class="relative min-h-[320px] lg:min-h-full">
-                            <img
-                                src="{$offer_image_placeholder}"
-                                data-src="{$offer_image_src}"
-                                alt="{$offer_image_alt}"
+                            <video
+                                poster="{$offer_image_src}"
+                                aria-label="{$offer_image_alt}"
                                 class="h-full w-full object-cover object-center"
                                 width="1200"
                                 height="1200"
-                                loading="lazy"
-                                fetchpriority="low"
-                                decoding="async"
-                            />
+                                autoplay
+                                muted
+                                loop
+                                playsinline
+                                preload="none"
+                            ><source data-src="{$offer_video_src}" type="video/mp4"></video>
                             <noscript>
                                 <img
                                     src="{$offer_image_src}"
@@ -1758,22 +1809,26 @@ class SpecialOffer extends Component {
                 </div>
             </div>
             <script>
-                (function initSpecialOfferImageLazyLoad() {
+                (function initSpecialOfferVideoLazyLoad() {
                     var section = document.querySelector('.bioinmed-special-offer');
                     if (!section) return;
 
-                    var image = section.querySelector('img[data-src]');
-                    if (!image) return;
+                    var video = section.querySelector('video');
+                    var source = video ? video.querySelector('source[data-src]') : null;
+                    if (!video || !source) return;
 
                     var loaded = false;
 
-                    function loadImage() {
+                    function loadVideo() {
                         if (loaded) return;
                         loaded = true;
-                        var fullSrc = image.getAttribute('data-src') || '';
+                        var fullSrc = source.getAttribute('data-src') || '';
                         if (!fullSrc) return;
-                        image.src = fullSrc;
-                        image.removeAttribute('data-src');
+                        source.src = fullSrc;
+                        source.removeAttribute('data-src');
+                        video.load();
+                        var playback = video.play();
+                        if (playback && typeof playback.catch === 'function') playback.catch(function() {});
                     }
 
                     if ('IntersectionObserver' in window) {
@@ -1781,7 +1836,7 @@ class SpecialOffer extends Component {
                             entries.forEach(function(entry) {
                                 if (entry.isIntersecting) {
                                     obs.disconnect();
-                                    loadImage();
+                                    loadVideo();
                                 }
                             });
                         }, { rootMargin: '120px 0px' });
@@ -1789,7 +1844,7 @@ class SpecialOffer extends Component {
                         observer.observe(section);
                     } else {
                         window.addEventListener('load', function() {
-                            setTimeout(loadImage, 0);
+                            setTimeout(loadVideo, 0);
                         }, { once: true });
                     }
                 })();
@@ -2396,8 +2451,9 @@ class PartnersBlock extends Component {
 
 class SolidarityMedicineBlock extends Component {
     public function render() {
+        $vacanciesLabel = $this->e(bioinmed_text('home.solidarity.vacancies_button', 'Вакансии'));
         return <<<HTML
-        <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
+        <section id="solidarity-medicine" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14" style="scroll-margin-top:6rem">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-[2rem] border border-[#d7e6f3] bg-white shadow-[0_18px_42px_rgba(6,29,60,0.08)]" data-admin-block-root>
                     <div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
@@ -2414,6 +2470,10 @@ class SolidarityMedicineBlock extends Component {
                             <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_3')}>
                                 {$this->e(bioinmed_text('home.solidarity.text_3', 'В основе проекта - обмен профессиональным опытом, медицинские консилиумы, научные дискуссии, разработка новых подходов, подготовка статей и докладов.'))}
                             </p>
+                            <a href="/vacancies" class="mt-6 inline-flex items-center gap-2 rounded-full border border-[#b8d2e7] bg-[#f5faff] px-4 py-2.5 text-[0.84rem] font-semibold text-[#17446f] shadow-[0_8px_20px_rgba(15,39,73,0.07)] transition hover:border-[#82bee4] hover:bg-white hover:text-[#1977b2]">
+                                <i class="fa-solid fa-briefcase-medical text-[#1977b2]" aria-hidden="true"></i>
+                                <span{$this->dataTextId('home.solidarity.vacancies_button')}>{$vacanciesLabel}</span>
+                            </a>
                         </div>
 
                         <div class="border-t border-[#e6eef7] bg-[#f8fbff] p-6 md:p-8 lg:border-l lg:border-t-0 lg:p-10" data-admin-block-root>
