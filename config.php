@@ -109,6 +109,8 @@ function bioinmed_absolute_url($path = '') {
 }
 
 function bioinmed_versioned_asset_path($path = '') {
+    static $version_cache = [];
+
     $value = trim((string)$path);
     if ($value === '') {
         return '';
@@ -124,8 +126,26 @@ function bioinmed_versioned_asset_path($path = '') {
         return $normalized;
     }
 
-    $version = @filemtime($full_path);
-    if (!is_int($version) || $version <= 0) {
+    if (array_key_exists($full_path, $version_cache)) {
+        $version = $version_cache[$full_path];
+    } else {
+        $extension = strtolower(pathinfo($full_path, PATHINFO_EXTENSION));
+
+        // CSS and JS are served as immutable for a long time. Their URL must
+        // therefore change with the contents, even when a deploy preserves or
+        // restores the file's modification time.
+        if (in_array($extension, ['css', 'js'], true)) {
+            $hash = @hash_file('sha256', $full_path);
+            $version = is_string($hash) && $hash !== '' ? substr($hash, 0, 16) : null;
+        } else {
+            $mtime = @filemtime($full_path);
+            $version = is_int($mtime) && $mtime > 0 ? (string)$mtime : null;
+        }
+
+        $version_cache[$full_path] = $version;
+    }
+
+    if (!is_string($version) || $version === '') {
         return $normalized;
     }
 
