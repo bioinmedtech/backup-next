@@ -243,11 +243,12 @@ $serviceGallery = $service ? bioinmed_service_gallery_urls($service, 4) : [];
 $servicePrimaryImage = $serviceGallery[0] ?? null;
 $socialImageUrl = $servicePrimaryImage ? ($siteUrl . $servicePrimaryImage) : bioinmed_default_social_image_url();
 $serviceDoctorTitle = trim((string)($service['doctor_title'] ?? ''));
+$serviceEditablePrefix = 'service.' . (string)($service['id'] ?? ($serviceSlug ?: 'default'));
 $serviceHeroNameNode = bioinmed_page_text_node($servicePage, 'service', 'hero.service_name', (string)($service['name'] ?? ''));
 $serviceDoctorTitleNode = bioinmed_page_text_node($servicePage, 'service', 'hero.doctor_title', $serviceDoctorTitle);
 $serviceHeroDescriptionNode = bioinmed_page_text_node($servicePage, 'service', 'hero.description', (string)($service['description'] ?? ''));
-$serviceFlowDetailsNode = bioinmed_page_text_node($servicePage, 'service', 'flow.details', (string)($service['details'] ?? ''));
-$serviceFlowTargetNode = bioinmed_page_text_node($servicePage, 'service', 'flow.target_text', (string)($service['target'] ?? ''));
+$serviceFlowDetailsNode = bioinmed_page_text_node($servicePage, 'service', $serviceEditablePrefix . '.flow.details', (string)($service['details'] ?? ''));
+$serviceFlowTargetNode = bioinmed_page_text_node($servicePage, 'service', $serviceEditablePrefix . '.flow.target_text', (string)($service['target'] ?? ''));
 $serviceSidebarPriceNode = bioinmed_page_text_node(
     $servicePage,
     'service',
@@ -257,7 +258,6 @@ $serviceSidebarPriceNode = bioinmed_page_text_node(
 $serviceSidebarPriceNoteNode = bioinmed_page_text_node($servicePage, 'service', 'sidebar.price_note', (string)($service['price_note'] ?? ''));
 $isHobilect = (($service['id'] ?? '') === 'hobilect-diagnostics');
 $serviceGalleryJson = json_encode(array_values($serviceGallery), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-$serviceEditablePrefix = 'service.' . (string)($service['id'] ?? ($serviceSlug ?: 'default'));
 $faqFallback = [];
 foreach ((is_array($serviceFaqText['items'] ?? null) ? $serviceFaqText['items'] : []) as $faqIndex => $faqEntry) {
     $faqFallback[] = [
