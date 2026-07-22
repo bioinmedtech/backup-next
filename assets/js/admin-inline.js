@@ -422,9 +422,12 @@
             background = 'price-row-background-beige';
         }
 
+        var legacyBold = classes.indexOf('price-row-emphasis') !== -1 || classes.indexOf('font-semibold') !== -1;
+
         return {
             background: background,
-            bold: classes.indexOf('price-row-emphasis') !== -1 || classes.indexOf('font-semibold') !== -1,
+            title_bold: legacyBold || classes.indexOf('price-row-title-emphasis') !== -1,
+            description_bold: legacyBold || classes.indexOf('price-row-description-emphasis') !== -1,
             extra: classes.filter(function (className) {
                 return [
                     'price-row-background-blue',
@@ -432,6 +435,8 @@
                     'bg-[#f0f7fc]',
                     'bg-[#f9f0e6]',
                     'price-row-emphasis',
+                    'price-row-title-emphasis',
+                    'price-row-description-emphasis',
                     'font-semibold'
                 ].indexOf(className) === -1;
             }).join(' ')
@@ -440,7 +445,12 @@
 
     function renderPriceRowStyleField(currentValue) {
         var style = getPriceRowStyleState(currentValue);
-        var value = [style.extra, style.background, style.bold ? 'price-row-emphasis' : ''].filter(Boolean).join(' ');
+        var value = [
+            style.extra,
+            style.background,
+            style.title_bold ? 'price-row-title-emphasis' : '',
+            style.description_bold ? 'price-row-description-emphasis' : ''
+        ].filter(Boolean).join(' ');
 
         return [
             '<div class="price-admin-editor-style-field" data-price-row-style-editor>',
@@ -454,10 +464,19 @@
             '<label class="price-admin-editor-style-background-option"><input type="radio" name="price-row-style-background" value="price-row-background-beige" data-price-row-style-background' + (style.background === 'price-row-background-beige' ? ' checked' : '') + '><span class="price-admin-editor-style-swatch is-beige"></span><span>Бежевый</span></label>',
             '</div>',
             '</div>',
+            '<div class="price-admin-editor-style-bold-options">',
+            '<span class="price-admin-editor-style-group-title">Стиль строки</span>',
+            '<div class="price-admin-editor-style-bold-controls">',
             '<label class="price-admin-editor-style-bold">',
-            '<input type="checkbox" data-price-row-style-bold' + (style.bold ? ' checked' : '') + '>',
-            '<span>Выделить всю строку жирным</span>',
+            '<input type="checkbox" data-price-row-style-title-bold' + (style.title_bold ? ' checked' : '') + '>',
+            '<span>Жирный заголовок</span>',
             '</label>',
+            '<label class="price-admin-editor-style-bold">',
+            '<input type="checkbox" data-price-row-style-description-bold' + (style.description_bold ? ' checked' : '') + '>',
+            '<span>Жирное описание</span>',
+            '</label>',
+            '</div>',
+            '</div>',
             '</div>',
             '<button type="button" class="price-admin-editor-style-reset" data-price-row-style-reset>Сбросить оформление</button>',
             '<input type="hidden" data-price-modal-field="row_class" data-price-row-style-extra="' + esc(style.extra) + '" value="' + esc(value) + '">',
@@ -467,14 +486,21 @@
 
     function syncPriceRowStyleEditor(editor) {
         var backgroundField = editor.querySelector('[data-price-row-style-background]:checked');
-        var boldField = editor.querySelector('[data-price-row-style-bold]');
+        var titleBoldField = editor.querySelector('[data-price-row-style-title-bold]');
+        var descriptionBoldField = editor.querySelector('[data-price-row-style-description-bold]');
         var valueField = editor.querySelector('[data-price-modal-field="row_class"]');
         var background = backgroundField ? backgroundField.value : '';
-        var bold = !!(boldField && boldField.checked);
+        var titleBold = !!(titleBoldField && titleBoldField.checked);
+        var descriptionBold = !!(descriptionBoldField && descriptionBoldField.checked);
         var extra = valueField ? (valueField.getAttribute('data-price-row-style-extra') || '').trim() : '';
 
         if (valueField) {
-            valueField.value = [extra, background, bold ? 'price-row-emphasis' : ''].filter(Boolean).join(' ');
+            valueField.value = [
+                extra,
+                background,
+                titleBold ? 'price-row-title-emphasis' : '',
+                descriptionBold ? 'price-row-description-emphasis' : ''
+            ].filter(Boolean).join(' ');
         }
         editor.querySelectorAll('.price-admin-editor-style-background-option').forEach(function (option) {
             var radio = option.querySelector('[data-price-row-style-background]');
@@ -485,7 +511,7 @@
     function bindPriceRowStyleEditors(scope) {
         scope.querySelectorAll('[data-price-row-style-editor]').forEach(function (editor) {
             if (!editor.hasAttribute('data-price-row-style-bound')) {
-                editor.querySelectorAll('[data-price-row-style-background], [data-price-row-style-bold]').forEach(function (field) {
+                editor.querySelectorAll('[data-price-row-style-background], [data-price-row-style-title-bold], [data-price-row-style-description-bold]').forEach(function (field) {
                     field.addEventListener('change', function () {
                         syncPriceRowStyleEditor(editor);
                     });
@@ -494,9 +520,11 @@
                 if (resetButton) {
                     resetButton.addEventListener('click', function () {
                         var emptyBackground = editor.querySelector('[data-price-row-style-background][value=""]');
-                        var boldField = editor.querySelector('[data-price-row-style-bold]');
+                        var titleBoldField = editor.querySelector('[data-price-row-style-title-bold]');
+                        var descriptionBoldField = editor.querySelector('[data-price-row-style-description-bold]');
                         if (emptyBackground) emptyBackground.checked = true;
-                        if (boldField) boldField.checked = false;
+                        if (titleBoldField) titleBoldField.checked = false;
+                        if (descriptionBoldField) descriptionBoldField.checked = false;
                         syncPriceRowStyleEditor(editor);
                     });
                 }

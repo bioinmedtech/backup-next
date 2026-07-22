@@ -23,10 +23,9 @@ foreach ($services as $service) {
 }
 
 $cell = static fn ($value, int $style = 0, string $type = 'string'): array => ['value' => $value, 'style' => $style, 'type' => $type];
-$styleForRow = static function (string $className): int {
+$styleForCell = static function (string $className, bool $bold): int {
     $blue = strpos($className, 'price-row-background-blue') !== false || strpos($className, 'bg-[#f0f7fc]') !== false;
     $beige = strpos($className, 'price-row-background-beige') !== false || strpos($className, 'bg-[#f9f0e6]') !== false;
-    $bold = strpos($className, 'price-row-emphasis') !== false || strpos($className, 'font-semibold') !== false;
     if ($blue) return $bold ? 6 : 3;
     if ($beige) return $bold ? 7 : 4;
     return $bold ? 5 : 0;
@@ -101,17 +100,23 @@ foreach ($sections as $section) {
     foreach ((array)($section['rows'] ?? []) as $row) {
         if (!is_array($row)) continue;
         $serviceId = trim((string)($row['service_id'] ?? ''));
-        $style = $styleForRow((string)($row['row_class'] ?? ''));
+        $rowClass = (string)($row['row_class'] ?? '');
+        $legacyBold = strpos($rowClass, 'price-row-emphasis') !== false || strpos($rowClass, 'font-semibold') !== false;
+        $titleBold = $legacyBold || strpos($rowClass, 'price-row-title-emphasis') !== false;
+        $descriptionBold = $legacyBold || strpos($rowClass, 'price-row-description-emphasis') !== false;
+        $baseStyle = $styleForCell($rowClass, $legacyBold);
+        $titleStyle = $styleForCell($rowClass, $titleBold);
+        $descriptionStyle = $styleForCell($rowClass, $descriptionBold);
         $url = $serviceId !== '' ? rtrim(CLINIC_SITE_URL, '/') . '/services/' . rawurlencode($serviceId) : '';
         $rows[] = [
-            $cell($category, $style),
-            $cell((string)($row['title'] ?? ''), $style),
-            $cell((string)($row['description'] ?? ''), $style),
-            $cell((string)($row['duration'] ?? ''), $style),
-            $cell((string)($row['price'] ?? ''), $style),
-            $cell($serviceId, $style),
-            $cell($url, $style),
-            $cell((!empty($section['hidden']) || !empty($row['hidden'])) ? 'Да' : 'Нет', $style),
+            $cell($category, $baseStyle),
+            $cell((string)($row['title'] ?? ''), $titleStyle),
+            $cell((string)($row['description'] ?? ''), $descriptionStyle),
+            $cell((string)($row['duration'] ?? ''), $baseStyle),
+            $cell((string)($row['price'] ?? ''), $baseStyle),
+            $cell($serviceId, $baseStyle),
+            $cell($url, $baseStyle),
+            $cell((!empty($section['hidden']) || !empty($row['hidden'])) ? 'Да' : 'Нет', $baseStyle),
         ];
     }
 }

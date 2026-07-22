@@ -269,7 +269,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .category-section h2 { font-size: 1.48rem; line-height: 1.18; }
         .category-section > div:first-child { margin-bottom: 0.95rem; padding-bottom: 0.62rem; }
         .category-section td p { font-size: 0.9rem; line-height: 1.45; margin-top: 0.3rem; }
-        .category-section td div.font-semibold { font-size: 1rem; line-height: 1.3; }
+        .category-section [data-price-row-title-view] { font-size: 1rem; line-height: 1.3; }
         .category-section th:nth-child(2), .category-section td:nth-child(2) { text-align: center; white-space: nowrap; }
         .category-section td:last-child, .category-section th:last-child { font-size: 0.9rem; white-space: nowrap; }
         .prices-hero h1 { font-size: 1.76rem; line-height: 1.14; }
@@ -308,7 +308,12 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .price-service-link:hover { color: #1977b2; text-decoration-color: rgba(36, 140, 255, 0.95); }
         tr.price-row-background-blue, tr[data-price-row-class~="bg-[#f0f7fc]"] { background-color: #f0f7fc; }
         tr.price-row-background-beige, tr[data-price-row-class~="bg-[#f9f0e6]"] { background-color: #f9f0e6; }
-        tr.price-row-emphasis, tr[data-price-row-class~="font-semibold"] { font-weight: 600; }
+        tr.price-row-title-emphasis [data-price-row-title-view],
+        tr.price-row-emphasis [data-price-row-title-view],
+        tr[data-price-row-class~="font-semibold"] [data-price-row-title-view] { font-weight: 600; }
+        tr.price-row-description-emphasis [data-price-row-description-view],
+        tr.price-row-emphasis [data-price-row-description-view],
+        tr[data-price-row-class~="font-semibold"] [data-price-row-description-view] { font-weight: 600; }
         .price-section-hidden, tr.price-row-hidden, .price-nav-link-hidden { display: none; }
         .price-admin-section-toolbar, .price-admin-row-actions { display: none; }
         body.bioinmed-edit-mode .price-section-hidden { display: block; }
@@ -371,8 +376,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode .category-section tbody tr:last-child td:first-child { border-bottom-left-radius: 3mm; }
         body.prices-print-mode .category-section tbody tr:last-child td:last-child { border-bottom-right-radius: 3mm; }
         body.prices-print-mode .category-section tbody tr:hover { background: inherit; }
-        body.prices-print-mode .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; font-weight: 600; }
-        body.prices-print-mode .category-section td div.font-semibold { font-size: 11.5pt !important; line-height: 1.3 !important; }
+        body.prices-print-mode .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; }
         body.prices-print-mode .category-section td p { font-size: 10.5pt; line-height: 1.35; }
         body.prices-print-mode .category-section td:last-child { font-size: 12pt; font-weight: 700; }
         .prices-print-header { width: 100%; max-width: 210mm; margin: 0 auto; padding: 10mm 10mm 4mm; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid #cbd5df; }
@@ -442,8 +446,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             .category-section tbody tr:last-child td { border-bottom: 1px solid #e1edf8 !important; }
             .category-section tbody tr:last-child td:first-child { border-bottom-left-radius: 3mm !important; }
             .category-section tbody tr:last-child td:last-child { border-bottom-right-radius: 3mm !important; }
-            .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; font-weight: 600 !important; }
-            .category-section td div.font-semibold { font-size: 11.5pt !important; line-height: 1.3 !important; }
+            .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; }
             .category-section td p { font-size: 10.5pt !important; line-height: 1.35 !important; }
             .category-section td:last-child { font-size: 12pt !important; font-weight: 700 !important; }
             .prices-print-footer { break-before: avoid; page-break-before: avoid; }
@@ -647,7 +650,7 @@ $header = new Header($brand_colors);
                                                 <button type="button" class="price-admin-inline-btn price-admin-inline-btn-danger" data-price-row-action="delete-row" title="Удалить цену">Удалить</button>
                                             </div>
                                             <?php if ((string)$rowDescriptionNode['value'] !== ''): ?>
-                                                <div class="font-semibold text-[#0f2749]">
+                                                <div class="text-[#0f2749]">
                                                     <?php if ($allowServiceLink && $serviceExists): ?>
                                                         <a class="price-service-link" data-price-row-title-view href="<?php echo htmlspecialchars($serviceHref, ENT_QUOTES, 'UTF-8'); ?>"<?php echo $rowTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></a>
                                                     <?php else: ?>

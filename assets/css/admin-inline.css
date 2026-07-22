@@ -1435,8 +1435,8 @@ body.bioinmed-edit-mode .price-admin-row-actions:hover {
 
 .bioinmed-admin-prices-edit-modal .price-admin-editor-style-controls {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
     gap: 12px;
 }
 
@@ -1513,6 +1513,24 @@ body.bioinmed-edit-mode .price-admin-row-actions:hover {
     color: #17446f;
     font-size: 12px;
     font-weight: 700;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-style-bold-options {
+    display: grid;
+    gap: 5px;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-style-group-title {
+    color: #5a7da2;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.bioinmed-admin-prices-edit-modal .price-admin-editor-style-bold-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 20px;
 }
 
 .bioinmed-admin-prices-edit-modal .price-admin-editor-style-bold input {
