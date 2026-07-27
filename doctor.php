@@ -194,15 +194,9 @@ echo $header->render();
 
                     <div class="mt-6 lg:hidden">
                         <div id="book-mobile" class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
-                            <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"<?php echo bioinmed_data_text_id('common.book_appointment'); ?>><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
-                            <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]"<?php echo bioinmed_data_text_id('common.callback_15_min'); ?>>
-                                <?php echo e(bioinmed_text('common.callback_15_min')); ?>
-                            </p>
-
-                            <div class="mt-5 space-y-3">
+                            <div class="mt-2 space-y-3">
                                 <?php echo bioinmed_render_callback_form([
                                     'source_label' => ($doctor['name'] ?? '') . (string)($doctorCta['mobile_source_suffix'] ?? ''),
-                                    'submit_label' => bioinmed_text('common.request_callback'),
                                     'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.98rem] font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                                 ]); ?>
                             </div>
@@ -435,15 +429,9 @@ echo $header->render();
             <!-- right column: sticky CTA -->
             <div class="hidden self-stretch lg:block">
                 <div id="book" class="sticky top-24 rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.10)]" data-admin-block-root>
-                    <h3 class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0a293c]"><?php echo e(bioinmed_text('common.book_appointment')); ?></h3>
-                    <p class="mt-2 text-[0.96rem] leading-relaxed text-[#0a293c]">
-                        <?php echo e(bioinmed_text('common.callback_15_min')); ?>
-                    </p>
-
-                    <div class="mt-5 space-y-3">
+                    <div class="mt-2 space-y-3">
                         <?php echo bioinmed_render_callback_form([
                             'source_label' => ($doctor['name'] ?? '') . (string)($doctorCta['sticky_source_suffix'] ?? ''),
-                            'submit_label' => bioinmed_text('common.request_callback'),
                             'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.98rem] font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                         ]); ?>
                     </div>

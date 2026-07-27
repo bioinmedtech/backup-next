@@ -44,7 +44,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 	['name' => trim((string)($aboutMeta['title'] ?? 'О клинике')), 'url' => $canonicalUrl],
 ]);
 
-$bookingUrl = defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '#contact';
+$bookingUrl = defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/';
 $chief = $doctors[0] ?? [];
 $chiefName = trim((string)($chief['name'] ?? 'Инна Викторовна Костромина'));
 $chiefImage = '/public/images/team/kostromina-default.webp';
@@ -224,7 +224,6 @@ echo $header->render();
 				<div class="max-w-xl">
 					<?php echo bioinmed_render_callback_form([
 						'source_label' => 'О клинике — CTA',
-						'submit_label' => bioinmed_text('common.request_callback'),
 					]); ?>
 				</div>
 			</div>

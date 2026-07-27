@@ -85,7 +85,7 @@ class Header extends Component {
         $phone_1_link = $this->phoneLink($header_phone_1_raw);
         $phone_2 = trim($header_phone_2_raw) !== '' ? $this->e($header_phone_2_raw) : '';
         $phone_2_link = trim($header_phone_2_raw) !== '' ? $this->phoneLink($header_phone_2_raw) : '';
-        $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
+        $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '/';
         $map_url = defined('CLINIC_MAP_URL') ? $this->e(CLINIC_MAP_URL) : 'https://yandex.com/maps/-/CPGGyEzo';
         $vk_url = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram_url = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
@@ -483,9 +483,9 @@ class Header extends Component {
                             </div>
                         </div>
                         <div class="justify-self-end pt-1 text-right">
-                            <button type="button" class="jsClientix_openWidget inline-flex h-11 w-full min-w-[200px] items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
+                            <a href="{$booking_url}" class="inline-flex h-11 w-full min-w-[200px] items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
                                 <span{$this->dataTextId('header.online_booking_button.desktop')}>{$online_booking_desktop_text}</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -549,9 +549,9 @@ class Header extends Component {
                     <i class="fa-solid fa-phone-volume" style="color:#1977b2;" aria-hidden="true"></i>
                     <span{$this->dataTextId('header.contact.phone_primary')}>{$phone_1}</span>
                 </a>
-                <button type="button" class="jsClientix_openWidget" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;border:0;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;cursor:pointer;">
+                <a href="{$booking_url}" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;border:0;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;cursor:pointer;text-decoration:none;">
                     <span{$this->dataTextId('header.online_booking_button.mobile_menu')}>{$this->e(bioinmed_text('common.online_booking_desktop'))}</span>
-                </button>
+                </a>
                 <div style="display:flex;gap:12px;">
                     <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" style="display:flex;align-items:center;justify-content:center;color:#2787f5;text-decoration:none;">
                         <i class="fa-brands fa-vk" style="font-size:1.82rem;line-height:1;transform:translateX(1px);" aria-hidden="true"></i>
@@ -834,12 +834,11 @@ class Header extends Component {
 
 class HeroSection extends Component {
     public function render() {
-        $book_appointment_text = $this->e(bioinmed_text('common.book_appointment'));
-        $callback_15_min_text = $this->e(bioinmed_text('common.callback_15_min'));
-        $online_booking_text = $this->e(bioinmed_text('common.online_booking_desktop'));
         $hero_season_prefix = $this->e(bioinmed_text('hero.season_prefix', 'Сезон'));
         $hero_heading = $this->e(bioinmed_text('hero.heading', 'С нами выздоравливать легко!'));
         $hero_signature = $this->e(bioinmed_text('hero.signature', 'Ваш Биоинмед'));
+        $hero_mobile_booking_text = $this->e(bioinmed_text('hero.mobile.online_booking_button', 'Записаться на приём'));
+        $hero_desktop_booking_text = $this->e(bioinmed_text('hero.desktop.book_appointment_title', 'Записаться на приём'));
         $hero_track_prompt = $this->e(bioinmed_text('hero.track_prompt', 'Листайте фото вправо'));
         $hero_modal_close = $this->e(bioinmed_text('hero.modal.close', 'Закрыть'));
         $hero_modal_prev = $this->e(bioinmed_text('hero.modal.prev', 'Предыдущее фото'));
@@ -862,7 +861,7 @@ class HeroSection extends Component {
         $hero_bioresonance_link = bioinmed_link('hero.bioresonance', ['url' => '/services/chief-doctor-consultation']);
         $hero_bioresonance_href = $this->e($hero_bioresonance_link['url']);
 
-        $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '#contact';
+        $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '/';
         $habilect_logo = $this->e(bioinmed_preferred_image_asset_path('/public/images/habilect.png'));
         $clinic_icon = $this->e(bioinmed_versioned_asset_path('/public/images/brand/bioinmed-icon.png'));
         $seasons = require __DIR__ . '/../../config/seasons.php';
@@ -936,21 +935,13 @@ class HeroSection extends Component {
                 . '</button>';
         }
 
-        $hero_callback_form = bioinmed_render_callback_form([
-            'source_label' => bioinmed_text('labels.home_hero', 'Главная — hero'),
-            'submit_label' => bioinmed_text('common.request_callback'),
-        ]);
-
         return <<<HTML
-        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#e4f1fa] flex flex-col justify-center min-h-0 pb-10 md:pb-0 md:min-h-[calc(100svh-var(--header-height,140px))]" data-admin-block-root>
-            <div class="pointer-events-none absolute -left-20 top-10 h-52 w-52 rounded-full bg-[#1977b224] blur-3xl md:-left-32 md:h-72 md:w-72"></div>
-            <div class="pointer-events-none absolute right-0 top-0 h-64 w-64 rounded-full bg-[#0f27490d] blur-3xl md:h-96 md:w-96"></div>
-
+        <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#e4f1fa] flex flex-col justify-center min-h-[calc(100svh-var(--header-height,120px))] pb-4 md:min-h-[calc(100svh-var(--header-height,140px))] md:pb-0" data-admin-block-root>
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
                 <div class="mb-6 flex justify-start lg:hidden">
-                        <button type="button" class="jsClientix_openWidget inline-flex h-11 w-auto items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
-                        <span{$this->dataTextId('hero.mobile.online_booking_button')}>{$online_booking_text}</span>
-                    </button>
+                        <a href="{$booking_url}" class="inline-flex h-11 w-auto items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f] text-decoration-none">
+                        <span{$this->dataTextId('hero.mobile.online_booking_button')}>{$hero_mobile_booking_text}</span>
+                    </a>
                 </div>
                 <div class="relative -top-2 flex w-full flex-col md:-top-3 lg:-top-5 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
                     <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
@@ -968,7 +959,13 @@ class HeroSection extends Component {
                         <a href="{$hero_habilect_href}" class="mt-4 inline-block w-fit max-w-3xl bg-transparent p-0 text-[0.86rem] font-semibold leading-[1.2] tracking-[0.02em] text-[#17446f] transition-colors hover:text-[#1977b2] md:mt-5 md:text-[1rem]">
                             <span{$this->dataTextId('hero.habilect.lines.route')}>{$hero_habilect_route}</span>
                         </a>
-                        <div class="mt-4 w-fit max-w-full md:mt-5">
+                        <div class="mt-6">
+                            <a href="{$booking_url}" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white transition hover:bg-[#16658f]"{$this->dataTextId('hero.desktop.book_appointment_title')}>
+                                {$hero_desktop_booking_text}
+                            </a>
+                        </div>
+                        <p class="mt-7 text-[0.74rem] font-medium uppercase tracking-[0.11em] leading-[1.45] text-[#0a293c] md:mt-8 md:text-[0.84rem]"{$this->dataTextId('hero.habilect.subtitle')}>{$hero_systems_subtitle}</p>
+                        <div class="mt-2.5 w-fit max-w-full md:mt-3">
                             <div class="flex flex-wrap items-stretch gap-2.5">
                                 <a href="{$hero_habilect_href}" class="group inline-flex h-12 items-center gap-2 rounded-xl border border-[#d6e4f0] bg-white px-2.5 py-1.5 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30" data-admin-link-behavior="block-edit">
                                     <img src="{$habilect_logo}" alt="«Хабилект»" class="h-7 w-auto shrink-0" loading="eager" decoding="async">
@@ -983,19 +980,8 @@ class HeroSection extends Component {
                                     </span>
                                 </a>
                             </div>
-                            <p class="mt-2 text-[0.72rem] font-medium leading-snug tracking-[0.02em] text-[#0a293c] md:text-[0.82rem]"{$this->dataTextId('hero.habilect.subtitle')}>{$hero_systems_subtitle}</p>
                         </div>
 
-                        <div class="mt-6 hidden w-full max-w-2xl rounded-[1.2rem] border border-[#d6e4f0] bg-white p-3.5 shadow-[0_18px_38px_rgba(10,43,80,0.09)] md:mt-7 md:p-4 lg:block">
-                            <div>
-                                <h2 class="text-[1rem] font-bold text-[#0f2749] md:text-[1.08rem]"{$this->dataTextId('hero.desktop.book_appointment_title')}>{$book_appointment_text}</h2>
-                                <p id="hero-form-note" class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('hero.desktop.callback_note')}>{$callback_15_min_text}</p>
-                            </div>
-
-                            <div class="mt-3">
-                                {$hero_callback_form}
-                            </div>
-                        </div>
                     </div>
 
                     <div class="order-1 mb-4 min-w-0 overflow-hidden lg:order-2 lg:mb-0">
@@ -1019,7 +1005,6 @@ class HeroSection extends Component {
                             <div class="hero-clinic-slider-track flex h-full transition-transform duration-500 ease-out">
                                 {$slides_html}
                             </div>
-                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-[#0f27490f] via-transparent to-[#1977b214]"></div>
                             <button type="button" class="hero-clinic-prev absolute left-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white/90 text-[#0a293c] shadow-[0_8px_20px_rgba(7,35,68,0.18)] transition hover:bg-white" aria-label="{$hero_modal_prev}">
                                 <i class="fa-solid fa-chevron-left text-[0.92rem]" aria-hidden="true"></i>
                             </button>
@@ -1034,18 +1019,6 @@ class HeroSection extends Component {
                 </div>
             </div>
 
-        </section>
-
-        <section class="-mt-3 border-b border-[#dbe7f2] bg-[#e4f1fa] pt-0 pb-8 lg:hidden">
-            <div class="mx-auto w-full max-w-6xl px-6">
-                <div class="rounded-[1.2rem] border border-[#d6e4f0] bg-white p-6 shadow-[0_18px_38px_rgba(10,43,80,0.09)]">
-                    <h2 class="text-[1rem] font-bold text-[#0f2749]"{$this->dataTextId('hero.mobile.book_appointment_title')}>{$book_appointment_text}</h2>
-                    <p class="mt-1 text-[0.82rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('hero.mobile.callback_note')}>{$callback_15_min_text}</p>
-                    <div class="mt-4">
-                        {$hero_callback_form}
-                    </div>
-                </div>
-            </div>
         </section>
 
         <div id="hero-image-modal" class="fixed inset-0 z-[110] hidden bg-[rgba(7,21,40,0.84)] px-4 py-6">
@@ -1497,7 +1470,7 @@ class ProblemsGrid extends Component {
     protected $sectionEyebrow = '';
     protected $sectionHeading = '';
     protected $sectionSubtitle = '';
-    protected $ctaUrl = '/#contact';
+    protected $ctaUrl = '/';
     protected $ctaLabel = '';
     protected $textPrefix = 'home.problems';
 
@@ -1514,7 +1487,7 @@ class ProblemsGrid extends Component {
         $this->sectionEyebrow = trim((string)($options['eyebrow'] ?? $this->sectionEyebrow));
         $this->sectionHeading = trim((string)($options['title'] ?? $this->sectionHeading));
         $this->sectionSubtitle = trim((string)($options['subtitle'] ?? $this->sectionSubtitle));
-        $this->ctaUrl = trim((string)($options['cta_url'] ?? $this->ctaUrl)) ?: '/#contact';
+        $this->ctaUrl = trim((string)($options['cta_url'] ?? $this->ctaUrl)) ?: '/';
         $this->ctaLabel = trim((string)($options['cta_label'] ?? $this->ctaLabel));
         $this->textPrefix = trim((string)($options['text_prefix'] ?? $this->textPrefix)) ?: 'home.problems';
     }
@@ -1709,16 +1682,9 @@ class SpecialOffer extends Component {
         $offer_bullet_1 = $this->e(bioinmed_text('home.special_offer.bullets.1', '3D-диагностика на мультифункциональном комплексе «Хабилект» для точной оценки нарушений опорно-двигательного аппарата'));
         $offer_bullet_2 = $this->e(bioinmed_text('home.special_offer.bullets.2', 'Консультация реабилитолога с подбором индивидуального комплекса ЛФК'));
         $offer_bullet_3 = $this->e(bioinmed_text('home.special_offer.bullets.3', 'Диагностика стоп на подоскопе в подарок'));
-        $offer_modal_close_aria = $this->e(bioinmed_text('home.special_offer.modal.close_aria', 'Закрыть окно'));
-        $offer_modal_eyebrow = $this->e(bioinmed_text('home.special_offer.modal.eyebrow', 'Специальное предложение'));
-        $offer_modal_title = $this->e(bioinmed_text('home.special_offer.modal.title', 'Перезвоним и запишем на консультацию'));
-        $offer_modal_text = $this->e(bioinmed_text('home.special_offer.modal.text', 'Оставьте номер телефона. Мы свяжемся с вами и подберём удобное время записи на диагностику на мультифункциональном комплексе «Хабилект».'));
         $offer_image_src = $this->e(bioinmed_versioned_asset_path('/public/images/habilect/habilect-woman-2.webp'));
         $offer_video_src = $this->e(bioinmed_versioned_asset_path('/public/animated/habilect-woman-2.mp4'));
-        $callback_form = bioinmed_render_callback_form([
-            'source_label' => bioinmed_text('labels.home_special_offer_habilect', 'Главная — спецпредложение «Хабилект»'),
-            'submit_label' => bioinmed_text('common.request_callback'),
-        ]);
+        $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '/';
         $index_page = bioinmed_read_json_file('pages/index.json');
         $offer_bullets = bioinmed_editable_list_items($index_page, 'index.special_offer.bullets', [
             bioinmed_text('home.special_offer.bullets.1', '3D-диагностика на мультифункциональном комплексе «Хабилект» для точной оценки нарушений опорно-двигательного аппарата'),
@@ -1783,28 +1749,11 @@ class SpecialOffer extends Component {
                                 </ul>
                             </a>
                             <div class="mt-4">
-                                <button type="button" data-special-offer-open class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
-                                    <i class="fa-solid fa-phone text-[0.86rem]" aria-hidden="true"></i>
-                                    <span{$this->dataTextId('home.special_offer.callback_button')}>{$this->e(bioinmed_text('common.request_callback'))}</span>
-                                </button>
+                                <a href="{$booking_url}" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
+                                    <span{$this->dataTextId('home.special_offer.callback_button')}>{$this->e(bioinmed_text('common.book_appointment'))}</span>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div id="special-offer-callback-modal" class="fixed inset-0 z-[120] hidden items-center justify-center bg-[rgba(7,21,40,0.72)] px-4 py-6" role="dialog" aria-modal="true" aria-labelledby="special-offer-callback-title">
-                <div class="relative w-full max-w-md rounded-[1.75rem] border border-[#d8e7f5] bg-white p-6 shadow-[0_24px_60px_rgba(7,21,40,0.24)] md:p-7" data-admin-block-root>
-                    <button type="button" data-special-offer-close class="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#d7e6f3] bg-white text-[#0a293c] transition hover:border-[#1977b2] hover:text-[#1977b2]" aria-label="{$offer_modal_close_aria}">
-                        <svg aria-hidden="true" viewBox="0 0 20 20" class="h-5 w-5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 5L15 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
-                            <path d="M15 5L5 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
-                        </svg>
-                    </button>
-                    <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"{$this->dataTextId('home.special_offer.modal.eyebrow')}>{$offer_modal_eyebrow}</p>
-                    <h3 id="special-offer-callback-title" class="mt-2 text-[1.3rem] font-bold leading-tight text-[#0f2749] md:text-[1.45rem]"{$this->dataTextId('home.special_offer.modal.title')}>{$offer_modal_title}</h3>
-                    <p class="mt-2 text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.special_offer.modal.text')}>{$offer_modal_text}</p>
-                    <div class="mt-5">
-                        {$callback_form}
                     </div>
                 </div>
             </div>
@@ -2201,7 +2150,6 @@ class AppointmentCTA extends Component {
 
         $callback_form = bioinmed_render_callback_form([
             'source_label' => bioinmed_text('labels.home_final_cta', 'Главная — финальная CTA'),
-            'submit_label' => bioinmed_text('common.request_callback'),
         ]);
         $index_page = bioinmed_read_json_file('pages/index.json');
         $appointment_items = bioinmed_editable_list_items($index_page, 'index.appointment.bullets', [
@@ -2321,9 +2269,9 @@ class ContactSection extends Component {
                                 <p class="text-[0.92rem] text-[#0a293c] mt-1"{$this->dataTextId('home.contact.values.metro')}>
                                     {$metro}
                                 </p>
-                                <button type="button" class="jsClientix_openWidget mt-4 inline-flex w-full items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden">
-                                    <span{$this->dataTextId('home.contact.online_booking_button_mobile')}>{$this->e(bioinmed_text('common.online_booking_desktop'))}</span>
-                                </button>
+                                <a href="{$booking_url}" class="mt-4 inline-flex w-full items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden text-decoration-none">
+                                    <span{$this->dataTextId('home.contact.online_booking_button_mobile')}>{$this->e(bioinmed_text('common.book_appointment'))}</span>
+                                </a>
                             </div>
 
                             <!-- Режим работы -->
@@ -3279,9 +3227,6 @@ class Footer extends Component {
                 </div>
             </div>
         </footer>
-        <style>
-            #clientixAppointmentButton { display:none !important; }
-        </style>
         {$admin_interface_html}
         <script type="text/javascript">
             (function initBioinmedBookingUi() {
@@ -3289,104 +3234,6 @@ class Footer extends Component {
                     return;
                 }
                 window.__bioinmedBookingUiReady = true;
-
-                var clientixScriptPromise = null;
-
-                function initQuickBookingWidget() {
-                    if (window.__clientixWidgetBooted || !window.clientixWidget || typeof window.clientixWidget.load !== 'function') {
-                        return;
-                    }
-                    window.__clientixWidgetBooted = true;
-                    window.clientixWidget.load({
-                        baseUrl: 'https://klientiks.ru',
-                        alias: '/app2/BIOINMED?awaiting_list=true',
-                        text: {$online_booking_widget_text},
-                        color: '#1977b2'
-                    });
-                }
-
-                function loadClientixScript() {
-                    if (window.clientixWidget || clientixScriptPromise) {
-                        return clientixScriptPromise || Promise.resolve();
-                    }
-
-                    clientixScriptPromise = new Promise(function(resolve, reject) {
-                        var script = document.createElement('script');
-                        script.type = 'text/javascript';
-                        script.async = true;
-                        script.src = 'https://klientiks.ru/js/online/clientixWidget.js';
-                        script.onload = function() {
-                            resolve();
-                        };
-                        script.onerror = function() {
-                            reject(new Error('Не удалось загрузить виджет записи.'));
-                        };
-                        document.head.appendChild(script);
-                    });
-
-                    return clientixScriptPromise;
-                }
-
-                function bootClientixWidget() {
-                    if (window.__clientixWidgetBooted) {
-                        return Promise.resolve();
-                    }
-
-                    return loadClientixScript().then(function() {
-                        initQuickBookingWidget();
-                    }).catch(function() {
-                        // Silent failure: booking buttons remain standard links/controls.
-                    });
-                }
-
-                function armClientixTriggers() {
-                    var trigger = function(event) {
-                        var button = event.currentTarget;
-
-                        if (window.__clientixWidgetBooted) {
-                            return;
-                        }
-
-                        if (event.type === 'click') {
-                            event.preventDefault();
-                            button.dataset.clientixReplay = '1';
-                        }
-
-                        bootClientixWidget().then(function() {
-                            if (button.dataset.clientixReplay === '1') {
-                                delete button.dataset.clientixReplay;
-                                button.click();
-                            }
-                        });
-                    };
-
-                    document.querySelectorAll('.jsClientix_openWidget').forEach(function(button) {
-                        button.addEventListener('pointerenter', trigger, { once: true, passive: true });
-                        button.addEventListener('focus', trigger, { once: true, passive: true });
-                        button.addEventListener('click', trigger);
-                    });
-                }
-
-                function scheduleClientixBootstrap() {
-                    if (window.requestIdleCallback) {
-                        window.requestIdleCallback(function() {
-                            bootClientixWidget();
-                        }, { timeout: 4000 });
-                        return;
-                    }
-
-                    setTimeout(function() {
-                        bootClientixWidget();
-                    }, 1);
-                }
-
-                armClientixTriggers();
-
-                if (document.readyState === 'complete') {
-                    scheduleClientixBootstrap();
-                } else {
-                    window.addEventListener('load', scheduleClientixBootstrap, { once: true });
-                }
 
                 function setStatus(form, type, message) {
                     var status = form ? form.querySelector('.js-callback-status') : null;
@@ -3425,60 +3272,6 @@ class Footer extends Component {
                     var defaultPlaceholder = input.getAttribute('data-placeholder-default') || {$phone_placeholder_default_js};
                     var activePlaceholder = input.getAttribute('data-placeholder-active') || '+7 (___) ___-__-__';
                     input.placeholder = input.value ? activePlaceholder : defaultPlaceholder;
-                }
-
-                var specialOfferModal = document.getElementById('special-offer-callback-modal');
-                var specialOfferBodyOverflow = '';
-
-                if (specialOfferModal && specialOfferModal.parentNode !== document.body) {
-                    document.body.appendChild(specialOfferModal);
-                }
-
-                function openSpecialOfferModal() {
-                    if (!specialOfferModal) {
-                        return;
-                    }
-                    specialOfferBodyOverflow = document.body.style.overflow || '';
-                    specialOfferModal.classList.remove('hidden');
-                    specialOfferModal.classList.add('flex');
-                    document.body.style.overflow = 'hidden';
-                    var phoneInput = specialOfferModal.querySelector('.js-callback-phone');
-                    if (phoneInput) {
-                        window.requestAnimationFrame(function() {
-                            phoneInput.focus();
-                        });
-                    }
-                }
-
-                function closeSpecialOfferModal() {
-                    if (!specialOfferModal) {
-                        return;
-                    }
-                    specialOfferModal.classList.add('hidden');
-                    specialOfferModal.classList.remove('flex');
-                    document.body.style.overflow = specialOfferBodyOverflow;
-                }
-
-                document.querySelectorAll('[data-special-offer-open]').forEach(function(button) {
-                    button.addEventListener('click', openSpecialOfferModal);
-                });
-
-                document.querySelectorAll('[data-special-offer-close]').forEach(function(button) {
-                    button.addEventListener('click', closeSpecialOfferModal);
-                });
-
-                if (specialOfferModal) {
-                    specialOfferModal.addEventListener('click', function(event) {
-                        if (event.target === specialOfferModal) {
-                            closeSpecialOfferModal();
-                        }
-                    });
-
-                    document.addEventListener('keydown', function(event) {
-                        if (event.key === 'Escape' && !specialOfferModal.classList.contains('hidden')) {
-                            closeSpecialOfferModal();
-                        }
-                    });
                 }
 
                 document.querySelectorAll('.js-callback-phone').forEach(function(input) {

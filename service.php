@@ -747,13 +747,9 @@ echo $header->render();
                             </div>
                         </div>
 
-                        <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_data_text_id('common.book_appointment'); ?>><?php echo e(bioinmed_text('common.book_appointment')); ?></p>
-                        <p class="mt-1 text-sm text-[#0a293c]"<?php echo bioinmed_data_text_id('common.callback_15_min'); ?>><?php echo e(bioinmed_text('common.callback_15_min')); ?></p>
-
-                        <div class="mt-4">
+                        <div class="mt-5">
                             <?php echo bioinmed_render_callback_form([
                                 'source_label' => ($service['name'] ?? ($serviceDefault['source_service_label'] ?? '')) . (string)($serviceSidebarText['source_suffix'] ?? ''),
-                                'submit_label' => bioinmed_text('common.request_callback'),
                                 'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                             ]); ?>
                         </div>

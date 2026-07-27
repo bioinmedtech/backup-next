@@ -693,10 +693,9 @@ $header = new Header($brand_colors);
                         <i class="fas fa-phone"></i>
                         Позвонить: <?php echo CLINIC_PHONE; ?>
                     </a>
-                    <button type="button" class="jsClientix_openWidget inline-flex items-center justify-center gap-2 rounded-full border border-white bg-[rgba(255,255,255,0.2)] px-5 py-2.5 font-semibold text-white hover:bg-[rgba(255,255,255,0.3)] transition-colors">
-                        <i class="fas fa-calendar"></i>
-                        Записаться онлайн
-                    </button>
+                    <a href="<?php echo e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/'); ?>" onclick="onlineBooking.open();return false;" class="inline-flex items-center justify-center gap-2 rounded-full border border-white bg-[rgba(255,255,255,0.2)] px-5 py-2.5 font-semibold text-white hover:bg-[rgba(255,255,255,0.3)] transition-colors" style="text-decoration:none;">
+                        Записаться на приём
+                    </a>
                 </div>
             </div>
         </div>

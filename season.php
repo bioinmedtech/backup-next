@@ -714,12 +714,11 @@ $footer = new Footer();
                 <?= $e($seasonCtaText['text'] ?? 'Наши специалисты разработают индивидуальную программу с учётом сезона и Ваших особенностей.') ?>
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                     <button type="button"
-                         class="jsClientix_openWidget inline-flex items-center justify-center gap-2 rounded-full border-0 bg-white px-7 py-3.5 text-[1rem] font-semibold shadow-lg transition hover:-translate-y-0.5"
-                   style="color:<?= $e($s['color_dark']) ?>;cursor:pointer;">
-                    <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
-                    <span<?= bioinmed_page_text_attr($seasonPage, 'season', 'cta.online_booking') ?>><?= $e($seasonCtaText['online_booking'] ?? 'Записаться онлайн') ?></span>
-                </button>
+                      <a href="<?= $e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/') ?>" onclick="onlineBooking.open();return false;"
+                         class="inline-flex items-center justify-center gap-2 rounded-full border-0 bg-white px-7 py-3.5 text-[1rem] font-semibold shadow-lg transition hover:-translate-y-0.5"
+                   style="color:<?= $e($s['color_dark']) ?>;cursor:pointer;text-decoration:none;">
+                    <span<?= bioinmed_page_text_attr($seasonPage, 'season', 'cta.online_booking') ?>><?= $e($seasonCtaText['online_booking'] ?? 'Записаться на приём') ?></span>
+                </a>
                 <a href="tel:<?= $e(preg_replace('/[^+\d]/', '', CLINIC_PHONE)) ?>"
                    class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-7 py-3.5 text-[1rem] font-medium text-white transition hover:bg-white/10">
                     <i class="fa-solid fa-phone" aria-hidden="true"></i>

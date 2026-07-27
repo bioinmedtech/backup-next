@@ -51,7 +51,7 @@ define('CLINIC_METRO', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clin
 define('CLINIC_EMAIL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.email', 'info@bioinmed.ru'));
 define('CLINIC_HOURS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hours', 'Ежедневно с 9:00 до 21:00 (без выходных)'));
 define('CLINIC_TAGLINE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.tagline', 'Интегративная и восстановительная медицина. Индивидуальный подход к каждому пациенту.'));
-define('ONLINE_BOOKING_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.online_booking_url', '#contact'));
+define('ONLINE_BOOKING_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.online_booking_url', '/'));
 define('CLINIC_MAP_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.map_url', 'https://yandex.com/maps/-/CPGGyEzo'));
 define('CLINIC_VK', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.vk', 'https://vk.com/bioinmed'));
 define('CLINIC_MAX_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.max', 'https://max.ru/id9704215369_bot'));
@@ -165,6 +165,8 @@ function bioinmed_render_public_head_assets(array $options = []) {
         $html[] = '<link rel="dns-prefetch" href="//app.comagic.ru">';
         $html[] = '<link rel="preconnect" href="https://app.comagic.ru" crossorigin>';
     }
+
+    $html[] = '<script type="text/javascript" src="https://app3.sqns.ru/booking/script?orgid=25903"></script>';
 
     $html[] = '<script>(function(){document.documentElement.classList.add("js-caveat-pending");})();</script>';
     $html[] = '<style>.js-caveat-pending .caveat-reveal{visibility:hidden}.js-caveat-ready .caveat-reveal,.js-caveat-failed .caveat-reveal{visibility:visible}</style>';
@@ -409,90 +411,57 @@ function bioinmed_yandex_metrika_noscript() {
 }
 
 function bioinmed_render_callback_form(array $options = []) {
-    static $instance = 0;
-    $instance++;
-
     $escape = static function ($value) {
         return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     };
 
     $source_label = trim((string)($options['source_label'] ?? 'Заявка с сайта'));
-    $submit_label = trim((string)($options['submit_label'] ?? bioinmed_text('common.request_callback')));
+    $submit_label = trim((string)($options['submit_label'] ?? bioinmed_text('common.book_appointment', 'Записаться на приём')));
     $form_class = trim((string)($options['form_class'] ?? ''));
     $button_class = trim((string)($options['button_class'] ?? ''));
-    $normalize_attr = static function ($value) {
-        $attr = trim((string)$value);
-        return $attr !== '' ? ' ' . $attr : '';
-    };
-    $submit_label_attr = $normalize_attr($options['submit_label_attr'] ?? '');
-    $phone_placeholder = trim((string)($options['phone_placeholder'] ?? bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон')));
-    $phone_placeholder_attr = $normalize_attr($options['phone_placeholder_attr'] ?? '');
-    $consent_text = trim((string)($options['consent_text'] ?? 'Я соглашаюсь с условиями'));
-    $consent_text_attr = $normalize_attr($options['consent_text_attr'] ?? '');
-    $show_legal_links = array_key_exists('show_legal_links', $options) ? (bool)$options['show_legal_links'] : true;
 
-    $privacy_link = bioinmed_link('legal.privacy_genitive');
-    $agreement_link = bioinmed_link('legal.user_agreement_genitive');
+    $booking_url = defined('ONLINE_BOOKING_URL') ? (string)ONLINE_BOOKING_URL : '/';
 
     if ($submit_label === '') {
-        $submit_label = bioinmed_text('common.request_callback');
-    }
-    if ($phone_placeholder === '') {
-        $phone_placeholder = bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон');
-    }
-    if ($consent_text === '') {
-        $consent_text = 'Я соглашаюсь с условиями';
+        $submit_label = bioinmed_text('common.book_appointment', 'Записаться на приём');
     }
 
     if ($button_class === '') {
         $button_class = 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-6 py-3 text-[0.98rem] font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90';
     }
 
-    $phone_id = 'callback-phone-' . $instance;
-    $consent_id = 'callback-consent-' . $instance;
-
-    $consent_html = $show_legal_links
-        ? '<span><span' . $consent_text_attr . '>' . $escape($consent_text) . ' </span><a href="' . $escape($privacy_link['url']) . '" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">' . $escape($privacy_link['text']) . '</a> и <a href="' . $escape($agreement_link['url']) . '" class="font-semibold text-[#0a293c] underline decoration-[#bfd9ed] underline-offset-2 hover:text-[#1977b2]">' . $escape($agreement_link['text']) . '</a>.</span>'
-        : '<span><span' . $consent_text_attr . '>' . $escape($consent_text) . '.</span></span>';
+    $link_class = trim($form_class . ' ' . $button_class);
 
     return <<<HTML
-    <form action="/callback-request.php" method="post" class="js-callback-form {$escape($form_class)}" novalidate>
-        <input type="hidden" name="source_label" value="{$escape($source_label)}">
-        <input type="hidden" name="page_title" value="">
-        <input type="hidden" name="page_url" value="">
-        <div class="space-y-3">
-            <div>
-                <input
-                    id="{$escape($phone_id)}"
-                    type="tel"
-                    name="phone"
-                    inputmode="tel"
-                    autocomplete="tel"
-                    aria-label="{$escape($phone_placeholder)}"
-                    data-placeholder-default="{$escape($phone_placeholder)}"
-                    data-placeholder-active="+7 (___) ___-__-__"
-                    placeholder="{$escape($phone_placeholder)}"
-                    {$phone_placeholder_attr}
-                    class="js-callback-phone w-full rounded-2xl border border-[#d4e3f0] bg-[#f9fcff] px-4 py-3 text-[1rem] text-[#0f2749] outline-none transition placeholder:text-[#0a293c] focus:border-[#1977b2] focus:bg-white"
-                    required
-                >
-            </div>
-            <label for="{$escape($consent_id)}" class="flex items-start gap-2 text-[0.84rem] leading-relaxed text-[#0a293c]">
-                <input
-                    id="{$escape($consent_id)}"
-                    type="checkbox"
-                    name="consent"
-                    value="1"
-                    class="js-callback-consent mt-0.5 h-4 w-4 shrink-0 rounded border-[#b8d2e7] text-[#1977b2] focus:ring-[#1977b2]"
-                    required
-                >
-                {$consent_html}
-            </label>
-            <button type="submit" class="js-callback-submit {$escape($button_class)}"{$submit_label_attr}>{$escape($submit_label)}</button>
-            <p class="js-callback-status hidden rounded-2xl px-3 py-2 text-[0.82rem] leading-relaxed"></p>
-        </div>
-    </form>
+    <a href="{$escape($booking_url)}" onclick="onlineBooking.open();return false;" class="{$escape($link_class)}" data-booking-link="1" data-booking-source="{$escape($source_label)}">{$escape($submit_label)}</a>
     HTML;
+}
+
+function bioinmed_breadcrumb_schema(array $items) {
+    $list = [];
+    $position = 1;
+    foreach ($items as $item) {
+        $name = trim((string)($item['name'] ?? ''));
+        if ($name === '') {
+            continue;
+        }
+        $entry = [
+            '@type' => 'ListItem',
+            'position' => $position++,
+            'name' => $name,
+        ];
+        $url = trim((string)($item['url'] ?? ''));
+        if ($url !== '') {
+            $entry['item'] = bioinmed_absolute_url($url);
+        }
+        $list[] = $entry;
+    }
+
+    return [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => $list,
+    ];
 }
 
 function bioinmed_current_season_slug($timestamp = null) {
@@ -668,33 +637,6 @@ function bioinmed_medical_organization_schema() {
             defined('CLINIC_VK') ? CLINIC_VK : '',
             defined('CLINIC_TELEGRAM') ? CLINIC_TELEGRAM : '',
         ])),
-    ];
-}
-
-function bioinmed_breadcrumb_schema(array $items) {
-    $list = [];
-    $position = 1;
-    foreach ($items as $item) {
-        $name = trim((string)($item['name'] ?? ''));
-        if ($name === '') {
-            continue;
-        }
-        $entry = [
-            '@type' => 'ListItem',
-            'position' => $position++,
-            'name' => $name,
-        ];
-        $url = trim((string)($item['url'] ?? ''));
-        if ($url !== '') {
-            $entry['item'] = bioinmed_absolute_url($url);
-        }
-        $list[] = $entry;
-    }
-
-    return [
-        '@context' => 'https://schema.org',
-        '@type' => 'BreadcrumbList',
-        'itemListElement' => $list,
     ];
 }
 

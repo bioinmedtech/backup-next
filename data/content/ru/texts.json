@@ -2,10 +2,10 @@
     "common": {
         "more_details": "Подробнее",
         "book_appointment": "Записаться на приём",
-        "callback_15_min": "Перезвоним в течение 15 минут.",
+        "callback_15_min": "Запишитесь онлайн — прямо сейчас",
         "request_callback": "Перезвоните мне",
         "online_booking": "Записаться онлайн",
-        "online_booking_desktop": "Онлайн-запись",
+        "online_booking_desktop": "Записаться на приём",
         "book_appointment_no_yo": "Записаться на прием",
         "call_directly": "или позвоните напрямую"
     },
@@ -155,7 +155,7 @@
             "image_alt": "Фото клиники"
         },
         "mobile": {
-            "online_booking_button": "Онлайн-запись",
+            "online_booking_button": "Записаться на приём",
             "track_prompt": "Листайте фото вправо"
         },
         "desktop": {
