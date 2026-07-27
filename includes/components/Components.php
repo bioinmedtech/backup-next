@@ -999,7 +999,7 @@ class HeroSection extends Component {
                     </div>
 
                     <div class="order-1 mb-4 min-w-0 overflow-hidden lg:order-2 lg:mb-0">
-                        <div class="mb-3 hidden justify-end lg:flex" data-admin-block-root>
+                        <div class="mb-3 hidden justify-end lg:flex">
                             <a href="#solidarity-medicine" class="inline-flex items-center gap-2 rounded-full border border-[#b8d2e7] bg-white px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.13em] text-[#17446f] shadow-[0_10px_24px_rgba(15,39,73,0.09)] transition hover:-translate-y-0.5 hover:border-[#82bee4] hover:text-[#1977b2] hover:shadow-[0_14px_28px_rgba(15,39,73,0.13)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30">
                                 <i class="fa-solid fa-people-group text-[#1977b2]" aria-hidden="true"></i>
                                 <span{$this->dataTextId('hero.professional_union')}>{$hero_professional_union}</span>
