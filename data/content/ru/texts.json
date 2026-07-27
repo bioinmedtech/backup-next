@@ -155,7 +155,7 @@
             "image_alt": "Фото клиники"
         },
         "mobile": {
-            "online_booking_button": "Записаться на приём",
+            "online_booking_button": "Онлайн-запись",
             "track_prompt": "Листайте фото вправо"
         },
         "desktop": {

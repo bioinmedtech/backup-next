@@ -250,7 +250,7 @@ echo $header->render();
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="rounded-3xl border border-[#d7e6f3] bg-white p-7 shadow-[0_18px_42px_rgba(6,29,60,0.08)] md:p-9" data-admin-block-root>
                 <?php
-                $appointmentHeadingNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.heading', bioinmed_text('common.book_appointment'));
+                $appointmentHeadingNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.heading', 'Запишитесь онлайн — прямо сейчас');
                 $appointmentTextNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.text', (string)($problemAppointmentText['text'] ?? ''));
                 $appointmentSubmitNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.submit_label', (string)($problemAppointmentText['submit_label'] ?? bioinmed_text('common.book_appointment')));
                 $appointmentPhonePlaceholderNode = bioinmed_page_text_node($problemPage, 'problem', 'appointment.phone_placeholder', bioinmed_text('forms.phone.placeholder_default', 'Ваш телефон'));

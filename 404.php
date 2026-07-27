@@ -89,7 +89,7 @@ echo $header->render();
 
         <aside class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.1)]" style="transition-delay:.08s">
             <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0a293c]">Помочь с записью</p>
-            <h2 class="mt-2 text-xl font-bold text-[#0a293c]">Записаться на приём</h2>
+            <h2 class="mt-2 text-xl font-bold text-[#0a293c]">Запишитесь онлайн — прямо сейчас</h2>
             <p class="mt-2 text-sm leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
 
             <div class="mt-4">

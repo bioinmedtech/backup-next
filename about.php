@@ -27,6 +27,7 @@ foreach ($aboutTaskItems as $taskIndex => $task) {
 $aboutTaskItems = bioinmed_editable_list_items($aboutPage, 'about.tasks.items', $aboutTaskFallback, '');
 $aboutChiefQuote = is_array($aboutPage['chief_quote'] ?? null) ? $aboutPage['chief_quote'] : [];
 $aboutCta = is_array($aboutPage['cta'] ?? null) ? $aboutPage['cta'] : [];
+$aboutCtaHeadingNode = bioinmed_page_text_node($aboutPage, 'about', 'cta.heading', 'Запишитесь онлайн — прямо сейчас');
 $aboutContactHoursNode = bioinmed_page_text_node($aboutPage, 'about', 'contact_values.hours', CLINIC_HOURS);
 $aboutContactPhoneNode = bioinmed_page_text_node($aboutPage, 'about', 'contact_values.phone', CLINIC_PHONE);
 $aboutContactMetroNode = bioinmed_page_text_node($aboutPage, 'about', 'contact_values.metro', CLINIC_METRO);
@@ -213,7 +214,7 @@ echo $header->render();
 	<section class="overflow-hidden rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
 		<div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
 			<div class="bg-white p-5 md:p-7" data-admin-block-root>
-				<h2 class="text-[1.26rem] font-bold leading-tight text-[#0f2749] md:text-[1.65rem]"<?php echo bioinmed_data_text_id('common.book_appointment'); ?>><?php echo e(bioinmed_text('common.book_appointment')); ?></h2>
+				<h2 class="text-[1.26rem] font-bold leading-tight text-[#0f2749] md:text-[1.65rem]"<?php echo $aboutCtaHeadingNode['attr']; ?>><?php echo e($aboutCtaHeadingNode['value']); ?></h2>
 				<div class="mt-4 space-y-2 text-[0.8rem] text-[#0a293c]">
 					<p class="flex items-center gap-2"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'cta.help_soon'); ?>><i class="fa-solid fa-phone-volume text-[#1977b2]"></i> <?php echo e($aboutCta['help_soon'] ?? ''); ?></p>
 					<p class="flex items-center gap-2"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'cta.select_doctor'); ?>><i class="fa-solid fa-user-doctor text-[#1977b2]"></i> <?php echo e($aboutCta['select_doctor'] ?? ''); ?></p>
