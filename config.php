@@ -1051,6 +1051,10 @@ function bioinmed_service_image_url($filename) {
         return null;
     }
 
+    if (strpos($value, '/public/images/') === 0) {
+        return $value;
+    }
+
     return '/public/images/services/' . rawurlencode($value);
 }
 
@@ -1080,9 +1084,19 @@ function bioinmed_service_image_files($service, $limit = 4) {
 
     $push = static function ($filename) use (&$images, $available, $limit) {
         $value = trim((string)$filename);
-        if ($value === '' || !isset($available[$value]) || in_array($value, $images, true)) {
+        if ($value === '' || in_array($value, $images, true)) {
             return;
         }
+
+        if (strpos($value, '/public/images/') === 0) {
+            $absolute_path = __DIR__ . $value;
+            if (!is_file($absolute_path)) {
+                return;
+            }
+        } elseif (!isset($available[$value])) {
+            return;
+        }
+
         if (count($images) >= $limit) {
             return;
         }
@@ -1123,6 +1137,139 @@ function bioinmed_service_gallery_urls($service, $limit = 4) {
 function bioinmed_service_primary_image_url($service) {
     $gallery = bioinmed_service_gallery_urls($service, 1);
     return $gallery[0] ?? null;
+}
+
+function bioinmed_extract_price_numbers(string $value): array {
+    if ($value === '') {
+        return [];
+    }
+
+    preg_match_all('/\d[\d\s]*/u', $value, $matches);
+    $numbers = [];
+
+    foreach (($matches[0] ?? []) as $match) {
+        $normalized = preg_replace('/\s+/u', '', (string)$match);
+        if ($normalized === null || $normalized === '') {
+            continue;
+        }
+        $numbers[] = (int)$normalized;
+    }
+
+    return array_values(array_unique($numbers));
+}
+
+function bioinmed_format_rub_amount(int $value): string {
+    return number_format($value, 0, '', ' ');
+}
+
+function bioinmed_prices_payload(): array {
+    static $payload = null;
+
+    if ($payload !== null) {
+        return $payload;
+    }
+
+    $raw = bioinmed_read_json_file('pages/prices.json');
+    $payload = is_array($raw) ? $raw : [];
+    return $payload;
+}
+
+function bioinmed_service_prices_from_prices_page(string $serviceId): array {
+    $normalizedId = trim($serviceId);
+    if ($normalizedId === '') {
+        return [];
+    }
+
+    $payload = bioinmed_prices_payload();
+    $sections = is_array($payload['sections'] ?? null) ? $payload['sections'] : [];
+    $prices = [];
+
+    foreach ($sections as $section) {
+        if (!is_array($section) || !empty($section['hidden'])) {
+            continue;
+        }
+
+        $rows = is_array($section['rows'] ?? null) ? $section['rows'] : [];
+        foreach ($rows as $row) {
+            if (!is_array($row) || !empty($row['hidden'])) {
+                continue;
+            }
+
+            $rowServiceId = trim((string)($row['service_id'] ?? ''));
+            if ($rowServiceId !== $normalizedId) {
+                continue;
+            }
+
+            $rowPrice = trim((string)($row['price'] ?? ''));
+            if ($rowPrice === '' || in_array($rowPrice, $prices, true)) {
+                continue;
+            }
+
+            $prices[] = $rowPrice;
+        }
+    }
+
+    return $prices;
+}
+
+function bioinmed_service_price_amounts_by_id(string $serviceId): array {
+    $amounts = [];
+    foreach (bioinmed_service_prices_from_prices_page($serviceId) as $price) {
+        foreach (bioinmed_extract_price_numbers($price) as $amount) {
+            if ($amount > 0) {
+                $amounts[] = $amount;
+            }
+        }
+    }
+
+    $amounts = array_values(array_unique($amounts));
+    sort($amounts);
+    return $amounts;
+}
+
+function bioinmed_service_actual_price_label_by_id(string $serviceId, string $fallback = ''): string {
+    $prices = bioinmed_service_prices_from_prices_page($serviceId);
+    if ($prices === []) {
+        return trim($fallback);
+    }
+
+    if (count($prices) === 1) {
+        return $prices[0];
+    }
+
+    $numbers = [];
+    foreach ($prices as $price) {
+        foreach (bioinmed_extract_price_numbers($price) as $number) {
+            $numbers[] = $number;
+        }
+    }
+    $numbers = array_values(array_unique($numbers));
+    sort($numbers);
+
+    if (count($numbers) >= 2) {
+        $min = $numbers[0];
+        $max = $numbers[count($numbers) - 1];
+        if ($min === $max) {
+            return bioinmed_format_rub_amount($min) . ' ₽';
+        }
+        return 'от ' . bioinmed_format_rub_amount($min) . ' ₽ до ' . bioinmed_format_rub_amount($max) . ' ₽';
+    }
+
+    return $prices[0];
+}
+
+function bioinmed_service_actual_price_parts($service): array {
+    $serviceId = trim((string)($service['id'] ?? ''));
+    $basePrice = trim((string)($service['price'] ?? ''));
+    $baseNote = trim((string)($service['price_note'] ?? ''));
+    $baseCombined = trim($basePrice . ($baseNote !== '' ? ' ' . $baseNote : ''));
+
+    $actual = bioinmed_service_actual_price_label_by_id($serviceId, $baseCombined);
+    if ($actual !== '') {
+        return ['price' => $actual, 'note' => ''];
+    }
+
+    return ['price' => $basePrice, 'note' => $baseNote];
 }
 
 // Услуги и связанный статичный контент

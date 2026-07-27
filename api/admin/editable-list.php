@@ -18,7 +18,7 @@ $page = trim((string)($body['page'] ?? ''));
 $listKey = trim((string)($body['list_key'] ?? ''));
 $rawItems = is_array($body['items'] ?? null) ? $body['items'] : [];
 
-if (!preg_match('/^[a-zA-Z0-9_-]+$/', $page) || !in_array($page, ['doctor', 'service', 'problem', 'about', 'index', 'services', 'doctors', 'sterility', 'vacancies'], true)) {
+if (!preg_match('/^[a-zA-Z0-9_-]+$/', $page) || !in_array($page, ['doctor', 'service', 'problem', 'about', 'index', 'services', 'doctors', 'sterility', 'vacancies', 'partners', 'partnerhabilect', 'partnerheel'], true)) {
     bioinmed_admin_json_response(['ok' => false, 'error' => 'Недопустимая страница списка.'], 422);
 }
 if ($listKey === '' || strlen($listKey) > 240 || !preg_match('/^[a-zA-Z0-9_.:-]+$/', $listKey)) {
@@ -28,6 +28,8 @@ if (count($rawItems) > 500) {
     bioinmed_admin_json_response(['ok' => false, 'error' => 'В списке слишком много элементов.'], 422);
 }
 
+$isServicesCatalogList = $page === 'services' && preg_match('/^services\.catalog\./', $listKey);
+
 $items = [];
 $usedIds = [];
 foreach ($rawItems as $index => $entry) {
@@ -36,6 +38,11 @@ foreach ($rawItems as $index => $entry) {
     if ($text === '') continue;
     if (mb_strlen($text, 'UTF-8') > 5000) $text = mb_substr($text, 0, 5000, 'UTF-8');
     $secondary = trim((string)($entry['secondary'] ?? ''));
+    if ($isServicesCatalogList) {
+        // Цены в каталоге услуг управляются страницей прайса: не блокируем сохранение,
+        // но игнорируем любые присланные secondary-значения.
+        $secondary = '';
+    }
     if (mb_strlen($secondary, 'UTF-8') > 10000) $secondary = mb_substr($secondary, 0, 10000, 'UTF-8');
     $url = trim((string)($entry['url'] ?? ''));
     if (mb_strlen($url, 'UTF-8') > 1000) $url = mb_substr($url, 0, 1000, 'UTF-8');

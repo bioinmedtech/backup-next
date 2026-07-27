@@ -498,8 +498,8 @@ $header = new Header($brand_colors);
                     </div>
                 </div>
             <?php endif; ?>
-            <div class="prices-hero-decoration absolute -right-14 -top-14 h-36 w-36 rounded-full bg-[#1977b21f] blur-2xl"></div>
-            <div class="prices-hero-decoration absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[#1977b214] blur-2xl"></div>
+            <div class="prices-hero-decoration pointer-events-none absolute -right-14 -top-14 h-36 w-36 rounded-full bg-[#1977b21f] blur-2xl"></div>
+            <div class="prices-hero-decoration pointer-events-none absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[#1977b214] blur-2xl"></div>
             <div class="prices-hero-content relative" data-admin-block-root>
                 <p class="prices-hero-eyebrow text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($pricesPage, 'prices', 'meta.hero_eyebrow'); ?>><?php echo htmlspecialchars((string)($pricesMeta['hero_eyebrow'] ?? 'Прайс-лист'), ENT_QUOTES, 'UTF-8'); ?></p>
                 <h1 class="mt-2 font-bold text-[#0f2749]"<?php echo bioinmed_page_text_attr($pricesPage, 'prices', 'meta.hero_title'); ?>><?php echo htmlspecialchars((string)($pricesMeta['hero_title'] ?? 'Стоимость услуг'), ENT_QUOTES, 'UTF-8'); ?></h1>
@@ -682,9 +682,9 @@ $header = new Header($brand_colors);
         <div class="prices-cta mt-9 rounded-2xl border border-[#1977b2]/20 bg-gradient-to-r from-[#1977b2] to-[#1977b2] p-5 text-white shadow-[0_12px_28px_rgba(25,119,178,0.2)] md:p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div>
-                    <h3 class="font-bold">Не уверены, какая услуга вам нужна?</h3>
+                    <h3 class="font-bold">Не уверены, какая услуга Вам нужна?</h3>
                     <p class="text-[rgba(255,255,255,0.9)] mb-4">
-                        Позвоните нам, и наши специалисты подберут оптимальный план лечения именно для вас.
+                        Позвоните нам, и наши специалисты подберут оптимальный план лечения именно для Вас.
                     </p>
                     <p class="text-sm text-[rgba(255,255,255,0.8)]">Персональный подход гарантирован!</p>
                 </div>
@@ -693,7 +693,7 @@ $header = new Header($brand_colors);
                         <i class="fas fa-phone"></i>
                         Позвонить: <?php echo CLINIC_PHONE; ?>
                     </a>
-                    <a href="<?php echo e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/'); ?>" onclick="onlineBooking.open();return false;" class="inline-flex items-center justify-center gap-2 rounded-full border border-white bg-[rgba(255,255,255,0.2)] px-5 py-2.5 font-semibold text-white hover:bg-[rgba(255,255,255,0.3)] transition-colors" style="text-decoration:none;">
+                    <a href="<?php echo htmlspecialchars(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/', ENT_QUOTES, 'UTF-8'); ?>" onclick="onlineBooking.open();return false;" class="inline-flex items-center justify-center gap-2 rounded-full border border-white bg-[rgba(255,255,255,0.2)] px-5 py-2.5 font-semibold text-white hover:bg-[rgba(255,255,255,0.3)] transition-colors" style="text-decoration:none;">
                         Записаться на приём
                     </a>
                 </div>

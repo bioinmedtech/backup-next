@@ -92,7 +92,7 @@
   ],
   "service_image_exact_map": {
     "habilect-diagnostics": ["habilect.jpg", "habilect-2.jpg"],
-    "chief-doctor-consultation": ["chief-doctor-consultation.jpg"],
+    "chief-doctor-consultation": ["/public/images/slider-v2/slider-1.jpg"],
     "hilt-therapy": ["Advanced Regenerative Therapy Laser.jpg"],
     "acupuncture": ["acupuncture-therapy.jpg", "acupuncture-therapy-2.jpg", "acupuncture-therapy-3.jpg"],
     "shock-wave-therapy": ["shockwave-therapy.jpg", "shockwave-therapy-2.jpg", "shockwave-therapy-3.jpg", "shockwave-therapy-4.jpg"],

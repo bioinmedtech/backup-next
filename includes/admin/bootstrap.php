@@ -647,10 +647,6 @@ function bioinmed_admin_sync_service_price_from_prices_key(string $textKey, stri
             $serviceId = trim((string)($row['service_id'] ?? ''));
             break;
         }
-    } elseif (preg_match('/^pages\.services\.catalog\.items\.([a-zA-Z0-9_-]+)\.price_label$/', $textKey, $matches)) {
-        $serviceId = trim((string)$matches[1]);
-    } elseif (preg_match('/^pages\.service\.related\.items\.([a-zA-Z0-9_-]+)\.price$/', $textKey, $matches)) {
-        $serviceId = trim((string)$matches[1]);
     }
 
     if ($serviceId === '') {
@@ -685,6 +681,20 @@ function bioinmed_admin_sync_service_price_from_prices_key(string $textKey, stri
     }
 
     return bioinmed_admin_write_services_config($services);
+}
+
+function bioinmed_admin_is_price_locked_text_key(string $textKey): bool {
+    if (strpos($textKey, 'pages.prices.') === 0) {
+        return false;
+    }
+
+    return (bool)preg_match(
+        '/\.(?:price|price_note|price_current|price_before|price_saving|price_on_request)$/',
+        $textKey
+    ) || (bool)preg_match(
+        '/^pages\.services\.catalog\.items\.[a-zA-Z0-9_-]+\.price_label$/',
+        $textKey
+    );
 }
 
 

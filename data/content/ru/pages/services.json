@@ -35,5 +35,57 @@
         "injection_therapy": "Инъекционная терапия",
         "taping": "Тейпирование и банки",
         "other": "Другие услуги"
+    },
+    "editable_lists": {
+        "services.catalog.chief_doctor": [
+            {
+                "id": "chief-doctor-consultation",
+                "text": "Лечебно-диагностический приём главного врача",
+                "secondary": "12 000 ₽",
+                "url": "/services/chief-doctor-consultation",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie",
+                "text": "Авторская методика \"Экосистема - Естественное омоложение\"",
+                "secondary": "от 10 000 ₽ до 13 000 ₽",
+                "url": "/services/avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "sotsialnyy-priem",
+                "text": "Социальный приём",
+                "secondary": "5 000 ₽",
+                "url": "/services/sotsialnyy-priem",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "monitoring",
+                "text": "Мониторинг",
+                "secondary": "3 000 ₽",
+                "url": "/services/monitoring",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let",
+                "text": "Лечебно-диагностический приём \"Мать и дитя\" – авторская методика (мама и ребенок с 0 до 3-х лет)",
+                "secondary": "12 000 ₽ за 2-х пациентов",
+                "url": "/services/lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "avtorskiy-tematicheskiy-priem",
+                "text": "Авторский тематический приём",
+                "secondary": "12 000 ₽",
+                "url": "/services/avtorskiy-tematicheskiy-priem",
+                "icon": "",
+                "hidden": false
+            }
+        ]
     }
 }

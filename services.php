@@ -224,8 +224,9 @@ echo $header->render();
                 $categoryServiceFallback = [];
                 foreach ($categoryItems as $categoryService) {
                     $itemId = trim((string)($categoryService['id'] ?? ''));
-                    $itemPrice = trim((string)($categoryService['price'] ?? ''));
-                    $itemPriceNote = trim((string)($categoryService['price_note'] ?? ''));
+                    $actualPrice = bioinmed_service_actual_price_parts($categoryService);
+                    $itemPrice = trim((string)($actualPrice['price'] ?? ''));
+                    $itemPriceNote = trim((string)($actualPrice['note'] ?? ''));
                     $categoryServiceFallback[] = [
                         'id' => $itemId,
                         'text' => (string)($categoryService['name'] ?? ''),
@@ -234,6 +235,34 @@ echo $header->render();
                     ];
                 }
                 $categoryEditableServices = bioinmed_editable_list_items($servicesPage, 'services.catalog.' . $categoryKey, $categoryServiceFallback, '');
+                foreach ($categoryEditableServices as &$editableServiceItem) {
+                    $editableServiceId = trim((string)($editableServiceItem['id'] ?? ''));
+                    if ($editableServiceId === '') {
+                        continue;
+                    }
+
+                    $sourceService = null;
+                    foreach ($categoryItems as $candidateService) {
+                        if (trim((string)($candidateService['id'] ?? '')) === $editableServiceId) {
+                            $sourceService = $candidateService;
+                            break;
+                        }
+                    }
+
+                    if ($sourceService === null) {
+                        continue;
+                    }
+
+                    $resolvedPrice = bioinmed_service_actual_price_parts($sourceService);
+                    $resolvedPriceLabel = trim((string)($resolvedPrice['price'] ?? ''));
+                    if ($resolvedPriceLabel === '') {
+                        $editableServiceItem['secondary'] = '';
+                    } else {
+                        $resolvedNote = trim((string)($resolvedPrice['note'] ?? ''));
+                        $editableServiceItem['secondary'] = trim($resolvedPriceLabel . ($resolvedNote !== '' ? ' ' . $resolvedNote : ''));
+                    }
+                }
+                unset($editableServiceItem);
                 ?>
                 <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor pt-2 md:pt-3">
                     <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3" data-admin-block-root>

@@ -57,25 +57,32 @@ $indexHealthRouteEditableItems = bioinmed_editable_list_items($indexPage, 'index
 $homeSloganTitle = bioinmed_text('home.slogan.title', 'С нами выздоравливать легко!');
 $homeSloganSignature = bioinmed_text('home.slogan.signature', 'Ваш Биоинмед');
 $homeSloganLogo = bioinmed_versioned_asset_path('/public/images/brand/bioinmed-icon.png');
-$routeToolsTitle = bioinmed_text('home.route_tools.title', 'Ключевые системы восстановления: Хабилект и Биорезонанс');
-$routeToolsIntro = bioinmed_text('home.route_tools.intro', 'Мы используем эти направления как практические этапы: точно определяем ключевые перегрузки, выбираем приоритеты восстановления и ведем Вас по индивидуальной программе с контролем динамики.');
-$routeToolsHabilectLabel = bioinmed_text('home.route_tools.habilect.label', 'Хабилект');
-$routeToolsHabilectDescription = bioinmed_text('home.route_tools.habilect.description', 'Хабилект - это диагностический контур, который помогает врачу увидеть функциональные дисбалансы, расставить приоритеты лечения и сократить путь от жалоб к конкретным решениям.');
-$routeToolsHabilectCta = bioinmed_text('home.route_tools.habilect.cta', 'Записаться на консультацию');
-$routeToolsBioresonanceLabel = bioinmed_text('home.route_tools.bioresonance.label', 'Биорезонанс');
-$routeToolsBioresonanceDescription = bioinmed_text('home.route_tools.bioresonance.description', 'Биорезонанс в нашей практике - это мягкий инструмент сопровождения, который интегрируется в комплексную терапию и помогает поддерживать адаптационные ресурсы организма.');
-$routeToolsBioresonanceCta = bioinmed_text('home.route_tools.bioresonance.cta', 'Уточнить, подходит ли Вам');
+$routeToolsEyebrow = bioinmed_text('home.route_tools.eyebrow', 'Диагностика и персональный маршрут');
+$routeToolsTitle = bioinmed_text('home.route_tools.title', 'Информационные лечебно-диагностические системы');
+$routeToolsIntro = bioinmed_text('home.route_tools.intro', 'Две технологии дополняют клинический осмотр и помогают врачу видеть больше: «Хабилект» объективно оценивает движение, а «Артемида PRO-M» применяется в рамках системной адаптационной диагностики и персонального лечебного маршрута.');
+$routeToolsHabilectLabel = bioinmed_text('home.route_tools.habilect.label', '3D-система «Хабилект»');
+$routeToolsHabilectTag = bioinmed_text('home.route_tools.habilect.tag', '3D-анализ движения');
+$routeToolsHabilectDescription = bioinmed_text('home.route_tools.habilect.description', 'Бесконтактные сенсоры фиксируют движения, равновесие, координацию и качество выполнения упражнений в реальном времени. Врач получает объективные данные для диагностики и контроля восстановления.');
+$routeToolsHabilectCta = bioinmed_text('home.route_tools.habilect.cta', 'Подробнее о диагностике');
+$routeToolsBioresonanceLabel = bioinmed_text('home.route_tools.bioresonance.label', '«Артемида PRO-M» и биорезонанс');
+$routeToolsBioresonanceTag = bioinmed_text('home.route_tools.bioresonance.tag', 'Системная адаптационная диагностика');
+$routeToolsBioresonanceDescription = bioinmed_text('home.route_tools.bioresonance.description', 'Лечебно-диагностический комплекс используется на приёме главного врача для вегетативно-резонансного тестирования и индивидуального подбора тактики сопровождения.');
+$routeToolsBioresonanceCta = bioinmed_text('home.route_tools.bioresonance.cta', 'Подробнее о приёме');
+$routeToolsHabilectLogo = bioinmed_preferred_image_asset_path('/public/images/partners/habilect-logo.png');
+$routeToolsClinicLogo = bioinmed_preferred_image_asset_path('/public/images/brand/main-logotype.webp');
+$routeToolsHabilectLink = bioinmed_link('hero.habilect', ['url' => '/services/habilect-diagnostics']);
+$routeToolsBioresonanceLink = bioinmed_link('hero.bioresonance', ['url' => '/services/chief-doctor-consultation']);
 
 $routeToolsHabilectItems = bioinmed_editable_list_items($indexPage, 'index.route_tools.habilect.items', [
-    ['id' => 'habilect-item-1', 'text' => bioinmed_text('home.route_tools.habilect.items.1', 'Выявление факторов, которые тормозят восстановление именно у Вас.'), 'icon' => 'fa-solid fa-check'],
-    ['id' => 'habilect-item-2', 'text' => bioinmed_text('home.route_tools.habilect.items.2', 'Определение приоритетов: что важно делать в первую очередь.'), 'icon' => 'fa-solid fa-check'],
-    ['id' => 'habilect-item-3', 'text' => bioinmed_text('home.route_tools.habilect.items.3', 'Корректировка тактики по мере прохождения программы лечения.'), 'icon' => 'fa-solid fa-check'],
+    ['id' => 'habilect-item-1', 'text' => bioinmed_text('home.route_tools.habilect.items.1', 'Оценка движений, баланса и координации без маркеров и датчиков на теле.'), 'icon' => 'fa-solid fa-check'],
+    ['id' => 'habilect-item-2', 'text' => bioinmed_text('home.route_tools.habilect.items.2', 'Биологическая обратная связь и наглядный контроль выполнения упражнений.'), 'icon' => 'fa-solid fa-check'],
+    ['id' => 'habilect-item-3', 'text' => bioinmed_text('home.route_tools.habilect.items.3', 'Применение в ортопедии, неврологии, спортивной и детской реабилитации.'), 'icon' => 'fa-solid fa-check'],
 ], 'fa-solid fa-check');
 
 $routeToolsBioresonanceItems = bioinmed_editable_list_items($indexPage, 'index.route_tools.bioresonance.items', [
-    ['id' => 'bioresonance-item-1', 'text' => bioinmed_text('home.route_tools.bioresonance.items.1', 'Деликатное включение в курс наряду с базовыми методиками восстановления.'), 'icon' => 'fa-solid fa-check'],
-    ['id' => 'bioresonance-item-2', 'text' => bioinmed_text('home.route_tools.bioresonance.items.2', 'Снижение функциональной перегрузки и поддержка саморегуляции.'), 'icon' => 'fa-solid fa-check'],
-    ['id' => 'bioresonance-item-3', 'text' => bioinmed_text('home.route_tools.bioresonance.items.3', 'Индивидуальная настройка интенсивности и длительности курса.'), 'icon' => 'fa-solid fa-check'],
+    ['id' => 'bioresonance-item-1', 'text' => bioinmed_text('home.route_tools.bioresonance.items.1', 'Комплексная оценка функционального состояния и адаптационных реакций.'), 'icon' => 'fa-solid fa-check'],
+    ['id' => 'bioresonance-item-2', 'text' => bioinmed_text('home.route_tools.bioresonance.items.2', 'Биорезонансная терапия как часть персональной программы лечения.'), 'icon' => 'fa-solid fa-check'],
+    ['id' => 'bioresonance-item-3', 'text' => bioinmed_text('home.route_tools.bioresonance.items.3', 'Контроль врача и сочетание с другими методами восстановительной медицины.'), 'icon' => 'fa-solid fa-check'],
 ], 'fa-solid fa-check');
 
 function e($value) {
@@ -153,6 +160,46 @@ function e($value) {
         .bioinmed-editable-list-toolbar,
         .bioinmed-editable-list-actions { display: none !important; }
 
+        .health-route-app-icon {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, var(--icon-from), var(--icon-to));
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow:
+                0 10px 22px var(--icon-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .health-route-app-icon::before {
+            content: '';
+            position: absolute;
+            top: -42%;
+            left: -18%;
+            width: 84%;
+            height: 80%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+            transform: rotate(-18deg);
+            pointer-events: none;
+        }
+
+        .health-route-app-icon i {
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .health-route-card:hover .health-route-app-icon {
+            transform: translateY(-2px) scale(1.045);
+            box-shadow:
+                0 14px 28px var(--icon-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.55),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        }
+
 
         @media (max-width: 767px) {
             body {
@@ -194,7 +241,7 @@ function e($value) {
     echo $advantages_section->render();
     ?>
 
-    <section class="relative isolate flex items-center overflow-hidden border-b py-6 md:py-8" style="border-color:#3b6282;min-height:64svh;min-height:64dvh;background-color:rgb(25 119 178);">
+    <section class="relative isolate flex items-center overflow-hidden border-b py-10 md:py-12" style="border-color:#3b6282;min-height:42svh;min-height:42dvh;background-color:rgb(25 119 178);">
         <div class="pointer-events-none absolute inset-0" style="background:rgba(255,255,255,0.02);"></div>
         <img src="<?php echo e($homeSloganLogo); ?>" alt="" aria-hidden="true" class="pointer-events-none absolute left-1/2 top-1/2 h-[66vmin] w-[66vmin] max-h-[620px] max-w-[620px] -translate-x-1/2 -translate-y-1/2 object-contain" style="opacity:0.04;filter:brightness(0) invert(1) saturate(0);">
 
@@ -206,44 +253,56 @@ function e($value) {
         </div>
     </section>
 
-    <section class="relative isolate overflow-hidden border-b border-[#d2e6f6] py-14 md:py-20" style="background:linear-gradient(180deg,#f8fcff 0%,#ecf5fc 100%);" data-admin-block-root>
-        <div class="pointer-events-none absolute inset-x-0 top-0 h-10" style="background:linear-gradient(180deg,rgba(16,77,120,0.2) 0%,rgba(16,77,120,0) 100%);"></div>
-        <div class="pointer-events-none absolute -left-24 top-10 h-56 w-56 rounded-full" style="background:radial-gradient(circle,rgba(79,161,219,0.18) 0%,rgba(79,161,219,0) 72%);"></div>
-        <div class="pointer-events-none absolute -right-20 bottom-0 h-60 w-60 rounded-full" style="background:radial-gradient(circle,rgba(126,193,238,0.16) 0%,rgba(126,193,238,0) 72%);"></div>
+    <section class="relative isolate overflow-hidden border-b border-[#d2e6f6] py-14 md:py-20" style="background:linear-gradient(180deg,#f8fcff 0%,#eef7fd 100%);" data-admin-block-root>
+        <div class="pointer-events-none absolute -left-24 top-10 h-56 w-56 rounded-full" style="background:radial-gradient(circle,rgba(79,161,219,0.16) 0%,rgba(79,161,219,0) 72%);"></div>
+        <div class="pointer-events-none absolute -right-20 bottom-0 h-60 w-60 rounded-full" style="background:radial-gradient(circle,rgba(126,193,238,0.14) 0%,rgba(126,193,238,0) 72%);"></div>
         <div class="mx-auto max-w-6xl px-6 md:px-10">
             <div class="relative mx-auto max-w-5xl text-center" data-admin-block-root>
+                <p class="mb-3 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#1977b2]"<?php echo bioinmed_data_text_id('home.route_tools.eyebrow'); ?>><?php echo e($routeToolsEyebrow); ?></p>
                 <h2 class="text-[2rem] font-bold leading-[1.14] text-[#0f2749] md:text-[2.56rem]"<?php echo bioinmed_data_text_id('home.route_tools.title'); ?>><?php echo e($routeToolsTitle); ?></h2>
-                <p class="mt-4 text-[1.06rem] leading-relaxed text-[#17446f] md:text-[1.14rem]"<?php echo bioinmed_data_text_id('home.route_tools.intro'); ?>><?php echo e($routeToolsIntro); ?></p>
+                <p class="mx-auto mt-4 max-w-4xl text-[1.03rem] leading-relaxed text-[#315774] md:text-[1.12rem]"<?php echo bioinmed_data_text_id('home.route_tools.intro'); ?>><?php echo e($routeToolsIntro); ?></p>
             </div>
 
-            <div class="mt-8 grid gap-5 md:mt-10 md:grid-cols-2">
-                <article class="relative overflow-hidden rounded-[1.75rem] border border-[#b7d7ee] bg-white p-6 shadow-[0_14px_34px_rgba(15,39,73,0.1)] md:p-7" data-admin-block-root>
-                    <div class="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#dff0fc]"></div>
-                    <div class="relative">
-                        <span class="inline-flex items-center gap-2 rounded-full bg-[#e8f3fc] px-3 py-1 text-[0.8rem] font-bold uppercase tracking-[0.08em] text-[#1977b2]"><i class="fa-solid fa-microchip" aria-hidden="true"></i> <span<?php echo bioinmed_data_text_id('home.route_tools.habilect.label'); ?>><?php echo e($routeToolsHabilectLabel); ?></span></span>
-                        <p class="mt-4 text-[1rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_data_text_id('home.route_tools.habilect.description'); ?>><?php echo e($routeToolsHabilectDescription); ?></p>
-                        <ul class="mt-4 space-y-2.5 text-[0.96rem] leading-relaxed text-[#17446f]"<?php echo bioinmed_editable_list_attrs('index', 'index.route_tools.habilect.items', 'Главная: Хабилект тезисы', true); ?>>
+            <div class="mt-9 grid gap-5 md:mt-11 md:grid-cols-2">
+                <article class="group relative flex min-h-full flex-col overflow-hidden rounded-[1.75rem] border border-[#b7d7ee] bg-white shadow-[0_12px_30px_rgba(15,39,73,0.08)] transition duration-300 hover:-translate-y-1 hover:border-[#84bfe4] hover:shadow-[0_18px_38px_rgba(15,39,73,0.11)]" data-admin-block-root>
+                    <div class="flex min-h-[112px] items-center justify-between gap-5 border-b border-[#dcebf6] bg-[#f7fbff] px-6 py-5 md:px-7">
+                        <img src="<?php echo e($routeToolsHabilectLogo); ?>" alt="Хабилект" class="h-auto w-[190px] max-w-[62%] object-contain object-left" loading="lazy" decoding="async">
+                        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#1977b2] text-white"><i class="fa-solid fa-person-walking text-[1.1rem]" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="flex flex-1 flex-col p-6 md:p-7">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="inline-flex items-center rounded-full bg-[#e8f3fc] px-3 py-1 text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[#1977b2]"<?php echo bioinmed_data_text_id('home.route_tools.habilect.tag'); ?>><?php echo e($routeToolsHabilectTag); ?></span>
+                        </div>
+                        <h3 class="mt-4 text-[1.35rem] font-bold leading-tight text-[#0f2749]"<?php echo bioinmed_data_text_id('home.route_tools.habilect.label'); ?>><?php echo e($routeToolsHabilectLabel); ?></h3>
+                        <p class="mt-3 text-[0.98rem] leading-relaxed text-[#315774]"<?php echo bioinmed_data_text_id('home.route_tools.habilect.description'); ?>><?php echo e($routeToolsHabilectDescription); ?></p>
+                        <ul class="mt-5 space-y-3 text-[0.94rem] leading-relaxed text-[#17446f]"<?php echo bioinmed_editable_list_attrs('index', 'index.route_tools.habilect.items', 'Главная: Хабилект тезисы', true); ?>>
                             <?php echo bioinmed_editable_list_toolbar(); ?>
                             <?php foreach ($routeToolsHabilectItems as $routeToolHabilectItem): ?>
-                            <li class="flex gap-2<?php echo bioinmed_editable_list_item_class($routeToolHabilectItem); ?>"<?php echo bioinmed_editable_list_item_attrs($routeToolHabilectItem); ?>><i class="<?php echo e($routeToolHabilectItem['icon']); ?> mt-1 text-[0.7rem] text-[#1977b2]" data-admin-list-icon-view aria-hidden="true"></i><span data-admin-list-text-view><?php echo e($routeToolHabilectItem['text']); ?></span><?php echo bioinmed_editable_list_actions($routeToolHabilectItem); ?></li>
+                            <li class="flex gap-3<?php echo bioinmed_editable_list_item_class($routeToolHabilectItem); ?>"<?php echo bioinmed_editable_list_item_attrs($routeToolHabilectItem); ?>><span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc]"><i class="<?php echo e($routeToolHabilectItem['icon']); ?> text-[0.58rem] text-[#1977b2]" data-admin-list-icon-view aria-hidden="true"></i></span><span data-admin-list-text-view><?php echo e($routeToolHabilectItem['text']); ?></span><?php echo bioinmed_editable_list_actions($routeToolHabilectItem); ?></li>
                             <?php endforeach; ?>
                         </ul>
-                        <a href="<?php echo e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/'); ?>" onclick="onlineBooking.open();return false;" class="mt-5 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-4 py-2.5 text-[0.9rem] font-semibold text-white transition hover:bg-[#16658f]"><span<?php echo bioinmed_data_text_id('home.route_tools.habilect.cta'); ?>><?php echo e($routeToolsHabilectCta); ?></span> <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i></a>
+                        <a href="<?php echo e($routeToolsHabilectLink['url']); ?>" class="mt-auto inline-flex w-fit items-center gap-2 pt-6 text-[0.92rem] font-bold text-[#1977b2] transition group-hover:text-[#125f91]" data-admin-link-behavior="block-edit"><span<?php echo bioinmed_data_text_id('home.route_tools.habilect.cta'); ?>><?php echo e($routeToolsHabilectCta); ?></span> <i class="fa-solid fa-arrow-right text-[0.72rem] transition-transform group-hover:translate-x-1" aria-hidden="true"></i></a>
                     </div>
                 </article>
 
-                <article class="relative overflow-hidden rounded-[1.75rem] border border-[#b7d7ee] bg-white p-6 shadow-[0_14px_34px_rgba(15,39,73,0.1)] md:p-7" data-admin-block-root>
-                    <div class="absolute -left-10 -bottom-10 h-28 w-28 rounded-full bg-[#e4f1fa]"></div>
-                    <div class="relative">
-                        <span class="inline-flex items-center gap-2 rounded-full bg-[#edf6ff] px-3 py-1 text-[0.8rem] font-bold uppercase tracking-[0.08em] text-[#23699d]"><i class="fa-solid fa-wave-square" aria-hidden="true"></i> <span<?php echo bioinmed_data_text_id('home.route_tools.bioresonance.label'); ?>><?php echo e($routeToolsBioresonanceLabel); ?></span></span>
-                        <p class="mt-4 text-[1rem] leading-relaxed text-[#0f2749]"<?php echo bioinmed_data_text_id('home.route_tools.bioresonance.description'); ?>><?php echo e($routeToolsBioresonanceDescription); ?></p>
-                        <ul class="mt-4 space-y-2.5 text-[0.96rem] leading-relaxed text-[#17446f]"<?php echo bioinmed_editable_list_attrs('index', 'index.route_tools.bioresonance.items', 'Главная: Биорезонанс тезисы', true); ?>>
+                <article class="group relative flex min-h-full flex-col overflow-hidden rounded-[1.75rem] border border-[#b7d7ee] bg-white shadow-[0_12px_30px_rgba(15,39,73,0.08)] transition duration-300 hover:-translate-y-1 hover:border-[#84bfe4] hover:shadow-[0_18px_38px_rgba(15,39,73,0.11)]" data-admin-block-root>
+                    <div class="flex min-h-[112px] items-center justify-between gap-5 border-b border-[#dcebf6] bg-[#f7fbff] px-6 py-5 md:px-7">
+                        <img src="<?php echo e($routeToolsClinicLogo); ?>" alt="БИОИНМЕД" class="h-auto w-[220px] max-w-[68%] object-contain object-left" loading="lazy" decoding="async">
+                        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#17446f] text-white"><i class="fa-solid fa-wave-square text-[1.05rem]" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="flex flex-1 flex-col p-6 md:p-7">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="inline-flex items-center rounded-full bg-[#edf3f8] px-3 py-1 text-[0.75rem] font-bold uppercase tracking-[0.08em] text-[#17446f]"<?php echo bioinmed_data_text_id('home.route_tools.bioresonance.tag'); ?>><?php echo e($routeToolsBioresonanceTag); ?></span>
+                        </div>
+                        <h3 class="mt-4 text-[1.35rem] font-bold leading-tight text-[#0f2749]"<?php echo bioinmed_data_text_id('home.route_tools.bioresonance.label'); ?>><?php echo e($routeToolsBioresonanceLabel); ?></h3>
+                        <p class="mt-3 text-[0.98rem] leading-relaxed text-[#315774]"<?php echo bioinmed_data_text_id('home.route_tools.bioresonance.description'); ?>><?php echo e($routeToolsBioresonanceDescription); ?></p>
+                        <ul class="mt-5 space-y-3 text-[0.94rem] leading-relaxed text-[#17446f]"<?php echo bioinmed_editable_list_attrs('index', 'index.route_tools.bioresonance.items', 'Главная: Биорезонанс тезисы', true); ?>>
                             <?php echo bioinmed_editable_list_toolbar(); ?>
                             <?php foreach ($routeToolsBioresonanceItems as $routeToolsBioresonanceItem): ?>
-                            <li class="flex gap-2<?php echo bioinmed_editable_list_item_class($routeToolsBioresonanceItem); ?>"<?php echo bioinmed_editable_list_item_attrs($routeToolsBioresonanceItem); ?>><i class="<?php echo e($routeToolsBioresonanceItem['icon']); ?> mt-1 text-[0.7rem] text-[#23699d]" data-admin-list-icon-view aria-hidden="true"></i><span data-admin-list-text-view><?php echo e($routeToolsBioresonanceItem['text']); ?></span><?php echo bioinmed_editable_list_actions($routeToolsBioresonanceItem); ?></li>
+                            <li class="flex gap-3<?php echo bioinmed_editable_list_item_class($routeToolsBioresonanceItem); ?>"<?php echo bioinmed_editable_list_item_attrs($routeToolsBioresonanceItem); ?>><span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#edf3f8]"><i class="<?php echo e($routeToolsBioresonanceItem['icon']); ?> text-[0.58rem] text-[#23699d]" data-admin-list-icon-view aria-hidden="true"></i></span><span data-admin-list-text-view><?php echo e($routeToolsBioresonanceItem['text']); ?></span><?php echo bioinmed_editable_list_actions($routeToolsBioresonanceItem); ?></li>
                             <?php endforeach; ?>
                         </ul>
-                        <a href="<?php echo e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/'); ?>" onclick="onlineBooking.open();return false;" class="mt-5 inline-flex items-center gap-2 rounded-full border border-[#b8d4ea] bg-white px-4 py-2.5 text-[0.9rem] font-semibold text-[#17446f] transition hover:border-[#7db5dc] hover:text-[#1977b2]"><span<?php echo bioinmed_data_text_id('home.route_tools.bioresonance.cta'); ?>><?php echo e($routeToolsBioresonanceCta); ?></span> <i class="fa-solid fa-arrow-right text-[0.72rem]" aria-hidden="true"></i></a>
+                        <a href="<?php echo e($routeToolsBioresonanceLink['url']); ?>" class="mt-auto inline-flex w-fit items-center gap-2 pt-6 text-[0.92rem] font-bold text-[#17446f] transition group-hover:text-[#1977b2]" data-admin-link-behavior="block-edit"><span<?php echo bioinmed_data_text_id('home.route_tools.bioresonance.cta'); ?>><?php echo e($routeToolsBioresonanceCta); ?></span> <i class="fa-solid fa-arrow-right text-[0.72rem] transition-transform group-hover:translate-x-1" aria-hidden="true"></i></a>
                     </div>
                 </article>
             </div>
@@ -286,14 +345,21 @@ function e($value) {
                         $routeCardStyle = $isGreenRouteItem
                             ? 'border-color:#d8ebdf;background:linear-gradient(180deg,#f4fcf8 0%,#ffffff 100%);'
                             : ($isOrangeRouteItem ? 'border-color:#efd1a9;background:linear-gradient(180deg,#fff5e8 0%,#ffffff 100%);' : '');
-                        $routeIconStyle = $isGreenRouteItem
-                            ? 'background:#e7f7ef;color:#2f9b6a;'
-                            : ($isOrangeRouteItem ? 'background:#ffead1;color:#c56818;' : '');
+                        $routeIconPalettes = [
+                            'consultation' => ['#7c3aed', '#c026d3', 'rgba(124,58,237,0.30)'],
+                            'diagnostics' => ['#0284c7', '#22d3ee', 'rgba(2,132,199,0.30)'],
+                            'treatment' => ['#e11d48', '#fb7185', 'rgba(225,29,72,0.28)'],
+                            'recovery' => ['#059669', '#34d399', 'rgba(5,150,105,0.28)'],
+                            'activity' => ['#ea580c', '#fbbf24', 'rgba(234,88,12,0.28)'],
+                            'result' => ['#4f46e5', '#ec4899', 'rgba(79,70,229,0.30)'],
+                        ];
+                        $routeIconPalette = $routeIconPalettes[$routeItemId] ?? ['#2563eb', '#38bdf8', 'rgba(37,99,235,0.28)'];
+                        $routeIconStyle = '--icon-from:' . $routeIconPalette[0] . ';--icon-to:' . $routeIconPalette[1] . ';--icon-shadow:' . $routeIconPalette[2] . ';';
                         $routeTitleStyle = $isOrangeRouteItem ? 'color:#9a5117;' : '';
                     ?>
-                    <article class="rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]<?php echo bioinmed_editable_list_item_class($routeItem); ?>" style="<?php echo e($routeCardStyle); ?>" data-admin-block-root<?php echo bioinmed_editable_list_item_attrs($routeItem); ?>>
+                    <article class="health-route-card rounded-2xl border border-[#dce8f4] bg-[linear-gradient(180deg,#f9fcff_0%,#ffffff_100%)] p-5 shadow-[0_8px_18px_rgba(8,36,70,0.05)]<?php echo bioinmed_editable_list_item_class($routeItem); ?>" style="<?php echo e($routeCardStyle); ?>" data-admin-block-root<?php echo bioinmed_editable_list_item_attrs($routeItem); ?>>
                         <div class="flex items-center gap-3">
-                            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#e8f3fc] text-[#1977b2]" style="<?php echo e($routeIconStyle); ?>"><i class="<?php echo e($routeItem['icon']); ?> text-[1rem]" data-admin-list-icon-view></i></span>
+                            <span class="health-route-app-icon inline-flex h-[3.25rem] w-[3.25rem] shrink-0 items-center justify-center rounded-[1rem]" style="<?php echo e($routeIconStyle); ?>"><i class="<?php echo e($routeItem['icon']); ?> text-[1.12rem]" data-admin-list-icon-view></i></span>
                             <p class="text-[1rem] font-semibold text-[#17446f]" style="<?php echo e($routeTitleStyle); ?>" data-admin-list-text-view><?php echo e($routeItem['text']); ?></p>
                         </div>
                         <p class="mt-3 text-[0.9rem] leading-relaxed text-[#0f2749]" data-admin-list-secondary-view><?php echo e($routeItem['secondary']); ?></p>

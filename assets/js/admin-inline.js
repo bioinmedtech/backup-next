@@ -1288,6 +1288,15 @@
         return key === 'hero.season_badge' || /(^|\.)image_alt$/.test(key);
     }
 
+    function isPriceLockedTextKey(key) {
+        var value = String(key || '');
+        if (/^pages\.prices\./.test(value)) {
+            return false;
+        }
+        return /\.(price|price_note|price_current|price_before|price_saving|price_on_request)$/.test(value)
+            || /^pages\.services\.catalog\.items\.[a-zA-Z0-9_-]+\.price_label$/.test(value);
+    }
+
     function isSemanticBlock(el) {
         if (!el || !el.tagName) {
             return false;
@@ -1693,11 +1702,17 @@
     function renderBlockFieldControl(item) {
         var value = item && typeof item.value !== 'undefined' ? item.value : '';
         var text = value === null || typeof value === 'undefined' ? '' : String(value);
+        var key = item && item.key ? String(item.key) : '';
+        var isLockedPrice = isPriceLockedTextKey(key);
+        var hintHtml = isLockedPrice
+            ? '<p class="bioinmed-block-edit-locked-hint"><i class="fa-solid fa-lock" aria-hidden="true"></i><span>Цена управляется только на <a href="/prices">странице цен</a>.</span></p>'
+            : '';
+        var lockAttrs = isLockedPrice ? ' readonly disabled data-price-locked="1"' : '';
         var isMultiline = shouldRenderBlockTextarea(text);
         if (isMultiline) {
-            return '<textarea data-block-field-index="' + item.index + '" rows="' + getBlockTextareaRows(text) + '">' + esc(text) + '</textarea>';
+            return '<div class="bioinmed-block-edit-control-wrap"><textarea data-block-field-index="' + item.index + '" rows="' + getBlockTextareaRows(text) + '"' + lockAttrs + '>' + esc(text) + '</textarea>' + hintHtml + '</div>';
         }
-        return '<input type="text" data-block-field-index="' + item.index + '" value="' + esc(text) + '">';
+        return '<div class="bioinmed-block-edit-control-wrap"><input type="text" data-block-field-index="' + item.index + '" value="' + esc(text) + '"' + lockAttrs + '>' + hintHtml + '</div>';
     }
 
     function shouldRenderBlockTextarea(text) {
@@ -3217,6 +3232,7 @@
             + '<h2 class="bioinmed-list-editor-title" id="bioinmed-list-editor-title">Элемент списка</h2>'
             + '<label class="bioinmed-list-editor-field"><span>Текст</span><textarea id="bioinmed-list-editor-text" required></textarea></label>'
             + '<label class="bioinmed-list-editor-field" id="bioinmed-list-editor-secondary-field"><span id="bioinmed-list-editor-secondary-label">Описание</span><textarea id="bioinmed-list-editor-secondary"></textarea></label>'
+            + '<p class="bioinmed-block-edit-locked-hint" id="bioinmed-list-editor-price-hint" hidden><i class="fa-solid fa-lock" aria-hidden="true"></i><span>Цена управляется только на <a href="/prices">странице цен</a>.</span></p>'
             + '<label class="bioinmed-list-editor-field" id="bioinmed-list-editor-url-field"><span id="bioinmed-list-editor-url-label">Ссылка</span><input id="bioinmed-list-editor-url" type="text" placeholder="/services/example"></label>'
             + '<label class="bioinmed-list-editor-field" id="bioinmed-list-editor-icon-field"><span>Иконка</span><select id="bioinmed-list-editor-icon"><option value="">Без иконки</option><option value="fa-solid fa-check">Галочка</option><option value="fa-solid fa-circle">Круглый маркер</option><option value="fa-solid fa-star">Звезда</option><option value="fa-solid fa-heart-pulse">Здоровье</option><option value="fa-solid fa-shield-heart">Безопасность</option><option value="fa-solid fa-spray-can-sparkles">Дезинфекция</option><option value="fa-solid fa-box-open">Материалы</option><option value="fa-solid fa-people-group">Команда</option><option value="fa-solid fa-headset">Администратор</option><option value="fa-solid fa-person-walking">Реабилитация</option><option value="fa-solid fa-arrow-right">Стрелка</option><option value="fa-solid fa-graduation-cap">Образование</option><option value="fa-solid fa-user-doctor">Врач</option><option value="fa-solid fa-stethoscope">Стетоскоп</option><option value="fa-solid fa-file-medical">Медицинский документ</option><option value="fa-solid fa-clock">Часы</option><option value="fa-solid fa-list-check">Список</option><option value="fa-solid fa-bullseye">Цель</option></select></label>'
             + '<label class="bioinmed-list-editor-checkbox"><input id="bioinmed-list-editor-hidden" type="checkbox"><span>Скрыть элемент на сайте</span></label>'
@@ -3279,9 +3295,20 @@
         setText(byId('bioinmed-list-editor-title'), (index >= 0 ? 'Редактирование' : 'Новый элемент') + ': ' + (root.getAttribute('data-admin-list-title') || 'список'));
         byId('bioinmed-list-editor-text').value = item ? item.text : '';
         var secondaryLabel = root.getAttribute('data-admin-list-secondary-label') || '';
-        byId('bioinmed-list-editor-secondary').value = item ? (item.secondary || '') : '';
+        var isServicesCatalogPrice = (root.getAttribute('data-admin-list-page') || '') === 'services'
+            && /^services\.catalog\./.test(root.getAttribute('data-admin-list-key') || '');
+        var secondaryInput = byId('bioinmed-list-editor-secondary');
+        secondaryInput.value = item ? (item.secondary || '') : '';
+        secondaryInput.disabled = isServicesCatalogPrice;
+        secondaryInput.readOnly = isServicesCatalogPrice;
+        if (isServicesCatalogPrice) {
+            secondaryInput.setAttribute('data-price-locked', '1');
+        } else {
+            secondaryInput.removeAttribute('data-price-locked');
+        }
         setText(byId('bioinmed-list-editor-secondary-label'), secondaryLabel || 'Описание');
         byId('bioinmed-list-editor-secondary-field').style.display = secondaryLabel ? '' : 'none';
+        byId('bioinmed-list-editor-price-hint').hidden = !isServicesCatalogPrice;
         var urlLabel = root.getAttribute('data-admin-list-url-label') || '';
         byId('bioinmed-list-editor-url').value = item ? (item.url || '') : '';
         setText(byId('bioinmed-list-editor-url-label'), urlLabel || 'Ссылка');

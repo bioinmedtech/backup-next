@@ -239,6 +239,7 @@ $catInfo = [
 $cat      = $service['category'] ?? 'therapy';
 $catIcon  = $catInfo[$cat]['icon']  ?? 'fa-stethoscope';
 $catLabel = $catInfo[$cat]['label'] ?? bioinmed_text('service.default_label', '');
+$serviceActualPrice = $service ? bioinmed_service_actual_price_parts($service) : ['price' => '', 'note' => ''];
 $serviceGallery = $service ? bioinmed_service_gallery_urls($service, 4) : [];
 $servicePrimaryImage = $serviceGallery[0] ?? null;
 $socialImageUrl = $servicePrimaryImage ? ($siteUrl . $servicePrimaryImage) : bioinmed_default_social_image_url();
@@ -253,9 +254,11 @@ $serviceSidebarPriceNode = bioinmed_page_text_node(
     $servicePage,
     'service',
     'sidebar.price',
-    (string)($service['price'] ?? ($serviceDefault['price_on_request'] ?? ''))
+    (string)($serviceActualPrice['price'] !== '' ? $serviceActualPrice['price'] : ($serviceDefault['price_on_request'] ?? ''))
 );
-$serviceSidebarPriceNoteNode = bioinmed_page_text_node($servicePage, 'service', 'sidebar.price_note', (string)($service['price_note'] ?? ''));
+$serviceSidebarPriceNoteNode = bioinmed_page_text_node($servicePage, 'service', 'sidebar.price_note', (string)($serviceActualPrice['note'] ?? ''));
+$serviceSidebarPriceNode['value'] = (string)($serviceActualPrice['price'] !== '' ? $serviceActualPrice['price'] : ($serviceDefault['price_on_request'] ?? ''));
+$serviceSidebarPriceNoteNode['value'] = (string)($serviceActualPrice['note'] ?? '');
 $isHabilect = (($service['id'] ?? '') === 'habilect-diagnostics');
 $serviceGalleryJson = json_encode(array_values($serviceGallery), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 $faqFallback = [];
@@ -677,7 +680,9 @@ echo $header->render();
                             $relId = (string)($rel['id'] ?? '');
                             $relNameNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.name', (string)($rel['name'] ?? ''));
                             $relDescNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.description', service_card_excerpt((string)($rel['card_description'] ?? $rel['description'] ?? ''), 72));
-                            $relPriceNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.price', (string)($rel['price'] ?? ''));
+                            $relActualPrice = bioinmed_service_actual_price_parts($rel);
+                            $relPriceNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.price', (string)($relActualPrice['price'] ?? ($rel['price'] ?? '')));
+                            $relPriceNode['value'] = (string)($relActualPrice['price'] ?? ($rel['price'] ?? ''));
                             $relCtaNode = bioinmed_page_text_node($servicePage, 'service', 'related.items.' . $relId . '.cta', bioinmed_text('common.more_details'));
                         ?>
                         <a href="/services/<?php echo e($rel['id']); ?>"

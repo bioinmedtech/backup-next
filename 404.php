@@ -102,7 +102,7 @@ echo $header->render();
 
             <div class="my-5 flex items-center gap-3">
                 <div class="h-px grow bg-[#e2ecf5]"></div>
-                <span class="text-xs text-[#0a293c]">или позвоните</span>
+                <span class="text-xs text-[#0a293c]">Связаться по телефону</span>
                 <div class="h-px grow bg-[#e2ecf5]"></div>
             </div>
 

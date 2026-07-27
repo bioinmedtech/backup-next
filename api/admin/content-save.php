@@ -34,6 +34,13 @@ if ($textKey === '') {
     ], 422);
 }
 
+if (bioinmed_admin_is_price_locked_text_key($textKey)) {
+    bioinmed_admin_json_response([
+        'ok' => false,
+        'error' => 'Редактирование цены в этом блоке заблокировано. Меняйте цены только на странице прайса.',
+    ], 422);
+}
+
 $target = bioinmed_admin_target_from_key($textKey);
 if (!$target) {
     bioinmed_admin_json_response([

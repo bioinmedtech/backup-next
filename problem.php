@@ -292,10 +292,12 @@ echo $header->render();
                     $serviceLink = '/services/' . rawurlencode($serviceId);
                     $serviceName = trim((string)($service['name'] ?? ''));
                     $serviceDescription = trim((string)($service['card_description'] ?? $service['description'] ?? ''));
-                    $servicePrice = trim((string)($service['price'] ?? ''));
+                    $serviceActualPrice = bioinmed_service_actual_price_parts($service);
+                    $servicePrice = trim((string)($serviceActualPrice['price'] ?? ''));
                     $serviceNameNode = bioinmed_page_text_node($problemPage, 'problem', $serviceNodeBase . '.name', $serviceName);
                     $serviceDescriptionNode = bioinmed_page_text_node($problemPage, 'problem', $serviceNodeBase . '.description', $serviceDescription);
                     $servicePriceNode = bioinmed_page_text_node($problemPage, 'problem', $serviceNodeBase . '.price', $servicePrice);
+                    $servicePriceNode['value'] = $servicePrice;
                     ?>
                     <a href="<?php echo e($serviceLink); ?>" class="group flex h-full flex-col rounded-[1.6rem] bg-white p-5 shadow-[0_10px_26px_rgba(10,43,80,0.06)] ring-1 ring-[#d9e7f2] transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(10,43,80,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1977b2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#e4f1fa]" data-admin-block-root>
                         <h3 class="text-[1.08rem] font-bold leading-tight text-[#0f2749]"<?php echo $serviceNameNode['attr']; ?>><?php echo e($serviceNameNode['value']); ?></h3>

@@ -104,8 +104,8 @@ class Header extends Component {
         }
 
         $is_home = ($current_path === '/' || $current_path === '/index.php');
-        $about_paths = ['/about', '/about.php', '/license', '/license.php', '/sterility', '/sterility.php', '/vacancies', '/vacancies.php'];
-        $is_about = in_array($current_path, $about_paths, true);
+        $about_paths = ['/about', '/about.php', '/license', '/license.php', '/sterility', '/sterility.php', '/vacancies', '/vacancies.php', '/partners'];
+        $is_about = in_array($current_path, $about_paths, true) || strpos($current_path, '/partners/') === 0;
         $is_services = ($current_path === '/services' || strpos($current_path, '/services/') === 0 || $current_path === '/service.php');
         $is_doctors = ($current_path === '/doctors' || strpos($current_path, '/doctors/') === 0 || $current_path === '/doctor.php');
         $is_prices = ($current_path === '/prices' || $current_path === '/prices.php');
@@ -147,6 +147,7 @@ class Header extends Component {
 
         $about_menu_items = [
             ['url' => '/about', 'label' => bioinmed_text('nav.about_menu.information', 'Информация о клинике')],
+            ['url' => '/partners', 'label' => bioinmed_text('nav.about_menu.partners', 'Партнёры')],
             ['url' => '/license', 'label' => bioinmed_text('nav.about_menu.license', 'Лицензия')],
             ['url' => '/sterility', 'label' => bioinmed_text('nav.about_menu.sterility', 'Стерильность')],
             ['url' => '/vacancies', 'label' => bioinmed_text('nav.about_menu.vacancies', 'Вакансии')],
@@ -155,7 +156,7 @@ class Header extends Component {
         $mobile_about_items = '';
         foreach ($about_menu_items as $about_item) {
             $item_path = $about_item['url'];
-            $item_active = ($current_path === $item_path || $current_path === $item_path . '.php');
+            $item_active = ($current_path === $item_path || $current_path === $item_path . '.php' || ($item_path === '/partners' && strpos($current_path, '/partners/') === 0));
             $item_current = $item_active ? ' class="is-active" aria-current="page"' : '';
             $desktop_about_items .= '<a href="' . $this->e($item_path) . '" role="menuitem"' . $item_current . '>' . $this->e($about_item['label']) . '</a>';
             $mobile_about_items .= '<a href="' . $this->e($item_path) . '" onclick="closeMobMenu()"' . $item_current . '>' . $this->e($about_item['label']) . '</a>';
@@ -881,9 +882,9 @@ class HeroSection extends Component {
         $hero_placeholder_image = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
         $hero_slides = [
             [
-                'full' => '/public/images/slider-v2/main-photo-bioinmed-v1.webp',
-                'thumb' => '/public/images/slider-v2/main-photo-bioinmed-v1-thumb.webp',
-                'video' => '/public/animated/main-photo-bioinmed-v1.mp4',
+                'full' => '/public/images/slider-v2/main-photo-bioinmed-v2.webp',
+                'thumb' => '/public/images/slider-v2/main-photo-bioinmed-v2-thumb.webp',
+                'video' => '/public/images/main-video-bioinmed-v2.mp4',
                 'alt' => $hero_slide_alt_prefix . ' 1',
             ],
         ];
@@ -911,9 +912,9 @@ class HeroSection extends Component {
             $mobile_media_html = '<img src="' . $mobile_src . '" data-full-src="' . $slide_full . '"' . $mobile_data_thumb_attr . ' alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover" width="1254" height="1254" loading="' . ($is_mobile_initial ? $loading : 'lazy') . '" fetchpriority="' . ($is_first ? 'high' : 'auto') . '" decoding="async">';
 
             if ($slide_video !== '') {
-                $video_fallback = '<img src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="h-full w-full object-cover object-top">';
-                $desktop_media_html = '<video class="hero-clinic-slide-image h-full w-full object-cover object-top" poster="' . $slide_full . '" autoplay muted loop playsinline preload="auto" aria-label="' . $this->e($slide_alt) . '"><source src="' . $slide_video . '" type="video/mp4">' . $video_fallback . '</video>';
-                $mobile_media_html = '<video class="h-full w-full object-cover object-top" poster="' . $slide_full . '" autoplay muted loop playsinline preload="metadata" aria-label="' . $this->e($slide_alt) . '"><source src="' . $slide_video . '" type="video/mp4">' . $video_fallback . '</video>';
+                $video_fallback = '<img src="' . $slide_full . '" alt="' . $this->e($slide_alt) . '" class="hero-clinic-slide-poster h-full w-full object-cover object-top">';
+                $desktop_media_html = '<div class="hero-clinic-video-wrap relative h-full w-full">' . $video_fallback . '<video class="hero-clinic-slide-video hero-clinic-slide-image absolute inset-0 h-full w-full object-cover object-top" poster="' . $slide_full . '" autoplay muted loop playsinline preload="metadata" aria-label="' . $this->e($slide_alt) . '"><source src="' . $slide_video . '" type="video/mp4"></video></div>';
+                $mobile_media_html = '<div class="hero-clinic-video-wrap relative h-full w-full">' . $video_fallback . '<video class="hero-clinic-slide-video absolute inset-0 h-full w-full object-cover object-top" poster="' . $slide_full . '" autoplay muted loop playsinline preload="metadata" aria-label="' . $this->e($slide_alt) . '"><source src="' . $slide_video . '" type="video/mp4"></video></div>';
             }
 
             $slides_html .= '<button type="button" class="hero-clinic-open hero-clinic-slide h-full min-w-full' . $active_class . '" data-hero-image-src="' . $slide_full . '" data-hero-image-alt="' . $this->e($slide_alt) . '" aria-label="' . $this->e($hero_open_photo_prefix . ' ' . ($slide_index + 1)) . '">'
@@ -983,7 +984,7 @@ class HeroSection extends Component {
 
                     <div class="order-1 mb-4 min-w-0 overflow-hidden lg:order-2 lg:mb-0">
                         <div class="mb-3 hidden justify-end lg:flex">
-                            <a href="#solidarity-medicine" class="inline-flex items-center gap-2 rounded-full border border-[#b8d2e7] bg-white px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.13em] text-[#17446f] shadow-[0_10px_24px_rgba(15,39,73,0.09)] transition hover:-translate-y-0.5 hover:border-[#82bee4] hover:text-[#1977b2] hover:shadow-[0_14px_28px_rgba(15,39,73,0.13)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30">
+                            <a href="#solidarity-medicine" class="inline-flex items-center gap-2 rounded-full border border-[#b8d2e7] bg-white px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.13em] text-[#17446f] transition hover:-translate-y-0.5 hover:border-[#82bee4] hover:bg-[#f8fbff] hover:text-[#1977b2] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30">
                                 <i class="fa-solid fa-people-group text-[#1977b2]" aria-hidden="true"></i>
                                 <span{$this->dataTextId('hero.professional_union')}>{$hero_professional_union}</span>
                             </a>
@@ -1040,6 +1041,15 @@ class HeroSection extends Component {
             (function initHeroClinicSlider() {
                 var sliders = document.querySelectorAll('.hero-clinic-slider');
                 var desktopThumbs = document.querySelectorAll('.hero-clinic-thumb');
+
+                document.querySelectorAll('.hero-clinic-slide-video').forEach(function(video) {
+                    var markLoaded = function() {
+                        video.classList.add('loaded');
+                    };
+
+                    video.addEventListener('canplay', markLoaded, { once: true });
+                    video.addEventListener('loadeddata', markLoaded, { once: true });
+                });
 
                 sliders.forEach(function(slider) {
                     var track = slider.querySelector('.hero-clinic-slider-track');
@@ -1261,6 +1271,19 @@ class HeroSection extends Component {
                 will-change: transform;
             }
 
+            .hero-clinic-slide-poster {
+                opacity: 1;
+            }
+
+            .hero-clinic-slide-video {
+                opacity: 0;
+                transition: opacity 0.25s ease-out;
+            }
+
+            .hero-clinic-slide-video.loaded {
+                opacity: 1;
+            }
+
             .hero-clinic-slide.is-active .hero-clinic-slide-image {
                 animation: heroLivePhotoZoom 6s ease-out forwards;
             }
@@ -1475,7 +1498,7 @@ class ProblemsGrid extends Component {
         parent::__construct($colors);
         $this->data = $problems;
         $this->sectionEyebrow = (string)bioinmed_text('home.problems.eyebrow', 'С какой проблемой обращаются');
-        $this->sectionHeading = (string)bioinmed_text('home.problems.heading', 'Найдите вашу ситуацию');
+        $this->sectionHeading = (string)bioinmed_text('home.problems.heading', 'Найдите Вашу ситуацию');
         $this->sectionSubtitle = (string)bioinmed_text('home.problems.subtitle', 'Нажмите на карточку — откроется отдельная страница с подробным описанием, этапами маршрута и подходящими услугами.');
         $this->ctaLabel = (string)bioinmed_text('home.problems.cta_label', 'Не нашли свою ситуацию? Записаться на консультацию');
         $this->showTitle = (bool)($options['show_title'] ?? true);
@@ -1655,7 +1678,7 @@ class ChiefDoctorBlock extends Component {
                         <div class="aspect-square overflow-hidden rounded-3xl">
                             <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy" decoding="async" onerror="this.src='/public/images/placeholder.jpg'" />
                         </div>
-                        <p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - ваш первый шаг к психологическому и физическому здоровью'))}</p>
+                        <p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью'))}</p>
                         <p class="caveat-reveal mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
                     </div>
                     {$summary_html}
@@ -1673,8 +1696,15 @@ class SpecialOffer extends Component {
         $offer_eyebrow = $this->e(bioinmed_text('home.special_offer.eyebrow', 'Специальное предложение'));
         $offer_title = $this->e(bioinmed_text('home.special_offer.title', '3D-диагностика на мультифункциональном комплексе «Хабилект»'));
         $offer_price_label = $this->e(bioinmed_text('home.special_offer.price_label', 'Специальная цена'));
-        $offer_price_current = $this->e(bioinmed_text('home.special_offer.price_current', '3000 руб.'));
-        $offer_price_before = $this->e(bioinmed_text('home.special_offer.price_before', '6000 руб.'));
+        $offer_price_amounts = bioinmed_service_price_amounts_by_id('habilect-diagnostics');
+        $offer_price_current_value = $offer_price_amounts
+            ? bioinmed_format_rub_amount($offer_price_amounts[0]) . ' руб.'
+            : bioinmed_text('home.special_offer.price_current', '3000 руб.');
+        $offer_price_before_value = count($offer_price_amounts) > 1
+            ? bioinmed_format_rub_amount($offer_price_amounts[count($offer_price_amounts) - 1]) . ' руб.'
+            : bioinmed_text('home.special_offer.price_before', '6000 руб.');
+        $offer_price_current = $this->e($offer_price_current_value);
+        $offer_price_before = $this->e($offer_price_before_value);
         $offer_description = $this->e(bioinmed_text('home.special_offer.description', 'Первая консультация, которая помогает увидеть функциональные нарушения позвоночника и суставов и получить понятный план восстановления. 3D-диагностика на мультифункциональном комплексе «Хабилект» даёт наглядную картину состояния опорно-двигательного аппарата и объективно дополняет данные МРТ.'));
         $offer_bullet_1 = $this->e(bioinmed_text('home.special_offer.bullets.1', '3D-диагностика на мультифункциональном комплексе «Хабилект» для точной оценки нарушений опорно-двигательного аппарата'));
         $offer_bullet_2 = $this->e(bioinmed_text('home.special_offer.bullets.2', 'Консультация реабилитолога с подбором индивидуального комплекса ЛФК'));
@@ -1992,10 +2022,11 @@ class ServicesGrid extends Component {
             }
             
             $price_display = '';
-            if (isset($service['price'])) {
-                $price_display = '<div class="mt-4 text-[1rem] font-semibold text-[#1977b2]"' . $this->dataTextId('home.services.items.' . $service_id . '.price') . '>' . $this->e($service['price']);
-                if (isset($service['price_note']) && !empty($service['price_note'])) {
-                    $price_display .= ' <span class="text-[0.86rem] font-normal text-[#0a293c]"' . $this->dataTextId('home.services.items.' . $service_id . '.price_note') . '>' . $this->e($service['price_note']) . '</span>';
+            $actual_price = bioinmed_service_actual_price_parts($service);
+            if (trim((string)($actual_price['price'] ?? '')) !== '') {
+                $price_display = '<div class="mt-4 text-[1rem] font-semibold text-[#1977b2]"' . $this->dataTextId('home.services.items.' . $service_id . '.price') . '>' . $this->e($actual_price['price']);
+                if (trim((string)($actual_price['note'] ?? '')) !== '') {
+                    $price_display .= ' <span class="text-[0.86rem] font-normal text-[#0a293c]"' . $this->dataTextId('home.services.items.' . $service_id . '.price_note') . '>' . $this->e($actual_price['note']) . '</span>';
                 }
                 $price_display .= '</div>';
             }
@@ -2150,7 +2181,7 @@ class AppointmentCTA extends Component {
         ]);
         $index_page = bioinmed_read_json_file('pages/index.json');
         $appointment_items = bioinmed_editable_list_items($index_page, 'index.appointment.bullets', [
-            bioinmed_text('home.appointment.bullets.1', 'Подберём профильного специалиста под вашу ситуацию.'),
+            bioinmed_text('home.appointment.bullets.1', 'Подберём профильного специалиста под Вашу ситуацию.'),
             bioinmed_text('home.appointment.bullets.2', 'Согласуем удобное время визита без долгого ожидания.'),
             bioinmed_text('home.appointment.bullets.3', 'Ответим на вопросы по маршруту и стоимости лечения.'),
         ], 'fa-solid fa-check');
@@ -2367,24 +2398,26 @@ class PartnersBlock extends Component {
 
                     <div class="mt-5 overflow-hidden rounded-[1.75rem] bg-white/55">
                         <div class="grid gap-0 md:grid-cols-2">
-                            <div class="flex flex-col items-center gap-4 px-5 py-5 md:px-8 md:py-7">
+                            <a href="/partners/heel" class="group flex flex-col items-center gap-4 px-5 py-5 transition hover:bg-[#eef9f5] md:px-8 md:py-7">
                                 <div class="flex h-16 w-28 shrink-0 items-center justify-center md:h-18 md:w-36">
                                     <img src="{$heel_logo}" alt="Heel" class="h-12 w-[120px] max-w-none object-contain md:h-14 md:w-[150px]" loading="lazy" decoding="async">
                                 </div>
                                 <div class="min-w-0 text-center">
                                     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]">Heel</p>
                                     <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.partners.heel_description')}>{$this->e(bioinmed_text('home.partners.heel_description', 'Надёжный партнёр в интегративной терапии и мягких лечебных программах.'))}</p>
+                                    <span class="mt-2 inline-flex items-center gap-1.5 text-[0.78rem] font-semibold text-[#178d82]">Подробнее <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i></span>
                                 </div>
-                            </div>
-                            <div class="flex flex-col items-center gap-4 border-t border-[#edf3f9] px-5 py-5 md:border-l md:border-t-0 md:px-8 md:py-7">
+                            </a>
+                            <a href="/partners/habilect" class="group flex flex-col items-center gap-4 border-t border-[#edf3f9] px-5 py-5 transition hover:bg-[#eef7fd] md:border-l md:border-t-0 md:px-8 md:py-7">
                                 <div class="flex h-16 w-28 shrink-0 items-center justify-center md:h-18 md:w-36">
                                     <img src="{$habilect_logo}" alt="«Хабилект»" class="h-12 w-[120px] max-w-none object-contain md:h-14 md:w-[150px]" loading="lazy" decoding="async">
                                 </div>
                                 <div class="min-w-0 text-center">
                                     <p class="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#1977b2]"{$this->dataTextId('hero.habilect.label')}>{$this->e(bioinmed_text('hero.habilect.label', '«Хабилект»'))}</p>
                                     <p class="mt-1 max-w-sm text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.partners.habilect_description')}>{$this->e(bioinmed_text('home.partners.habilect_description', 'Точная 3D-диагностика и персональный маршрут восстановления.'))}</p>
+                                    <span class="mt-2 inline-flex items-center gap-1.5 text-[0.78rem] font-semibold text-[#1977b2]">Подробнее <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i></span>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -2397,57 +2430,62 @@ class PartnersBlock extends Component {
 class SolidarityMedicineBlock extends Component {
     public function render() {
         $vacanciesLabel = $this->e(bioinmed_text('home.solidarity.vacancies_button', 'Вакансии'));
+        $conferenceWebp = bioinmed_versioned_asset_path('/public/images/conference.webp');
+        $conferenceJpg = bioinmed_versioned_asset_path('/public/images/conference.jpg');
         return <<<HTML
-        <section id="solidarity-medicine" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14" style="scroll-margin-top:6rem">
+        <section id="solidarity-medicine" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-6 md:py-8" style="scroll-margin-top:6rem">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
-                <div class="overflow-hidden rounded-[2rem] border border-[#d7e6f3] bg-white shadow-[0_18px_42px_rgba(6,29,60,0.08)]" data-admin-block-root>
-                    <div class="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-                        <div class="p-6 md:p-8 lg:p-10" data-admin-block-root>
+                <div class="overflow-hidden rounded-[2rem] border border-[#d7e6f3] bg-white shadow-[0_10px_24px_rgba(8,36,70,0.06)]" data-admin-block-root>
+                    <div class="relative h-56 overflow-hidden bg-[#dceaf7] md:h-72">
+                        <picture class="block h-full w-full">
+                            <source srcset="{$conferenceWebp}" type="image/webp">
+                            <img src="{$conferenceJpg}" alt="Конференция проекта «Солидарная авторская медицина»" class="block h-full w-full object-cover object-center" loading="lazy" decoding="async">
+                        </picture>
+                        <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,35,67,0.02)_15%,rgba(8,35,67,0.22)_100%)]"></div>
+                        <div class="pointer-events-none absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2] shadow-[0_4px_12px_rgba(8,35,67,0.08)]">
+                            <span{$this->dataTextId('home.solidarity.shared_platform')}>{$this->e(bioinmed_text('home.solidarity.shared_platform', 'Общая площадка'))}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid border-t border-[#e6eef7] lg:grid-cols-[1.05fr_0.95fr]">
+                        <div class="p-6 md:p-8 lg:p-9" data-admin-block-root>
                             <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"{$this->dataTextId('home.solidarity.eyebrow')}>{$this->e(bioinmed_text('home.solidarity.eyebrow', 'Профессиональное объединение'))}</p>
                             <h2 class="mt-2 text-[1.4rem] font-bold leading-tight text-[#0f2749] md:text-[1.8rem]"{$this->dataTextId('home.solidarity.heading')}>{$this->e(bioinmed_text('home.solidarity.heading', 'Солидарная авторская медицина'))}</h2>
-                            <p class="mt-3 text-[1.05rem] font-semibold text-[#0a293c]"{$this->dataTextId('home.solidarity.project_title')}>{$this->e(bioinmed_text('home.solidarity.project_title', 'Проект «Солидарная авторская медицина»'))}</p>
-                            <p class="mt-5 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_1')}>
+                            <p class="mt-4 max-w-2xl text-[1rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_1')}>
                                 {$this->e(bioinmed_text('home.solidarity.text_1', 'Это профессиональное объединение опытных врачей, работающих на единой научно-практической площадке.'))}
                             </p>
-                            <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_2')}>
+                            <p class="mt-3 max-w-2xl text-[1rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_2')}>
                                 {$this->e(bioinmed_text('home.solidarity.text_2', 'Проект объединяет специалистов с большим клиническим опытом, авторскими методиками, собственными программами восстановления здоровья и индивидуальным подходом к пациенту.'))}
                             </p>
-                            <p class="mt-4 max-w-2xl text-[0.98rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_3')}>
+                            <p class="mt-3 max-w-2xl text-[1rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.text_3')}>
                                 {$this->e(bioinmed_text('home.solidarity.text_3', 'В основе проекта - обмен профессиональным опытом, медицинские консилиумы, научные дискуссии, разработка новых подходов, подготовка статей и докладов.'))}
                             </p>
-                            <a href="/vacancies" class="mt-6 inline-flex items-center gap-2 rounded-full border border-[#b8d2e7] bg-[#f5faff] px-4 py-2.5 text-[0.84rem] font-semibold text-[#17446f] shadow-[0_8px_20px_rgba(15,39,73,0.07)] transition hover:border-[#82bee4] hover:bg-white hover:text-[#1977b2]">
+                        </div>
+
+                        <div class="border-t border-[#e6eef7] bg-[#f8fbff] p-6 md:p-8 lg:border-l lg:border-t-0 lg:p-9" data-admin-block-root>
+                            <blockquote class="rounded-2xl border border-[#dce8f5] bg-white px-4 py-4 text-[0.98rem] leading-relaxed text-[#0a293c] md:text-[1rem]"{$this->dataTextId('home.solidarity.quote')}>
+                                {$this->e(bioinmed_text('home.solidarity.quote', '«Солидарная авторская медицина» - это пространство для профессионального роста врачей, развития медицинской практики и формирования эффективных решений на стыке опыта, науки и доказательной медицины.'))}
+                            </blockquote>
+
+                            <div class="mt-4 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                                <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
+                                    <p class="text-[0.76rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.consiliums.title')}>{$this->e(bioinmed_text('home.solidarity.cards.consiliums.title', 'Консилиумы'))}</p>
+                                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.consiliums.text')}>{$this->e(bioinmed_text('home.solidarity.cards.consiliums.text', 'Совместный разбор сложных клинических случаев'))}</p>
+                                </div>
+                                <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
+                                    <p class="text-[0.76rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.science.title')}>{$this->e(bioinmed_text('home.solidarity.cards.science.title', 'Наука'))}</p>
+                                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.science.text')}>{$this->e(bioinmed_text('home.solidarity.cards.science.text', 'Исследования, статьи, доклады и профессиональная дискуссия'))}</p>
+                                </div>
+                                <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
+                                    <p class="text-[0.76rem] font-semibold uppercase tracking-[0.12em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.practice.title')}>{$this->e(bioinmed_text('home.solidarity.cards.practice.title', 'Практика'))}</p>
+                                    <p class="mt-1 text-[0.9rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.practice.text')}>{$this->e(bioinmed_text('home.solidarity.cards.practice.text', 'Авторские методики и индивидуальные программы восстановления'))}</p>
+                                </div>
+                            </div>
+
+                            <a href="/vacancies" class="mt-5 inline-flex items-center gap-2 rounded-full border border-[#b8d2e7] bg-white px-4 py-2.5 text-[0.84rem] font-semibold text-[#17446f] transition hover:border-[#82bee4] hover:text-[#1977b2]">
                                 <i class="fa-solid fa-briefcase-medical text-[#1977b2]" aria-hidden="true"></i>
                                 <span{$this->dataTextId('home.solidarity.vacancies_button')}>{$vacanciesLabel}</span>
                             </a>
-                        </div>
-
-                        <div class="border-t border-[#e6eef7] bg-[#f8fbff] p-6 md:p-8 lg:border-l lg:border-t-0 lg:p-10" data-admin-block-root>
-                            <div class="flex h-full flex-col justify-between">
-                                <div>
-                                    <div class="inline-flex items-center gap-2 rounded-full bg-[#e8f3fc] px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2]">
-                                        <i class="fa-solid fa-diagram-project text-[0.75rem]" aria-hidden="true"></i>
-                                        <span{$this->dataTextId('home.solidarity.shared_platform')}>{$this->e(bioinmed_text('home.solidarity.shared_platform', 'Общая площадка'))}</span>
-                                    </div>
-                                    <blockquote class="mt-5 text-[1.02rem] leading-relaxed text-[#0a293c] md:text-[1.08rem]"{$this->dataTextId('home.solidarity.quote')}>
-                                        {$this->e(bioinmed_text('home.solidarity.quote', '«Солидарная авторская медицина» - это пространство для профессионального роста врачей, развития медицинской практики и формирования эффективных решений на стыке опыта, науки и доказательной медицины.'))}
-                                    </blockquote>
-                                </div>
-
-                                <div class="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-                                    <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
-                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.consiliums.title')}>{$this->e(bioinmed_text('home.solidarity.cards.consiliums.title', 'Консилиумы'))}</p>
-                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.consiliums.text')}>{$this->e(bioinmed_text('home.solidarity.cards.consiliums.text', 'Совместный разбор сложных клинических случаев'))}</p>
-                                    </div>
-                                    <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
-                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.science.title')}>{$this->e(bioinmed_text('home.solidarity.cards.science.title', 'Наука'))}</p>
-                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.science.text')}>{$this->e(bioinmed_text('home.solidarity.cards.science.text', 'Исследования, статьи, доклады и профессиональная дискуссия'))}</p>
-                                    </div>
-                                    <div class="rounded-2xl border border-[#dce8f5] bg-white p-4">
-                                        <p class="text-[0.78rem] font-semibold uppercase tracking-[0.14em] text-[#1977b2]"{$this->dataTextId('home.solidarity.cards.practice.title')}>{$this->e(bioinmed_text('home.solidarity.cards.practice.title', 'Практика'))}</p>
-                                        <p class="mt-1 text-[0.92rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.solidarity.cards.practice.text')}>{$this->e(bioinmed_text('home.solidarity.cards.practice.text', 'Авторские методики и индивидуальные программы восстановления'))}</p>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -2515,6 +2553,7 @@ class Footer extends Component {
         $service_reflexotherapy = bioinmed_link('services.reflexotherapy');
 
         $company_about = bioinmed_link('nav.about');
+        $company_partners = ['url' => '/partners', 'text' => bioinmed_text('footer.links.company.partners', 'Партнёры')];
         $company_doctors = bioinmed_link('nav.doctors');
         $company_prices = bioinmed_link('nav.prices');
         $company_contacts = bioinmed_link('nav.contacts');
@@ -3162,6 +3201,7 @@ class Footer extends Component {
                         <h4 class="text-[0.96rem] font-bold uppercase tracking-[0.12em] text-[#1977b2] mb-4"{$this->dataTextId('footer.sections.company')}>{$this->e(bioinmed_text('footer.sections.company', 'Компания'))}</h4>
                         <ul class="space-y-2">
                             <li><a href="{$this->e($company_about['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.about')}>{$this->e($company_about['text'])}</a></li>
+                            <li><a href="{$this->e($company_partners['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.partners')}>{$this->e($company_partners['text'])}</a></li>
                             <li><a href="{$this->e($company_doctors['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.doctors')}>{$this->e($company_doctors['text'])}</a></li>
                             <li><a href="{$this->e($company_prices['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.prices')}>{$this->e($company_prices['text'])}</a></li>
                             <li><a href="{$this->e($legal_privacy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.privacy')}>{$this->e($legal_privacy['text'])}</a></li>

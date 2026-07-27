@@ -271,7 +271,7 @@ echo $header->render();
                 <?php if (!$hideStandardSections && !empty($doctor['specializations']) && is_array($doctor['specializations'])): ?>
                 <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root data-doctor-toggle="specializations">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
-                        <span class="flex items-center gap-2.5 text-[1.1rem] font-bold text-[#0a293c]">
+                        <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
                             <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]"><i class="fa-solid fa-list-check text-sm"></i></span>
                             <span<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'sections.specializations_title'); ?>><?php echo e($doctorSectionsText['specializations_title'] ?? ''); ?></span>
                         </span>
@@ -582,7 +582,13 @@ echo $header->render();
                     $doctorServiceId = (string)($srv['id'] ?? '');
                     $doctorServiceNameNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.name', (string)($srv['name'] ?? ''));
                     $doctorServiceDescriptionNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.description', (string)($srv['description'] ?? ''));
-                    $doctorServicePriceNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.price', (string)($srv['price'] ?? ($doctorServicesText['price_fallback'] ?? '')));
+                    $doctorServiceActualPrice = bioinmed_service_actual_price_parts($srv);
+                    $doctorServicePriceValue = (string)($doctorServiceActualPrice['price'] ?? '');
+                    if ($doctorServicePriceValue === '') {
+                        $doctorServicePriceValue = (string)($doctorServicesText['price_fallback'] ?? '');
+                    }
+                    $doctorServicePriceNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.price', $doctorServicePriceValue);
+                    $doctorServicePriceNode['value'] = $doctorServicePriceValue;
                     $doctorServiceCtaNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.cta', bioinmed_text('common.more_details'));
                 ?>
                 <a href="/services/<?php echo e($srv['id']); ?>"

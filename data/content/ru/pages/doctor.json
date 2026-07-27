@@ -19,7 +19,7 @@
         "sign": "Костромина И.В."
     },
     "cta": {
-        "call_direct": "или позвоните напрямую",
+        "call_direct": "Запись по телефону",
         "mobile_source_suffix": " — mobile CTA",
         "sticky_source_suffix": " — sticky CTA",
         "final_source_suffix": " — финальная CTA"

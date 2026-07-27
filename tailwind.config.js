@@ -6,6 +6,7 @@ module.exports = {
     './api/**/*.php',
     './admin/**/*.php',
     './inc/**/*.php',
+    './partners/**/*.php',
     './scripts/**/*.php',
   ],
   theme: {

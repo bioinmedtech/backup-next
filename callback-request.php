@@ -243,5 +243,5 @@ if ($waiting_list_request['http_code'] >= 400 || $waiting_list_error !== '') {
 
 echo json_encode([
     'success' => true,
-    'message' => 'Заявка отправлена. Мы свяжемся с вами в течение 15 минут.',
+    'message' => 'Заявка отправлена. Мы свяжемся с Вами в течение 15 минут.',
 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
