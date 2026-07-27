@@ -3,6 +3,7 @@
 
 $bioinmed_admin_bootstrap_requested =
     isset($_COOKIE['bioinmed_admin_remember']) ||
+    isset($_COOKIE[session_name()]) ||
     isset($_GET['bioinmed_admin']);
 
 if ($bioinmed_admin_bootstrap_requested && !headers_sent()) {
@@ -155,7 +156,24 @@ function bioinmed_versioned_asset_path($path = '') {
 function bioinmed_render_public_head_assets(array $options = []) {
     $site_css_href = bioinmed_versioned_asset_path('/public/assets/css/site.css');
     $fontawesome_href = bioinmed_versioned_asset_path('/public/assets/css/fontawesome-subset.css');
+    $admin_css_href = bioinmed_versioned_asset_path('/assets/css/admin-inline.css');
+    $consent_css_href = bioinmed_versioned_asset_path('/public/assets/css/consent-banner.css');
+    $consent_js_src = bioinmed_versioned_asset_path('/public/assets/js/consent-banner.js');
+    $caveat_font_src = bioinmed_versioned_asset_path('/public/assets/fonts/caveat/Caveat-700.ttf');
     $include_uis_hints = array_key_exists('include_uis_hints', $options) ? (bool)$options['include_uis_hints'] : true;
+    $include_admin_styles = false;
+
+    $admin_bootstrap_requested =
+        isset($_COOKIE['bioinmed_admin_remember']) ||
+        isset($_COOKIE[session_name()]) ||
+        isset($_GET['bioinmed_admin']);
+
+    if ($admin_bootstrap_requested) {
+        $admin_client_config = function_exists('bioinmed_admin_client_config')
+            ? bioinmed_admin_client_config()
+            : [];
+        $include_admin_styles = !empty($admin_client_config['isAuthenticated']);
+    }
 
     $html = [];
 
@@ -169,13 +187,22 @@ function bioinmed_render_public_head_assets(array $options = []) {
     $html[] = '<script type="text/javascript" src="https://app3.sqns.ru/booking/script?orgid=25903"></script>';
 
     $html[] = '<script>(function(){document.documentElement.classList.add("js-caveat-pending");})();</script>';
+    $html[] = '<link rel="preload" href="' . htmlspecialchars($caveat_font_src, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" as="font" type="font/ttf" crossorigin>';
+    $html[] = '<style>@font-face{font-family:"Caveat";font-style:normal;font-weight:700;font-display:swap;src:url("' . htmlspecialchars($caveat_font_src, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '") format("truetype")}</style>';
     $html[] = '<style>.js-caveat-pending .caveat-reveal{visibility:hidden}.js-caveat-ready .caveat-reveal,.js-caveat-failed .caveat-reveal{visibility:visible}</style>';
     $html[] = '<style>html,body{letter-spacing:-0.008em;text-rendering:optimizeLegibility}h1,h2,h3,h4,h5,h6{letter-spacing:-0.016em}p,li,a,button,input,textarea,select,label{letter-spacing:-0.006em}</style>';
 
     // Keep the main stylesheet blocking to avoid FOUC/layout jumping on first paint.
     $html[] = '<link rel="stylesheet" href="' . htmlspecialchars($site_css_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';
+    // Keep authenticated admin controls blocking as well: Safari can delay or
+    // skip stylesheets discovered at the end of body.
+    if ($include_admin_styles) {
+        $html[] = '<link rel="stylesheet" href="' . htmlspecialchars($admin_css_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';
+    }
+    $html[] = '<link rel="stylesheet" href="' . htmlspecialchars($consent_css_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';
     $html[] = '<link rel="preload" href="' . htmlspecialchars($fontawesome_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
     $html[] = '<noscript><link rel="stylesheet" href="' . htmlspecialchars($fontawesome_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></noscript>';
+    $html[] = '<script defer src="' . htmlspecialchars($consent_js_src, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></script>';
     $html[] = '<script>(function(){var root=document.documentElement;var done=false;function finish(state){if(done)return;done=true;root.classList.remove("js-caveat-pending");root.classList.add(state);}function fallback(){finish("js-caveat-failed");}if(!("fonts" in document)||typeof document.fonts.load!=="function"){fallback();return;}var timeout=window.setTimeout(fallback,1500);document.fonts.load("700 1em Caveat").then(function(){window.clearTimeout(timeout);finish("js-caveat-ready");},function(){window.clearTimeout(timeout);fallback();});})();</script>';
     $html[] = bioinmed_yandex_metrika_head();
 

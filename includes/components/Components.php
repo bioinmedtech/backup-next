@@ -2622,7 +2622,6 @@ class Footer extends Component {
 
         if ($render_full_admin) {
             $admin_interface_html = <<<HTML
-        <link rel="stylesheet" href="{$this->e(bioinmed_versioned_asset_path('/assets/css/admin-inline.css'))}">
         <div id="bioinmed-admin-toolbar" class="bioinmed-admin-toolbar" aria-label="Панель администратора">
             <div class="bioinmed-admin-toolbar-inner">
                 <div class="bioinmed-admin-toolbar-main inline-flex items-center gap-3">
