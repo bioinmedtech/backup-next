@@ -54,6 +54,9 @@ foreach ($indexHealthRouteSteps as $stepKey => $step) {
     ];
 }
 $indexHealthRouteEditableItems = bioinmed_editable_list_items($indexPage, 'index.health_route.steps', $indexHealthRouteFallback, 'fa-solid fa-check');
+$homeSloganTitle = bioinmed_text('home.slogan.title', 'С нами выздоравливать легко!');
+$homeSloganSignature = bioinmed_text('home.slogan.signature', 'Ваш Биоинмед');
+$homeSloganLogo = bioinmed_versioned_asset_path('/public/images/brand/bioinmed-icon.png');
 
 function e($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
@@ -170,6 +173,18 @@ function e($value) {
     $advantages_section = new AdvantagesBlock($advantages, $brand_colors);
     echo $advantages_section->render();
     ?>
+
+    <section class="relative isolate flex items-center overflow-hidden border-b py-6 md:py-8" style="border-color:#3b6282;min-height:64svh;min-height:64dvh;background-color:rgb(25 119 178);">
+        <div class="pointer-events-none absolute inset-0" style="background:rgba(255,255,255,0.02);"></div>
+        <img src="<?php echo e($homeSloganLogo); ?>" alt="" aria-hidden="true" class="pointer-events-none absolute left-1/2 top-1/2 h-[66vmin] w-[66vmin] max-h-[620px] max-w-[620px] -translate-x-1/2 -translate-y-1/2 object-contain" style="opacity:0.04;filter:brightness(0) invert(1) saturate(0);">
+
+        <div class="relative mx-auto flex w-full max-w-4xl items-center justify-center px-6 text-center md:px-10">
+            <div class="w-full">
+                <p class="caveat-reveal mx-auto max-w-5xl leading-[1.02]" style="font-family:'Caveat',cursive;font-size:clamp(2rem,4.7vw,3.35rem);font-weight:700;color:#f2f8ff;"<?php echo bioinmed_data_text_id('home.slogan.title'); ?>><?php echo e($homeSloganTitle); ?></p>
+                <p class="caveat-reveal mt-3" style="font-family:'Caveat',cursive;font-size:clamp(1.28rem,2.35vw,1.8rem);font-weight:700;color:#d6e8f8;"<?php echo bioinmed_data_text_id('home.slogan.signature'); ?>><?php echo e($homeSloganSignature); ?></p>
+            </div>
+        </div>
+    </section>
 
     <!-- Special Offer -->
     <?php

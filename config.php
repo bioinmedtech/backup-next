@@ -170,6 +170,7 @@ function bioinmed_render_public_head_assets(array $options = []) {
 
     $html[] = '<script>(function(){document.documentElement.classList.add("js-caveat-pending");})();</script>';
     $html[] = '<style>.js-caveat-pending .caveat-reveal{visibility:hidden}.js-caveat-ready .caveat-reveal,.js-caveat-failed .caveat-reveal{visibility:visible}</style>';
+    $html[] = '<style>html,body{letter-spacing:-0.008em;text-rendering:optimizeLegibility}h1,h2,h3,h4,h5,h6{letter-spacing:-0.016em}p,li,a,button,input,textarea,select,label{letter-spacing:-0.006em}</style>';
 
     // Keep the main stylesheet blocking to avoid FOUC/layout jumping on first paint.
     $html[] = '<link rel="stylesheet" href="' . htmlspecialchars($site_css_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';

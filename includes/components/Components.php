@@ -835,7 +835,7 @@ class Header extends Component {
 class HeroSection extends Component {
     public function render() {
         $hero_season_prefix = $this->e(bioinmed_text('hero.season_prefix', 'Сезон'));
-        $hero_heading = $this->e(bioinmed_text('hero.heading', 'С нами выздоравливать легко!'));
+        $hero_heading = $this->e(bioinmed_text('hero.heading', 'Клиника восстановительной медицины'));
         $hero_signature = $this->e(bioinmed_text('hero.signature', 'Ваш Биоинмед'));
         $hero_mobile_booking_text = $this->e(bioinmed_text('hero.mobile.online_booking_button', 'Записаться на приём'));
         $hero_desktop_booking_text = $this->e(bioinmed_text('hero.desktop.book_appointment_title', 'Записаться на приём'));
@@ -950,12 +950,9 @@ class HeroSection extends Component {
                             {$hero_season_prefix}: {$actual_season_name}
                             <i class="fa-solid fa-arrow-right text-[0.66rem]" aria-hidden="true"></i>
                         </a>
-                        <h1 class="caveat-reveal mt-2 max-w-3xl leading-[1.14] text-[#0f2749]" style="font-family:'Caveat',cursive;font-size:clamp(2.12rem,4.6vw,2.85rem);font-weight:700;"{$this->dataTextId('hero.heading')}>
+                        <h1 class="mt-2 max-w-3xl text-[1.68rem] font-bold leading-[1.16] text-[#0f2749] md:text-[2.02rem] md:leading-[1.14] lg:text-[2.24rem] lg:leading-[1.12]"{$this->dataTextId('hero.heading')}>
                             {$hero_heading}
                         </h1>
-                        <p class="caveat-reveal mt-4 flex w-full items-center justify-start bg-transparent px-0 py-0 text-left leading-[1.16] text-[#1977b2]" style="font-family:'Caveat',cursive;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:700;"{$this->dataTextId('hero.signature')}>
-                            {$hero_signature}
-                        </p>
                         <a href="{$hero_habilect_href}" class="mt-4 inline-block w-fit max-w-3xl bg-transparent p-0 text-[0.86rem] font-semibold leading-[1.2] tracking-[0.02em] text-[#17446f] transition-colors hover:text-[#1977b2] md:mt-5 md:text-[1rem]">
                             <span{$this->dataTextId('hero.habilect.lines.route')}>{$hero_habilect_route}</span>
                         </a>
