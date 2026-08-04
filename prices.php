@@ -317,6 +317,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         tr[data-price-row-class~="font-semibold"] [data-price-row-description-view] { font-weight: 600; }
         .price-section-hidden, tr.price-row-hidden, .price-nav-link-hidden { display: none; }
         .price-admin-section-toolbar, .price-admin-row-actions { display: none; }
+        body.bioinmed-edit-mode .price-admin-section-toolbar,
+        body.bioinmed-edit-mode .price-admin-row-actions { display: inline-flex; }
         body.bioinmed-edit-mode .price-section-hidden { display: block; }
         body.bioinmed-edit-mode tr.price-row-hidden { display: table-row; }
         body.bioinmed-edit-mode .price-nav-link-hidden { display: inline-flex; opacity: 0.58; }

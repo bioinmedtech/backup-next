@@ -127,6 +127,11 @@ foreach ($sections as $section) {
 
         $serviceId = trim((string)($row['service_id'] ?? ''));
         $rowPrice = trim((string)($row['price'] ?? ''));
+        $linksToService = !array_key_exists('link', $row) || (bool)$row['link'];
+
+        if (!$linksToService) {
+            continue;
+        }
 
         if ($serviceId === '') {
             $issues[] = "[{$sectionId}:{$idx}] missing service_id";
