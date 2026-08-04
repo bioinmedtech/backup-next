@@ -50,7 +50,7 @@ define('CLINIC_PHONE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clin
 define('CLINIC_ADDRESS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.address', 'Москва, Оболенский пер., 9А'));
 define('CLINIC_METRO', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.metro', 'м. Фрунзенская'));
 define('CLINIC_EMAIL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.email', 'info@bioinmed.ru'));
-define('CLINIC_HOURS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hours', 'Ежедневно с 9:00 до 21:00 (без выходных)'));
+define('CLINIC_HOURS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hours', 'Пн-Сб с 9:00 до 21:00, Вс (выходной)'));
 define('CLINIC_TAGLINE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.tagline', 'Интегративная и восстановительная медицина. Индивидуальный подход к каждому пациенту.'));
 define('ONLINE_BOOKING_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.online_booking_url', '/'));
 define('CLINIC_MAP_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.map_url', 'https://yandex.com/maps/-/CPGGyEzo'));
@@ -656,7 +656,6 @@ function bioinmed_medical_organization_schema() {
                 'https://schema.org/Thursday',
                 'https://schema.org/Friday',
                 'https://schema.org/Saturday',
-                'https://schema.org/Sunday',
             ],
             'opens' => '09:00',
             'closes' => '21:00',

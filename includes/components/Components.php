@@ -69,7 +69,7 @@ class Header extends Component {
         $header_menu_aria = $this->e(bioinmed_text('header.menu_aria', 'Меню'));
         $header_close_menu_aria = $this->e(bioinmed_text('header.close_menu_aria', 'Закрыть меню'));
         $header_appointment_note = $this->e(bioinmed_text('header.appointment_note', 'Приём по предварительной записи'));
-        $header_phone_note = $this->e(bioinmed_text('header.phone_note', 'Запись по телефону ежедневно'));
+        $header_phone_note = $this->e(bioinmed_text('header.phone_note', 'Запись по телефону Пн-Сб'));
 
         $header_address_raw = (string)bioinmed_text('header.contact.address', CLINIC_ADDRESS);
         $header_metro_raw = (string)bioinmed_text('header.contact.metro', CLINIC_METRO);

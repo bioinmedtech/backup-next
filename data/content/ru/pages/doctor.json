@@ -85,7 +85,7 @@
         "eyebrow": "Клиника БИОИНМЕД · Москва",
         "city": "Москва",
         "title": "Не откладывайте заботу о Вашем здоровье",
-        "description_template": "{{doctor_name}} принимает в клинике {{clinic_name}} по адресу: {{clinic_address}}, {{clinic_metro}}. Запись ежедневно с 9:00 до 21:00."
+        "description_template": "{{doctor_name}} принимает в клинике {{clinic_name}} по адресу: {{clinic_address}}, {{clinic_metro}}. Запись Пн-Сб с 9:00 до 21:00, Вс (выходной)."
     },
     "doctor_items": {
         "nehorosheva-lyudmila-sergeevna": {

@@ -43,7 +43,7 @@ $pricesHeroTextNode = bioinmed_page_text_node(
     'Актуальные цены по направлениям лечения: от первичной консультации до комплексных программ восстановления. Поможем подобрать специалиста и оптимальный формат терапии.'
 );
 $pricesHeroBadgePrimaryNode = bioinmed_page_text_node($pricesPage, 'prices', 'meta.hero_badge_primary', 'Актуальные цены');
-$pricesHeroBadgeSecondaryNode = bioinmed_page_text_node($pricesPage, 'prices', 'meta.hero_badge_secondary', 'Ежедневно 9:00-21:00');
+$pricesHeroBadgeSecondaryNode = bioinmed_page_text_node($pricesPage, 'prices', 'meta.hero_badge_secondary', 'Пн-Сб 9:00-21:00, Вс (выходной)');
 $pricesQuickNavTitleNode = bioinmed_page_text_node($pricesPage, 'prices', 'meta.quick_nav_title', 'Быстрая навигация:');
 
 $servicesById = [];

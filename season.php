@@ -45,12 +45,16 @@ $asset_exists = static function (string $path): bool {
 };
 
 $gallery_items = [];
-foreach ($s['gallery'] ?? [] as $item) {
+foreach ($s['gallery'] ?? [] as $itemIndex => $item) {
     if (!isset($item['image']) || !$asset_exists($item['image'])) {
         continue;
     }
     if ($item['image'] === ($s['image_desktop'] ?? $s['image']) || $item['image'] === ($s['image_mobile'] ?? $s['image'])) {
         continue;
+    }
+    $galleryAlt = bioinmed_json_get($seasonPage, 'gallery.items.' . $slug . '.' . $itemIndex . '.alt', (string)($item['alt'] ?? ''));
+    if (is_scalar($galleryAlt)) {
+        $item['alt'] = (string)$galleryAlt;
     }
     $gallery_items[] = $item;
 }
@@ -76,8 +80,15 @@ $actual_season_slug = bioinmed_current_season_slug();
 
 $hero_image_desktop = $s['image_desktop'] ?? $s['image'];
 $hero_image_mobile = $s['image_mobile'] ?? $s['image'];
-$hero_image_desktop_alt = $s['image_alt'] ?? '';
-$hero_image_mobile_alt = $s['image_mobile_alt'] ?? $hero_image_desktop_alt;
+$seasonHeroNameNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.items.' . $slug . '.name', (string)($s['name'] ?? ''));
+$seasonHeroSloganNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.items.' . $slug . '.slogan', (string)($s['slogan'] ?? ''));
+$seasonHeroQuoteNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.items.' . $slug . '.quote', (string)($s['quote'] ?? ''));
+$seasonHeroImageAltNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.items.' . $slug . '.image_alt', (string)($s['image_alt'] ?? ''));
+$seasonHeroMobileImageAltNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.items.' . $slug . '.image_mobile_alt', (string)($s['image_mobile_alt'] ?? ($s['image_alt'] ?? '')));
+$seasonIntroNode = bioinmed_page_text_node($seasonPage, 'season', 'intro.items.' . $slug . '.text', (string)($s['intro'] ?? ''));
+
+$hero_image_desktop_alt = $seasonHeroImageAltNode['value'];
+$hero_image_mobile_alt = $seasonHeroMobileImageAltNode['value'];
 $season_art_popup_items = [];
 foreach ($gallery_items as $item) {
     $season_art_popup_items[] = [
@@ -130,20 +141,17 @@ $titles = $season_titles[$slug] ?? [
     'nav' => $seasonNavigationText['title_default'] ?? 'Другие времена года',
 ];
 
-$seasonHeroNameNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.name', (string)($s['name'] ?? ''));
-$seasonHeroSloganNode = bioinmed_page_text_node($seasonPage, 'season', 'hero.slogan', (string)($s['slogan'] ?? ''));
-$seasonIntroNode = bioinmed_page_text_node($seasonPage, 'season', 'intro.text', (string)($s['intro'] ?? ''));
 $seasonHealthTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.health', $titles['health']);
 $seasonTipsTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.tips', $titles['tips']);
 $seasonServicesTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.services', $titles['services']);
 $seasonCtaTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.cta', $titles['cta']);
 $seasonNavTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' . $slug . '.nav', $titles['nav']);
 
-$page_title  = $s['name'] . ' — Времена года | БИОИНМЕД';
-$page_desc   = $s['intro'];
+$page_title  = $seasonHeroNameNode['value'] . ' — Времена года | БИОИНМЕД';
+$page_desc   = $seasonIntroNode['value'];
 $canonical   = rtrim((string)CLINIC_SITE_URL, '/') . '/seasons/' . $slug;
 $social_image = bioinmed_absolute_url($hero_image_desktop);
-$social_image_alt = $hero_image_desktop_alt . ' — ' . $s['name'] . ' в проекте «Времена года»';
+$social_image_alt = $hero_image_desktop_alt . ' — ' . $seasonHeroNameNode['value'] . ' в проекте «Времена года»';
 
 $header = new Header();
 $footer = new Footer();
@@ -562,7 +570,7 @@ $footer = new Footer();
 <?= $header->render() ?>
 
 <!-- ═══════════════ HERO ═══════════════ -->
-<section class="season-hero" aria-label="<?= $e($s['name']) ?>">
+<section class="season-hero" aria-label="<?= $e($seasonHeroNameNode['value']) ?>">
     <!-- Desktop video/background -->
     <div class="season-hero__bg hidden md:block" role="img" aria-label="<?= $e($hero_image_desktop_alt) ?>" style="<?php if (!empty($s['video_desktop'])): ?>background-image:url('<?= $e($hero_image_desktop) ?>');background-size:cover;background-position:center;<?php endif ?>">
         <?php if (!empty($s['video_desktop'])): ?>
@@ -612,14 +620,14 @@ $footer = new Footer();
             <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.eyebrow') ?>>
                 <?= $e($seasonHeroText['eyebrow'] ?? 'Времена года') ?>
             </p>
-            <h1 class="text-4xl md:text-6xl font-black text-white leading-none mb-4"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.name') ?>>
+            <h1 class="text-4xl md:text-6xl font-black text-white leading-none mb-4"<?= $seasonHeroNameNode['attr'] ?>>
                 <?= $e($seasonHeroNameNode['value']) ?>
             </h1>
             <p class="text-[1.16rem] md:text-[1.3rem] font-light mb-4 max-w-xl leading-relaxed" style="color:rgba(255,255,255,0.92)"<?= $seasonHeroSloganNode['attr'] ?>>
                 <?= $e($seasonHeroSloganNode['value']) ?>
             </p>
-            <blockquote class="caveat-reveal text-[1.06rem] md:text-[1.18rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.9);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.35rem,2.5vw,1.75rem);font-weight:700;">
-                <?= $e($s['quote']) ?>
+            <blockquote class="caveat-reveal text-[1.06rem] md:text-[1.18rem] max-w-2xl pl-3.5 leading-relaxed" style="color:rgba(255,255,255,0.9);border-left:4px solid <?= $e($s['color']) ?>;font-family:'Caveat',cursive;font-size:clamp(1.35rem,2.5vw,1.75rem);font-weight:700;"<?= $seasonHeroQuoteNode['attr'] ?>>
+                <?= $e($seasonHeroQuoteNode['value']) ?>
             </blockquote>
 
 
