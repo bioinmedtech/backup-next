@@ -51,6 +51,7 @@ echo $header->render();
 <main class="mx-auto flex w-full max-w-6xl grow items-center px-6 py-12 md:px-10 md:py-16">
     <div class="grid w-full items-start gap-6 lg:grid-cols-[1fr_390px]">
         <section class="fade-up rounded-3xl border border-[#d8e6f3] bg-[#e4f1fa] p-7 shadow-[0_16px_40px_rgba(8,36,70,0.08)] md:p-9">
+            <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/']); ?></div>
             <div class="inline-flex items-center gap-2 rounded-full border border-[#d5e5f3] bg-[#f2f9ff] px-3 py-1.5 text-xs font-semibold text-[#0a293c]">
                 <i class="fa-solid fa-triangle-exclamation text-[#1977b2]"></i>
                 Ошибка 404

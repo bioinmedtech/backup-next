@@ -50,6 +50,7 @@ echo $header->render();
 ?>
 
 <main class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
+    <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/']); ?></div>
     <section class="pb-8">
         <div class="max-w-4xl" data-admin-block-root>
             <p class="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($agreementPage, 'user_agreement', 'meta.eyebrow'); ?>><?php echo e($agreementMeta['eyebrow'] ?? 'Правовая информация'); ?></p>

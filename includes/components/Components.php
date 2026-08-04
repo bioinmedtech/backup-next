@@ -2238,6 +2238,7 @@ class ContactSection extends Component {
         $hours = $this->e($contact_hours_raw);
         $phone_link_1 = $this->phoneLink($contact_phone_1_raw);
         $phone_link_2 = trim($contact_phone_2_raw) !== '' ? $this->phoneLink($contact_phone_2_raw) : '';
+        $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '/';
 
         $second_phone_html = $phone_2 !== ''
             ? '<div class="mt-1"><a href="tel:' . $phone_link_2 . '" class="text-[1rem] font-semibold text-[#1977b2] hover:text-[#0f2749] transition"' . $this->dataTextId('home.contact.values.phone_secondary') . '>' . $phone_2 . '</a></div>'
@@ -2430,17 +2431,13 @@ class PartnersBlock extends Component {
 class SolidarityMedicineBlock extends Component {
     public function render() {
         $vacanciesLabel = $this->e(bioinmed_text('home.solidarity.vacancies_button', 'Вакансии'));
-        $conferenceWebp = bioinmed_versioned_asset_path('/public/images/conference.webp');
-        $conferenceJpg = bioinmed_versioned_asset_path('/public/images/conference.jpg');
+        $conferenceImage = bioinmed_versioned_asset_path('/public/images/conference_v2.jpg');
         return <<<HTML
         <section id="solidarity-medicine" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-6 md:py-8" style="scroll-margin-top:6rem">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-[2rem] border border-[#d7e6f3] bg-white shadow-[0_10px_24px_rgba(8,36,70,0.06)]" data-admin-block-root>
-                    <div class="relative h-56 overflow-hidden bg-[#dceaf7] md:h-72">
-                        <picture class="block h-full w-full">
-                            <source srcset="{$conferenceWebp}" type="image/webp">
-                            <img src="{$conferenceJpg}" alt="Конференция проекта «Солидарная авторская медицина»" class="block h-full w-full object-cover object-center" loading="lazy" decoding="async">
-                        </picture>
+                    <div class="relative h-64 overflow-hidden bg-[#dceaf7] md:h-[22rem]">
+                        <img src="{$conferenceImage}" alt="Конференция проекта «Солидарная авторская медицина»" class="block h-full w-full object-cover object-center" loading="lazy" decoding="async">
                         <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,35,67,0.02)_15%,rgba(8,35,67,0.22)_100%)]"></div>
                         <div class="pointer-events-none absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2] shadow-[0_4px_12px_rgba(8,35,67,0.08)]">
                             <span{$this->dataTextId('home.solidarity.shared_platform')}>{$this->e(bioinmed_text('home.solidarity.shared_platform', 'Общая площадка'))}</span>

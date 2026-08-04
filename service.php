@@ -430,6 +430,7 @@ echo $header->render();
         <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
 
             <!-- breadcrumb -->
+            <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/services']); ?></div>
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
                 <a href="/" class="hover:text-[#1977b2]"<?php echo bioinmed_page_text_attr($servicePage, 'service', 'breadcrumbs.home'); ?>><?php echo e($serviceBreadcrumbs['home'] ?? ''); ?></a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>

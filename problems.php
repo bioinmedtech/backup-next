@@ -59,6 +59,7 @@ echo $header->render();
 <main class="grow">
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-12 md:py-16">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
+            <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/']); ?></div>
             <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
                 <div data-admin-block-root>
                     <p class="text-[0.74rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemsPage, 'problems', 'meta.hero_eyebrow'); ?>><?php echo e($problemsMeta['hero_eyebrow'] ?? ''); ?></p>

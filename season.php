@@ -571,6 +571,11 @@ $footer = new Footer();
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="season-hero" aria-label="<?= $e($seasonHeroNameNode['value']) ?>">
+    <div class="bioinmed-back-overlay">
+        <div class="mx-auto max-w-6xl px-6 md:px-10">
+            <?= bioinmed_render_back_button(['fallback' => '/', 'variant' => 'overlay']) ?>
+        </div>
+    </div>
     <!-- Desktop video/background -->
     <div class="season-hero__bg hidden md:block" role="img" aria-label="<?= $e($hero_image_desktop_alt) ?>" style="<?php if (!empty($s['video_desktop'])): ?>background-image:url('<?= $e($hero_image_desktop) ?>');background-size:cover;background-position:center;<?php endif ?>">
         <?php if (!empty($s['video_desktop'])): ?>

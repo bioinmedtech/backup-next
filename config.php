@@ -191,6 +191,7 @@ function bioinmed_render_public_head_assets(array $options = []) {
     $html[] = '<style>@font-face{font-family:"Caveat";font-style:normal;font-weight:700;font-display:swap;src:url("' . htmlspecialchars($caveat_font_src, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '") format("truetype")}</style>';
     $html[] = '<style>.js-caveat-pending .caveat-reveal{visibility:hidden}.js-caveat-ready .caveat-reveal,.js-caveat-failed .caveat-reveal{visibility:visible}</style>';
     $html[] = '<style>html,body{letter-spacing:-0.008em;text-rendering:optimizeLegibility}h1,h2,h3,h4,h5,h6{letter-spacing:-0.016em}p,li,a,button,input,textarea,select,label{letter-spacing:-0.006em}</style>';
+    $html[] = '<style>.bioinmed-back-button{display:inline-flex;min-height:36px;align-items:center;gap:.45rem;border:1px solid #c9dff1;border-radius:9999px;background:rgba(255,255,255,.86);padding:.34rem .72rem .34rem .4rem;color:#17446f;font-size:.78rem;font-weight:700;line-height:1;text-decoration:none;box-shadow:0 7px 18px rgba(8,36,70,.07);backdrop-filter:blur(8px);transition:transform .18s ease,border-color .18s ease,background-color .18s ease,color .18s ease,box-shadow .18s ease}.bioinmed-back-button:hover{border-color:#8bbfe2;background:#fff;color:#0f6fa8;box-shadow:0 10px 24px rgba(8,36,70,.1);transform:translateY(-1px)}.bioinmed-back-button:focus-visible{outline:2px solid #1977b2;outline-offset:3px}.bioinmed-back-button__icon{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;border-radius:9999px;background:#1977b2;color:#fff;box-shadow:inset 0 -1px 0 rgba(0,0,0,.12),0 4px 10px rgba(25,119,178,.16);transition:transform .18s ease,background-color .18s ease}.bioinmed-back-button__icon svg{display:block;width:13px;height:13px;stroke:currentColor;stroke-width:2.5}.bioinmed-back-button:hover .bioinmed-back-button__icon{background:#16658f;transform:translateX(-2px)}.bioinmed-back-button__label{padding-right:.04rem}.bioinmed-back-button--overlay{border-color:rgba(255,255,255,.36);background:rgba(8,24,42,.42);color:#fff;box-shadow:0 10px 24px rgba(0,0,0,.2)}.bioinmed-back-button--overlay:hover{border-color:rgba(255,255,255,.72);background:rgba(8,24,42,.6);color:#fff}.bioinmed-back-button--overlay .bioinmed-back-button__icon{background:rgba(255,255,255,.95);color:#17446f;box-shadow:0 4px 12px rgba(0,0,0,.16)}.bioinmed-back-button--overlay:hover .bioinmed-back-button__icon{background:#fff;color:#0f6fa8}.bioinmed-back-row{margin-bottom:1.75rem}.bioinmed-back-overlay{position:absolute;left:0;right:0;top:1rem;z-index:3;pointer-events:none}.bioinmed-back-overlay .bioinmed-back-button{pointer-events:auto}@media (max-width:767px){.bioinmed-back-button{min-height:40px;gap:.48rem;padding:.38rem .78rem .38rem .42rem;font-size:.82rem}.bioinmed-back-button__icon{width:28px;height:28px}.bioinmed-back-button__icon svg{width:15px;height:15px}.bioinmed-back-row{margin-bottom:1.45rem}.bioinmed-back-overlay{top:.9rem}.bioinmed-back-button--overlay{background:rgba(8,24,42,.54)}}</style>';
 
     // Keep the main stylesheet blocking to avoid FOUC/layout jumping on first paint.
     $html[] = '<link rel="stylesheet" href="' . htmlspecialchars($site_css_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';
@@ -203,6 +204,7 @@ function bioinmed_render_public_head_assets(array $options = []) {
     $html[] = '<link rel="preload" href="' . htmlspecialchars($fontawesome_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
     $html[] = '<noscript><link rel="stylesheet" href="' . htmlspecialchars($fontawesome_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></noscript>';
     $html[] = '<script defer src="' . htmlspecialchars($consent_js_src, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></script>';
+    $html[] = '<script>(function(){if(window.__bioinmedBackButtonReady)return;window.__bioinmedBackButtonReady=true;document.addEventListener("click",function(event){var button=event.target.closest&&event.target.closest("[data-bioinmed-back-button]");if(!button)return;var fallback=button.getAttribute("data-back-fallback")||"/";if(window.history.length>1&&document.referrer&&document.referrer.indexOf(window.location.origin)===0){event.preventDefault();window.history.back();return;}button.setAttribute("href",fallback);});})();</script>';
     $html[] = '<script>(function(){var root=document.documentElement;var done=false;function finish(state){if(done)return;done=true;root.classList.remove("js-caveat-pending");root.classList.add(state);}function fallback(){finish("js-caveat-failed");}if(!("fonts" in document)||typeof document.fonts.load!=="function"){fallback();return;}var timeout=window.setTimeout(fallback,1500);document.fonts.load("700 1em Caveat").then(function(){window.clearTimeout(timeout);finish("js-caveat-ready");},function(){window.clearTimeout(timeout);fallback();});})();</script>';
     $html[] = bioinmed_yandex_metrika_head();
 
@@ -490,6 +492,39 @@ function bioinmed_breadcrumb_schema(array $items) {
         '@type' => 'BreadcrumbList',
         'itemListElement' => $list,
     ];
+}
+
+function bioinmed_render_back_button(array $options = []) {
+    $label = trim((string)($options['label'] ?? 'Назад'));
+    if ($label === '') {
+        $label = 'Назад';
+    }
+
+    $fallback = trim((string)($options['fallback'] ?? '/'));
+    if ($fallback === '') {
+        $fallback = '/';
+    }
+
+    $variant = trim((string)($options['variant'] ?? 'light'));
+    $class = 'bioinmed-back-button';
+    if ($variant === 'overlay') {
+        $class .= ' bioinmed-back-button--overlay';
+    }
+    $extraClass = trim((string)($options['class'] ?? ''));
+    if ($extraClass !== '') {
+        $class .= ' ' . $extraClass;
+    }
+
+    $e = static function ($value) {
+        return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    };
+
+    $html = '<a href="' . $e($fallback) . '" class="' . $e($class) . '" data-bioinmed-back-button data-back-fallback="' . $e($fallback) . '" aria-label="' . $e($label) . '">'
+        . '<span class="bioinmed-back-button__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5"></path><path d="M12 5l-7 7 7 7"></path></svg></span>'
+        . '<span class="bioinmed-back-button__label">' . $e($label) . '</span>'
+        . '</a>';
+
+    return $html;
 }
 
 function bioinmed_current_season_slug($timestamp = null) {

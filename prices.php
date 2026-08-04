@@ -474,6 +474,7 @@ $header = new Header($brand_colors);
     </div>
 
     <main class="prices-main mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
+        <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/services']); ?></div>
         <div class="prices-hero<?php echo $pricesCanExport ? ' has-document-tools' : ''; ?> mb-6 p-5 md:p-6">
             <?php if ($pricesCanExport): ?>
                 <div class="prices-document-tools" aria-label="Документы и печать">

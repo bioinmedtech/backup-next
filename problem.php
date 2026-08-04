@@ -126,6 +126,7 @@ echo $header->render();
 <?php if ($isChildrenProblemsPage): ?>
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
+            <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/problems']); ?></div>
             <div data-admin-block-root>
                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'children.eyebrow'); ?>><?php echo e($problemChildrenText['eyebrow'] ?? ''); ?></p>
                 <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'children.heading'); ?>><?php echo e($problemChildrenText['heading'] ?? ''); ?></h1>
@@ -146,6 +147,7 @@ echo $header->render();
 
 <?php elseif (!$problem): ?>
     <section class="mx-auto max-w-4xl px-6 py-20 md:px-10">
+        <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/problems']); ?></div>
         <div class="rounded-3xl bg-white p-10 text-center shadow-[0_16px_40px_rgba(8,36,70,0.08)]" data-admin-block-root>
             <i class="fa-solid fa-circle-question mb-4 text-5xl text-[#b0c8e0]" aria-hidden="true"></i>
             <h1 class="text-3xl font-bold text-[#0a293c]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'not_found.title'); ?>><?php echo e($problemNotFoundText['title'] ?? ''); ?></h1>
@@ -165,6 +167,7 @@ echo $header->render();
     ?>
     <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
         <div class="mx-auto max-w-6xl px-6 md:px-10">
+            <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/problems']); ?></div>
             <div data-admin-block-root>
                 <p class="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-[#1977b2]"<?php echo bioinmed_page_text_attr($problemPage, 'problem', 'problem.eyebrow'); ?>><?php echo e($problemDetailText['eyebrow'] ?? ''); ?></p>
                 <h1 class="mt-2 text-[2rem] font-bold leading-[1.05] text-[#0f2749] md:text-[2.8rem]"<?php echo bioinmed_data_text_id($problemTitleKey); ?>><?php echo e($problemTitleText); ?></h1>

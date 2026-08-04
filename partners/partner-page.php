@@ -95,6 +95,7 @@ $clinicPointItems = bioinmed_editable_list_items($page, $pageId . '.clinic.point
 <?php echo (new Header($brand_colors))->render(); ?>
 
 <main class="mx-auto max-w-6xl space-y-8 px-6 py-8 md:space-y-10 md:px-10 md:py-12">
+    <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/partners/']); ?></div>
     <nav aria-label="Хлебные крошки" class="mb-6 flex flex-wrap items-center gap-2 text-xs text-[#6c91ae]">
         <a href="/" class="hover:text-[#1977b2]">Главная</a><i class="fa-solid fa-chevron-right text-[0.55rem]"></i>
         <a href="/about" class="hover:text-[#1977b2]">О клинике</a><i class="fa-solid fa-chevron-right text-[0.55rem]"></i>

@@ -149,6 +149,7 @@ echo $header->render();
     <!-- HERO -->
     <section class="border-b border-[#e4edf6] bg-[#e4f1fa]">
         <div class="mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-14">
+            <div class="bioinmed-back-row"><?php echo bioinmed_render_back_button(['fallback' => '/']); ?></div>
             <nav class="mb-6 flex items-center gap-2 text-xs text-[#7a9cc4]">
                 <a href="/" class="hover:text-[#1977b2]"<?php echo bioinmed_page_text_attr($doctorsPage, 'doctors', 'hero.breadcrumb_home'); ?>><?php echo e($doctorsHero['breadcrumb_home'] ?? ''); ?></a>
                 <i class="fa-solid fa-chevron-right text-[0.6rem]"></i>
