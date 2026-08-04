@@ -60,7 +60,7 @@
             {
                 "id": "advantage-0",
                 "text": "Инновационное оборудование",
-                "secondary": "3D лечебно-диагностическая информационная система \"Хабилект\", лечебно-диагностический информационный комплекс \"Артемида PRO-M\"",
+                "secondary": "Лечебно-диагностическая информационная 3D-система «Хабилект», лечебно-диагностический информационный комплекс «Артемида PRO-M»",
                 "url": "",
                 "icon": "fa-solid fa-microscope",
                 "hidden": false
@@ -68,25 +68,151 @@
             {
                 "id": "advantage-1",
                 "text": "Опытные врачи",
-                "secondary": "Персональный маршрут лечения, авторские наработки, профессиональное обучение команды, специализация на сложных случаях.",
+                "secondary": "Персональный маршрут лечения, авторские методики, профессиональное обучение команды, специализация на сложных случаях.",
                 "url": "",
                 "icon": "fa-solid fa-user-doctor",
                 "hidden": false
             },
             {
                 "id": "advantage-2",
-                "text": "Безопасные методы",
-                "secondary": "Мы придерживаемся принципа фармакологической гигиены на каждом этапе лечения, снижая токсическую нагрузку на организм. Используем неинвазивные методы диагностики.",
+                "text": "Безопасные методы диагностики и лечения",
+                "secondary": "Неинвазивные методы диагностики Детоксикация, биорегуляция и фармакологическая гигиена",
                 "url": "",
                 "icon": "fa-solid fa-shield-halved",
                 "hidden": false
             },
             {
                 "id": "advantage-3",
-                "text": "Маршрут",
-                "secondary": "От первого касания до эффективного результата. Мониторинг на каждом этапе лечения в Экосистеме \"Хабилект\"",
+                "text": "Лечебно-восстановительный маршрут",
+                "secondary": "От первого касания до эффективного результата. Мониторинг на каждом этапе лечения.",
                 "url": "",
                 "icon": "fa-solid fa-location-dot",
+                "hidden": false
+            }
+        ],
+        "index.doctors.items": [
+            {
+                "id": "rozhkov-sergei-leonidovich",
+                "text": "Сергей Леонидович Рожков",
+                "secondary": "Тренер-инструктор, методист АФК, соавтор лечебного проекта «Хабилект»",
+                "url": "/doctors/rozhkov-sergei-leonidovich",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "kondratova-elena-aleksandrovna",
+                "text": "Елена Александровна Кондратова",
+                "secondary": "РЕФЛЕКСОТЕРАПЕВТ, АКУШЕР-ГИНЕКОЛОГ",
+                "url": "/doctors/kondratova-elena-aleksandrovna",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "nehorosheva-lyudmila-sergeevna",
+                "text": "Людмила Сергеевна Нехорошева",
+                "secondary": "ВРАЧ-ОСТЕОПАТ, МАНУАЛЬНЫЙ ТЕРАПЕВТ, стоматолог, КАНДИДАТ МЕДИЦИНСКИХ НАУК",
+                "url": "/doctors/nehorosheva-lyudmila-sergeevna",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "vertlib-valeriya-pavlovna",
+                "text": "Валерия Павловна Вертлиб",
+                "secondary": "Врач-остеопат, невролог",
+                "url": "/doctors/vertlib-valeriya-pavlovna",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "mayorova-darya-sergeevna",
+                "text": "Дарья Сергеевна Майорова",
+                "secondary": "Специалист по реабилитации и инструктор ЛФК",
+                "url": "/doctors/mayorova-darya-sergeevna",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "navrozov-evgeniy-sergeevich",
+                "text": "Евгений Сергеевич Наврозов",
+                "secondary": "Кинезиолог, остеопрактик",
+                "url": "/doctors/navrozov-evgeniy-sergeevich",
+                "icon": "",
+                "hidden": false
+            }
+        ],
+        "index.services.items": [
+            {
+                "id": "habilect-diagnostics",
+                "text": "Диагностика опорно-двигательного аппарата на мультифункциональном комплексе «Хабилект»",
+                "secondary": "Диагностика и реабилитация на мультифункциональном комплексе «Хабилект».",
+                "url": "/services/habilect-diagnostics",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "chief-doctor-consultation",
+                "text": "Биорезонансный лечебно-диагностический приём главного врача",
+                "secondary": "Разобрать сложный случай и получить стратегию лечения.",
+                "url": "/services/chief-doctor-consultation",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "hilt-therapy",
+                "text": "ХИЛТ-терапия (высокоинтенсивная лазерная терапия)",
+                "secondary": "Снизить боль и воспаление без лишней медикаментозной нагрузки.",
+                "url": "/services/hilt-therapy",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "osteopathy",
+                "text": "Остеопатия и мягкая мануальная коррекция",
+                "secondary": "Снять перегрузку и вернуть свободу движений мягкими техниками.",
+                "url": "/services/osteopathy",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "acupuncture",
+                "text": "Рефлексотерапия и иглоукалывание",
+                "secondary": "Снизить боль и напряжение через точечное воздействие.",
+                "url": "/services/acupuncture",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "prp-therapy",
+                "text": "ПРП-терапия (плазмолифтинг)",
+                "secondary": "Запустить восстановление тканей ресурсами собственного организма.",
+                "url": "/services/prp-therapy",
+                "icon": "",
+                "hidden": false
+            }
+        ],
+        "index.route_tools.bioresonance.items": [
+            {
+                "id": "bioresonance-item-1",
+                "text": "Комплексная оценка функционального состояния и определение индивидуальной адаптационной реакции.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "bioresonance-item-2",
+                "text": "Биорезонансная терапия - персональная программа лечения по принципу биологической обратной связи.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "bioresonance-item-3",
+                "text": "Применение в любой области медицины для точной диагностики и правильной тактики лечения. Актуально для сложных случаев.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
                 "hidden": false
             }
         ]

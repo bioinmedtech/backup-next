@@ -40,16 +40,16 @@
         "services.catalog.chief_doctor": [
             {
                 "id": "chief-doctor-consultation",
-                "text": "Лечебно-диагностический приём главного врача",
-                "secondary": "12 000 ₽",
+                "text": "Биорезонансный лечебно-диагностический приём главного врача",
+                "secondary": "",
                 "url": "/services/chief-doctor-consultation",
                 "icon": "",
                 "hidden": false
             },
             {
                 "id": "avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie",
-                "text": "Авторская методика \"Экосистема - Естественное омоложение\"",
-                "secondary": "от 10 000 ₽ до 13 000 ₽",
+                "text": "Авторская методика «Экосистема – Естественное омоложение»",
+                "secondary": "",
                 "url": "/services/avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie",
                 "icon": "",
                 "hidden": false
@@ -57,32 +57,256 @@
             {
                 "id": "sotsialnyy-priem",
                 "text": "Социальный приём",
-                "secondary": "5 000 ₽",
+                "secondary": "",
                 "url": "/services/sotsialnyy-priem",
                 "icon": "",
                 "hidden": false
             },
             {
                 "id": "monitoring",
-                "text": "Мониторинг",
-                "secondary": "3 000 ₽",
+                "text": "Мониторинг и контроль состояния",
+                "secondary": "",
                 "url": "/services/monitoring",
                 "icon": "",
                 "hidden": false
             },
             {
                 "id": "lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let",
-                "text": "Лечебно-диагностический приём \"Мать и дитя\" – авторская методика (мама и ребенок с 0 до 3-х лет)",
-                "secondary": "12 000 ₽ за 2-х пациентов",
+                "text": "Биорезонансный лечебно-диагностический приём «Мать и дитя» – авторская методика (мама и ребенок с 0 до 3-х лет)",
+                "secondary": "",
                 "url": "/services/lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let",
                 "icon": "",
                 "hidden": false
             },
             {
                 "id": "avtorskiy-tematicheskiy-priem",
-                "text": "Авторский тематический приём",
-                "secondary": "12 000 ₽",
+                "text": "Биорезонансный авторский тематический приём",
+                "secondary": "",
                 "url": "/services/avtorskiy-tematicheskiy-priem",
+                "icon": "",
+                "hidden": false
+            }
+        ],
+        "services.catalog.musculoskeletal": [
+            {
+                "id": "habilect-diagnostics",
+                "text": "Диагностика опорно-двигательного аппарата на мультифункциональном комплексе «Хабилект»",
+                "secondary": "",
+                "url": "/services/habilect-diagnostics",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "physiotherapy-comprehensive",
+                "text": "Комплексная программа реабилитации опорно-двигательного аппарата",
+                "secondary": "",
+                "url": "/services/physiotherapy-comprehensive",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "rehabilitation-specialist-consultation",
+                "text": "Приём специалиста по реабилитации с подбором ЛФК",
+                "secondary": "",
+                "url": "/services/rehabilitation-specialist-consultation",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "rehabilitation-specialist-monitoring",
+                "text": "Мониторинг специалиста по реабилитации с коррекцией ЛФК",
+                "secondary": "",
+                "url": "/services/rehabilitation-specialist-monitoring",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "kineziodiagnostics-therapy",
+                "text": "Кинезиотерапия: кинезиотестирование и кинезиомассаж",
+                "secondary": "",
+                "url": "/services/kineziodiagnostics-therapy",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "orthotic-insoles-formthotics",
+                "text": "Изготовление индивидуальных стелек «Формтотикс»",
+                "secondary": "",
+                "url": "/services/orthotic-insoles-formthotics",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "orthotic-insoles-footmaster",
+                "text": "Изготовление индивидуальных стелек «Футмастер»",
+                "secondary": "",
+                "url": "/services/orthotic-insoles-footmaster",
+                "icon": "",
+                "hidden": false
+            }
+        ],
+        "services.catalog.reflexotherapy": [
+            {
+                "id": "acupuncture",
+                "text": "Рефлексотерапия и иглоукалывание",
+                "secondary": "",
+                "url": "/services/acupuncture",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "mikropunktura-lazernaya",
+                "text": "Микропунктура лазерная",
+                "secondary": "",
+                "url": "/services/mikropunktura-lazernaya",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "mikropunktura-aurikulyarnaya",
+                "text": "Микропунктура аурикулярная",
+                "secondary": "",
+                "url": "/services/mikropunktura-aurikulyarnaya",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove",
+                "text": "Авторская программа Кондратовой Е.А. \"Женское здоровье\"",
+                "secondary": "",
+                "url": "/services/avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "akupunkturnyy-avtorskiy-metod-kondratovoy-e-a-vostochnyy-ekspress",
+                "text": "Акупунктурный авторский метод Кондратовой Е.А. \"Восточный экспресс\"",
+                "secondary": "",
+                "url": "/services/akupunkturnyy-avtorskiy-metod-kondratovoy-e-a-vostochnyy-ekspress",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "korporalnaya-iglorefleksoterapiya",
+                "text": "Корпоральная иглорефлексотерапия",
+                "secondary": "",
+                "url": "/services/korporalnaya-iglorefleksoterapiya",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "semyanoterapiya",
+                "text": "Семянотерапия",
+                "secondary": "",
+                "url": "/services/semyanoterapiya",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a",
+                "text": "Экспресс-приём зав. отделения, врача акушера-гинеколога, рефлексотерапевта Кондратовой Е.А.",
+                "secondary": "",
+                "url": "/services/ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "akupunkturnoe-kross-teypirovanie",
+                "text": "Акупунктурное кросс-тейпирование",
+                "secondary": "",
+                "url": "/services/akupunkturnoe-kross-teypirovanie",
+                "icon": "",
+                "hidden": false
+            }
+        ],
+        "services.catalog.ozone_therapy": [
+            {
+                "id": "ozonoterapiya",
+                "text": "Озонотерапия (мезотерапия озоном)",
+                "secondary": "",
+                "url": "/services/ozonoterapiya",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "gomeopaticheskaya-kapelnitsa-preparatami-kheel-ozon",
+                "text": "Гомеопатическая капельница препаратами Heel + озон",
+                "secondary": "",
+                "url": "/services/gomeopaticheskaya-kapelnitsa-preparatami-kheel-ozon",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "detoks-kapelnitsa",
+                "text": "Капельница с озоном",
+                "secondary": "",
+                "url": "/services/detoks-kapelnitsa",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "ozone-camera",
+                "text": "Озоновая камера",
+                "secondary": "",
+                "url": "/services/ozone-camera",
+                "icon": "",
+                "hidden": false
+            }
+        ],
+        "services.catalog.infusion_therapy": [
+            {
+                "id": "infusion-therapy",
+                "text": "Капельницы и инфузионная терапия",
+                "secondary": "",
+                "url": "/services/infusion-therapy",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "kapelnitsa-s-elkarom-levokarnitin",
+                "text": "Капельница с элькаром (левокарнитин)",
+                "secondary": "",
+                "url": "/services/kapelnitsa-s-elkarom-levokarnitin",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "kapelnitsa-laennek-yaponiya",
+                "text": "Капельница «Лаеннек» (Япония)",
+                "secondary": "",
+                "url": "/services/kapelnitsa-laennek-yaponiya",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "kapelnitsa-s-glutationom-antioksidant",
+                "text": "Капельница с глутатионом (антиоксидант)",
+                "secondary": "",
+                "url": "/services/kapelnitsa-s-glutationom-antioksidant",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "gomeopaticheskaya-kapelnitsa-preparatami-kheel",
+                "text": "Гомеопатическая капельница препаратами Heel",
+                "secondary": "",
+                "url": "/services/gomeopaticheskaya-kapelnitsa-preparatami-kheel",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "kapelnitsa-s-tsitoflavinom",
+                "text": "Капельница с цитофлавином",
+                "secondary": "",
+                "url": "/services/kapelnitsa-s-tsitoflavinom",
+                "icon": "",
+                "hidden": false
+            },
+            {
+                "id": "kapelnitsa-s-lipoevoy-kislotoy-germaniya",
+                "text": "Капельница с липоевой кислотой (Германия)",
+                "secondary": "",
+                "url": "/services/kapelnitsa-s-lipoevoy-kislotoy-germaniya",
                 "icon": "",
                 "hidden": false
             }

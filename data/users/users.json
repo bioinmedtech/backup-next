@@ -32,6 +32,17 @@
             "created_at": "2026-06-26T14:26:40+00:00",
             "updated_at": "2026-06-26T14:26:40+00:00",
             "last_login_at": null
+        },
+        {
+            "id": "u_566f282ed8",
+            "email": "alexey.litovchenko0101@gmail.com",
+            "name": "Алексей",
+            "role": "editor",
+            "is_active": true,
+            "password_hash": "$2y$10$ud0jrrCcqXtzZ6B/AH4vjeYw0tKL.7hFJQUeDIRDtWx7RhtjP8FIq",
+            "created_at": "2026-07-31T09:22:04+00:00",
+            "updated_at": "2026-07-31T09:22:04+00:00",
+            "last_login_at": null
         }
     ]
 }

@@ -1,41 +1,143 @@
 {
-  "meta": {
-    "children_title": "Проблемы детского и подросткового возраста",
-    "children_description": "Детские и подростковые проблемы в клинике БИОИНМЕД: нарушения осанки, задержка речи и моторики, гиперактивность, аутизм и другие запросы у детей.",
-    "not_found_title": "Проблема не найдена",
-    "not_found_description": "Страница не найдена"
-  },
-  "breadcrumbs": {
-    "home": "Главная",
-    "problems": "Найдите Вашу ситуацию",
-    "children": "Проблемы детского и подросткового возраста",
-    "default_problem": "Проблема"
-  },
-  "children": {
-    "eyebrow": "Детское направление",
-    "heading": "Детские и подростковые проблемы",
-    "description": "Нарушения осанки у детей и подростков, задержка речи и моторики, гиперактивность, аутизм, послеродовые и другие детские проблемы в клинике БИОИНМЕД.",
-    "cta_label": "Не нашли детскую ситуацию? Записаться на консультацию"
-  },
-  "not_found": {
-    "title": "Страница не найдена",
-    "text": "Проверьте ссылку или перейдите на страницу с проблемами.",
-    "button": "Ко всем ситуациям"
-  },
-  "problem": {
-    "eyebrow": "Ситуации и симптомы",
-    "intro": "Ниже мы собрали для Вас понятный маршрут, поэтапное описание и релевантные услуги, чтобы Вы сразу увидели логику восстановления."
-  },
-  "appointment": {
-    "eyebrow": "Запись",
-    "text": "Оставьте заявку, и мы свяжемся с Вами, чтобы помочь выбрать правильный шаг и удобное время консультации.",
-    "source_label": "Страница проблемы",
-    "submit_label": "Записаться на приём"
-  },
-  "services": {
-    "eyebrow": "Релевантные услуги",
-    "title": "Что может помочь при этой ситуации",
-    "description": "Собрали услуги, которые чаще всего сочетаются в таком маршруте и помогают двигаться к результату поэтапно.",
-    "display_label_fallback": "Услуга"
-  }
+    "meta": {
+        "children_title": "Проблемы детского и подросткового возраста",
+        "children_description": "Детские и подростковые проблемы в клинике БИОИНМЕД: нарушения осанки, задержка речи и моторики, гиперактивность, аутизм и другие запросы у детей.",
+        "not_found_title": "Проблема не найдена",
+        "not_found_description": "Страница не найдена"
+    },
+    "breadcrumbs": {
+        "home": "Главная",
+        "problems": "Найдите Вашу ситуацию",
+        "children": "Проблемы детского и подросткового возраста",
+        "default_problem": "Проблема"
+    },
+    "children": {
+        "eyebrow": "Детское направление",
+        "heading": "Детские и подростковые проблемы",
+        "description": "Нарушения осанки у детей и подростков, задержка речи и моторики, гиперактивность, аутизм, послеродовые и другие детские проблемы в клинике БИОИНМЕД.",
+        "cta_label": "Не нашли детскую ситуацию? Записаться на консультацию"
+    },
+    "not_found": {
+        "title": "Страница не найдена",
+        "text": "Проверьте ссылку или перейдите на страницу с проблемами.",
+        "button": "Ко всем ситуациям"
+    },
+    "problem": {
+        "eyebrow": "Ситуации и симптомы",
+        "intro": "Ниже мы собрали для Вас понятный маршрут, поэтапное описание и релевантные услуги, чтобы Вы сразу увидели логику восстановления."
+    },
+    "appointment": {
+        "eyebrow": "Запись",
+        "text": "Оставьте заявку, и мы свяжемся с Вами, чтобы помочь выбрать правильный шаг и удобное время консультации.",
+        "source_label": "Страница проблемы",
+        "submit_label": "Записаться на приём"
+    },
+    "services": {
+        "eyebrow": "Релевантные услуги",
+        "title": "Что может помочь при этой ситуации",
+        "description": "Собрали услуги, которые чаще всего сочетаются в таком маршруте и помогают двигаться к результату поэтапно.",
+        "display_label_fallback": "Услуга"
+    },
+    "details": {
+        "boli-v-spine-i-sustavakh": {
+            "sections": {
+                "consultation_diagnostics": {
+                    "intro": "Врач собирает жалобы, историю состояния и составляет план лечения."
+                }
+            }
+        },
+        "malopodvizhnyy-obraz-zhizni-lishniy-ves-metabolicheskiy-sindrom-gipoksiya": {
+            "sections": {
+                "consultation_diagnostics": {
+                    "intro": "Врач собирает жалобы, историю состояния и составляет план лечения и дополнительных исследований."
+                }
+            }
+        }
+    },
+    "editable_lists": {
+        "problem.boli-v-spine-i-sustavakh.details_sections.consultation_diagnostics.items": [
+            {
+                "id": "glavnyy-vrach-vrach-vrt-gomeopat-psikhoterapevt",
+                "text": "Главный врач, врач БРТ, гомеопат, рефлексотерапевт, психотерапевт",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "vrach-nevrolog-manualnyy-terapevt",
+                "text": "Кандидат медицинских наук, стоматолог, мануальный терапевт, остеопат",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "vrach-osteopat",
+                "text": "Врач-остеопат, невролог",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "spetsialist-po-reabilitatsii",
+                "text": "Специалист по реабилитации , ортопедии и ЛФК, тренер-инструктор, специалист по программе \"Хабилект\", реабилитации и АФК",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "kineziolog",
+                "text": "Кинезиолог",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            }
+        ],
+        "problem.malopodvizhnyy-obraz-zhizni-lishniy-ves-metabolicheskiy-sindrom-gipoksiya.details_sections.consultation_diagnostics.items": [
+            {
+                "id": "glavnyy-vrach-vrach-vrt-gomeopat-psikhoterapevt",
+                "text": "Главный врач, врач БТ, гомеопат, рефлексотерапевт, психотерапевт",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "vrach-nevrolog-manualnyy-terapevt",
+                "text": "Кандидат медицинских наук, стоматолог, мануальный терапевт, остеопат",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "vrach-osteopat",
+                "text": "Врач-остеопат, невролог",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "spetsialist-po-reabilitatsii",
+                "text": "Специалист по реабилитации , ортопедии и ЛФК, тренер-инструктор, специалист по программе \"Хабилект\", реабилитации и АФК",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            },
+            {
+                "id": "kineziolog",
+                "text": "Кинезиолог",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-check",
+                "hidden": false
+            }
+        ]
+    }
 }
