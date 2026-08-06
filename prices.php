@@ -261,7 +261,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         html { font-size: clamp(17px, 0.5vw + 15px, 19px); }
         body { line-height: 1.72; }
         .category-section { scroll-margin-top: 120px; border: 1px solid #dce8f5; border-radius: 0.9rem; background: #fff; padding: 0.95rem; box-shadow: 0 6px 16px rgba(10, 43, 80, 0.05); }
-        .prices-hero { position: relative; overflow: hidden; border: 1px solid #d7e4ef; border-radius: 1rem; background: linear-gradient(120deg, #eef6fd 0%, #e4f1fb 45%, #dff0fb 100%); box-shadow: 0 10px 24px rgba(6, 29, 60, 0.07); }
+        .prices-hero { position: relative; z-index: 20; overflow: visible; border: 1px solid #d7e4ef; border-radius: 1rem; background: linear-gradient(120deg, #eef6fd 0%, #e4f1fb 45%, #dff0fb 100%); box-shadow: 0 10px 24px rgba(6, 29, 60, 0.07); }
         .prices-nav { position: static; border: 1px solid #dce8f5; border-radius: 0.8rem; background: rgba(248, 252, 255, 0.95); backdrop-filter: blur(6px); box-shadow: 0 6px 16px rgba(10, 43, 80, 0.06); }
         .category-section table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 0.85rem; border: 1px solid #e1edf8; }
         .category-section thead th { background: #eef6fd; }
@@ -495,8 +495,10 @@ $header = new Header($brand_colors);
                             <button type="button" class="prices-document-button" role="menuitem" data-prices-export-url="/api/admin/prices-export/?format=excel" data-prices-export-filename="bioinmed-prices.xlsx"><i class="fa-solid fa-file-excel" aria-hidden="true"></i><span>Excel</span></button>
                             <button type="button" class="prices-document-button" role="menuitem" data-prices-export-url="/api/admin/prices-export/?format=yandex" data-prices-export-filename="bioinmed-yandex-prices.xlsx"><i class="fa-solid fa-building" aria-hidden="true"></i><span>Яндекс Бизнес</span></button>
                             <div class="prices-export-divider" aria-hidden="true"></div>
-                            <a class="prices-document-button" role="menuitem" href="/api/prices-yml/" target="_blank" rel="noopener"><i class="fa-solid fa-rss" aria-hidden="true"></i><span>Открыть YML-фид</span></a>
-                            <button id="prices-copy-yml" type="button" class="prices-document-button" role="menuitem" data-yml-url="/api/prices-yml/"><i class="fa-solid fa-link" aria-hidden="true"></i><span>Копировать ссылку YML</span></button>
+                            <a class="prices-document-button" role="menuitem" href="/api/prices-yml/" target="_blank" rel="noopener"><i class="fa-solid fa-rss" aria-hidden="true"></i><span>Яндекс: открыть YML-фид</span></a>
+                            <button type="button" class="prices-document-button" role="menuitem" data-yml-url="/api/prices-yml/"><i class="fa-solid fa-link" aria-hidden="true"></i><span>Яндекс: копировать ссылку</span></button>
+                            <a class="prices-document-button" role="menuitem" href="/api/prices-2gis-yml/" target="_blank" rel="noopener"><i class="fa-solid fa-rss" aria-hidden="true"></i><span>2ГИС: открыть YML-фид</span></a>
+                            <button type="button" class="prices-document-button" role="menuitem" data-yml-url="/api/prices-2gis-yml/"><i class="fa-solid fa-link" aria-hidden="true"></i><span>2ГИС: копировать ссылку</span></button>
                         </div>
                     </div>
                 </div>
@@ -736,7 +738,6 @@ $header = new Header($brand_colors);
             const exportMenu = document.getElementById('prices-export-menu');
             const exportToggle = document.getElementById('prices-export-toggle');
             const exportDropdown = document.getElementById('prices-export-dropdown');
-            const copyYmlButton = document.getElementById('prices-copy-yml');
             const storageKey = 'bioinmed:prices-print-mode';
             const signatureStorageKey = 'bioinmed:prices-signature';
 
@@ -817,7 +818,7 @@ $header = new Header($brand_colors);
                 });
             }
 
-            if (copyYmlButton) {
+            document.querySelectorAll('[data-yml-url]').forEach(function (copyYmlButton) {
                 copyYmlButton.addEventListener('click', async function () {
                     const url = new URL(copyYmlButton.dataset.ymlUrl, window.location.origin).href;
                     const label = copyYmlButton.querySelector('span');
@@ -845,7 +846,7 @@ $header = new Header($brand_colors);
                         window.prompt('Скопируйте ссылку на YML-фид:', url);
                     }
                 });
-            }
+            });
 
             document.querySelectorAll('[data-prices-export-url]').forEach(function (button) {
                 button.addEventListener('click', async function () {

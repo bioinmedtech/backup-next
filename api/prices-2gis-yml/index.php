@@ -14,4 +14,4 @@ if (!is_array($feed['payload'])) {
     exit;
 }
 
-bioinmed_prices_yml_output($feed['payload'], $feed['raw'], $pricesPath, 'yandex');
+bioinmed_prices_yml_output($feed['payload'], $feed['raw'], $pricesPath, '2gis');
