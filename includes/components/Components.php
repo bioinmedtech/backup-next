@@ -2285,6 +2285,7 @@ class ContactSection extends Component {
         $phone_link_1 = $this->phoneLink($contact_phone_1_raw);
         $phone_link_2 = trim($contact_phone_2_raw) !== '' ? $this->phoneLink($contact_phone_2_raw) : '';
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '/';
+        $map_image = bioinmed_versioned_asset_path('/public/images/map-v2.webp');
 
         $second_phone_html = $phone_2 !== ''
             ? '<div class="mt-1"><a href="tel:' . $phone_link_2 . '" class="text-[1rem] font-semibold text-[#1977b2] hover:text-[#0f2749] transition"' . $this->dataTextId('home.contact.values.phone_secondary') . '>' . $phone_2 . '</a></div>'
@@ -2317,6 +2318,25 @@ class ContactSection extends Component {
                         <!-- Блок контактов -->
                         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-start">
                             <div class="space-y-4">
+                                <!-- Как добраться -->
+                                <div class="rounded-xl border border-[#1977b2] bg-gradient-to-br from-[#f0fafe] to-[#e8f7fb] p-5" data-admin-block-root>
+                                    <div class="flex items-start gap-3">
+                                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#1977b2] text-white shrink-0 mt-0.5">
+                                            <i class="fa-solid fa-directions text-[0.9rem]" aria-hidden="true"></i>
+                                        </span>
+                                        <div>
+                                            <h4 class="font-bold text-[#0f2749] mb-2"{$this->dataTextId('home.contact.route.title')}>{$this->e(bioinmed_text('home.contact.route.title', 'Как добраться'))}</h4>
+                                            <p class="text-[0.92rem] text-[#0a293c] leading-relaxed mb-4"{$this->dataTextId('home.contact.route.text')}>
+                                                {$this->e(bioinmed_text('home.contact.route.text', 'Мы находимся в 5 минутах пешком от метро Фрунзенская. Выход из стеклянных дверей налево, затем прямо по переулку Хользунова до первого перекрёстка со светофором. Перейдите дорогу (ориентир — кафе «Брусника») и пройдите ещё около 50 метров до вывески «БИОИНМЕД».'))}
+                                            </p>
+                                            <a href="{$this->e(defined('CLINIC_MAP_URL') ? CLINIC_MAP_URL : 'https://yandex.com/maps/-/CPGGyEzo')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]" data-link-key="site.clinic.map_url" data-link-label="Ссылка на карту">
+                                                <i class="fa-solid fa-map text-[0.82rem]" aria-hidden="true"></i>
+                                                <span{$this->dataTextId('home.contact.route.button')}>{$this->e(bioinmed_text('home.contact.route.button', 'Открыть в Яндекс.Картах'))}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- Адрес -->
                                 <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
                                     <div class="flex items-center gap-2 mb-2">
@@ -2403,29 +2423,10 @@ class ContactSection extends Component {
                             </div>
 
                             <div class="space-y-4">
-                                <!-- Как добраться -->
-                                <div class="rounded-xl border border-[#1977b2] bg-gradient-to-br from-[#f0fafe] to-[#e8f7fb] p-5" data-admin-block-root>
-                                    <div class="flex items-start gap-3">
-                                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#1977b2] text-white shrink-0 mt-0.5">
-                                            <i class="fa-solid fa-directions text-[0.9rem]" aria-hidden="true"></i>
-                                        </span>
-                                        <div>
-                                            <h4 class="font-bold text-[#0f2749] mb-2"{$this->dataTextId('home.contact.route.title')}>{$this->e(bioinmed_text('home.contact.route.title', 'Как добраться'))}</h4>
-                                            <p class="text-[0.92rem] text-[#0a293c] leading-relaxed mb-4"{$this->dataTextId('home.contact.route.text')}>
-                                                {$this->e(bioinmed_text('home.contact.route.text', 'Мы находимся в 5 минутах пешком от метро Фрунзенская. Выход из стеклянных дверей налево, затем прямо по переулку Хользунова до первого перекрёстка со светофором. Перейдите дорогу (ориентир — кафе «Брусника») и пройдите ещё около 50 метров до вывески «БИОИНМЕД».'))}
-                                            </p>
-                                            <a href="{$this->e(defined('CLINIC_MAP_URL') ? CLINIC_MAP_URL : 'https://yandex.com/maps/-/CPGGyEzo')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]" data-link-key="site.clinic.map_url" data-link-label="Ссылка на карту">
-                                                <i class="fa-solid fa-map text-[0.82rem]" aria-hidden="true"></i>
-                                                <span{$this->dataTextId('home.contact.route.button')}>{$this->e(bioinmed_text('home.contact.route.button', 'Открыть в Яндекс.Картах'))}</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <!-- Карта -->
                                 <div class="rounded-xl border border-[#d7e4ef] bg-white p-3" data-admin-block-root>
                                     <a href="{$this->e(defined('CLINIC_MAP_URL') ? CLINIC_MAP_URL : 'https://yandex.com/maps/-/CPGGyEzo')}" target="_blank" rel="noreferrer noopener" class="block overflow-hidden rounded-lg" data-link-key="site.clinic.map_url" data-link-label="Ссылка на карту">
-                                        <img src="/public/images/map.jpg" alt="Карта прохода от метро Фрунзенская до клиники БИОИНМЕД" class="aspect-[4/3] w-full object-cover" loading="lazy" decoding="async">
+                                        <img src="{$map_image}" alt="Карта прохода от метро Фрунзенская до клиники БИОИНМЕД" class="aspect-square w-full object-contain" loading="lazy" decoding="async">
                                     </a>
                                 </div>
                             </div>
@@ -2491,13 +2492,13 @@ class PartnersBlock extends Component {
 class SolidarityMedicineBlock extends Component {
     public function render() {
         $vacanciesLabel = $this->e(bioinmed_text('home.solidarity.vacancies_button', 'Вакансии'));
-        $conferenceImage = bioinmed_versioned_asset_path('/public/images/conference_v4.webp');
+        $conferenceImage = bioinmed_versioned_asset_path('/public/images/conference_v5.webp');
         return <<<HTML
         <section id="solidarity-medicine" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-6 md:py-8" style="scroll-margin-top:6rem">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-[2rem] border border-[#d7e6f3] bg-white shadow-[0_10px_24px_rgba(8,36,70,0.06)]" data-admin-block-root>
-                    <div class="relative h-64 overflow-hidden bg-[#dceaf7] md:h-[22rem]">
-                        <img src="{$conferenceImage}" alt="Конференция проекта «Солидарная авторская медицина»" class="block h-full w-full object-cover object-center" loading="lazy" decoding="async">
+                    <div class="relative overflow-hidden bg-[#dceaf7]" style="aspect-ratio: 6 / 3;">
+                        <img src="{$conferenceImage}" alt="Конференция проекта «Солидарная авторская медицина»" class="block" style="width: 100%; height: 100%; object-fit: cover; object-position: center 60%;" loading="lazy" decoding="async">
                         <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,35,67,0.02)_15%,rgba(8,35,67,0.22)_100%)]"></div>
                         <div class="pointer-events-none absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2] shadow-[0_4px_12px_rgba(8,35,67,0.08)]">
                             <span{$this->dataTextId('home.solidarity.shared_platform')}>{$this->e(bioinmed_text('home.solidarity.shared_platform', 'Общая площадка'))}</span>

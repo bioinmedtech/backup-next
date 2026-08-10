@@ -502,18 +502,89 @@ function e($value) {
             var prev = document.querySelector('.doctor-slider-prev');
             var next = document.querySelector('.doctor-slider-next');
             if (!track || !prev || !next) return;
+            var cards = Array.from(track.querySelectorAll('article'));
+            var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var activeTimer = null;
 
             function getStep() {
                 return Math.max(280, Math.round(track.clientWidth * 0.85));
             }
 
+            function isMobileSlider() {
+                return window.matchMedia ? window.matchMedia('(max-width: 767px)').matches : window.innerWidth < 768;
+            }
+
+            function setVideo(card, play) {
+                var video = card ? card.querySelector('.bioinmed-doctor-hover-media__video') : null;
+                if (!video) return;
+
+                if (play && !reduceMotion) {
+                    var result = video.play();
+                    if (result && typeof result.catch === 'function') {
+                        result.catch(function() {});
+                    }
+                    return;
+                }
+
+                video.pause();
+                video.currentTime = 0;
+            }
+
+            function updateActiveDoctor() {
+                if (!cards.length) return;
+
+                if (!isMobileSlider()) {
+                    cards.forEach(function(card) {
+                        card.classList.remove('bioinmed-doctor-mobile-active');
+                        setVideo(card, false);
+                    });
+                    return;
+                }
+
+                var trackRect = track.getBoundingClientRect();
+                var trackCenter = trackRect.left + trackRect.width / 2;
+                var activeCard = cards.reduce(function(best, card) {
+                    var rect = card.getBoundingClientRect();
+                    var center = rect.left + rect.width / 2;
+                    var distance = Math.abs(center - trackCenter);
+                    return !best || distance < best.distance ? { card: card, distance: distance } : best;
+                }, null);
+
+                cards.forEach(function(card) {
+                    var isActive = activeCard && card === activeCard.card;
+                    card.classList.toggle('bioinmed-doctor-mobile-active', !!isActive);
+                    setVideo(card, !!isActive);
+                });
+            }
+
+            function scheduleActiveDoctorUpdate(delay) {
+                window.clearTimeout(activeTimer);
+                activeTimer = window.setTimeout(updateActiveDoctor, delay || 80);
+            }
+
             prev.addEventListener('click', function() {
                 track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+                scheduleActiveDoctorUpdate(360);
             });
 
             next.addEventListener('click', function() {
                 track.scrollBy({ left: getStep(), behavior: 'smooth' });
+                scheduleActiveDoctorUpdate(360);
             });
+
+            track.addEventListener('scroll', function() {
+                scheduleActiveDoctorUpdate(90);
+            }, { passive: true });
+
+            window.addEventListener('resize', function() {
+                scheduleActiveDoctorUpdate(120);
+            });
+
+            window.addEventListener('load', function() {
+                scheduleActiveDoctorUpdate(120);
+            }, { once: true });
+
+            scheduleActiveDoctorUpdate(0);
         })();
     </script>
 

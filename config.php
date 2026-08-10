@@ -239,7 +239,8 @@ function bioinmed_render_public_head_assets(array $options = []) {
 .bioinmed-doctor-hover-media:hover .bioinmed-doctor-hover-media__video,
 .bioinmed-doctor-hover-media:focus-within .bioinmed-doctor-hover-media__video,
 .group:hover .bioinmed-doctor-hover-media__video,
-.group:focus-within .bioinmed-doctor-hover-media__video{opacity:1}
+.group:focus-within .bioinmed-doctor-hover-media__video,
+.bioinmed-doctor-mobile-active .bioinmed-doctor-hover-media__video{opacity:1}
 @media(prefers-reduced-motion:reduce){.bioinmed-doctor-hover-media__video{display:none}}
 @media(max-width:520px){.bioinmed-booking-fallback__hero{padding:22px 56px 20px 20px}.bioinmed-booking-fallback__body{padding:21px 20px 23px}.bioinmed-booking-fallback__top{grid-template-columns:42px 1fr;gap:12px}.bioinmed-booking-fallback__icon{width:42px;height:42px;border-radius:13px}.bioinmed-booking-fallback__title{font-size:1.34rem}.bioinmed-booking-fallback__info{grid-template-columns:1fr}}
 </style>
