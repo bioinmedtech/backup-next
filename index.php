@@ -200,6 +200,43 @@ function e($value) {
                 inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
 
+        .hero-system-button {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, var(--icon-from), var(--icon-to));
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow:
+                0 14px 30px var(--icon-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.55),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+        }
+
+        .hero-system-button::before {
+            content: '';
+            position: absolute;
+            top: -70%;
+            left: -16%;
+            width: 64%;
+            height: 140%;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.24);
+            transform: rotate(-18deg);
+            pointer-events: none;
+        }
+
+        .hero-system-button > span,
+        .hero-system-button > i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-system-button:hover {
+            box-shadow:
+                0 18px 36px var(--icon-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+        }
+
 
         @media (max-width: 767px) {
             body {
