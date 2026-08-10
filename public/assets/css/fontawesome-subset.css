@@ -167,6 +167,7 @@
 .fa-sign-language:before,
 .fa-signing:before { content: "\f2a7"; }
 .fa-chart-column:before { content: "\e0e3"; }
+.fa-chart-line:before { content: "\f201"; }
 .fa-circle-nodes:before { content: "\e4e2"; }
 .fa-circle-question:before,
 .fa-question-circle:before { content: "\f059"; }
@@ -188,8 +189,12 @@
 .fa-tasks:before { content: "\f0ae"; }
 .fa-map:before { content: "\f279"; }
 .fa-map-pin:before { content: "\f276"; }
+.fa-route:before { content: "\f4d7"; }
 .fa-pen-to-square:before,
 .fa-edit:before { content: "\f044"; }
+.fa-medal:before { content: "\f5a2"; }
+.fa-person-running:before,
+.fa-running:before { content: "\f70c"; }
 .fa-person-walking:before,
 .fa-walking:before { content: "\f554"; }
 .fa-microscope:before { content: "\f610"; }
