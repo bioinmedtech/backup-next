@@ -63,7 +63,7 @@ define('CLINIC_NAME', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clini
 define('CLINIC_SITE_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.site_url', 'https://bioinmed.ru'));
 define('CLINIC_ICON_PATH', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.icon_path', '/public/images/brand/bioinmed-icon.png'));
 define('CLINIC_PHONE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.phone', '+7 (495) 796-03-36'));
-define('CLINIC_ADDRESS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.address', 'Москва, район Хамовники, Оболенский пер., 9А'));
+define('CLINIC_ADDRESS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.address', 'Москва, Хамовники, Оболенский пер., 9А'));
 define('CLINIC_METRO', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.metro', 'м. Фрунзенская'));
 define('CLINIC_EMAIL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.email', 'info@bioinmed.ru'));
 define('CLINIC_HOURS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hours', 'Пн-Сб с 9:00 до 21:00, Вс (выходной)'));

@@ -16,15 +16,8 @@ $pageDescription = trim((string)($licenseMeta['description'] ?? 'Медицин�
 $socialImageUrl = bioinmed_default_social_image_url();
 $documents = [];
 for ($i = 1; $i <= 5; $i++) {
-    $documents[] = bioinmed_versioned_asset_path('/public/images/license/license-page-' . $i . '.jpeg');
+    $documents[] = bioinmed_versioned_asset_path('/public/images/license/watermarked/license-page-' . $i . '.webp');
 }
-$renderWatermark = static function () {
-    $items = '';
-    for ($i = 0; $i < 20; $i++) {
-        $items .= '<span aria-hidden="true"></span>';
-    }
-    return '<span class="license-watermark" aria-hidden="true">' . $items . '</span>';
-};
 $structuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => $siteUrl . '/'],
@@ -63,24 +56,6 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             height: 100%;
             object-fit: cover;
         }
-        .license-watermark {
-            position: absolute;
-            z-index: 3;
-            inset: -28%;
-            display: grid;
-            grid-template-columns: repeat(4, minmax(110px, 1fr));
-            align-content: center;
-            gap: 54px 34px;
-            opacity: .22;
-            transform: rotate(-45deg);
-            transform-origin: center;
-            pointer-events: none;
-        }
-        .license-watermark > span {
-            display: block;
-            height: 42px;
-            background: url('/public/images/brand/main-logotype.png') center / contain no-repeat;
-        }
         .license-modal-document {
             position: relative;
             isolation: isolate;
@@ -100,7 +75,6 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             max-height: calc(100vh - 3rem);
             object-fit: contain;
         }
-        .license-modal-document .license-watermark { opacity: .2; }
         #license-document-modal {
             position: fixed;
             inset: 0;
@@ -131,7 +105,6 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                 <figure class="rounded-2xl border border-[#d3e2ef] bg-white p-3 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
                     <button type="button" class="license-document rounded-xl border border-[#e0e8ef] bg-white" data-license-document="<?php echo $e($document); ?>" aria-label="Открыть лицензионный документ, страница <?php echo $index + 1; ?>">
                         <img src="<?php echo $e($document); ?>" alt="Лицензионный документ БИОИНМЕД, страница <?php echo $index + 1; ?>" loading="<?php echo $index < 2 ? 'eager' : 'lazy'; ?>" decoding="async">
-                        <?php echo $renderWatermark(); ?>
                     </button>
                 </figure>
             <?php endforeach; ?>
@@ -146,7 +119,6 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <div class="mx-auto flex h-full max-w-6xl items-center justify-center">
         <div class="license-modal-document">
             <img id="license-document-modal-image" src="" alt="Лицензионный документ БИОИНМЕД">
-            <?php echo $renderWatermark(); ?>
         </div>
     </div>
 </div>

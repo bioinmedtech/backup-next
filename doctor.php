@@ -42,6 +42,22 @@ function e($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
 
+function bioinmed_doctor_certificates(string $doctorSlug): array {
+    $path = __DIR__ . '/data/content/ru/certificates.json';
+    if ($doctorSlug === '' || !is_file($path)) {
+        return [];
+    }
+
+    $data = json_decode((string)file_get_contents($path), true);
+    if (!is_array($data) || !is_array($data[$doctorSlug] ?? null)) {
+        return [];
+    }
+
+    return array_values(array_filter($data[$doctorSlug], static function ($item): bool {
+        return is_array($item) && trim((string)($item['image'] ?? '')) !== '';
+    }));
+}
+
 $pageTitle    = $doctor ? e($doctor['name']) . (string)($doctorMeta['title_suffix'] ?? '') . CLINIC_NAME : ((string)($doctorMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
 $pageDesc     = $doctor
     ? e($doctor['name']) . ' — ' . e($doctor['specialty'] ?? '') . (string)($doctorMeta['description_suffix'] ?? '')
@@ -62,6 +78,7 @@ $doctorImagePath = $doctor && !empty($doctor['image'])
 $doctorAnimatedVideoPath = $doctor ? bioinmed_doctor_animated_video_path('/public/images/team/' . ($doctor['image'] ?? '')) : '';
 $doctorProjectTitle = trim((string)($doctor['project_title'] ?? ''));
 $doctorEditablePrefix = 'doctor.' . (string)($doctor['slug'] ?? ($slug ?: 'default'));
+$doctorCertificates = $doctor ? bioinmed_doctor_certificates((string)($doctor['slug'] ?? '')) : [];
 $socialImageUrl = $doctor && !empty($doctor['image'])
     ? bioinmed_absolute_url($doctorImagePath)
     : bioinmed_default_social_image_url();
@@ -120,6 +137,42 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 
         .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .doctor-certificate-thumb img {
+            transition: transform .22s ease;
+        }
+        .doctor-certificate-thumb:hover img {
+            transform: scale(1.015);
+        }
+        .doctor-certificate-modal-thumb {
+            border: 2px solid transparent;
+            border-radius: 0.7rem;
+            width: 62px;
+            height: 62px;
+            padding: 0;
+            overflow: hidden;
+            flex: 0 0 auto;
+            opacity: 0.82;
+            transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+        }
+        .doctor-certificate-modal-thumb:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+        .doctor-certificate-modal-thumb.is-active {
+            opacity: 1;
+            border-color: #1977b2;
+        }
+        #doctor-certificate-modal-thumbs {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(42, 90, 148, 0.45) transparent;
+        }
+        #doctor-certificate-modal-thumbs::-webkit-scrollbar {
+            height: 6px;
+        }
+        #doctor-certificate-modal-thumbs::-webkit-scrollbar-thumb {
+            background: rgba(42, 90, 148, 0.35);
+            border-radius: 9999px;
+        }
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
@@ -425,6 +478,43 @@ echo $header->render();
                     </div>
                 </details>
                 <?php endif; ?>
+
+                <?php if (!empty($doctorCertificates)): ?>
+                <details class="doctor-section-toggle fade-up group rounded-3xl border border-[#d9e7f3] bg-white shadow-[0_8px_28px_rgba(8,36,70,0.06)]" data-admin-block-root data-doctor-toggle="certificates">
+                    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-7 text-left marker:hidden">
+                        <span class="flex items-center gap-2.5 text-xl font-bold text-[#0a293c]">
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f3fc] text-[#1977b2]" aria-hidden="true">
+                                <i class="fa-solid fa-award text-sm"></i>
+                            </span>
+                            <?php $certificatesTitleNode = bioinmed_page_text_node($doctorPage, 'doctor', 'certificates.title', 'Образование и сертификаты'); ?>
+                            <span<?php echo $certificatesTitleNode['attr']; ?>><?php echo e($certificatesTitleNode['value']); ?></span>
+                        </span>
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c9dff1] bg-white text-[#0a293c]">
+                            <i class="fa-solid fa-chevron-down text-[0.82rem] transition group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="px-7 pb-7">
+                        <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                            <?php foreach ($doctorCertificates as $certificateIndex => $certificate): ?>
+                                <?php
+                                $certificateImage = bioinmed_versioned_asset_path((string)($certificate['image'] ?? ''));
+                                $certificateTitle = trim((string)($certificate['title'] ?? 'Сертификат специалиста'));
+                                $certificateDate = trim((string)($certificate['date'] ?? ''));
+                                $certificateAlt = trim($certificateTitle . ($certificateDate !== '' ? ', ' . $certificateDate : ''));
+                                if ($certificateAlt === '') {
+                                    $certificateAlt = 'Сертификат специалиста';
+                                }
+                                ?>
+                                <button type="button" class="doctor-certificate-thumb group overflow-hidden rounded-2xl border border-[#d7e4ef] bg-[#f8fcff] p-2 shadow-[0_8px_20px_rgba(8,36,70,0.06)] transition hover:border-[#1977b2] hover:shadow-[0_12px_26px_rgba(25,119,178,0.11)]" data-doctor-certificate-index="<?php echo (int)$certificateIndex; ?>" data-doctor-certificate-src="<?php echo e($certificateImage); ?>" data-doctor-certificate-alt="<?php echo e($certificateAlt); ?>" aria-label="<?php echo e('Открыть сертификат ' . ($certificateIndex + 1)); ?>">
+                                    <span class="block aspect-[4/3] overflow-hidden rounded-xl bg-white">
+                                        <img src="<?php echo e($certificateImage); ?>" alt="<?php echo e($certificateAlt); ?>" class="h-full w-full object-contain" loading="<?php echo $certificateIndex < 3 ? 'eager' : 'lazy'; ?>" decoding="async">
+                                    </span>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </details>
+                <?php endif; ?>
             </div>
 
             <!-- right column: sticky CTA -->
@@ -704,6 +794,38 @@ echo $header->render();
     </section>
 
 </main>
+<?php if (!empty($doctorCertificates)): ?>
+<div id="doctor-certificate-modal" class="fixed inset-0 z-[110] hidden bg-[rgba(7,21,40,0.84)] px-4 py-6" role="dialog" aria-modal="true" aria-label="Просмотр сертификатов специалиста">
+    <button type="button" id="doctor-certificate-modal-close" class="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Закрыть">
+        <i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i>
+    </button>
+    <button type="button" id="doctor-certificate-modal-prev" class="absolute left-4 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Предыдущий сертификат">
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <button type="button" id="doctor-certificate-modal-next" class="absolute right-4 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20" aria-label="Следующий сертификат">
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <div class="mx-auto flex h-full max-w-6xl flex-col items-center justify-center gap-4">
+        <img id="doctor-certificate-modal-image" src="" alt="Сертификат специалиста" class="max-h-[72vh] max-w-full rounded-3xl border border-white/15 bg-white/5 object-contain shadow-[0_18px_48px_rgba(0,0,0,0.35)]">
+        <div id="doctor-certificate-modal-thumbs" class="flex w-full max-w-3xl gap-2 overflow-x-auto pb-1">
+            <?php foreach ($doctorCertificates as $certificateIndex => $certificate): ?>
+                <?php
+                $certificateImage = bioinmed_versioned_asset_path((string)($certificate['image'] ?? ''));
+                $certificateTitle = trim((string)($certificate['title'] ?? 'Сертификат специалиста'));
+                $certificateDate = trim((string)($certificate['date'] ?? ''));
+                $certificateAlt = trim($certificateTitle . ($certificateDate !== '' ? ', ' . $certificateDate : ''));
+                if ($certificateAlt === '') {
+                    $certificateAlt = 'Сертификат специалиста';
+                }
+                ?>
+                <button type="button" class="doctor-certificate-modal-thumb<?php echo $certificateIndex === 0 ? ' is-active' : ''; ?>" data-doctor-certificate-modal-index="<?php echo (int)$certificateIndex; ?>" data-full-src="<?php echo e($certificateImage); ?>" aria-label="<?php echo e('Сертификат ' . ($certificateIndex + 1)); ?>">
+                    <img src="<?php echo e($certificateImage); ?>" alt="<?php echo e($certificateAlt); ?>" class="h-full w-full bg-white object-contain" loading="lazy" decoding="async">
+                </button>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 <?php endif; ?>
 
 <?php
@@ -779,6 +901,117 @@ echo $footer->render();
                 }
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
+        });
+    })();
+
+    (function() {
+        var modal = document.getElementById('doctor-certificate-modal');
+        var modalImage = document.getElementById('doctor-certificate-modal-image');
+        var modalClose = document.getElementById('doctor-certificate-modal-close');
+        var modalPrev = document.getElementById('doctor-certificate-modal-prev');
+        var modalNext = document.getElementById('doctor-certificate-modal-next');
+        var openers = Array.from(document.querySelectorAll('[data-doctor-certificate-index]'));
+        var modalThumbs = Array.from(document.querySelectorAll('[data-doctor-certificate-modal-index]'));
+
+        if (!modal || !modalImage || !openers.length) {
+            return;
+        }
+
+        if (modal.parentNode !== document.body) {
+            document.body.appendChild(modal);
+        }
+
+        var gallery = openers.map(function(opener) {
+            return {
+                src: opener.getAttribute('data-doctor-certificate-src') || '',
+                alt: opener.getAttribute('data-doctor-certificate-alt') || 'Сертификат специалиста'
+            };
+        }).filter(function(item) {
+            return item.src !== '';
+        });
+
+        if (!gallery.length) {
+            return;
+        }
+
+        var currentIndex = 0;
+
+        function renderModalImage() {
+            var item = gallery[currentIndex];
+            if (!item) {
+                return;
+            }
+
+            modalImage.src = item.src;
+            modalImage.alt = item.alt;
+            modalThumbs.forEach(function(thumb, index) {
+                thumb.classList.toggle('is-active', index === currentIndex);
+            });
+        }
+
+        function openModal(index) {
+            currentIndex = Math.max(0, Math.min(gallery.length - 1, index));
+            renderModalImage();
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            modalImage.src = '';
+        }
+
+        function prevModal() {
+            currentIndex = currentIndex <= 0 ? gallery.length - 1 : currentIndex - 1;
+            renderModalImage();
+        }
+
+        function nextModal() {
+            currentIndex = currentIndex >= gallery.length - 1 ? 0 : currentIndex + 1;
+            renderModalImage();
+        }
+
+        openers.forEach(function(opener, index) {
+            opener.addEventListener('click', function() {
+                var parsedIndex = parseInt(opener.getAttribute('data-doctor-certificate-index') || String(index), 10);
+                openModal(isNaN(parsedIndex) ? index : parsedIndex);
+            });
+        });
+
+        modalThumbs.forEach(function(thumb) {
+            thumb.addEventListener('click', function() {
+                var index = parseInt(thumb.getAttribute('data-doctor-certificate-modal-index') || '0', 10);
+                if (!isNaN(index)) {
+                    currentIndex = Math.max(0, Math.min(gallery.length - 1, index));
+                    renderModalImage();
+                }
+            });
+        });
+
+        modalClose && modalClose.addEventListener('click', closeModal);
+        modalPrev && modalPrev.addEventListener('click', prevModal);
+        modalNext && modalNext.addEventListener('click', nextModal);
+
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (modal.classList.contains('hidden')) {
+                return;
+            }
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+            if (event.key === 'ArrowLeft') {
+                prevModal();
+            }
+            if (event.key === 'ArrowRight') {
+                nextModal();
+            }
         });
     })();
 

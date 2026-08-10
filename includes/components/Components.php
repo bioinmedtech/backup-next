@@ -882,13 +882,25 @@ class HeroSection extends Component {
         $hero_placeholder_image = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
         $hero_slides = [
             [
-                'full' => '/public/images/slider-v2/main-photo-bioinmed-v2.webp',
-                'thumb' => '/public/images/slider-v2/main-photo-bioinmed-v2-thumb.webp',
-                'video' => '/public/images/main-video-bioinmed-v2.mp4',
+                'full' => '/public/images/habilect-family.webp',
+                'thumb' => '/public/images/habilect-family.webp',
+                'video' => '/public/images/habilect-family-video.mp4',
                 'alt' => $hero_slide_alt_prefix . ' 1',
             ],
         ];
-        for ($i = 1; $i <= 20; $i++) {
+        $hero_slider_sequence = [
+            1,                // приём главного врача
+            3, 4,             // ХИЛТ и аппаратная терапия
+            10, 11, 14,       // рефлексотерапия и иглоукалывание
+            15,               // инъекционные методики
+            16,               // ударно-волновая терапия
+            6,                // инфузионная терапия
+            2, 17,            // физиотерапия
+            12, 13,           // микропунктура
+            5, 9,             // остальные аппаратные и процедурные кадры
+            7, 8, 18, 19, 20, // Хабилект и реабилитация
+        ];
+        foreach ($hero_slider_sequence as $i) {
             $hero_slides[] = [
                 'full' => '/public/images/slider-v2/slider-' . $i . '.webp',
                 'thumb' => '/public/images/slider-v2/slider-' . $i . '-thumb.webp',
