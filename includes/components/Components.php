@@ -2269,108 +2269,122 @@ class ContactSection extends Component {
                         </div>
 
                         <!-- Блок контактов -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <!-- Телефон -->
-                            <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
-                                        <i class="fa-solid fa-phone text-[0.75rem]" aria-hidden="true"></i>
-                                    </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.phone')}>{$this->e(bioinmed_text('home.contact.labels.phone', 'Телефон'))}</p>
-                                </div>
-                                <a href="tel:{$phone_link_1}" class="block text-[1rem] font-bold text-[#1977b2] hover:text-[#0f2749] transition leading-snug"{$this->dataTextId('home.contact.values.phone_primary')}>
-                                    {$phone_1}
-                                </a>
-                                {$second_phone_html}
-                            </div>
-
-                            <!-- Адрес -->
-                            <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
-                                        <i class="fa-solid fa-map-pin text-[0.75rem]" aria-hidden="true"></i>
-                                    </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.address')}>{$this->e(bioinmed_text('home.contact.labels.address', 'Адрес'))}</p>
-                                </div>
-                                <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug"{$this->dataTextId('home.contact.values.address')}>
-                                    {$address}
-                                </p>
-                                <p class="text-[0.92rem] text-[#0a293c] mt-1"{$this->dataTextId('home.contact.values.metro')}>
-                                    {$metro}
-                                </p>
-                                <a href="{$booking_url}" onclick="onlineBooking.open();return false;" class="mt-4 inline-flex w-full items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden text-decoration-none">
-                                    <span{$this->dataTextId('home.contact.online_booking_button_mobile')}>{$this->e(bioinmed_text('common.book_appointment'))}</span>
-                                </a>
-                            </div>
-
-                            <!-- Режим работы -->
-                            <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
-                                        <i class="fa-solid fa-clock text-[0.75rem]" aria-hidden="true"></i>
-                                    </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.hours')}>{$this->e(bioinmed_text('home.contact.labels.hours', 'Режим'))}</p>
-                                </div>
-                                <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug"{$this->dataTextId('home.contact.values.hours')}>
-                                    {$hours}
-                                </p>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
-                                        <i class="fa-solid fa-envelope text-[0.75rem]" aria-hidden="true"></i>
-                                    </span>
-                                    <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.email')}>{$this->e(bioinmed_text('home.contact.labels.email', 'Email'))}</p>
-                                </div>
-                                <a href="mailto:{$email}" class="text-[1rem] font-semibold text-[#1977b2] hover:text-[#0f2749] transition break-all"{$this->dataTextId('home.contact.values.email')}>
-                                    {$email}
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Как добраться -->
-                        <div class="rounded-xl border border-[#1977b2] bg-gradient-to-br from-[#f0fafe] to-[#e8f7fb] p-5" data-admin-block-root>
-                            <div class="flex items-start gap-3">
-                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#1977b2] text-white shrink-0 mt-0.5">
-                                    <i class="fa-solid fa-directions text-[0.9rem]" aria-hidden="true"></i>
-                                </span>
-                                <div>
-                                    <h4 class="font-bold text-[#0f2749] mb-2"{$this->dataTextId('home.contact.route.title')}>{$this->e(bioinmed_text('home.contact.route.title', 'Как добраться'))}</h4>
-                                    <p class="text-[0.92rem] text-[#0a293c] leading-relaxed mb-3"{$this->dataTextId('home.contact.route.text')}>
-                                        {$this->e(bioinmed_text('home.contact.route.text', 'Станция метро Фрунзенская. Выход из стеклянных дверей налево, затем прямо по переулку Хользунова до первого перекрёстка со светофором. Перейдите дорогу (ориентир — кафе «Брусника») и пройдите ещё около 50 метров до вывески «БИОИНМЕД».'))}
+                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-start">
+                            <div class="space-y-4">
+                                <!-- Адрес -->
+                                <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
+                                            <i class="fa-solid fa-map-pin text-[0.75rem]" aria-hidden="true"></i>
+                                        </span>
+                                        <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.address')}>{$this->e(bioinmed_text('home.contact.labels.address', 'Адрес'))}</p>
+                                    </div>
+                                    <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug"{$this->dataTextId('home.contact.values.address')}>
+                                        {$address}
                                     </p>
-                                    <a href="{$this->e(defined('CLINIC_MAP_URL') ? CLINIC_MAP_URL : 'https://yandex.com/maps/-/CPGGyEzo')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]" data-link-key="site.clinic.map_url" data-link-label="Ссылка на карту">
-                                        <i class="fa-solid fa-map text-[0.82rem]" aria-hidden="true"></i>
-                                        <span{$this->dataTextId('home.contact.route.button')}>{$this->e(bioinmed_text('home.contact.route.button', 'Открыть в Яндекс.Картах'))}</span>
+                                    <p class="text-[0.92rem] text-[#0a293c] mt-1"{$this->dataTextId('home.contact.values.metro')}>
+                                        {$metro}
+                                    </p>
+                                    <a href="{$booking_url}" onclick="onlineBooking.open();return false;" class="mt-4 inline-flex w-full items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden text-decoration-none">
+                                        <span{$this->dataTextId('home.contact.online_booking_button_mobile')}>{$this->e(bioinmed_text('common.book_appointment'))}</span>
+                                    </a>
+                                </div>
+
+                                <!-- Режим работы -->
+                                <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
+                                            <i class="fa-solid fa-clock text-[0.75rem]" aria-hidden="true"></i>
+                                        </span>
+                                        <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.hours')}>{$this->e(bioinmed_text('home.contact.labels.hours', 'Режим'))}</p>
+                                    </div>
+                                    <p class="text-[1rem] font-semibold text-[#0f2749] leading-snug"{$this->dataTextId('home.contact.values.hours')}>
+                                        {$hours}
+                                    </p>
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <!-- Телефон -->
+                                    <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
+                                                <i class="fa-solid fa-phone text-[0.75rem]" aria-hidden="true"></i>
+                                            </span>
+                                            <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.phone')}>{$this->e(bioinmed_text('home.contact.labels.phone', 'Телефон'))}</p>
+                                        </div>
+                                        <a href="tel:{$phone_link_1}" class="block text-[1rem] font-bold text-[#1977b2] hover:text-[#0f2749] transition leading-snug"{$this->dataTextId('home.contact.values.phone_primary')}>
+                                            {$phone_1}
+                                        </a>
+                                        {$second_phone_html}
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="rounded-xl border border-[#d7e4ef] bg-white p-4" data-admin-block-root>
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#e3f2fc] text-[#1977b2]">
+                                                <i class="fa-solid fa-envelope text-[0.75rem]" aria-hidden="true"></i>
+                                            </span>
+                                            <p class="text-[0.82rem] font-bold uppercase tracking-[0.08em] text-[#0a293c]"{$this->dataTextId('home.contact.labels.email')}>{$this->e(bioinmed_text('home.contact.labels.email', 'Email'))}</p>
+                                        </div>
+                                        <a href="mailto:{$email}" class="text-[1rem] font-semibold text-[#1977b2] hover:text-[#0f2749] transition break-all"{$this->dataTextId('home.contact.values.email')}>
+                                            {$email}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Оставить отзыв -->
+                                <div class="rounded-xl border border-[#dce8f5] bg-white p-5" data-admin-block-root>
+                                    <h4 class="font-bold text-[#0f2749] mb-3"{$this->dataTextId('home.contact.reviews.title')}>{$this->e(bioinmed_text('home.contact.reviews.title', 'Оставить отзыв о центре'))}</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <a href="{$this->e(defined('CLINIC_REVIEW_YANDEX') ? CLINIC_REVIEW_YANDEX : 'https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]" data-link-key="site.clinic.review_yandex" data-link-label="Ссылка отзыва Яндекс">
+                                            <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
+                                            <span{$this->dataTextId('home.contact.reviews.yandex')}>{$this->e(bioinmed_text('home.contact.reviews.yandex', 'Яндекс'))}</span>
+                                        </a>
+                                        <a href="{$this->e(defined('CLINIC_REVIEW_2GIS') ? CLINIC_REVIEW_2GIS : 'https://2gis.ru/moscow/firm/70000001085756150/tab/reviews')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]" data-link-key="site.clinic.review_2gis" data-link-label="Ссылка отзыва 2ГИС">
+                                            <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
+                                            <span{$this->dataTextId('home.contact.reviews.2gis')}>{$this->e(bioinmed_text('home.contact.reviews.2gis', '2ГИС'))}</span>
+                                        </a>
+                                        <a href="{$this->e(defined('CLINIC_REVIEW_DOCTU') ? CLINIC_REVIEW_DOCTU : 'https://doctu.ru/msk/clinic/bioinmed')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]" data-link-key="site.clinic.review_doctu" data-link-label="Ссылка отзыва Doctu">
+                                            <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
+                                            <span{$this->dataTextId('home.contact.reviews.doctu')}>{$this->e(bioinmed_text('home.contact.reviews.doctu', 'Doctu'))}</span>
+                                        </a>
+                                        <a href="{$this->e(defined('CLINIC_VK') ? CLINIC_VK : 'https://vk.com/bioinmed')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]" data-link-key="site.clinic.review_vk" data-link-label="Ссылка отзыва VK">
+                                            <i class="fa-brands fa-vk text-[0.88rem] mr-1"></i>
+                                            <span{$this->dataTextId('home.contact.reviews.vk')}>{$this->e(bioinmed_text('home.contact.reviews.vk', 'ВКонтакте'))}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Как добраться -->
+                                <div class="rounded-xl border border-[#1977b2] bg-gradient-to-br from-[#f0fafe] to-[#e8f7fb] p-5" data-admin-block-root>
+                                    <div class="flex items-start gap-3">
+                                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#1977b2] text-white shrink-0 mt-0.5">
+                                            <i class="fa-solid fa-directions text-[0.9rem]" aria-hidden="true"></i>
+                                        </span>
+                                        <div>
+                                            <h4 class="font-bold text-[#0f2749] mb-2"{$this->dataTextId('home.contact.route.title')}>{$this->e(bioinmed_text('home.contact.route.title', 'Как добраться'))}</h4>
+                                            <p class="text-[0.92rem] text-[#0a293c] leading-relaxed mb-4"{$this->dataTextId('home.contact.route.text')}>
+                                                {$this->e(bioinmed_text('home.contact.route.text', 'Мы находимся в 5 минутах пешком от метро Фрунзенская. Выход из стеклянных дверей налево, затем прямо по переулку Хользунова до первого перекрёстка со светофором. Перейдите дорогу (ориентир — кафе «Брусника») и пройдите ещё около 50 метров до вывески «БИОИНМЕД».'))}
+                                            </p>
+                                            <a href="{$this->e(defined('CLINIC_MAP_URL') ? CLINIC_MAP_URL : 'https://yandex.com/maps/-/CPGGyEzo')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-2 rounded-lg bg-[#1977b2] px-4 py-2 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]" data-link-key="site.clinic.map_url" data-link-label="Ссылка на карту">
+                                                <i class="fa-solid fa-map text-[0.82rem]" aria-hidden="true"></i>
+                                                <span{$this->dataTextId('home.contact.route.button')}>{$this->e(bioinmed_text('home.contact.route.button', 'Открыть в Яндекс.Картах'))}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Карта -->
+                                <div class="rounded-xl border border-[#d7e4ef] bg-white p-3" data-admin-block-root>
+                                    <a href="{$this->e(defined('CLINIC_MAP_URL') ? CLINIC_MAP_URL : 'https://yandex.com/maps/-/CPGGyEzo')}" target="_blank" rel="noreferrer noopener" class="block overflow-hidden rounded-lg" data-link-key="site.clinic.map_url" data-link-label="Ссылка на карту">
+                                        <img src="/public/images/map.jpg" alt="Карта прохода от метро Фрунзенская до клиники БИОИНМЕД" class="aspect-[4/3] w-full object-cover" loading="lazy" decoding="async">
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Оставить отзыв -->
-                        <div class="rounded-xl border border-[#dce8f5] bg-white p-5" data-admin-block-root>
-                            <h4 class="font-bold text-[#0f2749] mb-3"{$this->dataTextId('home.contact.reviews.title')}>{$this->e(bioinmed_text('home.contact.reviews.title', 'Оставить отзыв о центре'))}</h4>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <a href="{$this->e(defined('CLINIC_REVIEW_YANDEX') ? CLINIC_REVIEW_YANDEX : 'https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]" data-link-key="site.clinic.review_yandex" data-link-label="Ссылка отзыва Яндекс">
-                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
-                                    <span{$this->dataTextId('home.contact.reviews.yandex')}>{$this->e(bioinmed_text('home.contact.reviews.yandex', 'Яндекс'))}</span>
-                                </a>
-                                <a href="{$this->e(defined('CLINIC_REVIEW_2GIS') ? CLINIC_REVIEW_2GIS : 'https://2gis.ru/moscow/firm/70000001085756150/tab/reviews')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]" data-link-key="site.clinic.review_2gis" data-link-label="Ссылка отзыва 2ГИС">
-                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
-                                    <span{$this->dataTextId('home.contact.reviews.2gis')}>{$this->e(bioinmed_text('home.contact.reviews.2gis', '2ГИС'))}</span>
-                                </a>
-                                <a href="{$this->e(defined('CLINIC_REVIEW_DOCTU') ? CLINIC_REVIEW_DOCTU : 'https://doctu.ru/msk/clinic/bioinmed')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]" data-link-key="site.clinic.review_doctu" data-link-label="Ссылка отзыва Doctu">
-                                    <i class="fa-solid fa-star text-[0.88rem] mr-1 text-[#1977b2]"></i>
-                                    <span{$this->dataTextId('home.contact.reviews.doctu')}>{$this->e(bioinmed_text('home.contact.reviews.doctu', 'Doctu'))}</span>
-                                </a>
-                                <a href="{$this->e(defined('CLINIC_VK') ? CLINIC_VK : 'https://vk.com/bioinmed')}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center justify-center rounded-lg border border-[#d7e4ef] bg-white px-3 py-2 text-[0.88rem] font-semibold text-[#0a293c] transition hover:border-[#1977b2] hover:bg-[#f0fafe]" data-link-key="site.clinic.review_vk" data-link-label="Ссылка отзыва VK">
-                                    <i class="fa-brands fa-vk text-[0.88rem] mr-1"></i>
-                                    <span{$this->dataTextId('home.contact.reviews.vk')}>{$this->e(bioinmed_text('home.contact.reviews.vk', 'ВКонтакте'))}</span>
-                                </a>
-                            </div>
-                        </div>
                 </div>
             </div>
         </section>
