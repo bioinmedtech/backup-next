@@ -3214,6 +3214,28 @@
         });
     }
 
+    function editableListPresets(root) {
+        var raw = root ? (root.getAttribute('data-admin-list-presets') || '') : '';
+        if (!raw) return [];
+        try {
+            var presets = JSON.parse(raw);
+            if (!Array.isArray(presets)) return [];
+            return presets.filter(function (preset) {
+                return preset && typeof preset === 'object' && (preset.id || preset.text);
+            }).map(function (preset) {
+                return {
+                    id: String(preset.id || ''),
+                    text: String(preset.text || ''),
+                    secondary: String(preset.secondary || ''),
+                    url: String(preset.url || ''),
+                    icon: String(preset.icon || '')
+                };
+            });
+        } catch (error) {
+            return [];
+        }
+    }
+
     function editableListElements(root) {
         if (!root) return [];
         return Array.prototype.filter.call(root.querySelectorAll('[data-admin-list-item="1"]'), function (item) {
@@ -3258,7 +3280,7 @@
         });
     }
 
-    var editableListModalState = { root: null, index: -1, insertIndex: -1 };
+    var editableListModalState = { root: null, index: -1, insertIndex: -1, presetId: '' };
 
     function resizeEditableListTextarea(textarea) {
         if (!textarea) return;
@@ -3275,6 +3297,7 @@
         overlay.innerHTML = ''
             + '<form class="bioinmed-list-editor-modal" id="bioinmed-list-editor-form">'
             + '<h2 class="bioinmed-list-editor-title" id="bioinmed-list-editor-title">Элемент списка</h2>'
+            + '<label class="bioinmed-list-editor-field" id="bioinmed-list-editor-preset-field"><span id="bioinmed-list-editor-preset-label">Выбрать</span><select id="bioinmed-list-editor-preset"><option value="">Заполнить вручную</option></select></label>'
             + '<label class="bioinmed-list-editor-field"><span>Текст</span><textarea id="bioinmed-list-editor-text" required></textarea></label>'
             + '<label class="bioinmed-list-editor-field" id="bioinmed-list-editor-secondary-field"><span id="bioinmed-list-editor-secondary-label">Описание</span><textarea id="bioinmed-list-editor-secondary"></textarea></label>'
             + '<p class="bioinmed-block-edit-locked-hint" id="bioinmed-list-editor-price-hint" hidden><i class="fa-solid fa-lock" aria-hidden="true"></i><span>Цена управляется только на <a href="/prices">странице цен</a>.</span></p>'
@@ -3293,6 +3316,42 @@
             });
         });
 
+        byId('bioinmed-list-editor-preset').addEventListener('change', function () {
+            var root = editableListModalState.root;
+            var selectedId = this.value || '';
+            editableListModalState.presetId = selectedId;
+            if (!root || !selectedId) return;
+            var preset = editableListPresets(root).filter(function (candidate) {
+                return candidate.id === selectedId;
+            })[0];
+            if (!preset) return;
+
+            var textInput = byId('bioinmed-list-editor-text');
+            var secondaryInput = byId('bioinmed-list-editor-secondary');
+            var urlInput = byId('bioinmed-list-editor-url');
+            var iconSelect = byId('bioinmed-list-editor-icon');
+            textInput.value = preset.text || '';
+            if (secondaryInput && !secondaryInput.disabled && !secondaryInput.readOnly) {
+                secondaryInput.value = preset.secondary || '';
+            }
+            if (urlInput) {
+                urlInput.value = preset.url || '';
+            }
+            if (iconSelect && root.getAttribute('data-admin-list-icons') === '1') {
+                var iconValue = preset.icon || '';
+                var hasIconOption = Array.prototype.some.call(iconSelect.options, function (option) { return option.value === iconValue; });
+                if (iconValue && !hasIconOption) {
+                    var presetIconOption = document.createElement('option');
+                    presetIconOption.value = iconValue;
+                    presetIconOption.textContent = 'Иконка услуги';
+                    iconSelect.appendChild(presetIconOption);
+                }
+                iconSelect.value = iconValue;
+            }
+            resizeEditableListTextarea(textInput);
+            resizeEditableListTextarea(secondaryInput);
+        });
+
         overlay.addEventListener('click', function (event) {
             if (event.target === overlay || event.target.closest('[data-admin-list-modal-close]')) {
                 overlay.classList.remove('is-open');
@@ -3309,7 +3368,7 @@
                 return;
             }
             var item = {
-                id: '',
+                id: editableListModalState.presetId || '',
                 text: text,
                 secondary: (byId('bioinmed-list-editor-secondary').value || '').trim(),
                 url: (byId('bioinmed-list-editor-url').value || '').trim(),
@@ -3317,7 +3376,9 @@
                 hidden: !!byId('bioinmed-list-editor-hidden').checked
             };
             if (editableListModalState.index >= 0 && items[editableListModalState.index]) {
-                item.id = items[editableListModalState.index].id;
+                if (!item.id) {
+                    item.id = items[editableListModalState.index].id;
+                }
                 items[editableListModalState.index] = item;
             } else if (editableListModalState.insertIndex >= 0) {
                 items.splice(editableListModalState.insertIndex, 0, item);
@@ -3337,7 +3398,28 @@
         editableListModalState.root = root;
         editableListModalState.index = index;
         editableListModalState.insertIndex = typeof insertIndex === 'number' ? insertIndex : -1;
+        editableListModalState.presetId = item ? (item.id || '') : '';
         setText(byId('bioinmed-list-editor-title'), (index >= 0 ? 'Редактирование' : 'Новый элемент') + ': ' + (root.getAttribute('data-admin-list-title') || 'список'));
+        var presets = editableListPresets(root);
+        var presetField = byId('bioinmed-list-editor-preset-field');
+        var presetSelect = byId('bioinmed-list-editor-preset');
+        var presetLabel = root.getAttribute('data-admin-list-preset-label') || 'Выбрать';
+        setText(byId('bioinmed-list-editor-preset-label'), presetLabel);
+        presetSelect.innerHTML = '<option value="">Заполнить вручную</option>';
+        presets.forEach(function (preset) {
+            var option = document.createElement('option');
+            option.value = preset.id;
+            option.textContent = preset.text || preset.id;
+            presetSelect.appendChild(option);
+        });
+        if (editableListModalState.presetId && !presets.some(function (preset) { return preset.id === editableListModalState.presetId; })) {
+            var currentPresetOption = document.createElement('option');
+            currentPresetOption.value = editableListModalState.presetId;
+            currentPresetOption.textContent = item ? (item.text || 'Текущий элемент') : 'Текущий элемент';
+            presetSelect.appendChild(currentPresetOption);
+        }
+        presetSelect.value = editableListModalState.presetId;
+        presetField.style.display = presets.length ? '' : 'none';
         byId('bioinmed-list-editor-text').value = item ? item.text : '';
         var secondaryLabel = root.getAttribute('data-admin-list-secondary-label') || '';
         var isServicesCatalogPrice = (root.getAttribute('data-admin-list-page') || '') === 'services'

@@ -569,21 +569,74 @@ echo $header->render();
         }
     }
     $doctorServices = array_merge($diagnosticServices, $otherServices);
+
+    $doctorServiceFallbackItems = [];
+    foreach ($doctorServices as $serviceItem) {
+        $serviceId = trim((string)($serviceItem['id'] ?? ''));
+        if ($serviceId === '') {
+            continue;
+        }
+        $doctorServiceFallbackItems[] = [
+            'id' => $serviceId,
+            'text' => trim((string)($serviceItem['name'] ?? '')),
+            'secondary' => trim((string)($serviceItem['description'] ?? '')),
+            'url' => '/services/' . $serviceId,
+            'icon' => 'fa-solid fa-stethoscope',
+        ];
+    }
+
+    $doctorServiceListKey = $doctorEditablePrefix . '.services';
+    $doctorServiceItems = bioinmed_editable_list_items($doctorPage, $doctorServiceListKey, $doctorServiceFallbackItems, 'fa-solid fa-stethoscope');
+    $doctorServiceOptions = [];
+    foreach ($services as $serviceOption) {
+        $serviceOptionId = trim((string)($serviceOption['id'] ?? ''));
+        $serviceOptionName = trim((string)($serviceOption['name'] ?? ''));
+        if ($serviceOptionId === '' || $serviceOptionName === '') {
+            continue;
+        }
+        $doctorServiceOptions[] = [
+            'id' => $serviceOptionId,
+            'text' => $serviceOptionName,
+            'secondary' => trim((string)($serviceOption['description'] ?? '')),
+            'url' => '/services/' . $serviceOptionId,
+            'icon' => 'fa-solid fa-stethoscope',
+        ];
+    }
+    $doctorServiceOptionsAttr = e(json_encode($doctorServiceOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     ?>
-    <?php if (!empty($doctorServices)): ?>
+    <?php if (!empty($doctorServiceItems)): ?>
     <section class="border-t border-[#e4edf6] bg-[#e4f1fa] py-12">
         <div class="mx-auto max-w-6xl px-6 md:px-10" data-admin-block-root>
             <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.eyebrow'); ?>><?php echo e($doctorServicesText['eyebrow'] ?? ''); ?></p>
             <h2 class="mt-2 text-xl font-bold text-[#0a293c] md:text-2xl"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.title'); ?>><?php echo e($doctorServicesText['title'] ?? ''); ?></h2>
             <p class="mt-2 text-sm text-[#0a293c]"<?php echo bioinmed_page_text_attr($doctorPage, 'doctor', 'services.description'); ?>><?php echo e($doctorServicesText['description'] ?? ''); ?></p>
 
-            <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <?php foreach ($doctorServices as $srv): ?>
+            <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"<?php echo bioinmed_editable_list_attrs('doctor', $doctorServiceListKey, 'Релевантные услуги специалиста', true, 'Описание услуги', 'Ссылка на услугу'); ?> data-admin-list-presets="<?php echo $doctorServiceOptionsAttr; ?>" data-admin-list-preset-label="Выбрать услугу">
+                <?php echo bioinmed_editable_list_toolbar('div'); ?>
+                <?php foreach ($doctorServiceItems as $serviceListItem): ?>
                 <?php
-                    $doctorServiceId = (string)($srv['id'] ?? '');
-                    $doctorServiceNameNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.name', (string)($srv['name'] ?? ''));
-                    $doctorServiceDescriptionNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.description', (string)($srv['description'] ?? ''));
-                    $doctorServiceActualPrice = bioinmed_service_actual_price_parts($srv);
+                    $doctorServiceId = (string)($serviceListItem['id'] ?? '');
+                    $resolvedService = $servicesMap[$doctorServiceId] ?? null;
+                    $doctorServiceName = trim((string)($serviceListItem['text'] ?? ''));
+                    $doctorServiceDescription = trim((string)($serviceListItem['secondary'] ?? ''));
+                    $doctorServiceUrl = trim((string)($serviceListItem['url'] ?? ''));
+                    if ($resolvedService !== null) {
+                        if ($doctorServiceName === '') {
+                            $doctorServiceName = (string)($resolvedService['name'] ?? '');
+                        }
+                        if ($doctorServiceDescription === '') {
+                            $doctorServiceDescription = (string)($resolvedService['description'] ?? '');
+                        }
+                        if ($doctorServiceUrl === '') {
+                            $doctorServiceUrl = '/services/' . $doctorServiceId;
+                        }
+                    }
+                    if ($doctorServiceUrl === '') {
+                        $doctorServiceUrl = $doctorServiceId !== '' && $resolvedService !== null ? '/services/' . $doctorServiceId : '/services';
+                    }
+                    $doctorServiceNameNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.name', $doctorServiceName);
+                    $doctorServiceDescriptionNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.description', $doctorServiceDescription);
+                    $doctorServiceActualPrice = $resolvedService !== null ? bioinmed_service_actual_price_parts($resolvedService) : ['price' => ''];
                     $doctorServicePriceValue = (string)($doctorServiceActualPrice['price'] ?? '');
                     if ($doctorServicePriceValue === '') {
                         $doctorServicePriceValue = (string)($doctorServicesText['price_fallback'] ?? '');
@@ -592,13 +645,13 @@ echo $header->render();
                     $doctorServicePriceNode['value'] = $doctorServicePriceValue;
                     $doctorServiceCtaNode = bioinmed_page_text_node($doctorPage, 'doctor', 'services.items.' . $doctorServiceId . '.cta', bioinmed_text('common.more_details'));
                 ?>
-                <a href="/services/<?php echo e($srv['id']); ?>"
-                   class="fade-up group flex flex-col rounded-2xl border border-[#dce8f5] bg-white p-5 transition hover:border-[#1977b2] hover:shadow-[0_6px_20px_rgba(25,119,178,0.12)]"
-                   data-admin-block-root>
+                <a href="<?php echo e($doctorServiceUrl); ?>"
+                   class="fade-up group flex flex-col rounded-2xl border border-[#dce8f5] bg-white p-5 transition hover:border-[#1977b2] hover:shadow-[0_6px_20px_rgba(25,119,178,0.12)]<?php echo bioinmed_editable_list_item_class($serviceListItem); ?>"
+                   <?php echo bioinmed_editable_list_item_attrs($serviceListItem); ?>>
                     <p class="text-sm font-semibold leading-snug text-[#0a293c] group-hover:text-[#1977b2]"<?php echo $doctorServiceNameNode['attr']; ?>>
                         <?php echo e($doctorServiceNameNode['value']); ?>
                     </p>
-                    <?php if (!empty($srv['description'])): ?>
+                    <?php if ($doctorServiceDescription !== ''): ?>
                     <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-[#0a293c]"<?php echo $doctorServiceDescriptionNode['attr']; ?>>
                         <?php echo e(mb_substr($doctorServiceDescriptionNode['value'], 0, 110, 'UTF-8')); ?>…
                     </p>
@@ -610,6 +663,7 @@ echo $header->render();
                             <i class="fa-solid fa-arrow-right text-[0.62rem]"></i>
                         </span>
                     </div>
+                    <?php echo bioinmed_editable_list_actions($serviceListItem); ?>
                 </a>
                 <?php endforeach; ?>
             </div>
