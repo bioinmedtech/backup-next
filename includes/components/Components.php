@@ -1461,9 +1461,24 @@ class StatsBlock extends Component {
 class VisualGallery extends Component {
     public function render() {
         $about_alt = $this->e(bioinmed_text('home.visual_gallery.about_alt', 'Клиника БИОИНМЕД'));
-        $kostromina_alt = $this->e(bioinmed_text('home.visual_gallery.kostromina_alt', 'Инна Викторовна Костромина'));
-        $navrozov_alt = $this->e(bioinmed_text('home.visual_gallery.navrozov_alt', 'Евгений Сергеевич Наврозов'));
-        $nehorosheva_alt = $this->e(bioinmed_text('home.visual_gallery.nehorosheva_alt', 'Людмила Сергеевна Нехорошева'));
+        $kostromina_alt = bioinmed_text('home.visual_gallery.kostromina_alt', 'Инна Викторовна Костромина');
+        $navrozov_alt = bioinmed_text('home.visual_gallery.navrozov_alt', 'Евгений Сергеевич Наврозов');
+        $nehorosheva_alt = bioinmed_text('home.visual_gallery.nehorosheva_alt', 'Людмила Сергеевна Нехорошева');
+        $kostromina_media = bioinmed_render_doctor_hover_media('/public/images/team/kostromina-default.webp', bioinmed_doctor_animated_video_path('/public/images/team/kostromina-default.webp'), $kostromina_alt, 'h-56 w-full object-cover', [
+            'loading' => 'lazy',
+            'decoding' => 'async',
+            '__raw' => $this->dataTextId('home.visual_gallery.kostromina_alt'),
+        ]);
+        $navrozov_media = bioinmed_render_doctor_hover_media('/public/images/team/navrozov.webp', bioinmed_doctor_animated_video_path('/public/images/team/navrozov.webp'), $navrozov_alt, 'h-56 w-full object-cover', [
+            'loading' => 'lazy',
+            'decoding' => 'async',
+            '__raw' => $this->dataTextId('home.visual_gallery.navrozov_alt'),
+        ]);
+        $nehorosheva_media = bioinmed_render_doctor_hover_media('/public/images/team/nehorosheva.webp', bioinmed_doctor_animated_video_path('/public/images/team/nehorosheva.webp'), $nehorosheva_alt, 'h-56 w-full object-cover', [
+            'loading' => 'lazy',
+            'decoding' => 'async',
+            '__raw' => $this->dataTextId('home.visual_gallery.nehorosheva_alt'),
+        ]);
         return <<<HTML
         <section class="border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
@@ -1472,13 +1487,13 @@ class VisualGallery extends Component {
                         <img src="/public/images/content/about-company.webp" alt="{$about_alt}" class="h-56 w-full object-cover" loading="lazy" decoding="async"{$this->dataTextId('home.visual_gallery.about_alt')} />
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/kostromina-default.webp" alt="{$kostromina_alt}" class="h-56 w-full object-cover" loading="lazy" decoding="async"{$this->dataTextId('home.visual_gallery.kostromina_alt')} />
+                        {$kostromina_media}
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/navrozov.webp" alt="{$navrozov_alt}" class="h-56 w-full object-cover" loading="lazy" decoding="async"{$this->dataTextId('home.visual_gallery.navrozov_alt')} />
+                        {$navrozov_media}
                     </div>
                     <div class="overflow-hidden rounded-2xl border border-[#dce8f5]">
-                        <img src="/public/images/team/nehorosheva.webp" alt="{$nehorosheva_alt}" class="h-56 w-full object-cover" loading="lazy" decoding="async"{$this->dataTextId('home.visual_gallery.nehorosheva_alt')} />
+                        {$nehorosheva_media}
                     </div>
                 </div>
             </div>
@@ -1672,7 +1687,14 @@ class ChiefDoctorBlock extends Component {
             'editable_list_page' => 'index',
             'editable_list_page_data' => bioinmed_read_json_file('pages/index.json'),
         ]);
-        $chief_image = bioinmed_versioned_asset_path('/public/images/team/kostromina.webp');
+        $chief_image_source = !empty($this->data['image']) ? '/public/images/team/' . ltrim((string)$this->data['image'], '/') : '/public/images/team/kostromina-default.webp';
+        $chief_image = bioinmed_preferred_image_asset_path($chief_image_source);
+        $chief_animated_video = bioinmed_doctor_animated_video_path($chief_image_source);
+        $chief_media_html = bioinmed_render_doctor_hover_media($chief_image, $chief_animated_video, (string)($this->data['name'] ?? ''), 'h-full w-full rounded-3xl object-cover object-top', [
+            'loading' => 'lazy',
+            'decoding' => 'async',
+            'onerror' => "this.src='/public/images/placeholder.jpg'",
+        ]);
 
         return <<<HTML
         <section class="bg-[#e4f1fa] py-10 md:py-14">
@@ -1680,7 +1702,7 @@ class ChiefDoctorBlock extends Component {
                 <div class="fade-up grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
                     <div class="w-full max-w-[480px]" data-admin-block-root>
                         <div class="aspect-square overflow-hidden rounded-3xl">
-                            <img src="{$this->e($chief_image)}" alt="{$this->e($this->data['name'])}" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy" decoding="async" onerror="this.src='/public/images/placeholder.jpg'" />
+                            {$chief_media_html}
                         </div>
                         <p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"{$this->dataTextId('home.chief_doctor.quote')}>{$this->e(bioinmed_text('home.chief_doctor.quote', 'Определение причины заболевания - Ваш первый шаг к психологическому и физическому здоровью'))}</p>
                         <p class="caveat-reveal mt-2 text-[1.08rem] font-semibold tracking-[0.04em] text-[#4a6f9c]" style="font-family:'Caveat',cursive;font-weight:700;"{$this->dataTextId('home.chief_doctor.signature')}>{$this->e(bioinmed_text('home.chief_doctor.signature', 'Костромина И.В.'))}</p>
@@ -1859,11 +1881,19 @@ class DoctorsGrid extends Component {
             $slug = $this->e($doctor_item['id']);
             $doctor_link = trim((string)$doctor_item['url']);
             $doctor_image = !empty($doctor['image']) ? bioinmed_preferred_image_asset_path('/public/images/team/' . $doctor['image']) : '/public/images/placeholder.jpg';
+            $doctor_animated_video = !empty($doctor['image']) ? bioinmed_doctor_animated_video_path('/public/images/team/' . $doctor['image']) : '';
             $has_profile = $doctor_link !== '';
             $card_action_text = trim((string)($doctor['card_action_text'] ?? bioinmed_text('home.doctors.card_action_fallback', 'Команда клиники')));
+            $doctor_media_html = bioinmed_render_doctor_hover_media($doctor_image, $doctor_animated_video, (string)$doctor_item['text'], 'h-80 w-full object-cover transition duration-300 group-hover:scale-[1.03] md:h-[22rem]', [
+                'loading' => 'lazy',
+                'decoding' => 'async',
+            ]);
             $doctor_image_html = $has_profile
-                ? '<a href="' . $this->e($doctor_link) . '" class="block overflow-hidden"><img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor_item['text']) . '" class="h-80 w-full object-cover transition duration-300 group-hover:scale-[1.03] md:h-[22rem]" loading="lazy" decoding="async"></a>'
-                : '<img src="' . $this->e($doctor_image) . '" alt="' . $this->e($doctor_item['text']) . '" class="h-80 w-full object-cover md:h-[22rem]" loading="lazy" decoding="async">';
+                ? '<a href="' . $this->e($doctor_link) . '" class="block overflow-hidden">' . $doctor_media_html . '</a>'
+                : bioinmed_render_doctor_hover_media($doctor_image, $doctor_animated_video, (string)$doctor_item['text'], 'h-80 w-full object-cover md:h-[22rem]', [
+                    'loading' => 'lazy',
+                    'decoding' => 'async',
+                ]);
             $doctor_name_html = $has_profile
                 ? '<h3 class="text-lg font-bold leading-tight text-[#0a293c]"><a href="' . $this->e($doctor_link) . '" class="transition hover:text-[#1977b2]" data-admin-list-text-view>' . $this->e($doctor_item['text']) . '</a></h3>'
                 : '<h3 class="text-lg font-bold leading-tight text-[#0a293c]" data-admin-list-text-view>' . $this->e($doctor_item['text']) . '</h3>';

@@ -48,14 +48,17 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 $bookingUrl = defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/';
 $chief = $doctors[0] ?? [];
 $chiefName = trim((string)($chief['name'] ?? 'Инна Викторовна Костромина'));
-$chiefImage = '/public/images/team/kostromina-default.webp';
+$chiefImageSource = '/public/images/team/kostromina-default.webp';
+$chiefImage = bioinmed_preferred_image_asset_path($chiefImageSource);
 $mapUrl = CLINIC_MAP_URL;
 $aboutHabilectLink = bioinmed_link('services.habilect_diagnostics');
 $aboutPhysioLink = bioinmed_link('services.fizioterapiya');
 $aboutAcupunctureLink = bioinmed_link('services.acupuncture');
 if (!empty($chief['image'])) {
-	$chiefImage = bioinmed_preferred_image_asset_path('/public/images/team/' . ltrim((string)$chief['image'], '/'));
+	$chiefImageSource = '/public/images/team/' . ltrim((string)$chief['image'], '/');
+	$chiefImage = bioinmed_preferred_image_asset_path($chiefImageSource);
 }
+$chiefAnimatedVideo = bioinmed_doctor_animated_video_path($chiefImageSource);
 
 
 $aboutServiceShowcase = [
@@ -194,7 +197,11 @@ echo $header->render();
 		<div class="grid gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr] md:items-start">
 		<div class="w-full max-w-[480px]" data-admin-block-root>
 			<div class="aspect-square overflow-hidden rounded-3xl">
-				<img src="<?php echo e($chiefImage); ?>" alt="<?php echo e($chiefName); ?>" class="h-full w-full rounded-3xl object-cover object-top" loading="lazy">
+				<?php echo bioinmed_render_doctor_hover_media($chiefImage, $chiefAnimatedVideo, $chiefName, 'h-full w-full rounded-3xl object-cover object-top', [
+					'loading' => 'lazy',
+					'decoding' => 'async',
+					'onerror' => "this.src='/public/images/placeholder.jpg'",
+				]); ?>
 			</div>
 			<p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;"<?php echo bioinmed_page_text_attr($aboutPage, 'about', 'chief_quote.text'); ?>>
 				<?php echo e($aboutChiefQuote['text'] ?? ''); ?>

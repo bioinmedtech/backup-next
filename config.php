@@ -233,6 +233,14 @@ function bioinmed_render_public_head_assets(array $options = []) {
 .bioinmed-booking-fallback__info-item{display:flex;gap:9px;align-items:flex-start;border:1px solid #dce8f4;border-radius:16px;background:#f8fbff;padding:12px 13px;color:#355b89;font-size:.88rem;line-height:1.38}
 .bioinmed-booking-fallback__info-item i{margin-top:2px;color:#1977b2;font-size:.82rem}
 .bioinmed-booking-fallback__note{margin-top:13px;border-top:1px solid #e6eef7;padding-top:12px;color:#17446f;font-size:.86rem;font-weight:650;line-height:1.45}
+.bioinmed-doctor-hover-media{position:relative;display:block;width:100%;height:100%;overflow:hidden}
+.bioinmed-doctor-hover-media>img{display:block}
+.bioinmed-doctor-hover-media__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;pointer-events:none;transition:opacity .28s ease}
+.bioinmed-doctor-hover-media:hover .bioinmed-doctor-hover-media__video,
+.bioinmed-doctor-hover-media:focus-within .bioinmed-doctor-hover-media__video,
+.group:hover .bioinmed-doctor-hover-media__video,
+.group:focus-within .bioinmed-doctor-hover-media__video{opacity:1}
+@media(prefers-reduced-motion:reduce){.bioinmed-doctor-hover-media__video{display:none}}
 @media(max-width:520px){.bioinmed-booking-fallback__hero{padding:22px 56px 20px 20px}.bioinmed-booking-fallback__body{padding:21px 20px 23px}.bioinmed-booking-fallback__top{grid-template-columns:42px 1fr;gap:12px}.bioinmed-booking-fallback__icon{width:42px;height:42px;border-radius:13px}.bioinmed-booking-fallback__title{font-size:1.34rem}.bioinmed-booking-fallback__info{grid-template-columns:1fr}}
 </style>
 HTML;
@@ -318,6 +326,7 @@ HTML;
     $html[] = '<link rel="preload" href="' . htmlspecialchars($fontawesome_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
     $html[] = '<noscript><link rel="stylesheet" href="' . htmlspecialchars($fontawesome_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></noscript>';
     $html[] = '<script defer src="' . htmlspecialchars($consent_js_src, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"></script>';
+    $html[] = '<script>(function(){if(window.__bioinmedDoctorHoverMediaReady)return;window.__bioinmedDoctorHoverMediaReady=true;function mediaRoot(target){return target&&target.closest?target.closest(".bioinmed-doctor-hover-media,.group"):null;}function setVideo(container,play){var video=container&&container.querySelector?container.querySelector(".bioinmed-doctor-hover-media__video"):null;if(!video)return;if(play){var result=video.play();if(result&&typeof result.catch==="function")result.catch(function(){});}else{video.pause();video.currentTime=0;}}document.addEventListener("pointerenter",function(event){var container=mediaRoot(event.target);if(container)setVideo(container,true);},true);document.addEventListener("pointerleave",function(event){var container=mediaRoot(event.target);if(container&&(!event.relatedTarget||!container.contains(event.relatedTarget)))setVideo(container,false);},true);document.addEventListener("focusin",function(event){var container=mediaRoot(event.target);if(container)setVideo(container,true);});document.addEventListener("focusout",function(event){var container=mediaRoot(event.target);if(container&&!container.contains(event.relatedTarget))setVideo(container,false);});})();</script>';
     $html[] = '<script>(function(){if(window.__bioinmedBackButtonReady)return;window.__bioinmedBackButtonReady=true;document.addEventListener("click",function(event){var button=event.target.closest&&event.target.closest("[data-bioinmed-back-button]");if(!button)return;var fallback=button.getAttribute("data-back-fallback")||"/";if(window.history.length>1&&document.referrer&&document.referrer.indexOf(window.location.origin)===0){event.preventDefault();window.history.back();return;}button.setAttribute("href",fallback);});})();</script>';
     $html[] = '<script>(function(){var root=document.documentElement;var done=false;function finish(state){if(done)return;done=true;root.classList.remove("js-caveat-pending");root.classList.add(state);}function fallback(){finish("js-caveat-failed");}if(!("fonts" in document)||typeof document.fonts.load!=="function"){fallback();return;}var timeout=window.setTimeout(fallback,1500);document.fonts.load("700 1em Caveat").then(function(){window.clearTimeout(timeout);finish("js-caveat-ready");},function(){window.clearTimeout(timeout);fallback();});})();</script>';
     $html[] = bioinmed_yandex_metrika_head();
@@ -347,6 +356,63 @@ function bioinmed_preferred_image_asset_path($path = '') {
     }
 
     return bioinmed_versioned_asset_path($normalized);
+}
+
+function bioinmed_doctor_animated_video_path($image_path = '') {
+    $value = trim((string)$image_path);
+    if ($value === '' || preg_match('~^https?://~i', $value)) {
+        return '';
+    }
+
+    $path = parse_url($value, PHP_URL_PATH);
+    $path = is_string($path) ? $path : $value;
+    $base_name = pathinfo($path, PATHINFO_FILENAME);
+    if ($base_name === '') {
+        return '';
+    }
+
+    $candidate = '/public/images/team-animated/' . $base_name . '.mp4';
+    if (!is_file(__DIR__ . $candidate)) {
+        return '';
+    }
+
+    return bioinmed_versioned_asset_path($candidate);
+}
+
+function bioinmed_render_doctor_hover_media($image_path, $video_path, $alt, $image_class, array $image_attrs = []) {
+    $image_src = htmlspecialchars((string)$image_path, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $video_src = htmlspecialchars((string)$video_path, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $alt_attr = htmlspecialchars((string)$alt, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $class_attr = htmlspecialchars((string)$image_class, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $extra_attrs = [];
+    foreach ($image_attrs as $name => $value) {
+        if ((string)$name === '__raw') {
+            $raw_attrs = trim((string)$value);
+            if ($raw_attrs !== '') {
+                $extra_attrs[] = $raw_attrs;
+            }
+            continue;
+        }
+        $name = preg_replace('/[^a-zA-Z0-9_:-]+/', '', (string)$name);
+        if ($name === '') {
+            continue;
+        }
+        if ($value === true) {
+            $extra_attrs[] = $name;
+        } elseif ($value !== false && $value !== null) {
+            $extra_attrs[] = $name . '="' . htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"';
+        }
+    }
+    $attrs = $extra_attrs ? ' ' . implode(' ', $extra_attrs) : '';
+
+    if ($video_src === '') {
+        return '<img src="' . $image_src . '" alt="' . $alt_attr . '" class="' . $class_attr . '"' . $attrs . '>';
+    }
+
+    return '<span class="bioinmed-doctor-hover-media">'
+        . '<img src="' . $image_src . '" alt="' . $alt_attr . '" class="' . $class_attr . '"' . $attrs . '>'
+        . '<video class="bioinmed-doctor-hover-media__video" src="' . $video_src . '" muted playsinline loop preload="metadata" aria-hidden="true"></video>'
+        . '</span>';
 }
 
 function bioinmed_default_social_image_path() {

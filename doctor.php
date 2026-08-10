@@ -59,6 +59,7 @@ $phone2link   = $phone2 ? preg_replace('/\D/', '', $phone2) : '';
 $doctorImagePath = $doctor && !empty($doctor['image'])
     ? bioinmed_preferred_image_asset_path('/public/images/team/' . $doctor['image'])
     : '';
+$doctorAnimatedVideoPath = $doctor ? bioinmed_doctor_animated_video_path('/public/images/team/' . ($doctor['image'] ?? '')) : '';
 $doctorProjectTitle = trim((string)($doctor['project_title'] ?? ''));
 $doctorEditablePrefix = 'doctor.' . (string)($doctor['slug'] ?? ($slug ?: 'default'));
 $socialImageUrl = $doctor && !empty($doctor['image'])
@@ -161,13 +162,12 @@ echo $header->render();
                 <!-- photo -->
                 <div class="fade-up w-full max-w-[480px]" data-admin-block-root>
                     <div class="aspect-square overflow-hidden rounded-3xl">
-                            <img src="<?php echo e($doctorImagePath); ?>"
-                             alt="<?php echo e($doctor['name']); ?>"
-                             class="h-full w-full rounded-3xl object-cover object-top"
-                             loading="eager"
-                             fetchpriority="high"
-                             decoding="async"
-                             onerror="this.src='/public/images/placeholder.jpg'">
+                        <?php echo bioinmed_render_doctor_hover_media($doctorImagePath, $doctorAnimatedVideoPath, (string)($doctor['name'] ?? ''), 'h-full w-full rounded-3xl object-cover object-top', [
+                            'loading' => 'eager',
+                            'fetchpriority' => 'high',
+                            'decoding' => 'async',
+                            'onerror' => "this.src='/public/images/placeholder.jpg'",
+                        ]); ?>
                     </div>
                     <?php if (!empty($doctor['hero_tagline'])): ?>
                     <p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">

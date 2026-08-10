@@ -170,6 +170,7 @@ echo $header->render();
     if ($chief):
         $chiefExp = trim((string)($chief['experience'] ?? ''));
         $chiefImage = bioinmed_preferred_image_asset_path('/public/images/team/' . ($chief['image'] ?? ''));
+        $chiefAnimatedVideo = bioinmed_doctor_animated_video_path('/public/images/team/' . ($chief['image'] ?? ''));
         $chiefYears = null;
         if (preg_match('/(\d+)\s*(?:лет|год)/ui', $chiefExp, $m)) $chiefYears = $m[1];
     ?>
@@ -178,13 +179,12 @@ echo $header->render();
                 <div class="fade-up grid items-start gap-8 md:grid-cols-[380px_1fr] lg:grid-cols-[460px_1fr]">
                     <div class="w-full max-w-[480px]" data-admin-block-root>
                         <div class="aspect-square overflow-hidden rounded-3xl">
-                            <img src="<?php echo e($chiefImage); ?>"
-                                 alt="<?php echo e($chief['name']); ?>"
-                                 class="h-full w-full rounded-3xl object-cover object-top"
-                                 loading="eager"
-                                 fetchpriority="high"
-                                 decoding="async"
-                                 onerror="this.src='/public/images/placeholder.jpg'">
+                            <?php echo bioinmed_render_doctor_hover_media($chiefImage, $chiefAnimatedVideo, (string)($chief['name'] ?? ''), 'h-full w-full rounded-3xl object-cover object-top', [
+                                'loading' => 'eager',
+                                'fetchpriority' => 'high',
+                                'decoding' => 'async',
+                                'onerror' => "this.src='/public/images/placeholder.jpg'",
+                            ]); ?>
                         </div>
                         <?php if (!empty($chief['hero_tagline'])): ?>
                         <p class="caveat-reveal mt-4 max-w-none text-[#0a293c]" style="font-family:'Caveat',cursive;font-size:clamp(1.35rem,4vw,1.8rem);line-height:1.22;font-weight:700;">
@@ -234,6 +234,7 @@ echo $header->render();
                     $doc = $teamDoctorMap[$doctorItem['id']] ?? [];
                     $docExp = trim((string)($doc['experience'] ?? ''));
                     $docImage = !empty($doc['image']) ? bioinmed_preferred_image_asset_path('/public/images/team/' . $doc['image']) : '/public/images/placeholder.jpg';
+                    $docAnimatedVideo = !empty($doc['image']) ? bioinmed_doctor_animated_video_path('/public/images/team/' . $doc['image']) : '';
                     $docHasProfile = trim((string)$doctorItem['url']) !== '';
                     $docActionText = trim((string)($doc['card_action_text'] ?? ($doctorsTeam['card_action_fallback'] ?? '')));
                     $docLink = (string)$doctorItem['url'];
@@ -253,13 +254,12 @@ echo $header->render();
                         <?php if ($docHasProfile): ?>
                         <a href="<?php echo e($docLink); ?>" class="block h-full overflow-hidden">
                         <?php endif; ?>
-                                          <img src="<?php echo e($docImage); ?>"
-                                      alt="<?php echo e($docImageAltNode['value']); ?>"
-                                                        <?php echo $docImageAltNode['attr']; ?>
-                                                        class="block aspect-[4/5] w-full object-cover object-top transition duration-300 md:h-full md:min-h-full md:aspect-auto <?php echo $docHasProfile ? 'group-hover:scale-[1.03]' : ''; ?>"
-                             loading="lazy"
-                                     decoding="async"
-                                      onerror="this.src='/public/images/placeholder.jpg'">
+                            <?php echo bioinmed_render_doctor_hover_media($docImage, $docAnimatedVideo, (string)$docImageAltNode['value'], 'block aspect-[4/5] w-full object-cover object-top transition duration-300 md:h-full md:min-h-full md:aspect-auto ' . ($docHasProfile ? 'group-hover:scale-[1.03]' : ''), [
+                                '__raw' => $docImageAltNode['attr'] ?? '',
+                                'loading' => 'lazy',
+                                'decoding' => 'async',
+                                'onerror' => "this.src='/public/images/placeholder.jpg'",
+                            ]); ?>
                         <?php if ($docHasProfile): ?>
                         </a>
                         <?php endif; ?>
