@@ -453,11 +453,11 @@ class Header extends Component {
             <div class="hidden lg:block">
                 <div class="mx-auto max-w-6xl px-6 pt-2 md:px-10">
                     <div class="grid gap-2 pb-2.5 lg:grid-cols-[max-content_minmax(0,1.05fr)_minmax(0,0.9fr)_minmax(0,0.74fr)_minmax(200px,auto)] lg:items-start">
-                        <a href="/" class="inline-flex items-center mr-3 shrink-0">
-                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-16 w-auto max-w-none" width="1348" height="400" loading="eager" decoding="async">
+                        <a href="/" class="inline-flex items-center mr-8 shrink-0">
+                            <img src="{$logo_src}" alt="БИОИНМЕД" class="h-20 w-auto max-w-none" width="1348" height="400" loading="eager" decoding="async">
                         </a>
 
-                        <div class="pt-1 leading-tight text-[#0a293c]" data-admin-block-root>
+                        <div class="pl-3 pt-1 leading-tight text-[#0a293c]" data-admin-block-root>
                             <p class="text-[0.92rem] font-medium md:text-[0.96rem]"{$this->dataTextId('header.contact.address')}>{$header_address}</p>
                             <p class="mt-0.5 text-[0.88rem] font-medium text-[#24588d] md:text-[0.9rem]"{$this->dataTextId('header.contact.metro')}>{$header_metro}</p>
                             <div class="mt-1.5">
