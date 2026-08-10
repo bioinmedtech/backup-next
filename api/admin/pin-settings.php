@@ -32,6 +32,9 @@ if (!bioinmed_admin_verify_csrf((string)($body['csrf'] ?? ''))) {
 $enabled = bioinmed_admin_normalize_bool($body['enabled'] ?? true);
 $pin = trim((string)($body['pin'] ?? ''));
 $existing = bioinmed_admin_load_pin_settings();
+$onlineBookingEnabled = array_key_exists('online_booking_enabled', $body)
+    ? bioinmed_admin_normalize_bool($body['online_booking_enabled'])
+    : bioinmed_admin_normalize_bool($existing['online_booking_enabled'] ?? true);
 
 if ($enabled && $pin === '') {
     $pin = '1290';
@@ -51,6 +54,7 @@ if (!$enabled) {
 $payload = [
     'enabled' => $enabled,
     'pin' => $pin !== '' ? $pin : (string)($existing['pin'] ?? ''),
+    'online_booking_enabled' => $onlineBookingEnabled,
     'updated_at' => gmdate('c'),
     'updated_by' => [
         'id' => (string)($actor['id'] ?? ''),

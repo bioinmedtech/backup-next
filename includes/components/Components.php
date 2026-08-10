@@ -2712,6 +2712,18 @@ class Footer extends Component {
 
                     <button id="bioinmed-admin-users-open-desktop" type="button" class="inline-flex items-center gap-2 rounded-lg bg-[#f4f9ff] px-4 py-3 font-semibold text-[#0f2749] hover:bg-[#eaf4ff]"><i class="fa-solid fa-users" aria-hidden="true"></i><span>Пользователи</span></button>
 
+                    <div class="bioinmed-admin-mobile-switch-row rounded-lg bg-[#f4f9ff] px-4 py-3 text-[#0f2749]">
+                        <span class="bioinmed-admin-mobile-switch-icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span>
+                        <div>
+                            <div class="font-semibold" id="bioinmed-online-booking-toggle-label">Онлайн-запись SQNS</div>
+                            <p class="bioinmed-admin-switch-desc text-[13px] text-[#4a6f9c] mt-1">Когда выключена, кнопки записи открывают попап с телефоном клиники.</p>
+                        </div>
+                        <button id="bioinmed-online-booking-toggle" type="button" class="bioinmed-ios-switch" role="switch" aria-checked="true" aria-label="Включить или отключить онлайн-запись SQNS">
+                            <span class="bioinmed-ios-switch-track"></span>
+                            <span class="bioinmed-ios-switch-thumb"></span>
+                        </button>
+                    </div>
+
                     <div class="rounded-lg border border-[#d7e6f3] bg-white p-4 shadow-[0_8px_20px_rgba(8,36,70,0.05)]">
                         <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                             <div>

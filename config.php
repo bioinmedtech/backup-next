@@ -41,7 +41,23 @@ function bioinmed_bootstrap_get(array $source, $key_path, $default = null) {
     return $current;
 }
 
+function bioinmed_bootstrap_admin_settings() {
+    $path = __DIR__ . '/data/admin/pin-settings.json';
+    if (!is_file($path)) {
+        return [];
+    }
+
+    $raw = @file_get_contents($path);
+    if (!is_string($raw) || $raw === '') {
+        return [];
+    }
+
+    $decoded = json_decode($raw, true);
+    return is_array($decoded) ? $decoded : [];
+}
+
 $bioinmed_site_data = bioinmed_bootstrap_site_data();
+$bioinmed_admin_settings = bioinmed_bootstrap_admin_settings();
 
 define('CLINIC_NAME', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.name', 'БИОИНМЕД'));
 define('CLINIC_SITE_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.site_url', 'https://bioinmed.ru'));
@@ -53,6 +69,7 @@ define('CLINIC_EMAIL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clin
 define('CLINIC_HOURS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hours', 'Пн-Сб с 9:00 до 21:00, Вс (выходной)'));
 define('CLINIC_TAGLINE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.tagline', 'Интегративная и восстановительная медицина. Индивидуальный подход к каждому пациенту.'));
 define('ONLINE_BOOKING_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.online_booking_url', '/'));
+define('ONLINE_BOOKING_ENABLED', array_key_exists('online_booking_enabled', $bioinmed_admin_settings) ? (bool)$bioinmed_admin_settings['online_booking_enabled'] : true);
 define('CLINIC_MAP_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.map_url', 'https://yandex.com/maps/-/CPGGyEzo'));
 define('CLINIC_VK', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.vk', 'https://vk.com/bioinmed'));
 define('CLINIC_MAX_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.max', 'https://max.ru/id9704215369_bot'));
@@ -184,7 +201,104 @@ function bioinmed_render_public_head_assets(array $options = []) {
         $html[] = '<link rel="preconnect" href="https://app.comagic.ru" crossorigin>';
     }
 
-    $html[] = '<script type="text/javascript" src="https://app3.sqns.ru/booking/script?orgid=25903"></script>';
+    if (defined('ONLINE_BOOKING_ENABLED') && ONLINE_BOOKING_ENABLED) {
+        $html[] = '<script id="bioinmed-sqns-booking-script" type="text/javascript" src="https://app3.sqns.ru/booking/script?orgid=25903"></script>';
+    }
+
+    $booking_phone_display = json_encode((string)CLINIC_PHONE, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    $booking_phone_link = json_encode(preg_replace('/[^\d+]/', '', (string)CLINIC_PHONE), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    $booking_hours = json_encode((string)CLINIC_HOURS, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    $booking_enabled_json = (defined('ONLINE_BOOKING_ENABLED') && ONLINE_BOOKING_ENABLED) ? 'true' : 'false';
+    $html[] = <<<HTML
+<style>
+.bioinmed-booking-fallback{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(8,24,42,.52);padding:18px;backdrop-filter:blur(8px)}
+.bioinmed-booking-fallback.is-open{display:flex}
+.bioinmed-booking-fallback__dialog{position:relative;width:min(520px,100%);overflow:hidden;border:1px solid #d7e6f3;border-top:3px solid #1977b2;border-radius:24px;background:#fff;box-shadow:0 24px 70px rgba(6,29,60,.24);color:#0f2749}
+.bioinmed-booking-fallback__hero{background:#e4f1fa;padding:24px 62px 22px 26px;border-bottom:1px solid #d7e6f3}
+.bioinmed-booking-fallback__top{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start}
+.bioinmed-booking-fallback__icon{display:flex;width:48px;height:48px;align-items:center;justify-content:center;border:1px solid #c7dbed;border-radius:14px;background:#fff;color:#1977b2;font-size:19px;box-shadow:0 10px 22px rgba(6,29,60,.08)}
+.bioinmed-booking-fallback__close{position:absolute;right:16px;top:16px;display:flex;width:36px;height:36px;align-items:center;justify-content:center;border:1px solid #c7dbed;border-radius:9999px;background:#fff;color:#17446f;cursor:pointer;font-size:21px;line-height:1;transition:border-color .18s ease,background-color .18s ease,color .18s ease}
+.bioinmed-booking-fallback__close:hover{border-color:#82bee4;background:#f8fbff;color:#1977b2}
+.bioinmed-booking-fallback__eyebrow{margin:0;color:#1977b2;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.18em}
+.bioinmed-booking-fallback__title{margin:6px 0 0;font-size:1.58rem;line-height:1.14;font-weight:800;color:#0f2749}
+.bioinmed-booking-fallback__body{padding:23px 26px 25px}
+.bioinmed-booking-fallback__text{margin:0;color:#0a293c;font-size:.97rem;line-height:1.6}
+.bioinmed-booking-fallback__steps{display:grid;gap:9px;margin-top:15px;color:#0a293c;font-size:.91rem;line-height:1.42}
+.bioinmed-booking-fallback__step{display:flex;align-items:flex-start;gap:9px}
+.bioinmed-booking-fallback__step i{margin-top:3px;color:#1977b2;font-size:.76rem}
+.bioinmed-booking-fallback__phone{display:flex;width:100%;align-items:center;justify-content:center;gap:10px;border-radius:9999px;background:#1977b2;margin-top:20px;padding:14px 18px;color:#fff;font-size:1.08rem;font-weight:800;text-decoration:none;box-shadow:0 10px 24px rgba(25,119,178,.22);transition:background-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.bioinmed-booking-fallback__phone:hover{background:#16658f;color:#fff;transform:translateY(-1px);box-shadow:0 14px 30px rgba(25,119,178,.28)}
+.bioinmed-booking-fallback__phone i{font-size:.94rem}
+.bioinmed-booking-fallback__info{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.bioinmed-booking-fallback__info-item{display:flex;gap:9px;align-items:flex-start;border:1px solid #dce8f4;border-radius:16px;background:#f8fbff;padding:12px 13px;color:#355b89;font-size:.88rem;line-height:1.38}
+.bioinmed-booking-fallback__info-item i{margin-top:2px;color:#1977b2;font-size:.82rem}
+.bioinmed-booking-fallback__note{margin-top:13px;border-top:1px solid #e6eef7;padding-top:12px;color:#17446f;font-size:.86rem;font-weight:650;line-height:1.45}
+@media(max-width:520px){.bioinmed-booking-fallback__hero{padding:22px 56px 20px 20px}.bioinmed-booking-fallback__body{padding:21px 20px 23px}.bioinmed-booking-fallback__top{grid-template-columns:42px 1fr;gap:12px}.bioinmed-booking-fallback__icon{width:42px;height:42px;border-radius:13px}.bioinmed-booking-fallback__title{font-size:1.34rem}.bioinmed-booking-fallback__info{grid-template-columns:1fr}}
+</style>
+HTML;
+    $html[] = <<<HTML
+<script>
+(function(){
+    var phoneDisplay={$booking_phone_display};
+    var phoneLink={$booking_phone_link};
+    var hours={$booking_hours};
+    var enabled={$booking_enabled_json};
+    var sqnsBooking=window.onlineBooking&&typeof window.onlineBooking.open==="function"?window.onlineBooking:null;
+    function ensureModal(){
+        var existing=document.getElementById("bioinmed-booking-fallback");
+        if(existing)return existing;
+        var root=document.createElement("div");
+        root.id="bioinmed-booking-fallback";
+        root.className="bioinmed-booking-fallback";
+        root.setAttribute("role","dialog");
+        root.setAttribute("aria-modal","true");
+        root.setAttribute("aria-label","Запись на прием");
+        root.innerHTML='<div class="bioinmed-booking-fallback__dialog"><button type="button" class="bioinmed-booking-fallback__close" aria-label="Закрыть">×</button><div class="bioinmed-booking-fallback__hero"><div class="bioinmed-booking-fallback__top"><span class="bioinmed-booking-fallback__icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span><div><p class="bioinmed-booking-fallback__eyebrow">Запись в БИОИНМЕД</p><h2 class="bioinmed-booking-fallback__title">Поможем выбрать удобное время</h2></div></div></div><div class="bioinmed-booking-fallback__body"><p class="bioinmed-booking-fallback__text">Позвоните в клинику: администратор уточнит Ваш запрос и подберёт специалиста под ситуацию.</p><div class="bioinmed-booking-fallback__steps"><div class="bioinmed-booking-fallback__step"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Сориентируем по направлениям и ближайшим окнам приёма.</span></div><div class="bioinmed-booking-fallback__step"><i class="fa-solid fa-check" aria-hidden="true"></i><span>Подскажем, как подготовиться к первому визиту.</span></div></div><a class="bioinmed-booking-fallback__phone" href="tel:'+phoneLink+'"><i class="fa-solid fa-phone" aria-hidden="true"></i><span>'+phoneDisplay+'</span></a><div class="bioinmed-booking-fallback__info"><div class="bioinmed-booking-fallback__info-item"><i class="fa-solid fa-clock" aria-hidden="true"></i><span>'+hours+'</span></div><div class="bioinmed-booking-fallback__info-item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>Москва, м. Фрунзенская</span></div></div><p class="bioinmed-booking-fallback__note">Нажмите на номер, чтобы сразу позвонить с телефона.</p></div></div>';
+        root.addEventListener("click",function(event){
+            if(event.target===root||event.target.closest(".bioinmed-booking-fallback__close")){
+                root.classList.remove("is-open");
+            }
+        });
+        document.addEventListener("keydown",function(event){
+            if(event.key==="Escape")root.classList.remove("is-open");
+        });
+        document.body.appendChild(root);
+        return root;
+    }
+    function fallbackBooking(){ensureModal().classList.add("is-open");}
+    function loadSqns(){
+        if(document.getElementById("bioinmed-sqns-booking-script"))return;
+        var script=document.createElement("script");
+        script.id="bioinmed-sqns-booking-script";
+        script.src="https://app3.sqns.ru/booking/script?orgid=25903";
+        script.onload=function(){
+            if(window.onlineBooking&&typeof window.onlineBooking.open==="function"&&window.onlineBooking.open!==fallbackBooking){
+                sqnsBooking=window.onlineBooking;
+            }
+        };
+        document.head.appendChild(script);
+    }
+    function applyMode(){
+        if(enabled){
+            if(sqnsBooking){window.onlineBooking=sqnsBooking;}else{loadSqns();}
+            return;
+        }
+        window.onlineBooking={open:fallbackBooking};
+    }
+    window.BioinmedBookingFallback={
+        open:fallbackBooking,
+        setEnabled:function(nextEnabled){
+            enabled=!!nextEnabled;
+            if(window.onlineBooking&&typeof window.onlineBooking.open==="function"&&window.onlineBooking.open!==fallbackBooking){
+                sqnsBooking=window.onlineBooking;
+            }
+            applyMode();
+        }
+    };
+    applyMode();
+})();
+</script>
+HTML;
 
     $html[] = '<script>(function(){document.documentElement.classList.add("js-caveat-pending");})();</script>';
     $html[] = '<link rel="preload" href="' . htmlspecialchars($caveat_font_src, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" as="font" type="font/ttf" crossorigin>';

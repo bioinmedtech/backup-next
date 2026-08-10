@@ -573,6 +573,7 @@ function bioinmed_admin_default_pin_settings(): array {
     return [
         'enabled' => true,
         'pin' => '1290',
+        'online_booking_enabled' => true,
         'updated_at' => gmdate('c'),
         'updated_by' => null,
     ];
@@ -599,6 +600,7 @@ function bioinmed_admin_save_pin_settings(array $payload): bool {
     $normalized = [
         'enabled' => bioinmed_admin_normalize_bool($payload['enabled'] ?? true),
         'pin' => trim((string)($payload['pin'] ?? '')),
+        'online_booking_enabled' => bioinmed_admin_normalize_bool($payload['online_booking_enabled'] ?? true),
         'updated_at' => (string)($payload['updated_at'] ?? gmdate('c')),
         'updated_by' => isset($payload['updated_by']) && is_array($payload['updated_by']) ? $payload['updated_by'] : null,
     ];
@@ -712,6 +714,7 @@ function bioinmed_admin_client_config(): array {
         'csrf' => bioinmed_admin_csrf_token(),
         'canManageUsers' => $user && ($user['role'] ?? '') === 'admin',
         'apiBase' => '/api/admin',
+        'pinSettings' => bioinmed_admin_load_pin_settings(),
     ];
 }
 

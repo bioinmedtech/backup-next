@@ -168,6 +168,10 @@
             normalized.enabled = true;
         }
 
+        if (typeof normalized.online_booking_enabled === 'undefined') {
+            normalized.online_booking_enabled = true;
+        }
+
         if (normalized.enabled && !normalized.pin) {
             normalized.pin = defaultPinValue;
         }
@@ -1170,9 +1174,11 @@
     function syncPinSettingsUi() {
         var settings = normalizePinSettings(state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' });
         var toggle = byId('bioinmed-pin-enabled-switch');
+        var bookingToggle = byId('bioinmed-online-booking-toggle');
         var input = byId('bioinmed-pin-input');
         var status = byId('bioinmed-pin-status');
         var enabled = !!settings.enabled;
+        var bookingEnabled = !!settings.online_booking_enabled;
         var defaultPinValue = '1290';
 
         if (toggle) {
@@ -1181,6 +1187,10 @@
         }
         if (input) {
             input.value = settings.pin || defaultPinValue;
+        }
+        if (bookingToggle) {
+            bookingToggle.classList.toggle('is-on', bookingEnabled);
+            bookingToggle.setAttribute('aria-checked', bookingEnabled ? 'true' : 'false');
         }
         if (status) {
             status.textContent = enabled
@@ -1193,9 +1203,10 @@
         return /^[0-9]{4,12}$/.test((value || '').trim());
     }
 
-    function savePinSettings(nextPin, nextEnabled) {
+    function savePinSettings(nextPin, nextEnabled, nextOnlineBookingEnabled) {
         var currentSettings = normalizePinSettings(state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' });
         var enabled = typeof nextEnabled === 'boolean' ? nextEnabled : !!currentSettings.enabled;
+        var onlineBookingEnabled = typeof nextOnlineBookingEnabled === 'boolean' ? nextOnlineBookingEnabled : !!currentSettings.online_booking_enabled;
         var pinValue = typeof nextPin === 'string' ? nextPin.trim() : '';
         var defaultPinValue = '1290';
 
@@ -1218,7 +1229,8 @@
             body: JSON.stringify({
                 csrf: state.config.csrf,
                 enabled: enabled,
-                pin: pinValue
+                pin: pinValue,
+                online_booking_enabled: onlineBookingEnabled
             })
         }).then(function (resp) {
             if (resp && resp.ok && resp.pinSettings) {
@@ -2895,6 +2907,39 @@
 
     var usersOpenDesktop = byId('bioinmed-admin-users-open-desktop');
     if (usersOpenDesktop) usersOpenDesktop.addEventListener('click', function () { closeAdminSettingsPanel(); openUsersPanel(); });
+
+    var onlineBookingToggle = byId('bioinmed-online-booking-toggle');
+    if (onlineBookingToggle) {
+        onlineBookingToggle.addEventListener('click', function () {
+            var currentSettings = normalizePinSettings(state.config && state.config.pinSettings ? state.config.pinSettings : { enabled: true, pin: '' });
+            var current = !!currentSettings.online_booking_enabled;
+            var nextEnabled = !current;
+            var pinInput = byId('bioinmed-pin-input');
+            if (!state.config.pinSettings) state.config.pinSettings = {};
+
+            state.config.pinSettings.online_booking_enabled = nextEnabled;
+            syncPinSettingsUi();
+
+            savePinSettings(pinInput ? (pinInput.value || '').trim() : (state.config.pinSettings.pin || ''), !!currentSettings.enabled, nextEnabled).then(function (resp) {
+                if (!resp || !resp.ok) {
+                    state.config.pinSettings.online_booking_enabled = current;
+                    syncPinSettingsUi();
+                    showToast((resp && resp.error) || 'Не удалось сохранить онлайн-запись', 'error');
+                    return;
+                }
+
+                if (resp.pinSettings) {
+                    state.config.pinSettings = resp.pinSettings;
+                }
+
+                syncPinSettingsUi();
+                if (window.BioinmedBookingFallback && typeof window.BioinmedBookingFallback.setEnabled === 'function') {
+                    window.BioinmedBookingFallback.setEnabled(nextEnabled);
+                }
+                showToast(nextEnabled ? 'Онлайн-запись SQNS включена' : 'Кнопки записи теперь открывают телефонный попап');
+            });
+        });
+    }
 
     var pinToggle = byId('bioinmed-pin-enabled-switch');
     if (pinToggle) {
