@@ -2479,7 +2479,7 @@ class PartnersBlock extends Component {
 class SolidarityMedicineBlock extends Component {
     public function render() {
         $vacanciesLabel = $this->e(bioinmed_text('home.solidarity.vacancies_button', 'Вакансии'));
-        $conferenceImage = bioinmed_versioned_asset_path('/public/images/conference_v2.jpg');
+        $conferenceImage = bioinmed_versioned_asset_path('/public/images/conference_v4.webp');
         return <<<HTML
         <section id="solidarity-medicine" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-6 md:py-8" style="scroll-margin-top:6rem">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
