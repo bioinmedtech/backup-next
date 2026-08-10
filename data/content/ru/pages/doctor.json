@@ -106,6 +106,11 @@
                     ]
                 }
             }
+        },
+        "mayorova-darya-sergeevna": {
+            "summary": {
+                "intro": "Специализируется на 3D-Хабилект диагностике, функциональной диагностике опорно-двигательного аппарата, реабилитации после травм и операций, коррекции сколиоза и подборе индивидуальных ортопедических стелек."
+            }
         }
     },
     "custom_sections": {
@@ -145,5 +150,111 @@
                 }
             }
         }
+    },
+    "editable_lists": {
+        "doctor.mayorova-darya-sergeevna.custom.appointment-structure.subsections.1.items": [
+            {
+                "id": "item-ba332d539e93",
+                "text": "Диагностика на мультифункциональном комплексе «Хабилект»: оценка мышечного баланса и биомеханики.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            },
+            {
+                "id": "item-65bf137a3a8d",
+                "text": "Визуальный осмотр и пальпация в покое и в движении: осанка, позвоночник, таз, длина ног.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            },
+            {
+                "id": "item-f6a74c47f1af",
+                "text": "Осмотр стоп на плантографе и функциональные пробы: тест Адамса, присед, наклон.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            },
+            {
+                "id": "item-66a38bb029db",
+                "text": "Оценка походки.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            }
+        ],
+        "doctor.mayorova-darya-sergeevna.custom.appointment-structure.subsections.3.items": [
+            {
+                "id": "item-d8654df851d9",
+                "text": "Подбор заготовок и индивидуальное термоформование.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            },
+            {
+                "id": "item-f7829bd5943a",
+                "text": "Обязательная проверка в стоянии и при ходьбе 2-3 минуты.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            },
+            {
+                "id": "item-84b684cbc6aa",
+                "text": "Критерий безопасности: после подбора не должно появляться новой боли.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            }
+        ],
+        "doctor.mayorova-darya-sergeevna.custom.appointment-structure.subsections.5.items": [
+            {
+                "id": "item-97e8f243bb14",
+                "text": "Выполняется после ЛФК при наличии показаний.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            },
+            {
+                "id": "item-26070b446026",
+                "text": "Тип выбирается индивидуально: медицинский, спортивный, релаксирующий или лимфодренажный.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            }
+        ],
+        "doctor.mayorova-darya-sergeevna.custom.appointment-structure.subsections.6.items": [
+            {
+                "id": "item-e863791092f7",
+                "text": "Формулируется функциональный диагноз и индивидуальный маршрут восстановления.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            },
+            {
+                "id": "item-090d5f658303",
+                "text": "Определяется график повторных визитов и мониторингов.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            },
+            {
+                "id": "item-7118eeaf66c1",
+                "text": "Выдаются рекомендации по обуви, домашнему режиму, рабочему месту и нагрузкам.",
+                "secondary": "",
+                "url": "",
+                "icon": "fa-solid fa-circle",
+                "hidden": false
+            }
+        ]
     }
 }
