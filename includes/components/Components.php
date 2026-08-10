@@ -965,15 +965,19 @@ class HeroSection extends Component {
                         <p class="mt-7 text-[0.74rem] font-medium uppercase tracking-[0.11em] leading-[1.45] text-[#0a293c] md:mt-8 md:text-[0.84rem]"{$this->dataTextId('hero.habilect.subtitle')}>{$hero_systems_subtitle}</p>
                         <div class="mt-2.5 w-fit max-w-full md:mt-3">
                             <div class="flex flex-wrap items-stretch gap-2.5">
-                                <a href="{$hero_habilect_href}" class="group inline-flex h-12 items-center gap-2 rounded-xl border border-[#d6e4f0] bg-white px-2.5 py-1.5 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30" data-admin-link-behavior="block-edit">
-                                    <img src="{$habilect_logo}" alt="«Хабилект»" class="h-7 w-auto shrink-0" loading="eager" decoding="async">
-                                    <span class="inline-flex items-center text-[0.8rem] font-semibold tracking-[0.02em] text-[#17446f] md:text-[0.82rem]">
+                                <a href="{$hero_habilect_href}" class="group inline-flex h-12 items-center gap-2 rounded-xl border border-white/40 px-2.5 py-1.5 text-white shadow-[0_14px_30px_rgba(2,132,199,0.24)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(2,132,199,0.3)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30" style="background:linear-gradient(145deg,#0284c7,#22d3ee);" data-admin-link-behavior="block-edit">
+                                    <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white shadow-[inset_0_1px_0_rgba(255,255,255,0.55)]">
+                                        <img src="{$habilect_logo}" alt="«Хабилект»" class="h-5 w-auto shrink-0" loading="eager" decoding="async">
+                                    </span>
+                                    <span class="inline-flex items-center text-[0.8rem] font-semibold tracking-[0.02em] text-white md:text-[0.82rem]">
                                         <span{$this->dataTextId('hero.habilect.label')}>{$hero_habilect_label}</span>
                                     </span>
                                 </a>
-                                <a href="{$hero_bioresonance_href}" class="group inline-flex h-12 items-center gap-2 rounded-xl border border-[#d6e4f0] bg-white px-2.5 py-1.5 shadow-[0_12px_28px_rgba(15,39,73,0.1)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,39,73,0.14)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30" data-admin-link-behavior="block-edit">
-                                    <img src="{$clinic_icon}" alt="БИОИНМЕД" class="h-7 w-7 shrink-0 object-contain" loading="eager" decoding="async">
-                                    <span class="inline-flex items-center text-[0.8rem] font-semibold tracking-[0.02em] text-[#17446f] md:text-[0.82rem]">
+                                <a href="{$hero_bioresonance_href}" class="group inline-flex h-12 items-center gap-2 rounded-xl border border-white/40 px-2.5 py-1.5 text-white shadow-[0_14px_30px_rgba(124,58,237,0.24)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(124,58,237,0.3)] focus:outline-none focus:ring-2 focus:ring-[#1977b2]/30" style="background:linear-gradient(145deg,#7c3aed,#c026d3);" data-admin-link-behavior="block-edit">
+                                    <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/20 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]">
+                                        <i class="fa-solid fa-wave-square text-[0.95rem]" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="inline-flex items-center text-[0.8rem] font-semibold tracking-[0.02em] text-white md:text-[0.82rem]">
                                         <span{$this->dataTextId('hero.bioresonance.label')}>{$hero_bioresonance_label}</span>
                                     </span>
                                 </a>
