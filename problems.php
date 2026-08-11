@@ -18,7 +18,7 @@ $pageDescription = bioinmed_meta_description(
     trim((string)($problemsMeta['description'] ?? '')) . ' ' . CLINIC_NAME . (string)($problemsMeta['description_suffix'] ?? ''),
     'Подберите симптомы и ситуацию для обращения в клинику БИОИНМЕД в Москве: описание, этапы восстановления и подходящие услуги по каждому запросу.'
 );
-$socialImageUrl = bioinmed_default_social_image_url();
+$socialImageUrl = bioinmed_og_image_url('problems');
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => (string)($problemsPage['breadcrumbs']['home'] ?? ''), 'url' => '/'],

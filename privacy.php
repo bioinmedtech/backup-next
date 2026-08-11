@@ -9,7 +9,7 @@ $privacySections = is_array($privacyPage['sections'] ?? null) ? $privacyPage['se
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
-$socialImageUrl = bioinmed_default_social_image_url();
+$socialImageUrl = bioinmed_og_image_url('privacy');
 $canonicalUrl = $siteUrl . '/privacy';
 $pageTitle = trim((string)($privacyMeta['title'] ?? 'Политика конфиденциальности')) . ' | ' . CLINIC_NAME;
 $pageDescription = bioinmed_meta_excerpt(trim((string)($privacyMeta['description'] ?? 'Политика конфиденциальности клиники')), 165);

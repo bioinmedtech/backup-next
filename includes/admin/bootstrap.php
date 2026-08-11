@@ -566,7 +566,27 @@ function bioinmed_admin_write_services_config(array $services): bool {
         return false;
     }
 
-    return @rename($tmp, BIOINMED_ADMIN_SERVICES_FILE);
+    $written = @rename($tmp, BIOINMED_ADMIN_SERVICES_FILE);
+    if ($written) {
+        bioinmed_admin_refresh_og_images();
+    }
+
+    return $written;
+}
+
+function bioinmed_admin_refresh_og_images(): bool {
+    $script = __DIR__ . '/../../scripts/generate-og-images.php';
+    if (!is_file($script)) {
+        return false;
+    }
+
+    $php = PHP_BINARY ?: 'php';
+    $command = escapeshellarg($php) . ' ' . escapeshellarg($script) . ' --quiet 2>&1';
+    $output = [];
+    $exitCode = 0;
+    @exec($command, $output, $exitCode);
+
+    return $exitCode === 0;
 }
 
 function bioinmed_admin_default_pin_settings(): array {

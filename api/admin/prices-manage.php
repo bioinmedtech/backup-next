@@ -196,8 +196,11 @@ if (!bioinmed_admin_write_json($pricesPath, $nextPayload)) {
     ], 500);
 }
 
+$ogImagesUpdated = bioinmed_admin_refresh_og_images();
+
 bioinmed_admin_json_response([
     'ok' => true,
     'sections' => $normalizedSections,
+    'og_images_updated' => $ogImagesUpdated,
     'message' => 'Прайс-лист сохранён.',
 ]);

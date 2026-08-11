@@ -10,9 +10,9 @@ require_once 'includes/content/EditableLists.php';
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
-$socialImageUrl = bioinmed_default_social_image_url();
+$socialImageUrl = bioinmed_og_image_url('home');
 $canonicalUrl = $siteUrl . '/';
-$pageTitle = 'Клиника восстановительной медицины в Москве | БИОИНМЕД';
+$pageTitle = 'БИОИНМЕД | Клиника восстановительной медицины в Москве';
 $pageDescription = 'Диагностика «Хабилект», остеопатия, рефлексотерапия, физиотерапия, опытные врачи и персональный план лечения.';
 
 $structuredData = bioinmed_medical_organization_schema();

@@ -249,7 +249,9 @@ $catLabel = $catInfo[$cat]['label'] ?? bioinmed_text('service.default_label', ''
 $serviceActualPrice = $service ? bioinmed_service_actual_price_parts($service) : ['price' => '', 'note' => ''];
 $serviceGallery = $service ? bioinmed_service_gallery_urls($service, 4) : [];
 $servicePrimaryImage = $serviceGallery[0] ?? null;
-$socialImageUrl = $servicePrimaryImage ? ($siteUrl . $servicePrimaryImage) : bioinmed_default_social_image_url();
+$socialImageUrl = $service
+    ? bioinmed_og_image_url('service-' . (string)($service['id'] ?? $serviceSlug), $servicePrimaryImage ?: '')
+    : bioinmed_og_image_url('services');
 $serviceEditablePrefix = 'service.' . (string)($service['id'] ?? ($serviceSlug ?: 'default'));
 $serviceDoctorTitle = trim((string)($service['doctor_title'] ?? ''));
 $serviceHeroNameNode = bioinmed_page_text_node($servicePage, 'service', $serviceEditablePrefix . '.hero.service_name', (string)($service['name'] ?? ''));

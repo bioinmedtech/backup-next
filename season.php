@@ -150,7 +150,7 @@ $seasonNavTitleNode = bioinmed_page_text_node($seasonPage, 'season', 'titles.' .
 $page_title  = $seasonHeroNameNode['value'] . ' — Времена года | БИОИНМЕД';
 $page_desc   = $seasonIntroNode['value'];
 $canonical   = rtrim((string)CLINIC_SITE_URL, '/') . '/seasons/' . $slug;
-$social_image = bioinmed_absolute_url($hero_image_desktop);
+$social_image = bioinmed_og_image_url('season-' . (string)$slug, $hero_image_desktop);
 $social_image_alt = $hero_image_desktop_alt . ' — ' . $seasonHeroNameNode['value'] . ' в проекте «Времена года»';
 
 $header = new Header();

@@ -70,4 +70,6 @@ if (!bioinmed_admin_write_json($path, $payload)) {
     bioinmed_admin_json_response(['ok' => false, 'error' => 'Не удалось сохранить список.'], 500);
 }
 
-bioinmed_admin_json_response(['ok' => true, 'items' => $items, 'message' => 'Список сохранён.']);
+$ogImagesUpdated = bioinmed_admin_refresh_og_images();
+
+bioinmed_admin_json_response(['ok' => true, 'items' => $items, 'og_images_updated' => $ogImagesUpdated, 'message' => 'Список сохранён.']);

@@ -1,0 +1,31 @@
+$firasans-filename: "Timeable" !default;
+$firasans-font-name: "Timeable" !default;
+$firasans-font-path: "../fonts/timeable" !default;
+$firasans-fonts: (
+	"Thin": "100",
+	"ExtraLight": "200",
+	"Light": "300",
+	"Regular": "normal",
+	"Medium": "500",
+	"SemiBold": "600",
+	"Bold": "bold",
+	"ExtraBold": "800",
+	"Black": "900"
+);
+
+
+@each $key, $value in $firasans-fonts {
+	@font-face {
+		font-family: $firasans-font-name;
+		src: url('#{$firasans-font-path}/#{$firasans-filename}-#{$key}.eot');
+		src: url('#{$firasans-font-path}/#{$firasans-filename}-#{$key}.eot?#iefix') format('embedded-opentype'),
+			url('#{$firasans-font-path}/#{$firasans-filename}-#{$key}.woff2') format('woff2'),
+			url('#{$firasans-font-path}/#{$firasans-filename}-#{$key}.woff') format('woff'),
+			url('#{$firasans-font-path}/#{$firasans-filename}-#{$key}.ttf') format('truetype'),
+			url('#{$firasans-font-path}/#{$firasans-filename}-#{$key}.svg##{$firasans-filename}-#{$key}') format('svg');
+		font-weight: #{$value};
+		font-style: normal;
+	}
+}
+
+

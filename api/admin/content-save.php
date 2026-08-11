@@ -73,10 +73,13 @@ if (!bioinmed_admin_sync_service_price_from_prices_key($textKey, $value)) {
     ], 500);
 }
 
+$ogImagesUpdated = bioinmed_admin_refresh_og_images();
+
 bioinmed_admin_json_response([
     'ok' => true,
     'text_key' => $textKey,
     'value' => $value,
     'old_value' => $oldValue,
+    'og_images_updated' => $ogImagesUpdated,
     'message' => 'Изменения сохранены.',
 ]);

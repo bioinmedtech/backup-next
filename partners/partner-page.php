@@ -37,7 +37,7 @@ $pageDescription = bioinmed_meta_description(
     $meta['description'] ?? '',
     'О партнёре ' . $partnerName . ' клиники БИОИНМЕД: технологии, подход и применение в восстановительной медицине.'
 );
-$socialImageUrl = $isHabilect ? $siteUrl . $heroPhoto : bioinmed_default_social_image_url();
+$socialImageUrl = bioinmed_og_image_url('partner-' . $bioinmedPartnerSlug, $isHabilect ? $heroPhoto : '');
 $structuredData = [
     '@context' => 'https://schema.org',
     '@type' => 'Organization',

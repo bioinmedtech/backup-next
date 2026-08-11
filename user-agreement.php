@@ -8,7 +8,7 @@ $agreementSections = is_array($agreementPage['sections'] ?? null) ? $agreementPa
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
-$socialImageUrl = bioinmed_default_social_image_url();
+$socialImageUrl = bioinmed_og_image_url('user-agreement');
 $canonicalUrl = $siteUrl . '/user-agreement';
 $pageTitle = trim((string)($agreementMeta['title'] ?? 'Пользовательское соглашение')) . ' | ' . CLINIC_NAME;
 $pageDescription = bioinmed_meta_excerpt(trim((string)($agreementMeta['description'] ?? 'Пользовательское соглашение сайта клиники')), 165);

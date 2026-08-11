@@ -424,6 +424,47 @@ function bioinmed_default_social_image_url() {
     return bioinmed_absolute_url(bioinmed_default_social_image_path());
 }
 
+function bioinmed_og_image_manifest(): array {
+    static $manifest = null;
+    if (is_array($manifest)) {
+        return $manifest;
+    }
+
+    $path = __DIR__ . '/data/content/ru/og-images.json';
+    if (!is_file($path)) {
+        $manifest = [];
+        return $manifest;
+    }
+
+    $raw = @file_get_contents($path);
+    if (!is_string($raw) || $raw === '') {
+        $manifest = [];
+        return $manifest;
+    }
+
+    $decoded = json_decode($raw, true);
+    $manifest = is_array($decoded) ? $decoded : [];
+    return $manifest;
+}
+
+function bioinmed_og_image_path(string $key, string $fallback = ''): string {
+    $safe_key = trim(preg_replace('/[^a-zA-Z0-9_-]+/', '-', $key) ?? '', '-_');
+    $images = bioinmed_og_image_manifest()['images'] ?? [];
+    if ($safe_key !== '' && is_array($images) && is_array($images[$safe_key] ?? null)) {
+        $path = trim((string)($images[$safe_key]['path'] ?? ''));
+        if ($path !== '' && is_file(__DIR__ . '/' . ltrim((string)parse_url($path, PHP_URL_PATH), '/'))) {
+            return $path;
+        }
+    }
+
+    $fallback = trim($fallback);
+    return $fallback !== '' ? $fallback : bioinmed_default_social_image_path();
+}
+
+function bioinmed_og_image_url(string $key, string $fallback = ''): string {
+    return bioinmed_absolute_url(bioinmed_og_image_path($key, $fallback));
+}
+
 function bioinmed_content_json_path($file_name) {
     $name = trim((string)$file_name);
     if ($name === '') {

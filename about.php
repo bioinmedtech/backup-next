@@ -34,7 +34,7 @@ $aboutContactMetroNode = bioinmed_page_text_node($aboutPage, 'about', 'contact_v
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
-$socialImageUrl = bioinmed_default_social_image_url();
+$socialImageUrl = bioinmed_og_image_url('about');
 $canonicalUrl = $siteUrl . '/about';
 $pageTitle = trim((string)($aboutMeta['title'] ?? 'О клинике')) . ' | ' . CLINIC_NAME;
 $pageDescription = bioinmed_meta_description(

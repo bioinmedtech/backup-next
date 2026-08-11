@@ -49,7 +49,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php echo $e($pageTitle); ?></title><meta name="description" content="<?php echo $e($pageDescription); ?>"><meta name="robots" content="index,follow">
 <link rel="canonical" href="<?php echo $e($canonicalUrl); ?>"><meta name="theme-color" content="#1977b2">
-<?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, ['image' => bioinmed_default_social_image_url()]); ?>
+<?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, ['image' => bioinmed_og_image_url('vacancies')]); ?>
 <?php echo bioinmed_render_favicon_links(CLINIC_ICON_PATH); ?><?php echo bioinmed_render_public_head_assets(); ?>
 <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
 <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>

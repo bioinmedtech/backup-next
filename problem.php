@@ -65,7 +65,9 @@ $canonicalUrl = $isChildrenProblemsPage
 $robotsContent = ($isChildrenProblemsPage || $problem)
     ? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'
     : 'noindex,follow';
-$socialImageUrl = bioinmed_default_social_image_url();
+$socialImageUrl = $isChildrenProblemsPage
+    ? bioinmed_og_image_url('problem-children')
+    : ($problem ? bioinmed_og_image_url('problem-' . (string)($problem['slug'] ?? $slug)) : bioinmed_og_image_url('problems'));
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $problemDetailsStorageKey = $problem ? ('bioinmed-problem-details:' . (string)($problem['slug'] ?? 'problem')) : '';
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([

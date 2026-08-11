@@ -55,7 +55,7 @@ $heelPointItems = bioinmed_editable_list_items($page, 'partners.heel.points', (a
     <meta name="robots" content="index,follow,max-image-preview:large">
     <link rel="canonical" href="<?php echo $e($canonicalUrl); ?>">
     <meta name="theme-color" content="#1977b2">
-    <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, ['image' => bioinmed_default_social_image_url()]); ?>
+    <?php echo bioinmed_render_social_meta($pageTitle, $pageDescription, $canonicalUrl, ['image' => bioinmed_og_image_url('partners')]); ?>
     <?php echo bioinmed_render_favicon_links(CLINIC_ICON_PATH); ?>
     <?php echo bioinmed_render_public_head_assets(); ?>
     <style>

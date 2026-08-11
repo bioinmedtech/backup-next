@@ -90,8 +90,8 @@ $doctorProjectTitle = trim((string)($doctor['project_title'] ?? ''));
 $doctorEditablePrefix = 'doctor.' . (string)($doctor['slug'] ?? ($slug ?: 'default'));
 $doctorCertificates = $doctor ? bioinmed_doctor_certificates((string)($doctor['slug'] ?? '')) : [];
 $socialImageUrl = $doctor && !empty($doctor['image'])
-    ? bioinmed_absolute_url($doctorImagePath)
-    : bioinmed_default_social_image_url();
+    ? bioinmed_og_image_url('doctor-' . (string)($doctor['slug'] ?? $slug), $doctorImagePath)
+    : bioinmed_og_image_url('doctors');
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => (string)($doctorBreadcrumbs['home'] ?? ''), 'url' => '/'],

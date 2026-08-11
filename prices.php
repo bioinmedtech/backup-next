@@ -30,7 +30,7 @@ foreach ($pricesSectionsConfig as $sectionConfig) {
 
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
-$socialImageUrl = bioinmed_default_social_image_url();
+$socialImageUrl = bioinmed_og_image_url('prices');
 $canonicalUrl = $siteUrl . '/prices';
 $pricesPageLink = bioinmed_link('pages.prices');
 $pageTitle = (string)($pricesMeta['title'] ?? 'Прайс-лист услуг и цены') . ' | ' . CLINIC_NAME;

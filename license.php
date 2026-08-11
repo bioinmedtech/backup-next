@@ -13,7 +13,7 @@ $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $canonicalUrl = $siteUrl . '/license';
 $pageTitle = trim((string)($licenseMeta['title'] ?? 'Лицензия клиники')) . ' | ' . CLINIC_NAME;
 $pageDescription = trim((string)($licenseMeta['description'] ?? 'Медицинская лицензия и санитарно-эпидемиологические документы клиники БИОИНМЕД в Москве.'));
-$socialImageUrl = bioinmed_default_social_image_url();
+$socialImageUrl = bioinmed_og_image_url('license');
 $documents = [];
 for ($i = 1; $i <= 5; $i++) {
     $documents[] = bioinmed_versioned_asset_path('/public/images/license/watermarked/license-page-' . $i . '.webp');

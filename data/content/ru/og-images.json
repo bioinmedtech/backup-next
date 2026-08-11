@@ -1,0 +1,814 @@
+{
+    "generated_at": "2026-08-11T17:13:41+00:00",
+    "version": 28,
+    "images": {
+        "home": {
+            "path": "/public/images/og/home-c2a195cc8bc4.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "c2a195cc8bc4",
+            "title": "БИОИНМЕД | Клиника восстановительной медицины в Москве"
+        },
+        "about": {
+            "path": "/public/images/og/about-5fe4dc4f0562.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "5fe4dc4f0562",
+            "title": "О клинике"
+        },
+        "partners": {
+            "path": "/public/images/og/partners-90102a0d1c82.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "90102a0d1c82",
+            "title": "Партнёры клиники"
+        },
+        "license": {
+            "path": "/public/images/og/license-f3617b8b22e7.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "f3617b8b22e7",
+            "title": "Лицензия клиники"
+        },
+        "sterility": {
+            "path": "/public/images/og/sterility-97a25ec91a81.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "97a25ec91a81",
+            "title": "Стерильность и безопасность"
+        },
+        "vacancies": {
+            "path": "/public/images/og/vacancies-5378c6fc3427.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "5378c6fc3427",
+            "title": "Вакансии клиники"
+        },
+        "services": {
+            "path": "/public/images/og/services-62ddeb64e274.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "62ddeb64e274",
+            "title": "Все услуги клиники"
+        },
+        "prices": {
+            "path": "/public/images/og/prices-d78abfbedd23.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "d78abfbedd23",
+            "title": "Прайс-лист"
+        },
+        "doctors": {
+            "path": "/public/images/og/doctors-cadb18d12846.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "cadb18d12846",
+            "title": "Моя профессиональная команда"
+        },
+        "problems": {
+            "path": "/public/images/og/problems-2bf37cd9c945.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "2bf37cd9c945",
+            "title": "Симптомы и ситуации для лечения в Москве"
+        },
+        "privacy": {
+            "path": "/public/images/og/privacy-94f12f4c4d35.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "94f12f4c4d35",
+            "title": "Политика конфиденциальности"
+        },
+        "user-agreement": {
+            "path": "/public/images/og/user-agreement-c23fe1e46581.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "c23fe1e46581",
+            "title": "Пользовательское соглашение"
+        },
+        "404": {
+            "path": "/public/images/og/404-5d4db57f3348.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "5d4db57f3348",
+            "title": "Страница не найдена"
+        },
+        "partner-habilect": {
+            "path": "/public/images/og/partner-habilect-15d712f34422.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "15d712f34422",
+            "title": "Хабилект — партнёр клиники"
+        },
+        "partner-heel": {
+            "path": "/public/images/og/partner-heel-d7c35e75d916.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "d7c35e75d916",
+            "title": "Heel — партнёр клиники"
+        },
+        "service-habilect-diagnostics": {
+            "path": "/public/images/og/service-habilect-diagnostics-0c6ff8dafb79.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "0c6ff8dafb79",
+            "title": "Диагностика ОДА на комплексе «Хабилект»"
+        },
+        "service-chief-doctor-consultation": {
+            "path": "/public/images/og/service-chief-doctor-consultation-10d3832b08f0.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "10d3832b08f0",
+            "title": "Лечебно-диагностический приём главного врача"
+        },
+        "service-hilt-therapy": {
+            "path": "/public/images/og/service-hilt-therapy-18122d2d896b.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "18122d2d896b",
+            "title": "ХИЛТ-терапия (высокоинтенсивная лазерная терапия)"
+        },
+        "service-osteopathy": {
+            "path": "/public/images/og/service-osteopathy-c1a6472586d9.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "c1a6472586d9",
+            "title": "Остеопатия и мягкая мануальная коррекция"
+        },
+        "service-acupuncture": {
+            "path": "/public/images/og/service-acupuncture-e8267d4068df.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "e8267d4068df",
+            "title": "Рефлексотерапия и иглоукалывание"
+        },
+        "service-prp-therapy": {
+            "path": "/public/images/og/service-prp-therapy-dcb0ed863512.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "dcb0ed863512",
+            "title": "ПРП-терапия (плазмолифтинг)"
+        },
+        "service-ozonoterapiya": {
+            "path": "/public/images/og/service-ozonoterapiya-a001995cadc9.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "a001995cadc9",
+            "title": "Озонотерапия (мезотерапия озоном)"
+        },
+        "service-shock-wave-therapy": {
+            "path": "/public/images/og/service-shock-wave-therapy-96d9a8b37b7f.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "96d9a8b37b7f",
+            "title": "УВТ - Ударно-волновая терапия"
+        },
+        "service-infusion-therapy": {
+            "path": "/public/images/og/service-infusion-therapy-e7953da2f6a1.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "e7953da2f6a1",
+            "title": "Капельницы и инфузионная терапия"
+        },
+        "service-psychotherapy": {
+            "path": "/public/images/og/service-psychotherapy-304483b24a43.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "304483b24a43",
+            "title": "Психотерапевтическая консультация"
+        },
+        "service-massage": {
+            "path": "/public/images/og/service-massage-6bad2b6f59c5.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "6bad2b6f59c5",
+            "title": "Медицинский массаж"
+        },
+        "service-taping": {
+            "path": "/public/images/og/service-taping-0262d323803e.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "0262d323803e",
+            "title": "Кинезиотейпирование"
+        },
+        "service-cupping": {
+            "path": "/public/images/og/service-cupping-77e9917b2cb1.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "77e9917b2cb1",
+            "title": "Баночный массаж (вакуум-терапия)"
+        },
+        "service-physiotherapy-comprehensive": {
+            "path": "/public/images/og/service-physiotherapy-comprehensive-8607fdb45552.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "8607fdb45552",
+            "title": "Комплексная программа реабилитации опорно-двигательного аппарата"
+        },
+        "service-fizioterapiya": {
+            "path": "/public/images/og/service-fizioterapiya-33f1b82117e2.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "33f1b82117e2",
+            "title": "Физиотерапия"
+        },
+        "service-mikropunktura-lazernaya": {
+            "path": "/public/images/og/service-mikropunktura-lazernaya-22532d83db04.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "22532d83db04",
+            "title": "Микропунктура лазерная"
+        },
+        "service-mikropunktura-aurikulyarnaya": {
+            "path": "/public/images/og/service-mikropunktura-aurikulyarnaya-8d0cd4dc0056.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "8d0cd4dc0056",
+            "title": "Микропунктура аурикулярная"
+        },
+        "service-avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove": {
+            "path": "/public/images/og/service-avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove-7cea71a00e66.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "7cea71a00e66",
+            "title": "Авторская программа Кондратовой Е.А. \"Женское здоровье\""
+        },
+        "service-akupunkturnyy-avtorskiy-metod-kondratovoy-e-a-vostochnyy-ekspress": {
+            "path": "/public/images/og/service-akupunkturnyy-avtorskiy-metod-kondratovoy-e-a-vostochnyy-ekspress-47f1458eb2b2.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "47f1458eb2b2",
+            "title": "Акупунктурный авторский метод Кондратовой Е.А. \"Восточный экспресс\""
+        },
+        "service-korporalnaya-iglorefleksoterapiya": {
+            "path": "/public/images/og/service-korporalnaya-iglorefleksoterapiya-714c9c51d45c.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "714c9c51d45c",
+            "title": "Корпоральная иглорефлексотерапия"
+        },
+        "service-semyanoterapiya": {
+            "path": "/public/images/og/service-semyanoterapiya-94ff15b7ab26.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "94ff15b7ab26",
+            "title": "Семянотерапия"
+        },
+        "service-ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a": {
+            "path": "/public/images/og/service-ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a-70338cf34537.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "70338cf34537",
+            "title": "Экспресс-приём Кондратовой Е.А."
+        },
+        "service-diagnostika-i-konsultatsiya-vracha-osteopata-nevrologa-vertlib-v-p": {
+            "path": "/public/images/og/service-diagnostika-i-konsultatsiya-vracha-osteopata-nevrologa-vertlib-v-p-25ac32990cc3.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "25ac32990cc3",
+            "title": "Диагностика и консультация врача-остеопата, невролога Вертлиб В.П."
+        },
+        "service-diagnostika-i-konsultatsiya-vracha-osteopata-nekhoroshevoy-l-s": {
+            "path": "/public/images/og/service-diagnostika-i-konsultatsiya-vracha-osteopata-nekhoroshevoy-l-s-fc251fd5c632.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "fc251fd5c632",
+            "title": "Диагностика и консультация врача-остеопата Нехорошевой Л.С."
+        },
+        "service-priem-detskogo-osteopata": {
+            "path": "/public/images/og/service-priem-detskogo-osteopata-e509c27636dc.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "e509c27636dc",
+            "title": "Приём детского остеопата"
+        },
+        "service-gomeopunktura": {
+            "path": "/public/images/og/service-gomeopunktura-f476e45bb00e.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "f476e45bb00e",
+            "title": "Гомеопунктура"
+        },
+        "service-karboksiterapiya-ozonoterapiya": {
+            "path": "/public/images/og/service-karboksiterapiya-ozonoterapiya-22f91c36647f.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "22f91c36647f",
+            "title": "Карбокситерапия"
+        },
+        "service-biopunktura": {
+            "path": "/public/images/og/service-biopunktura-0689b7cc5ff5.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "0689b7cc5ff5",
+            "title": "Биопунктура"
+        },
+        "service-inektsionnaya-terapiya": {
+            "path": "/public/images/og/service-inektsionnaya-terapiya-12b8e646f842.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "12b8e646f842",
+            "title": "Инъекционная терапия"
+        },
+        "service-kapelnitsa-s-elkarom-levokarnitin": {
+            "path": "/public/images/og/service-kapelnitsa-s-elkarom-levokarnitin-306ac2553bf1.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "306ac2553bf1",
+            "title": "Капельница с элькаром (левокарнитин)"
+        },
+        "service-kapelnitsa-laennek-yaponiya": {
+            "path": "/public/images/og/service-kapelnitsa-laennek-yaponiya-2f3056c5fd6e.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "2f3056c5fd6e",
+            "title": "Капельница Лаеннек (Япония)"
+        },
+        "service-kapelnitsa-s-glutationom-antioksidant": {
+            "path": "/public/images/og/service-kapelnitsa-s-glutationom-antioksidant-c5c7088a81ce.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "c5c7088a81ce",
+            "title": "Капельница с глутатионом (антиоксидант)"
+        },
+        "service-gomeopaticheskaya-kapelnitsa-preparatami-kheel": {
+            "path": "/public/images/og/service-gomeopaticheskaya-kapelnitsa-preparatami-kheel-f0590294bedb.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "f0590294bedb",
+            "title": "Гомеопатическая капельница препаратами Хеель"
+        },
+        "service-kapelnitsa-s-tsitoflavinom": {
+            "path": "/public/images/og/service-kapelnitsa-s-tsitoflavinom-8b0656b3dfa0.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "8b0656b3dfa0",
+            "title": "Капельница с цитофлавином"
+        },
+        "service-kapelnitsa-s-lipoevoy-kislotoy-germaniya": {
+            "path": "/public/images/og/service-kapelnitsa-s-lipoevoy-kislotoy-germaniya-680c33ac7ade.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "680c33ac7ade",
+            "title": "Капельница с липоевой кислотой (Германия)"
+        },
+        "service-gomeopaticheskaya-kapelnitsa-preparatami-kheel-ozon": {
+            "path": "/public/images/og/service-gomeopaticheskaya-kapelnitsa-preparatami-kheel-ozon-66cabd963616.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "66cabd963616",
+            "title": "Гомеопатическая капельница препаратами Хеель + озон"
+        },
+        "service-detoks-kapelnitsa": {
+            "path": "/public/images/og/service-detoks-kapelnitsa-70c8cf476ea7.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "70c8cf476ea7",
+            "title": "Капельница с озоном"
+        },
+        "service-avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie": {
+            "path": "/public/images/og/service-avtorskaya-metodika-ekosistema-estestvennoe-omolozhenie-9f8506c01251.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "9f8506c01251",
+            "title": "Авторская методика \"Экосистема - Естественное омоложение\""
+        },
+        "service-sotsialnyy-priem": {
+            "path": "/public/images/og/service-sotsialnyy-priem-e85569695982.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "e85569695982",
+            "title": "Социальный приём"
+        },
+        "service-monitoring": {
+            "path": "/public/images/og/service-monitoring-1bba352855ff.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "1bba352855ff",
+            "title": "Мониторинг"
+        },
+        "service-lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let": {
+            "path": "/public/images/og/service-lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let-c1451b8d7ada.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "c1451b8d7ada",
+            "title": "Приём «Мать и дитя»"
+        },
+        "service-avtorskiy-tematicheskiy-priem": {
+            "path": "/public/images/og/service-avtorskiy-tematicheskiy-priem-3be672887233.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "3be672887233",
+            "title": "Авторский тематический приём"
+        },
+        "service-akupunkturnoe-kross-teypirovanie": {
+            "path": "/public/images/og/service-akupunkturnoe-kross-teypirovanie-9a9d681ed73b.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "9a9d681ed73b",
+            "title": "Акупунктурное кросс-тейпирование"
+        },
+        "service-elektroforez": {
+            "path": "/public/images/og/service-elektroforez-641e8bfa9139.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "641e8bfa9139",
+            "title": "Электрофорез"
+        },
+        "service-geliosplazma": {
+            "path": "/public/images/og/service-geliosplazma-372408cc2c9e.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "372408cc2c9e",
+            "title": "Гелиосплазма"
+        },
+        "service-transkranialnaya-magnitoterapiya-tkmt": {
+            "path": "/public/images/og/service-transkranialnaya-magnitoterapiya-tkmt-a487521099c8.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "a487521099c8",
+            "title": "Транскраниальная магнитотерапия ТКМТ"
+        },
+        "service-miostimulyatsiya-vip-layn": {
+            "path": "/public/images/og/service-miostimulyatsiya-vip-layn-74a0f430faa6.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "74a0f430faa6",
+            "title": "Миостимуляция ВИП ЛАЙН"
+        },
+        "service-magnitoterapiya-fotostimulyatsiya-amblio": {
+            "path": "/public/images/og/service-magnitoterapiya-fotostimulyatsiya-amblio-3640bb109854.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "3640bb109854",
+            "title": "Магнитотерапия/фотостимуляция Амблио"
+        },
+        "service-ultrafonoforez": {
+            "path": "/public/images/og/service-ultrafonoforez-ec0f1b212b0f.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "ec0f1b212b0f",
+            "title": "Ультрафонофорез"
+        },
+        "service-rehabilitation-specialist-consultation": {
+            "path": "/public/images/og/service-rehabilitation-specialist-consultation-20a8e48e47e9.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "20a8e48e47e9",
+            "title": "Приём специалиста по реабилитации с подбором ЛФК"
+        },
+        "service-rehabilitation-specialist-monitoring": {
+            "path": "/public/images/og/service-rehabilitation-specialist-monitoring-5c8277f18356.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "5c8277f18356",
+            "title": "Мониторинг специалиста по реабилитации с коррекцией ЛФК"
+        },
+        "service-manual-therapy-consultation": {
+            "path": "/public/images/og/service-manual-therapy-consultation-2795b65c5f4b.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "2795b65c5f4b",
+            "title": "Консультация мануального терапевта, невролога"
+        },
+        "service-manual-therapy-session": {
+            "path": "/public/images/og/service-manual-therapy-session-2c8c6546f127.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "2c8c6546f127",
+            "title": "Приём мануального терапевта, невролога"
+        },
+        "service-kineziodiagnostics-therapy": {
+            "path": "/public/images/og/service-kineziodiagnostics-therapy-be348a814aa4.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "be348a814aa4",
+            "title": "Кинезиотерапия: кинезио-тестирование и кинезио-массаж"
+        },
+        "service-orthotic-insoles-formthotics": {
+            "path": "/public/images/og/service-orthotic-insoles-formthotics-982338289ed1.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "982338289ed1",
+            "title": "Изготовление индивидуальных стелек Формтотикс"
+        },
+        "service-orthotic-insoles-footmaster": {
+            "path": "/public/images/og/service-orthotic-insoles-footmaster-23d93f97d34a.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "23d93f97d34a",
+            "title": "Изготовление индивидуальных стелек Футмастер"
+        },
+        "service-massage-course": {
+            "path": "/public/images/og/service-massage-course-557fa5c86989.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "557fa5c86989",
+            "title": "Курс медицинского массажа (10 сеансов)"
+        },
+        "service-ozone-camera": {
+            "path": "/public/images/og/service-ozone-camera-cebf3989daac.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "cebf3989daac",
+            "title": "Озоновая камера"
+        },
+        "doctor-kostromina-inna-viktorovna": {
+            "path": "/public/images/og/doctor-kostromina-inna-viktorovna-918a2623d8c5.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "918a2623d8c5",
+            "title": "Инна Викторовна Костромина"
+        },
+        "doctor-rozhkov-sergei-leonidovich": {
+            "path": "/public/images/og/doctor-rozhkov-sergei-leonidovich-9085f0c917b7.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "9085f0c917b7",
+            "title": "Сергей Леонидович Рожков"
+        },
+        "doctor-kondratova-elena-aleksandrovna": {
+            "path": "/public/images/og/doctor-kondratova-elena-aleksandrovna-d67b0bbb52c3.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "d67b0bbb52c3",
+            "title": "Елена Александровна Кондратова"
+        },
+        "doctor-navrozov-evgeniy-sergeevich": {
+            "path": "/public/images/og/doctor-navrozov-evgeniy-sergeevich-de7bd24124f5.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "de7bd24124f5",
+            "title": "Евгений Сергеевич Наврозов"
+        },
+        "doctor-mayorova-darya-sergeevna": {
+            "path": "/public/images/og/doctor-mayorova-darya-sergeevna-6182b3bf62a7.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "6182b3bf62a7",
+            "title": "Дарья Сергеевна Майорова"
+        },
+        "doctor-vertlib-valeriya-pavlovna": {
+            "path": "/public/images/og/doctor-vertlib-valeriya-pavlovna-d2f4058d02d9.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "d2f4058d02d9",
+            "title": "Валерия Павловна Вертлиб"
+        },
+        "doctor-nehorosheva-lyudmila-sergeevna": {
+            "path": "/public/images/og/doctor-nehorosheva-lyudmila-sergeevna-a6fe1bb9a480.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "a6fe1bb9a480",
+            "title": "Людмила Сергеевна Нехорошева"
+        },
+        "problem-boli-v-spine-i-sustavakh": {
+            "path": "/public/images/og/problem-boli-v-spine-i-sustavakh-881f6a6c46ef.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "881f6a6c46ef",
+            "title": "Боли в спине и суставах"
+        },
+        "problem-golovnye-boli-i-migreni": {
+            "path": "/public/images/og/problem-golovnye-boli-i-migreni-4a6f62c344e9.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "4a6f62c344e9",
+            "title": "Головные боли и мигрени"
+        },
+        "problem-skolioz-i-narushenie-osanki": {
+            "path": "/public/images/og/problem-skolioz-i-narushenie-osanki-0b808f53288f.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "0b808f53288f",
+            "title": "Сколиоз и нарушение осанки"
+        },
+        "problem-ploskostopie-valgus-varus-i-deformatsii-stop": {
+            "path": "/public/images/og/problem-ploskostopie-valgus-varus-i-deformatsii-stop-b5b1805606c8.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "b5b1805606c8",
+            "title": "Плоскостопие, вальгус, варус и деформации стоп"
+        },
+        "problem-posledstviya-travm-i-operatsiy": {
+            "path": "/public/images/og/problem-posledstviya-travm-i-operatsiy-2635c52bce85.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "2635c52bce85",
+            "title": "Последствия травм и операций"
+        },
+        "problem-nevrologicheskie-narusheniya": {
+            "path": "/public/images/og/problem-nevrologicheskie-narusheniya-f69f94cda316.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "f69f94cda316",
+            "title": "Неврологические нарушения"
+        },
+        "problem-zabolevaniya-vnutrennih-organov": {
+            "path": "/public/images/og/problem-zabolevaniya-vnutrennih-organov-a0e97462e51c.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "a0e97462e51c",
+            "title": "Заболевания внутренних органов"
+        },
+        "problem-sindrom-khronicheskoy-ustalosti-i-postkovid": {
+            "path": "/public/images/og/problem-sindrom-khronicheskoy-ustalosti-i-postkovid-c3ac6a6c89a9.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "c3ac6a6c89a9",
+            "title": "Синдром хронической усталости и постковид"
+        },
+        "problem-trevoga-stress-problemy-so-snom": {
+            "path": "/public/images/og/problem-trevoga-stress-problemy-so-snom-2a23c918ef75.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "2a23c918ef75",
+            "title": "Тревога, стресс, проблемы со сном"
+        },
+        "problem-semeynye-problemy-i-otnosheniya": {
+            "path": "/public/images/og/problem-semeynye-problemy-i-otnosheniya-c46032d4686d.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "c46032d4686d",
+            "title": "Семейные проблемы и отношения"
+        },
+        "problem-otsutstvie-uverennosti-v-sebe": {
+            "path": "/public/images/og/problem-otsutstvie-uverennosti-v-sebe-b7ccb311c02c.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "b7ccb311c02c",
+            "title": "Отсутствие уверенности в себе"
+        },
+        "problem-malopodvizhnyy-obraz-zhizni-lishniy-ves-metabolicheskiy-sindrom-gipoksiya": {
+            "path": "/public/images/og/problem-malopodvizhnyy-obraz-zhizni-lishniy-ves-metabolicheskiy-sindrom-gipoksiya-b3fb6a8ddc4c.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "b3fb6a8ddc4c",
+            "title": "Малоподвижный образ жизни: лишний вес, метаболический синдром, гипоксия"
+        },
+        "problem-pozhilye-patsienty-70-narusheniya-pamyati-sna-kognitivnye-funktsii-shatkost": {
+            "path": "/public/images/og/problem-pozhilye-patsienty-70-narusheniya-pamyati-sna-kognitivnye-funktsii-shatkost-ad217ba76969.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "ad217ba76969",
+            "title": "Серебряный возраст: нарушения памяти, сна, движений"
+        },
+        "problem-trudnosti-s-perenosimostyu-sportivnykh-nagruzok": {
+            "path": "/public/images/og/problem-trudnosti-s-perenosimostyu-sportivnykh-nagruzok-1f155f59455a.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "1f155f59455a",
+            "title": "Непереносимость спортивных нагрузках"
+        },
+        "problem-slabyy-immunitet-i-chastye-orvi": {
+            "path": "/public/images/og/problem-slabyy-immunitet-i-chastye-orvi-bf7848aae5e1.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "bf7848aae5e1",
+            "title": "Слабый иммунитет и частые ОРВИ"
+        },
+        "problem-detskie-problemy": {
+            "path": "/public/images/og/problem-detskie-problemy-68eb0f5208af.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "68eb0f5208af",
+            "title": "Проблемы детского и подросткового возраста"
+        },
+        "problem-children": {
+            "path": "/public/images/og/problem-children-43cd09afb3aa.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "43cd09afb3aa",
+            "title": "Проблемы детского и подросткового возраста"
+        },
+        "season-spring": {
+            "path": "/public/images/og/season-spring-1620b723af76.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "1620b723af76",
+            "title": "Весна"
+        },
+        "season-summer": {
+            "path": "/public/images/og/season-summer-161f499345bf.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "161f499345bf",
+            "title": "Лето"
+        },
+        "season-autumn": {
+            "path": "/public/images/og/season-autumn-c791a3ff579b.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "c791a3ff579b",
+            "title": "Осень"
+        },
+        "season-winter": {
+            "path": "/public/images/og/season-winter-0a7d8370a6f1.webp",
+            "width": 2400,
+            "height": 1260,
+            "type": "image/webp",
+            "hash": "0a7d8370a6f1",
+            "title": "Зима"
+        }
+    }
+}
