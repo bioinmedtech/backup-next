@@ -33,7 +33,10 @@ $accent = '#1977b2';
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $canonicalUrl = $siteUrl . '/partners/' . $bioinmedPartnerSlug;
 $pageTitle = trim((string)($meta['title'] ?? $partnerName)) . ' | ' . CLINIC_NAME;
-$pageDescription = trim((string)($meta['description'] ?? ('О партнёре ' . $partnerName)));
+$pageDescription = bioinmed_meta_description(
+    $meta['description'] ?? '',
+    'О партнёре ' . $partnerName . ' клиники БИОИНМЕД: технологии, подход и применение в восстановительной медицине.'
+);
 $socialImageUrl = $isHabilect ? $siteUrl . $heroPhoto : bioinmed_default_social_image_url();
 $structuredData = [
     '@context' => 'https://schema.org',

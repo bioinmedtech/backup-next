@@ -18,7 +18,10 @@ $closing = is_array($page['closing'] ?? null) ? $page['closing'] : [];
 $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $canonicalUrl = $siteUrl . '/partners';
 $pageTitle = trim((string)($meta['title'] ?? 'Партнёры клиники')) . ' | ' . CLINIC_NAME;
-$pageDescription = trim((string)($meta['description'] ?? 'Технологические и фармацевтические партнёры клиники БИОИНМЕД.'));
+$pageDescription = bioinmed_meta_description(
+    $meta['description'] ?? '',
+    'Технологические и научные партнёры клиники БИОИНМЕД: медицинская экосистема «Хабилект» и международная фармацевтическая компания Heel.'
+);
 $structuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => $siteUrl . '/'],

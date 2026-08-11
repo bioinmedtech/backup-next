@@ -17,7 +17,10 @@ $iconUrl = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/services';
 $pageTitle = trim((string)($servicesMeta['title'] ?? '')) . ' | ' . CLINIC_NAME;
-$pageDescription = trim((string)($servicesMeta['description'] ?? ''));
+$pageDescription = bioinmed_meta_description(
+    $servicesMeta['description'] ?? '',
+    'Каталог услуг клиники БИОИНМЕД в Москве: диагностика, остеопатия, рефлексотерапия, физиотерапия, капельницы и комплексные программы лечения.'
+);
 
 function e($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');

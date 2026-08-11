@@ -60,11 +60,18 @@ function bioinmed_doctor_certificates(string $doctorSlug): array {
 
 $doctorTitleSuffix = (string)($doctorMeta['title_suffix'] ?? '');
 $pageTitle    = $doctor
-    ? e($doctor['name']) . $doctorTitleSuffix . (mb_strpos($doctorTitleSuffix, CLINIC_NAME, 0, 'UTF-8') === false ? ' | ' . CLINIC_NAME : '')
+    ? trim((string)$doctor['name']) . $doctorTitleSuffix . (mb_strpos($doctorTitleSuffix, CLINIC_NAME, 0, 'UTF-8') === false ? ' | ' . CLINIC_NAME : '')
     : ((string)($doctorMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
 $pageDesc     = $doctor
-    ? e($doctor['name']) . ' — ' . e($doctor['specialty'] ?? '') . (string)($doctorMeta['description_suffix'] ?? '')
-    : ($doctorMeta['not_found_description'] ?? '');
+    ? bioinmed_meta_description(
+        trim((string)($doctor['name'] ?? '')) . ' — ' . trim((string)($doctor['specialty'] ?? '')) . (string)($doctorMeta['description_suffix'] ?? ''),
+        trim((string)($doctor['bio'] ?? '')) . ' Запись в клинику БИОИНМЕД: ' . CLINIC_PHONE,
+        170
+    )
+    : bioinmed_meta_description(
+        $doctorMeta['not_found_description'] ?? '',
+        'Профиль специалиста не найден. Перейдите к списку врачей клиники БИОИНМЕД.'
+    );
 $canonicalUrl = $doctor
     ? $siteUrl . '/doctors/' . rawurlencode((string)$slug)
     : $siteUrl . '/doctors';
@@ -96,8 +103,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageTitle; ?></title>
-    <meta name="description" content="<?php echo $pageDesc; ?>">
+    <title><?php echo e($pageTitle); ?></title>
+    <meta name="description" content="<?php echo e($pageDesc); ?>">
     <meta name="robots" content="<?php echo $robotsContent; ?>">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
     <meta name="theme-color" content="#1977b2">

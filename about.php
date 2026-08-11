@@ -37,7 +37,10 @@ $iconPath = CLINIC_ICON_PATH;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/about';
 $pageTitle = trim((string)($aboutMeta['title'] ?? 'О клинике')) . ' | ' . CLINIC_NAME;
-$pageDescription = trim((string)($aboutMeta['description'] ?? 'Клиника гомеопатии и биорегуляции: интегративная медицина, диагностика первопричин и персональные программы восстановления.'));
+$pageDescription = bioinmed_meta_description(
+	$aboutMeta['description'] ?? '',
+	'Клиника интегративной медицины БИОИНМЕД в Москве: диагностика первопричин, остеопатия, рефлексотерапия, физиотерапия и персональные программы восстановления.'
+);
 
 $structuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([

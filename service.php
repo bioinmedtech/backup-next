@@ -202,11 +202,18 @@ function bioinmed_render_habilect_grid_items_section(
 }
 
 $pageTitle = $service
-    ? e(trim((string)($service['meta_title'] ?? $service['name']))) . ' | ' . CLINIC_NAME
+    ? trim((string)($service['meta_title'] ?? $service['name'])) . ' | ' . CLINIC_NAME
     : ((string)($serviceMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
 $pageDesc  = $service
-    ? e(bioinmed_meta_excerpt(trim((string)($service['description'] ?? $service['name'])) . ' Запись в БИОИНМЕД: ' . CLINIC_PHONE, 170))
-    : ((string)($serviceMeta['not_found_description'] ?? ''));
+    ? bioinmed_meta_description(
+        trim((string)($service['description'] ?? '')),
+        trim((string)($service['name'] ?? '')) . ' в клинике БИОИНМЕД в Москве. Описание услуги, цена и запись на приём: ' . CLINIC_PHONE,
+        170
+    )
+    : bioinmed_meta_description(
+        $serviceMeta['not_found_description'] ?? '',
+        'Описание услуги не найдено. Перейдите к каталогу услуг клиники БИОИНМЕД.'
+    );
 $canonicalUrl = $service
     ? $siteUrl . '/services/' . rawurlencode((string)($service['id'] ?? $serviceSlug))
     : $siteUrl . '/services';
@@ -293,8 +300,8 @@ $faqStructuredData = bioinmed_faq_schema($faqs_on_page);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageTitle; ?></title>
-    <meta name="description" content="<?php echo $pageDesc; ?>">
+    <title><?php echo e($pageTitle); ?></title>
+    <meta name="description" content="<?php echo e($pageDesc); ?>">
     <meta name="robots" content="<?php echo $robotsContent; ?>">
     <link rel="canonical" href="<?php echo e($canonicalUrl); ?>">
     <meta name="theme-color" content="#1977b2">

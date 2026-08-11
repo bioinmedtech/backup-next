@@ -837,7 +837,27 @@ function bioinmed_meta_excerpt($value, int $limit = 165): string {
         $slice = mb_substr($slice, 0, $lastSpace, 'UTF-8');
     }
 
-    return rtrim($slice, " \t\n\r\0\x0B.,;:!-") . '.';
+    $excerpt = rtrim($slice, " \t\n\r\0\x0B.,;:!-");
+    $excerpt = preg_replace('/\s+(?:а|без|в|во|для|до|за|и|из|или|к|ко|на|о|об|от|по|при|с|со|у)$/ui', '', $excerpt) ?? $excerpt;
+
+    return rtrim($excerpt, " \t\n\r\0\x0B.,;:!-") . '.';
+}
+
+function bioinmed_meta_description($value = '', $fallback = '', int $limit = 165): string {
+    $description = bioinmed_meta_excerpt($value, $limit);
+    if ($description !== '') {
+        return $description;
+    }
+
+    $description = bioinmed_meta_excerpt($fallback, $limit);
+    if ($description !== '') {
+        return $description;
+    }
+
+    return bioinmed_meta_excerpt(
+        CLINIC_NAME . ': восстановительная и интегративная медицина в Москве. Диагностика, лечение и персональные программы восстановления. Запись: ' . CLINIC_PHONE,
+        $limit
+    );
 }
 
 function bioinmed_render_favicon_links($icon_path = null) {

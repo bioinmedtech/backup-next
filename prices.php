@@ -34,7 +34,10 @@ $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/prices';
 $pricesPageLink = bioinmed_link('pages.prices');
 $pageTitle = (string)($pricesMeta['title'] ?? 'Прайс-лист услуг и цены') . ' | ' . CLINIC_NAME;
-$pageDescription = (string)($pricesMeta['description'] ?? 'Полный прайс-лист с ценами на все услуги клиники БИОИНМЕД. Диагностика, остеопатия, рефлексотерапия, физиотерапия и другие методики.');
+$pageDescription = bioinmed_meta_description(
+    $pricesMeta['description'] ?? '',
+    'Полный прайс-лист с ценами на все услуги клиники БИОИНМЕД. Диагностика, остеопатия, рефлексотерапия, физиотерапия и другие методики.'
+);
 
 $pricesHeroTextNode = bioinmed_page_text_node(
     $pricesPage,

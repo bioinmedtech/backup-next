@@ -46,8 +46,19 @@ $pageTitle = $isChildrenProblemsPage
     ? (($problemMeta['children_title'] ?? '') . ' — ' . CLINIC_NAME)
     : ($problem ? ($problem['page_title'] ?? ($problem['title'] . ' — ' . CLINIC_NAME)) : (($problemMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME));
 $pageDescription = $isChildrenProblemsPage
-    ? (string)($problemMeta['children_description'] ?? '')
-    : ($problem ? ($problem['page_description'] ?? $problem['description']) : (string)($problemMeta['not_found_description'] ?? ''));
+    ? bioinmed_meta_description(
+        $problemMeta['children_description'] ?? '',
+        'Детские и подростковые проблемы в клинике БИОИНМЕД: нарушения осанки, задержка речи и моторики, гиперактивность, аутизм и другие запросы у детей.'
+    )
+    : ($problem
+        ? bioinmed_meta_description(
+            $problem['page_description'] ?? ($problem['description'] ?? ''),
+            trim((string)($problem['title'] ?? '')) . ': диагностика, лечение и персональный маршрут восстановления в клинике БИОИНМЕД.'
+        )
+        : bioinmed_meta_description(
+            $problemMeta['not_found_description'] ?? '',
+            'Страница не найдена. Перейдите к списку симптомов и ситуаций для обращения в клинику БИОИНМЕД.'
+        ));
 $canonicalUrl = $isChildrenProblemsPage
     ? $siteUrl . '/problems/children'
     : ($problem ? $siteUrl . '/problems/' . rawurlencode((string)$problem['slug']) : $siteUrl . '/problems');

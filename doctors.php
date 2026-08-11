@@ -21,7 +21,10 @@ $iconUrl  = $siteUrl . $iconPath;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/doctors';
 $pageTitle = trim((string)($doctorsMeta['title'] ?? '')) . (string)($doctorsMeta['title_suffix'] ?? '') . CLINIC_NAME;
-$pageDescription = trim((string)($doctorsMeta['description'] ?? ''));
+$pageDescription = bioinmed_meta_description(
+    $doctorsMeta['description'] ?? '',
+    'Врачи клиники БИОИНМЕД в Москве: остеопатия, рефлексотерапия, психотерапия и восстановительная медицина. Выберите специалиста и запишитесь на приём.'
+);
 $phone1      = CLINIC_PHONE;
 $phone1link  = preg_replace('/\D/', '', $phone1);
 $phone2      = defined('CLINIC_PHONE_2') ? CLINIC_PHONE_2 : '';

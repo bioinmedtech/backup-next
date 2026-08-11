@@ -14,7 +14,10 @@ $siteUrl = rtrim(CLINIC_SITE_URL, '/');
 $iconPath = CLINIC_ICON_PATH;
 $canonicalUrl = $siteUrl . '/problems';
 $pageTitle = trim((string)($problemsMeta['title'] ?? '')) . (string)($problemsMeta['title_suffix'] ?? '');
-$pageDescription = trim((string)($problemsMeta['description'] ?? '')) . ' ' . CLINIC_NAME . (string)($problemsMeta['description_suffix'] ?? '');
+$pageDescription = bioinmed_meta_description(
+    trim((string)($problemsMeta['description'] ?? '')) . ' ' . CLINIC_NAME . (string)($problemsMeta['description_suffix'] ?? ''),
+    'Подберите симптомы и ситуацию для обращения в клинику БИОИНМЕД в Москве: описание, этапы восстановления и подходящие услуги по каждому запросу.'
+);
 $socialImageUrl = bioinmed_default_social_image_url();
 $organizationStructuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
