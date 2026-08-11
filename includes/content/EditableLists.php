@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
+function bioinmed_editable_list_admin_enabled(): bool {
+    static $enabled = null;
+    if ($enabled !== null) {
+        return $enabled;
+    }
+
+    $config = function_exists('bioinmed_admin_client_config') ? bioinmed_admin_client_config() : [];
+    $enabled = !empty($config['isAuthenticated']);
+
+    return $enabled;
+}
+
 function bioinmed_editable_list_resolve_texts(array $pageData, string $basePath, array $fallback): array {
     $overrides = $pageData;
     foreach (explode('.', $basePath) as $part) {
@@ -43,6 +55,7 @@ function bioinmed_editable_list_items(array $pageData, string $listKey, array $f
     $source = is_array($stored) ? $stored : $fallback;
     $items = [];
     $usedIds = [];
+    $adminEnabled = bioinmed_editable_list_admin_enabled();
 
     foreach ($source as $index => $entry) {
         if (is_array($entry)) {
@@ -60,7 +73,7 @@ function bioinmed_editable_list_items(array $pageData, string $listKey, array $f
             $hidden = false;
             $rawId = '';
         }
-        if ($text === '') continue;
+        if ($text === '' || (!$adminEnabled && $hidden)) continue;
 
         $id = preg_replace('/[^a-zA-Z0-9_-]+/', '-', $rawId) ?? '';
         $id = trim($id, '-_');
@@ -77,25 +90,45 @@ function bioinmed_editable_list_items(array $pageData, string $listKey, array $f
 }
 
 function bioinmed_editable_list_attrs(string $page, string $listKey, string $title, bool $allowIcon = true, string $secondaryLabel = '', string $urlLabel = ''): string {
+    if (!bioinmed_editable_list_admin_enabled()) {
+        return '';
+    }
+
     $e = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     return ' data-admin-list-root="1" data-admin-list-page="' . $e($page) . '" data-admin-list-key="' . $e($listKey) . '" data-admin-list-title="' . $e($title) . '" data-admin-list-icons="' . ($allowIcon ? '1' : '0') . '" data-admin-list-secondary-label="' . $e($secondaryLabel) . '" data-admin-list-url-label="' . $e($urlLabel) . '"';
 }
 
 function bioinmed_editable_list_item_attrs(array $item): string {
+    if (!bioinmed_editable_list_admin_enabled()) {
+        return '';
+    }
+
     $e = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     return ' data-admin-list-item="1" data-admin-list-item-id="' . $e((string)$item['id']) . '" data-admin-list-item-text="' . $e((string)$item['text']) . '" data-admin-list-item-secondary="' . $e((string)($item['secondary'] ?? '')) . '" data-admin-list-item-url="' . $e((string)($item['url'] ?? '')) . '" data-admin-list-item-icon="' . $e((string)$item['icon']) . '" data-admin-list-item-hidden="' . (!empty($item['hidden']) ? '1' : '0') . '"';
 }
 
 function bioinmed_editable_list_item_class(array $item): string {
+    if (!bioinmed_editable_list_admin_enabled()) {
+        return '';
+    }
+
     return !empty($item['hidden']) ? ' bioinmed-editable-list-item-hidden' : '';
 }
 
 function bioinmed_editable_list_toolbar(string $tag = 'li'): string {
+    if (!bioinmed_editable_list_admin_enabled()) {
+        return '';
+    }
+
     $tag = $tag === 'div' ? 'div' : 'li';
     return '<' . $tag . ' class="bioinmed-editable-list-toolbar" data-admin-disable-block-edit="1"><button type="button" class="price-admin-inline-btn" data-admin-list-action="add"><i class="fa-solid fa-plus" aria-hidden="true"></i><span>Добавить первый элемент</span></button></' . $tag . '>';
 }
 
 function bioinmed_editable_list_actions(array $item): string {
+    if (!bioinmed_editable_list_admin_enabled()) {
+        return '';
+    }
+
     $hiddenLabel = !empty($item['hidden']) ? 'Показать' : 'Скрыть';
     return '<div class="bioinmed-editable-list-actions" data-admin-disable-block-edit="1">'
         . '<button type="button" class="price-admin-inline-btn" data-admin-list-action="move-up" title="Поднять выше"><span aria-hidden="true">↑</span><span>Выше</span></button>'

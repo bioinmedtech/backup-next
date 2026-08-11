@@ -91,7 +91,7 @@
     }
   ],
   "service_image_exact_map": {
-    "habilect-diagnostics": ["habilect.jpg", "habilect-2.jpg"],
+    "habilect-diagnostics": ["/public/images/habilect-family.webp", "habilect.jpg", "habilect-2.jpg"],
     "chief-doctor-consultation": ["/public/images/slider-v2/slider-1.jpg"],
     "hilt-therapy": ["Advanced Regenerative Therapy Laser.jpg"],
     "osteopathy": ["osteopath-nehorosheva-real.webp", "osteopath-vertlib-real.webp", "pediatric-osteopath-real.webp"],
