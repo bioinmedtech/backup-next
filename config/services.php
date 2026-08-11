@@ -5,6 +5,7 @@ return array (
   array (
     'id' => 'habilect-diagnostics',
     'name' => 'Диагностика опорно-двигательного аппарата на мультифункциональном комплексе «Хабилект»',
+    'meta_title' => 'Диагностика ОДА на комплексе «Хабилект»',
     'subtitle' => 'Одна система для всех задач',
     'category' => 'musculoskeletal',
     'price' => 'от 2 000 ₽ до 6 000 ₽',
@@ -329,6 +330,7 @@ return array (
   array (
     'id' => 'ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a',
     'name' => 'Экспресс-приём зав.отделения, врача акушера-гинеколога, рефлексотерапевта Кондратовой Е.А.',
+    'meta_title' => 'Экспресс-приём Кондратовой Е.А.',
     'subtitle' => 'Услуга клиники БИОИНМЕД',
     'category' => 'reflexotherapy',
     'price' => '4 500 ₽',
@@ -576,6 +578,7 @@ return array (
   array (
     'id' => 'lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let',
     'name' => 'Лечебно-диагностический приём "Мать и дитя" – авторская методика (мама и ребенок с 0 до 3-х лет)',
+    'meta_title' => 'Приём «Мать и дитя»',
     'subtitle' => 'Услуга клиники БИОИНМЕД',
     'category' => 'chief_doctor',
     'price' => '10 000 ₽',

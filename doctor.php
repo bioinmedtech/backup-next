@@ -58,7 +58,10 @@ function bioinmed_doctor_certificates(string $doctorSlug): array {
     }));
 }
 
-$pageTitle    = $doctor ? e($doctor['name']) . (string)($doctorMeta['title_suffix'] ?? '') . CLINIC_NAME : ((string)($doctorMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
+$doctorTitleSuffix = (string)($doctorMeta['title_suffix'] ?? '');
+$pageTitle    = $doctor
+    ? e($doctor['name']) . $doctorTitleSuffix . (mb_strpos($doctorTitleSuffix, CLINIC_NAME, 0, 'UTF-8') === false ? ' | ' . CLINIC_NAME : '')
+    : ((string)($doctorMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
 $pageDesc     = $doctor
     ? e($doctor['name']) . ' — ' . e($doctor['specialty'] ?? '') . (string)($doctorMeta['description_suffix'] ?? '')
     : ($doctorMeta['not_found_description'] ?? '');
@@ -236,6 +239,7 @@ echo $header->render();
                         <?php echo bioinmed_render_chief_doctor_summary($doctor, [
                             'show_cta' => false,
                             'surface_class' => 'space-y-4',
+                            'heading_tag' => 'h1',
                             'text_prefix' => 'pages.doctor.doctor_items.' . ($doctor['slug'] ?? 'doctor') . '.summary',
                             'text_values' => bioinmed_json_get(
                                 $doctorPage,

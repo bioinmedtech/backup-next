@@ -202,10 +202,10 @@ function bioinmed_render_habilect_grid_items_section(
 }
 
 $pageTitle = $service
-    ? e($service['name']) . ' — ' . (string)($serviceMeta['title_suffix'] ?? '') . ' | ' . CLINIC_NAME
+    ? e(trim((string)($service['meta_title'] ?? $service['name']))) . ' | ' . CLINIC_NAME
     : ((string)($serviceMeta['not_found_title'] ?? '') . ' | ' . CLINIC_NAME);
 $pageDesc  = $service
-    ? e($service['description'] ?? $service['name']) . ' ' . bioinmed_text('common.book_appointment') . (string)($serviceMeta['description_call_to_action_separator'] ?? '') . CLINIC_NAME . (string)($serviceMeta['description_phone_separator'] ?? '') . e(CLINIC_PHONE)
+    ? e(bioinmed_meta_excerpt(trim((string)($service['description'] ?? $service['name'])) . ' Запись в БИОИНМЕД: ' . CLINIC_PHONE, 170))
     : ((string)($serviceMeta['not_found_description'] ?? ''));
 $canonicalUrl = $service
     ? $siteUrl . '/services/' . rawurlencode((string)($service['id'] ?? $serviceSlug))

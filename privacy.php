@@ -12,7 +12,7 @@ $iconPath = CLINIC_ICON_PATH;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/privacy';
 $pageTitle = trim((string)($privacyMeta['title'] ?? 'Политика конфиденциальности')) . ' | ' . CLINIC_NAME;
-$pageDescription = trim((string)($privacyMeta['description'] ?? 'Политика конфиденциальности клиники')) . ' ' . CLINIC_NAME . ': порядок обработки персональных данных, контактная информация и права пользователя.';
+$pageDescription = bioinmed_meta_excerpt(trim((string)($privacyMeta['description'] ?? 'Политика конфиденциальности клиники')), 165);
 
 $structuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([

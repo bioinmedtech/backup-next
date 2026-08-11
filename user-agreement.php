@@ -11,7 +11,7 @@ $iconPath = CLINIC_ICON_PATH;
 $socialImageUrl = bioinmed_default_social_image_url();
 $canonicalUrl = $siteUrl . '/user-agreement';
 $pageTitle = trim((string)($agreementMeta['title'] ?? 'Пользовательское соглашение')) . ' | ' . CLINIC_NAME;
-$pageDescription = trim((string)($agreementMeta['description'] ?? 'Пользовательское соглашение сайта клиники')) . ' ' . CLINIC_NAME . ': условия использования сайта, записи через формы и обратной связи.';
+$pageDescription = bioinmed_meta_excerpt(trim((string)($agreementMeta['description'] ?? 'Пользовательское соглашение сайта клиники')), 165);
 
 $structuredData = bioinmed_medical_organization_schema();
 $breadcrumbStructuredData = bioinmed_breadcrumb_schema([

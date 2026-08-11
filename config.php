@@ -825,6 +825,21 @@ function bioinmed_render_social_meta($title, $description, $canonical_url, array
     return implode("\n    ", $lines);
 }
 
+function bioinmed_meta_excerpt($value, int $limit = 165): string {
+    $text = trim(preg_replace('/\s+/u', ' ', strip_tags((string)$value)) ?? '');
+    if ($text === '' || mb_strlen($text, 'UTF-8') <= $limit) {
+        return $text;
+    }
+
+    $slice = mb_substr($text, 0, max(1, $limit - 1), 'UTF-8');
+    $lastSpace = mb_strrpos($slice, ' ', 0, 'UTF-8');
+    if ($lastSpace !== false && $lastSpace > 60) {
+        $slice = mb_substr($slice, 0, $lastSpace, 'UTF-8');
+    }
+
+    return rtrim($slice, " \t\n\r\0\x0B.,;:!-") . '.';
+}
+
 function bioinmed_render_favicon_links($icon_path = null) {
     $path = trim((string)($icon_path ?? CLINIC_ICON_PATH));
     if ($path === '') {
@@ -919,6 +934,10 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
         ? (bool)$options['show_bio_if_tagline_missing']
         : true;
     $textPrefix = trim((string)($options['text_prefix'] ?? 'home.chief_doctor.summary'));
+    $headingTag = strtolower(trim((string)($options['heading_tag'] ?? 'h2')));
+    if (!in_array($headingTag, ['h1', 'h2', 'h3'], true)) {
+        $headingTag = 'h2';
+    }
 
     $textAttr = static function (string $suffix) use ($escape, $textPrefix): string {
         $key = $textPrefix !== '' ? ($textPrefix . '.' . $suffix) : $suffix;
@@ -1061,7 +1080,7 @@ function bioinmed_render_chief_doctor_summary(array $doctor, array $options = []
                 <div class="' . $escape($surfaceClass) . '" data-admin-block-root>
                     <div>
                         <p class="mb-2 text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-[#1977b2]"' . $textAttr('title') . '>' . $escape($title) . '</p>
-                        <h2 class="mt-0 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem]"' . $textAttr('name') . '>' . $escape($name) . '</h2>
+                        <' . $headingTag . ' class="mt-0 text-[2rem] font-bold leading-tight text-[#0a293c] md:text-[2.35rem]"' . $textAttr('name') . '>' . $escape($name) . '</' . $headingTag . '>
                         ' . ($projectTitle !== '' ? '<p class="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]"' . $textAttr('project_title') . '>' . $escape($projectTitle) . '</p>' : '') . '
                         ' . ($intro !== '' ? '<p class="' . $escape($introClass) . '"' . $textAttr('intro') . '>' . $escape($intro) . '</p>' : '') . '
                         ' . ($specializationIntro !== '' ? '<p class="mt-4 text-[0.75rem] font-bold uppercase tracking-[0.14em] text-[#0a293c]"' . $textAttr('specialization_intro') . '>' . $escape($specializationIntro) . '</p>' : '') . '
@@ -1582,7 +1601,7 @@ foreach ($problems as &$problem) {
     $result_key = (string)($problem_profiles[$title]['result'] ?? 'pain');
 
     $problem['page_title'] = trim($title . ' — БИОИНМЕД');
-    $problem['page_description'] = trim((string)($problem['description'] ?? '') . ' Отдельная страница с раскрывающимся описанием проблемы, этапами маршрута лечения и релевантными услугами клиники.');
+    $problem['page_description'] = bioinmed_meta_excerpt(trim((string)($problem['description'] ?? '') . ' Подбор диагностики, лечения и услуг в БИОИНМЕД.'), 170);
 
     $problem['details_sections'] = [
         [
