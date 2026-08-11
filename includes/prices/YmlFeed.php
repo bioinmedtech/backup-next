@@ -54,6 +54,23 @@ function bioinmed_prices_yml_offer_id(string $serviceId, string $sectionId, int 
     return $identifierCandidate;
 }
 
+function bioinmed_prices_yml_picture_url(array $service): string {
+    $image = bioinmed_service_primary_image_url($service);
+    if ($image === null) {
+        return '';
+    }
+
+    $imagePath = (string)parse_url($image, PHP_URL_PATH);
+    if ($imagePath !== '' && preg_match('~\.webp$~i', $imagePath)) {
+        $jpgPath = preg_replace('~\.webp$~i', '.jpg', $imagePath);
+        if (is_string($jpgPath) && is_file(dirname(__DIR__, 2) . $jpgPath)) {
+            $image = $jpgPath;
+        }
+    }
+
+    return bioinmed_absolute_url($image);
+}
+
 function bioinmed_prices_yml_build(array $payload, array $services, string $profile = 'yandex'): string {
     $serviceMap = [];
     foreach ($services as $service) {
@@ -103,8 +120,7 @@ function bioinmed_prices_yml_build(array $payload, array $services, string $prof
             $service = is_array($serviceMap[$serviceId] ?? null) ? $serviceMap[$serviceId] : [];
             $description = trim((string)($row['description'] ?? '')) ?: trim((string)($service['description'] ?? ''));
             $shortDescription = trim((string)($service['card_description'] ?? '')) ?: mb_substr($description, 0, 250, 'UTF-8');
-            $image = $service !== [] ? bioinmed_service_primary_image_url($service) : null;
-            $imageUrl = $image ? bioinmed_absolute_url($image) : '';
+            $imageUrl = $service !== [] ? bioinmed_prices_yml_picture_url($service) : '';
             $url = $serviceId !== ''
                 ? $siteUrl . '/services/' . rawurlencode($serviceId)
                 : $siteUrl . '/prices#' . rawurlencode($sectionId);
