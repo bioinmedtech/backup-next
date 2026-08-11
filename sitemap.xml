@@ -373,6 +373,60 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://bioinmed.ru/services/rehabilitation-specialist-consultation</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/services/rehabilitation-specialist-monitoring</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/services/manual-therapy-consultation</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/services/manual-therapy-session</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/services/kineziodiagnostics-therapy</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/services/orthotic-insoles-formthotics</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/services/orthotic-insoles-footmaster</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/services/massage-course</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/services/ozone-camera</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://bioinmed.ru/doctors/kostromina-inna-viktorovna</loc>
     <lastmod>2026-04-29T17:09:23+03:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -387,6 +441,12 @@
   <url>
     <loc>https://bioinmed.ru/doctors/kondratova-elena-aleksandrovna</loc>
     <lastmod>2026-04-29T17:09:23+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/doctors/navrozov-evgeniy-sergeevich</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -475,6 +535,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://bioinmed.ru/problems/zabolevaniya-vnutrennih-organov</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://bioinmed.ru/problems/sindrom-khronicheskoy-ustalosti-i-postkovid</loc>
     <lastmod>2026-06-23T00:00:00+03:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -483,6 +549,12 @@
   <url>
     <loc>https://bioinmed.ru/problems/trevoga-stress-problemy-so-snom</loc>
     <lastmod>2026-06-23T00:00:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bioinmed.ru/problems/semeynye-problemy-i-otnosheniya</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -517,8 +589,8 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://bioinmed.ru/problems/tochnaya-diagnostika-skrytykh-problem-oporno-dvigatelnogo-apparata-i-biomekhaniki</loc>
-    <lastmod>2026-06-23T00:00:00+03:00</lastmod>
+    <loc>https://bioinmed.ru/problems/detskie-problemy</loc>
+    <lastmod>2026-08-11T00:00:00+03:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
