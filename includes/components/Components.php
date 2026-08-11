@@ -2649,17 +2649,20 @@ class Footer extends Component {
         $second_phone_footer = $phone2_link
             ? '<a href="tel:' . $phone2_link . '" class="block text-sm font-semibold text-[#0a293c] hover:text-[#1977b2] transition-colors"' . $this->dataTextId('footer.contact.phone_secondary') . '>' . $this->e($phone2) . '</a>'
             : '';
-        $admin_login_trigger_html = <<<HTML
-                        <button id="bioinmed-admin-login-trigger" class="bioinmed-admin-login-trigger" type="button" aria-label="Вход в админку" title="Вход в админку">
-                            <i class="fa-solid fa-pen-to-square text-[12px]" aria-hidden="true"></i>
-                            <span>Вход в админку</span>
-                        </button>
-        HTML;
-
+        $admin_login_trigger_html = '';
         $admin_config_json = 'null';
         $has_admin_cookie = isset($_COOKIE['bioinmed_admin_remember']) || isset($_COOKIE[session_name()]);
         $has_admin_request_flag = isset($_GET['bioinmed_admin']);
         $render_full_admin = false;
+
+        if ($has_admin_cookie || $has_admin_request_flag) {
+            $admin_login_trigger_html = <<<HTML
+                        <button id="bioinmed-admin-login-trigger" class="bioinmed-admin-login-trigger" type="button" aria-label="Вход в админку" title="Вход в админку">
+                            <i class="fa-solid fa-pen-to-square text-[12px]" aria-hidden="true"></i>
+                            <span>Вход в админку</span>
+                        </button>
+            HTML;
+        }
 
         if ($has_admin_cookie || $has_admin_request_flag) {
             if (!function_exists('bioinmed_admin_client_config')) {
@@ -3018,7 +3021,7 @@ class Footer extends Component {
         </script>
         <script src="{$this->e(bioinmed_versioned_asset_path('/assets/js/admin-inline.js'))}"></script>
         HTML;
-        } else {
+        } elseif ($has_admin_cookie || $has_admin_request_flag) {
             $admin_interface_html = <<<HTML
         <style>
             .bioinmed-admin-login-trigger {

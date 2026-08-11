@@ -694,7 +694,7 @@ $header = new Header($brand_colors);
                     <p class="text-[rgba(255,255,255,0.9)] mb-4">
                         Позвоните нам, и наши специалисты подберут оптимальный план лечения именно для Вас.
                     </p>
-                    <p class="text-sm text-[rgba(255,255,255,0.8)]">Персональный подход гарантирован!</p>
+                    <p class="text-sm text-[rgba(255,255,255,0.8)]">Персональный подход к каждому обращению.</p>
                 </div>
                 <div class="flex flex-col gap-3">
                     <a href="tel:<?php echo preg_replace('/\D/', '', CLINIC_PHONE); ?>" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 font-semibold text-[#1977b2] hover:bg-[#f0f7fc] transition-colors">
