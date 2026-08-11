@@ -78,6 +78,7 @@ define('CLINIC_REVIEW_YANDEX', (string)bioinmed_bootstrap_get($bioinmed_site_dat
 define('CLINIC_REVIEW_2GIS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.review_2gis', 'https://2gis.ru/moscow/firm/70000001085756150/tab/reviews'));
 define('CLINIC_REVIEW_DOCTU', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.review_doctu', 'https://doctu.ru/msk/clinic/bioinmed'));
 define('CLINIC_YANDEX_ORG_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.yandex_org_url', 'https://yandex.com/maps/org/bioinmed/20810337169/'));
+define('YANDEX_METRIKA_COUNTER_ID', (int)bioinmed_bootstrap_get($bioinmed_site_data, 'analytics.yandex_metrika_counter_id', 105612063));
 define('HERO_TITLE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hero_title', 'Восстановление здоровья через интегративную медицину'));
 define('HERO_IMAGE', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.hero_image', '/public/images/team/kostromina.jpg'));
 define('RECAPTCHA_SITE_KEY', getenv('BIOINMED_RECAPTCHA_SITE_KEY') ?: '6LfmOs0sAAAAAKHWO2jG24uuWIL7UBy3x7gG8awh');
@@ -638,6 +639,8 @@ function bioinmed_uis_counter_head() {
 }
 
 function bioinmed_yandex_metrika_head() {
+    $counter_id = defined('YANDEX_METRIKA_COUNTER_ID') ? (int)YANDEX_METRIKA_COUNTER_ID : 105612063;
+
     return <<<HTML
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
@@ -646,18 +649,81 @@ function bioinmed_yandex_metrika_head() {
             m[i].l=1*new Date();
             for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
             k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);
-        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=105612063', 'ym');
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id={$counter_id}', 'ym');
 
-        ym(105612063, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+        ym({$counter_id}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+        window.bioinmedMetrikaCounterId = {$counter_id};
+        window.bioinmedReachGoal = window.bioinmedReachGoal || function(goalName, params) {
+            if (!goalName || typeof window.ym !== 'function') {
+                return;
+            }
+            window.ym({$counter_id}, 'reachGoal', goalName, params || {});
+        };
+        window.bioinmedMetrikaGoals = {
+            appointmentClick: 'appointment_click',
+            phoneClick: 'phone_click',
+            messengerClick: 'messenger_click',
+            emailClick: 'email_click',
+            formSubmit: 'lead_form_submit'
+        };
+    </script>
+    <script>
+        (function(){
+            if (window.__bioinmedMetrikaEventsReady) {
+                return;
+            }
+            window.__bioinmedMetrikaEventsReady = true;
+
+            function reach(goalName, params) {
+                if (typeof window.bioinmedReachGoal === 'function') {
+                    window.bioinmedReachGoal(goalName, params || {});
+                }
+            }
+
+            document.addEventListener('click', function(event) {
+                var link = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+                if (!link) {
+                    return;
+                }
+
+                var href = link.getAttribute('href') || '';
+                var goals = window.bioinmedMetrikaGoals || {};
+                var params = {
+                    href: href,
+                    text: (link.textContent || '').trim().slice(0, 120),
+                    page: location.pathname
+                };
+
+                if (link.matches('[data-booking-link]') || link.matches('[onclick*="onlineBooking.open"]')) {
+                    reach(goals.appointmentClick || 'appointment_click', params);
+                }
+
+                if (/^tel:/i.test(href)) {
+                    reach(goals.phoneClick || 'phone_click', params);
+                    return;
+                }
+
+                if (/^mailto:/i.test(href)) {
+                    reach(goals.emailClick || 'email_click', params);
+                    return;
+                }
+
+                if (/telegram|t\\.me|wa\\.me|whatsapp|vk\\.com|max\\.ru/i.test(href)) {
+                    reach(goals.messengerClick || 'messenger_click', params);
+                }
+            }, true);
+        })();
     </script>
     <!-- /Yandex.Metrika counter -->
     HTML;
 }
 
 function bioinmed_yandex_metrika_noscript() {
+    $counter_id = defined('YANDEX_METRIKA_COUNTER_ID') ? (int)YANDEX_METRIKA_COUNTER_ID : 105612063;
+
     return <<<HTML
     <!-- Yandex.Metrika noscript -->
-    <noscript><div><img src="https://mc.yandex.ru/watch/105612063" style="position:absolute; left:-9999px;" alt=""></div></noscript>
+    <noscript><div><img src="https://mc.yandex.ru/watch/{$counter_id}" style="position:absolute; left:-9999px;" alt=""></div></noscript>
     <!-- /Yandex.Metrika noscript -->
     HTML;
 }

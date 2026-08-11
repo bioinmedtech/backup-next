@@ -3442,6 +3442,12 @@ class Footer extends Component {
                                     throw new Error(payload && payload.message ? payload.message : {$form_send_error_js});
                                 }
                                 setStatus(form, 'success', payload.message || {$form_send_success_js});
+                                if (typeof window.bioinmedReachGoal === 'function') {
+                                    window.bioinmedReachGoal('lead_form_submit', {
+                                        source: form.querySelector('[name="source_label"]') ? form.querySelector('[name="source_label"]').value : '',
+                                        page: window.location.pathname
+                                    });
+                                }
                                 form.reset();
                                 if (phoneInput) {
                                     syncPhonePlaceholder(phoneInput);
