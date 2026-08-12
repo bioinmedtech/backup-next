@@ -302,7 +302,7 @@
             "hidden": false,
             "rows": [
                 {
-                    "service_id": "osteopathy",
+                    "service_id": "diagnostika-i-konsultatsiya-vracha-osteopata-nekhoroshevoy-l-s",
                     "title": "Лечебно-диагностический прием",
                     "description": "Врач-остеопат, мануальный терапевт, стоматолог, КМН Нехорошева Л.С.",
                     "duration": "90 мин",
@@ -312,7 +312,7 @@
                     "hidden": false
                 },
                 {
-                    "service_id": "osteopathy",
+                    "service_id": "diagnostika-i-konsultatsiya-vracha-osteopata-nevrologa-vertlib-v-p",
                     "title": "Лечебно-диагностический прием",
                     "description": "Врач-остеопат, невролог Вертлиб В.П.",
                     "duration": "90 мин",

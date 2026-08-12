@@ -1562,6 +1562,17 @@ function bioinmed_prices_payload(): array {
     return $payload;
 }
 
+function bioinmed_service_price_section_ids(string $serviceId): array {
+    $map = [
+        'acupuncture' => ['reflexotherapy', 'acupuncture'],
+        'infusion-therapy' => ['infusion'],
+        'osteopathy' => ['osteopathy'],
+        'fizioterapiya' => ['physiotherapy'],
+    ];
+
+    return $map[$serviceId] ?? [];
+}
+
 function bioinmed_service_prices_from_prices_page(string $serviceId): array {
     $normalizedId = trim($serviceId);
     if ($normalizedId === '') {
@@ -1570,34 +1581,69 @@ function bioinmed_service_prices_from_prices_page(string $serviceId): array {
 
     $payload = bioinmed_prices_payload();
     $sections = is_array($payload['sections'] ?? null) ? $payload['sections'] : [];
-    $prices = [];
+    $collectPrices = static function (callable $matchesRow, bool $onlyLinkedRows) use ($sections): array {
+        $prices = [];
 
-    foreach ($sections as $section) {
-        if (!is_array($section) || !empty($section['hidden'])) {
-            continue;
+        foreach ($sections as $section) {
+            if (!is_array($section) || !empty($section['hidden'])) {
+                continue;
+            }
+
+            $rows = is_array($section['rows'] ?? null) ? $section['rows'] : [];
+            foreach ($rows as $row) {
+                if (!is_array($row) || !empty($row['hidden'])) {
+                    continue;
+                }
+
+                if ($onlyLinkedRows && empty($row['link'])) {
+                    continue;
+                }
+
+                if (!$matchesRow($row, $section)) {
+                    continue;
+                }
+
+                $rowPrice = trim((string)($row['price'] ?? ''));
+                if ($rowPrice === '' || in_array($rowPrice, $prices, true)) {
+                    continue;
+                }
+
+                $prices[] = $rowPrice;
+            }
         }
 
-        $rows = is_array($section['rows'] ?? null) ? $section['rows'] : [];
-        foreach ($rows as $row) {
-            if (!is_array($row) || !empty($row['hidden'])) {
-                continue;
-            }
+        return $prices;
+    };
 
-            $rowServiceId = trim((string)($row['service_id'] ?? ''));
-            if ($rowServiceId !== $normalizedId) {
-                continue;
-            }
+    $matchesServiceId = static function (array $row) use ($normalizedId): bool {
+        return trim((string)($row['service_id'] ?? '')) === $normalizedId;
+    };
 
-            $rowPrice = trim((string)($row['price'] ?? ''));
-            if ($rowPrice === '' || in_array($rowPrice, $prices, true)) {
-                continue;
-            }
+    $prices = $collectPrices($matchesServiceId, true);
+    if ($prices !== []) {
+        return $prices;
+    }
 
-            $prices[] = $rowPrice;
+    $sectionIds = bioinmed_service_price_section_ids($normalizedId);
+    if ($sectionIds !== []) {
+        $sectionLookup = array_fill_keys($sectionIds, true);
+        $matchesSection = static function (array $row, array $section) use ($sectionLookup): bool {
+            $sectionId = trim((string)($section['id'] ?? ''));
+            return $sectionId !== '' && isset($sectionLookup[$sectionId]);
+        };
+
+        $prices = $collectPrices($matchesSection, true);
+        if ($prices !== []) {
+            return $prices;
         }
     }
 
-    return $prices;
+    $prices = $collectPrices($matchesServiceId, false);
+    if ($prices !== []) {
+        return $prices;
+    }
+
+    return [];
 }
 
 function bioinmed_service_price_amounts_by_id(string $serviceId): array {
