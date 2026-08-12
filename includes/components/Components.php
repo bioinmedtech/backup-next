@@ -888,6 +888,34 @@ class HeroSection extends Component {
                 'alt' => $hero_slide_alt_prefix . ' 1',
             ],
         ];
+        $hero_featured_service_images = [
+            'rehabilitation-specialist-consultation-real.webp',
+            'manual-therapy-real.webp',
+            'massage-real.webp',
+            'osteopath-vertlib-real.webp',
+            'acupuncture-face-lifting-real.webp',
+            'plazmopunktura-real.webp',
+            'geliosplazma-treatment-real.webp',
+            'geliosplazma-rejuvenation-real.webp',
+            'orthotic-insoles-footmaster-real.webp',
+            'kineziodiagnostics-therapy-real.webp',
+            'taping-real.webp',
+            'pediatric-osteopath-real.webp',
+            'prp-therapy-real.webp',
+            'infusion-therapy-real.webp',
+        ];
+        foreach ($hero_featured_service_images as $service_image) {
+            $service_image_path = '/public/images/services/' . $service_image;
+            if (!is_file(__DIR__ . '/../..' . $service_image_path)) {
+                continue;
+            }
+
+            $hero_slides[] = [
+                'full' => $service_image_path,
+                'thumb' => $service_image_path,
+                'alt' => $hero_slide_alt_prefix . ' ' . (count($hero_slides) + 1),
+            ];
+        }
         $hero_slider_sequence = [
             1,                // приём главного врача
             3, 4,             // ХИЛТ и аппаратная терапия
@@ -901,12 +929,18 @@ class HeroSection extends Component {
             7, 8, 18, 19, 20, // Хабилект и реабилитация
         ];
         foreach ($hero_slider_sequence as $i) {
+            $slide_alt_number = count($hero_slides) + 1;
             $hero_slides[] = [
                 'full' => '/public/images/slider-v2/slider-' . $i . '.webp',
                 'thumb' => '/public/images/slider-v2/slider-' . $i . '-thumb.webp',
-                'alt' => $hero_slide_alt_prefix . ' ' . ($i + 1),
+                'alt' => $hero_slide_alt_prefix . ' ' . $slide_alt_number,
             ];
         }
+        $hero_slides[] = [
+            'full' => '/public/images/services/injection-therapy.webp',
+            'thumb' => '/public/images/services/injection-therapy.webp',
+            'alt' => $hero_slide_alt_prefix . ' ' . (count($hero_slides) + 1),
+        ];
         $slide_count = count($hero_slides);
 
         foreach ($hero_slides as $slide_index => $slide) {
@@ -2497,8 +2531,8 @@ class SolidarityMedicineBlock extends Component {
         <section id="solidarity-medicine" class="border-b border-[#e6eef7] bg-[#e4f1fa] py-6 md:py-8" style="scroll-margin-top:6rem">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-[2rem] border border-[#d7e6f3] bg-white shadow-[0_10px_24px_rgba(8,36,70,0.06)]" data-admin-block-root>
-                    <div class="relative overflow-hidden bg-[#dceaf7]" style="aspect-ratio: 6 / 3;">
-                        <img src="{$conferenceImage}" alt="Конференция проекта «Солидарная авторская медицина»" class="block" style="width: 100%; height: 100%; object-fit: cover; object-position: center 60%;" loading="lazy" decoding="async">
+                    <div class="solidarity-photo-frame relative overflow-hidden bg-[#dceaf7]">
+                        <img src="{$conferenceImage}" alt="Конференция проекта «Солидарная авторская медицина»" class="solidarity-photo-image block" loading="lazy" decoding="async">
                         <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,35,67,0.02)_15%,rgba(8,35,67,0.22)_100%)]"></div>
                         <div class="pointer-events-none absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#1977b2] shadow-[0_4px_12px_rgba(8,35,67,0.08)]">
                             <span{$this->dataTextId('home.solidarity.shared_platform')}>{$this->e(bioinmed_text('home.solidarity.shared_platform', 'Общая площадка'))}</span>
@@ -2549,6 +2583,28 @@ class SolidarityMedicineBlock extends Component {
                 </div>
             </div>
         </section>
+        <style>
+            .solidarity-photo-frame {
+                aspect-ratio: 4 / 3;
+            }
+
+            .solidarity-photo-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center 30%;
+            }
+
+            @media (min-width: 768px) {
+                .solidarity-photo-frame {
+                    aspect-ratio: 6 / 3;
+                }
+
+                .solidarity-photo-image {
+                    object-position: center 42%;
+                }
+            }
+        </style>
         HTML;
     }
 }
