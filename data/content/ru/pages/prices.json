@@ -29,21 +29,21 @@
                 },
                 {
                     "service_id": "lechebno-diagnosticheskiy-priem-mat-i-ditya-avtorskaya-metodika-mama-i-rebenok-s-0-do-3-kh-let",
-                    "title": "Лечебно-диагностический приём \"Мать и дитя\"",
+                    "title": "Консультативный лечебно-диагностический приём \"Мать и дитя\"",
                     "description": "Мама и ребенок с 0 до 3-х лет",
                     "duration": "120 мин",
                     "price": "10 000 руб.",
-                    "row_class": "",
+                    "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
                 },
                 {
                     "service_id": "sotsialnyy-priem",
-                    "title": "Лечебно-диагностический приём",
+                    "title": "Консультативный лечебно-диагностический приём",
                     "description": "Для участников программы лояльности \"Серебряный возраст\" (70+), ветеранов СВО, детей от 3 до 12 лет",
                     "duration": "60 мин",
                     "price": "6 000 руб.",
-                    "row_class": "",
+                    "row_class": "price-row-title-emphasis",
                     "link": false,
                     "hidden": false
                 },
@@ -62,8 +62,8 @@
                     "title": "Авторская методика",
                     "description": "Комплексная системная программа биорегуляции \"Естественное омоложение\". Детоксикация - адаптация - регенерация",
                     "duration": "60 мин",
-                    "price": "10 000 руб.",
-                    "row_class": "",
+                    "price": "",
+                    "row_class": "price-row-background-blue",
                     "link": true,
                     "hidden": false
                 },
@@ -72,7 +72,7 @@
                     "title": "Плазмолифтинг - PRP-терапия, 1-2-3 пробирки",
                     "description": "",
                     "duration": "",
-                    "price": "2 000 руб./пробирка",
+                    "price": "2 000 руб.",
                     "row_class": "",
                     "link": true,
                     "hidden": false
@@ -157,11 +157,11 @@
             "rows": [
                 {
                     "service_id": "rehabilitation-specialist-consultation",
-                    "title": "Лечебно-диагностический прием специалиста по реабилитации/ортопедии",
+                    "title": "Консультативный лечебно-диагностический приём специалиста по реабилитации/ортопедии",
                     "description": "",
                     "duration": "60 мин",
                     "price": "6 000 руб.",
-                    "row_class": "",
+                    "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
                 },
@@ -284,11 +284,11 @@
             "rows": [
                 {
                     "service_id": "kineziodiagnostics-therapy",
-                    "title": "Лечебно-диагностический прием",
+                    "title": "Консультативный лечебно-диагностический приём",
                     "description": "Кинезиолог",
                     "duration": "60 мин",
                     "price": "8 000 руб.",
-                    "row_class": "",
+                    "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
                 }
@@ -303,21 +303,21 @@
             "rows": [
                 {
                     "service_id": "diagnostika-i-konsultatsiya-vracha-osteopata-nekhoroshevoy-l-s",
-                    "title": "Лечебно-диагностический прием",
+                    "title": "Консультативный лечебно-диагностический приём",
                     "description": "Врач-остеопат, мануальный терапевт, стоматолог, КМН Нехорошева Л.С.",
                     "duration": "90 мин",
                     "price": "11 000 руб.",
-                    "row_class": "",
+                    "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
                 },
                 {
                     "service_id": "diagnostika-i-konsultatsiya-vracha-osteopata-nevrologa-vertlib-v-p",
-                    "title": "Лечебно-диагностический прием",
+                    "title": "Консультативный лечебно-диагностический приём",
                     "description": "Врач-остеопат, невролог Вертлиб В.П.",
                     "duration": "90 мин",
                     "price": "10 000 руб.",
-                    "row_class": "",
+                    "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
                 },
@@ -362,23 +362,14 @@
             "rows": [
                 {
                     "service_id": "ekspress-priem-zav-otdeleniya-vracha-akushera-ginekologa-refleksoterapevta-kondratovoy-e-a",
-                    "title": "Лечебно-диагностический прием",
+                    "title": "Консультативный лечебно-диагностический приём",
                     "description": "Врач-рефлексотерапевт, акушер-гинеколог Кондратова Е.А.",
                     "duration": "60 мин",
                     "price": "4 500 руб.",
-                    "row_class": "",
+                    "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
-                }
-            ]
-        },
-        {
-            "id": "acupuncture",
-            "title": "Акупунктура",
-            "badge": "",
-            "nav_label": "Акупунктура",
-            "hidden": false,
-            "rows": [
+                },
                 {
                     "service_id": "korporalnaya-iglorefleksoterapiya",
                     "title": "Корпоральная иглорефлексотерапия (ИРТ)",
@@ -420,6 +411,16 @@
                     "hidden": false
                 },
                 {
+                    "service_id": "",
+                    "title": "Кетгут-терапия \"Восточный экспресс\" (терапия по триггерным зонам)",
+                    "description": "",
+                    "duration": "60 мин",
+                    "price": "12 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
                     "service_id": "semyanoterapiya",
                     "title": "Семянопунктура",
                     "description": "",
@@ -430,21 +431,81 @@
                     "hidden": false
                 },
                 {
-                    "service_id": "akupunkturnyy-avtorskiy-metod-kondratovoy-e-a-vostochnyy-ekspress",
-                    "title": "Авторская методика \"Восточный экспресс\"",
-                    "description": "Кетгут-терапия (коррекция веса и пищевого поведения)",
-                    "duration": "60 мин",
-                    "price": "12 500 руб.",
-                    "row_class": "price-row-background-beige",
+                    "service_id": "avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove",
+                    "title": "Авторская методика \"Мужское/женское здоровье\"",
+                    "description": "",
+                    "duration": "Инд. мин",
+                    "price": "",
+                    "row_class": "",
                     "link": true,
                     "hidden": false
                 },
                 {
-                    "service_id": "avtorskaya-programma-kondratovoy-e-a-zhenskoe-zdorove",
-                    "title": "Авторская программа \"Мужское/женское здоровье\"",
-                    "description": "Биопунктура (\"Мэлсмон\" / аутоплазма), вакуумная гармонизация, аурикулопунктура",
+                    "service_id": "",
+                    "title": "Капельница с комплексными гомеопатическими препаратами HEEL",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "2 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Гомеопунктура с препаратами HEEL без стоимости препаратов",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Биопунктура (Мэлсмон)",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "7 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Плазмопунктура 1-2 пробирки",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "7 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Корпоральная иглорефлексотерапия (ИРТ)",
+                    "description": "",
                     "duration": "60 мин",
-                    "price": "10 000 руб.",
+                    "price": "6 000 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Су-Джок",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "4 500 руб.",
+                    "row_class": "",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Вакуумная гармонизация",
+                    "description": "",
+                    "duration": "15 мин",
+                    "price": "3 500 руб.",
                     "row_class": "",
                     "link": true,
                     "hidden": false
