@@ -5,6 +5,7 @@ bioinmed_pin_require_access();
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/components/Components.php';
 require_once __DIR__ . '/includes/blog/VkBlog.php';
+require_once __DIR__ . '/includes/blog/WeatherWidget.php';
 
 $blogPage = bioinmed_read_json_file('pages/blog.json');
 $blogMeta = is_array($blogPage['meta'] ?? null) ? $blogPage['meta'] : [];
@@ -60,6 +61,11 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     ['name' => 'Главная', 'url' => '/'],
     ['name' => 'Блог', 'url' => '/blog'],
 ]);
+
+if (!headers_sent()) {
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
+}
 ?>
 <!doctype html>
 <html lang="ru">
@@ -213,7 +219,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                     <div class="blog-weather-card__hero">
                         <div class="blog-weather-card__top">
                             <div>
-                                <div class="blog-weather-card__brand" data-weather-city>Москва</div>
+                                <div class="blog-weather-card__brand" data-weather-city>Ваш город</div>
                                 <div class="blog-weather-card__place" data-weather-place>Прогноз для вашего города</div>
                             </div>
                             <div class="blog-weather-card__icon" aria-hidden="true" data-weather-icon><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="13" fill="#f7b743"/><g stroke="#f7b743" stroke-width="5" stroke-linecap="round"><path d="M36 9v8M36 55v8M9 36h8M55 36h8M17 17l6 6M49 49l6 6M55 17l-6 6M23 49l-6 6"/></g></svg></div>
@@ -238,7 +244,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                     <div class="blog-weather-card__hero">
                         <div class="blog-weather-card__top">
                             <div>
-                                <div class="blog-weather-card__brand" data-weather-city>Москва</div>
+                                <div class="blog-weather-card__brand" data-weather-city>Ваш город</div>
                                 <div class="blog-weather-card__place" data-weather-place>Прогноз для вашего города</div>
                             </div>
                             <div class="blog-weather-card__icon" aria-hidden="true" data-weather-icon><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="13" fill="#f7b743"/><g stroke="#f7b743" stroke-width="5" stroke-linecap="round"><path d="M36 9v8M36 55v8M9 36h8M55 36h8M17 17l6 6M49 49l6 6M55 17l-6 6M23 49l-6 6"/></g></svg></div>
@@ -533,164 +539,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                 button.textContent = expanded ? 'Скрыть' : 'Показать ещё';
             });
         })();
-        (function initBlogWeather() {
-            var roots = Array.prototype.slice.call(document.querySelectorAll('[data-blog-weather]'));
-            var mobile = document.querySelector('[data-blog-weather-mobile]');
-            var mobileToggle = document.querySelector('[data-weather-mobile-toggle]');
-            var storageKey = 'bioinmedBlogWeatherMobileOpen';
-            if (!roots.length || !window.fetch) {
-                return;
-            }
-
-            var fallbackLocation = { city: 'Москва', latitude: 55.7558, longitude: 37.6173 };
-            var descriptions = {
-                0: 'Ясно', 1: 'Преимущественно ясно', 2: 'Переменная облачность', 3: 'Пасмурно',
-                45: 'Туман', 48: 'Изморозь', 51: 'Морось', 53: 'Морось', 55: 'Морось',
-                61: 'Небольшой дождь', 63: 'Дождь', 65: 'Сильный дождь', 71: 'Небольшой снег',
-                73: 'Снег', 75: 'Сильный снег', 80: 'Ливень', 81: 'Ливень', 82: 'Сильный ливень',
-                95: 'Гроза', 96: 'Гроза', 99: 'Гроза'
-            };
-
-            function setText(node, value) {
-                if (node) node.textContent = value;
-            }
-
-            function eachWeatherNode(selector, callback) {
-                roots.forEach(function(root) {
-                    var node = root.querySelector(selector);
-                    if (node) callback(node, root);
-                });
-            }
-
-            function weatherSvg(code) {
-                if ([61,63,65,80,81,82].indexOf(code) !== -1) return '<svg viewBox="0 0 72 72"><path d="M23 45h27a11 11 0 0 0 1-22 18 18 0 0 0-34 7A8 8 0 0 0 23 45Z" fill="#c7dcff"/><path d="M24 53l-4 9M36 53l-4 9M48 53l-4 9" stroke="#5b9dff" stroke-width="5" stroke-linecap="round"/></svg>';
-                if ([71,73,75].indexOf(code) !== -1) return '<svg viewBox="0 0 72 72"><path d="M23 43h27a11 11 0 0 0 1-22 18 18 0 0 0-34 7A8 8 0 0 0 23 43Z" fill="#d6e7ff"/><g fill="#9ec6ff"><circle cx="24" cy="55" r="3"/><circle cx="36" cy="59" r="3"/><circle cx="48" cy="55" r="3"/></g></svg>';
-                if ([95,96,99].indexOf(code) !== -1) return '<svg viewBox="0 0 72 72"><path d="M23 42h27a11 11 0 0 0 1-22 18 18 0 0 0-34 7A8 8 0 0 0 23 42Z" fill="#4b5568"/><path d="M37 40l-8 16h8l-4 13 13-20h-8l5-9Z" fill="#f4b73f"/></svg>';
-                if ([45,48].indexOf(code) !== -1) return '<svg viewBox="0 0 72 72"><path d="M23 38h27a11 11 0 0 0 1-22 18 18 0 0 0-34 7A8 8 0 0 0 23 38Z" fill="#c7dcff"/><path d="M14 50h44M19 59h34" stroke="#a8b4c2" stroke-width="5" stroke-linecap="round"/></svg>';
-                if ([2,3,51,53,55].indexOf(code) !== -1) return '<svg viewBox="0 0 72 72"><circle cx="26" cy="25" r="12" fill="#f7b743"/><path d="M23 46h30a12 12 0 0 0 1-24 19 19 0 0 0-36 8A9 9 0 0 0 23 46Z" fill="#c7dcff"/></svg>';
-                return '<svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="13" fill="#f7b743"/><g stroke="#f7b743" stroke-width="5" stroke-linecap="round"><path d="M36 9v8M36 55v8M9 36h8M55 36h8M17 17l6 6M49 49l6 6M55 17l-6 6M23 49l-6 6"/></g></svg>';
-            }
-
-            function setIcon(node, code) {
-                if (node) node.innerHTML = weatherSvg(Number(code || 0));
-            }
-
-            function setMobileOpen(open) {
-                if (!mobile || !mobileToggle) return;
-                mobile.classList.toggle('is-open', open);
-                mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-                try {
-                    window.localStorage.setItem(storageKey, open ? '1' : '0');
-                } catch (error) {}
-            }
-
-            function formatDate(value, index) {
-                var date = new Date(value + 'T12:00:00');
-                if (Number.isNaN(date.getTime())) return index === 0 ? 'Сегодня' : '';
-                if (index === 0) return 'Сегодня';
-                return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-            }
-
-            function dayLabel(value, index) {
-                var date = new Date(value + 'T12:00:00');
-                if (Number.isNaN(date.getTime())) return '';
-                var label = date.toLocaleDateString('ru-RU', { weekday: 'long' });
-                return label.charAt(0).toLocaleUpperCase('ru-RU') + label.slice(1);
-            }
-
-            function renderForecast(daily) {
-                if (!daily || !Array.isArray(daily.time)) return;
-                var html = daily.time.slice(0, 7).map(function(date, index) {
-                    var code = Number((daily.weather_code || [])[index] || 0);
-                    var max = Math.round(Number((daily.temperature_2m_max || [])[index] || 0));
-                    var min = Math.round(Number((daily.temperature_2m_min || [])[index] || 0));
-                    return '<div class="blog-weather-card__day"><div><div class="blog-weather-card__date">' + formatDate(date, index) + '</div><div class="blog-weather-card__label">' + dayLabel(date, index) + '</div></div><div class="blog-weather-card__day-icon" aria-hidden="true">' + weatherSvg(code) + '</div><div class="blog-weather-card__range"><strong>' + max + '°</strong><span>' + min + '°</span></div></div>';
-                }).join('');
-                eachWeatherNode('[data-weather-forecast]', function(node) {
-                    node.innerHTML = html;
-                });
-            }
-
-            function loadWeather(location) {
-                var cityName = location.city || 'Ваш город';
-                eachWeatherNode('[data-weather-city]', function(node) { setText(node, cityName); });
-                eachWeatherNode('[data-weather-place]', function(node) { setText(node, 'Прогноз для вашего города'); });
-
-                var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(location.latitude) + '&longitude=' + encodeURIComponent(location.longitude) + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=auto&wind_speed_unit=ms';
-                return fetch(url, { credentials: 'omit' }).then(function(response) {
-                    if (!response.ok) throw new Error('weather');
-                    return response.json();
-                }).then(function(data) {
-                    var current = data && data.current ? data.current : {};
-                    var code = Number(current.weather_code || 0);
-                    eachWeatherNode('[data-weather-temp]', function(node) { setText(node, Math.round(Number(current.temperature_2m || 0)) + '°'); });
-                    eachWeatherNode('[data-weather-summary]', function(node) { setText(node, descriptions[code] || 'Погода сейчас'); });
-                    eachWeatherNode('[data-weather-feels]', function(node) { setText(node, Math.round(Number(current.apparent_temperature || current.temperature_2m || 0)) + '°'); });
-                    eachWeatherNode('[data-weather-wind]', function(node) { setText(node, Math.round(Number(current.wind_speed_10m || 0)) + ' м/с'); });
-                    eachWeatherNode('[data-weather-humidity]', function(node) { setText(node, Math.round(Number(current.relative_humidity_2m || 0)) + '%'); });
-                    eachWeatherNode('[data-weather-precip]', function(node) { setText(node, Math.round(Number(current.precipitation || 0)) + ' мм'); });
-                    eachWeatherNode('[data-weather-updated]', function(node) { setText(node, 'Обновлено: ' + new Date().toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })); });
-                    eachWeatherNode('[data-weather-icon]', function(node) { setIcon(node, code); });
-                    renderForecast(data.daily);
-                });
-            }
-
-            function localizeCity(location) {
-                if (!location || !location.city || /[А-Яа-яЁё]/.test(location.city)) {
-                    return Promise.resolve(location);
-                }
-
-                var url = 'https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(location.city) + '&count=1&language=ru&format=json';
-                if (location.countryCode) {
-                    url += '&countryCode=' + encodeURIComponent(location.countryCode);
-                }
-
-                return fetch(url, { credentials: 'omit' }).then(function(response) {
-                    if (!response.ok) throw new Error('geocoding');
-                    return response.json();
-                }).then(function(data) {
-                    var result = data && Array.isArray(data.results) ? data.results[0] : null;
-                    if (result && result.name) {
-                        location.city = result.name;
-                    }
-                    return location;
-                }).catch(function() {
-                    return location;
-                });
-            }
-
-            if (mobile && mobileToggle) {
-                var savedOpen = false;
-                try {
-                    savedOpen = window.localStorage.getItem(storageKey) === '1';
-                } catch (error) {}
-                setMobileOpen(savedOpen);
-                mobileToggle.addEventListener('click', function() {
-                    setMobileOpen(!mobile.classList.contains('is-open'));
-                });
-            }
-
-            fetch('https://ipapi.co/json/', { credentials: 'omit' })
-                .then(function(response) {
-                    if (!response.ok) throw new Error('geo');
-                    return response.json();
-                })
-                .then(function(geo) {
-                    return {
-                        city: geo && geo.city ? geo.city : fallbackLocation.city,
-                        countryCode: geo && geo.country_code ? geo.country_code : '',
-                        latitude: geo && geo.latitude ? geo.latitude : fallbackLocation.latitude,
-                        longitude: geo && geo.longitude ? geo.longitude : fallbackLocation.longitude
-                    };
-                })
-                .catch(function() { return fallbackLocation; })
-                .then(localizeCity)
-                .then(loadWeather)
-                .catch(function() {
-                    eachWeatherNode('[data-weather-summary]', function(node) { setText(node, 'Погода недоступна'); });
-                    eachWeatherNode('[data-weather-place]', function(node) { setText(node, 'Попробуем обновить позже'); });
-                });
-        })();
     </script>
+    <?php echo bioinmed_render_blog_weather_assets(); ?>
 </body>
 </html>
