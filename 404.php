@@ -11,8 +11,10 @@ $canonicalUrl = $siteUrl . '/404';
 $pageTitle = 'Страница не найдена (404) | ' . CLINIC_NAME;
 $pageDescription = 'Запрошенная страница не найдена. Перейдите на главную или оставьте номер, и команда клиники поможет найти нужную услугу.';
 
-function e($value) {
-    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+if (!function_exists('e')) {
+    function e($value) {
+        return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+    }
 }
 
 $phone1 = CLINIC_PHONE;

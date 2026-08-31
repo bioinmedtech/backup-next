@@ -58,6 +58,7 @@ class Header extends Component {
 
         $nav_about = bioinmed_link('nav.about');
         $nav_doctors = bioinmed_link('nav.doctors');
+        $nav_blog = bioinmed_link('nav.blog');
         $nav_reviews = bioinmed_link('nav.reviews');
         $nav_faq = bioinmed_link('nav.faq');
         $nav_prices = bioinmed_link('nav.prices');
@@ -108,6 +109,7 @@ class Header extends Component {
         $is_about = in_array($current_path, $about_paths, true) || strpos($current_path, '/partners/') === 0;
         $is_services = ($current_path === '/services' || strpos($current_path, '/services/') === 0 || $current_path === '/service.php');
         $is_doctors = ($current_path === '/doctors' || strpos($current_path, '/doctors/') === 0 || $current_path === '/doctor.php');
+        $is_blog = ($current_path === '/blog' || strpos($current_path, '/blog/') === 0 || $current_path === '/blog.php');
         $is_prices = ($current_path === '/prices' || $current_path === '/prices.php');
         $is_seasons = (strpos($current_path, '/seasons/') === 0 || $current_path === '/season.php');
 
@@ -124,6 +126,7 @@ class Header extends Component {
         $desktop_about_class = $desktop_link_class($is_about);
         $desktop_services_class = $desktop_link_class($is_services);
         $desktop_doctors_class = $desktop_link_class($is_doctors);
+        $desktop_blog_class = $desktop_link_class($is_blog);
         $desktop_reviews_class = $desktop_link_class(false);
         $desktop_faq_class = $desktop_link_class(false);
         $desktop_prices_class = $desktop_link_class($is_prices);
@@ -133,12 +136,14 @@ class Header extends Component {
         $desktop_about_aria = $is_about ? ' aria-current="page"' : '';
         $desktop_services_aria = $is_services ? ' aria-current="page"' : '';
         $desktop_doctors_aria = $is_doctors ? ' aria-current="page"' : '';
+        $desktop_blog_aria = $is_blog ? ' aria-current="page"' : '';
         $desktop_prices_aria = $is_prices ? ' aria-current="page"' : '';
         $desktop_seasons_aria = $is_seasons ? ' aria-current="page"' : '';
 
         $mobile_about_attr = $mobile_link_attr($is_about);
         $mobile_services_attr = $mobile_link_attr($is_services);
         $mobile_doctors_attr = $mobile_link_attr($is_doctors);
+        $mobile_blog_attr = $mobile_link_attr($is_blog);
         $mobile_prices_attr = $mobile_link_attr($is_prices);
         $mobile_seasons_summary_attr = $is_seasons ? ' class="is-active"' : '';
         $mobile_seasons_details_open = $is_seasons ? ' open' : '';
@@ -323,6 +328,33 @@ class Header extends Component {
 
             * { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'SF Pro Display', 'SF Pro Text', sans-serif; }
 
+            #site-header > .hidden.lg\:block,
+            .desktop-menu-bar.hidden.lg\:block {
+                display: none;
+            }
+
+            #mob-header-bar {
+                display: block;
+            }
+
+            @media (min-width: 1024px) {
+                #mob-header-bar {
+                    display: none !important;
+                }
+
+                #site-header > .hidden.lg\:block,
+                .desktop-menu-bar.hidden.lg\:block {
+                    display: block !important;
+                }
+            }
+
+            @media (max-width: 1023.98px) {
+                #site-header > .hidden.lg\:block,
+                .desktop-menu-bar.hidden.lg\:block {
+                    display: none !important;
+                }
+            }
+
             /* Header responsive: на ширине 1024-1399px адрес переносится под логотип, CTA остается справа */
             @media (min-width: 1024px) and (max-width: 1399px) {
                 #site-header > div:nth-child(2) > div > div {
@@ -501,6 +533,7 @@ class Header extends Component {
                         {$desktop_seasons_dropdown}
                         {$desktop_services_dropdown}
                         <a href="{$this->e($nav_doctors['url'])}" class="{$desktop_doctors_class}"{$desktop_doctors_aria}{$this->dataTextId('nav.doctors')}>{$this->e($nav_doctors['text'])}</a>
+                        <a href="{$this->e($nav_blog['url'])}" class="{$desktop_blog_class}"{$desktop_blog_aria}{$this->dataTextId('nav.blog')}>{$this->e($nav_blog['text'])}</a>
                         <a href="{$this->e($nav_reviews['url'])}" class="{$desktop_reviews_class}"{$this->dataTextId('nav.reviews')}>{$this->e($nav_reviews['text'])}</a>
                         <a href="{$this->e($nav_faq['url'])}" class="{$desktop_faq_class}"{$this->dataTextId('nav.faq')}>{$this->e($nav_faq['text'])}</a>
                         <a href="{$this->e($nav_prices['url'])}" class="{$desktop_prices_class}"{$desktop_prices_aria}{$this->dataTextId('nav.prices')}>{$this->e($nav_prices['text'])}</a>
@@ -540,6 +573,7 @@ class Header extends Component {
                 {$mobile_seasons_dropdown}
                 {$mobile_services_dropdown}
                 <a href="{$this->e($nav_doctors['url'])}" onclick="closeMobMenu()"{$mobile_doctors_attr}{$this->dataTextId('nav.doctors')}>{$this->e($nav_doctors['text'])}</a>
+                <a href="{$this->e($nav_blog['url'])}" onclick="closeMobMenu()"{$mobile_blog_attr}{$this->dataTextId('nav.blog')}>{$this->e($nav_blog['text'])}</a>
                 <a href="{$this->e($nav_reviews['url'])}" onclick="closeMobMenu()"{$this->dataTextId('nav.reviews')}>{$this->e($nav_reviews['text'])}</a>
                 <a href="{$this->e($nav_faq['url'])}" onclick="closeMobMenu()"{$this->dataTextId('nav.faq')}>{$this->e($nav_faq['text'])}</a>
                 <a href="{$this->e($nav_prices['url'])}" onclick="closeMobMenu()"{$mobile_prices_attr}{$this->dataTextId('nav.prices')}>{$this->e($nav_prices['text'])}</a>
@@ -621,9 +655,12 @@ class Header extends Component {
                 var h=document.getElementById('site-header');
                 var menuBar=document.querySelector('.desktop-menu-bar');
                 var headerHeight=0;
+                var stickyHeaderOffset=0;
                 if(h){headerHeight=h.offsetHeight;}
                 if(menuBar){headerHeight=Math.max(headerHeight,Math.round(menuBar.getBoundingClientRect().bottom));}
+                if(menuBar&&window.getComputedStyle(menuBar).display!=='none'){stickyHeaderOffset=menuBar.offsetHeight;}
                 document.documentElement.style.setProperty('--header-height',headerHeight+'px');
+                document.documentElement.style.setProperty('--sticky-header-offset',stickyHeaderOffset+'px');
             }
             (function syncHeaderMetrics(){updateHeaderMetrics();}());
             window.addEventListener('load',updateHeaderMetrics);
@@ -2669,6 +2706,7 @@ class Footer extends Component {
         $company_about = bioinmed_link('nav.about');
         $company_partners = ['url' => '/partners', 'text' => bioinmed_text('footer.links.company.partners', 'Партнёры')];
         $company_doctors = bioinmed_link('nav.doctors');
+        $company_blog = bioinmed_link('nav.blog');
         $company_prices = bioinmed_link('nav.prices');
         $company_contacts = bioinmed_link('nav.contacts');
         $company_all_services_prices = bioinmed_link('nav.all_services_and_prices');
@@ -3331,6 +3369,7 @@ class Footer extends Component {
                             <li><a href="{$this->e($company_about['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.about')}>{$this->e($company_about['text'])}</a></li>
                             <li><a href="{$this->e($company_partners['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.partners')}>{$this->e($company_partners['text'])}</a></li>
                             <li><a href="{$this->e($company_doctors['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.doctors')}>{$this->e($company_doctors['text'])}</a></li>
+                            <li><a href="{$this->e($company_blog['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.blog')}>{$this->e($company_blog['text'])}</a></li>
                             <li><a href="{$this->e($company_prices['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.prices')}>{$this->e($company_prices['text'])}</a></li>
                             <li><a href="{$this->e($legal_privacy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.privacy')}>{$this->e($legal_privacy['text'])}</a></li>
                             <li><a href="{$this->e($legal_user_agreement['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.user_agreement')}>{$this->e($legal_user_agreement['text'])}</a></li>

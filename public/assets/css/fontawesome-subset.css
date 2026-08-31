@@ -113,6 +113,7 @@
 .fa-map-marker-alt:before { content: "\f3c5"; }
 .fa-calendar-check:before { content: "\f274"; }
 .fa-calendar:before { content: "\f133"; }
+.fa-cloud:before { content: "\f0c2"; }
 .fa-circle-info:before,
 .fa-info-circle:before { content: "\f05a"; }
 .fa-circle-play:before,
@@ -190,6 +191,8 @@
 .fa-map:before { content: "\f279"; }
 .fa-map-pin:before { content: "\f276"; }
 .fa-route:before { content: "\f4d7"; }
+.fa-rss:before,
+.fa-feed:before { content: "\f09e"; }
 .fa-pen-to-square:before,
 .fa-edit:before { content: "\f044"; }
 .fa-medal:before { content: "\f5a2"; }

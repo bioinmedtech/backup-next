@@ -54,6 +54,10 @@
       "text": "Профессиональная команда",
       "url": "/doctors"
     },
+    "blog": {
+      "text": "Блог",
+      "url": "/blog"
+    },
     "services_root": {
       "text": "Услуги",
       "url": "/services"
@@ -117,6 +121,10 @@
     "doctors": {
       "text": "Врачи",
       "url": "/doctors"
+    },
+    "blog": {
+      "text": "Блог",
+      "url": "/blog"
     },
     "problems": {
       "text": "Проблемы",
