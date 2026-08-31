@@ -2,7 +2,7 @@
 
 function bioinmed_render_blog_weather_assets() {
     $config = [
-        'version' => '20260831-weather-v5',
+        'version' => '20260901-weather-v6',
         'weatherEndpointVersion' => (string)(int)@filemtime(__DIR__ . '/../../api/weather-forecast/index.php'),
     ];
 

@@ -3,14 +3,14 @@
     var roots = Array.prototype.slice.call(document.querySelectorAll('[data-blog-weather]'));
     var mobile = document.querySelector('[data-blog-weather-mobile]');
     var mobileToggle = document.querySelector('[data-weather-mobile-toggle]');
-    var widgetVersion = config.version || '20260831-weather-v5';
+    var widgetVersion = config.version || '20260901-weather-v6';
     var storageKey = 'bioinmedBlogWeatherMobileOpen';
     var geoStorageKey = 'bioinmedBlogWeatherGeo:' + widgetVersion;
     var geoCacheTtl = 24 * 60 * 60 * 1000;
     var weatherStorageKey = 'bioinmedBlogWeatherForecast:' + widgetVersion;
     var weatherCacheTtl = 3 * 60 * 60 * 1000;
     var weatherEndpointVersion = String(config.weatherEndpointVersion || widgetVersion);
-    var fallbackLocation = { city: 'Ваш город', latitude: 55.7558, longitude: 37.6173, fallback: true };
+    var fallbackLocation = { city: 'Москва', latitude: 55.7558, longitude: 37.6173, fallback: true };
     var descriptions = {
         0: 'Ясно', 1: 'Преимущественно ясно', 2: 'Переменная облачность', 3: 'Пасмурно',
         45: 'Туман', 48: 'Изморозь', 51: 'Морось', 53: 'Морось', 55: 'Морось',
@@ -99,10 +99,15 @@
         return Number.isFinite(latitude) && Number.isFinite(longitude) && latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180;
     }
 
+    function hasRealCity(location) {
+        var city = location && typeof location.city === 'string' ? location.city.trim() : '';
+        return city !== '' && city !== 'Ваш город';
+    }
+
     function readCachedGeo() {
         try {
             var cached = JSON.parse(window.localStorage.getItem(geoStorageKey) || 'null');
-            if (cached && isValidLocation(cached.location) && cached.savedAt && Date.now() - cached.savedAt < geoCacheTtl) {
+            if (cached && isValidLocation(cached.location) && hasRealCity(cached.location) && cached.savedAt && Date.now() - cached.savedAt < geoCacheTtl) {
                 return cached.location;
             }
         } catch (error) {}
@@ -215,7 +220,7 @@
             location = fallbackLocation;
         }
 
-        var cityName = location.city || 'Ваш город';
+        var cityName = hasRealCity(location) ? location.city : fallbackLocation.city;
         eachWeatherNode('[data-weather-city]', function(node) { setText(node, cityName); });
         eachWeatherNode('[data-weather-place]', function(node) { setText(node, 'Прогноз для вашего города'); });
 
@@ -302,16 +307,19 @@
         }
 
         logWeatherEvent('geo.request');
-        return fetchJson('https://api.seeip.org/geoip', 3000).then(function(geo) {
+        return fetchJson('/api/weather-geoip/?v=' + encodeURIComponent(weatherEndpointVersion), 3500).then(function(geo) {
             if (!geo) throw new Error('geo');
             var location = {
                 city: geo.city || fallbackLocation.city,
                 countryCode: geo.country_code || '',
                 latitude: Number(geo.latitude || fallbackLocation.latitude),
-                longitude: Number(geo.longitude || fallbackLocation.longitude)
+                longitude: Number(geo.longitude || fallbackLocation.longitude),
+                fallback: !!geo.fallback
             };
             if (!isValidLocation(location)) throw new Error('geo');
-            writeCachedGeo(location);
+            if (!location.fallback) {
+                writeCachedGeo(location);
+            }
             logWeatherEvent('geo.success', {
                 city: location.city,
                 latitude: Number(location.latitude),
