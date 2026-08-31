@@ -69,6 +69,9 @@ if ($service && $matchedByAlias && !headers_sent()) {
     exit;
 }
 if ($service) {
+    bioinmed_service_popularity_record('service', (string)($service['id'] ?? ''));
+}
+if ($service) {
     foreach ($services as $item) {
         if (($item['id'] ?? '') !== ($service['id'] ?? '')
             && ($item['category'] ?? '') === ($service['category'] ?? '')) {

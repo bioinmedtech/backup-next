@@ -41,6 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 # data 
+data/analytics/
 for-migration-f4oif5u4fu5h/
 for-services-hf3h34fiuh3/
 for-sklad-bI7i7h54ui5h4/

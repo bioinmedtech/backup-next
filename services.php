@@ -268,7 +268,7 @@ echo $header->render();
                 }
                 unset($editableServiceItem);
                 ?>
-                <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor pt-2 md:pt-3">
+                <section id="cat-<?php echo e($categoryKey); ?>" class="services-anchor pt-2 md:pt-3" data-service-category-section="<?php echo e($categoryKey); ?>">
                     <div class="mb-4 flex items-center gap-2.5 border-b border-[#e6eef7] pb-3" data-admin-block-root>
                         <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e8f4fd] text-[#1977b2]">
                             <i class="fa-solid <?php echo e($categoryIcon); ?> text-[0.82rem]" aria-hidden="true"></i>
@@ -323,5 +323,62 @@ echo $contactSection->render();
 $footer = new Footer($brand_colors);
 echo $footer->render();
 ?>
+<script>
+(function trackServiceCategoryViews() {
+    var endpoint = '/api/service-popularity/';
+    var storagePrefix = 'bioinmedServiceCategoryView:';
+    var today = new Date().toISOString().slice(0, 10);
+
+    function send(category) {
+        category = String(category || '').trim();
+        if (!/^[a-z0-9_-]{2,120}$/i.test(category)) return;
+
+        var storageKey = storagePrefix + today + ':' + category;
+        try {
+            if (window.sessionStorage && sessionStorage.getItem(storageKey) === '1') return;
+            if (window.sessionStorage) sessionStorage.setItem(storageKey, '1');
+        } catch (error) {}
+
+        var payload = new URLSearchParams();
+        payload.set('type', 'category');
+        payload.set('key', category);
+
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon(endpoint, payload);
+            return;
+        }
+
+        fetch(endpoint, { method: 'POST', body: payload, keepalive: true, credentials: 'same-origin' }).catch(function () {});
+    }
+
+    function categoryFromHash() {
+        var match = String(window.location.hash || '').match(/^#cat-([a-z0-9_-]+)$/i);
+        return match ? match[1] : '';
+    }
+
+    var hashCategory = categoryFromHash();
+    if (hashCategory) send(hashCategory);
+    window.addEventListener('hashchange', function () {
+        var category = categoryFromHash();
+        if (category) send(category);
+    });
+
+    var sections = Array.prototype.slice.call(document.querySelectorAll('[data-service-category-section]'));
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (!entry.isIntersecting || entry.intersectionRatio < 0.45) return;
+            var category = entry.target.getAttribute('data-service-category-section') || '';
+            send(category);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: [0.45] });
+
+    sections.forEach(function(section) {
+        observer.observe(section);
+    });
+})();
+</script>
 </body>
 </html>

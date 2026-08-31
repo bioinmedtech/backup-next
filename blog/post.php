@@ -30,12 +30,7 @@ $socialImageUrl = $primaryImage !== '' ? $primaryImage : bioinmed_og_image_url('
 $attachments = is_array($post['attachments'] ?? null) ? $post['attachments'] : [];
 $relatedPosts = bioinmed_blog_related_posts($post, 4);
 $commentItems = bioinmed_blog_comments($post);
-$popularServices = [
-    bioinmed_link('services.habilect_diagnostics'),
-    bioinmed_link('services.osteopathy'),
-    bioinmed_link('services.acupuncture'),
-    ['text' => 'Инфузионная терапия', 'url' => '/services/infusion-therapy'],
-];
+$popularServices = bioinmed_popular_services($services, 5, 90);
 
 $structuredData = [
     '@context' => 'https://schema.org',
@@ -125,7 +120,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .blog-weather-card__metric { min-height: 66px; border: 1px solid rgba(255,255,255,.22); border-radius: 14px; background: rgba(255,255,255,.18); padding: .55rem; backdrop-filter: blur(18px) saturate(1.4); }
         .blog-weather-card__metric span { display: block; margin-top: .28rem; color: rgba(255,255,255,.7); font-size: .64rem; font-weight: 750; line-height: 1.08; }
         .blog-weather-card__metric strong { display: block; color: #fff; font-size: .92rem; font-weight: 850; line-height: 1.1; white-space: nowrap; }
-        .blog-weather-card__metric i { display: block; color: rgba(255,255,255,.86); font-size: .82rem; line-height: 1; }
+        .blog-weather-card__metric i { display: inline-flex; width: 18px; height: 18px; align-items: center; justify-content: center; color: rgba(255,255,255,.86); line-height: 0; }
+        .blog-weather-card__metric i svg { display: block; width: 18px; height: 18px; stroke: currentColor; }
         .blog-weather-card__forecast { max-height: none; overflow: visible; padding: .45rem 1rem .9rem; background: rgba(255,255,255,.82); backdrop-filter: blur(24px) saturate(1.25); }
         .blog-weather-card__day { display: grid; grid-template-columns: minmax(0,1fr) 32px minmax(62px,auto); gap: .55rem; align-items: center; min-height: 52px; border-bottom: 1px solid rgba(15,39,73,.08); }
         .blog-weather-card__day:last-child { border-bottom: 0; }
@@ -138,12 +134,17 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .blog-weather-card__range span { color: #8b928f; font-size: .82rem; font-weight: 800; line-height: 1; }
         .blog-weather-card__updated { padding: 0 1rem .95rem; color: #8b928f; font-size: .68rem; font-weight: 760; line-height: 1.2; background: rgba(255,255,255,.82); }
         @media (min-width: 1024px) {
-            .blog-layout { grid-template-columns: minmax(0, 1fr) 360px; }
+            .blog-layout { grid-template-columns: minmax(0, 1fr) 360px; grid-template-areas: "main sidebar" "main weather"; }
+            .blog-main { grid-area: main; }
+            .blog-weather-column { grid-area: weather; display: grid; gap: 1rem; }
+            .blog-sidebar { grid-area: sidebar; }
             .blog-sticky-column { position: sticky; top: calc(var(--sticky-header-offset, 54px) + .75rem); max-height: calc(100vh - var(--sticky-header-offset, 54px) - 1.5rem); overflow-y: auto; padding-right: .25rem; }
         }
         @media (min-width: 1280px) {
-            .blog-layout { grid-template-columns: minmax(285px, 320px) minmax(0, 1fr) minmax(330px, 360px); }
-            .blog-weather-column { display: grid; gap: 1rem; }
+            .blog-layout { grid-template-columns: minmax(285px, 320px) minmax(0, 1fr) minmax(330px, 360px); grid-template-areas: "weather main sidebar"; }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .blog-weather-mobile { display: block; }
         }
         @media (max-width: 767px) {
             html { font-size: 16px; }
@@ -179,18 +180,18 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                     <div class="blog-weather-card__hero">
                         <div class="blog-weather-card__top">
                             <div>
-                                <div class="blog-weather-card__brand">БИОИНМЕД</div>
-                                <div class="blog-weather-card__place" data-weather-place>Погода рядом</div>
+                                <div class="blog-weather-card__brand" data-weather-city>Москва</div>
+                                <div class="blog-weather-card__place" data-weather-place>Прогноз для вашего города</div>
                             </div>
                             <div class="blog-weather-card__icon" aria-hidden="true" data-weather-icon><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="13" fill="#f7b743"/><g stroke="#f7b743" stroke-width="5" stroke-linecap="round"><path d="M36 9v8M36 55v8M9 36h8M55 36h8M17 17l6 6M49 49l6 6M55 17l-6 6M23 49l-6 6"/></g></svg></div>
                         </div>
                         <div class="blog-weather-card__temp" data-weather-temp>--</div>
                         <div class="blog-weather-card__meta" data-weather-summary>Определяем город...</div>
                         <div class="blog-weather-card__stats">
-                            <div class="blog-weather-card__metric"><i aria-hidden="true">~</i><strong data-weather-wind>--</strong><span>ветер</span></div>
-                            <div class="blog-weather-card__metric"><i aria-hidden="true">◴</i><strong data-weather-feels>--</strong><span>ощущается</span></div>
-                            <div class="blog-weather-card__metric"><i aria-hidden="true">◇</i><strong data-weather-humidity>--</strong><span>влажность</span></div>
-                            <div class="blog-weather-card__metric"><i aria-hidden="true">☂</i><strong data-weather-precip>--</strong><span>осадки</span></div>
+                            <div class="blog-weather-card__metric"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h10a3 3 0 1 0-3-3" stroke-width="2" stroke-linecap="round"/><path d="M3 13h15a3 3 0 1 1-3 3" stroke-width="2" stroke-linecap="round"/><path d="M5 18h6" stroke-width="2" stroke-linecap="round"/></svg></i><strong data-weather-wind>--</strong><span>ветер</span></div>
+                            <div class="blog-weather-card__metric"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M14 4a6 6 0 0 1 4.2 10.3L12 21l-6.2-6.7A6 6 0 0 1 14 4Z" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l3 2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i><strong data-weather-feels>--</strong><span>ощущается</span></div>
+                            <div class="blog-weather-card__metric"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5S6 10.1 6 14a6 6 0 0 0 12 0c0-3.9-6-10.5-6-10.5Z" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 14.5a2.8 2.8 0 0 0 2.8 2.8" stroke-width="2" stroke-linecap="round"/></svg></i><strong data-weather-humidity>--</strong><span>влажность</span></div>
+                            <div class="blog-weather-card__metric"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12a7 7 0 0 1 14 0H5Z" stroke-width="2" stroke-linejoin="round"/><path d="M12 12v7a2 2 0 0 0 4 0" stroke-width="2" stroke-linecap="round"/><path d="M12 5V3" stroke-width="2" stroke-linecap="round"/></svg></i><strong data-weather-precip>--</strong><span>осадки</span></div>
                         </div>
                     </div>
                     <div class="blog-weather-card__forecast" data-weather-forecast></div>
@@ -205,8 +206,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                     <div class="blog-weather-card__hero">
                         <div class="blog-weather-card__top">
                             <div>
-                                <div class="blog-weather-card__brand">БИОИНМЕД</div>
-                                <div class="blog-weather-card__place" data-weather-place>Погода рядом</div>
+                                <div class="blog-weather-card__brand" data-weather-city>Москва</div>
+                                <div class="blog-weather-card__place" data-weather-place>Прогноз для вашего города</div>
                             </div>
                             <div class="blog-weather-card__icon" aria-hidden="true" data-weather-icon><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="13" fill="#f7b743"/><g stroke="#f7b743" stroke-width="5" stroke-linecap="round"><path d="M36 9v8M36 55v8M9 36h8M55 36h8M17 17l6 6M49 49l6 6M55 17l-6 6M23 49l-6 6"/></g></svg></div>
                         </div>
@@ -214,22 +215,22 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                         <div class="blog-weather-card__meta" data-weather-summary>Определяем город...</div>
                         <div class="blog-weather-card__stats">
                             <div class="blog-weather-card__metric">
-                                <i aria-hidden="true">~</i>
+                                <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h10a3 3 0 1 0-3-3" stroke-width="2" stroke-linecap="round"/><path d="M3 13h15a3 3 0 1 1-3 3" stroke-width="2" stroke-linecap="round"/><path d="M5 18h6" stroke-width="2" stroke-linecap="round"/></svg></i>
                                 <strong data-weather-wind>--</strong>
                                 <span>ветер</span>
                             </div>
                             <div class="blog-weather-card__metric">
-                                <i aria-hidden="true">◴</i>
+                                <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M14 4a6 6 0 0 1 4.2 10.3L12 21l-6.2-6.7A6 6 0 0 1 14 4Z" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v4l3 2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>
                                 <strong data-weather-feels>--</strong>
                                 <span>ощущается</span>
                             </div>
                             <div class="blog-weather-card__metric">
-                                <i aria-hidden="true">◇</i>
+                                <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5S6 10.1 6 14a6 6 0 0 0 12 0c0-3.9-6-10.5-6-10.5Z" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 14.5a2.8 2.8 0 0 0 2.8 2.8" stroke-width="2" stroke-linecap="round"/></svg></i>
                                 <strong data-weather-humidity>--</strong>
                                 <span>влажность</span>
                             </div>
                             <div class="blog-weather-card__metric">
-                                <i aria-hidden="true">☂</i>
+                                <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12a7 7 0 0 1 14 0H5Z" stroke-width="2" stroke-linejoin="round"/><path d="M12 12v7a2 2 0 0 0 4 0" stroke-width="2" stroke-linecap="round"/><path d="M12 5V3" stroke-width="2" stroke-linecap="round"/></svg></i>
                                 <strong data-weather-precip>--</strong>
                                 <span>осадки</span>
                             </div>
@@ -421,10 +422,10 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             }
 
             function dayLabel(value, index) {
-                if (index === 0) return 'Сейчас';
                 var date = new Date(value + 'T12:00:00');
                 if (Number.isNaN(date.getTime())) return '';
-                return date.toLocaleDateString('ru-RU', { weekday: 'long' });
+                var label = date.toLocaleDateString('ru-RU', { weekday: 'long' });
+                return label.charAt(0).toLocaleUpperCase('ru-RU') + label.slice(1);
             }
 
             function renderForecast(daily) {
@@ -441,6 +442,10 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             }
 
             function loadWeather(location) {
+                var cityName = location.city || 'Ваш город';
+                eachWeatherNode('[data-weather-city]', function(node) { setText(node, cityName); });
+                eachWeatherNode('[data-weather-place]', function(node) { setText(node, 'Прогноз для вашего города'); });
+
                 var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(location.latitude) + '&longitude=' + encodeURIComponent(location.longitude) + '&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=auto&wind_speed_unit=ms';
                 return fetch(url, { credentials: 'omit' }).then(function(response) {
                     if (!response.ok) throw new Error('weather');
@@ -454,10 +459,33 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                     eachWeatherNode('[data-weather-wind]', function(node) { setText(node, Math.round(Number(current.wind_speed_10m || 0)) + ' м/с'); });
                     eachWeatherNode('[data-weather-humidity]', function(node) { setText(node, Math.round(Number(current.relative_humidity_2m || 0)) + '%'); });
                     eachWeatherNode('[data-weather-precip]', function(node) { setText(node, Math.round(Number(current.precipitation || 0)) + ' мм'); });
-                    eachWeatherNode('[data-weather-place]', function(node) { setText(node, (location.city || 'Ваш город') + ' · по IP'); });
                     eachWeatherNode('[data-weather-updated]', function(node) { setText(node, 'Обновлено: ' + new Date().toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })); });
                     eachWeatherNode('[data-weather-icon]', function(node) { setIcon(node, code); });
                     renderForecast(data.daily);
+                });
+            }
+
+            function localizeCity(location) {
+                if (!location || !location.city || /[А-Яа-яЁё]/.test(location.city)) {
+                    return Promise.resolve(location);
+                }
+
+                var url = 'https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(location.city) + '&count=1&language=ru&format=json';
+                if (location.countryCode) {
+                    url += '&countryCode=' + encodeURIComponent(location.countryCode);
+                }
+
+                return fetch(url, { credentials: 'omit' }).then(function(response) {
+                    if (!response.ok) throw new Error('geocoding');
+                    return response.json();
+                }).then(function(data) {
+                    var result = data && Array.isArray(data.results) ? data.results[0] : null;
+                    if (result && result.name) {
+                        location.city = result.name;
+                    }
+                    return location;
+                }).catch(function() {
+                    return location;
                 });
             }
 
@@ -480,11 +508,13 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
                 .then(function(geo) {
                     return {
                         city: geo && geo.city ? geo.city : fallbackLocation.city,
+                        countryCode: geo && geo.country_code ? geo.country_code : '',
                         latitude: geo && geo.latitude ? geo.latitude : fallbackLocation.latitude,
                         longitude: geo && geo.longitude ? geo.longitude : fallbackLocation.longitude
                     };
                 })
                 .catch(function() { return fallbackLocation; })
+                .then(localizeCity)
                 .then(loadWeather)
                 .catch(function() {
                     eachWeatherNode('[data-weather-summary]', function(node) { setText(node, 'Погода недоступна'); });

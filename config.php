@@ -1748,6 +1748,201 @@ usort($services, function ($a, $b) {
     return intval($a['order'] ?? 9999) <=> intval($b['order'] ?? 9999);
 });
 
+function bioinmed_service_popularity_path(): string {
+    return __DIR__ . '/data/analytics/service-popularity.json';
+}
+
+function bioinmed_service_popularity_read(): array {
+    $path = bioinmed_service_popularity_path();
+    if (!is_file($path)) {
+        return ['days' => []];
+    }
+
+    $raw = @file_get_contents($path);
+    if (!is_string($raw) || $raw === '') {
+        return ['days' => []];
+    }
+
+    $decoded = json_decode($raw, true);
+    return is_array($decoded) ? $decoded : ['days' => []];
+}
+
+function bioinmed_service_popularity_write(array $data): bool {
+    $path = bioinmed_service_popularity_path();
+    $dir = dirname($path);
+    if (!is_dir($dir) && !@mkdir($dir, 0775, true)) {
+        return false;
+    }
+
+    $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    if (!is_string($json)) {
+        return false;
+    }
+
+    $tmp = $path . '.tmp';
+    if (@file_put_contents($tmp, $json . "\n", LOCK_EX) === false) {
+        return false;
+    }
+
+    return @rename($tmp, $path);
+}
+
+function bioinmed_service_popularity_is_bot(): bool {
+    $agent = strtolower((string)($_SERVER['HTTP_USER_AGENT'] ?? ''));
+    if ($agent === '') {
+        return false;
+    }
+
+    return (bool)preg_match('~bot|crawl|spider|slurp|mediapartners|preview|facebookexternalhit|telegrambot|whatsapp|vkshare|yandex|google|bing~i', $agent);
+}
+
+function bioinmed_service_popularity_can_track(): bool {
+    if (PHP_SAPI === 'cli') {
+        return false;
+    }
+
+    $method = strtoupper((string)($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+    if (!in_array($method, ['GET', 'POST'], true)) {
+        return false;
+    }
+
+    if (isset($_GET['bioinmed_admin']) || isset($_COOKIE['bioinmed_admin_remember'])) {
+        return false;
+    }
+
+    return !bioinmed_service_popularity_is_bot();
+}
+
+function bioinmed_service_popularity_record(string $type, string $key): bool {
+    if (!bioinmed_service_popularity_can_track()) {
+        return false;
+    }
+
+    $type = $type === 'category' ? 'categories' : ($type === 'service' ? 'services' : '');
+    $key = trim($key);
+    if ($type === '' || !preg_match('/^[a-z0-9_-]{2,120}$/i', $key)) {
+        return false;
+    }
+
+    $today = date('Y-m-d');
+    $minDay = date('Y-m-d', strtotime('-120 days'));
+    $data = bioinmed_service_popularity_read();
+    $days = is_array($data['days'] ?? null) ? $data['days'] : [];
+
+    foreach (array_keys($days) as $day) {
+        if ((string)$day < $minDay) {
+            unset($days[$day]);
+        }
+    }
+
+    if (!isset($days[$today]) || !is_array($days[$today])) {
+        $days[$today] = ['services' => [], 'categories' => []];
+    }
+    if (!isset($days[$today][$type]) || !is_array($days[$today][$type])) {
+        $days[$today][$type] = [];
+    }
+
+    $days[$today][$type][$key] = intval($days[$today][$type][$key] ?? 0) + 1;
+    $data['days'] = $days;
+    $data['updated_at'] = date(DATE_ATOM);
+
+    return bioinmed_service_popularity_write($data);
+}
+
+function bioinmed_popular_services(array $services, int $limit = 5, int $daysBack = 90): array {
+    $fallbackIds = [
+        'habilect-diagnostics',
+        'osteopathy',
+        'acupuncture',
+        'fizioterapiya',
+        'infusion-therapy',
+    ];
+
+    $serviceById = [];
+    $servicesByCategory = [];
+    foreach ($services as $service) {
+        if (!is_array($service)) {
+            continue;
+        }
+
+        $id = trim((string)($service['id'] ?? ''));
+        $name = trim((string)($service['name'] ?? ''));
+        if ($id === '' || $name === '') {
+            continue;
+        }
+
+        $category = bioinmed_normalize_service_category($service['category'] ?? 'other');
+        $serviceById[$id] = $service;
+        if (!isset($servicesByCategory[$category])) {
+            $servicesByCategory[$category] = [];
+        }
+        $servicesByCategory[$category][] = $id;
+    }
+
+    $minDay = date('Y-m-d', strtotime('-' . max(1, $daysBack) . ' days'));
+    $data = bioinmed_service_popularity_read();
+    $scores = [];
+
+    foreach ((array)($data['days'] ?? []) as $day => $bucket) {
+        if ((string)$day < $minDay || !is_array($bucket)) {
+            continue;
+        }
+
+        foreach ((array)($bucket['services'] ?? []) as $serviceId => $count) {
+            $serviceId = (string)$serviceId;
+            if (isset($serviceById[$serviceId])) {
+                $scores[$serviceId] = ($scores[$serviceId] ?? 0) + max(0, intval($count));
+            }
+        }
+
+        foreach ((array)($bucket['categories'] ?? []) as $category => $count) {
+            $category = bioinmed_normalize_service_category($category);
+            $categoryServices = $servicesByCategory[$category] ?? [];
+            if (!$categoryServices) {
+                continue;
+            }
+
+            $categoryScore = max(0, intval($count)) * 0.35 / max(1, count($categoryServices));
+            foreach ($categoryServices as $serviceId) {
+                $scores[$serviceId] = ($scores[$serviceId] ?? 0) + $categoryScore;
+            }
+        }
+    }
+
+    $rankedIds = array_keys(array_filter($scores, static function ($score) {
+        return $score > 0;
+    }));
+    usort($rankedIds, static function (string $left, string $right) use ($scores, $serviceById): int {
+        $scoreCompare = ($scores[$right] <=> $scores[$left]);
+        if ($scoreCompare !== 0) {
+            return $scoreCompare;
+        }
+
+        return intval($serviceById[$left]['order'] ?? 9999) <=> intval($serviceById[$right]['order'] ?? 9999);
+    });
+
+    foreach ($fallbackIds as $fallbackId) {
+        if (isset($serviceById[$fallbackId]) && !in_array($fallbackId, $rankedIds, true)) {
+            $rankedIds[] = $fallbackId;
+        }
+    }
+
+    $items = [];
+    foreach (array_slice($rankedIds, 0, max(1, $limit)) as $serviceId) {
+        $service = $serviceById[$serviceId] ?? null;
+        if (!$service) {
+            continue;
+        }
+
+        $items[] = [
+            'text' => (string)$service['name'],
+            'url' => '/services/' . rawurlencode($serviceId),
+        ];
+    }
+
+    return $items;
+}
+
 $problems = $bioinmed_config_array('problems_raw');
 $problem_common_consultation = $bioinmed_config_array('problem_common_consultation');
 $problem_common_diagnostics = $bioinmed_config_array('problem_common_diagnostics');
