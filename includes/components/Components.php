@@ -921,7 +921,7 @@ class HeroSection extends Component {
             [
                 'full' => '/public/images/habilect-family.webp',
                 'thumb' => '/public/images/habilect-family.webp',
-                'video' => '/public/images/habilect-family-video.mp4',
+                'video' => '/public/new-content/habilect-family-video-combined.mp4',
                 'alt' => $hero_slide_alt_prefix . ' 1',
             ],
         ];
@@ -1818,8 +1818,8 @@ class SpecialOffer extends Component {
         $offer_bullet_1 = $this->e(bioinmed_text('home.special_offer.bullets.1', '3D-диагностика на мультифункциональном комплексе «Хабилект» для точной оценки нарушений опорно-двигательного аппарата'));
         $offer_bullet_2 = $this->e(bioinmed_text('home.special_offer.bullets.2', 'Консультация реабилитолога с подбором индивидуального комплекса ЛФК'));
         $offer_bullet_3 = $this->e(bioinmed_text('home.special_offer.bullets.3', 'Диагностика стоп на подоскопе в подарок'));
-        $offer_image_src = $this->e(bioinmed_versioned_asset_path('/public/images/habilect/habilect-woman-2.webp'));
-        $offer_video_src = $this->e(bioinmed_versioned_asset_path('/public/animated/habilect-woman-2.mp4'));
+        $offer_image_src = $this->e(bioinmed_versioned_asset_path('/public/images/habilect/habilect-old-family.webp'));
+        $offer_video_src = $this->e(bioinmed_versioned_asset_path('/public/animated/habilect-old-family.mp4'));
         $booking_url = defined('ONLINE_BOOKING_URL') ? $this->e(ONLINE_BOOKING_URL) : '/';
         $index_page = bioinmed_read_json_file('pages/index.json');
         $offer_bullets = bioinmed_editable_list_items($index_page, 'index.special_offer.bullets', [
