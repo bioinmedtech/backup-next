@@ -62,7 +62,7 @@
                     "title": "Авторская методика",
                     "description": "Комплексная системная программа биорегуляции \"Естественное омоложение\". Детоксикация - адаптация - регенерация",
                     "duration": "60 мин",
-                    "price": "",
+                    "price": "10 000 руб.",
                     "row_class": "price-row-background-blue",
                     "link": true,
                     "hidden": false
@@ -435,7 +435,7 @@
                     "title": "Авторская методика \"Мужское/женское здоровье\"",
                     "description": "",
                     "duration": "Инд. мин",
-                    "price": "",
+                    "price": "10 000 руб.",
                     "row_class": "",
                     "link": true,
                     "hidden": false

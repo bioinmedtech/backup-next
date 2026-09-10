@@ -3155,6 +3155,33 @@ class Footer extends Component {
                 display: flex;
             }
 
+            #bioinmed-admin-settings-overlay {
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            #bioinmed-admin-settings-overlay .bioinmed-admin-modal {
+                max-height: calc(100vh - 32px);
+                max-height: calc(100dvh - 32px);
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            @media (max-width: 640px) {
+                #bioinmed-admin-settings-overlay {
+                    align-items: flex-start;
+                    padding: 8px;
+                }
+
+                #bioinmed-admin-settings-overlay .bioinmed-admin-modal {
+                    width: 100%;
+                    max-height: calc(100vh - 16px);
+                    max-height: calc(100dvh - 16px);
+                }
+            }
+
             .bioinmed-admin-modal {
                 width: min(620px, 95vw);
                 background: #ffffff;

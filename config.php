@@ -202,8 +202,12 @@ function bioinmed_render_public_head_assets(array $options = []) {
         $html[] = '<link rel="preconnect" href="https://app.comagic.ru" crossorigin>';
     }
 
+    // Load the layout stylesheet before any third-party script so slow external
+    // services cannot expose unstyled page content during initial rendering.
+    $html[] = '<link rel="stylesheet" href="' . htmlspecialchars($site_css_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';
+
     if (defined('ONLINE_BOOKING_ENABLED') && ONLINE_BOOKING_ENABLED) {
-        $html[] = '<script id="bioinmed-sqns-booking-script" type="text/javascript" src="https://app3.sqns.ru/booking/script?orgid=25903"></script>';
+        $html[] = '<script defer id="bioinmed-sqns-booking-script" type="text/javascript" src="https://app3.sqns.ru/booking/script?orgid=25903"></script>';
     }
 
     $booking_phone_display = json_encode((string)CLINIC_PHONE, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
@@ -318,8 +322,6 @@ HTML;
     $html[] = '<style>html,body{letter-spacing:-0.008em;text-rendering:optimizeLegibility}h1,h2,h3,h4,h5,h6{letter-spacing:-0.016em}p,li,a,button,input,textarea,select,label{letter-spacing:-0.006em}</style>';
     $html[] = '<style>.bioinmed-back-button{display:inline-flex;min-height:36px;align-items:center;gap:.45rem;border:1px solid #c9dff1;border-radius:9999px;background:rgba(255,255,255,.86);padding:.34rem .72rem .34rem .4rem;color:#17446f;font-size:.78rem;font-weight:700;line-height:1;text-decoration:none;box-shadow:0 7px 18px rgba(8,36,70,.07);backdrop-filter:blur(8px);transition:transform .18s ease,border-color .18s ease,background-color .18s ease,color .18s ease,box-shadow .18s ease}.bioinmed-back-button:hover{border-color:#8bbfe2;background:#fff;color:#0f6fa8;box-shadow:0 10px 24px rgba(8,36,70,.1);transform:translateY(-1px)}.bioinmed-back-button:focus-visible{outline:2px solid #1977b2;outline-offset:3px}.bioinmed-back-button__icon{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;border-radius:9999px;background:#1977b2;color:#fff;box-shadow:inset 0 -1px 0 rgba(0,0,0,.12),0 4px 10px rgba(25,119,178,.16);transition:transform .18s ease,background-color .18s ease}.bioinmed-back-button__icon svg{display:block;width:13px;height:13px;stroke:currentColor;stroke-width:2.5}.bioinmed-back-button:hover .bioinmed-back-button__icon{background:#16658f;transform:translateX(-2px)}.bioinmed-back-button__label{padding-right:.04rem}.bioinmed-back-button--overlay{border-color:rgba(255,255,255,.36);background:rgba(8,24,42,.42);color:#fff;box-shadow:0 10px 24px rgba(0,0,0,.2)}.bioinmed-back-button--overlay:hover{border-color:rgba(255,255,255,.72);background:rgba(8,24,42,.6);color:#fff}.bioinmed-back-button--overlay .bioinmed-back-button__icon{background:rgba(255,255,255,.95);color:#17446f;box-shadow:0 4px 12px rgba(0,0,0,.16)}.bioinmed-back-button--overlay:hover .bioinmed-back-button__icon{background:#fff;color:#0f6fa8}.bioinmed-back-row{margin-bottom:1.75rem}.bioinmed-back-overlay{position:absolute;left:0;right:0;top:1rem;z-index:3;pointer-events:none}.bioinmed-back-overlay .bioinmed-back-button{pointer-events:auto}@media (max-width:767px){.bioinmed-back-button{min-height:40px;gap:.48rem;padding:.38rem .78rem .38rem .42rem;font-size:.82rem}.bioinmed-back-button__icon{width:28px;height:28px}.bioinmed-back-button__icon svg{width:15px;height:15px}.bioinmed-back-row{margin-bottom:1.45rem}.bioinmed-back-overlay{top:.9rem}.bioinmed-back-button--overlay{background:rgba(8,24,42,.54)}}</style>';
 
-    // Keep the main stylesheet blocking to avoid FOUC/layout jumping on first paint.
-    $html[] = '<link rel="stylesheet" href="' . htmlspecialchars($site_css_href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">';
     // Keep authenticated admin controls blocking as well: Safari can delay or
     // skip stylesheets discovered at the end of body.
     if ($include_admin_styles) {

@@ -34,13 +34,18 @@ function bioinmed_admin_prices_manage_bool($value): bool {
     return in_array(strtolower(trim($value)), ['1', 'true', 'yes', 'on'], true);
 }
 
+function bioinmed_admin_prices_manage_price(string $value): string {
+    $value = trim($value);
+    return preg_replace('/\s*(?:₽|руб\.?)\s*$/ui', ' руб.', $value) ?? $value;
+}
+
 function bioinmed_admin_prices_manage_row(array $row): array {
     return [
         'service_id' => trim((string)($row['service_id'] ?? '')),
         'title' => trim((string)($row['title'] ?? '')),
         'description' => trim((string)($row['description'] ?? '')),
         'duration' => trim((string)($row['duration'] ?? '')),
-        'price' => trim((string)($row['price'] ?? '')),
+        'price' => bioinmed_admin_prices_manage_price((string)($row['price'] ?? '')),
         'row_class' => trim((string)($row['row_class'] ?? '')),
         'link' => bioinmed_admin_prices_manage_bool($row['link'] ?? true),
         'hidden' => bioinmed_admin_prices_manage_bool($row['hidden'] ?? false),

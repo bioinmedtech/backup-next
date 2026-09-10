@@ -757,6 +757,10 @@
         };
     }
 
+    function normalizePriceValue(value) {
+        return (value || '').toString().trim().replace(/\s*(?:₽|руб\.?)\s*$/i, ' руб.');
+    }
+
     function normalizePriceRow(row) {
         var source = row && typeof row === 'object' ? row : {};
         return {
@@ -764,7 +768,7 @@
             title: (source.title || '').toString().trim(),
             description: (source.description || '').toString(),
             duration: (source.duration || '').toString().trim(),
-            price: (source.price || '').toString().trim(),
+            price: normalizePriceValue(source.price),
             row_class: (source.row_class || '').toString().trim(),
             link: !!(typeof source.link === 'undefined' ? true : source.link),
             hidden: !!source.hidden
