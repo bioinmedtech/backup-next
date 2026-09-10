@@ -379,6 +379,9 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode .price-admin-row-actions { display: none !important; }
         body.prices-print-mode.bioinmed-edit-mode .price-section-hidden,
         body.prices-print-mode.bioinmed-edit-mode tr.price-row-hidden { display: none !important; }
+        body.prices-print-mode .category-section.price-section-hidden,
+        body.prices-print-mode .category-section tr.price-row-hidden,
+        body.prices-print-mode .category-section tr[data-price-row-hidden="1"] { display: none !important; }
         body.prices-print-mode .prices-print-only-option { display: inline-flex; }
         body.prices-print-mode.bioinmed-edit-mode .price-admin-section-toolbar,
         body.prices-print-mode.bioinmed-edit-mode .price-admin-row-actions { display: inline-flex !important; }
@@ -415,9 +418,12 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode .category-section thead th { border-top: 1px solid #e1edf8; background: #eef6fd !important; color: #1977b2 !important; font-weight: 700; }
         body.prices-print-mode .category-section thead th:first-child { border-top-left-radius: 3mm; }
         body.prices-print-mode .category-section thead th:last-child { border-top-right-radius: 3mm; }
-        body.prices-print-mode .category-section tbody tr:last-child td { border-bottom: 1px solid #e1edf8; }
+        body.prices-print-mode .category-section tbody tr:last-child td { border-bottom: 0; }
+        body.prices-print-mode .category-section tbody tr.price-row-print-last td { border-bottom: 0 !important; }
         body.prices-print-mode .category-section tbody tr:last-child td:first-child { border-bottom-left-radius: 3mm; }
         body.prices-print-mode .category-section tbody tr:last-child td:last-child { border-bottom-right-radius: 3mm; }
+        body.prices-print-mode .category-section tbody tr.price-row-print-last td:first-child { border-bottom-left-radius: 3mm; }
+        body.prices-print-mode .category-section tbody tr.price-row-print-last td:last-child { border-bottom-right-radius: 3mm; }
         body.prices-print-mode .category-section tbody tr:hover { background: inherit; }
         body.prices-print-mode .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; }
         body.prices-print-mode .category-section td p { font-size: 10.5pt; line-height: 1.35; }
@@ -433,7 +439,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode.prices-vivid-print .category-section > div:first-child { padding: 2mm 3mm; border: 0; border-radius: 2.5mm; background: #21b8cf; }
         body.prices-print-mode.prices-vivid-print .category-section h2 { color: #fff; }
         body.prices-print-mode.prices-vivid-print .category-section table { border-color: #78d7df; }
-        body.prices-print-mode.prices-vivid-print .category-section thead th { border-top: 0; border-color: #78d7df; background: #c5e9ec !important; color: #087f91 !important; }
+        body.prices-print-mode.prices-vivid-print .category-section thead th { border-top: 0; border-color: #78d7df; background: #c5e9ec !important; color: #000 !important; }
         body.prices-print-mode.prices-vivid-print .category-section tbody td,
         body.prices-print-mode.prices-vivid-print .category-section tbody tr.price-row-background-blue td,
         body.prices-print-mode.prices-vivid-print .category-section tbody tr[data-price-row-class~="bg-[#f0f7fc]"] td,
@@ -441,13 +447,23 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode.prices-vivid-print .category-section tbody tr[data-price-row-class~="bg-[#f9f0e6]"] td { border-bottom-color: #78d7df; background: #daf4f6; }
         body.prices-print-mode.prices-vivid-print .category-section tbody td,
         body.prices-print-mode.prices-vivid-print .category-section tbody td * { color: #000 !important; }
+        body.prices-print-mode .prices-hero,
+        body.prices-print-mode .prices-hero h1::after,
+        body.prices-print-mode .category-section,
+        body.prices-print-mode .category-section > div:first-child,
+        body.prices-print-mode .category-section .overflow-x-auto,
+        body.prices-print-mode .category-section table,
+        body.prices-print-mode .category-section th,
+        body.prices-print-mode .category-section td { border-radius: 0 !important; }
         body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-section-toolbar,
         body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .18s ease, visibility .18s ease; }
         body.prices-print-mode.bioinmed-edit-mode .category-section.price-admin-section-host:hover .price-admin-section-toolbar,
         body.prices-print-mode.bioinmed-edit-mode .category-section.price-admin-section-host:focus-within .price-admin-section-toolbar,
-        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-host:hover .price-admin-row-actions,
-        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-host:focus-within .price-admin-row-actions { opacity: 1; visibility: visible; pointer-events: auto; }
-        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { right: 0; left: auto; justify-content: flex-end; margin-left: auto; }
+        body.prices-print-mode.bioinmed-edit-mode .category-section tbody tr:hover .price-admin-row-actions,
+        body.prices-print-mode.bioinmed-edit-mode .category-section tbody tr:focus-within .price-admin-row-actions { opacity: 1; visibility: visible; pointer-events: auto; }
+        body.prices-print-mode.bioinmed-edit-mode .category-section tbody tr { position: relative; }
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-host { position: static; }
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { position: absolute !important; top: 4px; right: 4px; left: auto; width: auto !important; max-width: calc(100% - 8px); justify-content: flex-end; margin: 0; }
         body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions .price-admin-inline-btn,
         body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions .price-admin-inline-btn * { color: #fff !important; }
         .prices-signature-zone { width: 100%; max-width: 210mm; margin: 0 auto; padding: 0 0 12mm; color: #0f2749; break-inside: avoid; page-break-inside: avoid; }
@@ -461,10 +477,18 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-signature-seal { position: absolute; right: 8mm; top: 8mm; display: flex; align-items: center; justify-content: center; width: 40mm; height: 40mm; border: 1px dashed #9babb9; border-radius: 50%; color: #718397; font-size: 8pt; font-weight: 700; }
 
         @media (max-width: 767px) {
-            body.prices-print-mode .prices-print-header { margin-top: 13rem; }
+            body.prices-print-mode .prices-document-tools-toggle { position: fixed; top: 0.75rem; right: 0.75rem; display: inline-flex !important; }
+            body.prices-print-mode .prices-hero .prices-document-tools { top: 3.8rem; right: 0.75rem; left: 0.75rem; display: none !important; width: auto; flex-direction: column; align-items: stretch; }
+            body.prices-print-mode .prices-hero .prices-document-tools.is-open { display: flex !important; }
+            body.prices-print-mode .prices-document-tools > .prices-document-button,
+            body.prices-print-mode .prices-document-tools > .prices-print-toggle,
+            body.prices-print-mode .prices-document-tools > .prices-signature-toggle,
+            body.prices-print-mode .prices-document-tools > .prices-color-toggle,
+            body.prices-print-mode .prices-document-tools > .prices-export-menu { width: 100%; flex: none; }
+            body.prices-print-mode .prices-print-header { margin-top: 4.25rem; }
             body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-section-toolbar,
             body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { opacity: 1; visibility: visible; pointer-events: auto; }
-            body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { width: 100%; max-width: 100%; }
+            body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { top: 4px; right: 4px; width: auto !important; max-width: calc(100% - 8px); }
         }
 
         @media (min-width: 768px) and (max-width: 1100px) {
@@ -484,12 +508,27 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             .prices-nav,
             .prices-cta,
             .comagic-c-buttons,
+            .prices-document-tools-toggle,
             .prices-document-tools,
             .bioinmed-admin-toolbar,
             .bioinmed-admin-overlay,
             .bioinmed-block-edit-badge,
             .price-admin-section-toolbar,
             .price-admin-row-actions { display: none !important; }
+            body.prices-print-mode .prices-hero .prices-document-tools,
+            body.prices-print-mode .prices-hero .prices-document-tools.is-open,
+            body.prices-print-mode .prices-document-tools,
+            body.prices-print-mode .prices-document-tools-toggle,
+            body.prices-print-mode .prices-print-only-option,
+            body.prices-print-mode .bioinmed-admin-toolbar,
+            body.prices-print-mode .bioinmed-block-edit-badge,
+            body.prices-print-mode .price-admin-section-toolbar,
+            body.prices-print-mode .price-admin-row-actions,
+            body.prices-print-mode.bioinmed-edit-mode .price-admin-section-toolbar,
+            body.prices-print-mode.bioinmed-edit-mode .price-admin-row-actions { display: none !important; }
+            .category-section.price-section-hidden,
+            .category-section tr.price-row-hidden,
+            .category-section tr[data-price-row-hidden="1"],
             body.bioinmed-edit-mode .price-section-hidden,
             body.bioinmed-edit-mode tr.price-row-hidden { display: none !important; }
             .prices-print-header { display: flex !important; margin-top: 0 !important; padding: 0 0 4mm !important; }
@@ -506,19 +545,22 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             .category-section { margin: 0 0 5mm !important; padding: 0 !important; border: 1px solid white !important; border-radius: 4mm !important; background: #fff !important; box-shadow: none !important; break-inside: auto; page-break-inside: auto; }
             .category-section > div:first-child { margin-bottom: 2mm !important; padding-bottom: 2mm !important; }
             .category-section h2 { font-size: 16pt !important; line-height: 1.3 !important; break-after: avoid; page-break-after: avoid; }
-            .category-section .overflow-x-auto { overflow: visible !important; }
-            .category-section table { table-layout: fixed !important; border-collapse: separate !important; border-spacing: 0 !important; border: 1px solid #e1edf8 !important; border-radius: 3mm !important; background: #fff !important; overflow: visible !important; }
+            .category-section .overflow-x-auto { overflow: visible !important; border: 0 !important; border-radius: 0 !important; break-inside: auto; page-break-inside: auto; }
+            .category-section table { table-layout: fixed !important; border-collapse: separate !important; border-spacing: 0 !important; border: 0 !important; border-radius: 3mm !important; background: #fff !important; overflow: visible !important; }
             .category-section th:nth-child(2), .category-section td:nth-child(2) { width: 34mm !important; }
             .category-section th:nth-child(3), .category-section td:nth-child(3) { width: 38mm !important; white-space: normal !important; overflow-wrap: anywhere; }
             .category-section thead { display: table-header-group; }
             .category-section tr { break-inside: avoid; page-break-inside: avoid; }
             .category-section td, .category-section th { padding: 1.7mm 2.8mm !important; border: 0 !important; border-bottom: 1px solid #e9f2fb !important; font-size: 11pt !important; line-height: 1.3 !important; }
-            .category-section thead th { border-top: 1px solid #e1edf8 !important; background: #eef6fd !important; color: #1977b2 !important; font-weight: 700 !important; }
-            .category-section thead th:first-child { border-top-left-radius: 3mm !important; }
-            .category-section thead th:last-child { border-top-right-radius: 3mm !important; }
-            .category-section tbody tr:last-child td { border-bottom: 1px solid #e1edf8 !important; }
-            .category-section tbody tr:last-child td:first-child { border-bottom-left-radius: 3mm !important; }
-            .category-section tbody tr:last-child td:last-child { border-bottom-right-radius: 3mm !important; }
+            .category-section thead th { border-top: 0 !important; background: #eef6fd !important; box-shadow: inset 0 1px 0 #e1edf8 !important; color: #1977b2 !important; font-weight: 700 !important; }
+            .category-section thead th:first-child { border-left: 1px solid #e1edf8 !important; border-top-left-radius: 3mm !important; }
+            .category-section thead th:last-child { border-right: 1px solid #e1edf8 !important; border-top-right-radius: 3mm !important; }
+            .category-section tbody td:first-child { border-left: 1px solid #e1edf8 !important; }
+            .category-section tbody td:last-child { border-right: 1px solid #e1edf8 !important; }
+            .category-section tbody tr:last-child td,
+            .category-section tbody tr.price-row-print-last td { border-bottom-width: 1px !important; }
+            body.prices-print-mode .category-section tbody tr:last-child td,
+            body.prices-print-mode .category-section tbody tr.price-row-print-last td { border-bottom: 1px solid #e1edf8 !important; }
             .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; }
             .category-section td p { font-size: 10.5pt !important; line-height: 1.35 !important; }
             .category-section td:last-child { font-size: 12pt !important; font-weight: 700 !important; }
@@ -526,15 +568,63 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             body.prices-vivid-print .category-section > div:first-child { padding: 2mm 3mm !important; border: 0 !important; border-radius: 2.5mm !important; background: #21b8cf !important; }
             body.prices-vivid-print .category-section h2 { color: #fff !important; }
             body.prices-vivid-print .category-section table { border-color: #78d7df !important; }
-            body.prices-vivid-print .category-section thead th { border-top: 0 !important; border-color: #78d7df !important; background: #c5e9ec !important; color: #087f91 !important; }
+            .prices-print-header strong,
+            .prices-print-header span { color: #000 !important; font-weight: 800 !important; opacity: 1 !important; }
+            body.prices-vivid-print .category-section thead th { border-top: 0 !important; border-color: #78d7df !important; background: #c5e9ec !important; box-shadow: inset 0 1px 0 #78d7df !important; color: #000 !important; }
             body.prices-vivid-print .category-section tbody td,
             body.prices-vivid-print .category-section tbody tr.price-row-background-blue td,
             body.prices-vivid-print .category-section tbody tr[data-price-row-class~="bg-[#f0f7fc]"] td,
             body.prices-vivid-print .category-section tbody tr.price-row-background-beige td,
             body.prices-vivid-print .category-section tbody tr[data-price-row-class~="bg-[#f9f0e6]"] td { border-bottom-color: #78d7df !important; background: #daf4f6 !important; }
+            body.prices-vivid-print .category-section thead th,
+            body.prices-vivid-print .category-section tbody td { border-color: #78d7df !important; }
+            body.prices-print-mode.prices-vivid-print .category-section tbody tr:last-child td,
+            body.prices-print-mode.prices-vivid-print .category-section tbody tr.price-row-print-last td { border-bottom-color: #78d7df !important; }
             body.prices-vivid-print .category-section tbody td,
             body.prices-vivid-print .category-section tbody td * { color: #000 !important; }
+            .prices-hero,
+            .prices-hero h1::after,
+            .category-section,
+            .category-section > div:first-child,
+            .category-section .overflow-x-auto,
+            .category-section table,
+            .category-section th,
+            .category-section td { border-radius: 0 !important; }
             .prices-print-footer { break-before: avoid; page-break-before: avoid; }
+        }
+
+        html body.prices-print-mode .prices-main .prices-hero,
+        html body.prices-print-mode .prices-main .prices-hero h1::after,
+        html body.prices-print-mode .prices-main [data-prices-page-root] .category-section,
+        html body.prices-print-mode .prices-main [data-prices-page-root] .category-section > div:first-child,
+        html body.prices-print-mode .prices-main [data-prices-page-root] .category-section .overflow-x-auto,
+        html body.prices-print-mode .prices-main [data-prices-page-root] .category-section table,
+        html body.prices-print-mode .prices-main [data-prices-page-root] .category-section th,
+        html body.prices-print-mode .prices-main [data-prices-page-root] .category-section td {
+            border-radius: 0 !important;
+        }
+
+        @media print {
+            html body[class] .prices-main .prices-hero,
+            html body[class] .prices-main .prices-hero h1::after,
+            html body[class] .prices-main [data-prices-page-root] .category-section,
+            html body[class] .prices-main [data-prices-page-root] .category-section > div:first-child,
+            html body[class] .prices-main [data-prices-page-root] .category-section .overflow-x-auto,
+            html body[class] .prices-main [data-prices-page-root] .category-section table,
+            html body[class] .prices-main [data-prices-page-root] .category-section th,
+            html body[class] .prices-main [data-prices-page-root] .category-section td {
+                border-radius: 0 !important;
+            }
+            html body[class] .prices-main [data-prices-page-root] .category-section thead tr {
+                background: linear-gradient(to bottom, #e1edf8 0, #e1edf8 1px, #eef6fd 1px, #eef6fd 100%) !important;
+            }
+            html body[class] .prices-main [data-prices-page-root] .category-section thead th {
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+            html body[class].prices-vivid-print .prices-main [data-prices-page-root] .category-section thead tr {
+                background: linear-gradient(to bottom, #78d7df 0, #78d7df 1px, #c5e9ec 1px, #c5e9ec 100%) !important;
+            }
         }
     </style>
     <?php echo bioinmed_uis_counter_head(); ?>
@@ -867,6 +957,18 @@ $header = new Header($brand_colors);
                     window.BioinmedLoadUis();
                 }
                 if (enabled) setToolsMenu(false);
+                requestAnimationFrame(syncLastVisiblePriceRows);
+            }
+
+            function syncLastVisiblePriceRows() {
+                document.querySelectorAll('.category-section tbody').forEach(function (tbody) {
+                    const rows = Array.from(tbody.querySelectorAll('tr[data-price-row-index]'));
+                    rows.forEach(function (row) { row.classList.remove('price-row-print-last'); });
+                    const visibleRows = rows.filter(function (row) {
+                        return !row.classList.contains('price-row-hidden') && row.getAttribute('data-price-row-hidden') !== '1';
+                    });
+                    if (visibleRows.length) visibleRows[visibleRows.length - 1].classList.add('price-row-print-last');
+                });
             }
 
             function setToolsMenu(open) {
@@ -927,6 +1029,17 @@ $header = new Header($brand_colors);
             try { initialPrintDate = localStorage.getItem(dateStorageKey) === '1'; } catch (error) {}
             setPrintDate(initialPrintDate, false);
             syncPrintEditToggle();
+            syncLastVisiblePriceRows();
+            window.addEventListener('beforeprint', syncLastVisiblePriceRows);
+
+            const pricesRoot = document.querySelector('[data-prices-page-root]');
+            if (pricesRoot) {
+                new MutationObserver(function (mutations) {
+                    if (mutations.some(function (mutation) {
+                        return mutation.type === 'childList' || mutation.attributeName === 'data-price-row-hidden';
+                    })) syncLastVisiblePriceRows();
+                }).observe(pricesRoot, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-price-row-hidden'] });
+            }
 
             if (toggle) {
                 toggle.addEventListener('change', function () {
