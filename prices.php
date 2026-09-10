@@ -341,6 +341,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode #mob-backdrop,
         body.prices-print-mode #mob-menu,
         body.prices-print-mode .desktop-menu-bar,
+        body.prices-print-mode .desktop-menu-bar.hidden.lg\:block,
+        body.prices-print-mode .bioinmed-back-row,
         body.prices-print-mode > footer:not(.prices-print-footer),
         body.prices-print-mode .prices-nav,
         body.prices-print-mode .prices-cta,
@@ -390,7 +392,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-print-header-copy { display: grid; gap: 0.1rem; }
         .prices-print-header strong { color: #0f2749; font-size: 1rem; }
         .prices-print-header span { color: #52677c; font-size: 0.75rem; text-align: right; }
-        .prices-print-footer { width: 100%; max-width: 210mm; margin: 0 auto; padding: 4mm 0 10mm; justify-content: space-between; gap: 1rem; border-top: 1px solid #cbd5df; color: #52677c; font-size: 0.7rem; }
+        .prices-print-footer { width: 100%; max-width: 210mm; margin: 0 auto; padding: 4mm 0 10mm; justify-content: flex-end; gap: 1rem; border-top: 1px solid #cbd5df; color: #52677c; font-size: 0.7rem; }
         body.prices-print-mode.prices-show-signature .prices-signature-zone { display: block; }
         .prices-signature-zone { width: 100%; max-width: 210mm; margin: 0 auto; padding: 0 0 12mm; color: #0f2749; break-inside: avoid; page-break-inside: avoid; }
         .prices-signature-card { position: relative; min-height: 58mm; padding: 8mm 56mm 8mm 8mm; border: 1px solid #b9c8d6; border-radius: 3mm; background: #fff; }
@@ -413,6 +415,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             #mob-backdrop,
             #mob-menu,
             .desktop-menu-bar,
+            body .desktop-menu-bar.hidden.lg\:block,
+            .bioinmed-back-row,
             body > footer:not(.prices-print-footer),
             .prices-nav,
             .prices-cta,
@@ -710,7 +714,6 @@ $header = new Header($brand_colors);
     </main>
 
     <footer class="prices-print-footer" aria-hidden="true">
-        <span><?php echo htmlspecialchars(rtrim(CLINIC_SITE_URL, '/'), ENT_QUOTES, 'UTF-8'); ?></span>
         <span>Прайс-лист от <?php echo htmlspecialchars(date('d.m.Y'), ENT_QUOTES, 'UTF-8'); ?></span>
     </footer>
 
