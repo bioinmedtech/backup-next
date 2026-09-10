@@ -2171,6 +2171,7 @@
         }
 
         document.body.classList.toggle('bioinmed-admin-authenticated', auth);
+        document.documentElement.classList.toggle('bioinmed-admin-authenticated', auth);
         var userText = auth && state.config.user ? (state.config.user.name + ' (' + state.config.user.role_label + ')') : '';
         setText(byId('bioinmed-admin-user-badge'), '');
         setText(byId('bioinmed-admin-mobile-user-badge'), userText);

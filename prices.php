@@ -308,6 +308,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-color-toggle-swatch { display: inline-block; width: 1.2rem; height: 1.2rem; border: 2px solid #bcd4e8; border-radius: 50%; background: #eef6fd; box-shadow: inset 0 0 0 3px #fff; }
         .prices-color-toggle input:checked + .prices-color-toggle-swatch,
         body.prices-vivid-print .prices-color-toggle-swatch { border-color: #087f91; background: #21b8cf; }
+        .prices-print-only-option { display: none; }
         .prices-document-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 2.35rem; padding: 0.45rem 0.75rem; border: 1px solid #1977b2; border-radius: 0.65rem; background: #1977b2; color: #fff; font-size: 0.76rem; font-weight: 700; line-height: 1.2; text-decoration: none; cursor: pointer; }
         .prices-document-button:hover { background: #16658f; color: #fff; }
         .prices-document-button.is-secondary { border-color: #bcd4e8; background: #fff; color: #17446f; }
@@ -342,6 +343,11 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         @media (max-width: 767px) {
             .category-section { padding: 0.78rem; }
             .category-section h2 { font-size: 1.24rem; }
+            body.bioinmed-edit-mode .category-section > div:first-child { min-width: 0; flex-wrap: wrap; }
+            body.bioinmed-edit-mode .category-section > div:first-child > h2 { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+            body.bioinmed-edit-mode .category-section .price-admin-section-toolbar,
+            body.bioinmed-edit-mode .category-section .price-admin-row-actions { box-sizing: border-box; width: 100%; min-width: 0; max-width: 100%; overflow-x: auto; }
+            body.bioinmed-edit-mode .category-section .price-admin-row-host { min-width: 0; }
             .prices-hero h1 { font-size: 1.55rem; }
             .prices-document-tools-toggle { position: absolute; z-index: 7; top: 0.75rem; right: 0.75rem; display: inline-flex; min-height: 2.55rem; align-items: center; gap: 0.5rem; border: 1px solid #bcd4e8; border-radius: 0.7rem; background: #fff; padding: 0.45rem 0.75rem; color: #17446f; font-size: 0.8rem; font-weight: 700; box-shadow: 0 8px 22px rgba(15,39,73,.12); cursor: pointer; }
             .prices-hero .prices-document-tools { top: 3.8rem; right: 0.75rem; left: 0.75rem; display: none; width: auto; max-width: none; align-items: stretch; justify-content: flex-start; }
@@ -373,6 +379,9 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode .price-admin-row-actions { display: none !important; }
         body.prices-print-mode.bioinmed-edit-mode .price-section-hidden,
         body.prices-print-mode.bioinmed-edit-mode tr.price-row-hidden { display: none !important; }
+        body.prices-print-mode .prices-print-only-option { display: inline-flex; }
+        body.prices-print-mode.bioinmed-edit-mode .price-admin-section-toolbar,
+        body.prices-print-mode.bioinmed-edit-mode .price-admin-row-actions { display: inline-flex !important; }
         body.prices-print-mode .prices-print-header { display: flex; }
         body.prices-print-mode.prices-show-date .prices-print-footer { display: flex; }
         body.prices-print-mode .prices-document-tools-toggle { display: none !important; }
@@ -432,6 +441,15 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode.prices-vivid-print .category-section tbody tr[data-price-row-class~="bg-[#f9f0e6]"] td { border-bottom-color: #78d7df; background: #daf4f6; }
         body.prices-print-mode.prices-vivid-print .category-section tbody td,
         body.prices-print-mode.prices-vivid-print .category-section tbody td * { color: #000 !important; }
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-section-toolbar,
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .18s ease, visibility .18s ease; }
+        body.prices-print-mode.bioinmed-edit-mode .category-section.price-admin-section-host:hover .price-admin-section-toolbar,
+        body.prices-print-mode.bioinmed-edit-mode .category-section.price-admin-section-host:focus-within .price-admin-section-toolbar,
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-host:hover .price-admin-row-actions,
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-host:focus-within .price-admin-row-actions { opacity: 1; visibility: visible; pointer-events: auto; }
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { right: 0; left: auto; justify-content: flex-end; margin-left: auto; }
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions .price-admin-inline-btn,
+        body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions .price-admin-inline-btn * { color: #fff !important; }
         .prices-signature-zone { width: 100%; max-width: 210mm; margin: 0 auto; padding: 0 0 12mm; color: #0f2749; break-inside: avoid; page-break-inside: avoid; }
         .prices-signature-card { position: relative; min-height: 58mm; padding: 8mm 56mm 8mm 8mm; border: 1px solid #b9c8d6; border-radius: 3mm; background: #fff; }
         .prices-signature-role { max-width: 112mm; font-size: 10pt; font-weight: 600; line-height: 1.45; }
@@ -443,7 +461,14 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-signature-seal { position: absolute; right: 8mm; top: 8mm; display: flex; align-items: center; justify-content: center; width: 40mm; height: 40mm; border: 1px dashed #9babb9; border-radius: 50%; color: #718397; font-size: 8pt; font-weight: 700; }
 
         @media (max-width: 767px) {
-            body.prices-print-mode .prices-print-header { margin-top: 10rem; }
+            body.prices-print-mode .prices-print-header { margin-top: 13rem; }
+            body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-section-toolbar,
+            body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { opacity: 1; visibility: visible; pointer-events: auto; }
+            body.prices-print-mode.bioinmed-edit-mode .category-section .price-admin-row-actions { width: 100%; max-width: 100%; }
+        }
+
+        @media (min-width: 768px) and (max-width: 1100px) {
+            body.prices-print-mode .prices-print-header { margin-top: 7.5rem; }
         }
 
         @media print {
@@ -542,17 +567,22 @@ $header = new Header($brand_colors);
                         <span class="prices-print-toggle-track" aria-hidden="true"></span>
                     </label>
                     <button id="prices-save-pdf" type="button" class="prices-document-button"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i><span>Сохранить в PDF</span></button>
-                    <label class="prices-signature-toggle" for="prices-signature-toggle">
+                    <label class="prices-signature-toggle prices-print-only-option" for="prices-print-edit-toggle">
+                        <input id="prices-print-edit-toggle" type="checkbox" role="switch" aria-label="Редактировать прайс в печатном режиме">
+                        <span class="prices-signature-toggle-box" aria-hidden="true">✓</span>
+                        <span>Редактирование</span>
+                    </label>
+                    <label class="prices-signature-toggle prices-print-only-option" for="prices-signature-toggle">
                         <input id="prices-signature-toggle" type="checkbox">
                         <span class="prices-signature-toggle-box" aria-hidden="true">✓</span>
                         <span>Подпись/печать</span>
                     </label>
-                    <label class="prices-signature-toggle prices-date-toggle" for="prices-date-toggle">
+                    <label class="prices-signature-toggle prices-date-toggle prices-print-only-option" for="prices-date-toggle">
                         <input id="prices-date-toggle" type="checkbox" role="switch" aria-label="Показывать дату прайс-листа в печатной версии">
                         <span class="prices-signature-toggle-box" aria-hidden="true">✓</span>
                         <span>Дата прайс-листа</span>
                     </label>
-                    <label class="prices-color-toggle" for="prices-color-toggle">
+                    <label class="prices-color-toggle prices-print-only-option" for="prices-color-toggle">
                         <input id="prices-color-toggle" type="checkbox" role="switch" aria-label="Сделать цвета печатной версии ярче">
                         <span class="prices-color-toggle-swatch" aria-hidden="true"></span>
                         <span>Яркие цвета</span>
@@ -803,6 +833,7 @@ $header = new Header($brand_colors);
             const toolsMenu = document.getElementById('prices-document-tools');
             const toolsMenuToggle = document.getElementById('prices-document-tools-toggle');
             const pdfButton = document.getElementById('prices-save-pdf');
+            const printEditToggle = document.getElementById('prices-print-edit-toggle');
             const signatureToggle = document.getElementById('prices-signature-toggle');
             const dateToggle = document.getElementById('prices-date-toggle');
             const colorToggle = document.getElementById('prices-color-toggle');
@@ -844,6 +875,13 @@ $header = new Header($brand_colors);
                 toolsMenuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
                 const icon = toolsMenuToggle.querySelector('i');
                 if (icon) icon.className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+            }
+
+            function syncPrintEditToggle() {
+                if (!printEditToggle) return;
+                const enabled = document.body.classList.contains('bioinmed-edit-mode');
+                printEditToggle.checked = enabled;
+                printEditToggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
             }
 
             function setSignature(enabled, persist = true) {
@@ -888,6 +926,7 @@ $header = new Header($brand_colors);
             let initialPrintDate = false;
             try { initialPrintDate = localStorage.getItem(dateStorageKey) === '1'; } catch (error) {}
             setPrintDate(initialPrintDate, false);
+            syncPrintEditToggle();
 
             if (toggle) {
                 toggle.addEventListener('change', function () {
@@ -904,6 +943,15 @@ $header = new Header($brand_colors);
                 signatureToggle.addEventListener('change', function () {
                     setSignature(signatureToggle.checked);
                 });
+            }
+            if (printEditToggle) {
+                printEditToggle.addEventListener('change', function () {
+                    const adminEditToggle = document.getElementById('bioinmed-edit-toggle-desktop');
+                    const enabled = document.body.classList.contains('bioinmed-edit-mode');
+                    if (adminEditToggle && enabled !== printEditToggle.checked) adminEditToggle.click();
+                    requestAnimationFrame(syncPrintEditToggle);
+                });
+                new MutationObserver(syncPrintEditToggle).observe(document.body, { attributes: true, attributeFilter: ['class'] });
             }
             if (colorToggle) {
                 colorToggle.addEventListener('change', function () {

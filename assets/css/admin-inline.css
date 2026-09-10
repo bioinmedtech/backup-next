@@ -36,12 +36,15 @@
 }
 
 #bioinmed-admin-settings-overlay {
+    overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
 }
 
 #bioinmed-admin-settings-overlay .bioinmed-admin-modal {
+    box-sizing: border-box;
+    max-width: 100%;
     max-height: calc(100vh - 32px);
     max-height: calc(100dvh - 32px);
     overflow-y: auto;
@@ -572,6 +575,14 @@
     transform: translate(18px, -50%);
 }
 
+html.bioinmed-admin-authenticated,
+body.bioinmed-admin-authenticated {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body.bioinmed-admin-authenticated {
     padding-top: 72px;
 }
@@ -926,7 +937,7 @@ body.bioinmed-ios-device.bioinmed-edit-mode .bioinmed-edit-block-active .bioinme
     }
 
     #bioinmed-admin-settings-overlay .bioinmed-admin-modal {
-        width: 100%;
+        width: 100% !important;
         max-height: calc(100vh - 16px);
         max-height: calc(100dvh - 16px);
     }

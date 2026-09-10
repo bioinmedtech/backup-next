@@ -3156,12 +3156,15 @@ class Footer extends Component {
             }
 
             #bioinmed-admin-settings-overlay {
+                overflow-x: hidden;
                 overflow-y: auto;
                 overscroll-behavior: contain;
                 -webkit-overflow-scrolling: touch;
             }
 
             #bioinmed-admin-settings-overlay .bioinmed-admin-modal {
+                box-sizing: border-box;
+                max-width: 100%;
                 max-height: calc(100vh - 32px);
                 max-height: calc(100dvh - 32px);
                 overflow-y: auto;
@@ -3176,7 +3179,7 @@ class Footer extends Component {
                 }
 
                 #bioinmed-admin-settings-overlay .bioinmed-admin-modal {
-                    width: 100%;
+                    width: 100% !important;
                     max-height: calc(100vh - 16px);
                     max-height: calc(100dvh - 16px);
                 }
