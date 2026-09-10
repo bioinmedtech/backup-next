@@ -310,6 +310,16 @@
                 "icon": "",
                 "hidden": false
             }
+        ],
+        "services.catalog.psychology": [
+            {
+                "id": "psychotherapy",
+                "text": "Психотерапевтическая консультация",
+                "secondary": "",
+                "url": "/services/psychotherapy",
+                "icon": "",
+                "hidden": true
+            }
         ]
     }
 }

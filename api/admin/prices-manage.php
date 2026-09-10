@@ -97,6 +97,7 @@ function bioinmed_admin_prices_manage_section(array $section, int $index, array 
     return [
         'id' => $id,
         'title' => $title,
+        'description' => trim((string)($section['description'] ?? '')),
         'badge' => trim((string)($section['badge'] ?? '')),
         'nav_label' => $navLabel,
         'hidden' => bioinmed_admin_prices_manage_bool($section['hidden'] ?? false),

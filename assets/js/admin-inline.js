@@ -307,6 +307,7 @@
         return {
             id: (sectionEl.getAttribute('data-price-section-id') || '').trim(),
             title: ((sectionEl.querySelector('[data-price-section-title-view]') || {}).textContent || '').trim(),
+            description: (sectionEl.getAttribute('data-price-section-description') || '').trim(),
             nav_label: (sectionEl.getAttribute('data-price-section-nav-label') || '').trim(),
             badge: (sectionEl.getAttribute('data-price-section-badge') || '').trim(),
             hidden: sectionEl.getAttribute('data-price-section-hidden') === '1',
@@ -316,13 +317,20 @@
 
     function applyPriceSectionState(sectionEl, nextState) {
         var titleView = sectionEl.querySelector('[data-price-section-title-view]') || sectionEl.querySelector('h2');
+        var descriptionView = sectionEl.querySelector('[data-price-section-description-view]');
         var normalizedId = normalizePriceManagerSectionId(nextState.id || '', 0);
+        var description = (nextState.description || '').trim();
         sectionEl.setAttribute('data-price-section-id', normalizedId);
         sectionEl.id = normalizedId;
         sectionEl.setAttribute('data-price-section-nav-label', (nextState.nav_label || '').trim());
         sectionEl.setAttribute('data-price-section-badge', (nextState.badge || '').trim());
+        sectionEl.setAttribute('data-price-section-description', description);
         if (titleView) {
             titleView.textContent = (nextState.title || '').trim();
+        }
+        if (descriptionView) {
+            descriptionView.textContent = description;
+            descriptionView.hidden = description === '';
         }
     }
 
@@ -613,10 +621,19 @@
     function renderPriceSectionEditForm(sectionEl) {
         var sectionState = getPriceSectionState(sectionEl);
         var html = [];
-        ['id', 'title', 'nav_label', 'badge'].forEach(function (fieldName) {
+        ['id', 'title', 'description', 'nav_label', 'badge'].forEach(function (fieldName) {
             var label = 'Поле';
             if (fieldName === 'id') label = 'ID раздела';
             if (fieldName === 'title') label = 'Заголовок';
+            if (fieldName === 'description') {
+                html.push([
+                    '<label class="price-admin-editor-field price-admin-section-description-field">',
+                    '<span>Описание раздела</span>',
+                    '<textarea class="price-admin-editor-input price-admin-editor-textarea" data-price-modal-field="description" rows="5" placeholder="Введите описание раздела">' + esc(sectionState.description || '') + '</textarea>',
+                    '</label>'
+                ].join(''));
+                return;
+            }
             if (fieldName === 'nav_label') label = 'Ярлык в навигации';
             if (fieldName === 'badge') label = 'Бейдж';
             html.push(renderPriceMaterialInputField(fieldName, label, sectionState[fieldName] || ''));
@@ -782,6 +799,7 @@
         return {
             id: normalizePriceManagerSectionId(source.id || '', index),
             title: (source.title || '').toString().trim(),
+            description: (source.description || '').toString().trim(),
             nav_label: (source.nav_label || source.title || '').toString().trim(),
             badge: (source.badge || '').toString().trim(),
             hidden: !!source.hidden,
@@ -983,10 +1001,14 @@
         sectionEl.setAttribute('data-price-section-hidden', '0');
         sectionEl.setAttribute('data-price-section-nav-label', 'Новый раздел');
         sectionEl.setAttribute('data-price-section-badge', '');
+        sectionEl.setAttribute('data-price-section-description', '');
         sectionEl.setAttribute('data-admin-disable-block-edit', '1');
         sectionEl.innerHTML = [
             '<div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]" data-admin-disable-block-edit="1">',
+            '<div class="min-w-0 flex-1" data-price-section-heading>',
             '<h2 class="text-2xl font-bold text-[#1977b2]" data-price-section-title-view>Новый раздел</h2>',
+            '<p class="price-section-description" data-price-section-description-view hidden></p>',
+            '</div>',
             '<div class="price-admin-section-toolbar" data-admin-disable-block-edit="1">',
             '<button type="button" class="price-admin-inline-btn" data-price-section-action="move-up" title="Поднять раздел выше"><span aria-hidden="true">↑</span><span>Выше</span></button>',
             '<button type="button" class="price-admin-inline-btn" data-price-section-action="move-down" title="Опустить раздел ниже"><span aria-hidden="true">↓</span><span>Ниже</span></button>',

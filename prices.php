@@ -104,6 +104,7 @@ foreach ($pricesSectionsConfig as $sectionConfig) {
     $sectionsMeta[] = [
         'id' => $sectionId,
         'title' => $title,
+        'description' => trim((string)($sectionConfig['description'] ?? '')),
         'badge' => trim((string)($sectionConfig['badge'] ?? '')),
         'nav_label' => $navLabel,
         'hidden' => !empty($sectionConfig['hidden']),
@@ -278,6 +279,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .category-section tbody tr:hover { background: #f3faff; }
         .category-section td, .category-section th { border-bottom: 1px solid #e9f2fb; padding: 0.76rem 0.92rem; font-size: 0.96rem; line-height: 1.45; }
         .category-section h2 { font-size: 1.48rem; line-height: 1.18; }
+        .price-section-description { margin-top: 0.35rem; color: #1977b2; font-size: 1.15rem; font-weight: 700; line-height: 1.3; white-space: pre-line; }
         .category-section > div:first-child { margin-bottom: 0.95rem; padding-bottom: 0.62rem; }
         .category-section td p { font-size: 0.9rem; line-height: 1.45; margin-top: 0.3rem; }
         .category-section [data-price-row-title-view] { font-size: 1rem; line-height: 1.3; }
@@ -343,8 +345,9 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         @media (max-width: 767px) {
             .category-section { padding: 0.78rem; }
             .category-section h2 { font-size: 1.24rem; }
+            .price-section-description { font-size: 1.05rem; }
             body.bioinmed-edit-mode .category-section > div:first-child { min-width: 0; flex-wrap: wrap; }
-            body.bioinmed-edit-mode .category-section > div:first-child > h2 { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+            body.bioinmed-edit-mode .category-section [data-price-section-heading] { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
             body.bioinmed-edit-mode .category-section .price-admin-section-toolbar,
             body.bioinmed-edit-mode .category-section .price-admin-row-actions { box-sizing: border-box; width: 100%; min-width: 0; max-width: 100%; overflow-x: auto; }
             body.bioinmed-edit-mode .category-section .price-admin-row-host { min-width: 0; }
@@ -407,6 +410,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode .category-section { margin-bottom: 5mm; border: 1px solid white; border-radius: 4mm; background: #fff; box-shadow: none; padding: 0; }
         body.prices-print-mode .category-section > div:first-child { margin-bottom: 2mm; padding-bottom: 2mm; }
         body.prices-print-mode .category-section h2 { font-size: 16pt; line-height: 1.3; }
+        body.prices-print-mode .price-section-description { margin-top: 1mm; color: #111827; font-size: 12pt; font-weight: 700; line-height: 1.3; }
         body.prices-print-mode .category-section .overflow-x-auto { overflow: hidden; border-radius: 3mm; }
         body.prices-print-mode .category-section table { table-layout: fixed; border-collapse: separate; border-spacing: 0; border: 1px solid #e1edf8; border-radius: 3mm; background: #fff; overflow: hidden; }
         body.prices-print-mode .category-section th:nth-child(2),
@@ -428,16 +432,14 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode .category-section [data-price-row-title-view] { font-size: 11.5pt !important; line-height: 1.3 !important; }
         body.prices-print-mode .category-section td p { font-size: 10.5pt; line-height: 1.35; }
         body.prices-print-mode .category-section td:last-child { font-size: 12pt; font-weight: 700; }
-        .prices-print-header { width: 100%; max-width: 210mm; margin: 0 auto; padding: 10mm 10mm 4mm; align-items: center; justify-content: space-between; gap: 1rem; border-bottom: 1px solid #cbd5df; }
-        .prices-print-header img { display: block !important; visibility: visible !important; width: auto; height: 3.1rem; object-fit: contain; }
-        .prices-print-header-copy { display: grid; gap: 0.1rem; }
-        .prices-print-header strong { color: #0f2749; font-size: 1rem; }
-        .prices-print-header span { color: #52677c; font-size: 0.75rem; text-align: right; }
+        .prices-print-header { width: 100%; max-width: 210mm; margin: 0 auto; padding: 10mm 10mm 4mm; align-items: center; justify-content: center; gap: 1rem; border-bottom: 1px solid #cbd5df; }
+        .prices-print-header img { display: block !important; visibility: visible !important; width: auto; height: 4.2rem; object-fit: contain; }
         .prices-print-footer { width: 100%; max-width: 210mm; margin: 0 auto; padding: 4mm 0 10mm; justify-content: flex-end; gap: 1rem; border-top: 1px solid #cbd5df; color: #52677c; font-size: 0.7rem; }
         body.prices-print-mode.prices-show-signature .prices-signature-zone { display: block; }
         body.prices-print-mode.prices-vivid-print .prices-hero h1::after { background: #21b8cf; box-shadow: none; color: #fff; }
         body.prices-print-mode.prices-vivid-print .category-section > div:first-child { padding: 2mm 3mm; border: 0; border-radius: 2.5mm; background: #21b8cf; }
         body.prices-print-mode.prices-vivid-print .category-section h2 { color: #fff; }
+        body.prices-print-mode.prices-vivid-print .price-section-description { color: #fff; }
         body.prices-print-mode.prices-vivid-print .category-section table { border-color: #78d7df; }
         body.prices-print-mode.prices-vivid-print .category-section thead th { border-top: 0; border-color: #78d7df; background: #c5e9ec !important; color: #000 !important; }
         body.prices-print-mode.prices-vivid-print .category-section tbody td,
@@ -545,6 +547,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             .category-section { margin: 0 0 5mm !important; padding: 0 !important; border: 1px solid white !important; border-radius: 4mm !important; background: #fff !important; box-shadow: none !important; break-inside: auto; page-break-inside: auto; }
             .category-section > div:first-child { margin-bottom: 2mm !important; padding-bottom: 2mm !important; }
             .category-section h2 { font-size: 16pt !important; line-height: 1.3 !important; break-after: avoid; page-break-after: avoid; }
+            .price-section-description { margin-top: 1mm !important; color: #111827 !important; font-size: 12pt !important; font-weight: 700 !important; line-height: 1.3 !important; }
             .category-section .overflow-x-auto { overflow: visible !important; border: 0 !important; border-radius: 0 !important; break-inside: auto; page-break-inside: auto; }
             .category-section table { table-layout: fixed !important; border-collapse: separate !important; border-spacing: 0 !important; border: 0 !important; border-radius: 3mm !important; background: #fff !important; overflow: visible !important; }
             .category-section th:nth-child(2), .category-section td:nth-child(2) { width: 34mm !important; }
@@ -567,9 +570,8 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             body.prices-vivid-print .prices-hero h1::after { background: #21b8cf !important; box-shadow: none !important; color: #fff !important; }
             body.prices-vivid-print .category-section > div:first-child { padding: 2mm 3mm !important; border: 0 !important; border-radius: 2.5mm !important; background: #21b8cf !important; }
             body.prices-vivid-print .category-section h2 { color: #fff !important; }
+            body.prices-vivid-print .price-section-description { color: #fff !important; }
             body.prices-vivid-print .category-section table { border-color: #78d7df !important; }
-            .prices-print-header strong,
-            .prices-print-header span { color: #000 !important; font-weight: 800 !important; opacity: 1 !important; }
             body.prices-vivid-print .category-section thead th { border-top: 0 !important; border-color: #78d7df !important; background: #c5e9ec !important; box-shadow: inset 0 1px 0 #78d7df !important; color: #000 !important; }
             body.prices-vivid-print .category-section tbody td,
             body.prices-vivid-print .category-section tbody tr.price-row-background-blue td,
@@ -639,10 +641,6 @@ $header = new Header($brand_colors);
 
     <div class="prices-print-header">
         <img src="<?php echo htmlspecialchars(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'), ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars(CLINIC_NAME, ENT_QUOTES, 'UTF-8'); ?>" width="1348" height="400">
-        <div class="prices-print-header-copy">
-            <strong><?php echo htmlspecialchars(CLINIC_NAME, ENT_QUOTES, 'UTF-8'); ?></strong>
-            <span><?php echo htmlspecialchars(CLINIC_PHONE . ' · ' . CLINIC_ADDRESS, ENT_QUOTES, 'UTF-8'); ?></span>
-        </div>
     </div>
 
     <main class="prices-main mx-auto max-w-6xl px-6 py-8 md:px-10 md:py-10">
@@ -729,6 +727,7 @@ $header = new Header($brand_colors);
                 $sectionId = (string)$sectionMeta['id'];
                 $sectionRows = is_array($pricesRowsBySection[$sectionId] ?? null) ? $pricesRowsBySection[$sectionId] : [];
                 $sectionHidden = !empty($sectionMeta['hidden']);
+                $sectionDescription = trim((string)($sectionMeta['description'] ?? ''));
                 $sectionTitleNode = bioinmed_page_text_node(
                     $pricesPage,
                     'prices',
@@ -743,9 +742,12 @@ $header = new Header($brand_colors);
                 );
                 $sectionClasses = 'category-section' . ($sectionHidden ? ' price-section-hidden' : '');
                 ?>
-                <section id="<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" class="<?php echo htmlspecialchars($sectionClasses, ENT_QUOTES, 'UTF-8'); ?> price-admin-section-host" data-price-section-id="<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" data-price-section-hidden="<?php echo $sectionHidden ? '1' : '0'; ?>" data-price-section-nav-label="<?php echo htmlspecialchars((string)$sectionMeta['nav_label'], ENT_QUOTES, 'UTF-8'); ?>" data-price-section-badge="<?php echo htmlspecialchars((string)$sectionBadgeNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-admin-disable-block-edit="1">
+                <section id="<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" class="<?php echo htmlspecialchars($sectionClasses, ENT_QUOTES, 'UTF-8'); ?> price-admin-section-host" data-price-section-id="<?php echo htmlspecialchars($sectionId, ENT_QUOTES, 'UTF-8'); ?>" data-price-section-hidden="<?php echo $sectionHidden ? '1' : '0'; ?>" data-price-section-nav-label="<?php echo htmlspecialchars((string)$sectionMeta['nav_label'], ENT_QUOTES, 'UTF-8'); ?>" data-price-section-badge="<?php echo htmlspecialchars((string)$sectionBadgeNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-price-section-description="<?php echo htmlspecialchars($sectionDescription, ENT_QUOTES, 'UTF-8'); ?>" data-admin-disable-block-edit="1">
                     <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-[#1977b2]" data-admin-disable-block-edit="1">
-                        <h2 class="text-2xl font-bold text-[#1977b2]" data-price-section-title-view<?php echo $sectionTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$sectionTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></h2>
+                        <div class="min-w-0 flex-1" data-price-section-heading>
+                            <h2 class="text-2xl font-bold text-[#1977b2]" data-price-section-title-view<?php echo $sectionTitleNode['attr']; ?>><?php echo htmlspecialchars((string)$sectionTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?></h2>
+                            <p class="price-section-description" data-price-section-description-view<?php echo $sectionDescription === '' ? ' hidden' : ''; ?>><?php echo htmlspecialchars($sectionDescription, ENT_QUOTES, 'UTF-8'); ?></p>
+                        </div>
                         <div class="price-admin-section-toolbar" data-admin-disable-block-edit="1">
                             <button type="button" class="price-admin-inline-btn" data-price-section-action="move-up" title="Поднять раздел выше"><span aria-hidden="true">↑</span><span>Выше</span></button>
                             <button type="button" class="price-admin-inline-btn" data-price-section-action="move-down" title="Опустить раздел ниже"><span aria-hidden="true">↓</span><span>Ниже</span></button>

@@ -1452,6 +1452,14 @@ body.bioinmed-edit-mode .price-admin-row-actions:hover {
     min-height: 68px;
 }
 
+.bioinmed-admin-prices-edit-modal .price-admin-section-description-field textarea {
+    position: relative;
+    z-index: 1;
+    min-height: 112px;
+    pointer-events: auto;
+    resize: vertical;
+}
+
 .bioinmed-admin-prices-edit-modal {
     display: flex;
     flex-direction: column;
