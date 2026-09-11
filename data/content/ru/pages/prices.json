@@ -827,6 +827,16 @@
                     "row_class": "price-row-title-emphasis",
                     "link": false,
                     "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Пролотерапия",
+                    "description": "Одна зона",
+                    "duration": "30 мин",
+                    "price": "5 500 руб.",
+                    "row_class": "price-row-title-emphasis",
+                    "link": true,
+                    "hidden": false
                 }
             ]
         },
