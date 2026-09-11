@@ -189,7 +189,7 @@
                     "hidden": false
                 },
                 {
-                    "service_id": "",
+                    "service_id": "massage",
                     "title": "Массаж медицинский/спортивный/лимфодренажный/релаксирующий",
                     "description": "",
                     "duration": "30 мин",

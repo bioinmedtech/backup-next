@@ -222,6 +222,70 @@ $footer = new Footer();
             width: 100%;
             padding: 2rem 0;
         }
+        .season-hero__switcher {
+            position: absolute;
+            top: 4.85rem;
+            left: 1.5rem;
+            right: 1.5rem;
+            z-index: 2;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem 0.75rem;
+        }
+        .season-hero__switcher-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.38rem;
+            white-space: nowrap;
+        }
+        .season-hero__switcher-name {
+            color: #fff;
+            font-size: 0.84rem;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.72);
+        }
+        .season-hero__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            border: 1px solid rgba(255,255,255,0.28);
+            border-radius: 9999px;
+            background: rgba(5,18,32,0.62);
+            padding: 0.38rem 0.72rem;
+            color: #fff !important;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.72);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.14);
+            backdrop-filter: blur(5px);
+        }
+        .season-navigation-card--current {
+            border-color: var(--season-accent, #1977b2) !important;
+            box-shadow: inset 0 0 0 3px var(--season-accent, #1977b2), 0 10px 24px rgba(8,36,70,0.12);
+        }
+        .season-navigation-heading {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+        }
+        .season-navigation-title {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            text-wrap: balance;
+        }
+        .season-navigation-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            z-index: 2;
+            display: inline-flex;
+            box-sizing: border-box;
+            max-width: calc(100% - 1.5rem);
+            overflow-wrap: anywhere;
+            text-align: center;
+            line-height: 1.2;
+        }
         .season-nav-dot.active {
             background: #e4f1fa;
             width: 2rem;
@@ -311,7 +375,7 @@ $footer = new Footer();
             overflow: hidden;
             border-radius: 1.5rem;
             border: 1px solid rgba(13, 42, 72, 0.08);
-            background: linear-gradient(180deg, rgba(228,241,250,0.95) 0%, rgba(255,255,255,0.98) 100%);
+            background: #fff;
             padding: 1.05rem;
             box-shadow: 0 14px 30px rgba(8, 36, 70, 0.08);
             transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
@@ -508,6 +572,18 @@ $footer = new Footer();
             text-shadow: 0 1px 6px rgba(0,0,0,0.36);
         }
         @media (max-width: 767px) {
+            .season-navigation-title {
+                padding-inline: 0.5rem;
+                font-size: 0.82rem;
+                line-height: 1.45;
+                letter-spacing: 0.1em;
+            }
+            .season-navigation-badge {
+                top: 0.5rem;
+                right: 0.5rem;
+                max-width: calc(100% - 1rem);
+                font-size: 0.68rem;
+            }
             .season-gallery-shell {
                 margin-top: 1.35rem;
             }
@@ -551,6 +627,19 @@ $footer = new Footer();
             }
         }
         @media (min-width: 768px) {
+            .season-hero__switcher {
+                top: 50%;
+                right: 1.5rem;
+                left: auto;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: flex-start;
+                gap: 0.75rem;
+                transform: translateY(-50%);
+            }
+            .season-hero__switcher-name {
+                font-size: 1.125rem;
+            }
             .season-gallery-masonry {
                 columns: 2;
             }
@@ -603,17 +692,17 @@ $footer = new Footer();
     <div class="season-hero__overlay"></div>
 
     <!-- Season switcher -->
-    <div class="absolute top-4 left-1/2 -translate-x-1/2 md:top-1/2 md:right-6 md:left-auto md:-translate-x-0 md:-translate-y-1/2 lg:right-10 flex flex-row md:flex-col gap-2 md:gap-3 z-10">
+    <div class="season-hero__switcher">
         <?php foreach ($seasons as $key => $sv): ?>
         <a href="/seasons/<?= $e($key) ?>"
-           class="flex items-center gap-2.5 group <?= $key === $slug ? 'opacity-100' : 'opacity-50 hover:opacity-80' ?> transition-opacity"
+           class="season-hero__switcher-link group <?= $key === $slug ? 'opacity-100' : 'opacity-60 hover:opacity-90' ?> transition-opacity"
            title="<?= $e($sv['name']) ?>">
             <?php if ($key === $slug): ?>
             <span class="block w-2 h-2 rounded-full flex-shrink-0" style="background:<?= $e($sv['color']) ?>"></span>
             <?php else: ?>
             <span class="block w-1.5 h-1.5 rounded-full flex-shrink-0 bg-white/40"></span>
             <?php endif ?>
-            <span class="text-white text-base md:text-lg font-semibold leading-none"><?= $e($sv['name']) ?></span>
+            <span class="season-hero__switcher-name"><?= $e($sv['name']) ?></span>
         </a>
         <?php endforeach ?>
     </div>
@@ -622,7 +711,7 @@ $footer = new Footer();
         <div class="mx-auto max-w-6xl px-6 md:px-10" data-admin-block-root>
 
             <!-- Main hero text -->
-            <p class="text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase mb-2.5" style="color:<?= $e($s['color']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.eyebrow') ?>>
+            <p class="season-hero__eyebrow text-[0.86rem] md:text-[0.92rem] font-semibold tracking-[0.16em] uppercase mb-2.5"<?= bioinmed_page_text_attr($seasonPage, 'season', 'hero.eyebrow') ?>>
                 <?= $e($seasonHeroText['eyebrow'] ?? 'Времена года') ?>
             </p>
             <h1 class="text-4xl md:text-6xl font-black text-white leading-none mb-4"<?= $seasonHeroNameNode['attr'] ?>>
@@ -656,7 +745,7 @@ $footer = new Footer();
 </section>
 
 <!-- ═══════════════ SEASONAL TIPS ═══════════════ -->
-<section class="py-14 md:py-20 bg-[#e4f1fa]">
+<section class="py-14 md:py-20 bg-white">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
         <h2 class="text-[1.46rem] md:text-[1.72rem] font-bold text-[#0a293c] mb-7 text-center"<?= $seasonTipsTitleNode['attr'] ?>>
             <?= $e($seasonTipsTitleNode['value']) ?>
@@ -745,15 +834,17 @@ $footer = new Footer();
 <!-- ═══════════════ SEASON NAVIGATION ═══════════════ -->
 <nav class="py-10 bg-gray-50 border-t border-gray-200" aria-label="Другие сезоны">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-        <h2 class="text-center text-[0.88rem] md:text-[0.94rem] font-semibold tracking-[0.16em] uppercase text-gray-400 mb-6"<?= $seasonNavTitleNode['attr'] ?>><?= $e($seasonNavTitleNode['value']) ?></h2>
+        <div class="season-navigation-heading" data-admin-block-root>
+            <h2 class="season-navigation-title text-center text-[0.88rem] md:text-[0.94rem] font-semibold tracking-[0.16em] uppercase text-gray-400 mb-6"<?= $seasonNavTitleNode['attr'] ?>><?= $e($seasonNavTitleNode['value']) ?></h2>
+        </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <?php foreach ($seasons as $key => $sv): ?>
             <?php $is_current = ($key === $slug); ?>
             <?php $is_actual_now = ($key === $actual_season_slug); ?>
             <?php $seasonNavNameNode = bioinmed_page_text_node($seasonPage, 'season', 'navigation.items.' . $key . '.name', (string)($sv['name'] ?? '')); ?>
                 <a href="/seasons/<?= $e($key) ?>"
-                class="group relative overflow-hidden rounded-2xl border border-[#dbe8f4] bg-white aspect-[4/3] <?= $is_current ? 'ring-4 ring-offset-2' : '' ?> transition-all hover:scale-[1.02]"
-               style="<?= $is_current ? 'ring-color:' . $e($sv['color']) : '' ?>"
+                class="group relative overflow-hidden rounded-2xl border border-[#dbe8f4] bg-white aspect-[4/3] <?= $is_current ? 'season-navigation-card--current' : '' ?> transition-all hover:scale-[1.02]"
+               style="--season-accent:<?= $e($sv['color']) ?>"
                     <?= $is_current ? 'aria-current="page"' : '' ?> data-admin-block-root>
                 <img src="<?= $e($sv['image']) ?>" alt="<?= $e($sv['name']) ?>" class="absolute inset-0 h-full w-full object-cover" loading="lazy" decoding="async">
                 <div class="absolute inset-0 transition-opacity" style="background:linear-gradient(to top, rgba(8,22,38,0.72) 0%, rgba(8,22,38,0.08) 58%)"></div>
@@ -761,7 +852,7 @@ $footer = new Footer();
                     <div class="font-semibold text-[1rem] md:text-[1.06rem] text-white"<?= $seasonNavNameNode['attr'] ?>><?= $e($seasonNavNameNode['value']) ?></div>
                 </div>
                 <?php if ($is_actual_now): ?>
-                 <div class="absolute top-3 right-3 inline-flex text-xs font-bold text-white rounded-full px-2 py-0.5"
+                 <div class="season-navigation-badge absolute top-3 right-3 inline-flex text-xs font-bold text-white rounded-full px-2 py-0.5"
                      style="background:<?= $e($sv['color']) ?>"<?= bioinmed_page_text_attr($seasonPage, 'season', 'navigation.current_badge') ?>><?= $e($seasonNavigationText['current_badge'] ?? 'сейчас') ?></div>
                 <?php endif ?>
             </a>
