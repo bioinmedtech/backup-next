@@ -831,10 +831,20 @@
                 {
                     "service_id": "",
                     "title": "Пролотерапия",
-                    "description": "Одна зона",
+                    "description": "Одна зона шейный/грудной отдел",
                     "duration": "30 мин",
                     "price": "5 500 руб.",
                     "row_class": "price-row-title-emphasis",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Каждая последующяя зона шейный/грудной отдел",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "5 500 руб.",
+                    "row_class": "",
                     "link": true,
                     "hidden": false
                 }

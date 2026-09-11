@@ -144,7 +144,24 @@ $resolveServicePrice = static function (string $serviceId) use ($servicesById): 
 
 $normalizePriceCurrency = static function (string $value): string {
     $value = trim($value);
-    return preg_replace('/\s*(?:₽|руб\.?)\s*$/ui', ' руб.', $value) ?? $value;
+    $normalized = preg_replace('/\s*(?:₽|руб\.?)\s*(?=\s|$)/ui', ' руб. ', $value);
+    if ($normalized === null) {
+        return $value;
+    }
+
+    return trim((string)(preg_replace('/\s+/u', ' ', $normalized) ?? $normalized));
+};
+
+$renderPriceHtml = static function (string $value): string {
+    $escape = static fn(string $text): string => htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $value = trim($value);
+
+    if (!preg_match('/^(.+?)\s+(до\s+.+)$/ui', $value, $parts)) {
+        return $escape($value);
+    }
+
+    return '<span class="price-range-lower">' . $escape(trim((string)$parts[1])) . '</span> '
+        . '<span class="price-range-upper">' . $escape(trim((string)$parts[2])) . '</span>';
 };
 
 $normalizeForCompare = static function (string $value): string {
@@ -326,6 +343,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         .prices-print-header, .prices-print-footer, .prices-signature-zone { display: none; }
         .price-service-link { color: #0a293c; text-decoration: underline; text-decoration-color: rgba(36, 140, 255, 0.45); text-underline-offset: 2px; transition: color .2s ease, text-decoration-color .2s ease; }
         .price-service-link:hover { color: #1977b2; text-decoration-color: rgba(36, 140, 255, 0.95); }
+        .price-range-lower, .price-range-upper { white-space: nowrap; }
         tr.price-row-background-blue, tr[data-price-row-class~="bg-[#f0f7fc]"] { background-color: #f0f7fc; }
         tr.price-row-background-beige, tr[data-price-row-class~="bg-[#f9f0e6]"] { background-color: #f9f0e6; }
         tr.price-row-title-emphasis [data-price-row-title-view],
@@ -407,6 +425,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         body.prices-print-mode .prices-hero h1 { margin: 0; color: #0f2749; font-size: 0; line-height: 0; }
         body.prices-print-mode .prices-hero h1::after { content: 'ПРАЙС-ЛИСТ'; display: block; box-sizing: border-box; width: 100%; padding: 2.4mm 8mm; border-radius: 2.5mm; background: linear-gradient(90deg, #f2f9fd 0%, #dceefa 50%, #f2f9fd 100%); box-shadow: inset 0 -1px 0 rgba(25,119,178,.18); color: #1977b2; font-size: 19pt; font-weight: 800; line-height: 1.15; letter-spacing: 0.12em; }
         body.prices-print-mode .price-service-link { color: inherit; text-decoration: none; }
+        body.prices-print-mode .price-range-upper { display: block; }
         body.prices-print-mode .category-section { margin-bottom: 5mm; border: 1px solid white; border-radius: 4mm; background: #fff; box-shadow: none; padding: 0; }
         body.prices-print-mode .category-section > div:first-child { margin-bottom: 2mm; padding-bottom: 2mm; }
         body.prices-print-mode .category-section h2 { font-size: 16pt; line-height: 1.3; }
@@ -543,6 +562,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
             .prices-hero h1 { margin: 0 !important; font-size: 0 !important; line-height: 0 !important; color: #0f2749 !important; }
             .prices-hero h1::after { content: 'ПРАЙС-ЛИСТ'; display: block; box-sizing: border-box; width: 100%; padding: 2.4mm 8mm; border-radius: 2.5mm; background: linear-gradient(90deg, #f2f9fd 0%, #dceefa 50%, #f2f9fd 100%); box-shadow: inset 0 -1px 0 rgba(25,119,178,.18); color: #1977b2; font-size: 19pt; font-weight: 800; line-height: 1.15; letter-spacing: 0.12em; }
             .price-service-link { color: inherit !important; text-decoration: none !important; }
+            .price-range-upper { display: block !important; }
             [data-prices-page-root] { display: block !important; }
             .category-section { margin: 0 0 5mm !important; padding: 0 !important; border: 1px solid white !important; border-radius: 4mm !important; background: #fff !important; box-shadow: none !important; break-inside: auto; page-break-inside: auto; }
             .category-section > div:first-child { margin-bottom: 2mm !important; padding-bottom: 2mm !important; }
@@ -834,6 +854,7 @@ $header = new Header($brand_colors);
                                         $displayDuration = '—';
                                     }
                                     $displayPrice = $normalizePriceCurrency((string)$rowPriceNode['value']);
+                                    $displayPriceHtml = $renderPriceHtml($displayPrice);
                                     ?>
                                     <tr<?php echo $rowClassAttr; ?> data-price-row-index="<?php echo (int)$rowIndex; ?>" data-price-row-hidden="<?php echo $rowHidden ? '1' : '0'; ?>" data-price-row-title="<?php echo htmlspecialchars((string)$rowTitleNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-price-row-description="<?php echo htmlspecialchars((string)$rowDescriptionNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-price-row-duration="<?php echo htmlspecialchars((string)$rowDurationNode['value'], ENT_QUOTES, 'UTF-8'); ?>" data-price-row-price="<?php echo htmlspecialchars($displayPrice, ENT_QUOTES, 'UTF-8'); ?>" data-price-row-class="<?php echo htmlspecialchars($rowClass, ENT_QUOTES, 'UTF-8'); ?>" data-price-row-link="<?php echo $allowServiceLink ? '1' : '0'; ?>" data-admin-disable-block-edit="1">
                                         <td class="px-4 py-3 price-admin-row-host" data-service-id="<?php echo htmlspecialchars($serviceId, ENT_QUOTES, 'UTF-8'); ?>">
@@ -864,7 +885,7 @@ $header = new Header($brand_colors);
                                             <?php endif; ?>
                                         </td>
                                         <td class="px-4 py-3 text-[#0a293c]" data-price-row-duration-view<?php echo $rowDurationNode['attr']; ?>><?php echo htmlspecialchars($displayDuration, ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap" data-price-row-price-view<?php echo $rowPriceNode['attr']; ?>><?php echo htmlspecialchars($displayPrice, ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="px-4 py-3 text-right font-bold text-[#1977b2] whitespace-nowrap" data-price-row-price-view<?php echo $rowPriceNode['attr']; ?>><?php echo $displayPriceHtml; ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
