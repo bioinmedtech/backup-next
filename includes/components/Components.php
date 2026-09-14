@@ -530,13 +530,13 @@ class Header extends Component {
                 <div id="desktop-menu-row" class="desktop-menu-row flex items-center justify-between py-2.5">
                     <nav class="menu-strip flex items-center gap-6 overflow-x-auto whitespace-nowrap text-[0.92rem] font-medium text-[#0a293c] lg:overflow-visible">
                         {$desktop_about_dropdown}
-                        {$desktop_seasons_dropdown}
-                        {$desktop_services_dropdown}
                         <a href="{$this->e($nav_doctors['url'])}" class="{$desktop_doctors_class}"{$desktop_doctors_aria}{$this->dataTextId('nav.doctors')}>{$this->e($nav_doctors['text'])}</a>
+                        {$desktop_seasons_dropdown}
                         <a href="{$this->e($nav_blog['url'])}" class="{$desktop_blog_class}"{$desktop_blog_aria}{$this->dataTextId('nav.blog')}>{$this->e($nav_blog['text'])}</a>
-                        <a href="{$this->e($nav_reviews['url'])}" class="{$desktop_reviews_class}"{$this->dataTextId('nav.reviews')}>{$this->e($nav_reviews['text'])}</a>
-                        <a href="{$this->e($nav_faq['url'])}" class="{$desktop_faq_class}"{$this->dataTextId('nav.faq')}>{$this->e($nav_faq['text'])}</a>
+                        {$desktop_services_dropdown}
                         <a href="{$this->e($nav_prices['url'])}" class="{$desktop_prices_class}"{$desktop_prices_aria}{$this->dataTextId('nav.prices')}>{$this->e($nav_prices['text'])}</a>
+                        <a href="{$this->e($nav_faq['url'])}" class="{$desktop_faq_class}"{$this->dataTextId('nav.faq')}>{$this->e($nav_faq['text'])}</a>
+                        <a href="{$this->e($nav_reviews['url'])}" class="{$desktop_reviews_class}"{$this->dataTextId('nav.reviews')}>{$this->e($nav_reviews['text'])}</a>
                         <a href="{$this->e($nav_contacts['url'])}" class="{$desktop_contacts_class}"{$this->dataTextId('nav.contacts')}>{$this->e($nav_contacts['text'])}</a>
                     </nav>
                     <div class="ml-1 flex shrink-0 items-center gap-3 -mr-0.5">
@@ -570,13 +570,13 @@ class Header extends Component {
             </div>
             <nav id="mob-nav">
                 {$mobile_about_dropdown}
-                {$mobile_seasons_dropdown}
-                {$mobile_services_dropdown}
                 <a href="{$this->e($nav_doctors['url'])}" onclick="closeMobMenu()"{$mobile_doctors_attr}{$this->dataTextId('nav.doctors')}>{$this->e($nav_doctors['text'])}</a>
+                {$mobile_seasons_dropdown}
                 <a href="{$this->e($nav_blog['url'])}" onclick="closeMobMenu()"{$mobile_blog_attr}{$this->dataTextId('nav.blog')}>{$this->e($nav_blog['text'])}</a>
-                <a href="{$this->e($nav_reviews['url'])}" onclick="closeMobMenu()"{$this->dataTextId('nav.reviews')}>{$this->e($nav_reviews['text'])}</a>
-                <a href="{$this->e($nav_faq['url'])}" onclick="closeMobMenu()"{$this->dataTextId('nav.faq')}>{$this->e($nav_faq['text'])}</a>
+                {$mobile_services_dropdown}
                 <a href="{$this->e($nav_prices['url'])}" onclick="closeMobMenu()"{$mobile_prices_attr}{$this->dataTextId('nav.prices')}>{$this->e($nav_prices['text'])}</a>
+                <a href="{$this->e($nav_faq['url'])}" onclick="closeMobMenu()"{$this->dataTextId('nav.faq')}>{$this->e($nav_faq['text'])}</a>
+                <a href="{$this->e($nav_reviews['url'])}" onclick="closeMobMenu()"{$this->dataTextId('nav.reviews')}>{$this->e($nav_reviews['text'])}</a>
                 <a href="{$this->e($nav_contacts['url'])}" onclick="closeMobMenu()"{$this->dataTextId('nav.contacts')}>{$this->e($nav_contacts['text'])}</a>
             </nav>
             <div style="margin-top:auto;border-top:1px solid #dce8f3;padding:16px 20px;display:flex;flex-direction:column;gap:12px;" data-admin-block-root>
