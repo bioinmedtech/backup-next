@@ -159,6 +159,16 @@
                     "hidden": false
                 },
                 {
+                    "service_id": "",
+                    "title": "Консультативный лечебно-диагностический прием специалиста по реабилитации",
+                    "description": "Дети и взрослые",
+                    "duration": "60 мин",
+                    "price": "3 000 руб.",
+                    "row_class": "price-row-title-emphasis",
+                    "link": true,
+                    "hidden": false
+                },
+                {
                     "service_id": "physiotherapy-comprehensive",
                     "title": "Авторская программа специалиста по реабилитации Майоровой Д.С.",
                     "description": "Массаж, ЛФК с контролем состояния, изготовление ортопедических стелек, лазерная терапия HILT, УВТ",
@@ -183,7 +193,7 @@
                     "title": "Мануальная терапия",
                     "description": "",
                     "duration": "60 мин",
-                    "price": "от 3 500 ₽ до 8 000 руб.",
+                    "price": "от 3 500 руб. до 8 000 руб.",
                     "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false

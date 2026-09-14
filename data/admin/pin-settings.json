@@ -1,8 +1,8 @@
 {
     "enabled": false,
     "pin": "",
-    "online_booking_enabled": false,
-    "updated_at": "2026-09-14T11:01:47+00:00",
+    "online_booking_enabled": true,
+    "updated_at": "2026-09-14T14:11:43+00:00",
     "updated_by": {
         "id": "u_admin",
         "email": "admin@bioinmed.ru",
