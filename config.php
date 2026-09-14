@@ -74,6 +74,7 @@ define('CLINIC_MAP_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'cl
 define('CLINIC_VK', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.vk', 'https://vk.com/bioinmed'));
 define('CLINIC_MAX_URL', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.max', 'https://max.ru/id9704215369_bot'));
 define('CLINIC_TELEGRAM', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.telegram', 'https://t.me/bioinmed'));
+define('CLINIC_TELEGRAM_BOT', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.telegram_bot', 'https://t.me/bioinmedru_bot'));
 define('CLINIC_REVIEW_YANDEX', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.review_yandex', 'https://yandex.ru/maps/org/bioinmed/20810337169/reviews/?ll=37.579538%2C55.731055&z=15'));
 define('CLINIC_REVIEW_2GIS', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.review_2gis', 'https://2gis.ru/moscow/firm/70000001085756150/tab/reviews'));
 define('CLINIC_REVIEW_DOCTU', (string)bioinmed_bootstrap_get($bioinmed_site_data, 'clinic.review_doctu', 'https://doctu.ru/msk/clinic/bioinmed'));

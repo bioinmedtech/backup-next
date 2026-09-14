@@ -90,6 +90,7 @@ class Header extends Component {
         $map_url = defined('CLINIC_MAP_URL') ? $this->e(CLINIC_MAP_URL) : 'https://yandex.com/maps/-/CPGGyEzo';
         $vk_url = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram_url = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
+        $telegram_bot_url = defined('CLINIC_TELEGRAM_BOT') ? $this->e(CLINIC_TELEGRAM_BOT) : 'https://t.me/bioinmedru_bot';
         $max_url = defined('CLINIC_MAX_URL') ? $this->e(CLINIC_MAX_URL) : 'https://max.ru/id9704215369_bot';
         $max_icon_src = $this->e(bioinmed_versioned_asset_path('/public/images/icons/max-logo.png'));
         $logo_src = $this->e(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.webp'));
@@ -546,7 +547,10 @@ class Header extends Component {
                         <a href="{$max_url}" target="_blank" rel="noreferrer noopener" aria-label="MAX" class="group inline-flex items-center justify-center transition hover:opacity-85" data-link-key="site.clinic.max" data-link-label="Ссылка MAX">
                             <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" width="256" height="256" loading="lazy" decoding="async">
                         </a>
-                        <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="group inline-flex items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
+                        <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="hidden group items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
+                            <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
+                        </a>
+                        <a href="{$telegram_bot_url}" target="_blank" rel="noreferrer noopener" title="Telegram-бот" aria-label="Telegram-бот" class="group inline-flex items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]" data-link-key="site.clinic.telegram_bot" data-link-label="Ссылка на Telegram-бота">
                             <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -594,7 +598,10 @@ class Header extends Component {
                     <a href="{$max_url}" target="_blank" rel="noreferrer noopener" aria-label="MAX" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">
                         <img src="{$max_icon_src}" alt="MAX" style="height:1.72rem;width:auto;" loading="lazy" decoding="async">
                     </a>
-                    <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" style="display:flex;align-items:center;justify-content:center;color:#27a7e7;text-decoration:none;">
+                    <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" style="display:none;align-items:center;justify-content:center;color:#27a7e7;text-decoration:none;">
+                        <i class="fa-brands fa-telegram" style="font-size:1.82rem;line-height:1;" aria-hidden="true"></i>
+                    </a>
+                    <a href="{$telegram_bot_url}" target="_blank" rel="noreferrer noopener" title="Telegram-бот" aria-label="Telegram-бот" style="display:flex;align-items:center;justify-content:center;color:#27a7e7;text-decoration:none;" data-link-key="site.clinic.telegram_bot" data-link-label="Ссылка на Telegram-бота">
                         <i class="fa-brands fa-telegram" style="font-size:1.82rem;line-height:1;" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -2725,6 +2732,7 @@ class Footer extends Component {
 
         $vk = defined('CLINIC_VK') ? $this->e(CLINIC_VK) : '#';
         $telegram = defined('CLINIC_TELEGRAM') ? $this->e(CLINIC_TELEGRAM) : '#';
+        $telegram_bot = defined('CLINIC_TELEGRAM_BOT') ? $this->e(CLINIC_TELEGRAM_BOT) : 'https://t.me/bioinmedru_bot';
         $max = defined('CLINIC_MAX_URL') ? $this->e(CLINIC_MAX_URL) : 'https://max.ru/id9704215369_bot';
         $max_icon_src = $this->e(bioinmed_versioned_asset_path('/public/images/icons/max-logo.png'));
         $footer_phone_1_raw = (string)bioinmed_text('footer.contact.phone_primary', CLINIC_PHONE);
@@ -3374,7 +3382,10 @@ class Footer extends Component {
                             <a href="{$max}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center transition-opacity hover:opacity-85" title="MAX" aria-label="MAX" data-link-key="site.clinic.max" data-link-label="Ссылка MAX">
                                 <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" loading="lazy" decoding="async">
                             </a>
-                            <a href="{$telegram}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#27a7e7] hover:text-[#1c8fca] transition-colors" title="Telegram" aria-label="Telegram" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
+                            <a href="{$telegram}" target="_blank" rel="noopener noreferrer" class="hidden items-center justify-center text-[#27a7e7] hover:text-[#1c8fca] transition-colors" title="Telegram" aria-label="Telegram" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
+                                <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
+                            </a>
+                            <a href="{$telegram_bot}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[#27a7e7] hover:text-[#1c8fca] transition-colors" title="Telegram-бот" aria-label="Telegram-бот" data-link-key="site.clinic.telegram_bot" data-link-label="Ссылка на Telegram-бота">
                                 <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
                             </a>
                         </div>
