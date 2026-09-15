@@ -533,7 +533,7 @@ class Header extends Component {
                         {$desktop_about_dropdown}
                         <a href="{$this->e($nav_doctors['url'])}" class="{$desktop_doctors_class}"{$desktop_doctors_aria}{$this->dataTextId('nav.doctors')}>{$this->e($nav_doctors['text'])}</a>
                         {$desktop_seasons_dropdown}
-                        <a href="{$this->e($nav_blog['url'])}" class="{$desktop_blog_class}"{$desktop_blog_aria}{$this->dataTextId('nav.blog')}>{$this->e($nav_blog['text'])}</a>
+                        <a href="{$this->e($nav_blog['url'])}" class="{$desktop_blog_class}"{$desktop_blog_aria}{$this->dataTextId('links.nav.blog.text')}>{$this->e($nav_blog['text'])}</a>
                         {$desktop_services_dropdown}
                         <a href="{$this->e($nav_prices['url'])}" class="{$desktop_prices_class}"{$desktop_prices_aria}{$this->dataTextId('nav.prices')}>{$this->e($nav_prices['text'])}</a>
                         <a href="{$this->e($nav_faq['url'])}" class="{$desktop_faq_class}"{$this->dataTextId('nav.faq')}>{$this->e($nav_faq['text'])}</a>
@@ -576,7 +576,7 @@ class Header extends Component {
                 {$mobile_about_dropdown}
                 <a href="{$this->e($nav_doctors['url'])}" onclick="closeMobMenu()"{$mobile_doctors_attr}{$this->dataTextId('nav.doctors')}>{$this->e($nav_doctors['text'])}</a>
                 {$mobile_seasons_dropdown}
-                <a href="{$this->e($nav_blog['url'])}" onclick="closeMobMenu()"{$mobile_blog_attr}{$this->dataTextId('nav.blog')}>{$this->e($nav_blog['text'])}</a>
+                <a href="{$this->e($nav_blog['url'])}" onclick="closeMobMenu()"{$mobile_blog_attr}{$this->dataTextId('links.nav.blog.text')}>{$this->e($nav_blog['text'])}</a>
                 {$mobile_services_dropdown}
                 <a href="{$this->e($nav_prices['url'])}" onclick="closeMobMenu()"{$mobile_prices_attr}{$this->dataTextId('nav.prices')}>{$this->e($nav_prices['text'])}</a>
                 <a href="{$this->e($nav_faq['url'])}" onclick="closeMobMenu()"{$this->dataTextId('nav.faq')}>{$this->e($nav_faq['text'])}</a>
@@ -3410,7 +3410,7 @@ class Footer extends Component {
                             <li><a href="{$this->e($company_about['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.about')}>{$this->e($company_about['text'])}</a></li>
                             <li><a href="{$this->e($company_partners['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.partners')}>{$this->e($company_partners['text'])}</a></li>
                             <li><a href="{$this->e($company_doctors['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.doctors')}>{$this->e($company_doctors['text'])}</a></li>
-                            <li><a href="{$this->e($company_blog['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.blog')}>{$this->e($company_blog['text'])}</a></li>
+                            <li><a href="{$this->e($company_blog['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('links.nav.blog.text')}>{$this->e($company_blog['text'])}</a></li>
                             <li><a href="{$this->e($company_prices['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.prices')}>{$this->e($company_prices['text'])}</a></li>
                             <li><a href="{$this->e($legal_privacy['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.privacy')}>{$this->e($legal_privacy['text'])}</a></li>
                             <li><a href="{$this->e($legal_user_agreement['url'])}" class="text-[0.96rem] text-[#0a293c] hover:text-[#1977b2] transition-colors"{$this->dataTextId('footer.links.company.user_agreement')}>{$this->e($legal_user_agreement['text'])}</a></li>
