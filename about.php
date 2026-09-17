@@ -241,6 +241,7 @@ echo $header->render();
 		</div>
 	</section>
 
+<?php echo bioinmed_render_legal_information(); ?>
 </main>
 
 <?php

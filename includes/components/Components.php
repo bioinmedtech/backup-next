@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../content/LegalInformation.php";
 // Базовый класс для всех компонентов.
 class Component {
     protected $colors;
@@ -2369,6 +2370,8 @@ class ContactSection extends Component {
             ? '<div class="mt-1"><a href="tel:' . $phone_link_2 . '" class="text-[1rem] font-semibold text-[#1977b2] hover:text-[#0f2749] transition"' . $this->dataTextId('home.contact.values.phone_secondary') . '>' . $phone_2 . '</a></div>'
             : '';
 
+        $legal_information = bioinmed_render_legal_information('contact-details');
+
         return <<<HTML
         <section id="contact" class="bg-gradient-to-b from-[#e4f1fa] to-[#f8fbff] py-10 md:py-14">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
@@ -2510,6 +2513,7 @@ class ContactSection extends Component {
                             </div>
                         </div>
 
+                    {$legal_information}
                 </div>
             </div>
         </section>
@@ -2702,6 +2706,7 @@ class SeasonsBlock extends Component {
 
 class Footer extends Component {
     public function render() {
+        $legal_footer = bioinmed_render_legal_footer();
         $footer_description = $this->e(bioinmed_text('footer.clinic_description', 'Восстановительная медицина с Вашим персональным маршрутом лечения.'));
         $footer_copyright = $this->e(bioinmed_text('footer.copyright', '© 2026 КЛИНИКА БИОИНМЕД — интегративная и восстановительная медицина. Все права защищены.'));
 
@@ -3469,6 +3474,7 @@ class Footer extends Component {
                         <p class="text-[0.84rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('footer.copyright')}>{$footer_copyright}</p>
                         {$admin_login_trigger_html}
                     </div>
+                    {$legal_footer}
                 </div>
             </div>
         </footer>

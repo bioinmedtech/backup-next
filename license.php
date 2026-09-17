@@ -99,7 +99,19 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         <p class="mt-4 max-w-4xl text-[0.98rem] leading-relaxed text-[#355b89]"<?php echo bioinmed_page_text_attr($licensePage, 'license', 'hero.intro'); ?>><?php echo $e($licenseHero['intro'] ?? 'Клиника осуществляет медицинскую деятельность на основании действующей лицензии. Ниже опубликована выписка из реестра лицензий и санитарно-эпидемиологические документы.'); ?></p>
     </section>
 
-    <section class="mt-8">
+    <?php echo bioinmed_render_legal_information(); ?>
+
+    <section class="mt-8 rounded-2xl border border-[#d7e4ef] bg-white p-5 md:p-7">
+        <h2 class="text-xl font-bold">Информация для пациентов</h2>
+        <p class="mt-3 text-sm leading-relaxed">Нормативные документы, стандарты медицинской помощи и клинические рекомендации доступны на официальных ресурсах:</p>
+        <ul class="mt-4 space-y-3 text-sm text-[#1977b2]">
+            <li><a class="underline" href="https://pravo.gov.ru/" target="_blank" rel="noopener noreferrer">Официальный интернет-портал правовой информации</a></li>
+            <li><a class="underline" href="https://cr.minzdrav.gov.ru/" target="_blank" rel="noopener noreferrer">Рубрикатор клинических рекомендаций Минздрава России</a></li>
+            <li><a class="underline" href="https://www.consultant.ru/document/cons_doc_LAW_535622/" target="_blank" rel="noopener noreferrer">Правила предоставления платных медицинских услуг — постановление Правительства РФ от 30.05.2026 № 659</a></li>
+        </ul>
+    </section>
+
+    <section id="license-documents" class="mt-8" aria-label="Сканы лицензии и санитарно-эпидемиологических документов">
         <div class="grid items-start gap-6 md:grid-cols-2 lg:grid-cols-3">
             <?php foreach ($documents as $index => $document): ?>
                 <figure class="rounded-2xl border border-[#d3e2ef] bg-white p-3 shadow-[0_12px_30px_rgba(8,36,70,0.10)]">
