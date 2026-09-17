@@ -1031,7 +1031,7 @@ class HeroSection extends Component {
         <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#e4f1fa] flex flex-col justify-center pb-4 md:min-h-[calc(100svh-var(--header-height,140px))] md:pb-0" style="min-height:calc(100svh - var(--header-height,120px));min-height:calc(100dvh - var(--header-height,120px));" data-admin-block-root>
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
                 <div class="mb-6 flex justify-start lg:hidden">
-                        <a href="{$booking_url}" onclick="BioinmedBookingFallback.open();return false;" class="inline-flex h-11 w-auto items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f] text-decoration-none">
+                        <a href="{$booking_url}" onclick="BioinmedBookingFallback.openChoice();return false;" class="inline-flex h-11 w-auto items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f] text-decoration-none">
                         <span{$this->dataTextId('hero.mobile.online_booking_button')}>{$hero_mobile_booking_text}</span>
                     </a>
                 </div>

@@ -9,6 +9,9 @@ $bioinmed_admin_bootstrap_requested =
 if ($bioinmed_admin_bootstrap_requested && !headers_sent()) {
     header('Cache-Control: private, no-store, no-cache, must-revalidate, max-age=0');
     header('Pragma: no-cache');
+} elseif (!headers_sent()) {
+    // Revalidate HTML so returning visitors receive current booking UI and settings.
+    header('Cache-Control: no-cache, must-revalidate');
 }
 
 if ($bioinmed_admin_bootstrap_requested && !function_exists('bioinmed_admin_client_config')) {
