@@ -518,7 +518,7 @@ class Header extends Component {
                             </div>
                         </div>
                         <div class="justify-self-end pt-1 text-right">
-                            <a href="{$booking_url}" onclick="onlineBooking.open();return false;" class="inline-flex h-11 w-full min-w-[200px] items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
+                            <a href="{$booking_url}" onclick="BioinmedBookingFallback.openChoice();return false;" class="inline-flex h-11 w-full min-w-[200px] items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f]">
                                 <span{$this->dataTextId('header.online_booking_button.desktop')}>{$online_booking_desktop_text}</span>
                             </a>
                         </div>
@@ -589,7 +589,7 @@ class Header extends Component {
                     <i class="fa-solid fa-phone-volume" style="color:#1977b2;" aria-hidden="true"></i>
                     <span{$this->dataTextId('header.contact.phone_primary')}>{$phone_1}</span>
                 </a>
-                <a href="{$booking_url}" onclick="onlineBooking.open();return false;" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;border:0;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;cursor:pointer;text-decoration:none;">
+                <a href="{$booking_url}" onclick="BioinmedBookingFallback.openChoice();return false;" style="display:flex;height:46px;align-items:center;justify-content:center;border-radius:9999px;border:0;background:#1977b2;font-size:0.94rem;font-weight:500;color:#fff;cursor:pointer;text-decoration:none;">
                     <span{$this->dataTextId('header.online_booking_button.mobile_menu')}>{$this->e(bioinmed_text('common.online_booking_desktop'))}</span>
                 </a>
                 <div style="display:flex;gap:12px;">
@@ -1031,7 +1031,7 @@ class HeroSection extends Component {
         <section class="hero-section relative box-border overflow-hidden border-b border-[#dbe7f2] bg-[#e4f1fa] flex flex-col justify-center pb-4 md:min-h-[calc(100svh-var(--header-height,140px))] md:pb-0" style="min-height:calc(100svh - var(--header-height,120px));min-height:calc(100dvh - var(--header-height,120px));" data-admin-block-root>
             <div class="relative mx-auto w-full max-w-6xl px-6 py-5 md:px-10 md:py-7 lg:py-10">
                 <div class="mb-6 flex justify-start lg:hidden">
-                        <a href="{$booking_url}" onclick="onlineBooking.open();return false;" class="inline-flex h-11 w-auto items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f] text-decoration-none">
+                        <a href="{$booking_url}" onclick="BioinmedBookingFallback.open();return false;" class="inline-flex h-11 w-auto items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 text-[0.94rem] font-medium text-white shadow-[0_10px_24px_rgba(25,119,178,0.2)] transition hover:bg-[#16658f] text-decoration-none">
                         <span{$this->dataTextId('hero.mobile.online_booking_button')}>{$hero_mobile_booking_text}</span>
                     </a>
                 </div>
@@ -1049,7 +1049,7 @@ class HeroSection extends Component {
                             <span{$this->dataTextId('hero.habilect.lines.route')}>{$hero_habilect_route}</span>
                         </a>
                         <div class="mt-6">
-                            <a href="{$booking_url}" onclick="onlineBooking.open();return false;" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white transition hover:bg-[#16658f]"{$this->dataTextId('hero.desktop.book_appointment_title')}>
+                            <a href="{$booking_url}" onclick="BioinmedBookingFallback.open();return false;" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white transition hover:bg-[#16658f]"{$this->dataTextId('hero.desktop.book_appointment_title')}>
                                 {$hero_desktop_booking_text}
                             </a>
                         </div>
@@ -1893,7 +1893,7 @@ class SpecialOffer extends Component {
                                 </ul>
                             </a>
                             <div class="mt-4">
-                                <a href="{$booking_url}" onclick="onlineBooking.open();return false;" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
+                                <a href="{$booking_url}" onclick="BioinmedBookingFallback.open();return false;" class="inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.94rem] font-semibold text-white hover:bg-[#16658f]">
                                     <span{$this->dataTextId('home.special_offer.callback_button')}>{$this->e(bioinmed_text('common.book_appointment'))}</span>
                                 </a>
                             </div>
@@ -2432,7 +2432,7 @@ class ContactSection extends Component {
                                     <p class="text-[0.92rem] text-[#0a293c] mt-1"{$this->dataTextId('home.contact.values.metro')}>
                                         {$metro}
                                     </p>
-                                    <a href="{$booking_url}" onclick="onlineBooking.open();return false;" class="mt-4 inline-flex w-full items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden text-decoration-none">
+                                    <a href="{$booking_url}" onclick="BioinmedBookingFallback.open();return false;" class="mt-4 inline-flex w-full items-center justify-center rounded-full border-0 bg-[#1977b2] px-4 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f] md:hidden text-decoration-none">
                                         <span{$this->dataTextId('home.contact.online_booking_button_mobile')}>{$this->e(bioinmed_text('common.book_appointment'))}</span>
                                     </a>
                                 </div>
@@ -2887,7 +2887,7 @@ class Footer extends Component {
                         <span class="bioinmed-admin-mobile-switch-icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span>
                         <div>
                             <div class="font-semibold" id="bioinmed-online-booking-toggle-label">Онлайн-запись SQNS</div>
-                            <p class="bioinmed-admin-switch-desc text-[13px] text-[#4a6f9c] mt-1">Когда выключена, кнопки записи открывают попап с телефоном клиники.</p>
+                            <p class="bioinmed-admin-switch-desc text-[13px] text-[#4a6f9c] mt-1">Включает выбор онлайн-записи в шапке. Кнопки «Записаться на приём» всегда открывают попап с телефоном.</p>
                         </div>
                         <button id="bioinmed-online-booking-toggle" type="button" class="bioinmed-ios-switch" role="switch" aria-checked="true" aria-label="Включить или отключить онлайн-запись SQNS">
                             <span class="bioinmed-ios-switch-track"></span>

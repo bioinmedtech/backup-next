@@ -816,7 +816,7 @@ $footer = new Footer();
                 <?= $e($seasonCtaText['text'] ?? 'Наши специалисты разработают индивидуальную программу с учётом сезона и Ваших особенностей.') ?>
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                      <a href="<?= $e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/') ?>" onclick="onlineBooking.open();return false;"
+                      <a href="<?= $e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/') ?>" onclick="BioinmedBookingFallback.open();return false;"
                          class="inline-flex items-center justify-center gap-2 rounded-full border-0 bg-white px-7 py-3.5 text-[1rem] font-semibold shadow-lg transition hover:-translate-y-0.5"
                    style="color:<?= $e($s['color_dark']) ?>;cursor:pointer;text-decoration:none;">
                     <span<?= bioinmed_page_text_attr($seasonPage, 'season', 'cta.online_booking') ?>><?= $e($seasonCtaText['online_booking'] ?? 'Записаться на приём') ?></span>

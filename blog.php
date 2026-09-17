@@ -381,7 +381,7 @@ if (!headers_sent()) {
                     <p class="text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#1977b2]">Запись в клинику</p>
                     <h2 class="mt-2 text-[1.28rem] font-bold leading-tight text-[#0f2749]">Хотите обсудить свой случай с врачом?</h2>
                     <p class="mt-2 text-[0.92rem] leading-relaxed text-[#45637f]">Администратор уточнит запрос, подскажет направление и предложит ближайшее удобное окно приема.</p>
-                    <a href="<?php echo e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/'); ?>" onclick="onlineBooking.open();return false;" class="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-[#1977b2] px-4 py-2.5 text-[0.9rem] font-semibold text-white hover:bg-[#16658f]" data-booking-link="1" data-booking-source="Блог — сайдбар">Записаться</a>
+                    <a href="<?php echo e(defined('ONLINE_BOOKING_URL') ? ONLINE_BOOKING_URL : '/'); ?>" onclick="BioinmedBookingFallback.open();return false;" class="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-[#1977b2] px-4 py-2.5 text-[0.9rem] font-semibold text-white hover:bg-[#16658f]" data-booking-link="1" data-booking-source="Блог — сайдбар">Записаться</a>
                     <a href="tel:<?php echo e(preg_replace('/[^\d+]/', '', CLINIC_PHONE)); ?>" class="mt-2 inline-flex w-full items-center justify-center rounded-lg border border-[#cddce8] bg-white px-4 py-2.5 text-[0.88rem] font-semibold text-[#0a293c] hover:border-[#1977b2] hover:text-[#1977b2]"><?php echo e(CLINIC_PHONE); ?></a>
                 </section>
 
