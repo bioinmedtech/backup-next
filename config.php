@@ -217,6 +217,9 @@ function bioinmed_render_public_head_assets(array $options = []) {
     $booking_phone_display = json_encode((string)CLINIC_PHONE, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
     $booking_phone_link = json_encode(preg_replace('/[^\d+]/', '', (string)CLINIC_PHONE), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
     $booking_hours = json_encode((string)CLINIC_HOURS, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    $booking_telegram_url = json_encode(defined('CLINIC_TELEGRAM_BOT') ? (string)CLINIC_TELEGRAM_BOT : 'https://t.me/bioinmedru_bot', JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    $booking_max_url = json_encode(defined('CLINIC_MAX_URL') ? (string)CLINIC_MAX_URL : 'https://max.ru/id9704215369_bot', JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    $booking_max_icon = json_encode(bioinmed_versioned_asset_path('/public/images/icons/max-logo.png'), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
     $booking_enabled_json = (defined('ONLINE_BOOKING_ENABLED') && ONLINE_BOOKING_ENABLED) ? 'true' : 'false';
     $html[] = <<<HTML
 <style>
@@ -235,14 +238,24 @@ function bioinmed_render_public_head_assets(array $options = []) {
 .bioinmed-booking-fallback__phone{display:flex;width:100%;align-items:center;justify-content:center;gap:10px;border-radius:9999px;background:#1977b2;margin-top:14px;padding:12px 18px;color:#fff;font-size:1.05rem;font-weight:800;text-decoration:none;box-shadow:0 10px 24px rgba(25,119,178,.22);transition:background-color .18s ease,transform .18s ease,box-shadow .18s ease}
 .bioinmed-booking-fallback__phone:hover{background:#16658f;color:#fff;transform:translateY(-1px);box-shadow:0 14px 30px rgba(25,119,178,.28)}
 .bioinmed-booking-fallback [hidden]{display:none!important}
-.bioinmed-booking-fallback__service{margin-top:8px;padding:10px 12px;border:1px solid #dce8f4;border-radius:14px;background:#f8fbff;font-size:.86rem;line-height:1.35}
-.bioinmed-booking-fallback__service strong{display:block;color:#0f2749}
+.bioinmed-booking-fallback__services{display:grid;gap:8px;margin:10px 0 0;padding:0;list-style:none}
+.bioinmed-booking-fallback__service{position:relative;padding-left:15px;color:#355b89;font-size:.84rem;line-height:1.35}
+.bioinmed-booking-fallback__service::before{content:"";position:absolute;left:1px;top:.48em;width:6px;height:6px;border-radius:9999px;background:#1977b2}
+.bioinmed-booking-fallback__service strong{display:block;margin-bottom:1px;color:#0f2749;font-size:.88rem}
+.bioinmed-booking-fallback__service span{display:block}
 .bioinmed-booking-fallback__online{border:0;cursor:pointer;font:inherit;font-weight:800}
 .bioinmed-booking-fallback__other{margin:14px 0 0;font-size:.96rem;font-weight:750;line-height:1.35}
 .bioinmed-booking-fallback__phone:focus-visible,.bioinmed-booking-fallback__close:focus-visible{outline:3px solid #1977b2;outline-offset:3px}
 .bioinmed-booking-fallback__phone i{font-size:.94rem}
 .bioinmed-booking-fallback__hours{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;color:#355b89;font-size:.86rem;line-height:1.35}
 .bioinmed-booking-fallback__hours i{color:#1977b2;font-size:.8rem}
+.bioinmed-booking-fallback__messenger-prompt{margin:17px 0 0;text-align:center;color:#0f2749;font-size:.9rem;font-weight:750;line-height:1.3}
+.bioinmed-booking-fallback__messengers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:9px}
+.bioinmed-booking-fallback__messenger{display:flex;min-height:48px;align-items:center;justify-content:center;gap:9px;border:1px solid #cfe1f0;border-radius:14px;background:#f8fbff;padding:10px 14px;color:#17446f;font-size:.94rem;font-weight:750;text-decoration:none;box-shadow:0 5px 14px rgba(23,68,111,.07);transition:border-color .18s ease,background-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.bioinmed-booking-fallback__messenger:hover{border-color:#82bee4;background:#eef7fd;color:#0f6fa8;box-shadow:0 8px 18px rgba(23,68,111,.11);transform:translateY(-1px)}
+.bioinmed-booking-fallback__messenger:focus-visible{outline:3px solid #1977b2;outline-offset:2px}
+.bioinmed-booking-fallback__messenger--telegram i{color:#27a7e7;font-size:1.45rem}
+.bioinmed-booking-fallback__messenger--max img{width:25px;height:25px;object-fit:contain}
 .bioinmed-doctor-hover-media{position:relative;display:block;width:100%;height:100%;overflow:hidden}
 .bioinmed-doctor-hover-media>img{display:block}
 .bioinmed-doctor-hover-media__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;pointer-events:none;transition:opacity .28s ease}
@@ -252,7 +265,7 @@ function bioinmed_render_public_head_assets(array $options = []) {
 .group:focus-within .bioinmed-doctor-hover-media__video,
 .bioinmed-doctor-mobile-active .bioinmed-doctor-hover-media__video{opacity:1}
 @media(prefers-reduced-motion:reduce){.bioinmed-doctor-hover-media__video{display:none}}
-@media(max-width:520px){.bioinmed-booking-fallback{padding:10px}.bioinmed-booking-fallback__dialog{max-height:calc(100dvh - 20px);border-radius:18px}.bioinmed-booking-fallback__hero{padding:14px 48px 13px 16px}.bioinmed-booking-fallback__body{padding:15px 16px 17px}.bioinmed-booking-fallback__top{grid-template-columns:36px 1fr;gap:9px}.bioinmed-booking-fallback__icon{width:36px;height:36px;border-radius:11px;font-size:15px}.bioinmed-booking-fallback__close{right:10px;top:10px;width:30px;height:30px}.bioinmed-booking-fallback__title{font-size:1.18rem}.bioinmed-booking-fallback__text{font-size:.9rem}.bioinmed-booking-fallback__service{font-size:.82rem}.bioinmed-booking-fallback__phone{padding:11px 16px}}
+@media(max-width:520px){.bioinmed-booking-fallback{padding:10px}.bioinmed-booking-fallback__dialog{max-height:calc(100dvh - 20px);border-radius:18px}.bioinmed-booking-fallback__hero{padding:14px 48px 13px 16px}.bioinmed-booking-fallback__body{padding:15px 16px 17px}.bioinmed-booking-fallback__top{grid-template-columns:36px 1fr;gap:9px}.bioinmed-booking-fallback__icon{width:36px;height:36px;border-radius:11px;font-size:15px}.bioinmed-booking-fallback__close{right:10px;top:10px;width:30px;height:30px}.bioinmed-booking-fallback__title{font-size:1.18rem}.bioinmed-booking-fallback__text{font-size:.9rem}.bioinmed-booking-fallback__service{font-size:.8rem}.bioinmed-booking-fallback__service strong{font-size:.84rem}.bioinmed-booking-fallback__phone{padding:11px 16px}}
 </style>
 HTML;
     $html[] = <<<HTML
@@ -261,6 +274,9 @@ HTML;
     var phoneDisplay={$booking_phone_display};
     var phoneLink={$booking_phone_link};
     var hours={$booking_hours};
+    var telegramUrl={$booking_telegram_url};
+    var maxUrl={$booking_max_url};
+    var maxIcon={$booking_max_icon};
     var enabled={$booking_enabled_json};
     var previousFocus=null;
     var previousOverflow="";
@@ -280,7 +296,8 @@ HTML;
         root.setAttribute("role","dialog");
         root.setAttribute("aria-modal","true");
         root.setAttribute("aria-label","Запись на прием");
-        root.innerHTML='<div class="bioinmed-booking-fallback__dialog"><button type="button" class="bioinmed-booking-fallback__close" aria-label="Закрыть">×</button><div class="bioinmed-booking-fallback__hero"><div class="bioinmed-booking-fallback__top"><span class="bioinmed-booking-fallback__icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span><div><p class="bioinmed-booking-fallback__eyebrow">Запись в БИОИНМЕД</p><h2 class="bioinmed-booking-fallback__title">Поможем выбрать удобное время</h2></div></div></div><div class="bioinmed-booking-fallback__body"><div class="bioinmed-booking-fallback__choice" hidden><p class="bioinmed-booking-fallback__text">Онлайн-запись сейчас доступна к следующим специалистам:</p><div class="bioinmed-booking-fallback__service"><strong>Кондратова Е. А. — врач-рефлексотерапевт</strong></div><div class="bioinmed-booking-fallback__service"><strong>Майорова Д. С. — специалист по реабилитации, инструктор ЛФК</strong></div><button type="button" class="bioinmed-booking-fallback__phone bioinmed-booking-fallback__online">Выбрать время онлайн</button><p class="bioinmed-booking-fallback__status bioinmed-booking-fallback__text" role="status" hidden></p><h3 class="bioinmed-booking-fallback__other">К остальным специалистам — по телефону</h3></div><p class="bioinmed-booking-fallback__text bioinmed-booking-fallback__intro">Позвоните в клинику: администратор уточнит Ваш запрос и подберёт специалиста под ситуацию.</p><a class="bioinmed-booking-fallback__phone" href="tel:'+phoneLink+'"><i class="fa-solid fa-phone" aria-hidden="true"></i><span>'+phoneDisplay+'</span></a><div class="bioinmed-booking-fallback__hours"><i class="fa-solid fa-clock" aria-hidden="true"></i><span>'+hours+'</span></div></div></div>';
+        root.innerHTML='<div class="bioinmed-booking-fallback__dialog"><button type="button" class="bioinmed-booking-fallback__close" aria-label="Закрыть">×</button><div class="bioinmed-booking-fallback__hero"><div class="bioinmed-booking-fallback__top"><span class="bioinmed-booking-fallback__icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span><div><p class="bioinmed-booking-fallback__eyebrow">Запись в БИОИНМЕД</p><h2 class="bioinmed-booking-fallback__title">Поможем выбрать удобное время</h2></div></div></div><div class="bioinmed-booking-fallback__body"><div class="bioinmed-booking-fallback__choice" hidden><p class="bioinmed-booking-fallback__text">Онлайн-запись сейчас доступна к следующим специалистам:</p><ul class="bioinmed-booking-fallback__services"><li class="bioinmed-booking-fallback__service"><strong>Кондратова Е. А.</strong><span>Лечебно-диагностический прием врач-рефлексотерапевт, акушер-гинеколог Кондратова Е.А.</span></li><li class="bioinmed-booking-fallback__service"><strong>Майорова Д. С.</strong><span>Консультативный лечебно-диагностический прием реабилитолога</span></li></ul><button type="button" class="bioinmed-booking-fallback__phone bioinmed-booking-fallback__online">Выбрать время онлайн</button><p class="bioinmed-booking-fallback__status bioinmed-booking-fallback__text" role="status" hidden></p><h3 class="bioinmed-booking-fallback__other">Запись ко всем специалистам через администратора</h3></div><p class="bioinmed-booking-fallback__text bioinmed-booking-fallback__intro">Позвоните в клинику: администратор уточнит Ваш запрос и подберёт специалиста под ситуацию.</p><a class="bioinmed-booking-fallback__phone" href="tel:'+phoneLink+'"><i class="fa-solid fa-phone" aria-hidden="true"></i><span>'+phoneDisplay+'</span></a><div class="bioinmed-booking-fallback__hours"><i class="fa-solid fa-clock" aria-hidden="true"></i><span>'+hours+'</span></div><p class="bioinmed-booking-fallback__messenger-prompt">Удобнее написать?</p><div class="bioinmed-booking-fallback__messengers"><a class="bioinmed-booking-fallback__messenger bioinmed-booking-fallback__messenger--telegram" href="'+telegramUrl+'" target="_blank" rel="noopener noreferrer" data-messenger="telegram"><i class="fa-brands fa-telegram" aria-hidden="true"></i><span>Telegram</span></a><a class="bioinmed-booking-fallback__messenger bioinmed-booking-fallback__messenger--max" href="'+maxUrl+'" target="_blank" rel="noopener noreferrer" data-messenger="max"><img src="'+maxIcon+'" alt="" width="25" height="25"><span>MAX</span></a></div></div></div>';
+        root.querySelector(".bioinmed-booking-fallback__online").setAttribute("data-metrika-goal","online_booking_click");
         root.addEventListener("click",function(event){
             if(event.target===root||event.target.closest(".bioinmed-booking-fallback__close"))closeModal();
             if(event.target.closest(".bioinmed-booking-fallback__online")){
@@ -697,8 +714,11 @@ function bioinmed_yandex_metrika_head() {
         };
         window.bioinmedMetrikaGoals = {
             appointmentClick: 'appointment_click',
+            onlineBookingClick: 'online_booking_click',
             phoneClick: 'phone_click',
             messengerClick: 'messenger_click',
+            messengerTelegramClick: 'messenger_tg_click',
+            messengerMaxClick: 'messenger_max_click',
             emailClick: 'email_click',
             formSubmit: 'lead_form_submit'
         };
@@ -717,6 +737,15 @@ function bioinmed_yandex_metrika_head() {
             }
 
             document.addEventListener('click', function(event) {
+                var goalTarget = event.target && event.target.closest ? event.target.closest('[data-metrika-goal]') : null;
+                if (goalTarget) {
+                    reach(goalTarget.getAttribute('data-metrika-goal'), {
+                        href: goalTarget.getAttribute('href') || '',
+                        text: (goalTarget.textContent || '').trim().slice(0, 120),
+                        page: location.pathname
+                    });
+                }
+
                 var link = event.target && event.target.closest ? event.target.closest('a[href]') : null;
                 if (!link) {
                     return;
@@ -746,6 +775,11 @@ function bioinmed_yandex_metrika_head() {
 
                 if (/telegram|t\\.me|wa\\.me|whatsapp|vk\\.com|max\\.ru/i.test(href)) {
                     reach(goals.messengerClick || 'messenger_click', params);
+                    if (link.getAttribute('data-messenger') === 'telegram' || /telegram|t\\.me/i.test(href)) {
+                        reach(goals.messengerTelegramClick || 'messenger_tg_click', params);
+                    } else if (link.getAttribute('data-messenger') === 'max' || /max\\.ru/i.test(href)) {
+                        reach(goals.messengerMaxClick || 'messenger_max_click', params);
+                    }
                 }
             }, true);
         })();
