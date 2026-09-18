@@ -339,6 +339,47 @@ class Header extends Component {
                 display: block;
             }
 
+            /*
+             * Critical drawer state must be known before its markup is parsed.
+             * Otherwise the cached logo and menu contents can be painted once
+             * as ordinary document content before the later component styles.
+             */
+            #mob-backdrop {
+                display: none;
+                position: fixed;
+                inset: 0;
+                z-index: 51;
+                background: rgba(0, 0, 0, .35);
+            }
+
+            #mob-backdrop.open {
+                display: block;
+            }
+
+            #mob-menu {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 52;
+                width: min(80vw, 320px);
+                display: flex;
+                visibility: hidden;
+                flex-direction: column;
+                pointer-events: none;
+                background: #e4f1fa;
+                box-shadow: -4px 0 32px rgba(10, 30, 60, .18);
+                transform: translateX(100%);
+                transition: transform .28s cubic-bezier(.4, 0, .2, 1), visibility 0s linear .28s;
+            }
+
+            #mob-menu.open {
+                visibility: visible;
+                pointer-events: auto;
+                transform: translateX(0);
+                transition-delay: 0s;
+            }
+
             @media (min-width: 1024px) {
                 #mob-header-bar {
                     display: none !important;
@@ -347,6 +388,10 @@ class Header extends Component {
                 #site-header > .hidden.lg\:block,
                 .desktop-menu-bar.hidden.lg\:block {
                     display: block !important;
+                }
+
+                #mob-menu {
+                    display: none !important;
                 }
             }
 
@@ -611,11 +656,6 @@ class Header extends Component {
         <style>
             #mob-header-bar{display:block}
             @media(min-width:1024px){#mob-header-bar{display:none}}
-            #mob-backdrop{display:none;position:fixed;inset:0;z-index:51;background:rgba(0,0,0,.35)}
-            #mob-backdrop.open{display:block}
-            #mob-menu{position:fixed;top:0;right:0;bottom:0;z-index:52;width:min(80vw,320px);display:flex;flex-direction:column;background:#e4f1fa;box-shadow:-4px 0 32px rgba(10,30,60,.18);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
-            @media(min-width:1024px){#mob-menu{display:none!important}}
-            #mob-menu.open{transform:translateX(0)}
             #mob-nav{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:4px 20px}
             #mob-nav a{display:block;padding:12px 0;font-size:.98rem;font-weight:500;color:#1b3f6e;text-decoration:none;border-bottom:1px solid #e8f0f8}
             #mob-nav a:last-child{border-bottom:none}

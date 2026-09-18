@@ -275,10 +275,10 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         <script>
             (function () {
                 try {
-                    // Print mode is deliberately session-local. Restoring it
-                    // during page parsing exposes print-only markup before the
-                    // normal screen layout has been initialized.
-                    localStorage.removeItem('bioinmed:prices-print-mode');
+                    if (localStorage.getItem('bioinmed:prices-print-mode') === '1') {
+                        window.BioinmedDisableUis = true;
+                        document.documentElement.classList.add('prices-print-mode-pending');
+                    }
                     window.BioinmedVividPrint = localStorage.getItem('bioinmed:prices-vivid-print') !== '0';
                 } catch (error) {}
                 if (typeof window.BioinmedVividPrint === 'undefined') window.BioinmedVividPrint = true;
@@ -652,7 +652,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="bg-[#e4f1fa] text-[#0f2749] antialiased">
-    <script>if(window.BioinmedVividPrint)document.body.classList.add('prices-vivid-print');</script>
+    <script>if(window.BioinmedDisableUis)document.body.classList.add('prices-print-mode');if(window.BioinmedVividPrint)document.body.classList.add('prices-vivid-print');</script>
     <?php echo bioinmed_yandex_metrika_noscript(); ?>
 <?php
 $header = new Header($brand_colors);
@@ -956,6 +956,7 @@ $header = new Header($brand_colors);
             const printHeader = document.querySelector('.prices-print-header');
             const printFooter = document.querySelector('.prices-print-footer');
             const signatureZone = document.querySelector('.prices-signature-zone');
+            const storageKey = 'bioinmed:prices-print-mode';
             const signatureStorageKey = 'bioinmed:prices-signature';
             const dateStorageKey = 'bioinmed:prices-show-date';
             const colorStorageKey = 'bioinmed:prices-vivid-print';
@@ -967,8 +968,9 @@ $header = new Header($brand_colors);
                 return;
             }
 
-            function setPrintMode(enabled) {
+            function setPrintMode(enabled, persist = true) {
                 document.body.classList.toggle('prices-print-mode', enabled);
+                document.documentElement.classList.remove('prices-print-mode-pending');
                 window.BioinmedDisableUis = enabled;
                 [printHeader, printFooter, signatureZone].forEach(function (element) {
                     if (element) element.hidden = !enabled;
@@ -976,6 +978,9 @@ $header = new Header($brand_colors);
                 if (toggle) {
                     toggle.checked = enabled;
                     toggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
+                }
+                if (persist) {
+                    try { localStorage.setItem(storageKey, enabled ? '1' : '0'); } catch (error) {}
                 }
                 if (!enabled && typeof window.BioinmedLoadUis === 'function') {
                     window.BioinmedLoadUis();
@@ -1040,7 +1045,9 @@ $header = new Header($brand_colors);
                 }
             }
 
-            setPrintMode(false);
+            let initialPrintMode = false;
+            try { initialPrintMode = localStorage.getItem(storageKey) === '1'; } catch (error) {}
+            setPrintMode(initialPrintMode, false);
             let initialSignature = false;
             try { initialSignature = localStorage.getItem(signatureStorageKey) === '1'; } catch (error) {}
             setSignature(initialSignature, false);
@@ -1066,7 +1073,10 @@ $header = new Header($brand_colors);
                 }
             });
             window.addEventListener('pageshow', function (event) {
-                if (event.persisted) setPrintMode(false);
+                if (!event.persisted) return;
+                let restoredPrintMode = false;
+                try { restoredPrintMode = localStorage.getItem(storageKey) === '1'; } catch (error) {}
+                setPrintMode(restoredPrintMode, false);
             });
 
             const pricesRoot = document.querySelector('[data-prices-page-root]');
