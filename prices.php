@@ -267,6 +267,7 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         'image' => $socialImageUrl,
     ]); ?>
     <?php echo bioinmed_render_favicon_links($iconPath); ?>
+    <?php echo bioinmed_render_public_head_assets(['include_uis_hints' => false]); ?>
     <script type="application/ld+json"><?php echo json_encode($structuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($organizationStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
     <script type="application/ld+json"><?php echo json_encode($breadcrumbStructuredData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?></script>
@@ -274,17 +275,16 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
         <script>
             (function () {
                 try {
-                    if (localStorage.getItem('bioinmed:prices-print-mode') === '1') {
-                        window.BioinmedDisableUis = true;
-                        document.documentElement.classList.add('prices-print-mode-pending');
-                    }
+                    // Print mode is deliberately session-local. Restoring it
+                    // during page parsing exposes print-only markup before the
+                    // normal screen layout has been initialized.
+                    localStorage.removeItem('bioinmed:prices-print-mode');
                     window.BioinmedVividPrint = localStorage.getItem('bioinmed:prices-vivid-print') !== '0';
                 } catch (error) {}
                 if (typeof window.BioinmedVividPrint === 'undefined') window.BioinmedVividPrint = true;
             })();
         </script>
     <?php endif; ?>
-    <?php echo bioinmed_render_public_head_assets(['include_uis_hints' => false]); ?>
     <style>
         html { font-size: clamp(17px, 0.5vw + 15px, 19px); }
         body { line-height: 1.72; }
@@ -652,14 +652,14 @@ $breadcrumbStructuredData = bioinmed_breadcrumb_schema([
     <?php echo bioinmed_uis_counter_head(); ?>
 </head>
 <body class="bg-[#e4f1fa] text-[#0f2749] antialiased">
-    <script>if(window.BioinmedDisableUis)document.body.classList.add('prices-print-mode');if(window.BioinmedVividPrint)document.body.classList.add('prices-vivid-print');</script>
+    <script>if(window.BioinmedVividPrint)document.body.classList.add('prices-vivid-print');</script>
     <?php echo bioinmed_yandex_metrika_noscript(); ?>
 <?php
 $header = new Header($brand_colors);
     echo $header->render();
     ?>
 
-    <div class="prices-print-header">
+    <div class="prices-print-header" hidden aria-hidden="true">
         <img src="<?php echo htmlspecialchars(bioinmed_versioned_asset_path('/public/images/brand/main-logotype.png'), ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars(CLINIC_NAME, ENT_QUOTES, 'UTF-8'); ?>" width="1348" height="400">
     </div>
 
@@ -917,11 +917,11 @@ $header = new Header($brand_colors);
         </div>
     </main>
 
-    <footer class="prices-print-footer" aria-hidden="true">
+    <footer class="prices-print-footer" hidden aria-hidden="true">
         <span>Прайс-лист от <?php echo htmlspecialchars(date('d.m.Y'), ENT_QUOTES, 'UTF-8'); ?></span>
     </footer>
 
-    <section class="prices-signature-zone" aria-label="Подпись и печать генерального директора">
+    <section class="prices-signature-zone" hidden aria-label="Подпись и печать генерального директора">
         <div class="prices-signature-card">
             <div class="prices-signature-role">Генеральный директор ООО «Клиника „БИОИНМЕД“»</div>
             <div class="prices-signature-fields">
@@ -953,7 +953,9 @@ $header = new Header($brand_colors);
             const exportMenu = document.getElementById('prices-export-menu');
             const exportToggle = document.getElementById('prices-export-toggle');
             const exportDropdown = document.getElementById('prices-export-dropdown');
-            const storageKey = 'bioinmed:prices-print-mode';
+            const printHeader = document.querySelector('.prices-print-header');
+            const printFooter = document.querySelector('.prices-print-footer');
+            const signatureZone = document.querySelector('.prices-signature-zone');
             const signatureStorageKey = 'bioinmed:prices-signature';
             const dateStorageKey = 'bioinmed:prices-show-date';
             const colorStorageKey = 'bioinmed:prices-vivid-print';
@@ -965,16 +967,15 @@ $header = new Header($brand_colors);
                 return;
             }
 
-            function setPrintMode(enabled, persist = true) {
+            function setPrintMode(enabled) {
                 document.body.classList.toggle('prices-print-mode', enabled);
-                document.documentElement.classList.remove('prices-print-mode-pending');
                 window.BioinmedDisableUis = enabled;
+                [printHeader, printFooter, signatureZone].forEach(function (element) {
+                    if (element) element.hidden = !enabled;
+                });
                 if (toggle) {
                     toggle.checked = enabled;
                     toggle.setAttribute('aria-checked', enabled ? 'true' : 'false');
-                }
-                if (persist) {
-                    try { localStorage.setItem(storageKey, enabled ? '1' : '0'); } catch (error) {}
                 }
                 if (!enabled && typeof window.BioinmedLoadUis === 'function') {
                     window.BioinmedLoadUis();
@@ -1039,9 +1040,7 @@ $header = new Header($brand_colors);
                 }
             }
 
-            let initialPrintMode = false;
-            try { initialPrintMode = localStorage.getItem(storageKey) === '1'; } catch (error) {}
-            setPrintMode(initialPrintMode, false);
+            setPrintMode(false);
             let initialSignature = false;
             try { initialSignature = localStorage.getItem(signatureStorageKey) === '1'; } catch (error) {}
             setSignature(initialSignature, false);
@@ -1053,7 +1052,22 @@ $header = new Header($brand_colors);
             setPrintDate(initialPrintDate, false);
             syncPrintEditToggle();
             syncLastVisiblePriceRows();
-            window.addEventListener('beforeprint', syncLastVisiblePriceRows);
+            window.addEventListener('beforeprint', function () {
+                [printHeader, printFooter, signatureZone].forEach(function (element) {
+                    if (element) element.hidden = false;
+                });
+                syncLastVisiblePriceRows();
+            });
+            window.addEventListener('afterprint', function () {
+                if (!document.body.classList.contains('prices-print-mode')) {
+                    [printHeader, printFooter, signatureZone].forEach(function (element) {
+                        if (element) element.hidden = true;
+                    });
+                }
+            });
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) setPrintMode(false);
+            });
 
             const pricesRoot = document.querySelector('[data-prices-page-root]');
             if (pricesRoot) {
