@@ -223,7 +223,7 @@ function bioinmed_render_public_head_assets(array $options = []) {
     $booking_enabled_json = (defined('ONLINE_BOOKING_ENABLED') && ONLINE_BOOKING_ENABLED) ? 'true' : 'false';
     $html[] = <<<HTML
 <style>
-.bioinmed-booking-fallback{position:fixed;inset:0;z-index:100001;display:none;align-items:center;justify-content:center;background:rgba(8,24,42,.52);padding:14px;backdrop-filter:blur(8px)}
+.bioinmed-booking-fallback{position:fixed;inset:0;z-index:2147483647;display:none;align-items:center;justify-content:center;background:rgba(8,24,42,.52);padding:14px;backdrop-filter:blur(8px)}
 .bioinmed-booking-fallback.is-open{display:flex}
 .bioinmed-booking-fallback__dialog{position:relative;width:min(520px,100%);max-height:calc(100dvh - 28px);overflow:auto;border:1px solid #d7e6f3;border-top:3px solid #1977b2;border-radius:22px;background:#fff;box-shadow:0 24px 70px rgba(6,29,60,.24);color:#0f2749}
 .bioinmed-booking-fallback__hero{background:#e4f1fa;padding:16px 56px 15px 20px;border-bottom:1px solid #d7e6f3}
@@ -265,6 +265,7 @@ function bioinmed_render_public_head_assets(array $options = []) {
 .group:focus-within .bioinmed-doctor-hover-media__video,
 .bioinmed-doctor-mobile-active .bioinmed-doctor-hover-media__video{opacity:1}
 @media(prefers-reduced-motion:reduce){.bioinmed-doctor-hover-media__video{display:none}}
+@media(max-width:767px){body.bioinmed-booking-open .comagic-c-proxy-wrapper,body.bioinmed-booking-open .comagic-c-mobile,body.bioinmed-booking-open iframe[src*="uiscom"],body.bioinmed-booking-open iframe[src*="comagic"]{visibility:hidden!important;opacity:0!important;pointer-events:none!important}}
 @media(max-width:520px){.bioinmed-booking-fallback{padding:10px}.bioinmed-booking-fallback__dialog{max-height:calc(100dvh - 20px);border-radius:18px}.bioinmed-booking-fallback__hero{padding:14px 48px 13px 16px}.bioinmed-booking-fallback__body{padding:15px 16px 17px}.bioinmed-booking-fallback__top{grid-template-columns:36px 1fr;gap:9px}.bioinmed-booking-fallback__icon{width:36px;height:36px;border-radius:11px;font-size:15px}.bioinmed-booking-fallback__close{right:10px;top:10px;width:30px;height:30px}.bioinmed-booking-fallback__title{font-size:1.18rem}.bioinmed-booking-fallback__text{font-size:.9rem}.bioinmed-booking-fallback__service{font-size:.8rem}.bioinmed-booking-fallback__service strong{font-size:.84rem}.bioinmed-booking-fallback__phone{padding:11px 16px}}
 </style>
 HTML;
@@ -284,6 +285,7 @@ HTML;
         var root=document.getElementById("bioinmed-booking-fallback");
         if(!root||!root.classList.contains("is-open"))return;
         root.classList.remove("is-open");
+        document.body.classList.remove("bioinmed-booking-open");
         document.body.style.overflow=previousOverflow;
         if(restoreFocus!==false&&previousFocus&&previousFocus.isConnected)previousFocus.focus();
     }
@@ -339,6 +341,7 @@ HTML;
             previousOverflow=document.body.style.overflow;
         }
         document.body.style.overflow="hidden";
+        document.body.classList.add("bioinmed-booking-open");
         root.classList.add("is-open");
         root.querySelector(".bioinmed-booking-fallback__dialog").scrollTop=0;
         root.querySelector(".bioinmed-booking-fallback__close").focus();

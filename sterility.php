@@ -14,7 +14,7 @@ $sterilityMeasures = is_array($sterilityPage['measures'] ?? null) ? $sterilityPa
 $sterilityCycle = is_array($sterilityPage['cycle'] ?? null) ? $sterilityPage['cycle'] : [];
 $sterilitySteps = is_array($sterilityCycle['steps'] ?? null) ? $sterilityCycle['steps'] : [];
 $sterilityCta = is_array($sterilityPage['cta'] ?? null) ? $sterilityPage['cta'] : [];
-$sterilitySubmitNode = bioinmed_page_text_node($sterilityPage, 'sterility', 'cta.submit_label', 'Задать вопрос');
+$sterilitySubmitNode = bioinmed_page_text_node($sterilityPage, 'sterility', 'cta.submit_label', 'Выбрать способ связи');
 $sterilityMeasureFallback = [];
 foreach ($sterilityMeasures as $measureKey => $measure) {
     if (!is_array($measure)) continue;

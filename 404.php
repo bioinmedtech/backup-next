@@ -9,7 +9,7 @@ $iconPath = CLINIC_ICON_PATH;
 $iconUrl = $siteUrl . $iconPath;
 $canonicalUrl = $siteUrl . '/404';
 $pageTitle = 'Страница не найдена (404) | ' . CLINIC_NAME;
-$pageDescription = 'Запрошенная страница не найдена. Перейдите на главную или оставьте номер, и команда клиники поможет найти нужную услугу.';
+$pageDescription = 'Запрошенная страница не найдена. Перейдите на главную или позвоните нам — команда клиники поможет найти нужную услугу.';
 
 if (!function_exists('e')) {
     function e($value) {
@@ -61,7 +61,7 @@ echo $header->render();
             <h1 class="mt-4 text-2xl font-bold leading-tight text-[#0a293c] md:text-4xl">Мы не нашли эту страницу</h1>
             <p class="mt-3 max-w-2xl text-sm leading-relaxed text-[#0a293c] md:text-base">
                 Возможно, ссылка устарела или адрес введён с ошибкой. Вы можете вернуться на главную,
-                открыть каталог услуг или оставить номер, и мы быстро подскажем нужного специалиста.
+                открыть каталог услуг или позвонить нам — мы быстро подскажем нужного специалиста.
             </p>
 
             <div class="mt-6 flex flex-wrap gap-3">
@@ -92,13 +92,13 @@ echo $header->render();
 
         <aside class="fade-up rounded-3xl border border-[#d9e7f3] bg-white p-6 shadow-[0_12px_30px_rgba(8,36,70,0.1)]" style="transition-delay:.08s">
             <p class="text-xs font-semibold uppercase tracking-[0.15em] text-[#0a293c]">Помочь с записью</p>
-            <h2 class="mt-2 text-xl font-bold text-[#0a293c]">Запишитесь онлайн — прямо сейчас</h2>
-            <p class="mt-2 text-sm leading-relaxed text-[#0a293c]">Перезвоним в течение 15 минут.</p>
+            <h2 class="mt-2 text-xl font-bold text-[#0a293c]">Позвоните нам</h2>
+            <p class="mt-2 text-sm leading-relaxed text-[#0a293c]">Поможем найти нужную услугу, выбрать специалиста и удобное время.</p>
 
             <div class="mt-4">
                 <?php echo bioinmed_render_callback_form([
-                    'source_label' => '404 — форма обратного звонка',
-                    'submit_label' => 'Перезвоните мне',
+                    'source_label' => '404 — запись на приём',
+                    'submit_label' => 'Выбрать способ записи',
                     'button_class' => 'inline-flex w-full items-center justify-center rounded-full bg-[#1977b2] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#16658f] disabled:cursor-not-allowed disabled:bg-[#a7d7e9] disabled:text-white/90',
                 ]); ?>
             </div>
@@ -134,15 +134,6 @@ echo $footer->render();
             });
         }, { threshold: 0.08 });
         observer.observe(el);
-    });
-
-    document.getElementById('lost-page-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = this.querySelector('button[type=submit]');
-        btn.textContent = '✓ Приняли! Скоро перезвоним';
-        btn.classList.remove('bg-[#1977b2]', 'hover:bg-[#16658f]');
-        btn.classList.add('bg-green-600');
-        btn.disabled = true;
     });
 </script>
 </body>
