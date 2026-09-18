@@ -220,7 +220,7 @@ function bioinmed_render_public_head_assets(array $options = []) {
     $booking_enabled_json = (defined('ONLINE_BOOKING_ENABLED') && ONLINE_BOOKING_ENABLED) ? 'true' : 'false';
     $html[] = <<<HTML
 <style>
-.bioinmed-booking-fallback{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(8,24,42,.52);padding:18px;backdrop-filter:blur(8px)}
+.bioinmed-booking-fallback{position:fixed;inset:0;z-index:100001;display:none;align-items:center;justify-content:center;background:rgba(8,24,42,.52);padding:18px;backdrop-filter:blur(8px)}
 .bioinmed-booking-fallback.is-open{display:flex}
 .bioinmed-booking-fallback__dialog{position:relative;width:min(520px,100%);max-height:calc(100dvh - 36px);overflow:auto;border:1px solid #d7e6f3;border-top:3px solid #1977b2;border-radius:24px;background:#fff;box-shadow:0 24px 70px rgba(6,29,60,.24);color:#0f2749}
 .bioinmed-booking-fallback__hero{background:#e4f1fa;padding:24px 62px 22px 26px;border-bottom:1px solid #d7e6f3}
