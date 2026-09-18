@@ -2298,8 +2298,8 @@ class CasesSlider extends Component {
 
 class AppointmentCTA extends Component {
     public function render() {
-        $book_appointment_text = $this->e(bioinmed_text('home.appointment.title', 'Запишитесь онлайн — прямо сейчас'));
-        $callback_15_min_text = $this->e(bioinmed_text('home.appointment.callback_note', bioinmed_text('hero.desktop.callback_note', 'Перезвоним в течение 15 минут.')));
+        $book_appointment_text = $this->e(bioinmed_text('home.appointment.title', 'Позвоните нам'));
+        $callback_15_min_text = $this->e(bioinmed_text('home.appointment.callback_note', bioinmed_text('hero.desktop.callback_note', 'Поможем выбрать профильного специалиста и удобное время приёма.')));
 
         $callback_form = bioinmed_render_callback_form([
             'source_label' => bioinmed_text('labels.home_final_cta', 'Главная — финальная CTA'),
