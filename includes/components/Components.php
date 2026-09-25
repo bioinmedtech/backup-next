@@ -921,6 +921,7 @@ class Header extends Component {
 class HeroSection extends Component {
     public function render() {
         $hero_season_prefix = $this->e(bioinmed_text('hero.season_prefix', 'Сезон'));
+        $hero_habilect_promo = $this->e(bioinmed_text('hero.habilect_promo', 'Скидка 40% 3D-диагностика на Хабилект'));
         $hero_heading = $this->e(bioinmed_text('hero.heading', 'Клиника восстановительной медицины'));
         $hero_signature = $this->e(bioinmed_text('hero.signature', 'Ваш Биоинмед'));
         $hero_mobile_booking_text = $this->e(bioinmed_text('hero.mobile.online_booking_button', 'Записаться на приём'));
@@ -1077,6 +1078,12 @@ class HeroSection extends Component {
                 </div>
                 <div class="relative -top-2 flex w-full flex-col md:-top-3 lg:-top-5 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
                     <div class="order-2 min-w-0 lg:order-1 lg:pr-2">
+                        <a href="#habilect-special-offer" class="mb-2 inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-[#e7a63a] bg-[#fff8e8] px-4 py-2 text-[0.74rem] font-semibold text-[#8a4b08] shadow-[0_10px_24px_rgba(138,75,8,0.10)] transition hover:-translate-y-0.5 hover:border-[#d78f1d] hover:bg-[#fff3d3] hover:shadow-[0_14px_28px_rgba(138,75,8,0.14)] focus:outline-none focus:ring-2 focus:ring-[#e7a63a]/30">
+                            <i class="fa-solid fa-tags shrink-0 text-[0.7rem]" aria-hidden="true"></i>
+                            <span{$this->dataTextId('hero.habilect_promo')}>{$hero_habilect_promo}</span>
+                            <i class="fa-solid fa-arrow-down shrink-0 text-[0.66rem]" aria-hidden="true"></i>
+                        </a>
+                        <br>
                         <a href="{$actual_season_href}" class="mb-3 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-[0.74rem] font-semibold uppercase tracking-[0.1em] text-white shadow-[0_10px_24px_rgba(10,43,80,0.10)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_28px_rgba(10,43,80,0.14)]" style="background:{$actual_season_color};"{$this->dataTextId('hero.season_badge')}>
                             <span class="inline-block h-1.5 w-1.5 rounded-full" style="background:{$actual_season_color}"></span>
                             {$hero_season_prefix}: {$actual_season_name}
@@ -1886,7 +1893,7 @@ class SpecialOffer extends Component {
         }
         $offer_bullets_attrs = bioinmed_editable_list_attrs('index', 'index.special_offer.bullets', 'Специальное предложение');
         return <<<HTML
-        <section class="bioinmed-special-offer border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:py-12">
+        <section id="habilect-special-offer" class="bioinmed-special-offer scroll-mt-24 border-b border-[#e6eef7] bg-[#e4f1fa] py-10 md:scroll-mt-32 md:py-12">
             <div class="mx-auto max-w-6xl px-6 md:px-10">
                 <div class="overflow-hidden rounded-2xl border border-[#d8e7f5] bg-white">
                     <div class="grid lg:grid-cols-[0.9fr_1.1fr]">
