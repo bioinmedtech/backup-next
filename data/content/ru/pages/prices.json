@@ -190,10 +190,20 @@
             "rows": [
                 {
                     "service_id": "massage",
-                    "title": "Мануальная терапия",
+                    "title": "Консультация мануального терапевта/невролога",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "3 500 руб.",
+                    "row_class": "price-row-title-emphasis",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Консультативно-диагностический  прием мануального терапевта/невролога",
                     "description": "",
                     "duration": "60 мин",
-                    "price": "от 3 500 руб. до 8 000 руб.",
+                    "price": "8 000 руб.",
                     "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
@@ -250,10 +260,20 @@
                 },
                 {
                     "service_id": "massage-course",
-                    "title": "Массаж общий - курс 10 сеансов (10 % скидка) - семейный/персональный сертификат",
+                    "title": "Массаж общий 60 мин - курс 10 сеансов (10 % скидка) - семейный/персональный сертификат",
                     "description": "",
                     "duration": "60 мин",
                     "price": "54 000 руб.",
+                    "row_class": "price-row-title-emphasis",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "",
+                    "title": "Массаж медицинский/спортивный/лимфодренажный/релаксирующий 30 мин курс 10 сеансов (10% скидка) - персональный /семейный сертификат",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "31 500 руб.",
                     "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
@@ -320,7 +340,7 @@
                 },
                 {
                     "service_id": "osteopathy",
-                    "title": "Курс 10 сеансов + 10% скидка + семейный/персональный сертификат (при единовременной оплате). Врач - Нехорошева Л.С.",
+                    "title": "Курс 10 сеансов - 10% скидка - семейный/персональный сертификат (при единовременной оплате). Врач - Нехорошева Л.С.",
                     "description": "",
                     "duration": "",
                     "price": "99 000 руб.",
@@ -330,7 +350,7 @@
                 },
                 {
                     "service_id": "osteopathy",
-                    "title": "Курс 10 сеансов + 10% скидка + семейный/персональный сертификат (при единовременной оплате). Врач - Вертлиб В.П.",
+                    "title": "Курс 10 сеансов - 10% скидка - семейный/персональный сертификат (при единовременной оплате). Врач - Вертлиб В.П.",
                     "description": "",
                     "duration": "",
                     "price": "90 000 руб.",
@@ -559,6 +579,16 @@
             "hidden": false,
             "rows": [
                 {
+                    "service_id": "",
+                    "title": "Капельница",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "2 000 руб.",
+                    "row_class": "price-row-title-emphasis",
+                    "link": true,
+                    "hidden": false
+                },
+                {
                     "service_id": "gomeopaticheskaya-kapelnitsa-preparatami-kheel",
                     "title": "Капельница с комплексными гомеопатическими препаратами Heel или с индивидуальными гомеопатическими препаратами (без стоимости препаратов)",
                     "description": "",
@@ -670,7 +700,7 @@
                 },
                 {
                     "service_id": "inektsionnaya-terapiya",
-                    "title": "Внутривенные инъекции (без стоимости препаратов)",
+                    "title": "Внутривенная инъекция (без стоимости препаратов)",
                     "description": "",
                     "duration": "15 мин",
                     "price": "1 200 руб.",
@@ -680,7 +710,7 @@
                 },
                 {
                     "service_id": "inektsionnaya-terapiya",
-                    "title": "Внутримышечные инъекции",
+                    "title": "Внутримышечная инъекция",
                     "description": "",
                     "duration": "10 мин",
                     "price": "600 руб.",
@@ -690,7 +720,7 @@
                 },
                 {
                     "service_id": "inektsionnaya-terapiya",
-                    "title": "Внутримышечные инъекции (выездная процедура)",
+                    "title": "Внутримышечная инъекция (выездная процедура)",
                     "description": "Без транспортных расходов",
                     "duration": "",
                     "price": "1 200 руб.",
@@ -726,36 +756,6 @@
                     "price": "3 500 руб.",
                     "row_class": "price-row-title-emphasis",
                     "link": true,
-                    "hidden": false
-                },
-                {
-                    "service_id": "biopunktura",
-                    "title": "Биопунктура \"Мэлсмон\", иммуномодуляция и омоложение",
-                    "description": "",
-                    "duration": "30 мин",
-                    "price": "7 000 руб.",
-                    "row_class": "price-row-title-emphasis",
-                    "link": true,
-                    "hidden": false
-                },
-                {
-                    "service_id": "gomeopunktura",
-                    "title": "Плазмопунктура, 1-2 пробирки",
-                    "description": "",
-                    "duration": "30 мин",
-                    "price": "7 000 руб.",
-                    "row_class": "price-row-title-emphasis",
-                    "link": false,
-                    "hidden": false
-                },
-                {
-                    "service_id": "inektsionnaya-terapiya",
-                    "title": "Пролотерапия",
-                    "description": "",
-                    "duration": "30 мин",
-                    "price": "7 000 руб.",
-                    "row_class": "price-row-title-emphasis",
-                    "link": false,
                     "hidden": false
                 },
                 {
@@ -810,6 +810,26 @@
                 },
                 {
                     "service_id": "biopunktura",
+                    "title": "Биопунктура \"Мэлсмон\", иммуномодуляция и омоложение",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "7 000 руб.",
+                    "row_class": "price-row-title-emphasis",
+                    "link": true,
+                    "hidden": false
+                },
+                {
+                    "service_id": "gomeopunktura",
+                    "title": "Плазмопунктура, 1-2 пробирки",
+                    "description": "",
+                    "duration": "30 мин",
+                    "price": "7 000 руб.",
+                    "row_class": "price-row-title-emphasis",
+                    "link": false,
+                    "hidden": false
+                },
+                {
+                    "service_id": "biopunktura",
                     "title": "Таблетка \"Принцесса на горошине\" - иммуномодулятор из аутоплазмы",
                     "description": "",
                     "duration": "60 мин",
@@ -830,7 +850,7 @@
                 },
                 {
                     "service_id": "prp-therapy",
-                    "title": "Аутогемотерапия 8-10 процедур + 10% скидка + семейный/персональный сертификат (при единовременной оплате)",
+                    "title": "Аутогемотерапия 8-10 процедур - 10% скидка - семейный/персональный сертификат (при единовременной оплате)",
                     "description": "",
                     "duration": "30 мин",
                     "price": "1 500 руб.",
@@ -850,11 +870,11 @@
                 },
                 {
                     "service_id": "",
-                    "title": "Каждая последующяя зона шейный/грудной отдел",
-                    "description": "",
+                    "title": "Пролотерапия",
+                    "description": "Каждая последующая зона шейный/грудной отдел",
                     "duration": "30 мин",
                     "price": "5 500 руб.",
-                    "row_class": "",
+                    "row_class": "price-row-title-emphasis",
                     "link": true,
                     "hidden": false
                 }
@@ -908,16 +928,6 @@
             "nav_label": "Озонотерапия",
             "hidden": false,
             "rows": [
-                {
-                    "service_id": "detoks-kapelnitsa",
-                    "title": "Капельница с озоном",
-                    "description": "",
-                    "duration": "20 мин",
-                    "price": "3 000 руб.",
-                    "row_class": "price-row-title-emphasis",
-                    "link": true,
-                    "hidden": false
-                },
                 {
                     "service_id": "ozonoterapiya",
                     "title": "Мезотерапия озоном - 15 мин",
@@ -1050,7 +1060,7 @@
                 },
                 {
                     "service_id": "magnitoterapiya-fotostimulyatsiya-amblio",
-                    "title": "Магнитотерапия 1 зоны",
+                    "title": "Магнитотерапия 1 зона",
                     "description": "",
                     "duration": "15 мин",
                     "price": "2 000 руб.",
