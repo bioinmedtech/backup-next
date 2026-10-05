@@ -306,6 +306,23 @@ class Header extends Component {
             . '<span' . $this->dataTextId('nav.seasons') . '>' . $this->e(bioinmed_text('nav.seasons', 'Наши сезоны')) . '</span></a>';
         $mobile_seasons_dropdown = '<a href="' . $desktop_seasons_main_href . '" onclick="closeMobMenu()"' . $mobile_seasons_summary_attr . '><span' . $this->dataTextId('nav.seasons') . '>' . $this->e(bioinmed_text('nav.seasons', 'Наши сезоны')) . '</span></a>';
 
+        $desktop_social_links = <<<HTML
+        <div class="desktop-social-links flex shrink-0 items-center gap-3">
+            <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" class="group inline-flex items-center justify-center text-[#2787f5] transition hover:text-[#1f6fd0]" data-link-key="site.clinic.vk" data-link-label="Ссылка VK">
+                <i class="fa-brands fa-vk translate-x-[1px] text-[1.82rem] leading-none" aria-hidden="true"></i>
+            </a>
+            <a href="{$max_url}" target="_blank" rel="noreferrer noopener" aria-label="MAX" class="group inline-flex items-center justify-center transition hover:opacity-85" data-link-key="site.clinic.max" data-link-label="Ссылка MAX">
+                <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" width="256" height="256" loading="lazy" decoding="async">
+            </a>
+            <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="hidden group items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
+                <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
+            </a>
+            <a href="{$telegram_bot_url}" target="_blank" rel="noreferrer noopener" title="Telegram-бот" aria-label="Telegram-бот" class="group inline-flex items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]" data-link-key="site.clinic.telegram_bot" data-link-label="Ссылка на Telegram-бота">
+                <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
+            </a>
+        </div>
+        HTML;
+
         return <<<HTML
         <style>
             html {
@@ -402,7 +419,9 @@ class Header extends Component {
                 }
             }
 
-            /* Header responsive: на ширине 1024-1399px адрес переносится под логотип, CTA остается справа */
+            .header-social-links { display: none; }
+
+            /* Header responsive: на ширине 1024-1399px адрес и соцсети занимают вторую строку */
             @media (min-width: 1024px) and (max-width: 1399px) {
                 #site-header > div:nth-child(2) > div > div {
                     grid-template-columns: max-content minmax(0, 1fr) minmax(0, 0.92fr) minmax(200px, auto) !important;
@@ -415,36 +434,46 @@ class Header extends Component {
                     grid-column: 1 !important;
                     grid-row: 1 !important;
                 }
-                #site-header > div:nth-child(2) > div > div > div:nth-child(2) {
-                    grid-column: 1 / 3 !important;
-                    grid-row: 2 !important;
+                #site-header .header-location-row {
+                    grid-column: 1 / -1;
+                    grid-row: 2;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    min-width: 0;
+                }
+                .header-social-links { display: block; flex-shrink: 0; }
+                .menu-social-links { display: none; }
+                #site-header .header-address-block {
+                    flex: 1 1 auto;
+                    min-width: 0;
                     display: flex !important;
-                    align-items: flex-start !important;
+                    align-items: center !important;
                     justify-content: space-between !important;
                     gap: 0.75rem !important;
-                    max-width: 32rem !important;
+                    max-width: none !important;
                     margin-top: 0.1rem !important;
                     padding: 0.7rem 0.9rem !important;
                     border: 1px solid #d7e6f2 !important;
                     border-radius: 1rem !important;
                     background: #f0f7fd !important;
                 }
-                #site-header > div:nth-child(2) > div > div > div:nth-child(2) > p:first-child {
+                #site-header .header-address-block > p:first-child {
                     font-size: 0.88rem !important;
                     font-weight: 600 !important;
                     line-height: 30px;
                 }
-                #site-header > div:nth-child(2) > div > div > div:nth-child(2) > p:nth-child(2) {
+                #site-header .header-address-block > p:nth-child(2) {
                     margin-top: 0.15rem !important;
                     font-size: 0.8rem !important;
                     color: #2a5894 !important;
                     line-height: 24px;
                 }
-                #site-header > div:nth-child(2) > div > div > div:nth-child(2) > div {
+                #site-header .header-address-block > div {
                     margin-top: 0 !important;
                     flex-shrink: 0 !important;
                 }
-                #site-header > div:nth-child(2) > div > div > div:nth-child(2) > div > a {
+                #site-header .header-address-block > div > a {
                     padding: 0.3rem 0.65rem !important;
                     font-size: 0.74rem !important;
                 }
@@ -484,16 +513,12 @@ class Header extends Component {
                     flex: 1 1 auto !important;
                     min-width: 0 !important;
                     gap: 0.9rem !important;
-                    font-size: 0.96rem !important;
-                    overflow-x: auto !important;
+                    flex-wrap: wrap;
+                    row-gap: 0.4rem;
+                    overflow: visible !important;
                     white-space: nowrap !important;
                 }
-                #desktop-menu-row > div:last-child {
-                    margin-left: 0 !important;
-                    margin-right: 0 !important;
-                    gap: 0.75rem !important;
-                    flex-shrink: 0 !important;
-                }
+                .header-social-links .desktop-social-links { gap: 0.75rem; }
             }
         </style>
         <header id="site-header" class="z-50 border-b border-[#d7e5f1] bg-[#e4f1fa] lg:bg-[#e4f1fa]/98 lg:backdrop-blur-md">
@@ -536,15 +561,19 @@ class Header extends Component {
                             <img src="{$logo_src}" alt="БИОИНМЕД" class="h-20 w-auto max-w-none" width="1348" height="400" loading="eager" decoding="async">
                         </a>
 
-                        <div class="pl-3 pt-1 leading-tight text-[#0a293c]" data-admin-block-root>
-                            <p class="text-[0.92rem] font-medium md:text-[0.96rem]"{$this->dataTextId('header.contact.address')}>{$header_address}</p>
-                            <p class="mt-0.5 text-[0.88rem] font-medium text-[#24588d] md:text-[0.9rem]"{$this->dataTextId('header.contact.metro')}>{$header_metro}</p>
-                            <div class="mt-1.5">
-                                <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.76rem] font-medium text-[#1977b2] hover:border-[#a8cbe6] hover:text-[#16658f]" data-link-key="site.clinic.map_url" data-link-label="Ссылка на карту">
-                                    <i class="fa-solid fa-location-dot text-[0.66rem] text-[#1977b2]" aria-hidden="true"></i>
-                                    <span{$this->dataTextId('header.map_label.desktop')}>{$header_map_label}</span>
-                                </a>
+                        <div class="header-location-row">
+                            <div class="header-address-block pl-3 pt-1 leading-tight text-[#0a293c]" data-admin-block-root>
+                                <p class="text-[0.92rem] font-medium md:text-[0.96rem]"{$this->dataTextId('header.contact.address')}>{$header_address}</p>
+                                <p class="mt-0.5 text-[0.88rem] font-medium text-[#24588d] md:text-[0.9rem]"{$this->dataTextId('header.contact.metro')}>{$header_metro}</p>
+                                <div class="mt-1.5">
+                                    <a href="{$map_url}" target="_blank" rel="noreferrer noopener" class="inline-flex items-center gap-1 rounded-full border border-[#c7dbed] bg-white px-2.5 py-1 text-[0.76rem] font-medium text-[#1977b2] hover:border-[#a8cbe6] hover:text-[#16658f]" data-link-key="site.clinic.map_url" data-link-label="Ссылка на карту">
+                                        <i class="fa-solid fa-location-dot text-[0.66rem] text-[#1977b2]" aria-hidden="true"></i>
+                                        <span{$this->dataTextId('header.map_label.desktop')}>{$header_map_label}</span>
+                                    </a>
+                                </div>
                             </div>
+
+                            <div class="header-social-links">{$desktop_social_links}</div>
                         </div>
 
                         <div class="pt-1 leading-tight text-[#0a293c]" data-admin-block-root>
@@ -586,20 +615,7 @@ class Header extends Component {
                         <a href="{$this->e($nav_reviews['url'])}" class="{$desktop_reviews_class}"{$this->dataTextId('nav.reviews')}>{$this->e($nav_reviews['text'])}</a>
                         <a href="{$this->e($nav_contacts['url'])}" class="{$desktop_contacts_class}"{$this->dataTextId('nav.contacts')}>{$this->e($nav_contacts['text'])}</a>
                     </nav>
-                    <div class="ml-1 flex shrink-0 items-center gap-3 -mr-0.5">
-                        <a href="{$vk_url}" target="_blank" rel="noreferrer noopener" aria-label="VK" class="group inline-flex items-center justify-center text-[#2787f5] transition hover:text-[#1f6fd0]" data-link-key="site.clinic.vk" data-link-label="Ссылка VK">
-                            <i class="fa-brands fa-vk translate-x-[1px] text-[1.82rem] leading-none" aria-hidden="true"></i>
-                        </a>
-                        <a href="{$max_url}" target="_blank" rel="noreferrer noopener" aria-label="MAX" class="group inline-flex items-center justify-center transition hover:opacity-85" data-link-key="site.clinic.max" data-link-label="Ссылка MAX">
-                            <img src="{$max_icon_src}" alt="MAX" class="h-[1.72rem] w-auto" width="256" height="256" loading="lazy" decoding="async">
-                        </a>
-                        <a href="{$telegram_url}" target="_blank" rel="noreferrer noopener" aria-label="Telegram" class="hidden group items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]" data-link-key="site.clinic.telegram" data-link-label="Ссылка Telegram">
-                            <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
-                        </a>
-                        <a href="{$telegram_bot_url}" target="_blank" rel="noreferrer noopener" title="Telegram-бот" aria-label="Telegram-бот" class="group inline-flex items-center justify-center text-[#27a7e7] transition hover:text-[#1c8fca]" data-link-key="site.clinic.telegram_bot" data-link-label="Ссылка на Telegram-бота">
-                            <i class="fa-brands fa-telegram text-[1.82rem] leading-none" aria-hidden="true"></i>
-                        </a>
-                    </div>
+                    <div class="menu-social-links">{$desktop_social_links}</div>
                 </div>
             </div>
         </div>
@@ -674,8 +690,12 @@ class Header extends Component {
             .services-nav-item button{line-height:1}
             .desktop-menu-bar{position:sticky;top:0;z-index:80;border-bottom:1px solid #dbe8f3;background:#e4f1fa}
             .desktop-menu-row{position:relative;background:#e4f1fa}
+            .menu-social-links{flex-shrink:0}
+            #desktop-menu-row{gap:0.75rem}
+            #desktop-menu-row .menu-strip{flex:1 1 auto;min-width:0;flex-wrap:wrap;gap:0.4rem clamp(0.9rem,1.3vw,1.5rem);overflow:visible}
             .menu-strip{scrollbar-width:none}
             .menu-strip::-webkit-scrollbar{display:none}
+            .menu-strip > a{flex-shrink:0}
             .menu-strip a{display:inline-flex;align-items:center;padding-bottom:2px;transition:color .2s ease,border-color .2s ease,background-color .2s ease,box-shadow .2s ease}
             .about-nav-item{position:relative;flex:0 0 auto}
             .about-nav-item>summary{list-style:none}
