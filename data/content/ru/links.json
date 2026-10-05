@@ -82,7 +82,7 @@
     },
     "musculoskeletal_program": {
       "text": "Восстановление опорно-двигательного аппарата",
-      "url": "/services/musculoskeletal-program"
+      "url": "/services/physiotherapy-comprehensive"
     },
     "osteopathy": {
       "text": "Остеопатия",
@@ -90,7 +90,7 @@
     },
     "reflexotherapy": {
       "text": "Рефлексотерапия",
-      "url": "/services/reflexotherapy"
+      "url": "/services/acupuncture"
     },
     "fizioterapiya": {
       "text": "Физиотерапия",
