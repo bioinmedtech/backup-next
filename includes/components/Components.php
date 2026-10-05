@@ -2300,8 +2300,6 @@ class CasesSlider extends Component {
                     <div class="reviews-widget-placeholder flex min-h-[800px] items-center justify-center bg-[linear-gradient(180deg,#f8fcff_0%,#eef7fd_100%)] px-6 py-8 text-center">
                         <div class="max-w-md">
                             <p class="text-[0.78rem] font-semibold uppercase tracking-[0.22em] text-[#1977b2]"{$this->dataTextId('home.reviews.placeholder.eyebrow')}>{$this->e(bioinmed_text('home.reviews.placeholder.eyebrow', 'Отзывы'))}</p>
-                            <h3 class="mt-2 text-[1.15rem] font-bold leading-tight text-[#0f2749]"{$this->dataTextId('home.reviews.placeholder.title')}>{$this->e(bioinmed_text('home.reviews.placeholder.title', 'Загрузка отзывов по запросу'))}</h3>
-                            <p class="mt-3 text-[0.94rem] leading-relaxed text-[#0a293c]"{$this->dataTextId('home.reviews.placeholder.text')}>{$this->e(bioinmed_text('home.reviews.placeholder.text', 'Виджет отзывов подгружается только когда блок попадает в область просмотра, чтобы не замедлять открытие страницы.'))}</p>
                             <button type="button" class="reviews-widget-load mt-5 inline-flex items-center gap-2 rounded-full bg-[#1977b2] px-5 py-2.5 text-[0.92rem] font-semibold text-white transition hover:bg-[#16658f]" aria-label="{$this->e(bioinmed_text('home.reviews.placeholder.button_aria', 'Показать отзывы'))}">
                                 <i class="fa-solid fa-comments" aria-hidden="true"></i>
                                 <span>{$this->e(bioinmed_text('home.reviews.placeholder.button', 'Показать отзывы'))}</span>
