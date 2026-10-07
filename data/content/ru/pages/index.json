@@ -138,6 +138,14 @@
                 "url": "/doctors/navrozov-evgeniy-sergeevich",
                 "icon": "",
                 "hidden": false
+            },
+            {
+                "id": "volkov-denis",
+                "text": "Денис Волков",
+                "secondary": "Специалист по медицинскому массажу и мягкой мануальной коррекции",
+                "url": "/doctors/volkov-denis",
+                "icon": "",
+                "hidden": false
             }
         ],
         "index.services.items": [
